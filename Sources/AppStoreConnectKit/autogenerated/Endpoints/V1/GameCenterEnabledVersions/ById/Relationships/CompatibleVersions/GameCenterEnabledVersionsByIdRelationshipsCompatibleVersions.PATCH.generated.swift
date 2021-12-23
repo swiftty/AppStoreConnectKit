@@ -39,6 +39,7 @@ extension V1.GameCenterEnabledVersions.ById.Relationships.CompatibleVersions {
             }
 
             urlRequest?.httpBody = try jsonEncoder.encode(parameters)
+            urlRequest?.setValue("application/json", forHTTPHeaderField: "Content-Type")
             return urlRequest
         }
 

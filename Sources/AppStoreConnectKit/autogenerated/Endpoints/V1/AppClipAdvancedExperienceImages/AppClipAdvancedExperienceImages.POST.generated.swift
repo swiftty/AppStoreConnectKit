@@ -32,6 +32,7 @@ extension V1.AppClipAdvancedExperienceImages {
             }
 
             urlRequest?.httpBody = try jsonEncoder.encode(parameters)
+            urlRequest?.setValue("application/json", forHTTPHeaderField: "Content-Type")
             return urlRequest
         }
 

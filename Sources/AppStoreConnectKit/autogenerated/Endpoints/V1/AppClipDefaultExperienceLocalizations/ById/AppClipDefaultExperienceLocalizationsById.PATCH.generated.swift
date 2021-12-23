@@ -39,6 +39,7 @@ extension V1.AppClipDefaultExperienceLocalizations.ById {
             }
 
             urlRequest?.httpBody = try jsonEncoder.encode(parameters)
+            urlRequest?.setValue("application/json", forHTTPHeaderField: "Content-Type")
             return urlRequest
         }
 

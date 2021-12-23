@@ -39,6 +39,7 @@ extension V1.BetaGroups.ById.Relationships.BetaTesters {
             }
 
             urlRequest?.httpBody = try jsonEncoder.encode(parameters)
+            urlRequest?.setValue("application/json", forHTTPHeaderField: "Content-Type")
             return urlRequest
         }
 

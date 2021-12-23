@@ -83,6 +83,7 @@ private func requestFunctionDecl(httpMethod: String, contentType: String) -> Fun
         }
 
         urlRequest?.httpBody = try jsonEncoder.encode(parameters)
+        urlRequest?.setValue("\(contentType)", forHTTPHeaderField: "Content-Type")
 
         """
 

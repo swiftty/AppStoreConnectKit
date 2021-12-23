@@ -39,6 +39,7 @@ extension V1.AppEncryptionDeclarations.ById.Relationships.Builds {
             }
 
             urlRequest?.httpBody = try jsonEncoder.encode(parameters)
+            urlRequest?.setValue("application/json", forHTTPHeaderField: "Content-Type")
             return urlRequest
         }
 
