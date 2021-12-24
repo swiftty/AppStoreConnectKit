@@ -3,12 +3,35 @@
 // swiftlint:disable all
 import Foundation
 
-public enum AppEncryptionDeclarationState: String, Hashable, Codable {
-    case approved = "APPROVED"
-    case expired = "EXPIRED"
-    case invalid = "INVALID"
-    case inReview = "IN_REVIEW"
-    case rejected = "REJECTED"
+public enum AppEncryptionDeclarationState: Hashable, Codable, RawRepresentable {
+    case approved
+    case expired
+    case inReview
+    case invalid
+    case rejected
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .approved: return "APPROVED"
+        case .expired: return "EXPIRED"
+        case .inReview: return "IN_REVIEW"
+        case .invalid: return "INVALID"
+        case .rejected: return "REJECTED"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "APPROVED": self = .approved
+        case "EXPIRED": self = .expired
+        case "IN_REVIEW": self = .inReview
+        case "INVALID": self = .invalid
+        case "REJECTED": self = .rejected
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

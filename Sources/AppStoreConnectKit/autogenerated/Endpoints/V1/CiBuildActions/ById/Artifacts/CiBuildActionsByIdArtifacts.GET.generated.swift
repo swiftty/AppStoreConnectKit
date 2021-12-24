@@ -84,11 +84,32 @@ extension V1.CiBuildActions.ById.Artifacts.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiArtifacts: String, Hashable, Codable {
+            public enum CiArtifacts: Hashable, Codable, RawRepresentable {
                 case downloadUrl
                 case fileName
                 case fileSize
                 case fileType
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .downloadUrl: return "downloadUrl"
+                    case .fileName: return "fileName"
+                    case .fileSize: return "fileSize"
+                    case .fileType: return "fileType"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "downloadUrl": self = .downloadUrl
+                    case "fileName": self = .fileName
+                    case "fileSize": self = .fileSize
+                    case "fileType": self = .fileType
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

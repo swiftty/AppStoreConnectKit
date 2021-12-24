@@ -88,11 +88,32 @@ extension V1.Builds.ById.DiagnosticSignatures.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum DiagnosticSignatures: String, Hashable, Codable {
+            public enum DiagnosticSignatures: Hashable, Codable, RawRepresentable {
                 case diagnosticType
                 case logs
                 case signature
                 case weight
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .diagnosticType: return "diagnosticType"
+                    case .logs: return "logs"
+                    case .signature: return "signature"
+                    case .weight: return "weight"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "diagnosticType": self = .diagnosticType
+                    case "logs": self = .logs
+                    case "signature": self = .signature
+                    case "weight": self = .weight
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -117,8 +138,23 @@ extension V1.Builds.ById.DiagnosticSignatures.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum DiagnosticType: String, Hashable, Codable {
-                case diskWrites = "DISK_WRITES"
+            public enum DiagnosticType: Hashable, Codable, RawRepresentable {
+                case diskWrites
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .diskWrites: return "DISK_WRITES"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "DISK_WRITES": self = .diskWrites
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

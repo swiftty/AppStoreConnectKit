@@ -84,7 +84,7 @@ extension V1.CiBuildRuns.ById.Actions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiBuildActions: String, Hashable, Codable {
+            public enum CiBuildActions: Hashable, Codable, RawRepresentable {
                 case actionType
                 case artifacts
                 case buildRun
@@ -97,6 +97,43 @@ extension V1.CiBuildRuns.ById.Actions.GET {
                 case name
                 case startedDate
                 case testResults
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .actionType: return "actionType"
+                    case .artifacts: return "artifacts"
+                    case .buildRun: return "buildRun"
+                    case .completionStatus: return "completionStatus"
+                    case .executionProgress: return "executionProgress"
+                    case .finishedDate: return "finishedDate"
+                    case .isRequiredToPass: return "isRequiredToPass"
+                    case .issueCounts: return "issueCounts"
+                    case .issues: return "issues"
+                    case .name: return "name"
+                    case .startedDate: return "startedDate"
+                    case .testResults: return "testResults"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "actionType": self = .actionType
+                    case "artifacts": self = .artifacts
+                    case "buildRun": self = .buildRun
+                    case "completionStatus": self = .completionStatus
+                    case "executionProgress": self = .executionProgress
+                    case "finishedDate": self = .finishedDate
+                    case "isRequiredToPass": self = .isRequiredToPass
+                    case "issueCounts": self = .issueCounts
+                    case "issues": self = .issues
+                    case "name": self = .name
+                    case "startedDate": self = .startedDate
+                    case "testResults": self = .testResults
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

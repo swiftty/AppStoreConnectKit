@@ -84,7 +84,7 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppStoreVersionLocalizations: String, Hashable, Codable {
+            public enum AppStoreVersionLocalizations: Hashable, Codable, RawRepresentable {
                 case appPreviewSets
                 case appScreenshotSets
                 case appStoreVersion
@@ -95,6 +95,39 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations.GET {
                 case promotionalText
                 case supportUrl
                 case whatsNew
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appPreviewSets: return "appPreviewSets"
+                    case .appScreenshotSets: return "appScreenshotSets"
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .description: return "description"
+                    case .keywords: return "keywords"
+                    case .locale: return "locale"
+                    case .marketingUrl: return "marketingUrl"
+                    case .promotionalText: return "promotionalText"
+                    case .supportUrl: return "supportUrl"
+                    case .whatsNew: return "whatsNew"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appPreviewSets": self = .appPreviewSets
+                    case "appScreenshotSets": self = .appScreenshotSets
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "description": self = .description
+                    case "keywords": self = .keywords
+                    case "locale": self = .locale
+                    case "marketingUrl": self = .marketingUrl
+                    case "promotionalText": self = .promotionalText
+                    case "supportUrl": self = .supportUrl
+                    case "whatsNew": self = .whatsNew
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

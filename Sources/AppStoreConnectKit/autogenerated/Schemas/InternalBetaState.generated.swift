@@ -3,14 +3,41 @@
 // swiftlint:disable all
 import Foundation
 
-public enum InternalBetaState: String, Hashable, Codable {
-    case expired = "EXPIRED"
-    case inBetaTesting = "IN_BETA_TESTING"
-    case inExportComplianceReview = "IN_EXPORT_COMPLIANCE_REVIEW"
-    case missingExportCompliance = "MISSING_EXPORT_COMPLIANCE"
-    case processing = "PROCESSING"
-    case processingException = "PROCESSING_EXCEPTION"
-    case readyForBetaTesting = "READY_FOR_BETA_TESTING"
+public enum InternalBetaState: Hashable, Codable, RawRepresentable {
+    case expired
+    case inBetaTesting
+    case inExportComplianceReview
+    case missingExportCompliance
+    case processing
+    case processingException
+    case readyForBetaTesting
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .expired: return "EXPIRED"
+        case .inBetaTesting: return "IN_BETA_TESTING"
+        case .inExportComplianceReview: return "IN_EXPORT_COMPLIANCE_REVIEW"
+        case .missingExportCompliance: return "MISSING_EXPORT_COMPLIANCE"
+        case .processing: return "PROCESSING"
+        case .processingException: return "PROCESSING_EXCEPTION"
+        case .readyForBetaTesting: return "READY_FOR_BETA_TESTING"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "EXPIRED": self = .expired
+        case "IN_BETA_TESTING": self = .inBetaTesting
+        case "IN_EXPORT_COMPLIANCE_REVIEW": self = .inExportComplianceReview
+        case "MISSING_EXPORT_COMPLIANCE": self = .missingExportCompliance
+        case "PROCESSING": self = .processing
+        case "PROCESSING_EXCEPTION": self = .processingException
+        case "READY_FOR_BETA_TESTING": self = .readyForBetaTesting
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

@@ -84,7 +84,7 @@ extension V1.RoutingAppCoverages.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum RoutingAppCoverages: String, Hashable, Codable {
+            public enum RoutingAppCoverages: Hashable, Codable, RawRepresentable {
                 case appStoreVersion
                 case assetDeliveryState
                 case fileName
@@ -92,6 +92,33 @@ extension V1.RoutingAppCoverages.ById.GET {
                 case sourceFileChecksum
                 case uploadOperations
                 case uploaded
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .assetDeliveryState: return "assetDeliveryState"
+                    case .fileName: return "fileName"
+                    case .fileSize: return "fileSize"
+                    case .sourceFileChecksum: return "sourceFileChecksum"
+                    case .uploadOperations: return "uploadOperations"
+                    case .uploaded: return "uploaded"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "assetDeliveryState": self = .assetDeliveryState
+                    case "fileName": self = .fileName
+                    case "fileSize": self = .fileSize
+                    case "sourceFileChecksum": self = .sourceFileChecksum
+                    case "uploadOperations": self = .uploadOperations
+                    case "uploaded": self = .uploaded
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -108,8 +135,23 @@ extension V1.RoutingAppCoverages.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case appStoreVersion
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appStoreVersion: return "appStoreVersion"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appStoreVersion": self = .appStoreVersion
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

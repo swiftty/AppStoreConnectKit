@@ -88,10 +88,29 @@ extension V1.BetaAppClipInvocations.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaAppClipInvocations: String, Hashable, Codable {
+            public enum BetaAppClipInvocations: Hashable, Codable, RawRepresentable {
                 case betaAppClipInvocationLocalizations
                 case buildBundle
                 case url
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .betaAppClipInvocationLocalizations: return "betaAppClipInvocationLocalizations"
+                    case .buildBundle: return "buildBundle"
+                    case .url: return "url"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "betaAppClipInvocationLocalizations": self = .betaAppClipInvocationLocalizations
+                    case "buildBundle": self = .buildBundle
+                    case "url": self = .url
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -108,8 +127,23 @@ extension V1.BetaAppClipInvocations.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case betaAppClipInvocationLocalizations
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .betaAppClipInvocationLocalizations: return "betaAppClipInvocationLocalizations"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "betaAppClipInvocationLocalizations": self = .betaAppClipInvocationLocalizations
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

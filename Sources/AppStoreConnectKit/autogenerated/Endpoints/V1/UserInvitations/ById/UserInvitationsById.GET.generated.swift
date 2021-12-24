@@ -90,7 +90,7 @@ extension V1.UserInvitations.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Apps: String, Hashable, Codable {
+            public enum Apps: Hashable, Codable, RawRepresentable {
                 case appClips
                 case appInfos
                 case appStoreVersions
@@ -116,9 +116,72 @@ extension V1.UserInvitations.ById.GET {
                 case prices
                 case primaryLocale
                 case sku
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClips: return "appClips"
+                    case .appInfos: return "appInfos"
+                    case .appStoreVersions: return "appStoreVersions"
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .betaAppLocalizations: return "betaAppLocalizations"
+                    case .betaAppReviewDetail: return "betaAppReviewDetail"
+                    case .betaGroups: return "betaGroups"
+                    case .betaLicenseAgreement: return "betaLicenseAgreement"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .bundleId: return "bundleId"
+                    case .ciProduct: return "ciProduct"
+                    case .contentRightsDeclaration: return "contentRightsDeclaration"
+                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
+                    case .inAppPurchases: return "inAppPurchases"
+                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
+                    case .name: return "name"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preOrder: return "preOrder"
+                    case .preReleaseVersions: return "preReleaseVersions"
+                    case .prices: return "prices"
+                    case .primaryLocale: return "primaryLocale"
+                    case .sku: return "sku"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClips": self = .appClips
+                    case "appInfos": self = .appInfos
+                    case "appStoreVersions": self = .appStoreVersions
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "betaAppLocalizations": self = .betaAppLocalizations
+                    case "betaAppReviewDetail": self = .betaAppReviewDetail
+                    case "betaGroups": self = .betaGroups
+                    case "betaLicenseAgreement": self = .betaLicenseAgreement
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "bundleId": self = .bundleId
+                    case "ciProduct": self = .ciProduct
+                    case "contentRightsDeclaration": self = .contentRightsDeclaration
+                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
+                    case "inAppPurchases": self = .inAppPurchases
+                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
+                    case "name": self = .name
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preOrder": self = .preOrder
+                    case "preReleaseVersions": self = .preReleaseVersions
+                    case "prices": self = .prices
+                    case "primaryLocale": self = .primaryLocale
+                    case "sku": self = .sku
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum UserInvitations: String, Hashable, Codable {
+            public enum UserInvitations: Hashable, Codable, RawRepresentable {
                 case allAppsVisible
                 case email
                 case expirationDate
@@ -127,6 +190,35 @@ extension V1.UserInvitations.ById.GET {
                 case provisioningAllowed
                 case roles
                 case visibleApps
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .allAppsVisible: return "allAppsVisible"
+                    case .email: return "email"
+                    case .expirationDate: return "expirationDate"
+                    case .firstName: return "firstName"
+                    case .lastName: return "lastName"
+                    case .provisioningAllowed: return "provisioningAllowed"
+                    case .roles: return "roles"
+                    case .visibleApps: return "visibleApps"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "allAppsVisible": self = .allAppsVisible
+                    case "email": self = .email
+                    case "expirationDate": self = .expirationDate
+                    case "firstName": self = .firstName
+                    case "lastName": self = .lastName
+                    case "provisioningAllowed": self = .provisioningAllowed
+                    case "roles": self = .roles
+                    case "visibleApps": self = .visibleApps
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -148,8 +240,23 @@ extension V1.UserInvitations.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case visibleApps
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .visibleApps: return "visibleApps"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "visibleApps": self = .visibleApps
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

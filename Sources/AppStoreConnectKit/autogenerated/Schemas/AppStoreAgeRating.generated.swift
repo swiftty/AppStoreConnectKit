@@ -3,11 +3,32 @@
 // swiftlint:disable all
 import Foundation
 
-public enum AppStoreAgeRating: String, Hashable, Codable {
-    case fourPlus = "FOUR_PLUS"
-    case ninePlus = "NINE_PLUS"
-    case seventeenPlus = "SEVENTEEN_PLUS"
-    case twelvePlus = "TWELVE_PLUS"
+public enum AppStoreAgeRating: Hashable, Codable, RawRepresentable {
+    case fourPlus
+    case ninePlus
+    case seventeenPlus
+    case twelvePlus
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .fourPlus: return "FOUR_PLUS"
+        case .ninePlus: return "NINE_PLUS"
+        case .seventeenPlus: return "SEVENTEEN_PLUS"
+        case .twelvePlus: return "TWELVE_PLUS"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "FOUR_PLUS": self = .fourPlus
+        case "NINE_PLUS": self = .ninePlus
+        case "SEVENTEEN_PLUS": self = .seventeenPlus
+        case "TWELVE_PLUS": self = .twelvePlus
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

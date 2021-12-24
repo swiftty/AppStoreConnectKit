@@ -42,8 +42,23 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case appStoreVersions
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appStoreVersions: return "appStoreVersions"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appStoreVersions": self = .appStoreVersions
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -85,10 +100,29 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
                 case versionString
             }
 
-            public enum ReleaseType: String, Hashable, Codable {
-                case afterApproval = "AFTER_APPROVAL"
-                case manual = "MANUAL"
-                case scheduled = "SCHEDULED"
+            public enum ReleaseType: Hashable, Codable, RawRepresentable {
+                case afterApproval
+                case manual
+                case scheduled
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .afterApproval: return "AFTER_APPROVAL"
+                    case .manual: return "MANUAL"
+                    case .scheduled: return "SCHEDULED"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "AFTER_APPROVAL": self = .afterApproval
+                    case "MANUAL": self = .manual
+                    case "SCHEDULED": self = .scheduled
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
         }
 
@@ -139,8 +173,23 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case appClipDefaultExperiences
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .appClipDefaultExperiences: return "appClipDefaultExperiences"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "appClipDefaultExperiences": self = .appClipDefaultExperiences
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }
@@ -174,8 +223,23 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case builds
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .builds: return "builds"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "builds": self = .builds
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }

@@ -36,8 +36,23 @@ public struct CiMacOsVersion: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case ciMacOsVersions
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .ciMacOsVersions: return "ciMacOsVersions"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "ciMacOsVersions": self = .ciMacOsVersions
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -111,8 +126,23 @@ public struct CiMacOsVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case ciXcodeVersions
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .ciXcodeVersions: return "ciXcodeVersions"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "ciXcodeVersions": self = .ciXcodeVersions
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

@@ -90,13 +90,32 @@ extension V1.AppScreenshotSets.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppScreenshotSets: String, Hashable, Codable {
+            public enum AppScreenshotSets: Hashable, Codable, RawRepresentable {
                 case appScreenshots
                 case appStoreVersionLocalization
                 case screenshotDisplayType
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appScreenshots: return "appScreenshots"
+                    case .appStoreVersionLocalization: return "appStoreVersionLocalization"
+                    case .screenshotDisplayType: return "screenshotDisplayType"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appScreenshots": self = .appScreenshots
+                    case "appStoreVersionLocalization": self = .appStoreVersionLocalization
+                    case "screenshotDisplayType": self = .screenshotDisplayType
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum AppScreenshots: String, Hashable, Codable {
+            public enum AppScreenshots: Hashable, Codable, RawRepresentable {
                 case appScreenshotSet
                 case assetDeliveryState
                 case assetToken
@@ -107,6 +126,39 @@ extension V1.AppScreenshotSets.ById.GET {
                 case sourceFileChecksum
                 case uploadOperations
                 case uploaded
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appScreenshotSet: return "appScreenshotSet"
+                    case .assetDeliveryState: return "assetDeliveryState"
+                    case .assetToken: return "assetToken"
+                    case .assetType: return "assetType"
+                    case .fileName: return "fileName"
+                    case .fileSize: return "fileSize"
+                    case .imageAsset: return "imageAsset"
+                    case .sourceFileChecksum: return "sourceFileChecksum"
+                    case .uploadOperations: return "uploadOperations"
+                    case .uploaded: return "uploaded"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appScreenshotSet": self = .appScreenshotSet
+                    case "assetDeliveryState": self = .assetDeliveryState
+                    case "assetToken": self = .assetToken
+                    case "assetType": self = .assetType
+                    case "fileName": self = .fileName
+                    case "fileSize": self = .fileSize
+                    case "imageAsset": self = .imageAsset
+                    case "sourceFileChecksum": self = .sourceFileChecksum
+                    case "uploadOperations": self = .uploadOperations
+                    case "uploaded": self = .uploaded
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -128,9 +180,26 @@ extension V1.AppScreenshotSets.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case appScreenshots
             case appStoreVersionLocalization
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appScreenshots: return "appScreenshots"
+                case .appStoreVersionLocalization: return "appStoreVersionLocalization"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appScreenshots": self = .appScreenshots
+                case "appStoreVersionLocalization": self = .appStoreVersionLocalization
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

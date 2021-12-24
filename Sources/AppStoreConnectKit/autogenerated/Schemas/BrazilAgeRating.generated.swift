@@ -3,13 +3,38 @@
 // swiftlint:disable all
 import Foundation
 
-public enum BrazilAgeRating: String, Hashable, Codable {
-    case eighteen = "EIGHTEEN"
-    case fourteen = "FOURTEEN"
-    case l = "L"
-    case sixteen = "SIXTEEN"
-    case ten = "TEN"
-    case twelve = "TWELVE"
+public enum BrazilAgeRating: Hashable, Codable, RawRepresentable {
+    case eighteen
+    case fourteen
+    case l
+    case sixteen
+    case ten
+    case twelve
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .eighteen: return "EIGHTEEN"
+        case .fourteen: return "FOURTEEN"
+        case .l: return "L"
+        case .sixteen: return "SIXTEEN"
+        case .ten: return "TEN"
+        case .twelve: return "TWELVE"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "EIGHTEEN": self = .eighteen
+        case "FOURTEEN": self = .fourteen
+        case "L": self = .l
+        case "SIXTEEN": self = .sixteen
+        case "TEN": self = .ten
+        case "TWELVE": self = .twelve
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

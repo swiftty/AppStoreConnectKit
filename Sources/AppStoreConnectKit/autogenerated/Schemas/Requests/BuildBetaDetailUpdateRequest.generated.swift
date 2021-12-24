@@ -37,8 +37,23 @@ public struct BuildBetaDetailUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case buildBetaDetails
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .buildBetaDetails: return "buildBetaDetails"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "buildBetaDetails": self = .buildBetaDetails
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {

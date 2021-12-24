@@ -96,7 +96,7 @@ extension V1.Profiles.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BundleIds: String, Hashable, Codable {
+            public enum BundleIds: Hashable, Codable, RawRepresentable {
                 case app
                 case bundleIdCapabilities
                 case identifier
@@ -104,9 +104,36 @@ extension V1.Profiles.ById.GET {
                 case platform
                 case profiles
                 case seedId
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .bundleIdCapabilities: return "bundleIdCapabilities"
+                    case .identifier: return "identifier"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .profiles: return "profiles"
+                    case .seedId: return "seedId"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "bundleIdCapabilities": self = .bundleIdCapabilities
+                    case "identifier": self = .identifier
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "profiles": self = .profiles
+                    case "seedId": self = .seedId
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Certificates: String, Hashable, Codable {
+            public enum Certificates: Hashable, Codable, RawRepresentable {
                 case certificateContent
                 case certificateType
                 case csrContent
@@ -115,9 +142,38 @@ extension V1.Profiles.ById.GET {
                 case name
                 case platform
                 case serialNumber
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .certificateContent: return "certificateContent"
+                    case .certificateType: return "certificateType"
+                    case .csrContent: return "csrContent"
+                    case .displayName: return "displayName"
+                    case .expirationDate: return "expirationDate"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .serialNumber: return "serialNumber"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "certificateContent": self = .certificateContent
+                    case "certificateType": self = .certificateType
+                    case "csrContent": self = .csrContent
+                    case "displayName": self = .displayName
+                    case "expirationDate": self = .expirationDate
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "serialNumber": self = .serialNumber
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Devices: String, Hashable, Codable {
+            public enum Devices: Hashable, Codable, RawRepresentable {
                 case addedDate
                 case deviceClass
                 case model
@@ -125,9 +181,36 @@ extension V1.Profiles.ById.GET {
                 case platform
                 case status
                 case udid
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .addedDate: return "addedDate"
+                    case .deviceClass: return "deviceClass"
+                    case .model: return "model"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .status: return "status"
+                    case .udid: return "udid"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "addedDate": self = .addedDate
+                    case "deviceClass": self = .deviceClass
+                    case "model": self = .model
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "status": self = .status
+                    case "udid": self = .udid
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Profiles: String, Hashable, Codable {
+            public enum Profiles: Hashable, Codable, RawRepresentable {
                 case bundleId
                 case certificates
                 case createdDate
@@ -139,6 +222,41 @@ extension V1.Profiles.ById.GET {
                 case profileState
                 case profileType
                 case uuid
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .bundleId: return "bundleId"
+                    case .certificates: return "certificates"
+                    case .createdDate: return "createdDate"
+                    case .devices: return "devices"
+                    case .expirationDate: return "expirationDate"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .profileContent: return "profileContent"
+                    case .profileState: return "profileState"
+                    case .profileType: return "profileType"
+                    case .uuid: return "uuid"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "bundleId": self = .bundleId
+                    case "certificates": self = .certificates
+                    case "createdDate": self = .createdDate
+                    case "devices": self = .devices
+                    case "expirationDate": self = .expirationDate
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "profileContent": self = .profileContent
+                    case "profileState": self = .profileState
+                    case "profileType": self = .profileType
+                    case "uuid": self = .uuid
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -170,10 +288,29 @@ extension V1.Profiles.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case bundleId
             case certificates
             case devices
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .bundleId: return "bundleId"
+                case .certificates: return "certificates"
+                case .devices: return "devices"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "bundleId": self = .bundleId
+                case "certificates": self = .certificates
+                case "devices": self = .devices
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

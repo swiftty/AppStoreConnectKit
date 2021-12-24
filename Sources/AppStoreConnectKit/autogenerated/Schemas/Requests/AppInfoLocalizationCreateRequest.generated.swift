@@ -37,8 +37,23 @@ public struct AppInfoLocalizationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case appInfoLocalizations
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appInfoLocalizations: return "appInfoLocalizations"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appInfoLocalizations": self = .appInfoLocalizations
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -120,8 +135,23 @@ public struct AppInfoLocalizationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case appInfos
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .appInfos: return "appInfos"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "appInfos": self = .appInfos
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }

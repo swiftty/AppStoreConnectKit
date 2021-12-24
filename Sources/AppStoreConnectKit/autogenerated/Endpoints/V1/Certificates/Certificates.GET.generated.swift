@@ -92,7 +92,7 @@ extension V1.Certificates.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Certificates: String, Hashable, Codable {
+            public enum Certificates: Hashable, Codable, RawRepresentable {
                 case certificateContent
                 case certificateType
                 case csrContent
@@ -101,6 +101,35 @@ extension V1.Certificates.GET {
                 case name
                 case platform
                 case serialNumber
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .certificateContent: return "certificateContent"
+                    case .certificateType: return "certificateType"
+                    case .csrContent: return "csrContent"
+                    case .displayName: return "displayName"
+                    case .expirationDate: return "expirationDate"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .serialNumber: return "serialNumber"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "certificateContent": self = .certificateContent
+                    case "certificateType": self = .certificateType
+                    case "csrContent": self = .csrContent
+                    case "displayName": self = .displayName
+                    case "expirationDate": self = .expirationDate
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "serialNumber": self = .serialNumber
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -125,18 +154,53 @@ extension V1.Certificates.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CertificateType: String, Hashable, Codable {
-                case developerIdApplication = "DEVELOPER_ID_APPLICATION"
-                case developerIdKext = "DEVELOPER_ID_KEXT"
-                case development = "DEVELOPMENT"
-                case distribution = "DISTRIBUTION"
-                case iOSDevelopment = "IOS_DEVELOPMENT"
-                case iOSDistribution = "IOS_DISTRIBUTION"
-                case macAppDevelopment = "MAC_APP_DEVELOPMENT"
-                case macAppDistribution = "MAC_APP_DISTRIBUTION"
-                case macInstallerDistribution = "MAC_INSTALLER_DISTRIBUTION"
-                case passTypeId = "PASS_TYPE_ID"
-                case passTypeIdWithNfc = "PASS_TYPE_ID_WITH_NFC"
+            public enum CertificateType: Hashable, Codable, RawRepresentable {
+                case developerIdApplication
+                case developerIdKext
+                case development
+                case distribution
+                case iOSDevelopment
+                case iOSDistribution
+                case macAppDevelopment
+                case macAppDistribution
+                case macInstallerDistribution
+                case passTypeId
+                case passTypeIdWithNfc
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .developerIdApplication: return "DEVELOPER_ID_APPLICATION"
+                    case .developerIdKext: return "DEVELOPER_ID_KEXT"
+                    case .development: return "DEVELOPMENT"
+                    case .distribution: return "DISTRIBUTION"
+                    case .iOSDevelopment: return "IOS_DEVELOPMENT"
+                    case .iOSDistribution: return "IOS_DISTRIBUTION"
+                    case .macAppDevelopment: return "MAC_APP_DEVELOPMENT"
+                    case .macAppDistribution: return "MAC_APP_DISTRIBUTION"
+                    case .macInstallerDistribution: return "MAC_INSTALLER_DISTRIBUTION"
+                    case .passTypeId: return "PASS_TYPE_ID"
+                    case .passTypeIdWithNfc: return "PASS_TYPE_ID_WITH_NFC"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "DEVELOPER_ID_APPLICATION": self = .developerIdApplication
+                    case "DEVELOPER_ID_KEXT": self = .developerIdKext
+                    case "DEVELOPMENT": self = .development
+                    case "DISTRIBUTION": self = .distribution
+                    case "IOS_DEVELOPMENT": self = .iOSDevelopment
+                    case "IOS_DISTRIBUTION": self = .iOSDistribution
+                    case "MAC_APP_DEVELOPMENT": self = .macAppDevelopment
+                    case "MAC_APP_DISTRIBUTION": self = .macAppDistribution
+                    case "MAC_INSTALLER_DISTRIBUTION": self = .macInstallerDistribution
+                    case "PASS_TYPE_ID": self = .passTypeId
+                    case "PASS_TYPE_ID_WITH_NFC": self = .passTypeIdWithNfc
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -168,15 +232,44 @@ extension V1.Certificates.GET {
             }
         }
 
-        public enum Sort: String, Hashable, Codable {
-            case certificateTypeDesc = "-certificateType"
-            case displayNameDesc = "-displayName"
-            case idDesc = "-id"
-            case serialNumberDesc = "-serialNumber"
+        public enum Sort: Hashable, Codable, RawRepresentable {
             case certificateType
+            case certificateTypeDesc
             case displayName
+            case displayNameDesc
             case id
+            case idDesc
             case serialNumber
+            case serialNumberDesc
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .certificateType: return "certificateType"
+                case .certificateTypeDesc: return "-certificateType"
+                case .displayName: return "displayName"
+                case .displayNameDesc: return "-displayName"
+                case .id: return "id"
+                case .idDesc: return "-id"
+                case .serialNumber: return "serialNumber"
+                case .serialNumberDesc: return "-serialNumber"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "certificateType": self = .certificateType
+                case "-certificateType": self = .certificateTypeDesc
+                case "displayName": self = .displayName
+                case "-displayName": self = .displayNameDesc
+                case "id": self = .id
+                case "-id": self = .idDesc
+                case "serialNumber": self = .serialNumber
+                case "-serialNumber": self = .serialNumberDesc
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

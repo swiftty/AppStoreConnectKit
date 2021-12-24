@@ -78,9 +78,26 @@ extension V1.FinanceReports.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ReportType: String, Hashable, Codable {
-                case financeDetail = "FINANCE_DETAIL"
-                case financial = "FINANCIAL"
+            public enum ReportType: Hashable, Codable, RawRepresentable {
+                case financeDetail
+                case financial
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .financeDetail: return "FINANCE_DETAIL"
+                    case .financial: return "FINANCIAL"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "FINANCE_DETAIL": self = .financeDetail
+                    case "FINANCIAL": self = .financial
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

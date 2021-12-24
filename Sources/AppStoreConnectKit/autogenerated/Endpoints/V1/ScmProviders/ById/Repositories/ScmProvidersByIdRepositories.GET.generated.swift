@@ -88,7 +88,7 @@ extension V1.ScmProviders.ById.Repositories.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ScmRepositories: String, Hashable, Codable {
+            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
                 case defaultBranch
                 case gitReferences
                 case httpCloneUrl
@@ -98,6 +98,37 @@ extension V1.ScmProviders.ById.Repositories.GET {
                 case repositoryName
                 case scmProvider
                 case sshCloneUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .defaultBranch: return "defaultBranch"
+                    case .gitReferences: return "gitReferences"
+                    case .httpCloneUrl: return "httpCloneUrl"
+                    case .lastAccessedDate: return "lastAccessedDate"
+                    case .ownerName: return "ownerName"
+                    case .pullRequests: return "pullRequests"
+                    case .repositoryName: return "repositoryName"
+                    case .scmProvider: return "scmProvider"
+                    case .sshCloneUrl: return "sshCloneUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "defaultBranch": self = .defaultBranch
+                    case "gitReferences": self = .gitReferences
+                    case "httpCloneUrl": self = .httpCloneUrl
+                    case "lastAccessedDate": self = .lastAccessedDate
+                    case "ownerName": self = .ownerName
+                    case "pullRequests": self = .pullRequests
+                    case "repositoryName": self = .repositoryName
+                    case "scmProvider": self = .scmProvider
+                    case "sshCloneUrl": self = .sshCloneUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

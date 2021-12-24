@@ -32,8 +32,23 @@ public struct DeviceCreateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case devices
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .devices: return "devices"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "devices": self = .devices
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {

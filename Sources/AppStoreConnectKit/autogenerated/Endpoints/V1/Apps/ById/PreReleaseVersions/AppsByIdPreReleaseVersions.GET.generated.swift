@@ -84,11 +84,32 @@ extension V1.Apps.ById.PreReleaseVersions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum PreReleaseVersions: String, Hashable, Codable {
+            public enum PreReleaseVersions: Hashable, Codable, RawRepresentable {
                 case app
                 case builds
                 case platform
                 case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .builds: return "builds"
+                    case .platform: return "platform"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "builds": self = .builds
+                    case "platform": self = .platform
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

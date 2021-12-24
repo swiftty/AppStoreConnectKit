@@ -32,8 +32,23 @@ public struct AppBetaTestersLinkagesRequest: Hashable, Codable {
             case type
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case betaTesters
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .betaTesters: return "betaTesters"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "betaTesters": self = .betaTesters
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

@@ -3,18 +3,53 @@
 // swiftlint:disable all
 import Foundation
 
-public enum CertificateType: String, Hashable, Codable {
-    case developerIdApplication = "DEVELOPER_ID_APPLICATION"
-    case developerIdKext = "DEVELOPER_ID_KEXT"
-    case development = "DEVELOPMENT"
-    case distribution = "DISTRIBUTION"
-    case iOSDevelopment = "IOS_DEVELOPMENT"
-    case iOSDistribution = "IOS_DISTRIBUTION"
-    case macAppDevelopment = "MAC_APP_DEVELOPMENT"
-    case macAppDistribution = "MAC_APP_DISTRIBUTION"
-    case macInstallerDistribution = "MAC_INSTALLER_DISTRIBUTION"
-    case passTypeId = "PASS_TYPE_ID"
-    case passTypeIdWithNfc = "PASS_TYPE_ID_WITH_NFC"
+public enum CertificateType: Hashable, Codable, RawRepresentable {
+    case developerIdApplication
+    case developerIdKext
+    case development
+    case distribution
+    case iOSDevelopment
+    case iOSDistribution
+    case macAppDevelopment
+    case macAppDistribution
+    case macInstallerDistribution
+    case passTypeId
+    case passTypeIdWithNfc
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .developerIdApplication: return "DEVELOPER_ID_APPLICATION"
+        case .developerIdKext: return "DEVELOPER_ID_KEXT"
+        case .development: return "DEVELOPMENT"
+        case .distribution: return "DISTRIBUTION"
+        case .iOSDevelopment: return "IOS_DEVELOPMENT"
+        case .iOSDistribution: return "IOS_DISTRIBUTION"
+        case .macAppDevelopment: return "MAC_APP_DEVELOPMENT"
+        case .macAppDistribution: return "MAC_APP_DISTRIBUTION"
+        case .macInstallerDistribution: return "MAC_INSTALLER_DISTRIBUTION"
+        case .passTypeId: return "PASS_TYPE_ID"
+        case .passTypeIdWithNfc: return "PASS_TYPE_ID_WITH_NFC"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "DEVELOPER_ID_APPLICATION": self = .developerIdApplication
+        case "DEVELOPER_ID_KEXT": self = .developerIdKext
+        case "DEVELOPMENT": self = .development
+        case "DISTRIBUTION": self = .distribution
+        case "IOS_DEVELOPMENT": self = .iOSDevelopment
+        case "IOS_DISTRIBUTION": self = .iOSDistribution
+        case "MAC_APP_DEVELOPMENT": self = .macAppDevelopment
+        case "MAC_APP_DISTRIBUTION": self = .macAppDistribution
+        case "MAC_INSTALLER_DISTRIBUTION": self = .macInstallerDistribution
+        case "PASS_TYPE_ID": self = .passTypeId
+        case "PASS_TYPE_ID_WITH_NFC": self = .passTypeIdWithNfc
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

@@ -96,7 +96,7 @@ extension V1.BetaGroups.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Apps: String, Hashable, Codable {
+            public enum Apps: Hashable, Codable, RawRepresentable {
                 case appClips
                 case appInfos
                 case appStoreVersions
@@ -122,9 +122,72 @@ extension V1.BetaGroups.ById.GET {
                 case prices
                 case primaryLocale
                 case sku
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClips: return "appClips"
+                    case .appInfos: return "appInfos"
+                    case .appStoreVersions: return "appStoreVersions"
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .betaAppLocalizations: return "betaAppLocalizations"
+                    case .betaAppReviewDetail: return "betaAppReviewDetail"
+                    case .betaGroups: return "betaGroups"
+                    case .betaLicenseAgreement: return "betaLicenseAgreement"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .bundleId: return "bundleId"
+                    case .ciProduct: return "ciProduct"
+                    case .contentRightsDeclaration: return "contentRightsDeclaration"
+                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
+                    case .inAppPurchases: return "inAppPurchases"
+                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
+                    case .name: return "name"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preOrder: return "preOrder"
+                    case .preReleaseVersions: return "preReleaseVersions"
+                    case .prices: return "prices"
+                    case .primaryLocale: return "primaryLocale"
+                    case .sku: return "sku"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClips": self = .appClips
+                    case "appInfos": self = .appInfos
+                    case "appStoreVersions": self = .appStoreVersions
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "betaAppLocalizations": self = .betaAppLocalizations
+                    case "betaAppReviewDetail": self = .betaAppReviewDetail
+                    case "betaGroups": self = .betaGroups
+                    case "betaLicenseAgreement": self = .betaLicenseAgreement
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "bundleId": self = .bundleId
+                    case "ciProduct": self = .ciProduct
+                    case "contentRightsDeclaration": self = .contentRightsDeclaration
+                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
+                    case "inAppPurchases": self = .inAppPurchases
+                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
+                    case "name": self = .name
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preOrder": self = .preOrder
+                    case "preReleaseVersions": self = .preReleaseVersions
+                    case "prices": self = .prices
+                    case "primaryLocale": self = .primaryLocale
+                    case "sku": self = .sku
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BetaGroups: String, Hashable, Codable {
+            public enum BetaGroups: Hashable, Codable, RawRepresentable {
                 case app
                 case betaTesters
                 case builds
@@ -139,9 +202,50 @@ extension V1.BetaGroups.ById.GET {
                 case publicLinkId
                 case publicLinkLimit
                 case publicLinkLimitEnabled
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .createdDate: return "createdDate"
+                    case .feedbackEnabled: return "feedbackEnabled"
+                    case .hasAccessToAllBuilds: return "hasAccessToAllBuilds"
+                    case .iosBuildsAvailableForAppleSiliconMac: return "iosBuildsAvailableForAppleSiliconMac"
+                    case .isInternalGroup: return "isInternalGroup"
+                    case .name: return "name"
+                    case .publicLink: return "publicLink"
+                    case .publicLinkEnabled: return "publicLinkEnabled"
+                    case .publicLinkId: return "publicLinkId"
+                    case .publicLinkLimit: return "publicLinkLimit"
+                    case .publicLinkLimitEnabled: return "publicLinkLimitEnabled"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "createdDate": self = .createdDate
+                    case "feedbackEnabled": self = .feedbackEnabled
+                    case "hasAccessToAllBuilds": self = .hasAccessToAllBuilds
+                    case "iosBuildsAvailableForAppleSiliconMac": self = .iosBuildsAvailableForAppleSiliconMac
+                    case "isInternalGroup": self = .isInternalGroup
+                    case "name": self = .name
+                    case "publicLink": self = .publicLink
+                    case "publicLinkEnabled": self = .publicLinkEnabled
+                    case "publicLinkId": self = .publicLinkId
+                    case "publicLinkLimit": self = .publicLinkLimit
+                    case "publicLinkLimitEnabled": self = .publicLinkLimitEnabled
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BetaTesters: String, Hashable, Codable {
+            public enum BetaTesters: Hashable, Codable, RawRepresentable {
                 case apps
                 case betaGroups
                 case builds
@@ -149,9 +253,36 @@ extension V1.BetaGroups.ById.GET {
                 case firstName
                 case inviteType
                 case lastName
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .apps: return "apps"
+                    case .betaGroups: return "betaGroups"
+                    case .builds: return "builds"
+                    case .email: return "email"
+                    case .firstName: return "firstName"
+                    case .inviteType: return "inviteType"
+                    case .lastName: return "lastName"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "apps": self = .apps
+                    case "betaGroups": self = .betaGroups
+                    case "builds": self = .builds
+                    case "email": self = .email
+                    case "firstName": self = .firstName
+                    case "inviteType": self = .inviteType
+                    case "lastName": self = .lastName
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Builds: String, Hashable, Codable {
+            public enum Builds: Hashable, Codable, RawRepresentable {
                 case app
                 case appEncryptionDeclaration
                 case appStoreVersion
@@ -176,6 +307,67 @@ extension V1.BetaGroups.ById.GET {
                 case uploadedDate
                 case usesNonExemptEncryption
                 case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appEncryptionDeclaration: return "appEncryptionDeclaration"
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .betaAppReviewSubmission: return "betaAppReviewSubmission"
+                    case .betaBuildLocalizations: return "betaBuildLocalizations"
+                    case .betaGroups: return "betaGroups"
+                    case .buildAudienceType: return "buildAudienceType"
+                    case .buildBetaDetail: return "buildBetaDetail"
+                    case .buildBundles: return "buildBundles"
+                    case .computedMinMacOsVersion: return "computedMinMacOsVersion"
+                    case .diagnosticSignatures: return "diagnosticSignatures"
+                    case .expirationDate: return "expirationDate"
+                    case .expired: return "expired"
+                    case .iconAssetToken: return "iconAssetToken"
+                    case .icons: return "icons"
+                    case .individualTesters: return "individualTesters"
+                    case .lsMinimumSystemVersion: return "lsMinimumSystemVersion"
+                    case .minOsVersion: return "minOsVersion"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preReleaseVersion: return "preReleaseVersion"
+                    case .processingState: return "processingState"
+                    case .uploadedDate: return "uploadedDate"
+                    case .usesNonExemptEncryption: return "usesNonExemptEncryption"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appEncryptionDeclaration": self = .appEncryptionDeclaration
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "betaAppReviewSubmission": self = .betaAppReviewSubmission
+                    case "betaBuildLocalizations": self = .betaBuildLocalizations
+                    case "betaGroups": self = .betaGroups
+                    case "buildAudienceType": self = .buildAudienceType
+                    case "buildBetaDetail": self = .buildBetaDetail
+                    case "buildBundles": self = .buildBundles
+                    case "computedMinMacOsVersion": self = .computedMinMacOsVersion
+                    case "diagnosticSignatures": self = .diagnosticSignatures
+                    case "expirationDate": self = .expirationDate
+                    case "expired": self = .expired
+                    case "iconAssetToken": self = .iconAssetToken
+                    case "icons": self = .icons
+                    case "individualTesters": self = .individualTesters
+                    case "lsMinimumSystemVersion": self = .lsMinimumSystemVersion
+                    case "minOsVersion": self = .minOsVersion
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preReleaseVersion": self = .preReleaseVersion
+                    case "processingState": self = .processingState
+                    case "uploadedDate": self = .uploadedDate
+                    case "usesNonExemptEncryption": self = .usesNonExemptEncryption
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -207,10 +399,29 @@ extension V1.BetaGroups.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case app
             case betaTesters
             case builds
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .app: return "app"
+                case .betaTesters: return "betaTesters"
+                case .builds: return "builds"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "app": self = .app
+                case "betaTesters": self = .betaTesters
+                case "builds": self = .builds
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

@@ -84,7 +84,7 @@ extension V1.BundleIds.ById.Profiles.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Profiles: String, Hashable, Codable {
+            public enum Profiles: Hashable, Codable, RawRepresentable {
                 case bundleId
                 case certificates
                 case createdDate
@@ -96,6 +96,41 @@ extension V1.BundleIds.ById.Profiles.GET {
                 case profileState
                 case profileType
                 case uuid
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .bundleId: return "bundleId"
+                    case .certificates: return "certificates"
+                    case .createdDate: return "createdDate"
+                    case .devices: return "devices"
+                    case .expirationDate: return "expirationDate"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .profileContent: return "profileContent"
+                    case .profileState: return "profileState"
+                    case .profileType: return "profileType"
+                    case .uuid: return "uuid"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "bundleId": self = .bundleId
+                    case "certificates": self = .certificates
+                    case "createdDate": self = .createdDate
+                    case "devices": self = .devices
+                    case "expirationDate": self = .expirationDate
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "profileContent": self = .profileContent
+                    case "profileState": self = .profileState
+                    case "profileType": self = .profileType
+                    case "uuid": self = .uuid
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

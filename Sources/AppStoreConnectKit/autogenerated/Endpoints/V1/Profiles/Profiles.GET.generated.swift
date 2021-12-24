@@ -107,7 +107,7 @@ extension V1.Profiles.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BundleIds: String, Hashable, Codable {
+            public enum BundleIds: Hashable, Codable, RawRepresentable {
                 case app
                 case bundleIdCapabilities
                 case identifier
@@ -115,9 +115,36 @@ extension V1.Profiles.GET {
                 case platform
                 case profiles
                 case seedId
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .bundleIdCapabilities: return "bundleIdCapabilities"
+                    case .identifier: return "identifier"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .profiles: return "profiles"
+                    case .seedId: return "seedId"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "bundleIdCapabilities": self = .bundleIdCapabilities
+                    case "identifier": self = .identifier
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "profiles": self = .profiles
+                    case "seedId": self = .seedId
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Certificates: String, Hashable, Codable {
+            public enum Certificates: Hashable, Codable, RawRepresentable {
                 case certificateContent
                 case certificateType
                 case csrContent
@@ -126,9 +153,38 @@ extension V1.Profiles.GET {
                 case name
                 case platform
                 case serialNumber
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .certificateContent: return "certificateContent"
+                    case .certificateType: return "certificateType"
+                    case .csrContent: return "csrContent"
+                    case .displayName: return "displayName"
+                    case .expirationDate: return "expirationDate"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .serialNumber: return "serialNumber"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "certificateContent": self = .certificateContent
+                    case "certificateType": self = .certificateType
+                    case "csrContent": self = .csrContent
+                    case "displayName": self = .displayName
+                    case "expirationDate": self = .expirationDate
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "serialNumber": self = .serialNumber
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Devices: String, Hashable, Codable {
+            public enum Devices: Hashable, Codable, RawRepresentable {
                 case addedDate
                 case deviceClass
                 case model
@@ -136,9 +192,36 @@ extension V1.Profiles.GET {
                 case platform
                 case status
                 case udid
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .addedDate: return "addedDate"
+                    case .deviceClass: return "deviceClass"
+                    case .model: return "model"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .status: return "status"
+                    case .udid: return "udid"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "addedDate": self = .addedDate
+                    case "deviceClass": self = .deviceClass
+                    case "model": self = .model
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "status": self = .status
+                    case "udid": self = .udid
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Profiles: String, Hashable, Codable {
+            public enum Profiles: Hashable, Codable, RawRepresentable {
                 case bundleId
                 case certificates
                 case createdDate
@@ -150,6 +233,41 @@ extension V1.Profiles.GET {
                 case profileState
                 case profileType
                 case uuid
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .bundleId: return "bundleId"
+                    case .certificates: return "certificates"
+                    case .createdDate: return "createdDate"
+                    case .devices: return "devices"
+                    case .expirationDate: return "expirationDate"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .profileContent: return "profileContent"
+                    case .profileState: return "profileState"
+                    case .profileType: return "profileType"
+                    case .uuid: return "uuid"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "bundleId": self = .bundleId
+                    case "certificates": self = .certificates
+                    case "createdDate": self = .createdDate
+                    case "devices": self = .devices
+                    case "expirationDate": self = .expirationDate
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "profileContent": self = .profileContent
+                    case "profileState": self = .profileState
+                    case "profileType": self = .profileType
+                    case "uuid": self = .uuid
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -189,26 +307,84 @@ extension V1.Profiles.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ProfileState: String, Hashable, Codable {
-                case active = "ACTIVE"
-                case invalid = "INVALID"
+            public enum ProfileState: Hashable, Codable, RawRepresentable {
+                case active
+                case invalid
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .active: return "ACTIVE"
+                    case .invalid: return "INVALID"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ACTIVE": self = .active
+                    case "INVALID": self = .invalid
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum ProfileType: String, Hashable, Codable {
-                case iOSAppAdhoc = "IOS_APP_ADHOC"
-                case iOSAppDevelopment = "IOS_APP_DEVELOPMENT"
-                case iOSAppInhouse = "IOS_APP_INHOUSE"
-                case iOSAppStore = "IOS_APP_STORE"
-                case macAppDevelopment = "MAC_APP_DEVELOPMENT"
-                case macAppDirect = "MAC_APP_DIRECT"
-                case macAppStore = "MAC_APP_STORE"
-                case macCatalystAppDevelopment = "MAC_CATALYST_APP_DEVELOPMENT"
-                case macCatalystAppDirect = "MAC_CATALYST_APP_DIRECT"
-                case macCatalystAppStore = "MAC_CATALYST_APP_STORE"
-                case tvOSAppAdhoc = "TVOS_APP_ADHOC"
-                case tvOSAppDevelopment = "TVOS_APP_DEVELOPMENT"
-                case tvOSAppInhouse = "TVOS_APP_INHOUSE"
-                case tvOSAppStore = "TVOS_APP_STORE"
+            public enum ProfileType: Hashable, Codable, RawRepresentable {
+                case iOSAppAdhoc
+                case iOSAppDevelopment
+                case iOSAppInhouse
+                case iOSAppStore
+                case macAppDevelopment
+                case macAppDirect
+                case macAppStore
+                case macCatalystAppDevelopment
+                case macCatalystAppDirect
+                case macCatalystAppStore
+                case tvOSAppAdhoc
+                case tvOSAppDevelopment
+                case tvOSAppInhouse
+                case tvOSAppStore
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .iOSAppAdhoc: return "IOS_APP_ADHOC"
+                    case .iOSAppDevelopment: return "IOS_APP_DEVELOPMENT"
+                    case .iOSAppInhouse: return "IOS_APP_INHOUSE"
+                    case .iOSAppStore: return "IOS_APP_STORE"
+                    case .macAppDevelopment: return "MAC_APP_DEVELOPMENT"
+                    case .macAppDirect: return "MAC_APP_DIRECT"
+                    case .macAppStore: return "MAC_APP_STORE"
+                    case .macCatalystAppDevelopment: return "MAC_CATALYST_APP_DEVELOPMENT"
+                    case .macCatalystAppDirect: return "MAC_CATALYST_APP_DIRECT"
+                    case .macCatalystAppStore: return "MAC_CATALYST_APP_STORE"
+                    case .tvOSAppAdhoc: return "TVOS_APP_ADHOC"
+                    case .tvOSAppDevelopment: return "TVOS_APP_DEVELOPMENT"
+                    case .tvOSAppInhouse: return "TVOS_APP_INHOUSE"
+                    case .tvOSAppStore: return "TVOS_APP_STORE"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "IOS_APP_ADHOC": self = .iOSAppAdhoc
+                    case "IOS_APP_DEVELOPMENT": self = .iOSAppDevelopment
+                    case "IOS_APP_INHOUSE": self = .iOSAppInhouse
+                    case "IOS_APP_STORE": self = .iOSAppStore
+                    case "MAC_APP_DEVELOPMENT": self = .macAppDevelopment
+                    case "MAC_APP_DIRECT": self = .macAppDirect
+                    case "MAC_APP_STORE": self = .macAppStore
+                    case "MAC_CATALYST_APP_DEVELOPMENT": self = .macCatalystAppDevelopment
+                    case "MAC_CATALYST_APP_DIRECT": self = .macCatalystAppDirect
+                    case "MAC_CATALYST_APP_STORE": self = .macCatalystAppStore
+                    case "TVOS_APP_ADHOC": self = .tvOSAppAdhoc
+                    case "TVOS_APP_DEVELOPMENT": self = .tvOSAppDevelopment
+                    case "TVOS_APP_INHOUSE": self = .tvOSAppInhouse
+                    case "TVOS_APP_STORE": self = .tvOSAppStore
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -240,10 +416,29 @@ extension V1.Profiles.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case bundleId
             case certificates
             case devices
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .bundleId: return "bundleId"
+                case .certificates: return "certificates"
+                case .devices: return "devices"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "bundleId": self = .bundleId
+                case "certificates": self = .certificates
+                case "devices": self = .devices
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {
@@ -278,15 +473,44 @@ extension V1.Profiles.GET {
             }
         }
 
-        public enum Sort: String, Hashable, Codable {
-            case idDesc = "-id"
-            case nameDesc = "-name"
-            case profileStateDesc = "-profileState"
-            case profileTypeDesc = "-profileType"
+        public enum Sort: Hashable, Codable, RawRepresentable {
             case id
+            case idDesc
             case name
+            case nameDesc
             case profileState
+            case profileStateDesc
             case profileType
+            case profileTypeDesc
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .id: return "id"
+                case .idDesc: return "-id"
+                case .name: return "name"
+                case .nameDesc: return "-name"
+                case .profileState: return "profileState"
+                case .profileStateDesc: return "-profileState"
+                case .profileType: return "profileType"
+                case .profileTypeDesc: return "-profileType"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "id": self = .id
+                case "-id": self = .idDesc
+                case "name": self = .name
+                case "-name": self = .nameDesc
+                case "profileState": self = .profileState
+                case "-profileState": self = .profileStateDesc
+                case "profileType": self = .profileType
+                case "-profileType": self = .profileTypeDesc
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

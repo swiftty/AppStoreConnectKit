@@ -3,9 +3,26 @@
 // swiftlint:disable all
 import Foundation
 
-public enum CiTestDestinationKind: String, Hashable, Codable {
-    case mac = "MAC"
-    case simulator = "SIMULATOR"
+public enum CiTestDestinationKind: Hashable, Codable, RawRepresentable {
+    case mac
+    case simulator
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .mac: return "MAC"
+        case .simulator: return "SIMULATOR"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "MAC": self = .mac
+        case "SIMULATOR": self = .simulator
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

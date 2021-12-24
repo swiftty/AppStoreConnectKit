@@ -3,24 +3,71 @@
 // swiftlint:disable all
 import Foundation
 
-public enum AppStoreVersionState: String, Hashable, Codable {
-    case developerRejected = "DEVELOPER_REJECTED"
-    case developerRemovedFromSale = "DEVELOPER_REMOVED_FROM_SALE"
-    case invalidBinary = "INVALID_BINARY"
-    case inReview = "IN_REVIEW"
-    case metadataRejected = "METADATA_REJECTED"
-    case pendingAppleRelease = "PENDING_APPLE_RELEASE"
-    case pendingContract = "PENDING_CONTRACT"
-    case pendingDeveloperRelease = "PENDING_DEVELOPER_RELEASE"
-    case preorderReadyForSale = "PREORDER_READY_FOR_SALE"
-    case prepareForSubmission = "PREPARE_FOR_SUBMISSION"
-    case processingForAppStore = "PROCESSING_FOR_APP_STORE"
-    case readyForSale = "READY_FOR_SALE"
-    case rejected = "REJECTED"
-    case removedFromSale = "REMOVED_FROM_SALE"
-    case replacedWithNewVersion = "REPLACED_WITH_NEW_VERSION"
-    case waitingForExportCompliance = "WAITING_FOR_EXPORT_COMPLIANCE"
-    case waitingForReview = "WAITING_FOR_REVIEW"
+public enum AppStoreVersionState: Hashable, Codable, RawRepresentable {
+    case developerRejected
+    case developerRemovedFromSale
+    case inReview
+    case invalidBinary
+    case metadataRejected
+    case pendingAppleRelease
+    case pendingContract
+    case pendingDeveloperRelease
+    case preorderReadyForSale
+    case prepareForSubmission
+    case processingForAppStore
+    case readyForSale
+    case rejected
+    case removedFromSale
+    case replacedWithNewVersion
+    case waitingForExportCompliance
+    case waitingForReview
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .developerRejected: return "DEVELOPER_REJECTED"
+        case .developerRemovedFromSale: return "DEVELOPER_REMOVED_FROM_SALE"
+        case .inReview: return "IN_REVIEW"
+        case .invalidBinary: return "INVALID_BINARY"
+        case .metadataRejected: return "METADATA_REJECTED"
+        case .pendingAppleRelease: return "PENDING_APPLE_RELEASE"
+        case .pendingContract: return "PENDING_CONTRACT"
+        case .pendingDeveloperRelease: return "PENDING_DEVELOPER_RELEASE"
+        case .preorderReadyForSale: return "PREORDER_READY_FOR_SALE"
+        case .prepareForSubmission: return "PREPARE_FOR_SUBMISSION"
+        case .processingForAppStore: return "PROCESSING_FOR_APP_STORE"
+        case .readyForSale: return "READY_FOR_SALE"
+        case .rejected: return "REJECTED"
+        case .removedFromSale: return "REMOVED_FROM_SALE"
+        case .replacedWithNewVersion: return "REPLACED_WITH_NEW_VERSION"
+        case .waitingForExportCompliance: return "WAITING_FOR_EXPORT_COMPLIANCE"
+        case .waitingForReview: return "WAITING_FOR_REVIEW"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "DEVELOPER_REJECTED": self = .developerRejected
+        case "DEVELOPER_REMOVED_FROM_SALE": self = .developerRemovedFromSale
+        case "IN_REVIEW": self = .inReview
+        case "INVALID_BINARY": self = .invalidBinary
+        case "METADATA_REJECTED": self = .metadataRejected
+        case "PENDING_APPLE_RELEASE": self = .pendingAppleRelease
+        case "PENDING_CONTRACT": self = .pendingContract
+        case "PENDING_DEVELOPER_RELEASE": self = .pendingDeveloperRelease
+        case "PREORDER_READY_FOR_SALE": self = .preorderReadyForSale
+        case "PREPARE_FOR_SUBMISSION": self = .prepareForSubmission
+        case "PROCESSING_FOR_APP_STORE": self = .processingForAppStore
+        case "READY_FOR_SALE": self = .readyForSale
+        case "REJECTED": self = .rejected
+        case "REMOVED_FROM_SALE": self = .removedFromSale
+        case "REPLACED_WITH_NEW_VERSION": self = .replacedWithNewVersion
+        case "WAITING_FOR_EXPORT_COMPLIANCE": self = .waitingForExportCompliance
+        case "WAITING_FOR_REVIEW": self = .waitingForReview
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

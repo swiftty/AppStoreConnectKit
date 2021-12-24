@@ -49,8 +49,23 @@ public struct AppClipAdvancedExperienceUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case appClipAdvancedExperiences
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appClipAdvancedExperiences: return "appClipAdvancedExperiences"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appClipAdvancedExperiences": self = .appClipAdvancedExperiences
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -91,34 +106,101 @@ public struct AppClipAdvancedExperienceUpdateRequest: Hashable, Codable {
                 case removed
             }
 
-            public enum BusinessCategory: String, Hashable, Codable {
-                case automotive = "AUTOMOTIVE"
-                case beauty = "BEAUTY"
-                case bikes = "BIKES"
-                case books = "BOOKS"
-                case casino = "CASINO"
-                case education = "EDUCATION"
-                case educationJapan = "EDUCATION_JAPAN"
-                case entertainment = "ENTERTAINMENT"
-                case evCharger = "EV_CHARGER"
-                case financialCny = "FINANCIAL_CNY"
-                case financialEur = "FINANCIAL_EUR"
-                case financialGbp = "FINANCIAL_GBP"
-                case financialJpy = "FINANCIAL_JPY"
-                case financialUsd = "FINANCIAL_USD"
-                case fitness = "FITNESS"
-                case foodAndDrink = "FOOD_AND_DRINK"
-                case gas = "GAS"
-                case grocery = "GROCERY"
-                case healthAndMedical = "HEALTH_AND_MEDICAL"
-                case hotelAndTravel = "HOTEL_AND_TRAVEL"
-                case music = "MUSIC"
-                case parking = "PARKING"
-                case petServices = "PET_SERVICES"
-                case professionalServices = "PROFESSIONAL_SERVICES"
-                case shopping = "SHOPPING"
-                case ticketing = "TICKETING"
-                case transit = "TRANSIT"
+            public enum BusinessCategory: Hashable, Codable, RawRepresentable {
+                case automotive
+                case beauty
+                case bikes
+                case books
+                case casino
+                case education
+                case educationJapan
+                case entertainment
+                case evCharger
+                case financialCny
+                case financialEur
+                case financialGbp
+                case financialJpy
+                case financialUsd
+                case fitness
+                case foodAndDrink
+                case gas
+                case grocery
+                case healthAndMedical
+                case hotelAndTravel
+                case music
+                case parking
+                case petServices
+                case professionalServices
+                case shopping
+                case ticketing
+                case transit
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .automotive: return "AUTOMOTIVE"
+                    case .beauty: return "BEAUTY"
+                    case .bikes: return "BIKES"
+                    case .books: return "BOOKS"
+                    case .casino: return "CASINO"
+                    case .education: return "EDUCATION"
+                    case .educationJapan: return "EDUCATION_JAPAN"
+                    case .entertainment: return "ENTERTAINMENT"
+                    case .evCharger: return "EV_CHARGER"
+                    case .financialCny: return "FINANCIAL_CNY"
+                    case .financialEur: return "FINANCIAL_EUR"
+                    case .financialGbp: return "FINANCIAL_GBP"
+                    case .financialJpy: return "FINANCIAL_JPY"
+                    case .financialUsd: return "FINANCIAL_USD"
+                    case .fitness: return "FITNESS"
+                    case .foodAndDrink: return "FOOD_AND_DRINK"
+                    case .gas: return "GAS"
+                    case .grocery: return "GROCERY"
+                    case .healthAndMedical: return "HEALTH_AND_MEDICAL"
+                    case .hotelAndTravel: return "HOTEL_AND_TRAVEL"
+                    case .music: return "MUSIC"
+                    case .parking: return "PARKING"
+                    case .petServices: return "PET_SERVICES"
+                    case .professionalServices: return "PROFESSIONAL_SERVICES"
+                    case .shopping: return "SHOPPING"
+                    case .ticketing: return "TICKETING"
+                    case .transit: return "TRANSIT"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "AUTOMOTIVE": self = .automotive
+                    case "BEAUTY": self = .beauty
+                    case "BIKES": self = .bikes
+                    case "BOOKS": self = .books
+                    case "CASINO": self = .casino
+                    case "EDUCATION": self = .education
+                    case "EDUCATION_JAPAN": self = .educationJapan
+                    case "ENTERTAINMENT": self = .entertainment
+                    case "EV_CHARGER": self = .evCharger
+                    case "FINANCIAL_CNY": self = .financialCny
+                    case "FINANCIAL_EUR": self = .financialEur
+                    case "FINANCIAL_GBP": self = .financialGbp
+                    case "FINANCIAL_JPY": self = .financialJpy
+                    case "FINANCIAL_USD": self = .financialUsd
+                    case "FITNESS": self = .fitness
+                    case "FOOD_AND_DRINK": self = .foodAndDrink
+                    case "GAS": self = .gas
+                    case "GROCERY": self = .grocery
+                    case "HEALTH_AND_MEDICAL": self = .healthAndMedical
+                    case "HOTEL_AND_TRAVEL": self = .hotelAndTravel
+                    case "MUSIC": self = .music
+                    case "PARKING": self = .parking
+                    case "PET_SERVICES": self = .petServices
+                    case "PROFESSIONAL_SERVICES": self = .professionalServices
+                    case "SHOPPING": self = .shopping
+                    case "TICKETING": self = .ticketing
+                    case "TRANSIT": self = .transit
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Place: Hashable, Codable {
@@ -211,9 +293,26 @@ public struct AppClipAdvancedExperienceUpdateRequest: Hashable, Codable {
                         }
                     }
 
-                    public enum Source: String, Hashable, Codable {
-                        case calculated = "CALCULATED"
-                        case manuallyPlaced = "MANUALLY_PLACED"
+                    public enum Source: Hashable, Codable, RawRepresentable {
+                        case calculated
+                        case manuallyPlaced
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .calculated: return "CALCULATED"
+                            case .manuallyPlaced: return "MANUALLY_PLACED"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "CALCULATED": self = .calculated
+                            case "MANUALLY_PLACED": self = .manuallyPlaced
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
 
@@ -280,20 +379,59 @@ public struct AppClipAdvancedExperienceUpdateRequest: Hashable, Codable {
                     }
                 }
 
-                public enum MapAction: String, Hashable, Codable {
-                    case buyTickets = "BUY_TICKETS"
-                    case hotelBookRoom = "HOTEL_BOOK_ROOM"
-                    case parkingReserveParking = "PARKING_RESERVE_PARKING"
-                    case restaurantJoinWaitlist = "RESTAURANT_JOIN_WAITLIST"
-                    case restaurantOrderDelivery = "RESTAURANT_ORDER_DELIVERY"
-                    case restaurantOrderFood = "RESTAURANT_ORDER_FOOD"
-                    case restaurantOrderTakeout = "RESTAURANT_ORDER_TAKEOUT"
-                    case restaurantReservation = "RESTAURANT_RESERVATION"
-                    case restaurantViewMenu = "RESTAURANT_VIEW_MENU"
-                    case scheduleAppointment = "SCHEDULE_APPOINTMENT"
-                    case theaterNowPlaying = "THEATER_NOW_PLAYING"
-                    case viewAvailability = "VIEW_AVAILABILITY"
-                    case viewPricing = "VIEW_PRICING"
+                public enum MapAction: Hashable, Codable, RawRepresentable {
+                    case buyTickets
+                    case hotelBookRoom
+                    case parkingReserveParking
+                    case restaurantJoinWaitlist
+                    case restaurantOrderDelivery
+                    case restaurantOrderFood
+                    case restaurantOrderTakeout
+                    case restaurantReservation
+                    case restaurantViewMenu
+                    case scheduleAppointment
+                    case theaterNowPlaying
+                    case viewAvailability
+                    case viewPricing
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .buyTickets: return "BUY_TICKETS"
+                        case .hotelBookRoom: return "HOTEL_BOOK_ROOM"
+                        case .parkingReserveParking: return "PARKING_RESERVE_PARKING"
+                        case .restaurantJoinWaitlist: return "RESTAURANT_JOIN_WAITLIST"
+                        case .restaurantOrderDelivery: return "RESTAURANT_ORDER_DELIVERY"
+                        case .restaurantOrderFood: return "RESTAURANT_ORDER_FOOD"
+                        case .restaurantOrderTakeout: return "RESTAURANT_ORDER_TAKEOUT"
+                        case .restaurantReservation: return "RESTAURANT_RESERVATION"
+                        case .restaurantViewMenu: return "RESTAURANT_VIEW_MENU"
+                        case .scheduleAppointment: return "SCHEDULE_APPOINTMENT"
+                        case .theaterNowPlaying: return "THEATER_NOW_PLAYING"
+                        case .viewAvailability: return "VIEW_AVAILABILITY"
+                        case .viewPricing: return "VIEW_PRICING"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "BUY_TICKETS": self = .buyTickets
+                        case "HOTEL_BOOK_ROOM": self = .hotelBookRoom
+                        case "PARKING_RESERVE_PARKING": self = .parkingReserveParking
+                        case "RESTAURANT_JOIN_WAITLIST": self = .restaurantJoinWaitlist
+                        case "RESTAURANT_ORDER_DELIVERY": self = .restaurantOrderDelivery
+                        case "RESTAURANT_ORDER_FOOD": self = .restaurantOrderFood
+                        case "RESTAURANT_ORDER_TAKEOUT": self = .restaurantOrderTakeout
+                        case "RESTAURANT_RESERVATION": self = .restaurantReservation
+                        case "RESTAURANT_VIEW_MENU": self = .restaurantViewMenu
+                        case "SCHEDULE_APPOINTMENT": self = .scheduleAppointment
+                        case "THEATER_NOW_PLAYING": self = .theaterNowPlaying
+                        case "VIEW_AVAILABILITY": self = .viewAvailability
+                        case "VIEW_PRICING": self = .viewPricing
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
 
                 public struct PhoneNumber: Hashable, Codable {
@@ -319,18 +457,58 @@ public struct AppClipAdvancedExperienceUpdateRequest: Hashable, Codable {
                         case number
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
-                        case fax = "FAX"
-                        case landline = "LANDLINE"
-                        case mobile = "MOBILE"
-                        case tollfree = "TOLLFREE"
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                        case fax
+                        case landline
+                        case mobile
+                        case tollfree
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .fax: return "FAX"
+                            case .landline: return "LANDLINE"
+                            case .mobile: return "MOBILE"
+                            case .tollfree: return "TOLLFREE"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "FAX": self = .fax
+                            case "LANDLINE": self = .landline
+                            case "MOBILE": self = .mobile
+                            case "TOLLFREE": self = .tollfree
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
 
-                public enum Relationship: String, Hashable, Codable {
-                    case authorized = "AUTHORIZED"
-                    case other = "OTHER"
-                    case owner = "OWNER"
+                public enum Relationship: Hashable, Codable, RawRepresentable {
+                    case authorized
+                    case other
+                    case owner
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .authorized: return "AUTHORIZED"
+                        case .other: return "OTHER"
+                        case .owner: return "OWNER"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "AUTHORIZED": self = .authorized
+                        case "OTHER": self = .other
+                        case "OWNER": self = .owner
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
         }
@@ -387,8 +565,23 @@ public struct AppClipAdvancedExperienceUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case appClips
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .appClips: return "appClips"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "appClips": self = .appClips
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }
@@ -422,8 +615,23 @@ public struct AppClipAdvancedExperienceUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case appClipAdvancedExperienceImages
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .appClipAdvancedExperienceImages: return "appClipAdvancedExperienceImages"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "appClipAdvancedExperienceImages": self = .appClipAdvancedExperienceImages
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }
@@ -457,8 +665,23 @@ public struct AppClipAdvancedExperienceUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case appClipAdvancedExperienceLocalizations
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .appClipAdvancedExperienceLocalizations: return "appClipAdvancedExperienceLocalizations"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "appClipAdvancedExperienceLocalizations": self = .appClipAdvancedExperienceLocalizations
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }

@@ -81,13 +81,32 @@ extension V1.ScmProviders.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ScmProviders: String, Hashable, Codable {
+            public enum ScmProviders: Hashable, Codable, RawRepresentable {
                 case repositories
                 case scmProviderType
                 case url
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .repositories: return "repositories"
+                    case .scmProviderType: return "scmProviderType"
+                    case .url: return "url"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "repositories": self = .repositories
+                    case "scmProviderType": self = .scmProviderType
+                    case "url": self = .url
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum ScmRepositories: String, Hashable, Codable {
+            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
                 case defaultBranch
                 case gitReferences
                 case httpCloneUrl
@@ -97,6 +116,37 @@ extension V1.ScmProviders.ById.GET {
                 case repositoryName
                 case scmProvider
                 case sshCloneUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .defaultBranch: return "defaultBranch"
+                    case .gitReferences: return "gitReferences"
+                    case .httpCloneUrl: return "httpCloneUrl"
+                    case .lastAccessedDate: return "lastAccessedDate"
+                    case .ownerName: return "ownerName"
+                    case .pullRequests: return "pullRequests"
+                    case .repositoryName: return "repositoryName"
+                    case .scmProvider: return "scmProvider"
+                    case .sshCloneUrl: return "sshCloneUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "defaultBranch": self = .defaultBranch
+                    case "gitReferences": self = .gitReferences
+                    case "httpCloneUrl": self = .httpCloneUrl
+                    case "lastAccessedDate": self = .lastAccessedDate
+                    case "ownerName": self = .ownerName
+                    case "pullRequests": self = .pullRequests
+                    case "repositoryName": self = .repositoryName
+                    case "scmProvider": self = .scmProvider
+                    case "sshCloneUrl": self = .sshCloneUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

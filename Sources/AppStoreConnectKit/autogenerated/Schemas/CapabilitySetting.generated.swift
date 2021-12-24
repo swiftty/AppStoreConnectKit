@@ -51,16 +51,54 @@ public struct CapabilitySetting: Hashable, Codable {
         case visible
     }
 
-    public enum AllowedInstances: String, Hashable, Codable {
-        case entry = "ENTRY"
-        case multiple = "MULTIPLE"
-        case single = "SINGLE"
+    public enum AllowedInstances: Hashable, Codable, RawRepresentable {
+        case entry
+        case multiple
+        case single
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .entry: return "ENTRY"
+            case .multiple: return "MULTIPLE"
+            case .single: return "SINGLE"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "ENTRY": self = .entry
+            case "MULTIPLE": self = .multiple
+            case "SINGLE": self = .single
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
-    public enum Key: String, Hashable, Codable {
-        case appleIdAuthAppConsent = "APPLE_ID_AUTH_APP_CONSENT"
-        case dataProtectionPermissionLevel = "DATA_PROTECTION_PERMISSION_LEVEL"
-        case icloudVersion = "ICLOUD_VERSION"
+    public enum Key: Hashable, Codable, RawRepresentable {
+        case appleIdAuthAppConsent
+        case dataProtectionPermissionLevel
+        case icloudVersion
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .appleIdAuthAppConsent: return "APPLE_ID_AUTH_APP_CONSENT"
+            case .dataProtectionPermissionLevel: return "DATA_PROTECTION_PERMISSION_LEVEL"
+            case .icloudVersion: return "ICLOUD_VERSION"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "APPLE_ID_AUTH_APP_CONSENT": self = .appleIdAuthAppConsent
+            case "DATA_PROTECTION_PERMISSION_LEVEL": self = .dataProtectionPermissionLevel
+            case "ICLOUD_VERSION": self = .icloudVersion
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 }
 

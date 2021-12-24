@@ -3,39 +3,116 @@
 // swiftlint:disable all
 import Foundation
 
-public enum AppClipAdvancedExperienceLanguage: String, Hashable, Codable {
-    case ar = "AR"
-    case ca = "CA"
-    case cs = "CS"
-    case da = "DA"
-    case de = "DE"
-    case el = "EL"
-    case en = "EN"
-    case es = "ES"
-    case fi = "FI"
-    case fr = "FR"
-    case he = "HE"
-    case hi = "HI"
-    case hr = "HR"
-    case hu = "HU"
-    case id = "ID"
-    case it = "IT"
-    case ja = "JA"
-    case ko = "KO"
-    case ms = "MS"
-    case nl = "NL"
-    case no = "NO"
-    case pl = "PL"
-    case pt = "PT"
-    case ro = "RO"
-    case ru = "RU"
-    case sk = "SK"
-    case sv = "SV"
-    case th = "TH"
-    case tr = "TR"
-    case uk = "UK"
-    case vi = "VI"
-    case zh = "ZH"
+public enum AppClipAdvancedExperienceLanguage: Hashable, Codable, RawRepresentable {
+    case ar
+    case ca
+    case cs
+    case da
+    case de
+    case el
+    case en
+    case es
+    case fi
+    case fr
+    case he
+    case hi
+    case hr
+    case hu
+    case id
+    case it
+    case ja
+    case ko
+    case ms
+    case nl
+    case no
+    case pl
+    case pt
+    case ro
+    case ru
+    case sk
+    case sv
+    case th
+    case tr
+    case uk
+    case vi
+    case zh
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .ar: return "AR"
+        case .ca: return "CA"
+        case .cs: return "CS"
+        case .da: return "DA"
+        case .de: return "DE"
+        case .el: return "EL"
+        case .en: return "EN"
+        case .es: return "ES"
+        case .fi: return "FI"
+        case .fr: return "FR"
+        case .he: return "HE"
+        case .hi: return "HI"
+        case .hr: return "HR"
+        case .hu: return "HU"
+        case .id: return "ID"
+        case .it: return "IT"
+        case .ja: return "JA"
+        case .ko: return "KO"
+        case .ms: return "MS"
+        case .nl: return "NL"
+        case .no: return "NO"
+        case .pl: return "PL"
+        case .pt: return "PT"
+        case .ro: return "RO"
+        case .ru: return "RU"
+        case .sk: return "SK"
+        case .sv: return "SV"
+        case .th: return "TH"
+        case .tr: return "TR"
+        case .uk: return "UK"
+        case .vi: return "VI"
+        case .zh: return "ZH"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "AR": self = .ar
+        case "CA": self = .ca
+        case "CS": self = .cs
+        case "DA": self = .da
+        case "DE": self = .de
+        case "EL": self = .el
+        case "EN": self = .en
+        case "ES": self = .es
+        case "FI": self = .fi
+        case "FR": self = .fr
+        case "HE": self = .he
+        case "HI": self = .hi
+        case "HR": self = .hr
+        case "HU": self = .hu
+        case "ID": self = .id
+        case "IT": self = .it
+        case "JA": self = .ja
+        case "KO": self = .ko
+        case "MS": self = .ms
+        case "NL": self = .nl
+        case "NO": self = .no
+        case "PL": self = .pl
+        case "PT": self = .pt
+        case "RO": self = .ro
+        case "RU": self = .ru
+        case "SK": self = .sk
+        case "SV": self = .sv
+        case "TH": self = .th
+        case "TR": self = .tr
+        case "UK": self = .uk
+        case "VI": self = .vi
+        case "ZH": self = .zh
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

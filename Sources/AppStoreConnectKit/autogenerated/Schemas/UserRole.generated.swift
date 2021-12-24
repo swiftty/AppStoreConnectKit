@@ -3,20 +3,59 @@
 // swiftlint:disable all
 import Foundation
 
-public enum UserRole: String, Hashable, Codable {
-    case accessToReports = "ACCESS_TO_REPORTS"
-    case accountHolder = "ACCOUNT_HOLDER"
-    case admin = "ADMIN"
-    case appManager = "APP_MANAGER"
-    case cloudManagedAppDistribution = "CLOUD_MANAGED_APP_DISTRIBUTION"
-    case cloudManagedDeveloperId = "CLOUD_MANAGED_DEVELOPER_ID"
-    case createApps = "CREATE_APPS"
-    case customerSupport = "CUSTOMER_SUPPORT"
-    case developer = "DEVELOPER"
-    case finance = "FINANCE"
-    case imageManager = "IMAGE_MANAGER"
-    case marketing = "MARKETING"
-    case sales = "SALES"
+public enum UserRole: Hashable, Codable, RawRepresentable {
+    case accessToReports
+    case accountHolder
+    case admin
+    case appManager
+    case cloudManagedAppDistribution
+    case cloudManagedDeveloperId
+    case createApps
+    case customerSupport
+    case developer
+    case finance
+    case imageManager
+    case marketing
+    case sales
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .accessToReports: return "ACCESS_TO_REPORTS"
+        case .accountHolder: return "ACCOUNT_HOLDER"
+        case .admin: return "ADMIN"
+        case .appManager: return "APP_MANAGER"
+        case .cloudManagedAppDistribution: return "CLOUD_MANAGED_APP_DISTRIBUTION"
+        case .cloudManagedDeveloperId: return "CLOUD_MANAGED_DEVELOPER_ID"
+        case .createApps: return "CREATE_APPS"
+        case .customerSupport: return "CUSTOMER_SUPPORT"
+        case .developer: return "DEVELOPER"
+        case .finance: return "FINANCE"
+        case .imageManager: return "IMAGE_MANAGER"
+        case .marketing: return "MARKETING"
+        case .sales: return "SALES"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "ACCESS_TO_REPORTS": self = .accessToReports
+        case "ACCOUNT_HOLDER": self = .accountHolder
+        case "ADMIN": self = .admin
+        case "APP_MANAGER": self = .appManager
+        case "CLOUD_MANAGED_APP_DISTRIBUTION": self = .cloudManagedAppDistribution
+        case "CLOUD_MANAGED_DEVELOPER_ID": self = .cloudManagedDeveloperId
+        case "CREATE_APPS": self = .createApps
+        case "CUSTOMER_SUPPORT": self = .customerSupport
+        case "DEVELOPER": self = .developer
+        case "FINANCE": self = .finance
+        case "IMAGE_MANAGER": self = .imageManager
+        case "MARKETING": self = .marketing
+        case "SALES": self = .sales
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

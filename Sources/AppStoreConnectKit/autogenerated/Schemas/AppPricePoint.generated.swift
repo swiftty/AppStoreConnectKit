@@ -36,8 +36,23 @@ public struct AppPricePoint: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case appPricePoints
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .appPricePoints: return "appPricePoints"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "appPricePoints": self = .appPricePoints
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -113,8 +128,23 @@ public struct AppPricePoint: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appPriceTiers
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appPriceTiers: return "appPriceTiers"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appPriceTiers": self = .appPriceTiers
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -174,8 +204,23 @@ public struct AppPricePoint: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case territories
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .territories: return "territories"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "territories": self = .territories
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

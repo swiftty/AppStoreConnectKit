@@ -79,8 +79,23 @@ extension V1.AppStoreVersions.ById.AppStoreVersionSubmission.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppStoreVersionSubmissions: String, Hashable, Codable {
+            public enum AppStoreVersionSubmissions: Hashable, Codable, RawRepresentable {
                 case appStoreVersion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appStoreVersion": self = .appStoreVersion
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

@@ -92,7 +92,7 @@ extension V1.CiBuildRuns.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Builds: String, Hashable, Codable {
+            public enum Builds: Hashable, Codable, RawRepresentable {
                 case app
                 case appEncryptionDeclaration
                 case appStoreVersion
@@ -117,9 +117,70 @@ extension V1.CiBuildRuns.ById.GET {
                 case uploadedDate
                 case usesNonExemptEncryption
                 case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appEncryptionDeclaration: return "appEncryptionDeclaration"
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .betaAppReviewSubmission: return "betaAppReviewSubmission"
+                    case .betaBuildLocalizations: return "betaBuildLocalizations"
+                    case .betaGroups: return "betaGroups"
+                    case .buildAudienceType: return "buildAudienceType"
+                    case .buildBetaDetail: return "buildBetaDetail"
+                    case .buildBundles: return "buildBundles"
+                    case .computedMinMacOsVersion: return "computedMinMacOsVersion"
+                    case .diagnosticSignatures: return "diagnosticSignatures"
+                    case .expirationDate: return "expirationDate"
+                    case .expired: return "expired"
+                    case .iconAssetToken: return "iconAssetToken"
+                    case .icons: return "icons"
+                    case .individualTesters: return "individualTesters"
+                    case .lsMinimumSystemVersion: return "lsMinimumSystemVersion"
+                    case .minOsVersion: return "minOsVersion"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preReleaseVersion: return "preReleaseVersion"
+                    case .processingState: return "processingState"
+                    case .uploadedDate: return "uploadedDate"
+                    case .usesNonExemptEncryption: return "usesNonExemptEncryption"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appEncryptionDeclaration": self = .appEncryptionDeclaration
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "betaAppReviewSubmission": self = .betaAppReviewSubmission
+                    case "betaBuildLocalizations": self = .betaBuildLocalizations
+                    case "betaGroups": self = .betaGroups
+                    case "buildAudienceType": self = .buildAudienceType
+                    case "buildBetaDetail": self = .buildBetaDetail
+                    case "buildBundles": self = .buildBundles
+                    case "computedMinMacOsVersion": self = .computedMinMacOsVersion
+                    case "diagnosticSignatures": self = .diagnosticSignatures
+                    case "expirationDate": self = .expirationDate
+                    case "expired": self = .expired
+                    case "iconAssetToken": self = .iconAssetToken
+                    case "icons": self = .icons
+                    case "individualTesters": self = .individualTesters
+                    case "lsMinimumSystemVersion": self = .lsMinimumSystemVersion
+                    case "minOsVersion": self = .minOsVersion
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preReleaseVersion": self = .preReleaseVersion
+                    case "processingState": self = .processingState
+                    case "uploadedDate": self = .uploadedDate
+                    case "usesNonExemptEncryption": self = .usesNonExemptEncryption
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum CiBuildActions: String, Hashable, Codable {
+            public enum CiBuildActions: Hashable, Codable, RawRepresentable {
                 case actionType
                 case artifacts
                 case buildRun
@@ -132,9 +193,46 @@ extension V1.CiBuildRuns.ById.GET {
                 case name
                 case startedDate
                 case testResults
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .actionType: return "actionType"
+                    case .artifacts: return "artifacts"
+                    case .buildRun: return "buildRun"
+                    case .completionStatus: return "completionStatus"
+                    case .executionProgress: return "executionProgress"
+                    case .finishedDate: return "finishedDate"
+                    case .isRequiredToPass: return "isRequiredToPass"
+                    case .issueCounts: return "issueCounts"
+                    case .issues: return "issues"
+                    case .name: return "name"
+                    case .startedDate: return "startedDate"
+                    case .testResults: return "testResults"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "actionType": self = .actionType
+                    case "artifacts": self = .artifacts
+                    case "buildRun": self = .buildRun
+                    case "completionStatus": self = .completionStatus
+                    case "executionProgress": self = .executionProgress
+                    case "finishedDate": self = .finishedDate
+                    case "isRequiredToPass": self = .isRequiredToPass
+                    case "issueCounts": self = .issueCounts
+                    case "issues": self = .issues
+                    case "name": self = .name
+                    case "startedDate": self = .startedDate
+                    case "testResults": self = .testResults
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum CiBuildRuns: String, Hashable, Codable {
+            public enum CiBuildRuns: Hashable, Codable, RawRepresentable {
                 case actions
                 case buildRun
                 case builds
@@ -156,6 +254,61 @@ extension V1.CiBuildRuns.ById.GET {
                 case startReason
                 case startedDate
                 case workflow
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .actions: return "actions"
+                    case .buildRun: return "buildRun"
+                    case .builds: return "builds"
+                    case .cancelReason: return "cancelReason"
+                    case .clean: return "clean"
+                    case .completionStatus: return "completionStatus"
+                    case .createdDate: return "createdDate"
+                    case .destinationBranch: return "destinationBranch"
+                    case .destinationCommit: return "destinationCommit"
+                    case .executionProgress: return "executionProgress"
+                    case .finishedDate: return "finishedDate"
+                    case .isPullRequestBuild: return "isPullRequestBuild"
+                    case .issueCounts: return "issueCounts"
+                    case .number: return "number"
+                    case .product: return "product"
+                    case .pullRequest: return "pullRequest"
+                    case .sourceBranchOrTag: return "sourceBranchOrTag"
+                    case .sourceCommit: return "sourceCommit"
+                    case .startReason: return "startReason"
+                    case .startedDate: return "startedDate"
+                    case .workflow: return "workflow"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "actions": self = .actions
+                    case "buildRun": self = .buildRun
+                    case "builds": self = .builds
+                    case "cancelReason": self = .cancelReason
+                    case "clean": self = .clean
+                    case "completionStatus": self = .completionStatus
+                    case "createdDate": self = .createdDate
+                    case "destinationBranch": self = .destinationBranch
+                    case "destinationCommit": self = .destinationCommit
+                    case "executionProgress": self = .executionProgress
+                    case "finishedDate": self = .finishedDate
+                    case "isPullRequestBuild": self = .isPullRequestBuild
+                    case "issueCounts": self = .issueCounts
+                    case "number": self = .number
+                    case "product": self = .product
+                    case "pullRequest": self = .pullRequest
+                    case "sourceBranchOrTag": self = .sourceBranchOrTag
+                    case "sourceCommit": self = .sourceCommit
+                    case "startReason": self = .startReason
+                    case "startedDate": self = .startedDate
+                    case "workflow": self = .workflow
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -182,13 +335,38 @@ extension V1.CiBuildRuns.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case builds
             case destinationBranch
             case product
             case pullRequest
             case sourceBranchOrTag
             case workflow
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .builds: return "builds"
+                case .destinationBranch: return "destinationBranch"
+                case .product: return "product"
+                case .pullRequest: return "pullRequest"
+                case .sourceBranchOrTag: return "sourceBranchOrTag"
+                case .workflow: return "workflow"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "builds": self = .builds
+                case "destinationBranch": self = .destinationBranch
+                case "product": self = .product
+                case "pullRequest": self = .pullRequest
+                case "sourceBranchOrTag": self = .sourceBranchOrTag
+                case "workflow": self = .workflow
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

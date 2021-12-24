@@ -84,9 +84,26 @@ extension V1.Builds.ById.Icons.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BuildIcons: String, Hashable, Codable {
+            public enum BuildIcons: Hashable, Codable, RawRepresentable {
                 case iconAsset
                 case iconType
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .iconAsset: return "iconAsset"
+                    case .iconType: return "iconType"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "iconAsset": self = .iconAsset
+                    case "iconType": self = .iconType
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

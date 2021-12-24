@@ -36,8 +36,23 @@ public struct RoutingAppCoverage: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case routingAppCoverages
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .routingAppCoverages: return "routingAppCoverages"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "routingAppCoverages": self = .routingAppCoverages
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -121,8 +136,23 @@ public struct RoutingAppCoverage: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appStoreVersions
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appStoreVersions: return "appStoreVersions"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appStoreVersions": self = .appStoreVersions
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

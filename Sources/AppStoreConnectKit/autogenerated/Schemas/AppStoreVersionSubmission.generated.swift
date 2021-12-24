@@ -31,8 +31,23 @@ public struct AppStoreVersionSubmission: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case appStoreVersionSubmissions
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .appStoreVersionSubmissions: return "appStoreVersionSubmissions"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "appStoreVersionSubmissions": self = .appStoreVersionSubmissions
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Relationships: Hashable, Codable {
@@ -82,8 +97,23 @@ public struct AppStoreVersionSubmission: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appStoreVersions
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appStoreVersions: return "appStoreVersions"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appStoreVersions": self = .appStoreVersions
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

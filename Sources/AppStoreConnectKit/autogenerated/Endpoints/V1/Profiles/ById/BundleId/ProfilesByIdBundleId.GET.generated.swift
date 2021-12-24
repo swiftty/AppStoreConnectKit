@@ -79,7 +79,7 @@ extension V1.Profiles.ById.BundleId.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BundleIds: String, Hashable, Codable {
+            public enum BundleIds: Hashable, Codable, RawRepresentable {
                 case app
                 case bundleIdCapabilities
                 case identifier
@@ -87,6 +87,33 @@ extension V1.Profiles.ById.BundleId.GET {
                 case platform
                 case profiles
                 case seedId
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .bundleIdCapabilities: return "bundleIdCapabilities"
+                    case .identifier: return "identifier"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .profiles: return "profiles"
+                    case .seedId: return "seedId"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "bundleIdCapabilities": self = .bundleIdCapabilities
+                    case "identifier": self = .identifier
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "profiles": self = .profiles
+                    case "seedId": self = .seedId
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

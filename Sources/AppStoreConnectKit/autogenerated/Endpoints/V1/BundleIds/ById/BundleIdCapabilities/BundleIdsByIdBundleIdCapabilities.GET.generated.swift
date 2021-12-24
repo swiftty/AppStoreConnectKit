@@ -84,10 +84,29 @@ extension V1.BundleIds.ById.BundleIdCapabilities.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BundleIdCapabilities: String, Hashable, Codable {
+            public enum BundleIdCapabilities: Hashable, Codable, RawRepresentable {
                 case bundleId
                 case capabilityType
                 case settings
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .bundleId: return "bundleId"
+                    case .capabilityType: return "capabilityType"
+                    case .settings: return "settings"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "bundleId": self = .bundleId
+                    case "capabilityType": self = .capabilityType
+                    case "settings": self = .settings
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

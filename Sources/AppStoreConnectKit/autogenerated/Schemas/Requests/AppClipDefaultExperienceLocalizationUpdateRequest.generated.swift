@@ -37,8 +37,23 @@ public struct AppClipDefaultExperienceLocalizationUpdateRequest: Hashable, Codab
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case appClipDefaultExperienceLocalizations
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appClipDefaultExperienceLocalizations: return "appClipDefaultExperienceLocalizations"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appClipDefaultExperienceLocalizations": self = .appClipDefaultExperienceLocalizations
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {

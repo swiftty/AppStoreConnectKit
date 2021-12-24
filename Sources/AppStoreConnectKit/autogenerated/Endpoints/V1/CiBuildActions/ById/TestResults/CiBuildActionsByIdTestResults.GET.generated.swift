@@ -84,13 +84,38 @@ extension V1.CiBuildActions.ById.TestResults.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiTestResults: String, Hashable, Codable {
+            public enum CiTestResults: Hashable, Codable, RawRepresentable {
                 case className
                 case destinationTestResults
                 case fileSource
                 case message
                 case name
                 case status
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .className: return "className"
+                    case .destinationTestResults: return "destinationTestResults"
+                    case .fileSource: return "fileSource"
+                    case .message: return "message"
+                    case .name: return "name"
+                    case .status: return "status"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "className": self = .className
+                    case "destinationTestResults": self = .destinationTestResults
+                    case "fileSource": self = .fileSource
+                    case "message": self = .message
+                    case "name": self = .name
+                    case "status": self = .status
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

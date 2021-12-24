@@ -36,8 +36,23 @@ public struct AppPreviewSet: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case appPreviewSets
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .appPreviewSets: return "appPreviewSets"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "appPreviewSets": self = .appPreviewSets
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -111,8 +126,23 @@ public struct AppPreviewSet: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appPreviews
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appPreviews: return "appPreviews"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appPreviews": self = .appPreviews
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -172,8 +202,23 @@ public struct AppPreviewSet: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appStoreVersionLocalizations
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

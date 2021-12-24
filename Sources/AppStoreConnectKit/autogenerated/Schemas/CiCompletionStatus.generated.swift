@@ -3,12 +3,35 @@
 // swiftlint:disable all
 import Foundation
 
-public enum CiCompletionStatus: String, Hashable, Codable {
-    case canceled = "CANCELED"
-    case errored = "ERRORED"
-    case failed = "FAILED"
-    case skipped = "SKIPPED"
-    case succeeded = "SUCCEEDED"
+public enum CiCompletionStatus: Hashable, Codable, RawRepresentable {
+    case canceled
+    case errored
+    case failed
+    case skipped
+    case succeeded
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .canceled: return "CANCELED"
+        case .errored: return "ERRORED"
+        case .failed: return "FAILED"
+        case .skipped: return "SKIPPED"
+        case .succeeded: return "SUCCEEDED"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "CANCELED": self = .canceled
+        case "ERRORED": self = .errored
+        case "FAILED": self = .failed
+        case "SKIPPED": self = .skipped
+        case "SUCCEEDED": self = .succeeded
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

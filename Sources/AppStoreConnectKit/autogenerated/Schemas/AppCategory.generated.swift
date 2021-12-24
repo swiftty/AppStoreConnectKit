@@ -36,8 +36,23 @@ public struct AppCategory: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case appCategories
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .appCategories: return "appCategories"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "appCategories": self = .appCategories
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -106,8 +121,23 @@ public struct AppCategory: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appCategories
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appCategories: return "appCategories"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appCategories": self = .appCategories
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -172,8 +202,23 @@ public struct AppCategory: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appCategories
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appCategories: return "appCategories"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appCategories": self = .appCategories
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

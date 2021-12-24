@@ -84,11 +84,32 @@ extension V1.BuildBundles.ById.BuildBundleFileSizes.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BuildBundleFileSizes: String, Hashable, Codable {
+            public enum BuildBundleFileSizes: Hashable, Codable, RawRepresentable {
                 case deviceModel
                 case downloadBytes
                 case installBytes
                 case osVersion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .deviceModel: return "deviceModel"
+                    case .downloadBytes: return "downloadBytes"
+                    case .installBytes: return "installBytes"
+                    case .osVersion: return "osVersion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "deviceModel": self = .deviceModel
+                    case "downloadBytes": self = .downloadBytes
+                    case "installBytes": self = .installBytes
+                    case "osVersion": self = .osVersion
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

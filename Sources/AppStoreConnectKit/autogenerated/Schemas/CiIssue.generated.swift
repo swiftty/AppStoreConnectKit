@@ -31,8 +31,23 @@ public struct CiIssue: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case ciIssues
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .ciIssues: return "ciIssues"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "ciIssues": self = .ciIssues
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -63,11 +78,32 @@ public struct CiIssue: Hashable, Codable {
             case message
         }
 
-        public enum IssueType: String, Hashable, Codable {
-            case analyzerWarning = "ANALYZER_WARNING"
-            case error = "ERROR"
-            case testFailure = "TEST_FAILURE"
-            case warning = "WARNING"
+        public enum IssueType: Hashable, Codable, RawRepresentable {
+            case analyzerWarning
+            case error
+            case testFailure
+            case warning
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .analyzerWarning: return "ANALYZER_WARNING"
+                case .error: return "ERROR"
+                case .testFailure: return "TEST_FAILURE"
+                case .warning: return "WARNING"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "ANALYZER_WARNING": self = .analyzerWarning
+                case "ERROR": self = .error
+                case "TEST_FAILURE": self = .testFailure
+                case "WARNING": self = .warning
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

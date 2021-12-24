@@ -36,8 +36,23 @@ public struct CiProduct: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case ciProducts
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .ciProducts: return "ciProducts"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "ciProducts": self = .ciProducts
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -63,9 +78,26 @@ public struct CiProduct: Hashable, Codable {
             case productType
         }
 
-        public enum ProductType: String, Hashable, Codable {
-            case app = "APP"
-            case framework = "FRAMEWORK"
+        public enum ProductType: Hashable, Codable, RawRepresentable {
+            case app
+            case framework
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .app: return "APP"
+                case .framework: return "FRAMEWORK"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "APP": self = .app
+                case "FRAMEWORK": self = .framework
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 
@@ -128,8 +160,23 @@ public struct CiProduct: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case apps
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .apps: return "apps"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "apps": self = .apps
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -189,8 +236,23 @@ public struct CiProduct: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case bundleIds
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .bundleIds: return "bundleIds"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "bundleIds": self = .bundleIds
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -255,8 +317,23 @@ public struct CiProduct: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case scmRepositories
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .scmRepositories: return "scmRepositories"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "scmRepositories": self = .scmRepositories
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

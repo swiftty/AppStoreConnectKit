@@ -84,7 +84,7 @@ extension V1.Apps.ById.BetaGroups.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaGroups: String, Hashable, Codable {
+            public enum BetaGroups: Hashable, Codable, RawRepresentable {
                 case app
                 case betaTesters
                 case builds
@@ -99,6 +99,47 @@ extension V1.Apps.ById.BetaGroups.GET {
                 case publicLinkId
                 case publicLinkLimit
                 case publicLinkLimitEnabled
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .createdDate: return "createdDate"
+                    case .feedbackEnabled: return "feedbackEnabled"
+                    case .hasAccessToAllBuilds: return "hasAccessToAllBuilds"
+                    case .iosBuildsAvailableForAppleSiliconMac: return "iosBuildsAvailableForAppleSiliconMac"
+                    case .isInternalGroup: return "isInternalGroup"
+                    case .name: return "name"
+                    case .publicLink: return "publicLink"
+                    case .publicLinkEnabled: return "publicLinkEnabled"
+                    case .publicLinkId: return "publicLinkId"
+                    case .publicLinkLimit: return "publicLinkLimit"
+                    case .publicLinkLimitEnabled: return "publicLinkLimitEnabled"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "createdDate": self = .createdDate
+                    case "feedbackEnabled": self = .feedbackEnabled
+                    case "hasAccessToAllBuilds": self = .hasAccessToAllBuilds
+                    case "iosBuildsAvailableForAppleSiliconMac": self = .iosBuildsAvailableForAppleSiliconMac
+                    case "isInternalGroup": self = .isInternalGroup
+                    case "name": self = .name
+                    case "publicLink": self = .publicLink
+                    case "publicLinkEnabled": self = .publicLinkEnabled
+                    case "publicLinkId": self = .publicLinkId
+                    case "publicLinkLimit": self = .publicLinkLimit
+                    case "publicLinkLimitEnabled": self = .publicLinkLimitEnabled
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

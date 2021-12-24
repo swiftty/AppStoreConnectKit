@@ -31,8 +31,23 @@ public struct DiagnosticSignature: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case diagnosticSignatures
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .diagnosticSignatures: return "diagnosticSignatures"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "diagnosticSignatures": self = .diagnosticSignatures
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -58,8 +73,23 @@ public struct DiagnosticSignature: Hashable, Codable {
             case weight
         }
 
-        public enum DiagnosticType: String, Hashable, Codable {
-            case diskWrites = "DISK_WRITES"
+        public enum DiagnosticType: Hashable, Codable, RawRepresentable {
+            case diskWrites
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .diskWrites: return "DISK_WRITES"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "DISK_WRITES": self = .diskWrites
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

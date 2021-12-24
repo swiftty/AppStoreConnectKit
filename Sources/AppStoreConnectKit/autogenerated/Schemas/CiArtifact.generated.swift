@@ -31,8 +31,23 @@ public struct CiArtifact: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case ciArtifacts
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .ciArtifacts: return "ciArtifacts"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "ciArtifacts": self = .ciArtifacts
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -63,13 +78,38 @@ public struct CiArtifact: Hashable, Codable {
             case fileType
         }
 
-        public enum FileType: String, Hashable, Codable {
-            case archive = "ARCHIVE"
-            case archiveExport = "ARCHIVE_EXPORT"
-            case logBundle = "LOG_BUNDLE"
-            case resultBundle = "RESULT_BUNDLE"
-            case testProducts = "TEST_PRODUCTS"
-            case xcodebuildProducts = "XCODEBUILD_PRODUCTS"
+        public enum FileType: Hashable, Codable, RawRepresentable {
+            case archive
+            case archiveExport
+            case logBundle
+            case resultBundle
+            case testProducts
+            case xcodebuildProducts
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .archive: return "ARCHIVE"
+                case .archiveExport: return "ARCHIVE_EXPORT"
+                case .logBundle: return "LOG_BUNDLE"
+                case .resultBundle: return "RESULT_BUNDLE"
+                case .testProducts: return "TEST_PRODUCTS"
+                case .xcodebuildProducts: return "XCODEBUILD_PRODUCTS"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "ARCHIVE": self = .archive
+                case "ARCHIVE_EXPORT": self = .archiveExport
+                case "LOG_BUNDLE": self = .logBundle
+                case "RESULT_BUNDLE": self = .resultBundle
+                case "TEST_PRODUCTS": self = .testProducts
+                case "XCODEBUILD_PRODUCTS": self = .xcodebuildProducts
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

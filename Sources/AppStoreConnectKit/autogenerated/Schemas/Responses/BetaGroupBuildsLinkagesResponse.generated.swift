@@ -44,8 +44,23 @@ public struct BetaGroupBuildsLinkagesResponse: Hashable, Codable {
             case type
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case builds
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .builds: return "builds"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "builds": self = .builds
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

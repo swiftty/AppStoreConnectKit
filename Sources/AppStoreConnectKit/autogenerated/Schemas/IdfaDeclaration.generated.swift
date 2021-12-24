@@ -36,8 +36,23 @@ public struct IdfaDeclaration: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case idfaDeclarations
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .idfaDeclarations: return "idfaDeclarations"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "idfaDeclarations": self = .idfaDeclarations
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -116,8 +131,23 @@ public struct IdfaDeclaration: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appStoreVersions
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appStoreVersions: return "appStoreVersions"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appStoreVersions": self = .appStoreVersions
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

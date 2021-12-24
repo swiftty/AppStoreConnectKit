@@ -79,7 +79,7 @@ extension V1.AppClipAdvancedExperienceImages.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipAdvancedExperienceImages: String, Hashable, Codable {
+            public enum AppClipAdvancedExperienceImages: Hashable, Codable, RawRepresentable {
                 case assetDeliveryState
                 case fileName
                 case fileSize
@@ -87,6 +87,33 @@ extension V1.AppClipAdvancedExperienceImages.ById.GET {
                 case sourceFileChecksum
                 case uploadOperations
                 case uploaded
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .assetDeliveryState: return "assetDeliveryState"
+                    case .fileName: return "fileName"
+                    case .fileSize: return "fileSize"
+                    case .imageAsset: return "imageAsset"
+                    case .sourceFileChecksum: return "sourceFileChecksum"
+                    case .uploadOperations: return "uploadOperations"
+                    case .uploaded: return "uploaded"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "assetDeliveryState": self = .assetDeliveryState
+                    case "fileName": self = .fileName
+                    case "fileSize": self = .fileSize
+                    case "imageAsset": self = .imageAsset
+                    case "sourceFileChecksum": self = .sourceFileChecksum
+                    case "uploadOperations": self = .uploadOperations
+                    case "uploaded": self = .uploaded
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

@@ -41,13 +41,38 @@ public struct CapabilityOption: Hashable, Codable {
         case supportsWildcard
     }
 
-    public enum Key: String, Hashable, Codable {
-        case completeProtection = "COMPLETE_PROTECTION"
-        case primaryAppConsent = "PRIMARY_APP_CONSENT"
-        case protectedUnlessOpen = "PROTECTED_UNLESS_OPEN"
-        case protectedUntilFirstUserAuth = "PROTECTED_UNTIL_FIRST_USER_AUTH"
-        case xcode5 = "XCODE_5"
-        case xcode6 = "XCODE_6"
+    public enum Key: Hashable, Codable, RawRepresentable {
+        case completeProtection
+        case primaryAppConsent
+        case protectedUnlessOpen
+        case protectedUntilFirstUserAuth
+        case xcode5
+        case xcode6
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .completeProtection: return "COMPLETE_PROTECTION"
+            case .primaryAppConsent: return "PRIMARY_APP_CONSENT"
+            case .protectedUnlessOpen: return "PROTECTED_UNLESS_OPEN"
+            case .protectedUntilFirstUserAuth: return "PROTECTED_UNTIL_FIRST_USER_AUTH"
+            case .xcode5: return "XCODE_5"
+            case .xcode6: return "XCODE_6"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "COMPLETE_PROTECTION": self = .completeProtection
+            case "PRIMARY_APP_CONSENT": self = .primaryAppConsent
+            case "PROTECTED_UNLESS_OPEN": self = .protectedUnlessOpen
+            case "PROTECTED_UNTIL_FIRST_USER_AUTH": self = .protectedUntilFirstUserAuth
+            case "XCODE_5": self = .xcode5
+            case "XCODE_6": self = .xcode6
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 }
 

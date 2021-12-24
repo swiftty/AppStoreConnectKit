@@ -84,7 +84,7 @@ extension V1.Apps.ById.BetaAppLocalizations.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaAppLocalizations: String, Hashable, Codable {
+            public enum BetaAppLocalizations: Hashable, Codable, RawRepresentable {
                 case app
                 case description
                 case feedbackEmail
@@ -92,6 +92,33 @@ extension V1.Apps.ById.BetaAppLocalizations.GET {
                 case marketingUrl
                 case privacyPolicyUrl
                 case tvOsPrivacyPolicy
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .description: return "description"
+                    case .feedbackEmail: return "feedbackEmail"
+                    case .locale: return "locale"
+                    case .marketingUrl: return "marketingUrl"
+                    case .privacyPolicyUrl: return "privacyPolicyUrl"
+                    case .tvOsPrivacyPolicy: return "tvOsPrivacyPolicy"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "description": self = .description
+                    case "feedbackEmail": self = .feedbackEmail
+                    case "locale": self = .locale
+                    case "marketingUrl": self = .marketingUrl
+                    case "privacyPolicyUrl": self = .privacyPolicyUrl
+                    case "tvOsPrivacyPolicy": self = .tvOsPrivacyPolicy
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

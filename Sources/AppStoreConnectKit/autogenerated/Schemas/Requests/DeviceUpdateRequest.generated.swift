@@ -37,8 +37,23 @@ public struct DeviceUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case devices
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .devices: return "devices"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "devices": self = .devices
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -59,9 +74,26 @@ public struct DeviceUpdateRequest: Hashable, Codable {
                 case status
             }
 
-            public enum Status: String, Hashable, Codable {
-                case disabled = "DISABLED"
-                case enabled = "ENABLED"
+            public enum Status: Hashable, Codable, RawRepresentable {
+                case disabled
+                case enabled
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .disabled: return "DISABLED"
+                    case .enabled: return "ENABLED"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "DISABLED": self = .disabled
+                    case "ENABLED": self = .enabled
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
         }
     }

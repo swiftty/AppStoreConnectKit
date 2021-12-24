@@ -84,10 +84,29 @@ extension V1.AppPreOrders.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppPreOrders: String, Hashable, Codable {
+            public enum AppPreOrders: Hashable, Codable, RawRepresentable {
                 case app
                 case appReleaseDate
                 case preOrderAvailableDate
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appReleaseDate: return "appReleaseDate"
+                    case .preOrderAvailableDate: return "preOrderAvailableDate"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appReleaseDate": self = .appReleaseDate
+                    case "preOrderAvailableDate": self = .preOrderAvailableDate
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -104,8 +123,23 @@ extension V1.AppPreOrders.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case app
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .app: return "app"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "app": self = .app
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

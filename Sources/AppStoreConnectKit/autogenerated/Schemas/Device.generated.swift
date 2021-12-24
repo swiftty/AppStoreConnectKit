@@ -31,8 +31,23 @@ public struct Device: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case devices
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .devices: return "devices"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "devices": self = .devices
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -78,18 +93,60 @@ public struct Device: Hashable, Codable {
             case udid
         }
 
-        public enum DeviceClass: String, Hashable, Codable {
-            case appleTv = "APPLE_TV"
-            case appleWatch = "APPLE_WATCH"
-            case ipad = "IPAD"
-            case iphone = "IPHONE"
-            case ipod = "IPOD"
-            case mac = "MAC"
+        public enum DeviceClass: Hashable, Codable, RawRepresentable {
+            case appleTv
+            case appleWatch
+            case ipad
+            case iphone
+            case ipod
+            case mac
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appleTv: return "APPLE_TV"
+                case .appleWatch: return "APPLE_WATCH"
+                case .ipad: return "IPAD"
+                case .iphone: return "IPHONE"
+                case .ipod: return "IPOD"
+                case .mac: return "MAC"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "APPLE_TV": self = .appleTv
+                case "APPLE_WATCH": self = .appleWatch
+                case "IPAD": self = .ipad
+                case "IPHONE": self = .iphone
+                case "IPOD": self = .ipod
+                case "MAC": self = .mac
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum Status: String, Hashable, Codable {
-            case disabled = "DISABLED"
-            case enabled = "ENABLED"
+        public enum Status: Hashable, Codable, RawRepresentable {
+            case disabled
+            case enabled
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .disabled: return "DISABLED"
+                case .enabled: return "ENABLED"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "DISABLED": self = .disabled
+                case "ENABLED": self = .enabled
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

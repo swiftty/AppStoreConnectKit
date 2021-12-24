@@ -36,8 +36,23 @@ public struct PrereleaseVersion: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case preReleaseVersions
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .preReleaseVersions: return "preReleaseVersions"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "preReleaseVersions": self = .preReleaseVersions
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -113,8 +128,23 @@ public struct PrereleaseVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case apps
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .apps: return "apps"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "apps": self = .apps
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -179,8 +209,23 @@ public struct PrereleaseVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case builds
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .builds: return "builds"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "builds": self = .builds
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

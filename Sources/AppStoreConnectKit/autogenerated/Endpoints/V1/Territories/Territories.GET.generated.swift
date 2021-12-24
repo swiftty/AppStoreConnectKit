@@ -77,8 +77,23 @@ extension V1.Territories.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Territories: String, Hashable, Codable {
+            public enum Territories: Hashable, Codable, RawRepresentable {
                 case currency
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .currency: return "currency"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "currency": self = .currency
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

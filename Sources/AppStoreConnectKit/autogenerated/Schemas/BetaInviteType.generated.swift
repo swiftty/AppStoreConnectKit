@@ -3,9 +3,26 @@
 // swiftlint:disable all
 import Foundation
 
-public enum BetaInviteType: String, Hashable, Codable {
-    case email = "EMAIL"
-    case publicLink = "PUBLIC_LINK"
+public enum BetaInviteType: Hashable, Codable, RawRepresentable {
+    case email
+    case publicLink
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .email: return "EMAIL"
+        case .publicLink: return "PUBLIC_LINK"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "EMAIL": self = .email
+        case "PUBLIC_LINK": self = .publicLink
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

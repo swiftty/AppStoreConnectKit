@@ -54,20 +54,66 @@ public struct CiScheduledStartCondition: Hashable, Codable {
             case timezone
         }
 
-        public enum Days: String, Hashable, Codable {
-            case friday = "FRIDAY"
-            case monday = "MONDAY"
-            case saturday = "SATURDAY"
-            case sunday = "SUNDAY"
-            case thursday = "THURSDAY"
-            case tuesday = "TUESDAY"
-            case wednesday = "WEDNESDAY"
+        public enum Days: Hashable, Codable, RawRepresentable {
+            case friday
+            case monday
+            case saturday
+            case sunday
+            case thursday
+            case tuesday
+            case wednesday
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .friday: return "FRIDAY"
+                case .monday: return "MONDAY"
+                case .saturday: return "SATURDAY"
+                case .sunday: return "SUNDAY"
+                case .thursday: return "THURSDAY"
+                case .tuesday: return "TUESDAY"
+                case .wednesday: return "WEDNESDAY"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FRIDAY": self = .friday
+                case "MONDAY": self = .monday
+                case "SATURDAY": self = .saturday
+                case "SUNDAY": self = .sunday
+                case "THURSDAY": self = .thursday
+                case "TUESDAY": self = .tuesday
+                case "WEDNESDAY": self = .wednesday
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum Frequency: String, Hashable, Codable {
-            case daily = "DAILY"
-            case hourly = "HOURLY"
-            case weekly = "WEEKLY"
+        public enum Frequency: Hashable, Codable, RawRepresentable {
+            case daily
+            case hourly
+            case weekly
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .daily: return "DAILY"
+                case .hourly: return "HOURLY"
+                case .weekly: return "WEEKLY"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "DAILY": self = .daily
+                case "HOURLY": self = .hourly
+                case "WEEKLY": self = .weekly
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

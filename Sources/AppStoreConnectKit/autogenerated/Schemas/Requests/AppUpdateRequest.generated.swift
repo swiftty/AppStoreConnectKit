@@ -49,8 +49,23 @@ public struct AppUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case apps
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .apps: return "apps"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "apps": self = .apps
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -81,9 +96,26 @@ public struct AppUpdateRequest: Hashable, Codable {
                 case primaryLocale
             }
 
-            public enum ContentRightsDeclaration: String, Hashable, Codable {
-                case doesNotUseThirdPartyContent = "DOES_NOT_USE_THIRD_PARTY_CONTENT"
-                case usesThirdPartyContent = "USES_THIRD_PARTY_CONTENT"
+            public enum ContentRightsDeclaration: Hashable, Codable, RawRepresentable {
+                case doesNotUseThirdPartyContent
+                case usesThirdPartyContent
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .doesNotUseThirdPartyContent: return "DOES_NOT_USE_THIRD_PARTY_CONTENT"
+                    case .usesThirdPartyContent: return "USES_THIRD_PARTY_CONTENT"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "DOES_NOT_USE_THIRD_PARTY_CONTENT": self = .doesNotUseThirdPartyContent
+                    case "USES_THIRD_PARTY_CONTENT": self = .usesThirdPartyContent
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
         }
 
@@ -134,8 +166,23 @@ public struct AppUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case territories
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .territories: return "territories"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "territories": self = .territories
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }
@@ -169,8 +216,23 @@ public struct AppUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case appPrices
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .appPrices: return "appPrices"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "appPrices": self = .appPrices
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }

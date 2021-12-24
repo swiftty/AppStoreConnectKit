@@ -101,13 +101,32 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipAdvancedExperienceLocalizations: String, Hashable, Codable {
+            public enum AppClipAdvancedExperienceLocalizations: Hashable, Codable, RawRepresentable {
                 case language
                 case subtitle
                 case title
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .language: return "language"
+                    case .subtitle: return "subtitle"
+                    case .title: return "title"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "language": self = .language
+                    case "subtitle": self = .subtitle
+                    case "title": self = .title
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum AppClipAdvancedExperiences: String, Hashable, Codable {
+            public enum AppClipAdvancedExperiences: Hashable, Codable, RawRepresentable {
                 case action
                 case appClip
                 case businessCategory
@@ -121,6 +140,45 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
                 case removed
                 case status
                 case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .action: return "action"
+                    case .appClip: return "appClip"
+                    case .businessCategory: return "businessCategory"
+                    case .defaultLanguage: return "defaultLanguage"
+                    case .headerImage: return "headerImage"
+                    case .isPoweredBy: return "isPoweredBy"
+                    case .link: return "link"
+                    case .localizations: return "localizations"
+                    case .place: return "place"
+                    case .placeStatus: return "placeStatus"
+                    case .removed: return "removed"
+                    case .status: return "status"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "action": self = .action
+                    case "appClip": self = .appClip
+                    case "businessCategory": self = .businessCategory
+                    case "defaultLanguage": self = .defaultLanguage
+                    case "headerImage": self = .headerImage
+                    case "isPoweredBy": self = .isPoweredBy
+                    case "link": self = .link
+                    case "localizations": self = .localizations
+                    case "place": self = .place
+                    case "placeStatus": self = .placeStatus
+                    case "removed": self = .removed
+                    case "status": self = .status
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -150,22 +208,79 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Action: String, Hashable, Codable {
-                case open = "OPEN"
-                case play = "PLAY"
-                case view = "VIEW"
+            public enum Action: Hashable, Codable, RawRepresentable {
+                case open
+                case play
+                case view
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .open: return "OPEN"
+                    case .play: return "PLAY"
+                    case .view: return "VIEW"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "OPEN": self = .open
+                    case "PLAY": self = .play
+                    case "VIEW": self = .view
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum PlaceStatus: String, Hashable, Codable {
-                case matched = "MATCHED"
-                case noMatch = "NO_MATCH"
-                case pending = "PENDING"
+            public enum PlaceStatus: Hashable, Codable, RawRepresentable {
+                case matched
+                case noMatch
+                case pending
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .matched: return "MATCHED"
+                    case .noMatch: return "NO_MATCH"
+                    case .pending: return "PENDING"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "MATCHED": self = .matched
+                    case "NO_MATCH": self = .noMatch
+                    case "PENDING": self = .pending
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Status: String, Hashable, Codable {
-                case appTransferInProgress = "APP_TRANSFER_IN_PROGRESS"
-                case deactivated = "DEACTIVATED"
-                case received = "RECEIVED"
+            public enum Status: Hashable, Codable, RawRepresentable {
+                case appTransferInProgress
+                case deactivated
+                case received
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appTransferInProgress: return "APP_TRANSFER_IN_PROGRESS"
+                    case .deactivated: return "DEACTIVATED"
+                    case .received: return "RECEIVED"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "APP_TRANSFER_IN_PROGRESS": self = .appTransferInProgress
+                    case "DEACTIVATED": self = .deactivated
+                    case "RECEIVED": self = .received
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -192,8 +307,23 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case localizations
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .localizations: return "localizations"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "localizations": self = .localizations
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

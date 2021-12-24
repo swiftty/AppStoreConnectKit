@@ -79,7 +79,7 @@ extension V1.Devices.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Devices: String, Hashable, Codable {
+            public enum Devices: Hashable, Codable, RawRepresentable {
                 case addedDate
                 case deviceClass
                 case model
@@ -87,6 +87,33 @@ extension V1.Devices.ById.GET {
                 case platform
                 case status
                 case udid
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .addedDate: return "addedDate"
+                    case .deviceClass: return "deviceClass"
+                    case .model: return "model"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .status: return "status"
+                    case .udid: return "udid"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "addedDate": self = .addedDate
+                    case "deviceClass": self = .deviceClass
+                    case "model": self = .model
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "status": self = .status
+                    case "udid": self = .udid
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

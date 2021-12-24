@@ -97,20 +97,66 @@ extension V1.Apps.ById.AppClips.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipDefaultExperiences: String, Hashable, Codable {
+            public enum AppClipDefaultExperiences: Hashable, Codable, RawRepresentable {
                 case action
                 case appClip
                 case appClipAppStoreReviewDetail
                 case appClipDefaultExperienceLocalizations
                 case appClipDefaultExperienceTemplate
                 case releaseWithAppStoreVersion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .action: return "action"
+                    case .appClip: return "appClip"
+                    case .appClipAppStoreReviewDetail: return "appClipAppStoreReviewDetail"
+                    case .appClipDefaultExperienceLocalizations: return "appClipDefaultExperienceLocalizations"
+                    case .appClipDefaultExperienceTemplate: return "appClipDefaultExperienceTemplate"
+                    case .releaseWithAppStoreVersion: return "releaseWithAppStoreVersion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "action": self = .action
+                    case "appClip": self = .appClip
+                    case "appClipAppStoreReviewDetail": self = .appClipAppStoreReviewDetail
+                    case "appClipDefaultExperienceLocalizations": self = .appClipDefaultExperienceLocalizations
+                    case "appClipDefaultExperienceTemplate": self = .appClipDefaultExperienceTemplate
+                    case "releaseWithAppStoreVersion": self = .releaseWithAppStoreVersion
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum AppClips: String, Hashable, Codable {
+            public enum AppClips: Hashable, Codable, RawRepresentable {
                 case app
                 case appClipAdvancedExperiences
                 case appClipDefaultExperiences
                 case bundleId
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appClipAdvancedExperiences: return "appClipAdvancedExperiences"
+                    case .appClipDefaultExperiences: return "appClipDefaultExperiences"
+                    case .bundleId: return "bundleId"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appClipAdvancedExperiences": self = .appClipAdvancedExperiences
+                    case "appClipDefaultExperiences": self = .appClipDefaultExperiences
+                    case "bundleId": self = .bundleId
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -154,8 +200,23 @@ extension V1.Apps.ById.AppClips.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case appClipDefaultExperiences
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appClipDefaultExperiences: return "appClipDefaultExperiences"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appClipDefaultExperiences": self = .appClipDefaultExperiences
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

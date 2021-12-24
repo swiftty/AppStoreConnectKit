@@ -106,12 +106,35 @@ extension V1.GameCenterEnabledVersions.ById.CompatibleVersions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum GameCenterEnabledVersions: String, Hashable, Codable {
+            public enum GameCenterEnabledVersions: Hashable, Codable, RawRepresentable {
                 case app
                 case compatibleVersions
                 case iconAsset
                 case platform
                 case versionString
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .compatibleVersions: return "compatibleVersions"
+                    case .iconAsset: return "iconAsset"
+                    case .platform: return "platform"
+                    case .versionString: return "versionString"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "compatibleVersions": self = .compatibleVersions
+                    case "iconAsset": self = .iconAsset
+                    case "platform": self = .platform
+                    case "versionString": self = .versionString
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -136,10 +159,29 @@ extension V1.GameCenterEnabledVersions.ById.CompatibleVersions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Platform: String, Hashable, Codable {
-                case iOS = "IOS"
-                case macOS = "MAC_OS"
-                case tvOS = "TV_OS"
+            public enum Platform: Hashable, Codable, RawRepresentable {
+                case iOS
+                case macOS
+                case tvOS
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .iOS: return "IOS"
+                    case .macOS: return "MAC_OS"
+                    case .tvOS: return "TV_OS"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "IOS": self = .iOS
+                    case "MAC_OS": self = .macOS
+                    case "TV_OS": self = .tvOS
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -171,8 +213,23 @@ extension V1.GameCenterEnabledVersions.ById.CompatibleVersions.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case compatibleVersions
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .compatibleVersions: return "compatibleVersions"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "compatibleVersions": self = .compatibleVersions
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {
@@ -202,9 +259,26 @@ extension V1.GameCenterEnabledVersions.ById.CompatibleVersions.GET {
             }
         }
 
-        public enum Sort: String, Hashable, Codable {
-            case versionStringDesc = "-versionString"
+        public enum Sort: Hashable, Codable, RawRepresentable {
             case versionString
+            case versionStringDesc
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .versionString: return "versionString"
+                case .versionStringDesc: return "-versionString"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "versionString": self = .versionString
+                case "-versionString": self = .versionStringDesc
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

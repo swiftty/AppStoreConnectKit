@@ -79,10 +79,29 @@ extension V1.Builds.ById.BetaAppReviewSubmission.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaAppReviewSubmissions: String, Hashable, Codable {
+            public enum BetaAppReviewSubmissions: Hashable, Codable, RawRepresentable {
                 case betaReviewState
                 case build
                 case submittedDate
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .betaReviewState: return "betaReviewState"
+                    case .build: return "build"
+                    case .submittedDate: return "submittedDate"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "betaReviewState": self = .betaReviewState
+                    case "build": self = .build
+                    case "submittedDate": self = .submittedDate
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

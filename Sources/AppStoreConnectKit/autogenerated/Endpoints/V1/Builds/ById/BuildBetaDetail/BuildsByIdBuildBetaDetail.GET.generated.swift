@@ -79,11 +79,32 @@ extension V1.Builds.ById.BuildBetaDetail.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BuildBetaDetails: String, Hashable, Codable {
+            public enum BuildBetaDetails: Hashable, Codable, RawRepresentable {
                 case autoNotifyEnabled
                 case build
                 case externalBuildState
                 case internalBuildState
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .autoNotifyEnabled: return "autoNotifyEnabled"
+                    case .build: return "build"
+                    case .externalBuildState: return "externalBuildState"
+                    case .internalBuildState: return "internalBuildState"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "autoNotifyEnabled": self = .autoNotifyEnabled
+                    case "build": self = .build
+                    case "externalBuildState": self = .externalBuildState
+                    case "internalBuildState": self = .internalBuildState
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

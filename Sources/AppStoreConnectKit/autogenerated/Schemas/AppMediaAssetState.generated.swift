@@ -26,11 +26,32 @@ public struct AppMediaAssetState: Hashable, Codable {
         case warnings
     }
 
-    public enum State: String, Hashable, Codable {
-        case awaitingUpload = "AWAITING_UPLOAD"
-        case complete = "COMPLETE"
-        case failed = "FAILED"
-        case uploadComplete = "UPLOAD_COMPLETE"
+    public enum State: Hashable, Codable, RawRepresentable {
+        case awaitingUpload
+        case complete
+        case failed
+        case uploadComplete
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .awaitingUpload: return "AWAITING_UPLOAD"
+            case .complete: return "COMPLETE"
+            case .failed: return "FAILED"
+            case .uploadComplete: return "UPLOAD_COMPLETE"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "AWAITING_UPLOAD": self = .awaitingUpload
+            case "COMPLETE": self = .complete
+            case "FAILED": self = .failed
+            case "UPLOAD_COMPLETE": self = .uploadComplete
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 }
 

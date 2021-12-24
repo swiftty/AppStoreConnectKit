@@ -42,8 +42,23 @@ public struct CiWorkflowUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case ciWorkflows
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .ciWorkflows: return "ciWorkflows"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "ciWorkflows": self = .ciWorkflows
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -157,8 +172,23 @@ public struct CiWorkflowUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case ciMacOsVersions
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .ciMacOsVersions: return "ciMacOsVersions"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "ciMacOsVersions": self = .ciMacOsVersions
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }
@@ -192,8 +222,23 @@ public struct CiWorkflowUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case ciXcodeVersions
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .ciXcodeVersions: return "ciXcodeVersions"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "ciXcodeVersions": self = .ciXcodeVersions
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }

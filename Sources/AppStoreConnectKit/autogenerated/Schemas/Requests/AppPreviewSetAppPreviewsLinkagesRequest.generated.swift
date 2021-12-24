@@ -32,8 +32,23 @@ public struct AppPreviewSetAppPreviewsLinkagesRequest: Hashable, Codable {
             case type
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case appPreviews
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appPreviews: return "appPreviews"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appPreviews": self = .appPreviews
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

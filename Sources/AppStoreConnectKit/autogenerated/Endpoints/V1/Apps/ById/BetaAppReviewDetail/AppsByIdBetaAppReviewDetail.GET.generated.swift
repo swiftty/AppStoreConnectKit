@@ -79,7 +79,7 @@ extension V1.Apps.ById.BetaAppReviewDetail.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaAppReviewDetails: String, Hashable, Codable {
+            public enum BetaAppReviewDetails: Hashable, Codable, RawRepresentable {
                 case app
                 case contactEmail
                 case contactFirstName
@@ -89,6 +89,37 @@ extension V1.Apps.ById.BetaAppReviewDetail.GET {
                 case demoAccountPassword
                 case demoAccountRequired
                 case notes
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .contactEmail: return "contactEmail"
+                    case .contactFirstName: return "contactFirstName"
+                    case .contactLastName: return "contactLastName"
+                    case .contactPhone: return "contactPhone"
+                    case .demoAccountName: return "demoAccountName"
+                    case .demoAccountPassword: return "demoAccountPassword"
+                    case .demoAccountRequired: return "demoAccountRequired"
+                    case .notes: return "notes"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "contactEmail": self = .contactEmail
+                    case "contactFirstName": self = .contactFirstName
+                    case "contactLastName": self = .contactLastName
+                    case "contactPhone": self = .contactPhone
+                    case "demoAccountName": self = .demoAccountName
+                    case "demoAccountPassword": self = .demoAccountPassword
+                    case "demoAccountRequired": self = .demoAccountRequired
+                    case "notes": self = .notes
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

@@ -84,7 +84,7 @@ extension V1.ScmRepositories.ById.PullRequests.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ScmPullRequests: String, Hashable, Codable {
+            public enum ScmPullRequests: Hashable, Codable, RawRepresentable {
                 case destinationBranchName
                 case destinationRepositoryName
                 case destinationRepositoryOwner
@@ -97,6 +97,43 @@ extension V1.ScmRepositories.ById.PullRequests.GET {
                 case sourceRepositoryOwner
                 case title
                 case webUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .destinationBranchName: return "destinationBranchName"
+                    case .destinationRepositoryName: return "destinationRepositoryName"
+                    case .destinationRepositoryOwner: return "destinationRepositoryOwner"
+                    case .isClosed: return "isClosed"
+                    case .isCrossRepository: return "isCrossRepository"
+                    case .number: return "number"
+                    case .repository: return "repository"
+                    case .sourceBranchName: return "sourceBranchName"
+                    case .sourceRepositoryName: return "sourceRepositoryName"
+                    case .sourceRepositoryOwner: return "sourceRepositoryOwner"
+                    case .title: return "title"
+                    case .webUrl: return "webUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "destinationBranchName": self = .destinationBranchName
+                    case "destinationRepositoryName": self = .destinationRepositoryName
+                    case "destinationRepositoryOwner": self = .destinationRepositoryOwner
+                    case "isClosed": self = .isClosed
+                    case "isCrossRepository": self = .isCrossRepository
+                    case "number": self = .number
+                    case "repository": self = .repository
+                    case "sourceBranchName": self = .sourceBranchName
+                    case "sourceRepositoryName": self = .sourceRepositoryName
+                    case "sourceRepositoryOwner": self = .sourceRepositoryOwner
+                    case "title": self = .title
+                    case "webUrl": self = .webUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

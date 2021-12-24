@@ -104,7 +104,7 @@ extension V1.Apps.ById.InAppPurchases.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Apps: String, Hashable, Codable {
+            public enum Apps: Hashable, Codable, RawRepresentable {
                 case appClips
                 case appInfos
                 case appStoreVersions
@@ -130,14 +130,100 @@ extension V1.Apps.ById.InAppPurchases.GET {
                 case prices
                 case primaryLocale
                 case sku
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClips: return "appClips"
+                    case .appInfos: return "appInfos"
+                    case .appStoreVersions: return "appStoreVersions"
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .betaAppLocalizations: return "betaAppLocalizations"
+                    case .betaAppReviewDetail: return "betaAppReviewDetail"
+                    case .betaGroups: return "betaGroups"
+                    case .betaLicenseAgreement: return "betaLicenseAgreement"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .bundleId: return "bundleId"
+                    case .ciProduct: return "ciProduct"
+                    case .contentRightsDeclaration: return "contentRightsDeclaration"
+                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
+                    case .inAppPurchases: return "inAppPurchases"
+                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
+                    case .name: return "name"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preOrder: return "preOrder"
+                    case .preReleaseVersions: return "preReleaseVersions"
+                    case .prices: return "prices"
+                    case .primaryLocale: return "primaryLocale"
+                    case .sku: return "sku"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClips": self = .appClips
+                    case "appInfos": self = .appInfos
+                    case "appStoreVersions": self = .appStoreVersions
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "betaAppLocalizations": self = .betaAppLocalizations
+                    case "betaAppReviewDetail": self = .betaAppReviewDetail
+                    case "betaGroups": self = .betaGroups
+                    case "betaLicenseAgreement": self = .betaLicenseAgreement
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "bundleId": self = .bundleId
+                    case "ciProduct": self = .ciProduct
+                    case "contentRightsDeclaration": self = .contentRightsDeclaration
+                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
+                    case "inAppPurchases": self = .inAppPurchases
+                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
+                    case "name": self = .name
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preOrder": self = .preOrder
+                    case "preReleaseVersions": self = .preReleaseVersions
+                    case "prices": self = .prices
+                    case "primaryLocale": self = .primaryLocale
+                    case "sku": self = .sku
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum InAppPurchases: String, Hashable, Codable {
+            public enum InAppPurchases: Hashable, Codable, RawRepresentable {
                 case apps
                 case inAppPurchaseType
                 case productId
                 case referenceName
                 case state
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .apps: return "apps"
+                    case .inAppPurchaseType: return "inAppPurchaseType"
+                    case .productId: return "productId"
+                    case .referenceName: return "referenceName"
+                    case .state: return "state"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "apps": self = .apps
+                    case "inAppPurchaseType": self = .inAppPurchaseType
+                    case "productId": self = .productId
+                    case "referenceName": self = .referenceName
+                    case "state": self = .state
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -167,12 +253,35 @@ extension V1.Apps.ById.InAppPurchases.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum InAppPurchaseType: String, Hashable, Codable {
-                case automaticallyRenewableSubscription = "AUTOMATICALLY_RENEWABLE_SUBSCRIPTION"
-                case consumable = "CONSUMABLE"
-                case freeSubscription = "FREE_SUBSCRIPTION"
-                case nonConsumable = "NON_CONSUMABLE"
-                case nonRenewingSubscription = "NON_RENEWING_SUBSCRIPTION"
+            public enum InAppPurchaseType: Hashable, Codable, RawRepresentable {
+                case automaticallyRenewableSubscription
+                case consumable
+                case freeSubscription
+                case nonConsumable
+                case nonRenewingSubscription
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .automaticallyRenewableSubscription: return "AUTOMATICALLY_RENEWABLE_SUBSCRIPTION"
+                    case .consumable: return "CONSUMABLE"
+                    case .freeSubscription: return "FREE_SUBSCRIPTION"
+                    case .nonConsumable: return "NON_CONSUMABLE"
+                    case .nonRenewingSubscription: return "NON_RENEWING_SUBSCRIPTION"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "AUTOMATICALLY_RENEWABLE_SUBSCRIPTION": self = .automaticallyRenewableSubscription
+                    case "CONSUMABLE": self = .consumable
+                    case "FREE_SUBSCRIPTION": self = .freeSubscription
+                    case "NON_CONSUMABLE": self = .nonConsumable
+                    case "NON_RENEWING_SUBSCRIPTION": self = .nonRenewingSubscription
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -194,8 +303,23 @@ extension V1.Apps.ById.InAppPurchases.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case apps
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .apps: return "apps"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "apps": self = .apps
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {
@@ -225,13 +349,38 @@ extension V1.Apps.ById.InAppPurchases.GET {
             }
         }
 
-        public enum Sort: String, Hashable, Codable {
-            case inAppPurchaseTypeDesc = "-inAppPurchaseType"
-            case productIdDesc = "-productId"
-            case referenceNameDesc = "-referenceName"
+        public enum Sort: Hashable, Codable, RawRepresentable {
             case inAppPurchaseType
+            case inAppPurchaseTypeDesc
             case productId
+            case productIdDesc
             case referenceName
+            case referenceNameDesc
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .inAppPurchaseType: return "inAppPurchaseType"
+                case .inAppPurchaseTypeDesc: return "-inAppPurchaseType"
+                case .productId: return "productId"
+                case .productIdDesc: return "-productId"
+                case .referenceName: return "referenceName"
+                case .referenceNameDesc: return "-referenceName"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "inAppPurchaseType": self = .inAppPurchaseType
+                case "-inAppPurchaseType": self = .inAppPurchaseTypeDesc
+                case "productId": self = .productId
+                case "-productId": self = .productIdDesc
+                case "referenceName": self = .referenceName
+                case "-referenceName": self = .referenceNameDesc
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

@@ -84,10 +84,29 @@ extension V1.Builds.ById.BetaBuildLocalizations.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaBuildLocalizations: String, Hashable, Codable {
+            public enum BetaBuildLocalizations: Hashable, Codable, RawRepresentable {
                 case build
                 case locale
                 case whatsNew
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .build: return "build"
+                    case .locale: return "locale"
+                    case .whatsNew: return "whatsNew"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "build": self = .build
+                    case "locale": self = .locale
+                    case "whatsNew": self = .whatsNew
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

@@ -80,7 +80,7 @@ extension V1.AppStoreVersions.ById.AgeRatingDeclaration.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AgeRatingDeclarations: String, Hashable, Codable {
+            public enum AgeRatingDeclarations: Hashable, Codable, RawRepresentable {
                 case alcoholTobaccoOrDrugUseOrReferences
                 case contests
                 case gambling
@@ -98,6 +98,53 @@ extension V1.AppStoreVersions.ById.AgeRatingDeclaration.GET {
                 case violenceCartoonOrFantasy
                 case violenceRealistic
                 case violenceRealisticProlongedGraphicOrSadistic
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .alcoholTobaccoOrDrugUseOrReferences: return "alcoholTobaccoOrDrugUseOrReferences"
+                    case .contests: return "contests"
+                    case .gambling: return "gambling"
+                    case .gamblingAndContests: return "gamblingAndContests"
+                    case .gamblingSimulated: return "gamblingSimulated"
+                    case .horrorOrFearThemes: return "horrorOrFearThemes"
+                    case .kidsAgeBand: return "kidsAgeBand"
+                    case .matureOrSuggestiveThemes: return "matureOrSuggestiveThemes"
+                    case .medicalOrTreatmentInformation: return "medicalOrTreatmentInformation"
+                    case .profanityOrCrudeHumor: return "profanityOrCrudeHumor"
+                    case .seventeenPlus: return "seventeenPlus"
+                    case .sexualContentGraphicAndNudity: return "sexualContentGraphicAndNudity"
+                    case .sexualContentOrNudity: return "sexualContentOrNudity"
+                    case .unrestrictedWebAccess: return "unrestrictedWebAccess"
+                    case .violenceCartoonOrFantasy: return "violenceCartoonOrFantasy"
+                    case .violenceRealistic: return "violenceRealistic"
+                    case .violenceRealisticProlongedGraphicOrSadistic: return "violenceRealisticProlongedGraphicOrSadistic"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "alcoholTobaccoOrDrugUseOrReferences": self = .alcoholTobaccoOrDrugUseOrReferences
+                    case "contests": self = .contests
+                    case "gambling": self = .gambling
+                    case "gamblingAndContests": self = .gamblingAndContests
+                    case "gamblingSimulated": self = .gamblingSimulated
+                    case "horrorOrFearThemes": self = .horrorOrFearThemes
+                    case "kidsAgeBand": self = .kidsAgeBand
+                    case "matureOrSuggestiveThemes": self = .matureOrSuggestiveThemes
+                    case "medicalOrTreatmentInformation": self = .medicalOrTreatmentInformation
+                    case "profanityOrCrudeHumor": self = .profanityOrCrudeHumor
+                    case "seventeenPlus": self = .seventeenPlus
+                    case "sexualContentGraphicAndNudity": self = .sexualContentGraphicAndNudity
+                    case "sexualContentOrNudity": self = .sexualContentOrNudity
+                    case "unrestrictedWebAccess": self = .unrestrictedWebAccess
+                    case "violenceCartoonOrFantasy": self = .violenceCartoonOrFantasy
+                    case "violenceRealistic": self = .violenceRealistic
+                    case "violenceRealisticProlongedGraphicOrSadistic": self = .violenceRealisticProlongedGraphicOrSadistic
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

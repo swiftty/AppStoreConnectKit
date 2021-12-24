@@ -83,18 +83,60 @@ extension V1.Builds.ById.PerfPowerMetrics.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum MetricType: String, Hashable, Codable {
-                case animation = "ANIMATION"
-                case battery = "BATTERY"
-                case disk = "DISK"
-                case hang = "HANG"
-                case launch = "LAUNCH"
-                case memory = "MEMORY"
-                case termination = "TERMINATION"
+            public enum MetricType: Hashable, Codable, RawRepresentable {
+                case animation
+                case battery
+                case disk
+                case hang
+                case launch
+                case memory
+                case termination
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .animation: return "ANIMATION"
+                    case .battery: return "BATTERY"
+                    case .disk: return "DISK"
+                    case .hang: return "HANG"
+                    case .launch: return "LAUNCH"
+                    case .memory: return "MEMORY"
+                    case .termination: return "TERMINATION"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ANIMATION": self = .animation
+                    case "BATTERY": self = .battery
+                    case "DISK": self = .disk
+                    case "HANG": self = .hang
+                    case "LAUNCH": self = .launch
+                    case "MEMORY": self = .memory
+                    case "TERMINATION": self = .termination
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Platform: String, Hashable, Codable {
-                case iOS = "IOS"
+            public enum Platform: Hashable, Codable, RawRepresentable {
+                case iOS
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .iOS: return "IOS"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "IOS": self = .iOS
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

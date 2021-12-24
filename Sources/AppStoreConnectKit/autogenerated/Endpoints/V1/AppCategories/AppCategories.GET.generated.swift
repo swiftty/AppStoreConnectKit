@@ -114,10 +114,29 @@ extension V1.AppCategories.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppCategories: String, Hashable, Codable {
+            public enum AppCategories: Hashable, Codable, RawRepresentable {
                 case parent
                 case platforms
                 case subcategories
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .parent: return "parent"
+                    case .platforms: return "platforms"
+                    case .subcategories: return "subcategories"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "parent": self = .parent
+                    case "platforms": self = .platforms
+                    case "subcategories": self = .subcategories
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -142,10 +161,29 @@ extension V1.AppCategories.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Platforms: String, Hashable, Codable {
-                case iOS = "IOS"
-                case macOS = "MAC_OS"
-                case tvOS = "TV_OS"
+            public enum Platforms: Hashable, Codable, RawRepresentable {
+                case iOS
+                case macOS
+                case tvOS
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .iOS: return "IOS"
+                    case .macOS: return "MAC_OS"
+                    case .tvOS: return "TV_OS"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "IOS": self = .iOS
+                    case "MAC_OS": self = .macOS
+                    case "TV_OS": self = .tvOS
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -162,9 +200,26 @@ extension V1.AppCategories.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case parent
             case subcategories
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .parent: return "parent"
+                case .subcategories: return "subcategories"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "parent": self = .parent
+                case "subcategories": self = .subcategories
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

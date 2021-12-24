@@ -3,11 +3,32 @@
 // swiftlint:disable all
 import Foundation
 
-public enum CiActionType: String, Hashable, Codable {
-    case analyze = "ANALYZE"
-    case archive = "ARCHIVE"
-    case build = "BUILD"
-    case test = "TEST"
+public enum CiActionType: Hashable, Codable, RawRepresentable {
+    case analyze
+    case archive
+    case build
+    case test
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .analyze: return "ANALYZE"
+        case .archive: return "ARCHIVE"
+        case .build: return "BUILD"
+        case .test: return "TEST"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "ANALYZE": self = .analyze
+        case "ARCHIVE": self = .archive
+        case "BUILD": self = .build
+        case "TEST": self = .test
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

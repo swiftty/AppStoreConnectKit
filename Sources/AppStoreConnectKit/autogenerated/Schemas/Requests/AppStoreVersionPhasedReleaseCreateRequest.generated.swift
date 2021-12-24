@@ -37,8 +37,23 @@ public struct AppStoreVersionPhasedReleaseCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case appStoreVersionPhasedReleases
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appStoreVersionPhasedReleases: return "appStoreVersionPhasedReleases"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appStoreVersionPhasedReleases": self = .appStoreVersionPhasedReleases
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -93,8 +108,23 @@ public struct AppStoreVersionPhasedReleaseCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case appStoreVersions
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .appStoreVersions: return "appStoreVersions"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "appStoreVersions": self = .appStoreVersions
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }

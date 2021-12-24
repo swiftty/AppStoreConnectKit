@@ -79,9 +79,26 @@ extension V1.Apps.ById.BetaLicenseAgreement.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaLicenseAgreements: String, Hashable, Codable {
+            public enum BetaLicenseAgreements: Hashable, Codable, RawRepresentable {
                 case agreementText
                 case app
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .agreementText: return "agreementText"
+                    case .app: return "app"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "agreementText": self = .agreementText
+                    case "app": self = .app
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

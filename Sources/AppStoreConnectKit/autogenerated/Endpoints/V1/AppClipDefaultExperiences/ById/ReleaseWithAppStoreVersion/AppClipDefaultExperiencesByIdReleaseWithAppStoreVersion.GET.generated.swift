@@ -90,7 +90,7 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppStoreVersionLocalizations: String, Hashable, Codable {
+            public enum AppStoreVersionLocalizations: Hashable, Codable, RawRepresentable {
                 case appPreviewSets
                 case appScreenshotSets
                 case appStoreVersion
@@ -101,9 +101,42 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
                 case promotionalText
                 case supportUrl
                 case whatsNew
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appPreviewSets: return "appPreviewSets"
+                    case .appScreenshotSets: return "appScreenshotSets"
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .description: return "description"
+                    case .keywords: return "keywords"
+                    case .locale: return "locale"
+                    case .marketingUrl: return "marketingUrl"
+                    case .promotionalText: return "promotionalText"
+                    case .supportUrl: return "supportUrl"
+                    case .whatsNew: return "whatsNew"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appPreviewSets": self = .appPreviewSets
+                    case "appScreenshotSets": self = .appScreenshotSets
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "description": self = .description
+                    case "keywords": self = .keywords
+                    case "locale": self = .locale
+                    case "marketingUrl": self = .marketingUrl
+                    case "promotionalText": self = .promotionalText
+                    case "supportUrl": self = .supportUrl
+                    case "whatsNew": self = .whatsNew
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum AppStoreVersions: String, Hashable, Codable {
+            public enum AppStoreVersions: Hashable, Codable, RawRepresentable {
                 case ageRatingDeclaration
                 case app
                 case appClipDefaultExperience
@@ -123,6 +156,57 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
                 case routingAppCoverage
                 case usesIdfa
                 case versionString
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .ageRatingDeclaration: return "ageRatingDeclaration"
+                    case .app: return "app"
+                    case .appClipDefaultExperience: return "appClipDefaultExperience"
+                    case .appStoreReviewDetail: return "appStoreReviewDetail"
+                    case .appStoreState: return "appStoreState"
+                    case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
+                    case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
+                    case .appStoreVersionSubmission: return "appStoreVersionSubmission"
+                    case .build: return "build"
+                    case .copyright: return "copyright"
+                    case .createdDate: return "createdDate"
+                    case .downloadable: return "downloadable"
+                    case .earliestReleaseDate: return "earliestReleaseDate"
+                    case .idfaDeclaration: return "idfaDeclaration"
+                    case .platform: return "platform"
+                    case .releaseType: return "releaseType"
+                    case .routingAppCoverage: return "routingAppCoverage"
+                    case .usesIdfa: return "usesIdfa"
+                    case .versionString: return "versionString"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ageRatingDeclaration": self = .ageRatingDeclaration
+                    case "app": self = .app
+                    case "appClipDefaultExperience": self = .appClipDefaultExperience
+                    case "appStoreReviewDetail": self = .appStoreReviewDetail
+                    case "appStoreState": self = .appStoreState
+                    case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
+                    case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
+                    case "appStoreVersionSubmission": self = .appStoreVersionSubmission
+                    case "build": self = .build
+                    case "copyright": self = .copyright
+                    case "createdDate": self = .createdDate
+                    case "downloadable": self = .downloadable
+                    case "earliestReleaseDate": self = .earliestReleaseDate
+                    case "idfaDeclaration": self = .idfaDeclaration
+                    case "platform": self = .platform
+                    case "releaseType": self = .releaseType
+                    case "routingAppCoverage": self = .routingAppCoverage
+                    case "usesIdfa": self = .usesIdfa
+                    case "versionString": self = .versionString
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -144,8 +228,23 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case appStoreVersionLocalizations
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

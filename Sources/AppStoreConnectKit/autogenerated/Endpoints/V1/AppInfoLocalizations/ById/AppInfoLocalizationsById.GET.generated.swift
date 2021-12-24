@@ -84,7 +84,7 @@ extension V1.AppInfoLocalizations.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppInfoLocalizations: String, Hashable, Codable {
+            public enum AppInfoLocalizations: Hashable, Codable, RawRepresentable {
                 case appInfo
                 case locale
                 case name
@@ -92,6 +92,33 @@ extension V1.AppInfoLocalizations.ById.GET {
                 case privacyPolicyText
                 case privacyPolicyUrl
                 case subtitle
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appInfo: return "appInfo"
+                    case .locale: return "locale"
+                    case .name: return "name"
+                    case .privacyChoicesUrl: return "privacyChoicesUrl"
+                    case .privacyPolicyText: return "privacyPolicyText"
+                    case .privacyPolicyUrl: return "privacyPolicyUrl"
+                    case .subtitle: return "subtitle"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appInfo": self = .appInfo
+                    case "locale": self = .locale
+                    case "name": self = .name
+                    case "privacyChoicesUrl": self = .privacyChoicesUrl
+                    case "privacyPolicyText": self = .privacyPolicyText
+                    case "privacyPolicyUrl": self = .privacyPolicyUrl
+                    case "subtitle": self = .subtitle
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -108,8 +135,23 @@ extension V1.AppInfoLocalizations.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case appInfo
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appInfo: return "appInfo"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appInfo": self = .appInfo
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

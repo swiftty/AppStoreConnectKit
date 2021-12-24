@@ -90,17 +90,57 @@ extension V1.CiXcodeVersions.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiMacOsVersions: String, Hashable, Codable {
+            public enum CiMacOsVersions: Hashable, Codable, RawRepresentable {
                 case name
                 case version
                 case xcodeVersions
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .name: return "name"
+                    case .version: return "version"
+                    case .xcodeVersions: return "xcodeVersions"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "name": self = .name
+                    case "version": self = .version
+                    case "xcodeVersions": self = .xcodeVersions
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum CiXcodeVersions: String, Hashable, Codable {
+            public enum CiXcodeVersions: Hashable, Codable, RawRepresentable {
                 case macOsVersions
                 case name
                 case testDestinations
                 case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .macOsVersions: return "macOsVersions"
+                    case .name: return "name"
+                    case .testDestinations: return "testDestinations"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "macOsVersions": self = .macOsVersions
+                    case "name": self = .name
+                    case "testDestinations": self = .testDestinations
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -122,8 +162,23 @@ extension V1.CiXcodeVersions.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case macOsVersions
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .macOsVersions: return "macOsVersions"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "macOsVersions": self = .macOsVersions
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

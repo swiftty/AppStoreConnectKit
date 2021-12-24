@@ -79,9 +79,26 @@ extension V1.BuildBundles.ById.AppClipDomainDebugStatus.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipDomainStatuses: String, Hashable, Codable {
+            public enum AppClipDomainStatuses: Hashable, Codable, RawRepresentable {
                 case domains
                 case lastUpdatedDate
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .domains: return "domains"
+                    case .lastUpdatedDate: return "lastUpdatedDate"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "domains": self = .domains
+                    case "lastUpdatedDate": self = .lastUpdatedDate
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

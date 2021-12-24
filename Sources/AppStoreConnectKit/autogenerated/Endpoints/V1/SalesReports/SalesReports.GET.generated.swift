@@ -82,25 +82,88 @@ extension V1.SalesReports.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Frequency: String, Hashable, Codable {
-                case daily = "DAILY"
-                case monthly = "MONTHLY"
-                case weekly = "WEEKLY"
-                case yearly = "YEARLY"
+            public enum Frequency: Hashable, Codable, RawRepresentable {
+                case daily
+                case monthly
+                case weekly
+                case yearly
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .daily: return "DAILY"
+                    case .monthly: return "MONTHLY"
+                    case .weekly: return "WEEKLY"
+                    case .yearly: return "YEARLY"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "DAILY": self = .daily
+                    case "MONTHLY": self = .monthly
+                    case "WEEKLY": self = .weekly
+                    case "YEARLY": self = .yearly
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum ReportSubType: String, Hashable, Codable {
-                case detailed = "DETAILED"
-                case summary = "SUMMARY"
+            public enum ReportSubType: Hashable, Codable, RawRepresentable {
+                case detailed
+                case summary
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .detailed: return "DETAILED"
+                    case .summary: return "SUMMARY"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "DETAILED": self = .detailed
+                    case "SUMMARY": self = .summary
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum ReportType: String, Hashable, Codable {
-                case newsstand = "NEWSSTAND"
-                case preOrder = "PRE_ORDER"
-                case sales = "SALES"
-                case subscriber = "SUBSCRIBER"
-                case subscription = "SUBSCRIPTION"
-                case subscriptionEvent = "SUBSCRIPTION_EVENT"
+            public enum ReportType: Hashable, Codable, RawRepresentable {
+                case newsstand
+                case preOrder
+                case sales
+                case subscriber
+                case subscription
+                case subscriptionEvent
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .newsstand: return "NEWSSTAND"
+                    case .preOrder: return "PRE_ORDER"
+                    case .sales: return "SALES"
+                    case .subscriber: return "SUBSCRIBER"
+                    case .subscription: return "SUBSCRIPTION"
+                    case .subscriptionEvent: return "SUBSCRIPTION_EVENT"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "NEWSSTAND": self = .newsstand
+                    case "PRE_ORDER": self = .preOrder
+                    case "SALES": self = .sales
+                    case "SUBSCRIBER": self = .subscriber
+                    case "SUBSCRIPTION": self = .subscription
+                    case "SUBSCRIPTION_EVENT": self = .subscriptionEvent
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

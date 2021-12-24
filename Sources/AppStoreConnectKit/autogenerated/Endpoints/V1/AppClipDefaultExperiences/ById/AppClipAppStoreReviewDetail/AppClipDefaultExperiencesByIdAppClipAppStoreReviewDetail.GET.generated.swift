@@ -79,9 +79,26 @@ extension V1.AppClipDefaultExperiences.ById.AppClipAppStoreReviewDetail.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipAppStoreReviewDetails: String, Hashable, Codable {
+            public enum AppClipAppStoreReviewDetails: Hashable, Codable, RawRepresentable {
                 case appClipDefaultExperience
                 case invocationUrls
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClipDefaultExperience: return "appClipDefaultExperience"
+                    case .invocationUrls: return "invocationUrls"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClipDefaultExperience": self = .appClipDefaultExperience
+                    case "invocationUrls": self = .invocationUrls
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

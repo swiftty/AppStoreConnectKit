@@ -84,9 +84,26 @@ extension V1.AppPrices.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppPrices: String, Hashable, Codable {
+            public enum AppPrices: Hashable, Codable, RawRepresentable {
                 case app
                 case priceTier
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .priceTier: return "priceTier"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "priceTier": self = .priceTier
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -103,9 +120,26 @@ extension V1.AppPrices.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case app
             case priceTier
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .app: return "app"
+                case .priceTier: return "priceTier"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "app": self = .app
+                case "priceTier": self = .priceTier
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

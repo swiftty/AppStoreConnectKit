@@ -90,7 +90,7 @@ extension V1.Apps.ById.CiProduct.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiProducts: String, Hashable, Codable {
+            public enum CiProducts: Hashable, Codable, RawRepresentable {
                 case additionalRepositories
                 case app
                 case buildRuns
@@ -100,9 +100,40 @@ extension V1.Apps.ById.CiProduct.GET {
                 case primaryRepositories
                 case productType
                 case workflows
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .additionalRepositories: return "additionalRepositories"
+                    case .app: return "app"
+                    case .buildRuns: return "buildRuns"
+                    case .bundleId: return "bundleId"
+                    case .createdDate: return "createdDate"
+                    case .name: return "name"
+                    case .primaryRepositories: return "primaryRepositories"
+                    case .productType: return "productType"
+                    case .workflows: return "workflows"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "additionalRepositories": self = .additionalRepositories
+                    case "app": self = .app
+                    case "buildRuns": self = .buildRuns
+                    case "bundleId": self = .bundleId
+                    case "createdDate": self = .createdDate
+                    case "name": self = .name
+                    case "primaryRepositories": self = .primaryRepositories
+                    case "productType": self = .productType
+                    case "workflows": self = .workflows
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum ScmRepositories: String, Hashable, Codable {
+            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
                 case defaultBranch
                 case gitReferences
                 case httpCloneUrl
@@ -112,6 +143,37 @@ extension V1.Apps.ById.CiProduct.GET {
                 case repositoryName
                 case scmProvider
                 case sshCloneUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .defaultBranch: return "defaultBranch"
+                    case .gitReferences: return "gitReferences"
+                    case .httpCloneUrl: return "httpCloneUrl"
+                    case .lastAccessedDate: return "lastAccessedDate"
+                    case .ownerName: return "ownerName"
+                    case .pullRequests: return "pullRequests"
+                    case .repositoryName: return "repositoryName"
+                    case .scmProvider: return "scmProvider"
+                    case .sshCloneUrl: return "sshCloneUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "defaultBranch": self = .defaultBranch
+                    case "gitReferences": self = .gitReferences
+                    case "httpCloneUrl": self = .httpCloneUrl
+                    case "lastAccessedDate": self = .lastAccessedDate
+                    case "ownerName": self = .ownerName
+                    case "pullRequests": self = .pullRequests
+                    case "repositoryName": self = .repositoryName
+                    case "scmProvider": self = .scmProvider
+                    case "sshCloneUrl": self = .sshCloneUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -133,8 +195,23 @@ extension V1.Apps.ById.CiProduct.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case primaryRepositories
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .primaryRepositories: return "primaryRepositories"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "primaryRepositories": self = .primaryRepositories
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

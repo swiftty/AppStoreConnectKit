@@ -31,8 +31,23 @@ public struct BetaAppClipInvocationLocalization: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case betaAppClipInvocationLocalizations
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .betaAppClipInvocationLocalizations: return "betaAppClipInvocationLocalizations"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "betaAppClipInvocationLocalizations": self = .betaAppClipInvocationLocalizations
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {

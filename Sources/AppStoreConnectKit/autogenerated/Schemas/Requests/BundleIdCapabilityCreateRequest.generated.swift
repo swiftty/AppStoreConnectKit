@@ -37,8 +37,23 @@ public struct BundleIdCapabilityCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case bundleIdCapabilities
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .bundleIdCapabilities: return "bundleIdCapabilities"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "bundleIdCapabilities": self = .bundleIdCapabilities
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -100,8 +115,23 @@ public struct BundleIdCapabilityCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case bundleIds
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .bundleIds: return "bundleIds"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "bundleIds": self = .bundleIds
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }

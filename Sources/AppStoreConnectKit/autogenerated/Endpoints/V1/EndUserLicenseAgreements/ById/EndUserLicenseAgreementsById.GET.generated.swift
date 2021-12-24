@@ -90,14 +90,48 @@ extension V1.EndUserLicenseAgreements.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum EndUserLicenseAgreements: String, Hashable, Codable {
+            public enum EndUserLicenseAgreements: Hashable, Codable, RawRepresentable {
                 case agreementText
                 case app
                 case territories
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .agreementText: return "agreementText"
+                    case .app: return "app"
+                    case .territories: return "territories"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "agreementText": self = .agreementText
+                    case "app": self = .app
+                    case "territories": self = .territories
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Territories: String, Hashable, Codable {
+            public enum Territories: Hashable, Codable, RawRepresentable {
                 case currency
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .currency: return "currency"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "currency": self = .currency
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -119,9 +153,26 @@ extension V1.EndUserLicenseAgreements.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case app
             case territories
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .app: return "app"
+                case .territories: return "territories"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "app": self = .app
+                case "territories": self = .territories
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

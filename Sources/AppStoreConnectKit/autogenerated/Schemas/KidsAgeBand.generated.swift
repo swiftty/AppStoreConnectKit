@@ -3,10 +3,29 @@
 // swiftlint:disable all
 import Foundation
 
-public enum KidsAgeBand: String, Hashable, Codable {
-    case fiveAndUnder = "FIVE_AND_UNDER"
-    case nineToEleven = "NINE_TO_ELEVEN"
-    case sixToEight = "SIX_TO_EIGHT"
+public enum KidsAgeBand: Hashable, Codable, RawRepresentable {
+    case fiveAndUnder
+    case nineToEleven
+    case sixToEight
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .fiveAndUnder: return "FIVE_AND_UNDER"
+        case .nineToEleven: return "NINE_TO_ELEVEN"
+        case .sixToEight: return "SIX_TO_EIGHT"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "FIVE_AND_UNDER": self = .fiveAndUnder
+        case "NINE_TO_ELEVEN": self = .nineToEleven
+        case "SIX_TO_EIGHT": self = .sixToEight
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

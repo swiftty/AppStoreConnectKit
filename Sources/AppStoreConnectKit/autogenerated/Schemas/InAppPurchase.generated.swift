@@ -36,8 +36,23 @@ public struct InAppPurchase: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case inAppPurchases
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .inAppPurchases: return "inAppPurchases"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "inAppPurchases": self = .inAppPurchases
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -68,34 +83,108 @@ public struct InAppPurchase: Hashable, Codable {
             case state
         }
 
-        public enum InAppPurchaseType: String, Hashable, Codable {
-            case automaticallyRenewableSubscription = "AUTOMATICALLY_RENEWABLE_SUBSCRIPTION"
-            case consumable = "CONSUMABLE"
-            case freeSubscription = "FREE_SUBSCRIPTION"
-            case nonConsumable = "NON_CONSUMABLE"
-            case nonRenewingSubscription = "NON_RENEWING_SUBSCRIPTION"
+        public enum InAppPurchaseType: Hashable, Codable, RawRepresentable {
+            case automaticallyRenewableSubscription
+            case consumable
+            case freeSubscription
+            case nonConsumable
+            case nonRenewingSubscription
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .automaticallyRenewableSubscription: return "AUTOMATICALLY_RENEWABLE_SUBSCRIPTION"
+                case .consumable: return "CONSUMABLE"
+                case .freeSubscription: return "FREE_SUBSCRIPTION"
+                case .nonConsumable: return "NON_CONSUMABLE"
+                case .nonRenewingSubscription: return "NON_RENEWING_SUBSCRIPTION"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "AUTOMATICALLY_RENEWABLE_SUBSCRIPTION": self = .automaticallyRenewableSubscription
+                case "CONSUMABLE": self = .consumable
+                case "FREE_SUBSCRIPTION": self = .freeSubscription
+                case "NON_CONSUMABLE": self = .nonConsumable
+                case "NON_RENEWING_SUBSCRIPTION": self = .nonRenewingSubscription
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum State: String, Hashable, Codable {
-            case approved = "APPROVED"
-            case created = "CREATED"
-            case deleted = "DELETED"
-            case deletionInProgress = "DELETION_IN_PROGRESS"
-            case developerActionNeeded = "DEVELOPER_ACTION_NEEDED"
-            case developerRemovedFromSale = "DEVELOPER_REMOVED_FROM_SALE"
-            case developerSignedOff = "DEVELOPER_SIGNED_OFF"
-            case inReview = "IN_REVIEW"
-            case missingMetadata = "MISSING_METADATA"
-            case pendingDeveloperRelease = "PENDING_DEVELOPER_RELEASE"
-            case prepareForSubmission = "PREPARE_FOR_SUBMISSION"
-            case processingContent = "PROCESSING_CONTENT"
-            case readyToSubmit = "READY_TO_SUBMIT"
-            case rejected = "REJECTED"
-            case removedFromSale = "REMOVED_FROM_SALE"
-            case replaced = "REPLACED"
-            case waitingForReview = "WAITING_FOR_REVIEW"
-            case waitingForScreenshot = "WAITING_FOR_SCREENSHOT"
-            case waitingForUpload = "WAITING_FOR_UPLOAD"
+        public enum State: Hashable, Codable, RawRepresentable {
+            case approved
+            case created
+            case deleted
+            case deletionInProgress
+            case developerActionNeeded
+            case developerRemovedFromSale
+            case developerSignedOff
+            case inReview
+            case missingMetadata
+            case pendingDeveloperRelease
+            case prepareForSubmission
+            case processingContent
+            case readyToSubmit
+            case rejected
+            case removedFromSale
+            case replaced
+            case waitingForReview
+            case waitingForScreenshot
+            case waitingForUpload
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .approved: return "APPROVED"
+                case .created: return "CREATED"
+                case .deleted: return "DELETED"
+                case .deletionInProgress: return "DELETION_IN_PROGRESS"
+                case .developerActionNeeded: return "DEVELOPER_ACTION_NEEDED"
+                case .developerRemovedFromSale: return "DEVELOPER_REMOVED_FROM_SALE"
+                case .developerSignedOff: return "DEVELOPER_SIGNED_OFF"
+                case .inReview: return "IN_REVIEW"
+                case .missingMetadata: return "MISSING_METADATA"
+                case .pendingDeveloperRelease: return "PENDING_DEVELOPER_RELEASE"
+                case .prepareForSubmission: return "PREPARE_FOR_SUBMISSION"
+                case .processingContent: return "PROCESSING_CONTENT"
+                case .readyToSubmit: return "READY_TO_SUBMIT"
+                case .rejected: return "REJECTED"
+                case .removedFromSale: return "REMOVED_FROM_SALE"
+                case .replaced: return "REPLACED"
+                case .waitingForReview: return "WAITING_FOR_REVIEW"
+                case .waitingForScreenshot: return "WAITING_FOR_SCREENSHOT"
+                case .waitingForUpload: return "WAITING_FOR_UPLOAD"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "APPROVED": self = .approved
+                case "CREATED": self = .created
+                case "DELETED": self = .deleted
+                case "DELETION_IN_PROGRESS": self = .deletionInProgress
+                case "DEVELOPER_ACTION_NEEDED": self = .developerActionNeeded
+                case "DEVELOPER_REMOVED_FROM_SALE": self = .developerRemovedFromSale
+                case "DEVELOPER_SIGNED_OFF": self = .developerSignedOff
+                case "IN_REVIEW": self = .inReview
+                case "MISSING_METADATA": self = .missingMetadata
+                case "PENDING_DEVELOPER_RELEASE": self = .pendingDeveloperRelease
+                case "PREPARE_FOR_SUBMISSION": self = .prepareForSubmission
+                case "PROCESSING_CONTENT": self = .processingContent
+                case "READY_TO_SUBMIT": self = .readyToSubmit
+                case "REJECTED": self = .rejected
+                case "REMOVED_FROM_SALE": self = .removedFromSale
+                case "REPLACED": self = .replaced
+                case "WAITING_FOR_REVIEW": self = .waitingForReview
+                case "WAITING_FOR_SCREENSHOT": self = .waitingForScreenshot
+                case "WAITING_FOR_UPLOAD": self = .waitingForUpload
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 
@@ -151,8 +240,23 @@ public struct InAppPurchase: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case apps
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .apps: return "apps"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "apps": self = .apps
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

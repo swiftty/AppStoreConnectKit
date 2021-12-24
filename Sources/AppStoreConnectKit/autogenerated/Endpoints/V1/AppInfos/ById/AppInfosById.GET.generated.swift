@@ -94,7 +94,7 @@ extension V1.AppInfos.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AgeRatingDeclarations: String, Hashable, Codable {
+            public enum AgeRatingDeclarations: Hashable, Codable, RawRepresentable {
                 case alcoholTobaccoOrDrugUseOrReferences
                 case contests
                 case gambling
@@ -112,15 +112,81 @@ extension V1.AppInfos.ById.GET {
                 case violenceCartoonOrFantasy
                 case violenceRealistic
                 case violenceRealisticProlongedGraphicOrSadistic
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .alcoholTobaccoOrDrugUseOrReferences: return "alcoholTobaccoOrDrugUseOrReferences"
+                    case .contests: return "contests"
+                    case .gambling: return "gambling"
+                    case .gamblingAndContests: return "gamblingAndContests"
+                    case .gamblingSimulated: return "gamblingSimulated"
+                    case .horrorOrFearThemes: return "horrorOrFearThemes"
+                    case .kidsAgeBand: return "kidsAgeBand"
+                    case .matureOrSuggestiveThemes: return "matureOrSuggestiveThemes"
+                    case .medicalOrTreatmentInformation: return "medicalOrTreatmentInformation"
+                    case .profanityOrCrudeHumor: return "profanityOrCrudeHumor"
+                    case .seventeenPlus: return "seventeenPlus"
+                    case .sexualContentGraphicAndNudity: return "sexualContentGraphicAndNudity"
+                    case .sexualContentOrNudity: return "sexualContentOrNudity"
+                    case .unrestrictedWebAccess: return "unrestrictedWebAccess"
+                    case .violenceCartoonOrFantasy: return "violenceCartoonOrFantasy"
+                    case .violenceRealistic: return "violenceRealistic"
+                    case .violenceRealisticProlongedGraphicOrSadistic: return "violenceRealisticProlongedGraphicOrSadistic"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "alcoholTobaccoOrDrugUseOrReferences": self = .alcoholTobaccoOrDrugUseOrReferences
+                    case "contests": self = .contests
+                    case "gambling": self = .gambling
+                    case "gamblingAndContests": self = .gamblingAndContests
+                    case "gamblingSimulated": self = .gamblingSimulated
+                    case "horrorOrFearThemes": self = .horrorOrFearThemes
+                    case "kidsAgeBand": self = .kidsAgeBand
+                    case "matureOrSuggestiveThemes": self = .matureOrSuggestiveThemes
+                    case "medicalOrTreatmentInformation": self = .medicalOrTreatmentInformation
+                    case "profanityOrCrudeHumor": self = .profanityOrCrudeHumor
+                    case "seventeenPlus": self = .seventeenPlus
+                    case "sexualContentGraphicAndNudity": self = .sexualContentGraphicAndNudity
+                    case "sexualContentOrNudity": self = .sexualContentOrNudity
+                    case "unrestrictedWebAccess": self = .unrestrictedWebAccess
+                    case "violenceCartoonOrFantasy": self = .violenceCartoonOrFantasy
+                    case "violenceRealistic": self = .violenceRealistic
+                    case "violenceRealisticProlongedGraphicOrSadistic": self = .violenceRealisticProlongedGraphicOrSadistic
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum AppCategories: String, Hashable, Codable {
+            public enum AppCategories: Hashable, Codable, RawRepresentable {
                 case parent
                 case platforms
                 case subcategories
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .parent: return "parent"
+                    case .platforms: return "platforms"
+                    case .subcategories: return "subcategories"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "parent": self = .parent
+                    case "platforms": self = .platforms
+                    case "subcategories": self = .subcategories
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum AppInfoLocalizations: String, Hashable, Codable {
+            public enum AppInfoLocalizations: Hashable, Codable, RawRepresentable {
                 case appInfo
                 case locale
                 case name
@@ -128,9 +194,36 @@ extension V1.AppInfos.ById.GET {
                 case privacyPolicyText
                 case privacyPolicyUrl
                 case subtitle
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appInfo: return "appInfo"
+                    case .locale: return "locale"
+                    case .name: return "name"
+                    case .privacyChoicesUrl: return "privacyChoicesUrl"
+                    case .privacyPolicyText: return "privacyPolicyText"
+                    case .privacyPolicyUrl: return "privacyPolicyUrl"
+                    case .subtitle: return "subtitle"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appInfo": self = .appInfo
+                    case "locale": self = .locale
+                    case "name": self = .name
+                    case "privacyChoicesUrl": self = .privacyChoicesUrl
+                    case "privacyPolicyText": self = .privacyPolicyText
+                    case "privacyPolicyUrl": self = .privacyPolicyUrl
+                    case "subtitle": self = .subtitle
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum AppInfos: String, Hashable, Codable {
+            public enum AppInfos: Hashable, Codable, RawRepresentable {
                 case ageRatingDeclaration
                 case app
                 case appInfoLocalizations
@@ -144,6 +237,45 @@ extension V1.AppInfos.ById.GET {
                 case secondaryCategory
                 case secondarySubcategoryOne
                 case secondarySubcategoryTwo
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .ageRatingDeclaration: return "ageRatingDeclaration"
+                    case .app: return "app"
+                    case .appInfoLocalizations: return "appInfoLocalizations"
+                    case .appStoreAgeRating: return "appStoreAgeRating"
+                    case .appStoreState: return "appStoreState"
+                    case .brazilAgeRating: return "brazilAgeRating"
+                    case .kidsAgeBand: return "kidsAgeBand"
+                    case .primaryCategory: return "primaryCategory"
+                    case .primarySubcategoryOne: return "primarySubcategoryOne"
+                    case .primarySubcategoryTwo: return "primarySubcategoryTwo"
+                    case .secondaryCategory: return "secondaryCategory"
+                    case .secondarySubcategoryOne: return "secondarySubcategoryOne"
+                    case .secondarySubcategoryTwo: return "secondarySubcategoryTwo"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ageRatingDeclaration": self = .ageRatingDeclaration
+                    case "app": self = .app
+                    case "appInfoLocalizations": self = .appInfoLocalizations
+                    case "appStoreAgeRating": self = .appStoreAgeRating
+                    case "appStoreState": self = .appStoreState
+                    case "brazilAgeRating": self = .brazilAgeRating
+                    case "kidsAgeBand": self = .kidsAgeBand
+                    case "primaryCategory": self = .primaryCategory
+                    case "primarySubcategoryOne": self = .primarySubcategoryOne
+                    case "primarySubcategoryTwo": self = .primarySubcategoryTwo
+                    case "secondaryCategory": self = .secondaryCategory
+                    case "secondarySubcategoryOne": self = .secondarySubcategoryOne
+                    case "secondarySubcategoryTwo": self = .secondarySubcategoryTwo
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -175,7 +307,7 @@ extension V1.AppInfos.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case ageRatingDeclaration
             case app
             case appInfoLocalizations
@@ -185,6 +317,37 @@ extension V1.AppInfos.ById.GET {
             case secondaryCategory
             case secondarySubcategoryOne
             case secondarySubcategoryTwo
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .ageRatingDeclaration: return "ageRatingDeclaration"
+                case .app: return "app"
+                case .appInfoLocalizations: return "appInfoLocalizations"
+                case .primaryCategory: return "primaryCategory"
+                case .primarySubcategoryOne: return "primarySubcategoryOne"
+                case .primarySubcategoryTwo: return "primarySubcategoryTwo"
+                case .secondaryCategory: return "secondaryCategory"
+                case .secondarySubcategoryOne: return "secondarySubcategoryOne"
+                case .secondarySubcategoryTwo: return "secondarySubcategoryTwo"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "ageRatingDeclaration": self = .ageRatingDeclaration
+                case "app": self = .app
+                case "appInfoLocalizations": self = .appInfoLocalizations
+                case "primaryCategory": self = .primaryCategory
+                case "primarySubcategoryOne": self = .primarySubcategoryOne
+                case "primarySubcategoryTwo": self = .primarySubcategoryTwo
+                case "secondaryCategory": self = .secondaryCategory
+                case "secondarySubcategoryOne": self = .secondarySubcategoryOne
+                case "secondarySubcategoryTwo": self = .secondarySubcategoryTwo
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

@@ -84,7 +84,7 @@ extension V1.AppPreviewSets.ById.AppPreviews.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppPreviews: String, Hashable, Codable {
+            public enum AppPreviews: Hashable, Codable, RawRepresentable {
                 case appPreviewSet
                 case assetDeliveryState
                 case fileName
@@ -96,6 +96,41 @@ extension V1.AppPreviewSets.ById.AppPreviews.GET {
                 case uploadOperations
                 case uploaded
                 case videoUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appPreviewSet: return "appPreviewSet"
+                    case .assetDeliveryState: return "assetDeliveryState"
+                    case .fileName: return "fileName"
+                    case .fileSize: return "fileSize"
+                    case .mimeType: return "mimeType"
+                    case .previewFrameTimeCode: return "previewFrameTimeCode"
+                    case .previewImage: return "previewImage"
+                    case .sourceFileChecksum: return "sourceFileChecksum"
+                    case .uploadOperations: return "uploadOperations"
+                    case .uploaded: return "uploaded"
+                    case .videoUrl: return "videoUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appPreviewSet": self = .appPreviewSet
+                    case "assetDeliveryState": self = .assetDeliveryState
+                    case "fileName": self = .fileName
+                    case "fileSize": self = .fileSize
+                    case "mimeType": self = .mimeType
+                    case "previewFrameTimeCode": self = .previewFrameTimeCode
+                    case "previewImage": self = .previewImage
+                    case "sourceFileChecksum": self = .sourceFileChecksum
+                    case "uploadOperations": self = .uploadOperations
+                    case "uploaded": self = .uploaded
+                    case "videoUrl": self = .videoUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

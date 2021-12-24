@@ -84,11 +84,32 @@ extension V1.AppPriceTiers.ById.PricePoints.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppPricePoints: String, Hashable, Codable {
+            public enum AppPricePoints: Hashable, Codable, RawRepresentable {
                 case customerPrice
                 case priceTier
                 case proceeds
                 case territory
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .customerPrice: return "customerPrice"
+                    case .priceTier: return "priceTier"
+                    case .proceeds: return "proceeds"
+                    case .territory: return "territory"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "customerPrice": self = .customerPrice
+                    case "priceTier": self = .priceTier
+                    case "proceeds": self = .proceeds
+                    case "territory": self = .territory
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

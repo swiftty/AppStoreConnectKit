@@ -44,8 +44,23 @@ public struct GameCenterEnabledVersionCompatibleVersionsLinkagesResponse: Hashab
             case type
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case gameCenterEnabledVersions
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

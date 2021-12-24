@@ -84,7 +84,7 @@ extension V1.CiProducts.ById.Workflows.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiWorkflows: String, Hashable, Codable {
+            public enum CiWorkflows: Hashable, Codable, RawRepresentable {
                 case actions
                 case branchStartCondition
                 case buildRuns
@@ -102,6 +102,53 @@ extension V1.CiProducts.ById.Workflows.GET {
                 case scheduledStartCondition
                 case tagStartCondition
                 case xcodeVersion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .actions: return "actions"
+                    case .branchStartCondition: return "branchStartCondition"
+                    case .buildRuns: return "buildRuns"
+                    case .clean: return "clean"
+                    case .containerFilePath: return "containerFilePath"
+                    case .description: return "description"
+                    case .isEnabled: return "isEnabled"
+                    case .isLockedForEditing: return "isLockedForEditing"
+                    case .lastModifiedDate: return "lastModifiedDate"
+                    case .macOsVersion: return "macOsVersion"
+                    case .name: return "name"
+                    case .product: return "product"
+                    case .pullRequestStartCondition: return "pullRequestStartCondition"
+                    case .repository: return "repository"
+                    case .scheduledStartCondition: return "scheduledStartCondition"
+                    case .tagStartCondition: return "tagStartCondition"
+                    case .xcodeVersion: return "xcodeVersion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "actions": self = .actions
+                    case "branchStartCondition": self = .branchStartCondition
+                    case "buildRuns": self = .buildRuns
+                    case "clean": self = .clean
+                    case "containerFilePath": self = .containerFilePath
+                    case "description": self = .description
+                    case "isEnabled": self = .isEnabled
+                    case "isLockedForEditing": self = .isLockedForEditing
+                    case "lastModifiedDate": self = .lastModifiedDate
+                    case "macOsVersion": self = .macOsVersion
+                    case "name": self = .name
+                    case "product": self = .product
+                    case "pullRequestStartCondition": self = .pullRequestStartCondition
+                    case "repository": self = .repository
+                    case "scheduledStartCondition": self = .scheduledStartCondition
+                    case "tagStartCondition": self = .tagStartCondition
+                    case "xcodeVersion": self = .xcodeVersion
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

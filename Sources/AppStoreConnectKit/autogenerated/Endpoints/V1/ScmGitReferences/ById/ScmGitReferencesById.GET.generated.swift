@@ -84,12 +84,35 @@ extension V1.ScmGitReferences.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ScmGitReferences: String, Hashable, Codable {
+            public enum ScmGitReferences: Hashable, Codable, RawRepresentable {
                 case canonicalName
                 case isDeleted
                 case kind
                 case name
                 case repository
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .canonicalName: return "canonicalName"
+                    case .isDeleted: return "isDeleted"
+                    case .kind: return "kind"
+                    case .name: return "name"
+                    case .repository: return "repository"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "canonicalName": self = .canonicalName
+                    case "isDeleted": self = .isDeleted
+                    case "kind": self = .kind
+                    case "name": self = .name
+                    case "repository": self = .repository
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -106,8 +129,23 @@ extension V1.ScmGitReferences.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case repository
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .repository: return "repository"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "repository": self = .repository
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

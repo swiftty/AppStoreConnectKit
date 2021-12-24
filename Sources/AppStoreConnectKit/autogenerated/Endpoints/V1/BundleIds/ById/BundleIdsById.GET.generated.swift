@@ -96,7 +96,7 @@ extension V1.BundleIds.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Apps: String, Hashable, Codable {
+            public enum Apps: Hashable, Codable, RawRepresentable {
                 case appClips
                 case appInfos
                 case appStoreVersions
@@ -122,15 +122,97 @@ extension V1.BundleIds.ById.GET {
                 case prices
                 case primaryLocale
                 case sku
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClips: return "appClips"
+                    case .appInfos: return "appInfos"
+                    case .appStoreVersions: return "appStoreVersions"
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .betaAppLocalizations: return "betaAppLocalizations"
+                    case .betaAppReviewDetail: return "betaAppReviewDetail"
+                    case .betaGroups: return "betaGroups"
+                    case .betaLicenseAgreement: return "betaLicenseAgreement"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .bundleId: return "bundleId"
+                    case .ciProduct: return "ciProduct"
+                    case .contentRightsDeclaration: return "contentRightsDeclaration"
+                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
+                    case .inAppPurchases: return "inAppPurchases"
+                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
+                    case .name: return "name"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preOrder: return "preOrder"
+                    case .preReleaseVersions: return "preReleaseVersions"
+                    case .prices: return "prices"
+                    case .primaryLocale: return "primaryLocale"
+                    case .sku: return "sku"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClips": self = .appClips
+                    case "appInfos": self = .appInfos
+                    case "appStoreVersions": self = .appStoreVersions
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "betaAppLocalizations": self = .betaAppLocalizations
+                    case "betaAppReviewDetail": self = .betaAppReviewDetail
+                    case "betaGroups": self = .betaGroups
+                    case "betaLicenseAgreement": self = .betaLicenseAgreement
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "bundleId": self = .bundleId
+                    case "ciProduct": self = .ciProduct
+                    case "contentRightsDeclaration": self = .contentRightsDeclaration
+                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
+                    case "inAppPurchases": self = .inAppPurchases
+                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
+                    case "name": self = .name
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preOrder": self = .preOrder
+                    case "preReleaseVersions": self = .preReleaseVersions
+                    case "prices": self = .prices
+                    case "primaryLocale": self = .primaryLocale
+                    case "sku": self = .sku
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BundleIdCapabilities: String, Hashable, Codable {
+            public enum BundleIdCapabilities: Hashable, Codable, RawRepresentable {
                 case bundleId
                 case capabilityType
                 case settings
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .bundleId: return "bundleId"
+                    case .capabilityType: return "capabilityType"
+                    case .settings: return "settings"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "bundleId": self = .bundleId
+                    case "capabilityType": self = .capabilityType
+                    case "settings": self = .settings
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BundleIds: String, Hashable, Codable {
+            public enum BundleIds: Hashable, Codable, RawRepresentable {
                 case app
                 case bundleIdCapabilities
                 case identifier
@@ -138,9 +220,36 @@ extension V1.BundleIds.ById.GET {
                 case platform
                 case profiles
                 case seedId
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .bundleIdCapabilities: return "bundleIdCapabilities"
+                    case .identifier: return "identifier"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .profiles: return "profiles"
+                    case .seedId: return "seedId"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "bundleIdCapabilities": self = .bundleIdCapabilities
+                    case "identifier": self = .identifier
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "profiles": self = .profiles
+                    case "seedId": self = .seedId
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Profiles: String, Hashable, Codable {
+            public enum Profiles: Hashable, Codable, RawRepresentable {
                 case bundleId
                 case certificates
                 case createdDate
@@ -152,6 +261,41 @@ extension V1.BundleIds.ById.GET {
                 case profileState
                 case profileType
                 case uuid
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .bundleId: return "bundleId"
+                    case .certificates: return "certificates"
+                    case .createdDate: return "createdDate"
+                    case .devices: return "devices"
+                    case .expirationDate: return "expirationDate"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .profileContent: return "profileContent"
+                    case .profileState: return "profileState"
+                    case .profileType: return "profileType"
+                    case .uuid: return "uuid"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "bundleId": self = .bundleId
+                    case "certificates": self = .certificates
+                    case "createdDate": self = .createdDate
+                    case "devices": self = .devices
+                    case "expirationDate": self = .expirationDate
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "profileContent": self = .profileContent
+                    case "profileState": self = .profileState
+                    case "profileType": self = .profileType
+                    case "uuid": self = .uuid
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -183,10 +327,29 @@ extension V1.BundleIds.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case app
             case bundleIdCapabilities
             case profiles
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .app: return "app"
+                case .bundleIdCapabilities: return "bundleIdCapabilities"
+                case .profiles: return "profiles"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "app": self = .app
+                case "bundleIdCapabilities": self = .bundleIdCapabilities
+                case "profiles": self = .profiles
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

@@ -88,12 +88,35 @@ extension V1.InAppPurchases.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum InAppPurchases: String, Hashable, Codable {
+            public enum InAppPurchases: Hashable, Codable, RawRepresentable {
                 case apps
                 case inAppPurchaseType
                 case productId
                 case referenceName
                 case state
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .apps: return "apps"
+                    case .inAppPurchaseType: return "inAppPurchaseType"
+                    case .productId: return "productId"
+                    case .referenceName: return "referenceName"
+                    case .state: return "state"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "apps": self = .apps
+                    case "inAppPurchaseType": self = .inAppPurchaseType
+                    case "productId": self = .productId
+                    case "referenceName": self = .referenceName
+                    case "state": self = .state
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -110,8 +133,23 @@ extension V1.InAppPurchases.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case apps
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .apps: return "apps"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "apps": self = .apps
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

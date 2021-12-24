@@ -88,11 +88,32 @@ extension V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalization
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipDefaultExperienceLocalizations: String, Hashable, Codable {
+            public enum AppClipDefaultExperienceLocalizations: Hashable, Codable, RawRepresentable {
                 case appClipDefaultExperience
                 case appClipHeaderImage
                 case locale
                 case subtitle
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClipDefaultExperience: return "appClipDefaultExperience"
+                    case .appClipHeaderImage: return "appClipHeaderImage"
+                    case .locale: return "locale"
+                    case .subtitle: return "subtitle"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClipDefaultExperience": self = .appClipDefaultExperience
+                    case "appClipHeaderImage": self = .appClipHeaderImage
+                    case "locale": self = .locale
+                    case "subtitle": self = .subtitle
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

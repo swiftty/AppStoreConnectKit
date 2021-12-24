@@ -145,7 +145,7 @@ extension V1.Builds.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppEncryptionDeclarations: String, Hashable, Codable {
+            public enum AppEncryptionDeclarations: Hashable, Codable, RawRepresentable {
                 case app
                 case appEncryptionDeclarationState
                 case availableOnFrenchStore
@@ -160,9 +160,50 @@ extension V1.Builds.GET {
                 case platform
                 case uploadedDate
                 case usesEncryption
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appEncryptionDeclarationState: return "appEncryptionDeclarationState"
+                    case .availableOnFrenchStore: return "availableOnFrenchStore"
+                    case .builds: return "builds"
+                    case .codeValue: return "codeValue"
+                    case .containsProprietaryCryptography: return "containsProprietaryCryptography"
+                    case .containsThirdPartyCryptography: return "containsThirdPartyCryptography"
+                    case .documentName: return "documentName"
+                    case .documentType: return "documentType"
+                    case .documentUrl: return "documentUrl"
+                    case .exempt: return "exempt"
+                    case .platform: return "platform"
+                    case .uploadedDate: return "uploadedDate"
+                    case .usesEncryption: return "usesEncryption"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appEncryptionDeclarationState": self = .appEncryptionDeclarationState
+                    case "availableOnFrenchStore": self = .availableOnFrenchStore
+                    case "builds": self = .builds
+                    case "codeValue": self = .codeValue
+                    case "containsProprietaryCryptography": self = .containsProprietaryCryptography
+                    case "containsThirdPartyCryptography": self = .containsThirdPartyCryptography
+                    case "documentName": self = .documentName
+                    case "documentType": self = .documentType
+                    case "documentUrl": self = .documentUrl
+                    case "exempt": self = .exempt
+                    case "platform": self = .platform
+                    case "uploadedDate": self = .uploadedDate
+                    case "usesEncryption": self = .usesEncryption
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum AppStoreVersions: String, Hashable, Codable {
+            public enum AppStoreVersions: Hashable, Codable, RawRepresentable {
                 case ageRatingDeclaration
                 case app
                 case appClipDefaultExperience
@@ -182,9 +223,60 @@ extension V1.Builds.GET {
                 case routingAppCoverage
                 case usesIdfa
                 case versionString
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .ageRatingDeclaration: return "ageRatingDeclaration"
+                    case .app: return "app"
+                    case .appClipDefaultExperience: return "appClipDefaultExperience"
+                    case .appStoreReviewDetail: return "appStoreReviewDetail"
+                    case .appStoreState: return "appStoreState"
+                    case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
+                    case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
+                    case .appStoreVersionSubmission: return "appStoreVersionSubmission"
+                    case .build: return "build"
+                    case .copyright: return "copyright"
+                    case .createdDate: return "createdDate"
+                    case .downloadable: return "downloadable"
+                    case .earliestReleaseDate: return "earliestReleaseDate"
+                    case .idfaDeclaration: return "idfaDeclaration"
+                    case .platform: return "platform"
+                    case .releaseType: return "releaseType"
+                    case .routingAppCoverage: return "routingAppCoverage"
+                    case .usesIdfa: return "usesIdfa"
+                    case .versionString: return "versionString"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ageRatingDeclaration": self = .ageRatingDeclaration
+                    case "app": self = .app
+                    case "appClipDefaultExperience": self = .appClipDefaultExperience
+                    case "appStoreReviewDetail": self = .appStoreReviewDetail
+                    case "appStoreState": self = .appStoreState
+                    case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
+                    case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
+                    case "appStoreVersionSubmission": self = .appStoreVersionSubmission
+                    case "build": self = .build
+                    case "copyright": self = .copyright
+                    case "createdDate": self = .createdDate
+                    case "downloadable": self = .downloadable
+                    case "earliestReleaseDate": self = .earliestReleaseDate
+                    case "idfaDeclaration": self = .idfaDeclaration
+                    case "platform": self = .platform
+                    case "releaseType": self = .releaseType
+                    case "routingAppCoverage": self = .routingAppCoverage
+                    case "usesIdfa": self = .usesIdfa
+                    case "versionString": self = .versionString
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Apps: String, Hashable, Codable {
+            public enum Apps: Hashable, Codable, RawRepresentable {
                 case appClips
                 case appInfos
                 case appStoreVersions
@@ -210,21 +302,122 @@ extension V1.Builds.GET {
                 case prices
                 case primaryLocale
                 case sku
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClips: return "appClips"
+                    case .appInfos: return "appInfos"
+                    case .appStoreVersions: return "appStoreVersions"
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .betaAppLocalizations: return "betaAppLocalizations"
+                    case .betaAppReviewDetail: return "betaAppReviewDetail"
+                    case .betaGroups: return "betaGroups"
+                    case .betaLicenseAgreement: return "betaLicenseAgreement"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .bundleId: return "bundleId"
+                    case .ciProduct: return "ciProduct"
+                    case .contentRightsDeclaration: return "contentRightsDeclaration"
+                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
+                    case .inAppPurchases: return "inAppPurchases"
+                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
+                    case .name: return "name"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preOrder: return "preOrder"
+                    case .preReleaseVersions: return "preReleaseVersions"
+                    case .prices: return "prices"
+                    case .primaryLocale: return "primaryLocale"
+                    case .sku: return "sku"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClips": self = .appClips
+                    case "appInfos": self = .appInfos
+                    case "appStoreVersions": self = .appStoreVersions
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "betaAppLocalizations": self = .betaAppLocalizations
+                    case "betaAppReviewDetail": self = .betaAppReviewDetail
+                    case "betaGroups": self = .betaGroups
+                    case "betaLicenseAgreement": self = .betaLicenseAgreement
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "bundleId": self = .bundleId
+                    case "ciProduct": self = .ciProduct
+                    case "contentRightsDeclaration": self = .contentRightsDeclaration
+                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
+                    case "inAppPurchases": self = .inAppPurchases
+                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
+                    case "name": self = .name
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preOrder": self = .preOrder
+                    case "preReleaseVersions": self = .preReleaseVersions
+                    case "prices": self = .prices
+                    case "primaryLocale": self = .primaryLocale
+                    case "sku": self = .sku
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BetaAppReviewSubmissions: String, Hashable, Codable {
+            public enum BetaAppReviewSubmissions: Hashable, Codable, RawRepresentable {
                 case betaReviewState
                 case build
                 case submittedDate
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .betaReviewState: return "betaReviewState"
+                    case .build: return "build"
+                    case .submittedDate: return "submittedDate"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "betaReviewState": self = .betaReviewState
+                    case "build": self = .build
+                    case "submittedDate": self = .submittedDate
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BetaBuildLocalizations: String, Hashable, Codable {
+            public enum BetaBuildLocalizations: Hashable, Codable, RawRepresentable {
                 case build
                 case locale
                 case whatsNew
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .build: return "build"
+                    case .locale: return "locale"
+                    case .whatsNew: return "whatsNew"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "build": self = .build
+                    case "locale": self = .locale
+                    case "whatsNew": self = .whatsNew
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BetaTesters: String, Hashable, Codable {
+            public enum BetaTesters: Hashable, Codable, RawRepresentable {
                 case apps
                 case betaGroups
                 case builds
@@ -232,21 +425,86 @@ extension V1.Builds.GET {
                 case firstName
                 case inviteType
                 case lastName
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .apps: return "apps"
+                    case .betaGroups: return "betaGroups"
+                    case .builds: return "builds"
+                    case .email: return "email"
+                    case .firstName: return "firstName"
+                    case .inviteType: return "inviteType"
+                    case .lastName: return "lastName"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "apps": self = .apps
+                    case "betaGroups": self = .betaGroups
+                    case "builds": self = .builds
+                    case "email": self = .email
+                    case "firstName": self = .firstName
+                    case "inviteType": self = .inviteType
+                    case "lastName": self = .lastName
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BuildBetaDetails: String, Hashable, Codable {
+            public enum BuildBetaDetails: Hashable, Codable, RawRepresentable {
                 case autoNotifyEnabled
                 case build
                 case externalBuildState
                 case internalBuildState
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .autoNotifyEnabled: return "autoNotifyEnabled"
+                    case .build: return "build"
+                    case .externalBuildState: return "externalBuildState"
+                    case .internalBuildState: return "internalBuildState"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "autoNotifyEnabled": self = .autoNotifyEnabled
+                    case "build": self = .build
+                    case "externalBuildState": self = .externalBuildState
+                    case "internalBuildState": self = .internalBuildState
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BuildIcons: String, Hashable, Codable {
+            public enum BuildIcons: Hashable, Codable, RawRepresentable {
                 case iconAsset
                 case iconType
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .iconAsset: return "iconAsset"
+                    case .iconType: return "iconType"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "iconAsset": self = .iconAsset
+                    case "iconType": self = .iconType
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Builds: String, Hashable, Codable {
+            public enum Builds: Hashable, Codable, RawRepresentable {
                 case app
                 case appEncryptionDeclaration
                 case appStoreVersion
@@ -271,26 +529,148 @@ extension V1.Builds.GET {
                 case uploadedDate
                 case usesNonExemptEncryption
                 case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appEncryptionDeclaration: return "appEncryptionDeclaration"
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .betaAppReviewSubmission: return "betaAppReviewSubmission"
+                    case .betaBuildLocalizations: return "betaBuildLocalizations"
+                    case .betaGroups: return "betaGroups"
+                    case .buildAudienceType: return "buildAudienceType"
+                    case .buildBetaDetail: return "buildBetaDetail"
+                    case .buildBundles: return "buildBundles"
+                    case .computedMinMacOsVersion: return "computedMinMacOsVersion"
+                    case .diagnosticSignatures: return "diagnosticSignatures"
+                    case .expirationDate: return "expirationDate"
+                    case .expired: return "expired"
+                    case .iconAssetToken: return "iconAssetToken"
+                    case .icons: return "icons"
+                    case .individualTesters: return "individualTesters"
+                    case .lsMinimumSystemVersion: return "lsMinimumSystemVersion"
+                    case .minOsVersion: return "minOsVersion"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preReleaseVersion: return "preReleaseVersion"
+                    case .processingState: return "processingState"
+                    case .uploadedDate: return "uploadedDate"
+                    case .usesNonExemptEncryption: return "usesNonExemptEncryption"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appEncryptionDeclaration": self = .appEncryptionDeclaration
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "betaAppReviewSubmission": self = .betaAppReviewSubmission
+                    case "betaBuildLocalizations": self = .betaBuildLocalizations
+                    case "betaGroups": self = .betaGroups
+                    case "buildAudienceType": self = .buildAudienceType
+                    case "buildBetaDetail": self = .buildBetaDetail
+                    case "buildBundles": self = .buildBundles
+                    case "computedMinMacOsVersion": self = .computedMinMacOsVersion
+                    case "diagnosticSignatures": self = .diagnosticSignatures
+                    case "expirationDate": self = .expirationDate
+                    case "expired": self = .expired
+                    case "iconAssetToken": self = .iconAssetToken
+                    case "icons": self = .icons
+                    case "individualTesters": self = .individualTesters
+                    case "lsMinimumSystemVersion": self = .lsMinimumSystemVersion
+                    case "minOsVersion": self = .minOsVersion
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preReleaseVersion": self = .preReleaseVersion
+                    case "processingState": self = .processingState
+                    case "uploadedDate": self = .uploadedDate
+                    case "usesNonExemptEncryption": self = .usesNonExemptEncryption
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum DiagnosticSignatures: String, Hashable, Codable {
+            public enum DiagnosticSignatures: Hashable, Codable, RawRepresentable {
                 case diagnosticType
                 case logs
                 case signature
                 case weight
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .diagnosticType: return "diagnosticType"
+                    case .logs: return "logs"
+                    case .signature: return "signature"
+                    case .weight: return "weight"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "diagnosticType": self = .diagnosticType
+                    case "logs": self = .logs
+                    case "signature": self = .signature
+                    case "weight": self = .weight
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum PerfPowerMetrics: String, Hashable, Codable {
+            public enum PerfPowerMetrics: Hashable, Codable, RawRepresentable {
                 case deviceType
                 case metricType
                 case platform
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .deviceType: return "deviceType"
+                    case .metricType: return "metricType"
+                    case .platform: return "platform"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "deviceType": self = .deviceType
+                    case "metricType": self = .metricType
+                    case "platform": self = .platform
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum PreReleaseVersions: String, Hashable, Codable {
+            public enum PreReleaseVersions: Hashable, Codable, RawRepresentable {
                 case app
                 case builds
                 case platform
                 case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .builds: return "builds"
+                    case .platform: return "platform"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "builds": self = .builds
+                    case "platform": self = .platform
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -370,29 +750,107 @@ extension V1.Builds.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaAppReviewSubmissionBetaReviewState: String, Hashable, Codable {
-                case approved = "APPROVED"
-                case inReview = "IN_REVIEW"
-                case rejected = "REJECTED"
-                case waitingForReview = "WAITING_FOR_REVIEW"
+            public enum BetaAppReviewSubmissionBetaReviewState: Hashable, Codable, RawRepresentable {
+                case approved
+                case inReview
+                case rejected
+                case waitingForReview
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .approved: return "APPROVED"
+                    case .inReview: return "IN_REVIEW"
+                    case .rejected: return "REJECTED"
+                    case .waitingForReview: return "WAITING_FOR_REVIEW"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "APPROVED": self = .approved
+                    case "IN_REVIEW": self = .inReview
+                    case "REJECTED": self = .rejected
+                    case "WAITING_FOR_REVIEW": self = .waitingForReview
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BuildAudienceType: String, Hashable, Codable {
-                case appStoreEligible = "APP_STORE_ELIGIBLE"
-                case internalOnly = "INTERNAL_ONLY"
+            public enum BuildAudienceType: Hashable, Codable, RawRepresentable {
+                case appStoreEligible
+                case internalOnly
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appStoreEligible: return "APP_STORE_ELIGIBLE"
+                    case .internalOnly: return "INTERNAL_ONLY"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "APP_STORE_ELIGIBLE": self = .appStoreEligible
+                    case "INTERNAL_ONLY": self = .internalOnly
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum PreReleaseVersionPlatform: String, Hashable, Codable {
-                case iOS = "IOS"
-                case macOS = "MAC_OS"
-                case tvOS = "TV_OS"
+            public enum PreReleaseVersionPlatform: Hashable, Codable, RawRepresentable {
+                case iOS
+                case macOS
+                case tvOS
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .iOS: return "IOS"
+                    case .macOS: return "MAC_OS"
+                    case .tvOS: return "TV_OS"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "IOS": self = .iOS
+                    case "MAC_OS": self = .macOS
+                    case "TV_OS": self = .tvOS
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum ProcessingState: String, Hashable, Codable {
-                case failed = "FAILED"
-                case invalid = "INVALID"
-                case processing = "PROCESSING"
-                case valid = "VALID"
+            public enum ProcessingState: Hashable, Codable, RawRepresentable {
+                case failed
+                case invalid
+                case processing
+                case valid
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .failed: return "FAILED"
+                    case .invalid: return "INVALID"
+                    case .processing: return "PROCESSING"
+                    case .valid: return "VALID"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "FAILED": self = .failed
+                    case "INVALID": self = .invalid
+                    case "PROCESSING": self = .processing
+                    case "VALID": self = .valid
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -469,7 +927,7 @@ extension V1.Builds.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case app
             case appEncryptionDeclaration
             case appStoreVersion
@@ -480,6 +938,39 @@ extension V1.Builds.GET {
             case icons
             case individualTesters
             case preReleaseVersion
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .app: return "app"
+                case .appEncryptionDeclaration: return "appEncryptionDeclaration"
+                case .appStoreVersion: return "appStoreVersion"
+                case .betaAppReviewSubmission: return "betaAppReviewSubmission"
+                case .betaBuildLocalizations: return "betaBuildLocalizations"
+                case .buildBetaDetail: return "buildBetaDetail"
+                case .buildBundles: return "buildBundles"
+                case .icons: return "icons"
+                case .individualTesters: return "individualTesters"
+                case .preReleaseVersion: return "preReleaseVersion"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "app": self = .app
+                case "appEncryptionDeclaration": self = .appEncryptionDeclaration
+                case "appStoreVersion": self = .appStoreVersion
+                case "betaAppReviewSubmission": self = .betaAppReviewSubmission
+                case "betaBuildLocalizations": self = .betaBuildLocalizations
+                case "buildBetaDetail": self = .buildBetaDetail
+                case "buildBundles": self = .buildBundles
+                case "icons": self = .icons
+                case "individualTesters": self = .individualTesters
+                case "preReleaseVersion": self = .preReleaseVersion
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {
@@ -524,13 +1015,38 @@ extension V1.Builds.GET {
             }
         }
 
-        public enum Sort: String, Hashable, Codable {
-            case preReleaseVersionDesc = "-preReleaseVersion"
-            case uploadedDateDesc = "-uploadedDate"
-            case versionDesc = "-version"
+        public enum Sort: Hashable, Codable, RawRepresentable {
             case preReleaseVersion
+            case preReleaseVersionDesc
             case uploadedDate
+            case uploadedDateDesc
             case version
+            case versionDesc
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .preReleaseVersion: return "preReleaseVersion"
+                case .preReleaseVersionDesc: return "-preReleaseVersion"
+                case .uploadedDate: return "uploadedDate"
+                case .uploadedDateDesc: return "-uploadedDate"
+                case .version: return "version"
+                case .versionDesc: return "-version"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "preReleaseVersion": self = .preReleaseVersion
+                case "-preReleaseVersion": self = .preReleaseVersionDesc
+                case "uploadedDate": self = .uploadedDate
+                case "-uploadedDate": self = .uploadedDateDesc
+                case "version": self = .version
+                case "-version": self = .versionDesc
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

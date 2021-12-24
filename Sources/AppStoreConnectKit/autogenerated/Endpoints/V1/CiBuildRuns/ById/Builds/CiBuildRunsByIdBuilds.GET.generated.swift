@@ -138,13 +138,32 @@ extension V1.CiBuildRuns.ById.Builds.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaBuildLocalizations: String, Hashable, Codable {
+            public enum BetaBuildLocalizations: Hashable, Codable, RawRepresentable {
                 case build
                 case locale
                 case whatsNew
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .build: return "build"
+                    case .locale: return "locale"
+                    case .whatsNew: return "whatsNew"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "build": self = .build
+                    case "locale": self = .locale
+                    case "whatsNew": self = .whatsNew
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BetaTesters: String, Hashable, Codable {
+            public enum BetaTesters: Hashable, Codable, RawRepresentable {
                 case apps
                 case betaGroups
                 case builds
@@ -152,9 +171,36 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                 case firstName
                 case inviteType
                 case lastName
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .apps: return "apps"
+                    case .betaGroups: return "betaGroups"
+                    case .builds: return "builds"
+                    case .email: return "email"
+                    case .firstName: return "firstName"
+                    case .inviteType: return "inviteType"
+                    case .lastName: return "lastName"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "apps": self = .apps
+                    case "betaGroups": self = .betaGroups
+                    case "builds": self = .builds
+                    case "email": self = .email
+                    case "firstName": self = .firstName
+                    case "inviteType": self = .inviteType
+                    case "lastName": self = .lastName
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BuildBundles: String, Hashable, Codable {
+            public enum BuildBundles: Hashable, Codable, RawRepresentable {
                 case appClipDomainCacheStatus
                 case appClipDomainDebugStatus
                 case betaAppClipInvocations
@@ -176,14 +222,86 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                 case sdkBuild
                 case supportedArchitectures
                 case usesLocationServices
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClipDomainCacheStatus: return "appClipDomainCacheStatus"
+                    case .appClipDomainDebugStatus: return "appClipDomainDebugStatus"
+                    case .betaAppClipInvocations: return "betaAppClipInvocations"
+                    case .buildBundleFileSizes: return "buildBundleFileSizes"
+                    case .bundleId: return "bundleId"
+                    case .bundleType: return "bundleType"
+                    case .dSYMUrl: return "dSYMUrl"
+                    case .deviceProtocols: return "deviceProtocols"
+                    case .entitlements: return "entitlements"
+                    case .fileName: return "fileName"
+                    case .hasOnDemandResources: return "hasOnDemandResources"
+                    case .hasPrerenderedIcon: return "hasPrerenderedIcon"
+                    case .hasSirikit: return "hasSirikit"
+                    case .includesSymbols: return "includesSymbols"
+                    case .isIosBuildMacAppStoreCompatible: return "isIosBuildMacAppStoreCompatible"
+                    case .locales: return "locales"
+                    case .platformBuild: return "platformBuild"
+                    case .requiredCapabilities: return "requiredCapabilities"
+                    case .sdkBuild: return "sdkBuild"
+                    case .supportedArchitectures: return "supportedArchitectures"
+                    case .usesLocationServices: return "usesLocationServices"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClipDomainCacheStatus": self = .appClipDomainCacheStatus
+                    case "appClipDomainDebugStatus": self = .appClipDomainDebugStatus
+                    case "betaAppClipInvocations": self = .betaAppClipInvocations
+                    case "buildBundleFileSizes": self = .buildBundleFileSizes
+                    case "bundleId": self = .bundleId
+                    case "bundleType": self = .bundleType
+                    case "dSYMUrl": self = .dSYMUrl
+                    case "deviceProtocols": self = .deviceProtocols
+                    case "entitlements": self = .entitlements
+                    case "fileName": self = .fileName
+                    case "hasOnDemandResources": self = .hasOnDemandResources
+                    case "hasPrerenderedIcon": self = .hasPrerenderedIcon
+                    case "hasSirikit": self = .hasSirikit
+                    case "includesSymbols": self = .includesSymbols
+                    case "isIosBuildMacAppStoreCompatible": self = .isIosBuildMacAppStoreCompatible
+                    case "locales": self = .locales
+                    case "platformBuild": self = .platformBuild
+                    case "requiredCapabilities": self = .requiredCapabilities
+                    case "sdkBuild": self = .sdkBuild
+                    case "supportedArchitectures": self = .supportedArchitectures
+                    case "usesLocationServices": self = .usesLocationServices
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BuildIcons: String, Hashable, Codable {
+            public enum BuildIcons: Hashable, Codable, RawRepresentable {
                 case iconAsset
                 case iconType
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .iconAsset: return "iconAsset"
+                    case .iconType: return "iconType"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "iconAsset": self = .iconAsset
+                    case "iconType": self = .iconType
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Builds: String, Hashable, Codable {
+            public enum Builds: Hashable, Codable, RawRepresentable {
                 case app
                 case appEncryptionDeclaration
                 case appStoreVersion
@@ -208,6 +326,67 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                 case uploadedDate
                 case usesNonExemptEncryption
                 case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appEncryptionDeclaration: return "appEncryptionDeclaration"
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .betaAppReviewSubmission: return "betaAppReviewSubmission"
+                    case .betaBuildLocalizations: return "betaBuildLocalizations"
+                    case .betaGroups: return "betaGroups"
+                    case .buildAudienceType: return "buildAudienceType"
+                    case .buildBetaDetail: return "buildBetaDetail"
+                    case .buildBundles: return "buildBundles"
+                    case .computedMinMacOsVersion: return "computedMinMacOsVersion"
+                    case .diagnosticSignatures: return "diagnosticSignatures"
+                    case .expirationDate: return "expirationDate"
+                    case .expired: return "expired"
+                    case .iconAssetToken: return "iconAssetToken"
+                    case .icons: return "icons"
+                    case .individualTesters: return "individualTesters"
+                    case .lsMinimumSystemVersion: return "lsMinimumSystemVersion"
+                    case .minOsVersion: return "minOsVersion"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preReleaseVersion: return "preReleaseVersion"
+                    case .processingState: return "processingState"
+                    case .uploadedDate: return "uploadedDate"
+                    case .usesNonExemptEncryption: return "usesNonExemptEncryption"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appEncryptionDeclaration": self = .appEncryptionDeclaration
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "betaAppReviewSubmission": self = .betaAppReviewSubmission
+                    case "betaBuildLocalizations": self = .betaBuildLocalizations
+                    case "betaGroups": self = .betaGroups
+                    case "buildAudienceType": self = .buildAudienceType
+                    case "buildBetaDetail": self = .buildBetaDetail
+                    case "buildBundles": self = .buildBundles
+                    case "computedMinMacOsVersion": self = .computedMinMacOsVersion
+                    case "diagnosticSignatures": self = .diagnosticSignatures
+                    case "expirationDate": self = .expirationDate
+                    case "expired": self = .expired
+                    case "iconAssetToken": self = .iconAssetToken
+                    case "icons": self = .icons
+                    case "individualTesters": self = .individualTesters
+                    case "lsMinimumSystemVersion": self = .lsMinimumSystemVersion
+                    case "minOsVersion": self = .minOsVersion
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preReleaseVersion": self = .preReleaseVersion
+                    case "processingState": self = .processingState
+                    case "uploadedDate": self = .uploadedDate
+                    case "usesNonExemptEncryption": self = .usesNonExemptEncryption
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -252,29 +431,107 @@ extension V1.CiBuildRuns.ById.Builds.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaAppReviewSubmissionBetaReviewState: String, Hashable, Codable {
-                case approved = "APPROVED"
-                case inReview = "IN_REVIEW"
-                case rejected = "REJECTED"
-                case waitingForReview = "WAITING_FOR_REVIEW"
+            public enum BetaAppReviewSubmissionBetaReviewState: Hashable, Codable, RawRepresentable {
+                case approved
+                case inReview
+                case rejected
+                case waitingForReview
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .approved: return "APPROVED"
+                    case .inReview: return "IN_REVIEW"
+                    case .rejected: return "REJECTED"
+                    case .waitingForReview: return "WAITING_FOR_REVIEW"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "APPROVED": self = .approved
+                    case "IN_REVIEW": self = .inReview
+                    case "REJECTED": self = .rejected
+                    case "WAITING_FOR_REVIEW": self = .waitingForReview
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum BuildAudienceType: String, Hashable, Codable {
-                case appStoreEligible = "APP_STORE_ELIGIBLE"
-                case internalOnly = "INTERNAL_ONLY"
+            public enum BuildAudienceType: Hashable, Codable, RawRepresentable {
+                case appStoreEligible
+                case internalOnly
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appStoreEligible: return "APP_STORE_ELIGIBLE"
+                    case .internalOnly: return "INTERNAL_ONLY"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "APP_STORE_ELIGIBLE": self = .appStoreEligible
+                    case "INTERNAL_ONLY": self = .internalOnly
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum PreReleaseVersionPlatform: String, Hashable, Codable {
-                case iOS = "IOS"
-                case macOS = "MAC_OS"
-                case tvOS = "TV_OS"
+            public enum PreReleaseVersionPlatform: Hashable, Codable, RawRepresentable {
+                case iOS
+                case macOS
+                case tvOS
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .iOS: return "IOS"
+                    case .macOS: return "MAC_OS"
+                    case .tvOS: return "TV_OS"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "IOS": self = .iOS
+                    case "MAC_OS": self = .macOS
+                    case "TV_OS": self = .tvOS
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum ProcessingState: String, Hashable, Codable {
-                case failed = "FAILED"
-                case invalid = "INVALID"
-                case processing = "PROCESSING"
-                case valid = "VALID"
+            public enum ProcessingState: Hashable, Codable, RawRepresentable {
+                case failed
+                case invalid
+                case processing
+                case valid
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .failed: return "FAILED"
+                    case .invalid: return "INVALID"
+                    case .processing: return "PROCESSING"
+                    case .valid: return "VALID"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "FAILED": self = .failed
+                    case "INVALID": self = .invalid
+                    case "PROCESSING": self = .processing
+                    case "VALID": self = .valid
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -351,11 +608,32 @@ extension V1.CiBuildRuns.ById.Builds.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case betaBuildLocalizations
             case buildBundles
             case icons
             case individualTesters
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .betaBuildLocalizations: return "betaBuildLocalizations"
+                case .buildBundles: return "buildBundles"
+                case .icons: return "icons"
+                case .individualTesters: return "individualTesters"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "betaBuildLocalizations": self = .betaBuildLocalizations
+                case "buildBundles": self = .buildBundles
+                case "icons": self = .icons
+                case "individualTesters": self = .individualTesters
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {
@@ -400,13 +678,38 @@ extension V1.CiBuildRuns.ById.Builds.GET {
             }
         }
 
-        public enum Sort: String, Hashable, Codable {
-            case preReleaseVersionDesc = "-preReleaseVersion"
-            case uploadedDateDesc = "-uploadedDate"
-            case versionDesc = "-version"
+        public enum Sort: Hashable, Codable, RawRepresentable {
             case preReleaseVersion
+            case preReleaseVersionDesc
             case uploadedDate
+            case uploadedDateDesc
             case version
+            case versionDesc
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .preReleaseVersion: return "preReleaseVersion"
+                case .preReleaseVersionDesc: return "-preReleaseVersion"
+                case .uploadedDate: return "uploadedDate"
+                case .uploadedDateDesc: return "-uploadedDate"
+                case .version: return "version"
+                case .versionDesc: return "-version"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "preReleaseVersion": self = .preReleaseVersion
+                case "-preReleaseVersion": self = .preReleaseVersionDesc
+                case "uploadedDate": self = .uploadedDate
+                case "-uploadedDate": self = .uploadedDateDesc
+                case "version": self = .version
+                case "-version": self = .versionDesc
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

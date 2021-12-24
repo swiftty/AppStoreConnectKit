@@ -26,13 +26,38 @@ public struct ScmProviderType: Hashable, Codable {
         case kind
     }
 
-    public enum Kind: String, Hashable, Codable {
-        case bitbucketCloud = "BITBUCKET_CLOUD"
-        case bitbucketServer = "BITBUCKET_SERVER"
-        case githubCloud = "GITHUB_CLOUD"
-        case githubEnterprise = "GITHUB_ENTERPRISE"
-        case gitlabCloud = "GITLAB_CLOUD"
-        case gitlabSelfManaged = "GITLAB_SELF_MANAGED"
+    public enum Kind: Hashable, Codable, RawRepresentable {
+        case bitbucketCloud
+        case bitbucketServer
+        case githubCloud
+        case githubEnterprise
+        case gitlabCloud
+        case gitlabSelfManaged
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .bitbucketCloud: return "BITBUCKET_CLOUD"
+            case .bitbucketServer: return "BITBUCKET_SERVER"
+            case .githubCloud: return "GITHUB_CLOUD"
+            case .githubEnterprise: return "GITHUB_ENTERPRISE"
+            case .gitlabCloud: return "GITLAB_CLOUD"
+            case .gitlabSelfManaged: return "GITLAB_SELF_MANAGED"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "BITBUCKET_CLOUD": self = .bitbucketCloud
+            case "BITBUCKET_SERVER": self = .bitbucketServer
+            case "GITHUB_CLOUD": self = .githubCloud
+            case "GITHUB_ENTERPRISE": self = .githubEnterprise
+            case "GITLAB_CLOUD": self = .gitlabCloud
+            case "GITLAB_SELF_MANAGED": self = .gitlabSelfManaged
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 }
 

@@ -84,7 +84,7 @@ extension V1.BetaGroups.ById.BetaTesters.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaTesters: String, Hashable, Codable {
+            public enum BetaTesters: Hashable, Codable, RawRepresentable {
                 case apps
                 case betaGroups
                 case builds
@@ -92,6 +92,33 @@ extension V1.BetaGroups.ById.BetaTesters.GET {
                 case firstName
                 case inviteType
                 case lastName
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .apps: return "apps"
+                    case .betaGroups: return "betaGroups"
+                    case .builds: return "builds"
+                    case .email: return "email"
+                    case .firstName: return "firstName"
+                    case .inviteType: return "inviteType"
+                    case .lastName: return "lastName"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "apps": self = .apps
+                    case "betaGroups": self = .betaGroups
+                    case "builds": self = .builds
+                    case "email": self = .email
+                    case "firstName": self = .firstName
+                    case "inviteType": self = .inviteType
+                    case "lastName": self = .lastName
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

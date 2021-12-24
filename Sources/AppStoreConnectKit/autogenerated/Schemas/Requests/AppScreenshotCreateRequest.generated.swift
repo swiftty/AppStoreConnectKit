@@ -37,8 +37,23 @@ public struct AppScreenshotCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case appScreenshots
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appScreenshots: return "appScreenshots"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appScreenshots": self = .appScreenshots
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -100,8 +115,23 @@ public struct AppScreenshotCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case appScreenshotSets
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .appScreenshotSets: return "appScreenshotSets"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "appScreenshotSets": self = .appScreenshotSets
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }

@@ -3,11 +3,32 @@
 // swiftlint:disable all
 import Foundation
 
-public enum PhasedReleaseState: String, Hashable, Codable {
-    case active = "ACTIVE"
-    case complete = "COMPLETE"
-    case inactive = "INACTIVE"
-    case paused = "PAUSED"
+public enum PhasedReleaseState: Hashable, Codable, RawRepresentable {
+    case active
+    case complete
+    case inactive
+    case paused
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .active: return "ACTIVE"
+        case .complete: return "COMPLETE"
+        case .inactive: return "INACTIVE"
+        case .paused: return "PAUSED"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "ACTIVE": self = .active
+        case "COMPLETE": self = .complete
+        case "INACTIVE": self = .inactive
+        case "PAUSED": self = .paused
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

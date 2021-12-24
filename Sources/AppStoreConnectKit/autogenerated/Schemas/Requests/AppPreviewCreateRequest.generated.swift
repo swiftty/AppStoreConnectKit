@@ -37,8 +37,23 @@ public struct AppPreviewCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: Hashable, Codable, RawRepresentable {
             case appPreviews
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appPreviews: return "appPreviews"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appPreviews": self = .appPreviews
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -110,8 +125,23 @@ public struct AppPreviewCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: Hashable, Codable, RawRepresentable {
                         case appPreviewSets
+                        case unknown(String)
+
+                        public var rawValue: String {
+                            switch self {
+                            case .appPreviewSets: return "appPreviewSets"
+                            case .unknown(let rawValue): return rawValue
+                            }
+                        }
+
+                        public init(rawValue: String) {
+                            switch rawValue {
+                            case "appPreviewSets": self = .appPreviewSets
+                            default: self = .unknown(rawValue)
+                            }
+                        }
                     }
                 }
             }

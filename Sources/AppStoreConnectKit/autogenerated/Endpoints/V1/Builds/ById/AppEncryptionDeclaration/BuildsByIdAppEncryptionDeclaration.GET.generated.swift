@@ -79,7 +79,7 @@ extension V1.Builds.ById.AppEncryptionDeclaration.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppEncryptionDeclarations: String, Hashable, Codable {
+            public enum AppEncryptionDeclarations: Hashable, Codable, RawRepresentable {
                 case app
                 case appEncryptionDeclarationState
                 case availableOnFrenchStore
@@ -94,6 +94,47 @@ extension V1.Builds.ById.AppEncryptionDeclaration.GET {
                 case platform
                 case uploadedDate
                 case usesEncryption
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appEncryptionDeclarationState: return "appEncryptionDeclarationState"
+                    case .availableOnFrenchStore: return "availableOnFrenchStore"
+                    case .builds: return "builds"
+                    case .codeValue: return "codeValue"
+                    case .containsProprietaryCryptography: return "containsProprietaryCryptography"
+                    case .containsThirdPartyCryptography: return "containsThirdPartyCryptography"
+                    case .documentName: return "documentName"
+                    case .documentType: return "documentType"
+                    case .documentUrl: return "documentUrl"
+                    case .exempt: return "exempt"
+                    case .platform: return "platform"
+                    case .uploadedDate: return "uploadedDate"
+                    case .usesEncryption: return "usesEncryption"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appEncryptionDeclarationState": self = .appEncryptionDeclarationState
+                    case "availableOnFrenchStore": self = .availableOnFrenchStore
+                    case "builds": self = .builds
+                    case "codeValue": self = .codeValue
+                    case "containsProprietaryCryptography": self = .containsProprietaryCryptography
+                    case "containsThirdPartyCryptography": self = .containsThirdPartyCryptography
+                    case "documentName": self = .documentName
+                    case "documentType": self = .documentType
+                    case "documentUrl": self = .documentUrl
+                    case "exempt": self = .exempt
+                    case "platform": self = .platform
+                    case "uploadedDate": self = .uploadedDate
+                    case "usesEncryption": self = .usesEncryption
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

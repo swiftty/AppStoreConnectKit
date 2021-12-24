@@ -31,8 +31,23 @@ public struct AgeRatingDeclaration: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case ageRatingDeclarations
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .ageRatingDeclarations: return "ageRatingDeclarations"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "ageRatingDeclarations": self = .ageRatingDeclarations
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -129,76 +144,304 @@ public struct AgeRatingDeclaration: Hashable, Codable {
             case violenceRealisticProlongedGraphicOrSadistic
         }
 
-        public enum AlcoholTobaccoOrDrugUseOrReferences: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum AlcoholTobaccoOrDrugUseOrReferences: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum Contests: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum Contests: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum GamblingSimulated: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum GamblingSimulated: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum HorrorOrFearThemes: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum HorrorOrFearThemes: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum MatureOrSuggestiveThemes: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum MatureOrSuggestiveThemes: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum MedicalOrTreatmentInformation: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum MedicalOrTreatmentInformation: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum ProfanityOrCrudeHumor: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum ProfanityOrCrudeHumor: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum SexualContentGraphicAndNudity: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum SexualContentGraphicAndNudity: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum SexualContentOrNudity: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum SexualContentOrNudity: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum ViolenceCartoonOrFantasy: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum ViolenceCartoonOrFantasy: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum ViolenceRealistic: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum ViolenceRealistic: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum ViolenceRealisticProlongedGraphicOrSadistic: String, Hashable, Codable {
-            case frequentOrIntense = "FREQUENT_OR_INTENSE"
-            case infrequentOrMild = "INFREQUENT_OR_MILD"
-            case none = "NONE"
+        public enum ViolenceRealisticProlongedGraphicOrSadistic: Hashable, Codable, RawRepresentable {
+            case frequentOrIntense
+            case infrequentOrMild
+            case none
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
+                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
+                case .none: return "NONE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
+                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
+                case "NONE": self = .none
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

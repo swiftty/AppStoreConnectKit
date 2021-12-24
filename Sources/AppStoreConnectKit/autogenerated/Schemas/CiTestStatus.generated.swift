@@ -3,12 +3,35 @@
 // swiftlint:disable all
 import Foundation
 
-public enum CiTestStatus: String, Hashable, Codable {
-    case expectedFailure = "EXPECTED_FAILURE"
-    case failure = "FAILURE"
-    case mixed = "MIXED"
-    case skipped = "SKIPPED"
-    case success = "SUCCESS"
+public enum CiTestStatus: Hashable, Codable, RawRepresentable {
+    case expectedFailure
+    case failure
+    case mixed
+    case skipped
+    case success
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .expectedFailure: return "EXPECTED_FAILURE"
+        case .failure: return "FAILURE"
+        case .mixed: return "MIXED"
+        case .skipped: return "SKIPPED"
+        case .success: return "SUCCESS"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "EXPECTED_FAILURE": self = .expectedFailure
+        case "FAILURE": self = .failure
+        case "MIXED": self = .mixed
+        case "SKIPPED": self = .skipped
+        case "SUCCESS": self = .success
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

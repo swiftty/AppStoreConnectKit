@@ -31,8 +31,23 @@ public struct BuildIcon: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case buildIcons
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .buildIcons: return "buildIcons"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "buildIcons": self = .buildIcons
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {

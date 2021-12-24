@@ -36,8 +36,23 @@ public struct Profile: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case profiles
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .profiles: return "profiles"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "profiles": self = .profiles
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -88,26 +103,84 @@ public struct Profile: Hashable, Codable {
             case uuid
         }
 
-        public enum ProfileState: String, Hashable, Codable {
-            case active = "ACTIVE"
-            case invalid = "INVALID"
+        public enum ProfileState: Hashable, Codable, RawRepresentable {
+            case active
+            case invalid
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .active: return "ACTIVE"
+                case .invalid: return "INVALID"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "ACTIVE": self = .active
+                case "INVALID": self = .invalid
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
-        public enum ProfileType: String, Hashable, Codable {
-            case iOSAppAdhoc = "IOS_APP_ADHOC"
-            case iOSAppDevelopment = "IOS_APP_DEVELOPMENT"
-            case iOSAppInhouse = "IOS_APP_INHOUSE"
-            case iOSAppStore = "IOS_APP_STORE"
-            case macAppDevelopment = "MAC_APP_DEVELOPMENT"
-            case macAppDirect = "MAC_APP_DIRECT"
-            case macAppStore = "MAC_APP_STORE"
-            case macCatalystAppDevelopment = "MAC_CATALYST_APP_DEVELOPMENT"
-            case macCatalystAppDirect = "MAC_CATALYST_APP_DIRECT"
-            case macCatalystAppStore = "MAC_CATALYST_APP_STORE"
-            case tvOSAppAdhoc = "TVOS_APP_ADHOC"
-            case tvOSAppDevelopment = "TVOS_APP_DEVELOPMENT"
-            case tvOSAppInhouse = "TVOS_APP_INHOUSE"
-            case tvOSAppStore = "TVOS_APP_STORE"
+        public enum ProfileType: Hashable, Codable, RawRepresentable {
+            case iOSAppAdhoc
+            case iOSAppDevelopment
+            case iOSAppInhouse
+            case iOSAppStore
+            case macAppDevelopment
+            case macAppDirect
+            case macAppStore
+            case macCatalystAppDevelopment
+            case macCatalystAppDirect
+            case macCatalystAppStore
+            case tvOSAppAdhoc
+            case tvOSAppDevelopment
+            case tvOSAppInhouse
+            case tvOSAppStore
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .iOSAppAdhoc: return "IOS_APP_ADHOC"
+                case .iOSAppDevelopment: return "IOS_APP_DEVELOPMENT"
+                case .iOSAppInhouse: return "IOS_APP_INHOUSE"
+                case .iOSAppStore: return "IOS_APP_STORE"
+                case .macAppDevelopment: return "MAC_APP_DEVELOPMENT"
+                case .macAppDirect: return "MAC_APP_DIRECT"
+                case .macAppStore: return "MAC_APP_STORE"
+                case .macCatalystAppDevelopment: return "MAC_CATALYST_APP_DEVELOPMENT"
+                case .macCatalystAppDirect: return "MAC_CATALYST_APP_DIRECT"
+                case .macCatalystAppStore: return "MAC_CATALYST_APP_STORE"
+                case .tvOSAppAdhoc: return "TVOS_APP_ADHOC"
+                case .tvOSAppDevelopment: return "TVOS_APP_DEVELOPMENT"
+                case .tvOSAppInhouse: return "TVOS_APP_INHOUSE"
+                case .tvOSAppStore: return "TVOS_APP_STORE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "IOS_APP_ADHOC": self = .iOSAppAdhoc
+                case "IOS_APP_DEVELOPMENT": self = .iOSAppDevelopment
+                case "IOS_APP_INHOUSE": self = .iOSAppInhouse
+                case "IOS_APP_STORE": self = .iOSAppStore
+                case "MAC_APP_DEVELOPMENT": self = .macAppDevelopment
+                case "MAC_APP_DIRECT": self = .macAppDirect
+                case "MAC_APP_STORE": self = .macAppStore
+                case "MAC_CATALYST_APP_DEVELOPMENT": self = .macCatalystAppDevelopment
+                case "MAC_CATALYST_APP_DIRECT": self = .macCatalystAppDirect
+                case "MAC_CATALYST_APP_STORE": self = .macCatalystAppStore
+                case "TVOS_APP_ADHOC": self = .tvOSAppAdhoc
+                case "TVOS_APP_DEVELOPMENT": self = .tvOSAppDevelopment
+                case "TVOS_APP_INHOUSE": self = .tvOSAppInhouse
+                case "TVOS_APP_STORE": self = .tvOSAppStore
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 
@@ -170,8 +243,23 @@ public struct Profile: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case bundleIds
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .bundleIds: return "bundleIds"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "bundleIds": self = .bundleIds
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -236,8 +324,23 @@ public struct Profile: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case certificates
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .certificates: return "certificates"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "certificates": self = .certificates
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -302,8 +405,23 @@ public struct Profile: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case devices
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .devices: return "devices"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "devices": self = .devices
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

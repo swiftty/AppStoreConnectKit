@@ -88,7 +88,7 @@ extension V1.AppClipAdvancedExperiences.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipAdvancedExperiences: String, Hashable, Codable {
+            public enum AppClipAdvancedExperiences: Hashable, Codable, RawRepresentable {
                 case action
                 case appClip
                 case businessCategory
@@ -102,6 +102,45 @@ extension V1.AppClipAdvancedExperiences.ById.GET {
                 case removed
                 case status
                 case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .action: return "action"
+                    case .appClip: return "appClip"
+                    case .businessCategory: return "businessCategory"
+                    case .defaultLanguage: return "defaultLanguage"
+                    case .headerImage: return "headerImage"
+                    case .isPoweredBy: return "isPoweredBy"
+                    case .link: return "link"
+                    case .localizations: return "localizations"
+                    case .place: return "place"
+                    case .placeStatus: return "placeStatus"
+                    case .removed: return "removed"
+                    case .status: return "status"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "action": self = .action
+                    case "appClip": self = .appClip
+                    case "businessCategory": self = .businessCategory
+                    case "defaultLanguage": self = .defaultLanguage
+                    case "headerImage": self = .headerImage
+                    case "isPoweredBy": self = .isPoweredBy
+                    case "link": self = .link
+                    case "localizations": self = .localizations
+                    case "place": self = .place
+                    case "placeStatus": self = .placeStatus
+                    case "removed": self = .removed
+                    case "status": self = .status
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -118,10 +157,29 @@ extension V1.AppClipAdvancedExperiences.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case appClip
             case headerImage
             case localizations
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appClip: return "appClip"
+                case .headerImage: return "headerImage"
+                case .localizations: return "localizations"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appClip": self = .appClip
+                case "headerImage": self = .headerImage
+                case "localizations": self = .localizations
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

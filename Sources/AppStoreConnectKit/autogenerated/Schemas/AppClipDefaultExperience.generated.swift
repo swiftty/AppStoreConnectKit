@@ -36,8 +36,23 @@ public struct AppClipDefaultExperience: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case appClipDefaultExperiences
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .appClipDefaultExperiences: return "appClipDefaultExperiences"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "appClipDefaultExperiences": self = .appClipDefaultExperiences
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -116,8 +131,23 @@ public struct AppClipDefaultExperience: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appClips
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appClips: return "appClips"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appClips": self = .appClips
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -177,8 +207,23 @@ public struct AppClipDefaultExperience: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appClipAppStoreReviewDetails
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appClipAppStoreReviewDetails: return "appClipAppStoreReviewDetails"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appClipAppStoreReviewDetails": self = .appClipAppStoreReviewDetails
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -243,8 +288,23 @@ public struct AppClipDefaultExperience: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appClipDefaultExperienceLocalizations
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appClipDefaultExperienceLocalizations: return "appClipDefaultExperienceLocalizations"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appClipDefaultExperienceLocalizations": self = .appClipDefaultExperienceLocalizations
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -304,8 +364,23 @@ public struct AppClipDefaultExperience: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appStoreVersions
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appStoreVersions: return "appStoreVersions"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appStoreVersions": self = .appStoreVersions
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

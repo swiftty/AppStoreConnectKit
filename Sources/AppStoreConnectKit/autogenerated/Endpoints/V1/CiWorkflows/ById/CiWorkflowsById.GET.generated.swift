@@ -88,7 +88,7 @@ extension V1.CiWorkflows.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiBuildRuns: String, Hashable, Codable {
+            public enum CiBuildRuns: Hashable, Codable, RawRepresentable {
                 case actions
                 case buildRun
                 case builds
@@ -110,9 +110,64 @@ extension V1.CiWorkflows.ById.GET {
                 case startReason
                 case startedDate
                 case workflow
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .actions: return "actions"
+                    case .buildRun: return "buildRun"
+                    case .builds: return "builds"
+                    case .cancelReason: return "cancelReason"
+                    case .clean: return "clean"
+                    case .completionStatus: return "completionStatus"
+                    case .createdDate: return "createdDate"
+                    case .destinationBranch: return "destinationBranch"
+                    case .destinationCommit: return "destinationCommit"
+                    case .executionProgress: return "executionProgress"
+                    case .finishedDate: return "finishedDate"
+                    case .isPullRequestBuild: return "isPullRequestBuild"
+                    case .issueCounts: return "issueCounts"
+                    case .number: return "number"
+                    case .product: return "product"
+                    case .pullRequest: return "pullRequest"
+                    case .sourceBranchOrTag: return "sourceBranchOrTag"
+                    case .sourceCommit: return "sourceCommit"
+                    case .startReason: return "startReason"
+                    case .startedDate: return "startedDate"
+                    case .workflow: return "workflow"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "actions": self = .actions
+                    case "buildRun": self = .buildRun
+                    case "builds": self = .builds
+                    case "cancelReason": self = .cancelReason
+                    case "clean": self = .clean
+                    case "completionStatus": self = .completionStatus
+                    case "createdDate": self = .createdDate
+                    case "destinationBranch": self = .destinationBranch
+                    case "destinationCommit": self = .destinationCommit
+                    case "executionProgress": self = .executionProgress
+                    case "finishedDate": self = .finishedDate
+                    case "isPullRequestBuild": self = .isPullRequestBuild
+                    case "issueCounts": self = .issueCounts
+                    case "number": self = .number
+                    case "product": self = .product
+                    case "pullRequest": self = .pullRequest
+                    case "sourceBranchOrTag": self = .sourceBranchOrTag
+                    case "sourceCommit": self = .sourceCommit
+                    case "startReason": self = .startReason
+                    case "startedDate": self = .startedDate
+                    case "workflow": self = .workflow
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum CiWorkflows: String, Hashable, Codable {
+            public enum CiWorkflows: Hashable, Codable, RawRepresentable {
                 case actions
                 case branchStartCondition
                 case buildRuns
@@ -130,9 +185,56 @@ extension V1.CiWorkflows.ById.GET {
                 case scheduledStartCondition
                 case tagStartCondition
                 case xcodeVersion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .actions: return "actions"
+                    case .branchStartCondition: return "branchStartCondition"
+                    case .buildRuns: return "buildRuns"
+                    case .clean: return "clean"
+                    case .containerFilePath: return "containerFilePath"
+                    case .description: return "description"
+                    case .isEnabled: return "isEnabled"
+                    case .isLockedForEditing: return "isLockedForEditing"
+                    case .lastModifiedDate: return "lastModifiedDate"
+                    case .macOsVersion: return "macOsVersion"
+                    case .name: return "name"
+                    case .product: return "product"
+                    case .pullRequestStartCondition: return "pullRequestStartCondition"
+                    case .repository: return "repository"
+                    case .scheduledStartCondition: return "scheduledStartCondition"
+                    case .tagStartCondition: return "tagStartCondition"
+                    case .xcodeVersion: return "xcodeVersion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "actions": self = .actions
+                    case "branchStartCondition": self = .branchStartCondition
+                    case "buildRuns": self = .buildRuns
+                    case "clean": self = .clean
+                    case "containerFilePath": self = .containerFilePath
+                    case "description": self = .description
+                    case "isEnabled": self = .isEnabled
+                    case "isLockedForEditing": self = .isLockedForEditing
+                    case "lastModifiedDate": self = .lastModifiedDate
+                    case "macOsVersion": self = .macOsVersion
+                    case "name": self = .name
+                    case "product": self = .product
+                    case "pullRequestStartCondition": self = .pullRequestStartCondition
+                    case "repository": self = .repository
+                    case "scheduledStartCondition": self = .scheduledStartCondition
+                    case "tagStartCondition": self = .tagStartCondition
+                    case "xcodeVersion": self = .xcodeVersion
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum ScmRepositories: String, Hashable, Codable {
+            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
                 case defaultBranch
                 case gitReferences
                 case httpCloneUrl
@@ -142,6 +244,37 @@ extension V1.CiWorkflows.ById.GET {
                 case repositoryName
                 case scmProvider
                 case sshCloneUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .defaultBranch: return "defaultBranch"
+                    case .gitReferences: return "gitReferences"
+                    case .httpCloneUrl: return "httpCloneUrl"
+                    case .lastAccessedDate: return "lastAccessedDate"
+                    case .ownerName: return "ownerName"
+                    case .pullRequests: return "pullRequests"
+                    case .repositoryName: return "repositoryName"
+                    case .scmProvider: return "scmProvider"
+                    case .sshCloneUrl: return "sshCloneUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "defaultBranch": self = .defaultBranch
+                    case "gitReferences": self = .gitReferences
+                    case "httpCloneUrl": self = .httpCloneUrl
+                    case "lastAccessedDate": self = .lastAccessedDate
+                    case "ownerName": self = .ownerName
+                    case "pullRequests": self = .pullRequests
+                    case "repositoryName": self = .repositoryName
+                    case "scmProvider": self = .scmProvider
+                    case "sshCloneUrl": self = .sshCloneUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -168,11 +301,32 @@ extension V1.CiWorkflows.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case macOsVersion
             case product
             case repository
             case xcodeVersion
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .macOsVersion: return "macOsVersion"
+                case .product: return "product"
+                case .repository: return "repository"
+                case .xcodeVersion: return "xcodeVersion"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "macOsVersion": self = .macOsVersion
+                case "product": self = .product
+                case "repository": self = .repository
+                case "xcodeVersion": self = .xcodeVersion
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

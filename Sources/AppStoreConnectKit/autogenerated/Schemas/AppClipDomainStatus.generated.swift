@@ -31,8 +31,23 @@ public struct AppClipDomainStatus: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case appClipDomainStatuses
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .appClipDomainStatuses: return "appClipDomainStatuses"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "appClipDomainStatuses": self = .appClipDomainStatuses
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -81,23 +96,68 @@ public struct AppClipDomainStatus: Hashable, Codable {
                 case lastUpdatedDate
             }
 
-            public enum ErrorCode: String, Hashable, Codable {
-                case badHttpResponse = "BAD_HTTP_RESPONSE"
-                case badJsonContent = "BAD_JSON_CONTENT"
-                case badPkcs7Signature = "BAD_PKCS7_SIGNATURE"
-                case cannotReachAasaFile = "CANNOT_REACH_AASA_FILE"
-                case dnsError = "DNS_ERROR"
-                case insecureRedirectsForbidden = "INSECURE_REDIRECTS_FORBIDDEN"
-                case invalidEntitlementMissingSection = "INVALID_ENTITLEMENT_MISSING_SECTION"
-                case invalidEntitlementSyntaxError = "INVALID_ENTITLEMENT_SYNTAX_ERROR"
-                case invalidEntitlementUnhandledSection = "INVALID_ENTITLEMENT_UNHANDLED_SECTION"
-                case invalidEntitlementUnknownId = "INVALID_ENTITLEMENT_UNKNOWN_ID"
-                case networkError = "NETWORK_ERROR"
-                case networkErrorTemporary = "NETWORK_ERROR_TEMPORARY"
-                case otherError = "OTHER_ERROR"
-                case timeout = "TIMEOUT"
-                case tlsError = "TLS_ERROR"
-                case unexpectedError = "UNEXPECTED_ERROR"
+            public enum ErrorCode: Hashable, Codable, RawRepresentable {
+                case badHttpResponse
+                case badJsonContent
+                case badPkcs7Signature
+                case cannotReachAasaFile
+                case dnsError
+                case insecureRedirectsForbidden
+                case invalidEntitlementMissingSection
+                case invalidEntitlementSyntaxError
+                case invalidEntitlementUnhandledSection
+                case invalidEntitlementUnknownId
+                case networkError
+                case networkErrorTemporary
+                case otherError
+                case timeout
+                case tlsError
+                case unexpectedError
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .badHttpResponse: return "BAD_HTTP_RESPONSE"
+                    case .badJsonContent: return "BAD_JSON_CONTENT"
+                    case .badPkcs7Signature: return "BAD_PKCS7_SIGNATURE"
+                    case .cannotReachAasaFile: return "CANNOT_REACH_AASA_FILE"
+                    case .dnsError: return "DNS_ERROR"
+                    case .insecureRedirectsForbidden: return "INSECURE_REDIRECTS_FORBIDDEN"
+                    case .invalidEntitlementMissingSection: return "INVALID_ENTITLEMENT_MISSING_SECTION"
+                    case .invalidEntitlementSyntaxError: return "INVALID_ENTITLEMENT_SYNTAX_ERROR"
+                    case .invalidEntitlementUnhandledSection: return "INVALID_ENTITLEMENT_UNHANDLED_SECTION"
+                    case .invalidEntitlementUnknownId: return "INVALID_ENTITLEMENT_UNKNOWN_ID"
+                    case .networkError: return "NETWORK_ERROR"
+                    case .networkErrorTemporary: return "NETWORK_ERROR_TEMPORARY"
+                    case .otherError: return "OTHER_ERROR"
+                    case .timeout: return "TIMEOUT"
+                    case .tlsError: return "TLS_ERROR"
+                    case .unexpectedError: return "UNEXPECTED_ERROR"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "BAD_HTTP_RESPONSE": self = .badHttpResponse
+                    case "BAD_JSON_CONTENT": self = .badJsonContent
+                    case "BAD_PKCS7_SIGNATURE": self = .badPkcs7Signature
+                    case "CANNOT_REACH_AASA_FILE": self = .cannotReachAasaFile
+                    case "DNS_ERROR": self = .dnsError
+                    case "INSECURE_REDIRECTS_FORBIDDEN": self = .insecureRedirectsForbidden
+                    case "INVALID_ENTITLEMENT_MISSING_SECTION": self = .invalidEntitlementMissingSection
+                    case "INVALID_ENTITLEMENT_SYNTAX_ERROR": self = .invalidEntitlementSyntaxError
+                    case "INVALID_ENTITLEMENT_UNHANDLED_SECTION": self = .invalidEntitlementUnhandledSection
+                    case "INVALID_ENTITLEMENT_UNKNOWN_ID": self = .invalidEntitlementUnknownId
+                    case "NETWORK_ERROR": self = .networkError
+                    case "NETWORK_ERROR_TEMPORARY": self = .networkErrorTemporary
+                    case "OTHER_ERROR": self = .otherError
+                    case "TIMEOUT": self = .timeout
+                    case "TLS_ERROR": self = .tlsError
+                    case "UNEXPECTED_ERROR": self = .unexpectedError
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
         }
     }

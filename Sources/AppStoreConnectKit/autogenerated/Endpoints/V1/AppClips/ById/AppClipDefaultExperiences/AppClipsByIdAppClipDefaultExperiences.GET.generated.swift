@@ -119,20 +119,66 @@ extension V1.AppClips.ById.AppClipDefaultExperiences.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipDefaultExperienceLocalizations: String, Hashable, Codable {
+            public enum AppClipDefaultExperienceLocalizations: Hashable, Codable, RawRepresentable {
                 case appClipDefaultExperience
                 case appClipHeaderImage
                 case locale
                 case subtitle
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClipDefaultExperience: return "appClipDefaultExperience"
+                    case .appClipHeaderImage: return "appClipHeaderImage"
+                    case .locale: return "locale"
+                    case .subtitle: return "subtitle"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClipDefaultExperience": self = .appClipDefaultExperience
+                    case "appClipHeaderImage": self = .appClipHeaderImage
+                    case "locale": self = .locale
+                    case "subtitle": self = .subtitle
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum AppClipDefaultExperiences: String, Hashable, Codable {
+            public enum AppClipDefaultExperiences: Hashable, Codable, RawRepresentable {
                 case action
                 case appClip
                 case appClipAppStoreReviewDetail
                 case appClipDefaultExperienceLocalizations
                 case appClipDefaultExperienceTemplate
                 case releaseWithAppStoreVersion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .action: return "action"
+                    case .appClip: return "appClip"
+                    case .appClipAppStoreReviewDetail: return "appClipAppStoreReviewDetail"
+                    case .appClipDefaultExperienceLocalizations: return "appClipDefaultExperienceLocalizations"
+                    case .appClipDefaultExperienceTemplate: return "appClipDefaultExperienceTemplate"
+                    case .releaseWithAppStoreVersion: return "releaseWithAppStoreVersion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "action": self = .action
+                    case "appClip": self = .appClip
+                    case "appClipAppStoreReviewDetail": self = .appClipAppStoreReviewDetail
+                    case "appClipDefaultExperienceLocalizations": self = .appClipDefaultExperienceLocalizations
+                    case "appClipDefaultExperienceTemplate": self = .appClipDefaultExperienceTemplate
+                    case "releaseWithAppStoreVersion": self = .releaseWithAppStoreVersion
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -154,8 +200,23 @@ extension V1.AppClips.ById.AppClipDefaultExperiences.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case appClipDefaultExperienceLocalizations
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appClipDefaultExperienceLocalizations: return "appClipDefaultExperienceLocalizations"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appClipDefaultExperienceLocalizations": self = .appClipDefaultExperienceLocalizations
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

@@ -84,7 +84,7 @@ extension V1.Profiles.ById.Certificates.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Certificates: String, Hashable, Codable {
+            public enum Certificates: Hashable, Codable, RawRepresentable {
                 case certificateContent
                 case certificateType
                 case csrContent
@@ -93,6 +93,35 @@ extension V1.Profiles.ById.Certificates.GET {
                 case name
                 case platform
                 case serialNumber
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .certificateContent: return "certificateContent"
+                    case .certificateType: return "certificateType"
+                    case .csrContent: return "csrContent"
+                    case .displayName: return "displayName"
+                    case .expirationDate: return "expirationDate"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .serialNumber: return "serialNumber"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "certificateContent": self = .certificateContent
+                    case "certificateType": self = .certificateType
+                    case "csrContent": self = .csrContent
+                    case "displayName": self = .displayName
+                    case "expirationDate": self = .expirationDate
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "serialNumber": self = .serialNumber
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

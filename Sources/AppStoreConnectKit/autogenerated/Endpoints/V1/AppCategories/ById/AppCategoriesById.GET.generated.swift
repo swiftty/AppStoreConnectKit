@@ -88,10 +88,29 @@ extension V1.AppCategories.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppCategories: String, Hashable, Codable {
+            public enum AppCategories: Hashable, Codable, RawRepresentable {
                 case parent
                 case platforms
                 case subcategories
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .parent: return "parent"
+                    case .platforms: return "platforms"
+                    case .subcategories: return "subcategories"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "parent": self = .parent
+                    case "platforms": self = .platforms
+                    case "subcategories": self = .subcategories
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -108,9 +127,26 @@ extension V1.AppCategories.ById.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case parent
             case subcategories
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .parent: return "parent"
+                case .subcategories: return "subcategories"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "parent": self = .parent
+                case "subcategories": self = .subcategories
+                default: self = .unknown(rawValue)
+                }
+            }
         }
 
         public struct Limit: Hashable {

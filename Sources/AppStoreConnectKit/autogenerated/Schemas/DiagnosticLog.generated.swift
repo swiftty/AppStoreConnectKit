@@ -26,8 +26,23 @@ public struct DiagnosticLog: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case diagnosticLogs
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .diagnosticLogs: return "diagnosticLogs"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "diagnosticLogs": self = .diagnosticLogs
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 }
 

@@ -80,12 +80,35 @@ extension V1.AppStoreVersions.ById.IdfaDeclaration.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum IdfaDeclarations: String, Hashable, Codable {
+            public enum IdfaDeclarations: Hashable, Codable, RawRepresentable {
                 case appStoreVersion
                 case attributesActionWithPreviousAd
                 case attributesAppInstallationToPreviousAd
                 case honorsLimitedAdTracking
                 case servesAds
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .attributesActionWithPreviousAd: return "attributesActionWithPreviousAd"
+                    case .attributesAppInstallationToPreviousAd: return "attributesAppInstallationToPreviousAd"
+                    case .honorsLimitedAdTracking: return "honorsLimitedAdTracking"
+                    case .servesAds: return "servesAds"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "attributesActionWithPreviousAd": self = .attributesActionWithPreviousAd
+                    case "attributesAppInstallationToPreviousAd": self = .attributesAppInstallationToPreviousAd
+                    case "honorsLimitedAdTracking": self = .honorsLimitedAdTracking
+                    case "servesAds": self = .servesAds
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

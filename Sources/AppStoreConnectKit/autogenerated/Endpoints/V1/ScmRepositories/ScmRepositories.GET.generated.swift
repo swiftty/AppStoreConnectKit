@@ -90,15 +90,38 @@ extension V1.ScmRepositories.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ScmGitReferences: String, Hashable, Codable {
+            public enum ScmGitReferences: Hashable, Codable, RawRepresentable {
                 case canonicalName
                 case isDeleted
                 case kind
                 case name
                 case repository
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .canonicalName: return "canonicalName"
+                    case .isDeleted: return "isDeleted"
+                    case .kind: return "kind"
+                    case .name: return "name"
+                    case .repository: return "repository"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "canonicalName": self = .canonicalName
+                    case "isDeleted": self = .isDeleted
+                    case "kind": self = .kind
+                    case "name": self = .name
+                    case "repository": self = .repository
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum ScmPullRequests: String, Hashable, Codable {
+            public enum ScmPullRequests: Hashable, Codable, RawRepresentable {
                 case destinationBranchName
                 case destinationRepositoryName
                 case destinationRepositoryOwner
@@ -111,9 +134,46 @@ extension V1.ScmRepositories.GET {
                 case sourceRepositoryOwner
                 case title
                 case webUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .destinationBranchName: return "destinationBranchName"
+                    case .destinationRepositoryName: return "destinationRepositoryName"
+                    case .destinationRepositoryOwner: return "destinationRepositoryOwner"
+                    case .isClosed: return "isClosed"
+                    case .isCrossRepository: return "isCrossRepository"
+                    case .number: return "number"
+                    case .repository: return "repository"
+                    case .sourceBranchName: return "sourceBranchName"
+                    case .sourceRepositoryName: return "sourceRepositoryName"
+                    case .sourceRepositoryOwner: return "sourceRepositoryOwner"
+                    case .title: return "title"
+                    case .webUrl: return "webUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "destinationBranchName": self = .destinationBranchName
+                    case "destinationRepositoryName": self = .destinationRepositoryName
+                    case "destinationRepositoryOwner": self = .destinationRepositoryOwner
+                    case "isClosed": self = .isClosed
+                    case "isCrossRepository": self = .isCrossRepository
+                    case "number": self = .number
+                    case "repository": self = .repository
+                    case "sourceBranchName": self = .sourceBranchName
+                    case "sourceRepositoryName": self = .sourceRepositoryName
+                    case "sourceRepositoryOwner": self = .sourceRepositoryOwner
+                    case "title": self = .title
+                    case "webUrl": self = .webUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum ScmRepositories: String, Hashable, Codable {
+            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
                 case defaultBranch
                 case gitReferences
                 case httpCloneUrl
@@ -123,6 +183,37 @@ extension V1.ScmRepositories.GET {
                 case repositoryName
                 case scmProvider
                 case sshCloneUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .defaultBranch: return "defaultBranch"
+                    case .gitReferences: return "gitReferences"
+                    case .httpCloneUrl: return "httpCloneUrl"
+                    case .lastAccessedDate: return "lastAccessedDate"
+                    case .ownerName: return "ownerName"
+                    case .pullRequests: return "pullRequests"
+                    case .repositoryName: return "repositoryName"
+                    case .scmProvider: return "scmProvider"
+                    case .sshCloneUrl: return "sshCloneUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "defaultBranch": self = .defaultBranch
+                    case "gitReferences": self = .gitReferences
+                    case "httpCloneUrl": self = .httpCloneUrl
+                    case "lastAccessedDate": self = .lastAccessedDate
+                    case "ownerName": self = .ownerName
+                    case "pullRequests": self = .pullRequests
+                    case "repositoryName": self = .repositoryName
+                    case "scmProvider": self = .scmProvider
+                    case "sshCloneUrl": self = .sshCloneUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -171,9 +262,26 @@ extension V1.ScmRepositories.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case defaultBranch
             case scmProvider
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .defaultBranch: return "defaultBranch"
+                case .scmProvider: return "scmProvider"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "defaultBranch": self = .defaultBranch
+                case "scmProvider": self = .scmProvider
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

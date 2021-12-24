@@ -90,13 +90,32 @@ extension V1.BetaAppReviewSubmissions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaAppReviewSubmissions: String, Hashable, Codable {
+            public enum BetaAppReviewSubmissions: Hashable, Codable, RawRepresentable {
                 case betaReviewState
                 case build
                 case submittedDate
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .betaReviewState: return "betaReviewState"
+                    case .build: return "build"
+                    case .submittedDate: return "submittedDate"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "betaReviewState": self = .betaReviewState
+                    case "build": self = .build
+                    case "submittedDate": self = .submittedDate
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
-            public enum Builds: String, Hashable, Codable {
+            public enum Builds: Hashable, Codable, RawRepresentable {
                 case app
                 case appEncryptionDeclaration
                 case appStoreVersion
@@ -121,6 +140,67 @@ extension V1.BetaAppReviewSubmissions.GET {
                 case uploadedDate
                 case usesNonExemptEncryption
                 case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appEncryptionDeclaration: return "appEncryptionDeclaration"
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .betaAppReviewSubmission: return "betaAppReviewSubmission"
+                    case .betaBuildLocalizations: return "betaBuildLocalizations"
+                    case .betaGroups: return "betaGroups"
+                    case .buildAudienceType: return "buildAudienceType"
+                    case .buildBetaDetail: return "buildBetaDetail"
+                    case .buildBundles: return "buildBundles"
+                    case .computedMinMacOsVersion: return "computedMinMacOsVersion"
+                    case .diagnosticSignatures: return "diagnosticSignatures"
+                    case .expirationDate: return "expirationDate"
+                    case .expired: return "expired"
+                    case .iconAssetToken: return "iconAssetToken"
+                    case .icons: return "icons"
+                    case .individualTesters: return "individualTesters"
+                    case .lsMinimumSystemVersion: return "lsMinimumSystemVersion"
+                    case .minOsVersion: return "minOsVersion"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preReleaseVersion: return "preReleaseVersion"
+                    case .processingState: return "processingState"
+                    case .uploadedDate: return "uploadedDate"
+                    case .usesNonExemptEncryption: return "usesNonExemptEncryption"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appEncryptionDeclaration": self = .appEncryptionDeclaration
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "betaAppReviewSubmission": self = .betaAppReviewSubmission
+                    case "betaBuildLocalizations": self = .betaBuildLocalizations
+                    case "betaGroups": self = .betaGroups
+                    case "buildAudienceType": self = .buildAudienceType
+                    case "buildBetaDetail": self = .buildBetaDetail
+                    case "buildBundles": self = .buildBundles
+                    case "computedMinMacOsVersion": self = .computedMinMacOsVersion
+                    case "diagnosticSignatures": self = .diagnosticSignatures
+                    case "expirationDate": self = .expirationDate
+                    case "expired": self = .expired
+                    case "iconAssetToken": self = .iconAssetToken
+                    case "icons": self = .icons
+                    case "individualTesters": self = .individualTesters
+                    case "lsMinimumSystemVersion": self = .lsMinimumSystemVersion
+                    case "minOsVersion": self = .minOsVersion
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preReleaseVersion": self = .preReleaseVersion
+                    case "processingState": self = .processingState
+                    case "uploadedDate": self = .uploadedDate
+                    case "usesNonExemptEncryption": self = .usesNonExemptEncryption
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -150,11 +230,32 @@ extension V1.BetaAppReviewSubmissions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaReviewState: String, Hashable, Codable {
-                case approved = "APPROVED"
-                case inReview = "IN_REVIEW"
-                case rejected = "REJECTED"
-                case waitingForReview = "WAITING_FOR_REVIEW"
+            public enum BetaReviewState: Hashable, Codable, RawRepresentable {
+                case approved
+                case inReview
+                case rejected
+                case waitingForReview
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .approved: return "APPROVED"
+                    case .inReview: return "IN_REVIEW"
+                    case .rejected: return "REJECTED"
+                    case .waitingForReview: return "WAITING_FOR_REVIEW"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "APPROVED": self = .approved
+                    case "IN_REVIEW": self = .inReview
+                    case "REJECTED": self = .rejected
+                    case "WAITING_FOR_REVIEW": self = .waitingForReview
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {
@@ -176,8 +277,23 @@ extension V1.BetaAppReviewSubmissions.GET {
             }
         }
 
-        public enum Include: String, Hashable, Codable {
+        public enum Include: Hashable, Codable, RawRepresentable {
             case build
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .build: return "build"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "build": self = .build
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

@@ -36,8 +36,23 @@ public struct ScmPullRequest: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case scmPullRequests
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .scmPullRequests: return "scmPullRequests"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "scmPullRequests": self = .scmPullRequests
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -151,8 +166,23 @@ public struct ScmPullRequest: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case scmRepositories
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .scmRepositories: return "scmRepositories"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "scmRepositories": self = .scmRepositories
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

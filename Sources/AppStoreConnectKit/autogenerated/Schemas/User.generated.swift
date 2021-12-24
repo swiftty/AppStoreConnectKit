@@ -36,8 +36,23 @@ public struct User: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case users
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .users: return "users"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "users": self = .users
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -131,8 +146,23 @@ public struct User: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case apps
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .apps: return "apps"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "apps": self = .apps
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 

@@ -79,12 +79,35 @@ extension V1.AppStoreVersions.ById.AppStoreVersionPhasedRelease.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppStoreVersionPhasedReleases: String, Hashable, Codable {
+            public enum AppStoreVersionPhasedReleases: Hashable, Codable, RawRepresentable {
                 case appStoreVersion
                 case currentDayNumber
                 case phasedReleaseState
                 case startDate
                 case totalPauseDuration
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .currentDayNumber: return "currentDayNumber"
+                    case .phasedReleaseState: return "phasedReleaseState"
+                    case .startDate: return "startDate"
+                    case .totalPauseDuration: return "totalPauseDuration"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "currentDayNumber": self = .currentDayNumber
+                    case "phasedReleaseState": self = .phasedReleaseState
+                    case "startDate": self = .startDate
+                    case "totalPauseDuration": self = .totalPauseDuration
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

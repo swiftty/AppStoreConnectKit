@@ -84,11 +84,32 @@ extension V1.CiBuildActions.ById.Issues.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiIssues: String, Hashable, Codable {
+            public enum CiIssues: Hashable, Codable, RawRepresentable {
                 case category
                 case fileSource
                 case issueType
                 case message
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .category: return "category"
+                    case .fileSource: return "fileSource"
+                    case .issueType: return "issueType"
+                    case .message: return "message"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "category": self = .category
+                    case "fileSource": self = .fileSource
+                    case "issueType": self = .issueType
+                    case "message": self = .message
+                    default: self = .unknown(rawValue)
+                    }
+                }
             }
 
             public struct Relation<T>: Hashable {

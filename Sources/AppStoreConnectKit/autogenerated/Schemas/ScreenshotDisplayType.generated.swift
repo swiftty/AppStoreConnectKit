@@ -3,33 +3,98 @@
 // swiftlint:disable all
 import Foundation
 
-public enum ScreenshotDisplayType: String, Hashable, Codable {
-    case appAppleTv = "APP_APPLE_TV"
-    case appDesktop = "APP_DESKTOP"
-    case appIpad105 = "APP_IPAD_105"
-    case appIpad97 = "APP_IPAD_97"
-    case appIpadPro129 = "APP_IPAD_PRO_129"
-    case appIpadPro3Gen11 = "APP_IPAD_PRO_3GEN_11"
-    case appIpadPro3Gen129 = "APP_IPAD_PRO_3GEN_129"
-    case appIphone35 = "APP_IPHONE_35"
-    case appIphone40 = "APP_IPHONE_40"
-    case appIphone47 = "APP_IPHONE_47"
-    case appIphone55 = "APP_IPHONE_55"
-    case appIphone58 = "APP_IPHONE_58"
-    case appIphone65 = "APP_IPHONE_65"
-    case appWatchSeries3 = "APP_WATCH_SERIES_3"
-    case appWatchSeries4 = "APP_WATCH_SERIES_4"
-    case appWatchSeries7 = "APP_WATCH_SERIES_7"
-    case imessageAppIpad105 = "IMESSAGE_APP_IPAD_105"
-    case imessageAppIpad97 = "IMESSAGE_APP_IPAD_97"
-    case imessageAppIpadPro129 = "IMESSAGE_APP_IPAD_PRO_129"
-    case imessageAppIpadPro3Gen11 = "IMESSAGE_APP_IPAD_PRO_3GEN_11"
-    case imessageAppIpadPro3Gen129 = "IMESSAGE_APP_IPAD_PRO_3GEN_129"
-    case imessageAppIphone40 = "IMESSAGE_APP_IPHONE_40"
-    case imessageAppIphone47 = "IMESSAGE_APP_IPHONE_47"
-    case imessageAppIphone55 = "IMESSAGE_APP_IPHONE_55"
-    case imessageAppIphone58 = "IMESSAGE_APP_IPHONE_58"
-    case imessageAppIphone65 = "IMESSAGE_APP_IPHONE_65"
+public enum ScreenshotDisplayType: Hashable, Codable, RawRepresentable {
+    case appAppleTv
+    case appDesktop
+    case appIpad105
+    case appIpad97
+    case appIpadPro129
+    case appIpadPro3Gen11
+    case appIpadPro3Gen129
+    case appIphone35
+    case appIphone40
+    case appIphone47
+    case appIphone55
+    case appIphone58
+    case appIphone65
+    case appWatchSeries3
+    case appWatchSeries4
+    case appWatchSeries7
+    case imessageAppIpad105
+    case imessageAppIpad97
+    case imessageAppIpadPro129
+    case imessageAppIpadPro3Gen11
+    case imessageAppIpadPro3Gen129
+    case imessageAppIphone40
+    case imessageAppIphone47
+    case imessageAppIphone55
+    case imessageAppIphone58
+    case imessageAppIphone65
+    case unknown(String)
+
+    public var rawValue: String {
+        switch self {
+        case .appAppleTv: return "APP_APPLE_TV"
+        case .appDesktop: return "APP_DESKTOP"
+        case .appIpad105: return "APP_IPAD_105"
+        case .appIpad97: return "APP_IPAD_97"
+        case .appIpadPro129: return "APP_IPAD_PRO_129"
+        case .appIpadPro3Gen11: return "APP_IPAD_PRO_3GEN_11"
+        case .appIpadPro3Gen129: return "APP_IPAD_PRO_3GEN_129"
+        case .appIphone35: return "APP_IPHONE_35"
+        case .appIphone40: return "APP_IPHONE_40"
+        case .appIphone47: return "APP_IPHONE_47"
+        case .appIphone55: return "APP_IPHONE_55"
+        case .appIphone58: return "APP_IPHONE_58"
+        case .appIphone65: return "APP_IPHONE_65"
+        case .appWatchSeries3: return "APP_WATCH_SERIES_3"
+        case .appWatchSeries4: return "APP_WATCH_SERIES_4"
+        case .appWatchSeries7: return "APP_WATCH_SERIES_7"
+        case .imessageAppIpad105: return "IMESSAGE_APP_IPAD_105"
+        case .imessageAppIpad97: return "IMESSAGE_APP_IPAD_97"
+        case .imessageAppIpadPro129: return "IMESSAGE_APP_IPAD_PRO_129"
+        case .imessageAppIpadPro3Gen11: return "IMESSAGE_APP_IPAD_PRO_3GEN_11"
+        case .imessageAppIpadPro3Gen129: return "IMESSAGE_APP_IPAD_PRO_3GEN_129"
+        case .imessageAppIphone40: return "IMESSAGE_APP_IPHONE_40"
+        case .imessageAppIphone47: return "IMESSAGE_APP_IPHONE_47"
+        case .imessageAppIphone55: return "IMESSAGE_APP_IPHONE_55"
+        case .imessageAppIphone58: return "IMESSAGE_APP_IPHONE_58"
+        case .imessageAppIphone65: return "IMESSAGE_APP_IPHONE_65"
+        case .unknown(let rawValue): return rawValue
+        }
+    }
+
+    public init(rawValue: String) {
+        switch rawValue {
+        case "APP_APPLE_TV": self = .appAppleTv
+        case "APP_DESKTOP": self = .appDesktop
+        case "APP_IPAD_105": self = .appIpad105
+        case "APP_IPAD_97": self = .appIpad97
+        case "APP_IPAD_PRO_129": self = .appIpadPro129
+        case "APP_IPAD_PRO_3GEN_11": self = .appIpadPro3Gen11
+        case "APP_IPAD_PRO_3GEN_129": self = .appIpadPro3Gen129
+        case "APP_IPHONE_35": self = .appIphone35
+        case "APP_IPHONE_40": self = .appIphone40
+        case "APP_IPHONE_47": self = .appIphone47
+        case "APP_IPHONE_55": self = .appIphone55
+        case "APP_IPHONE_58": self = .appIphone58
+        case "APP_IPHONE_65": self = .appIphone65
+        case "APP_WATCH_SERIES_3": self = .appWatchSeries3
+        case "APP_WATCH_SERIES_4": self = .appWatchSeries4
+        case "APP_WATCH_SERIES_7": self = .appWatchSeries7
+        case "IMESSAGE_APP_IPAD_105": self = .imessageAppIpad105
+        case "IMESSAGE_APP_IPAD_97": self = .imessageAppIpad97
+        case "IMESSAGE_APP_IPAD_PRO_129": self = .imessageAppIpadPro129
+        case "IMESSAGE_APP_IPAD_PRO_3GEN_11": self = .imessageAppIpadPro3Gen11
+        case "IMESSAGE_APP_IPAD_PRO_3GEN_129": self = .imessageAppIpadPro3Gen129
+        case "IMESSAGE_APP_IPHONE_40": self = .imessageAppIphone40
+        case "IMESSAGE_APP_IPHONE_47": self = .imessageAppIphone47
+        case "IMESSAGE_APP_IPHONE_55": self = .imessageAppIphone55
+        case "IMESSAGE_APP_IPHONE_58": self = .imessageAppIphone58
+        case "IMESSAGE_APP_IPHONE_65": self = .imessageAppIphone65
+        default: self = .unknown(rawValue)
+        }
+    }
 }
 
 // swiftlint:enable all

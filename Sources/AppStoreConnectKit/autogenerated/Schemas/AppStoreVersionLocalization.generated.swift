@@ -36,8 +36,23 @@ public struct AppStoreVersionLocalization: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: Hashable, Codable, RawRepresentable {
         case appStoreVersionLocalizations
+        case unknown(String)
+
+        public var rawValue: String {
+            switch self {
+            case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
+            case .unknown(let rawValue): return rawValue
+            }
+        }
+
+        public init(rawValue: String) {
+            switch rawValue {
+            case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
+            default: self = .unknown(rawValue)
+            }
+        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -148,8 +163,23 @@ public struct AppStoreVersionLocalization: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appPreviewSets
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appPreviewSets: return "appPreviewSets"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appPreviewSets": self = .appPreviewSets
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -214,8 +244,23 @@ public struct AppStoreVersionLocalization: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appScreenshotSets
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appScreenshotSets: return "appScreenshotSets"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appScreenshotSets": self = .appScreenshotSets
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
@@ -275,8 +320,23 @@ public struct AppStoreVersionLocalization: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: Hashable, Codable, RawRepresentable {
                     case appStoreVersions
+                    case unknown(String)
+
+                    public var rawValue: String {
+                        switch self {
+                        case .appStoreVersions: return "appStoreVersions"
+                        case .unknown(let rawValue): return rawValue
+                        }
+                    }
+
+                    public init(rawValue: String) {
+                        switch rawValue {
+                        case "appStoreVersions": self = .appStoreVersions
+                        default: self = .unknown(rawValue)
+                        }
+                    }
                 }
             }
 
