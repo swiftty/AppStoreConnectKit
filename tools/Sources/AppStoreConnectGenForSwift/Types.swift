@@ -172,24 +172,59 @@ struct EnumRepr: Repr {
     }
 
     func buildDecl(context: SwiftCodeBuilder.Context) -> Decl? {
-        func caseValue(_ value: String) -> CaseDecl {
-            var key = value.camelcased().lowerInitialLetter()
-            if key.hasPrefix("-") {
-                key = String(key.dropFirst()) + "Desc"
+        let caseValues: [(key: String, raw: String)] = cases
+            .map { value in
+                var key = value.camelcased().lowerInitialLetter()
+                if key.hasPrefix("-") {
+                    key = String(key.dropFirst()) + "Desc"
+                }
+                return (key, value)
             }
-            return CaseDecl(
-                name: key,
-                value: key == value ? nil : .string(value)
-            )
-        }
+            .sorted(by: { $0.key < $1.key })
 
         let name = "\(renderType(context: context))"
 
         return EnumDecl(
             access: .public,
             name: name,
-            inheritances: (context.inherits[name] ?? []) + ["String", "Hashable", "Codable"],
-            cases: cases.sorted().map(caseValue)
+            inheritances: (context.inherits[name] ?? []) + ["Hashable", "Codable", "RawRepresentable"],
+            cases: caseValues.map { CaseDecl(name: $0.key) } + [
+                CaseDecl(name: "unknown", value: .arguments([
+                    ArgumentDecl(name: "", type: "String")
+                ]))
+            ],
+            initializers: [
+                InitializerDecl(
+                    access: .public,
+                    arguments: [
+                        ArgumentDecl(name: "rawValue", type: "String")
+                    ],
+                    body: """
+                    switch rawValue {
+                    \(caseValues.map {
+                        #"case "\#($0.raw)": self = .\#($0.key)"#
+                    }.joined(separator: "\n"))
+                    default: self = .unknown(rawValue)
+                    }
+                    """
+                )
+            ],
+            members: [
+                MemberDecl(
+                    access: .public,
+                    keyword: .var,
+                    name: "rawValue",
+                    type: "String",
+                    value: .computed("""
+                    switch self {
+                    \(caseValues.map {
+                        #"case .\#($0.key): return "\#($0.raw)""#
+                    }.joined(separator: "\n"))
+                    case .unknown(let rawValue): return rawValue
+                    }
+                    """)
+                )
+            ]
         )
     }
 }

@@ -337,6 +337,7 @@ struct EnumDecl: Decl {
     var cases: [CaseDecl]
 
     var initializers: [InitializerDecl] = []
+    var members: [MemberDecl] = []
     var functions: [FunctionDecl] = []
 
     var nested: [Decl] = []
@@ -360,6 +361,7 @@ struct EnumDecl: Decl {
         var body: String = ""
         body += render(typealiases, separator: "\n")
         body += render(cases, separator: "\n")
+        body += render(members)
         body += render(initializers)
         body += render(functions)
         body += render(nested)
