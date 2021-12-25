@@ -1,6 +1,11 @@
 import Foundation
 
 public struct P8 {
+    public enum Error: Swift.Error {
+        case invalidP8Format
+        case invalidASN1Format
+    }
+
     let content: String
 
     public init(_ string: String) throws {
@@ -17,15 +22,15 @@ extension P8 {
     /// https://developer.apple.com/forums/thread/128616
     var privateKey: Data {
         get throws {
-            func expected(_ asn1: ASN1Data, as tag: ASN1Data.Tag) throws -> ASN1Data {
-                guard asn1.tag == tag else { throw JWT.Error.invalidASN1Format }
-                return asn1
-            }
-
             guard var data = Data(base64Encoded: content.components(separatedBy: "\n")
                                     .filter { !$0.hasPrefix("-----") }
                                     .joined(separator: "")) else {
-                throw JWT.Error.invalidP8Format
+                throw P8.Error.invalidP8Format
+            }
+
+            func expected(_ asn1: ASN1Data, as tag: ASN1Data.Tag) throws -> ASN1Data {
+                guard asn1.tag == tag else { throw P8.Error.invalidASN1Format }
+                return asn1
             }
 
             var seq = try expected(.decode(from: &data), as: .raw(.sequence))
@@ -121,7 +126,7 @@ private extension Data {
 
     private mutating func pop() throws -> Data.Element {
         guard let value = popFirst() else {
-            throw JWT.Error.invalidASN1Format
+            throw P8.Error.invalidASN1Format
         }
         return value
     }

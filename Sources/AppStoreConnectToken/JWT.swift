@@ -19,8 +19,7 @@ import CryptoKit
 /// Include the signed JWT in the authorization header of each App Store Connect API request.
 public struct JWT {
     public enum Error: Swift.Error {
-        case invalidP8Format
-        case invalidASN1Format
+        case signingError(Swift.Error)
         case unknownError(Swift.Error)
     }
     public struct Header: Codable {
@@ -92,19 +91,28 @@ public struct JWT {
         )
     }
 
-    private func digest() throws -> String {
+    private func makeDigest() throws -> String {
         let header = try JSONEncoder().encode(header).base64URLEncodedString()
         let payload = try JSONEncoder().encode(payload).base64URLEncodedString()
         return "\(header).\(payload)"
     }
 
     public func sign(using p8: P8) throws -> String {
-        let digest = try digest()
+        let digest: String
+        do {
+            digest = try makeDigest()
+        } catch {
+            throw JWT.Error.unknownError(error)
+        }
 
         #if canImport(CryptoKit)
-        let privateKey = try P256.Signing.PrivateKey(pemRepresentation: p8.content)
-        let signature = try privateKey.signature(for: digest.data(using: .utf8)!)
-        return "\(digest).\(signature.rawRepresentation.base64URLEncodedString())"
+        do {
+            let privateKey = try P256.Signing.PrivateKey(pemRepresentation: p8.content)
+            let signature = try privateKey.signature(for: digest.data(using: .utf8)!)
+            return "\(digest).\(signature.rawRepresentation.base64URLEncodedString())"
+        } catch {
+            throw JWT.Error.signingError(error)
+        }
         #else
         fatalError()
         #endif
