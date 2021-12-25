@@ -44,23 +44,8 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case betaAppClipInvocations
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .betaAppClipInvocations: return "betaAppClipInvocations"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "betaAppClipInvocations": self = .betaAppClipInvocations
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -122,23 +107,8 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case betaAppClipInvocationLocalizations
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .betaAppClipInvocationLocalizations: return "betaAppClipInvocationLocalizations"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "betaAppClipInvocationLocalizations": self = .betaAppClipInvocationLocalizations
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }
@@ -172,23 +142,8 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case buildBundles
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .buildBundles: return "buildBundles"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "buildBundles": self = .buildBundles
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }

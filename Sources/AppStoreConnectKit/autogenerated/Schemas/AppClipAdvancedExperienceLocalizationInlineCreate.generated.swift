@@ -26,23 +26,8 @@ public struct AppClipAdvancedExperienceLocalizationInlineCreate: Hashable, Codab
         case attributes
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case appClipAdvancedExperienceLocalizations
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .appClipAdvancedExperienceLocalizations: return "appClipAdvancedExperienceLocalizations"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "appClipAdvancedExperienceLocalizations": self = .appClipAdvancedExperienceLocalizations
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {

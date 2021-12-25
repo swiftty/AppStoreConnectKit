@@ -44,23 +44,8 @@ public struct AppClipAdvancedExperienceCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case appClipAdvancedExperiences
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appClipAdvancedExperiences: return "appClipAdvancedExperiences"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "appClipAdvancedExperiences": self = .appClipAdvancedExperiences
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -560,23 +545,8 @@ public struct AppClipAdvancedExperienceCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case appClips
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .appClips: return "appClips"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "appClips": self = .appClips
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }
@@ -610,23 +580,8 @@ public struct AppClipAdvancedExperienceCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case appClipAdvancedExperienceImages
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .appClipAdvancedExperienceImages: return "appClipAdvancedExperienceImages"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "appClipAdvancedExperienceImages": self = .appClipAdvancedExperienceImages
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }
@@ -660,23 +615,8 @@ public struct AppClipAdvancedExperienceCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case appClipAdvancedExperienceLocalizations
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .appClipAdvancedExperienceLocalizations: return "appClipAdvancedExperienceLocalizations"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "appClipAdvancedExperienceLocalizations": self = .appClipAdvancedExperienceLocalizations
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }

@@ -31,23 +31,8 @@ public struct BuildBundleFileSize: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case buildBundleFileSizes
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .buildBundleFileSizes: return "buildBundleFileSizes"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "buildBundleFileSizes": self = .buildBundleFileSizes
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {

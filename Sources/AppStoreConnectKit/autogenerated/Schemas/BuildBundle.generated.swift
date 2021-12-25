@@ -36,23 +36,8 @@ public struct BuildBundle: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case buildBundles
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .buildBundles: return "buildBundles"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "buildBundles": self = .buildBundles
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -235,23 +220,8 @@ public struct BuildBundle: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appClipDomainStatuses
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appClipDomainStatuses: return "appClipDomainStatuses"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appClipDomainStatuses": self = .appClipDomainStatuses
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -311,23 +281,8 @@ public struct BuildBundle: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appClipDomainStatuses
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appClipDomainStatuses: return "appClipDomainStatuses"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appClipDomainStatuses": self = .appClipDomainStatuses
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -392,23 +347,8 @@ public struct BuildBundle: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case betaAppClipInvocations
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .betaAppClipInvocations: return "betaAppClipInvocations"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "betaAppClipInvocations": self = .betaAppClipInvocations
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -473,23 +413,8 @@ public struct BuildBundle: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case buildBundleFileSizes
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .buildBundleFileSizes: return "buildBundleFileSizes"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "buildBundleFileSizes": self = .buildBundleFileSizes
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 

@@ -31,23 +31,8 @@ public struct AppClipAdvancedExperienceImage: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case appClipAdvancedExperienceImages
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .appClipAdvancedExperienceImages: return "appClipAdvancedExperienceImages"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "appClipAdvancedExperienceImages": self = .appClipAdvancedExperienceImages
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {

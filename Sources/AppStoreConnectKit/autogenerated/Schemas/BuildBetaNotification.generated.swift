@@ -26,23 +26,8 @@ public struct BuildBetaNotification: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case buildBetaNotifications
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .buildBetaNotifications: return "buildBetaNotifications"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "buildBetaNotifications": self = .buildBetaNotifications
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 }
 

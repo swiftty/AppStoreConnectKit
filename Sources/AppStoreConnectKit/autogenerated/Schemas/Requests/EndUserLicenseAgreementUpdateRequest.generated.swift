@@ -42,23 +42,8 @@ public struct EndUserLicenseAgreementUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case endUserLicenseAgreements
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .endUserLicenseAgreements: return "endUserLicenseAgreements"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "endUserLicenseAgreements": self = .endUserLicenseAgreements
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -113,23 +98,8 @@ public struct EndUserLicenseAgreementUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case territories
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .territories: return "territories"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "territories": self = .territories
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }

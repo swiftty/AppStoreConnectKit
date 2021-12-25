@@ -37,23 +37,8 @@ public struct AppClipDefaultExperienceLocalizationCreateRequest: Hashable, Codab
             case relationships
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case appClipDefaultExperienceLocalizations
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appClipDefaultExperienceLocalizations: return "appClipDefaultExperienceLocalizations"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "appClipDefaultExperienceLocalizations": self = .appClipDefaultExperienceLocalizations
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -115,23 +100,8 @@ public struct AppClipDefaultExperienceLocalizationCreateRequest: Hashable, Codab
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case appClipDefaultExperiences
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .appClipDefaultExperiences: return "appClipDefaultExperiences"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "appClipDefaultExperiences": self = .appClipDefaultExperiences
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }

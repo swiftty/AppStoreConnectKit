@@ -36,23 +36,8 @@ public struct AppStoreVersion: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case appStoreVersions
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .appStoreVersions: return "appStoreVersions"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "appStoreVersions": self = .appStoreVersions
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -230,23 +215,8 @@ public struct AppStoreVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case ageRatingDeclarations
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .ageRatingDeclarations: return "ageRatingDeclarations"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "ageRatingDeclarations": self = .ageRatingDeclarations
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -306,23 +276,8 @@ public struct AppStoreVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case apps
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .apps: return "apps"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "apps": self = .apps
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -382,23 +337,8 @@ public struct AppStoreVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appClipDefaultExperiences
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appClipDefaultExperiences: return "appClipDefaultExperiences"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appClipDefaultExperiences": self = .appClipDefaultExperiences
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -458,23 +398,8 @@ public struct AppStoreVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appStoreReviewDetails
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appStoreReviewDetails: return "appStoreReviewDetails"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appStoreReviewDetails": self = .appStoreReviewDetails
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -539,23 +464,8 @@ public struct AppStoreVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appStoreVersionLocalizations
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -615,23 +525,8 @@ public struct AppStoreVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appStoreVersionPhasedReleases
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appStoreVersionPhasedReleases: return "appStoreVersionPhasedReleases"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appStoreVersionPhasedReleases": self = .appStoreVersionPhasedReleases
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -691,23 +586,8 @@ public struct AppStoreVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appStoreVersionSubmissions
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appStoreVersionSubmissions: return "appStoreVersionSubmissions"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appStoreVersionSubmissions": self = .appStoreVersionSubmissions
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -767,23 +647,8 @@ public struct AppStoreVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case builds
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .builds: return "builds"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "builds": self = .builds
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -843,23 +708,8 @@ public struct AppStoreVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case idfaDeclarations
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .idfaDeclarations: return "idfaDeclarations"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "idfaDeclarations": self = .idfaDeclarations
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -919,23 +769,8 @@ public struct AppStoreVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case routingAppCoverages
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .routingAppCoverages: return "routingAppCoverages"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "routingAppCoverages": self = .routingAppCoverages
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 

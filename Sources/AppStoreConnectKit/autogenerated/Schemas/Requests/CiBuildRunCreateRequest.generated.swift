@@ -37,23 +37,8 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case ciBuildRuns
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .ciBuildRuns: return "ciBuildRuns"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "ciBuildRuns": self = .ciBuildRuns
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -125,23 +110,8 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case ciBuildRuns
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .ciBuildRuns: return "ciBuildRuns"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "ciBuildRuns": self = .ciBuildRuns
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }
@@ -175,23 +145,8 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case scmPullRequests
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .scmPullRequests: return "scmPullRequests"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "scmPullRequests": self = .scmPullRequests
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }
@@ -225,23 +180,8 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case scmGitReferences
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .scmGitReferences: return "scmGitReferences"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "scmGitReferences": self = .scmGitReferences
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }
@@ -275,23 +215,8 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case ciWorkflows
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .ciWorkflows: return "ciWorkflows"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "ciWorkflows": self = .ciWorkflows
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }

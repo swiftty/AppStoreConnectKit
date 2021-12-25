@@ -37,23 +37,8 @@ public struct BetaLicenseAgreementUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case betaLicenseAgreements
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .betaLicenseAgreements: return "betaLicenseAgreements"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "betaLicenseAgreements": self = .betaLicenseAgreements
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {

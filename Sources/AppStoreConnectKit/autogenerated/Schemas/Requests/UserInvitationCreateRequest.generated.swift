@@ -37,23 +37,8 @@ public struct UserInvitationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case userInvitations
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .userInvitations: return "userInvitations"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "userInvitations": self = .userInvitations
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -135,23 +120,8 @@ public struct UserInvitationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case apps
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .apps: return "apps"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "apps": self = .apps
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }

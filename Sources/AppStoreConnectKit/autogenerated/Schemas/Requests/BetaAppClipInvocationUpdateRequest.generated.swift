@@ -37,23 +37,8 @@ public struct BetaAppClipInvocationUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case betaAppClipInvocations
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .betaAppClipInvocations: return "betaAppClipInvocations"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "betaAppClipInvocations": self = .betaAppClipInvocations
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {

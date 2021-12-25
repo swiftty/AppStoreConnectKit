@@ -49,23 +49,8 @@ public struct AppUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case apps
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .apps: return "apps"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "apps": self = .apps
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -166,23 +151,8 @@ public struct AppUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case territories
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .territories: return "territories"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "territories": self = .territories
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }
@@ -216,23 +186,8 @@ public struct AppUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case appPrices
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .appPrices: return "appPrices"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "appPrices": self = .appPrices
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }

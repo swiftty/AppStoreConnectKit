@@ -37,23 +37,8 @@ public struct BetaAppReviewDetailUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case betaAppReviewDetails
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .betaAppReviewDetails: return "betaAppReviewDetails"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "betaAppReviewDetails": self = .betaAppReviewDetails
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {

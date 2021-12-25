@@ -21,23 +21,8 @@ public struct AppPriceInlineCreate: Hashable, Codable {
         case type
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case appPrices
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .appPrices: return "appPrices"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "appPrices": self = .appPrices
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 }
 

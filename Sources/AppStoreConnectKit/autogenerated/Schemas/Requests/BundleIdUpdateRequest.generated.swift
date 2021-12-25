@@ -37,23 +37,8 @@ public struct BundleIdUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case bundleIds
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .bundleIds: return "bundleIds"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "bundleIds": self = .bundleIds
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {

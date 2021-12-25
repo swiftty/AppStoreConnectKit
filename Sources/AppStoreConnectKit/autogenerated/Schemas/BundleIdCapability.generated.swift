@@ -31,23 +31,8 @@ public struct BundleIdCapability: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case bundleIdCapabilities
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .bundleIdCapabilities: return "bundleIdCapabilities"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "bundleIdCapabilities": self = .bundleIdCapabilities
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {

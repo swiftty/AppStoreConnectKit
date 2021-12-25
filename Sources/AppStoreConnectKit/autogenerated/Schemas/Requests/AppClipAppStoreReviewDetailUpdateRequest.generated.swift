@@ -37,23 +37,8 @@ public struct AppClipAppStoreReviewDetailUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case appClipAppStoreReviewDetails
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appClipAppStoreReviewDetails: return "appClipAppStoreReviewDetails"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "appClipAppStoreReviewDetails": self = .appClipAppStoreReviewDetails
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {

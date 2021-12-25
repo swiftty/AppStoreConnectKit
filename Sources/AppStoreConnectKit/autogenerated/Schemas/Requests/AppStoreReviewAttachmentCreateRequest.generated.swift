@@ -37,23 +37,8 @@ public struct AppStoreReviewAttachmentCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case appStoreReviewAttachments
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appStoreReviewAttachments: return "appStoreReviewAttachments"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "appStoreReviewAttachments": self = .appStoreReviewAttachments
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -115,23 +100,8 @@ public struct AppStoreReviewAttachmentCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case appStoreReviewDetails
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .appStoreReviewDetails: return "appStoreReviewDetails"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "appStoreReviewDetails": self = .appStoreReviewDetails
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }

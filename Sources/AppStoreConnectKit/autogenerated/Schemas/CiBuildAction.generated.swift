@@ -36,23 +36,8 @@ public struct CiBuildAction: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case ciBuildActions
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .ciBuildActions: return "ciBuildActions"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "ciBuildActions": self = .ciBuildActions
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -151,23 +136,8 @@ public struct CiBuildAction: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case ciBuildRuns
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .ciBuildRuns: return "ciBuildRuns"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "ciBuildRuns": self = .ciBuildRuns
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 

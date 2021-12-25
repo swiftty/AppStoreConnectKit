@@ -39,23 +39,8 @@ public struct AppStoreVersionAppClipDefaultExperienceLinkageResponse: Hashable, 
             case type
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case appClipDefaultExperiences
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appClipDefaultExperiences: return "appClipDefaultExperiences"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "appClipDefaultExperiences": self = .appClipDefaultExperiences
-                default: self = .unknown(rawValue)
-                }
-            }
         }
     }
 }

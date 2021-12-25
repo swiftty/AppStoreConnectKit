@@ -36,23 +36,8 @@ public struct Build: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case builds
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .builds: return "builds"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "builds": self = .builds
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -241,23 +226,8 @@ public struct Build: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case apps
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .apps: return "apps"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "apps": self = .apps
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -317,23 +287,8 @@ public struct Build: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appEncryptionDeclarations
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appEncryptionDeclarations: return "appEncryptionDeclarations"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appEncryptionDeclarations": self = .appEncryptionDeclarations
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -393,23 +348,8 @@ public struct Build: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appStoreVersions
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appStoreVersions: return "appStoreVersions"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appStoreVersions": self = .appStoreVersions
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -469,23 +409,8 @@ public struct Build: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case betaAppReviewSubmissions
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .betaAppReviewSubmissions: return "betaAppReviewSubmissions"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "betaAppReviewSubmissions": self = .betaAppReviewSubmissions
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -550,23 +475,8 @@ public struct Build: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case betaBuildLocalizations
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .betaBuildLocalizations: return "betaBuildLocalizations"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "betaBuildLocalizations": self = .betaBuildLocalizations
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -626,23 +536,8 @@ public struct Build: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case buildBetaDetails
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .buildBetaDetails: return "buildBetaDetails"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "buildBetaDetails": self = .buildBetaDetails
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -707,23 +602,8 @@ public struct Build: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case buildBundles
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .buildBundles: return "buildBundles"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "buildBundles": self = .buildBundles
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -788,23 +668,8 @@ public struct Build: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case buildIcons
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .buildIcons: return "buildIcons"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "buildIcons": self = .buildIcons
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -869,23 +734,8 @@ public struct Build: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case betaTesters
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .betaTesters: return "betaTesters"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "betaTesters": self = .betaTesters
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -945,23 +795,8 @@ public struct Build: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case preReleaseVersions
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .preReleaseVersions: return "preReleaseVersions"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "preReleaseVersions": self = .preReleaseVersions
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 

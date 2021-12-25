@@ -36,23 +36,8 @@ public struct AppClip: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case appClips
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .appClips: return "appClips"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "appClips": self = .appClips
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -121,23 +106,8 @@ public struct AppClip: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case apps
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .apps: return "apps"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "apps": self = .apps
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -202,23 +172,8 @@ public struct AppClip: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appClipDefaultExperiences
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appClipDefaultExperiences: return "appClipDefaultExperiences"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appClipDefaultExperiences": self = .appClipDefaultExperiences
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 

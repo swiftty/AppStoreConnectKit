@@ -37,23 +37,8 @@ public struct RoutingAppCoverageUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case routingAppCoverages
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .routingAppCoverages: return "routingAppCoverages"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "routingAppCoverages": self = .routingAppCoverages
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {

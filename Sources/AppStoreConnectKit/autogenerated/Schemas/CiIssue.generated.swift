@@ -31,23 +31,8 @@ public struct CiIssue: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case ciIssues
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .ciIssues: return "ciIssues"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "ciIssues": self = .ciIssues
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {

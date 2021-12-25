@@ -37,23 +37,8 @@ public struct IdfaDeclarationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case idfaDeclarations
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .idfaDeclarations: return "idfaDeclarations"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "idfaDeclarations": self = .idfaDeclarations
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -125,23 +110,8 @@ public struct IdfaDeclarationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case appStoreVersions
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .appStoreVersions: return "appStoreVersions"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "appStoreVersions": self = .appStoreVersions
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }

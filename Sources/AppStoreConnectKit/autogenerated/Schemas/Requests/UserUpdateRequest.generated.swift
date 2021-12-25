@@ -42,23 +42,8 @@ public struct UserUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case users
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .users: return "users"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "users": self = .users
-                default: self = .unknown(rawValue)
-                }
-            }
         }
 
         public struct Attributes: Hashable, Codable {
@@ -125,23 +110,8 @@ public struct UserUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: Hashable, Codable, RawRepresentable {
+                    public enum `Type`: String, Hashable, Codable {
                         case apps
-                        case unknown(String)
-
-                        public var rawValue: String {
-                            switch self {
-                            case .apps: return "apps"
-                            case .unknown(let rawValue): return rawValue
-                            }
-                        }
-
-                        public init(rawValue: String) {
-                            switch rawValue {
-                            case "apps": self = .apps
-                            default: self = .unknown(rawValue)
-                            }
-                        }
                     }
                 }
             }

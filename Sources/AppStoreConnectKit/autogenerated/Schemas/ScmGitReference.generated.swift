@@ -36,23 +36,8 @@ public struct ScmGitReference: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case scmGitReferences
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .scmGitReferences: return "scmGitReferences"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "scmGitReferences": self = .scmGitReferences
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Attributes: Hashable, Codable {
@@ -131,23 +116,8 @@ public struct ScmGitReference: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case scmRepositories
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .scmRepositories: return "scmRepositories"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "scmRepositories": self = .scmRepositories
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 

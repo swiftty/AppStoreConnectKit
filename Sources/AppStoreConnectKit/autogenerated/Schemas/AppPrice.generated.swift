@@ -31,23 +31,8 @@ public struct AppPrice: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: Hashable, Codable, RawRepresentable {
+    public enum `Type`: String, Hashable, Codable {
         case appPrices
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .appPrices: return "appPrices"
-            case .unknown(let rawValue): return rawValue
-            }
-        }
-
-        public init(rawValue: String) {
-            switch rawValue {
-            case "appPrices": self = .appPrices
-            default: self = .unknown(rawValue)
-            }
-        }
     }
 
     public struct Relationships: Hashable, Codable {
@@ -104,23 +89,8 @@ public struct AppPrice: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case apps
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .apps: return "apps"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "apps": self = .apps
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 
@@ -180,23 +150,8 @@ public struct AppPrice: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
+                public enum `Type`: String, Hashable, Codable {
                     case appPriceTiers
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .appPriceTiers: return "appPriceTiers"
-                        case .unknown(let rawValue): return rawValue
-                        }
-                    }
-
-                    public init(rawValue: String) {
-                        switch rawValue {
-                        case "appPriceTiers": self = .appPriceTiers
-                        default: self = .unknown(rawValue)
-                        }
-                    }
                 }
             }
 

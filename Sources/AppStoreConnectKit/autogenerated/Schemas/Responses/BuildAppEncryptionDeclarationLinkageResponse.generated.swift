@@ -39,23 +39,8 @@ public struct BuildAppEncryptionDeclarationLinkageResponse: Hashable, Codable {
             case type
         }
 
-        public enum `Type`: Hashable, Codable, RawRepresentable {
+        public enum `Type`: String, Hashable, Codable {
             case appEncryptionDeclarations
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appEncryptionDeclarations: return "appEncryptionDeclarations"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "appEncryptionDeclarations": self = .appEncryptionDeclarations
-                default: self = .unknown(rawValue)
-                }
-            }
         }
     }
 }
