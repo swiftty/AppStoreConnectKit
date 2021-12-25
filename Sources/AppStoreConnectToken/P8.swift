@@ -8,12 +8,8 @@ public struct P8 {
 
     let content: String
 
-    public init(_ string: String) throws {
+    public init(_ string: String) {
         content = string
-    }
-
-    public init(contentsOf url: URL) throws {
-        try self.init(String(contentsOf: url))
     }
 }
 
