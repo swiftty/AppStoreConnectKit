@@ -184,22 +184,33 @@ struct EnumRepr: Repr {
 
         let name = "\(renderType(context: context))"
 
-        return EnumDecl(
-            access: .public,
-            name: name,
-            inheritances: (context.inherits[name] ?? []) + ["Hashable", "Codable", "RawRepresentable"],
-            cases: caseValues.map { CaseDecl(name: $0.key) } + [
-                CaseDecl(name: "unknown", value: .arguments([
-                    ArgumentDecl(name: "", type: "String")
-                ]))
-            ],
-            initializers: [
-                InitializerDecl(
-                    access: .public,
-                    arguments: [
-                        ArgumentDecl(name: "rawValue", type: "String")
-                    ],
-                    body: """
+        // do not generate `unknown` for resource type
+        if key == "type", cases.count == 1 {
+            return EnumDecl(
+                access: .public,
+                name: name,
+                inheritances: (context.inherits[name] ?? []) + ["String", "Hashable", "Codable"],
+                cases: caseValues.map {
+                    CaseDecl(name: $0.key, value: $0.key == $0.raw ? nil : .string($0.raw))
+                }
+            )
+        } else {
+            return EnumDecl(
+                access: .public,
+                name: name,
+                inheritances: (context.inherits[name] ?? []) + ["Hashable", "Codable", "RawRepresentable"],
+                cases: caseValues.map { CaseDecl(name: $0.key) } + [
+                    CaseDecl(name: "unknown", value: .arguments([
+                        ArgumentDecl(name: "", type: "String")
+                    ]))
+                ],
+                initializers: [
+                    InitializerDecl(
+                        access: .public,
+                        arguments: [
+                            ArgumentDecl(name: "rawValue", type: "String")
+                        ],
+                        body: """
                     switch rawValue {
                     \(caseValues.map {
                         #"case "\#($0.raw)": self = .\#($0.key)"#
@@ -207,15 +218,15 @@ struct EnumRepr: Repr {
                     default: self = .unknown(rawValue)
                     }
                     """
-                )
-            ],
-            members: [
-                MemberDecl(
-                    access: .public,
-                    keyword: .var,
-                    name: "rawValue",
-                    type: "String",
-                    value: .computed("""
+                    )
+                ],
+                members: [
+                    MemberDecl(
+                        access: .public,
+                        keyword: .var,
+                        name: "rawValue",
+                        type: "String",
+                        value: .computed("""
                     switch self {
                     \(caseValues.map {
                         #"case .\#($0.key): return "\#($0.raw)""#
@@ -223,9 +234,10 @@ struct EnumRepr: Repr {
                     case .unknown(let rawValue): return rawValue
                     }
                     """)
-                )
-            ]
-        )
+                    )
+                ]
+            )
+        }
     }
 }
 
