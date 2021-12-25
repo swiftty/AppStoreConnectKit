@@ -133,7 +133,10 @@ private typealias ParameterPack = (name: String,
                                    nested: [OpenAPIEndpoint.Parameter])
 
 private func buildParameters(_ parameters: [OpenAPIEndpoint.Parameter]?) -> [ParameterPack] {
-    var parameters = parameters?.sorted(by: { $0.name < $1.name }) ?? []
+    var used: Set<String> = []
+    var parameters = parameters?
+        .filter { used.insert($0.name).inserted }
+        .sorted(by: { $0.name < $1.name }) ?? []
 
     var result: [ParameterPack] = []
     while !parameters.isEmpty {
