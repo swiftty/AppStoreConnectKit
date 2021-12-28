@@ -2,6 +2,9 @@
 
 // swiftlint:disable all
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 extension V1.BuildBundles.ById.BetaAppClipInvocations {
     public struct GET: Endpoint {
