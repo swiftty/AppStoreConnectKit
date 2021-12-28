@@ -1,0 +1,17 @@
+name: Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+
+    runs-on: macos-11
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: swift build -v
+    - name: Run tests
+      run: swift test -v

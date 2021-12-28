@@ -1,5 +1,7 @@
 # AppStoreConnectKit
 
+App Store Connect API for Swift.
+
 ## Installation
 
 ### Swift Package Manager
