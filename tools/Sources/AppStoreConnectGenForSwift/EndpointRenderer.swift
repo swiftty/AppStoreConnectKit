@@ -76,6 +76,9 @@ struct EndpointRenderer: Renderer {
 
             // swiftlint:disable all
             import Foundation
+            #if canImport(FoundationNetworking)
+            import FoundationNetworking
+            #endif
 
             \(SourceFile(decl: ExtensionDecl(
                 name: pathComponents.joined(separator: "."),

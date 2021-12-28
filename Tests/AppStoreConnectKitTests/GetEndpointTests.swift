@@ -1,4 +1,7 @@
 import XCTest
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import AppStoreConnectKit
 
 private func toURLString<E: Endpoint>(_ e: E) throws -> String? {
