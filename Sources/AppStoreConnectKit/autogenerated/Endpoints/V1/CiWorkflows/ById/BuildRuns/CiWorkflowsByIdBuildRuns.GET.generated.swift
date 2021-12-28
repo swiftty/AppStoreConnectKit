@@ -2,6 +2,9 @@
 
 // swiftlint:disable all
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 extension V1.CiWorkflows.ById.BuildRuns {
     public struct GET: Endpoint {

@@ -1,0 +1,26 @@
+name: Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-11, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: fwal/setup-swift@v1
+      with:
+        swift-version: '5.5'
+      if: ${{ startsWith(runner.os, 'Linux') }}
+    - name: Build
+      run: swift build -v
+    - name: Run tests
+      run: swift test -v

@@ -4,7 +4,7 @@ import XCTest
 final class P8Tests: XCTestCase {
     func testDecodeP8() throws {
         /// https://developer.apple.com/forums/thread/128616
-        let p8 = try P8("""
+        let p8 = P8("""
         -----BEGIN PRIVATE KEY-----
         MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQguInKjBKrr3SeyhHU
         2Da4KNGZT42zclJJPYVEAggFZB6gCgYIKoZIzj0DAQehRANCAATNu4bTLE0IEWqk

@@ -1,8 +1,8 @@
 import Foundation
 #if canImport(CryptoKit)
 import CryptoKit
-#else
-#error("AppStoreConnectToken currently not support your target. for help https://github.com/apple/swift-crypto")
+#elseif canImport(Crypto)
+import Crypto
 #endif
 
 /// Overview
@@ -105,7 +105,6 @@ public struct JWT {
             throw JWT.Error.unknownError(error)
         }
 
-        #if canImport(CryptoKit)
         do {
             let privateKey = try P256.Signing.PrivateKey(pemRepresentation: p8.content)
             let signature = try privateKey.signature(for: digest.data(using: .utf8)!)
@@ -113,9 +112,6 @@ public struct JWT {
         } catch {
             throw JWT.Error.signingError(error)
         }
-        #else
-        fatalError()
-        #endif
     }
 }
 

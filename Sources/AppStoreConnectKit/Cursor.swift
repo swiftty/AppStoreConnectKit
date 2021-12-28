@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 public struct Cursor<E: Endpoint>: Endpoint {
     public typealias Parameters = Never

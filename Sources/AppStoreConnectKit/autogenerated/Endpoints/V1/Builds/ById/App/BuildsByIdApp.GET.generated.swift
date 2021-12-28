@@ -2,6 +2,9 @@
 
 // swiftlint:disable all
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 extension V1.Builds.ById.App {
     public struct GET: Endpoint {
