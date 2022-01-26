@@ -90,12 +90,14 @@ extension V1.Builds.ById.Icons.GET {
             public enum BuildIcons: Hashable, Codable, RawRepresentable {
                 case iconAsset
                 case iconType
+                case name
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
                     case .iconAsset: return "iconAsset"
                     case .iconType: return "iconType"
+                    case .name: return "name"
                     case .unknown(let rawValue): return rawValue
                     }
                 }
@@ -104,6 +106,7 @@ extension V1.Builds.ById.Icons.GET {
                     switch rawValue {
                     case "iconAsset": self = .iconAsset
                     case "iconType": self = .iconType
+                    case "name": self = .name
                     default: self = .unknown(rawValue)
                     }
                 }

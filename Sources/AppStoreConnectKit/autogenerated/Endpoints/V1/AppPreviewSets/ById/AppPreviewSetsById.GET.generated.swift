@@ -94,14 +94,18 @@ extension V1.AppPreviewSets.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public enum AppPreviewSets: Hashable, Codable, RawRepresentable {
+                case appCustomProductPageLocalization
                 case appPreviews
+                case appStoreVersionExperimentTreatmentLocalization
                 case appStoreVersionLocalization
                 case previewType
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
+                    case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
                     case .appPreviews: return "appPreviews"
+                    case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
                     case .appStoreVersionLocalization: return "appStoreVersionLocalization"
                     case .previewType: return "previewType"
                     case .unknown(let rawValue): return rawValue
@@ -110,7 +114,9 @@ extension V1.AppPreviewSets.ById.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
                     case "appPreviews": self = .appPreviews
+                    case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
                     case "appStoreVersionLocalization": self = .appStoreVersionLocalization
                     case "previewType": self = .previewType
                     default: self = .unknown(rawValue)
@@ -187,13 +193,17 @@ extension V1.AppPreviewSets.ById.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case appCustomProductPageLocalization
             case appPreviews
+            case appStoreVersionExperimentTreatmentLocalization
             case appStoreVersionLocalization
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
                 case .appPreviews: return "appPreviews"
+                case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
                 case .appStoreVersionLocalization: return "appStoreVersionLocalization"
                 case .unknown(let rawValue): return rawValue
                 }
@@ -201,7 +211,9 @@ extension V1.AppPreviewSets.ById.GET {
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
                 case "appPreviews": self = .appPreviews
+                case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
                 case "appStoreVersionLocalization": self = .appStoreVersionLocalization
                 default: self = .unknown(rawValue)
                 }

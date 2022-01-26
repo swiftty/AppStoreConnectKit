@@ -62,16 +62,32 @@ public struct AppUpdateRequest: Hashable, Codable {
 
             public var primaryLocale: String?
 
+            public var subscriptionStatusUrl: URL?
+
+            public var subscriptionStatusUrlForSandbox: URL?
+
+            public var subscriptionStatusUrlVersion: SubscriptionStatusUrlVersion?
+
+            public var subscriptionStatusUrlVersionForSandbox: SubscriptionStatusUrlVersion?
+
             public init(
                 availableInNewTerritories: Bool? = nil,
                 bundleId: String? = nil,
                 contentRightsDeclaration: ContentRightsDeclaration? = nil,
-                primaryLocale: String? = nil
+                primaryLocale: String? = nil,
+                subscriptionStatusUrl: URL? = nil,
+                subscriptionStatusUrlForSandbox: URL? = nil,
+                subscriptionStatusUrlVersion: SubscriptionStatusUrlVersion? = nil,
+                subscriptionStatusUrlVersionForSandbox: SubscriptionStatusUrlVersion? = nil
             ) {
                 self.availableInNewTerritories = availableInNewTerritories
                 self.bundleId = bundleId
                 self.contentRightsDeclaration = contentRightsDeclaration
                 self.primaryLocale = primaryLocale
+                self.subscriptionStatusUrl = subscriptionStatusUrl
+                self.subscriptionStatusUrlForSandbox = subscriptionStatusUrlForSandbox
+                self.subscriptionStatusUrlVersion = subscriptionStatusUrlVersion
+                self.subscriptionStatusUrlVersionForSandbox = subscriptionStatusUrlVersionForSandbox
             }
 
             private enum CodingKeys: String, CodingKey {
@@ -79,6 +95,10 @@ public struct AppUpdateRequest: Hashable, Codable {
                 case bundleId
                 case contentRightsDeclaration
                 case primaryLocale
+                case subscriptionStatusUrl
+                case subscriptionStatusUrlForSandbox
+                case subscriptionStatusUrlVersion
+                case subscriptionStatusUrlVersionForSandbox
             }
 
             public enum ContentRightsDeclaration: Hashable, Codable, RawRepresentable {

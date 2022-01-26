@@ -32,6 +32,10 @@ extension V1.AppStoreVersionLocalizations.ById.AppPreviewSets {
                              value: parameters.fields[.appPreviewSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPreviews]",
                              value: parameters.fields[.appPreviews]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[appCustomProductPageLocalization]",
+                             value: parameters.filter[.appCustomProductPageLocalization]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[appStoreVersionExperimentTreatmentLocalization]",
+                             value: parameters.filter[.appStoreVersionExperimentTreatmentLocalization]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[previewType]",
                              value: parameters.filter[.previewType]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -101,14 +105,18 @@ extension V1.AppStoreVersionLocalizations.ById.AppPreviewSets.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public enum AppPreviewSets: Hashable, Codable, RawRepresentable {
+                case appCustomProductPageLocalization
                 case appPreviews
+                case appStoreVersionExperimentTreatmentLocalization
                 case appStoreVersionLocalization
                 case previewType
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
+                    case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
                     case .appPreviews: return "appPreviews"
+                    case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
                     case .appStoreVersionLocalization: return "appStoreVersionLocalization"
                     case .previewType: return "previewType"
                     case .unknown(let rawValue): return rawValue
@@ -117,7 +125,9 @@ extension V1.AppStoreVersionLocalizations.ById.AppPreviewSets.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
                     case "appPreviews": self = .appPreviews
+                    case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
                     case "appStoreVersionLocalization": self = .appStoreVersionLocalization
                     case "previewType": self = .previewType
                     default: self = .unknown(rawValue)
@@ -263,6 +273,16 @@ extension V1.AppStoreVersionLocalizations.ById.AppPreviewSets.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// filter by id(s) of related 'appCustomProductPageLocalization'
+                public static var appCustomProductPageLocalization: Relation<[String]?> {
+                    .init(key: "filter[appCustomProductPageLocalization]")
+                }
+
+                /// filter by id(s) of related 'appStoreVersionExperimentTreatmentLocalization'
+                public static var appStoreVersionExperimentTreatmentLocalization: Relation<[String]?> {
+                    .init(key: "filter[appStoreVersionExperimentTreatmentLocalization]")
+                }
+
                 /// filter by attribute 'previewType'
                 public static var previewType: Relation<[PreviewType]?> {
                     .init(key: "filter[previewType]")

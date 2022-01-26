@@ -48,6 +48,9 @@ public struct AppsResponse: Hashable, Codable {
         case territory(Territory)
         case inAppPurchase(InAppPurchase)
         case gameCenterEnabledVersion(GameCenterEnabledVersion)
+        case appCustomProductPage(AppCustomProductPage)
+        case appEvent(AppEvent)
+        case reviewSubmission(ReviewSubmission)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -132,6 +135,21 @@ public struct AppsResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .appCustomProductPage(try AppCustomProductPage(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appEvent(try AppEvent(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .reviewSubmission(try ReviewSubmission(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -184,6 +202,15 @@ public struct AppsResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .gameCenterEnabledVersion(let value):
+                try value.encode(to: encoder)
+
+            case .appCustomProductPage(let value):
+                try value.encode(to: encoder)
+
+            case .appEvent(let value):
+                try value.encode(to: encoder)
+
+            case .reviewSubmission(let value):
                 try value.encode(to: encoder)
             }
         }

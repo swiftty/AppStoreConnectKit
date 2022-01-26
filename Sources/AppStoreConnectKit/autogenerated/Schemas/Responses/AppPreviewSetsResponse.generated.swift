@@ -33,6 +33,8 @@ public struct AppPreviewSetsResponse: Hashable, Codable {
 
     public enum Included: Hashable, Codable {
         case appStoreVersionLocalization(AppStoreVersionLocalization)
+        case appCustomProductPageLocalization(AppCustomProductPageLocalization)
+        case appStoreVersionExperimentTreatmentLocalization(AppStoreVersionExperimentTreatmentLocalization)
         case appPreview(AppPreview)
 
         public init(from decoder: Decoder) throws {
@@ -40,6 +42,16 @@ public struct AppPreviewSetsResponse: Hashable, Codable {
                 var lastError: Error!
                 do {
                     return .appStoreVersionLocalization(try AppStoreVersionLocalization(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appCustomProductPageLocalization(try AppCustomProductPageLocalization(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appStoreVersionExperimentTreatmentLocalization(try AppStoreVersionExperimentTreatmentLocalization(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -55,6 +67,12 @@ public struct AppPreviewSetsResponse: Hashable, Codable {
         public func encode(to encoder: Encoder) throws {
             switch self {
             case .appStoreVersionLocalization(let value):
+                try value.encode(to: encoder)
+
+            case .appCustomProductPageLocalization(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersionExperimentTreatmentLocalization(let value):
                 try value.encode(to: encoder)
 
             case .appPreview(let value):

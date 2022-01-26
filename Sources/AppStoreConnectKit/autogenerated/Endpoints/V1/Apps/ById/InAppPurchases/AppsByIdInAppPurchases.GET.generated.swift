@@ -109,6 +109,8 @@ extension V1.Apps.ById.InAppPurchases.GET {
 
             public enum Apps: Hashable, Codable, RawRepresentable {
                 case appClips
+                case appCustomProductPages
+                case appEvents
                 case appInfos
                 case appStoreVersions
                 case availableInNewTerritories
@@ -132,12 +134,19 @@ extension V1.Apps.ById.InAppPurchases.GET {
                 case preReleaseVersions
                 case prices
                 case primaryLocale
+                case reviewSubmissions
                 case sku
+                case subscriptionStatusUrl
+                case subscriptionStatusUrlForSandbox
+                case subscriptionStatusUrlVersion
+                case subscriptionStatusUrlVersionForSandbox
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
                     case .appClips: return "appClips"
+                    case .appCustomProductPages: return "appCustomProductPages"
+                    case .appEvents: return "appEvents"
                     case .appInfos: return "appInfos"
                     case .appStoreVersions: return "appStoreVersions"
                     case .availableInNewTerritories: return "availableInNewTerritories"
@@ -161,7 +170,12 @@ extension V1.Apps.ById.InAppPurchases.GET {
                     case .preReleaseVersions: return "preReleaseVersions"
                     case .prices: return "prices"
                     case .primaryLocale: return "primaryLocale"
+                    case .reviewSubmissions: return "reviewSubmissions"
                     case .sku: return "sku"
+                    case .subscriptionStatusUrl: return "subscriptionStatusUrl"
+                    case .subscriptionStatusUrlForSandbox: return "subscriptionStatusUrlForSandbox"
+                    case .subscriptionStatusUrlVersion: return "subscriptionStatusUrlVersion"
+                    case .subscriptionStatusUrlVersionForSandbox: return "subscriptionStatusUrlVersionForSandbox"
                     case .unknown(let rawValue): return rawValue
                     }
                 }
@@ -169,6 +183,8 @@ extension V1.Apps.ById.InAppPurchases.GET {
                 public init(rawValue: String) {
                     switch rawValue {
                     case "appClips": self = .appClips
+                    case "appCustomProductPages": self = .appCustomProductPages
+                    case "appEvents": self = .appEvents
                     case "appInfos": self = .appInfos
                     case "appStoreVersions": self = .appStoreVersions
                     case "availableInNewTerritories": self = .availableInNewTerritories
@@ -192,7 +208,12 @@ extension V1.Apps.ById.InAppPurchases.GET {
                     case "preReleaseVersions": self = .preReleaseVersions
                     case "prices": self = .prices
                     case "primaryLocale": self = .primaryLocale
+                    case "reviewSubmissions": self = .reviewSubmissions
                     case "sku": self = .sku
+                    case "subscriptionStatusUrl": self = .subscriptionStatusUrl
+                    case "subscriptionStatusUrlForSandbox": self = .subscriptionStatusUrlForSandbox
+                    case "subscriptionStatusUrlVersion": self = .subscriptionStatusUrlVersion
+                    case "subscriptionStatusUrlVersionForSandbox": self = .subscriptionStatusUrlVersionForSandbox
                     default: self = .unknown(rawValue)
                     }
                 }

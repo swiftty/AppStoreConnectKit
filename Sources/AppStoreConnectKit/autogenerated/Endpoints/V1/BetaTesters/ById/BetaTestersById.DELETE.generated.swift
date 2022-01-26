@@ -31,6 +31,7 @@ extension V1.BetaTesters.ById {
             return urlRequest
         }
 
+        /// - Returns: **202**, Accepted for future completion
         /// - Returns: **204**, Success (no content)
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
@@ -43,6 +44,9 @@ extension V1.BetaTesters.ById {
             }
 
             switch urlResponse.statusCode {
+            case 202:
+                return
+
             case 204:
                 return
 

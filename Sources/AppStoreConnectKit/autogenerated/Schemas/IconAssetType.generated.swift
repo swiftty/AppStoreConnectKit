@@ -4,6 +4,7 @@
 import Foundation
 
 public enum IconAssetType: Hashable, Codable, RawRepresentable {
+    case alternateExperiment
     case appStore
     case messagesAppStore
     case tvOSHomeScreen
@@ -13,6 +14,7 @@ public enum IconAssetType: Hashable, Codable, RawRepresentable {
 
     public var rawValue: String {
         switch self {
+        case .alternateExperiment: return "ALTERNATE_EXPERIMENT"
         case .appStore: return "APP_STORE"
         case .messagesAppStore: return "MESSAGES_APP_STORE"
         case .tvOSHomeScreen: return "TV_OS_HOME_SCREEN"
@@ -24,6 +26,7 @@ public enum IconAssetType: Hashable, Codable, RawRepresentable {
 
     public init(rawValue: String) {
         switch rawValue {
+        case "ALTERNATE_EXPERIMENT": self = .alternateExperiment
         case "APP_STORE": self = .appStore
         case "MESSAGES_APP_STORE": self = .messagesAppStore
         case "TV_OS_HOME_SCREEN": self = .tvOSHomeScreen
