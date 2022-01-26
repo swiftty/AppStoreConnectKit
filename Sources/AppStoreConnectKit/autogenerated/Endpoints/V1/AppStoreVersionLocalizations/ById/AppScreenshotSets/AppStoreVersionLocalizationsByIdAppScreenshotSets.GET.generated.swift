@@ -32,6 +32,10 @@ extension V1.AppStoreVersionLocalizations.ById.AppScreenshotSets {
                              value: parameters.fields[.appScreenshotSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appScreenshots]",
                              value: parameters.fields[.appScreenshots]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[appCustomProductPageLocalization]",
+                             value: parameters.filter[.appCustomProductPageLocalization]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[appStoreVersionExperimentTreatmentLocalization]",
+                             value: parameters.filter[.appStoreVersionExperimentTreatmentLocalization]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[screenshotDisplayType]",
                              value: parameters.filter[.screenshotDisplayType]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -101,14 +105,18 @@ extension V1.AppStoreVersionLocalizations.ById.AppScreenshotSets.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public enum AppScreenshotSets: Hashable, Codable, RawRepresentable {
+                case appCustomProductPageLocalization
                 case appScreenshots
+                case appStoreVersionExperimentTreatmentLocalization
                 case appStoreVersionLocalization
                 case screenshotDisplayType
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
+                    case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
                     case .appScreenshots: return "appScreenshots"
+                    case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
                     case .appStoreVersionLocalization: return "appStoreVersionLocalization"
                     case .screenshotDisplayType: return "screenshotDisplayType"
                     case .unknown(let rawValue): return rawValue
@@ -117,7 +125,9 @@ extension V1.AppStoreVersionLocalizations.ById.AppScreenshotSets.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
                     case "appScreenshots": self = .appScreenshots
+                    case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
                     case "appStoreVersionLocalization": self = .appStoreVersionLocalization
                     case "screenshotDisplayType": self = .screenshotDisplayType
                     default: self = .unknown(rawValue)
@@ -293,6 +303,16 @@ extension V1.AppStoreVersionLocalizations.ById.AppScreenshotSets.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// filter by id(s) of related 'appCustomProductPageLocalization'
+                public static var appCustomProductPageLocalization: Relation<[String]?> {
+                    .init(key: "filter[appCustomProductPageLocalization]")
+                }
+
+                /// filter by id(s) of related 'appStoreVersionExperimentTreatmentLocalization'
+                public static var appStoreVersionExperimentTreatmentLocalization: Relation<[String]?> {
+                    .init(key: "filter[appStoreVersionExperimentTreatmentLocalization]")
+                }
+
                 /// filter by attribute 'screenshotDisplayType'
                 public static var screenshotDisplayType: Relation<[ScreenshotDisplayType]?> {
                     .init(key: "filter[screenshotDisplayType]")

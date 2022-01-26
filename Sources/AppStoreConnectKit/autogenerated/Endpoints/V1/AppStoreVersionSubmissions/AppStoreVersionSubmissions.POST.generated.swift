@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppStoreVersionSubmissions {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = AppStoreVersionSubmissionCreateRequest
         public typealias Response = AppStoreVersionSubmissionResponse

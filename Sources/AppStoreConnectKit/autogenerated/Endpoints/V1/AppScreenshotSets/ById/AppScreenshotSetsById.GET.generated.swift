@@ -94,14 +94,18 @@ extension V1.AppScreenshotSets.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public enum AppScreenshotSets: Hashable, Codable, RawRepresentable {
+                case appCustomProductPageLocalization
                 case appScreenshots
+                case appStoreVersionExperimentTreatmentLocalization
                 case appStoreVersionLocalization
                 case screenshotDisplayType
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
+                    case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
                     case .appScreenshots: return "appScreenshots"
+                    case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
                     case .appStoreVersionLocalization: return "appStoreVersionLocalization"
                     case .screenshotDisplayType: return "screenshotDisplayType"
                     case .unknown(let rawValue): return rawValue
@@ -110,7 +114,9 @@ extension V1.AppScreenshotSets.ById.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
                     case "appScreenshots": self = .appScreenshots
+                    case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
                     case "appStoreVersionLocalization": self = .appStoreVersionLocalization
                     case "screenshotDisplayType": self = .screenshotDisplayType
                     default: self = .unknown(rawValue)
@@ -184,13 +190,17 @@ extension V1.AppScreenshotSets.ById.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case appCustomProductPageLocalization
             case appScreenshots
+            case appStoreVersionExperimentTreatmentLocalization
             case appStoreVersionLocalization
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
                 case .appScreenshots: return "appScreenshots"
+                case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
                 case .appStoreVersionLocalization: return "appStoreVersionLocalization"
                 case .unknown(let rawValue): return rawValue
                 }
@@ -198,7 +208,9 @@ extension V1.AppScreenshotSets.ById.GET {
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
                 case "appScreenshots": self = .appScreenshots
+                case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
                 case "appStoreVersionLocalization": self = .appStoreVersionLocalization
                 default: self = .unknown(rawValue)
                 }

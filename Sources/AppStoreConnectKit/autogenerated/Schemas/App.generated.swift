@@ -55,6 +55,14 @@ public struct App: Hashable, Codable {
 
         public var sku: String?
 
+        public var subscriptionStatusUrl: URL?
+
+        public var subscriptionStatusUrlForSandbox: URL?
+
+        public var subscriptionStatusUrlVersion: SubscriptionStatusUrlVersion?
+
+        public var subscriptionStatusUrlVersionForSandbox: SubscriptionStatusUrlVersion?
+
         public init(
             availableInNewTerritories: Bool? = nil,
             bundleId: String? = nil,
@@ -62,7 +70,11 @@ public struct App: Hashable, Codable {
             isOrEverWasMadeForKids: Bool? = nil,
             name: String? = nil,
             primaryLocale: String? = nil,
-            sku: String? = nil
+            sku: String? = nil,
+            subscriptionStatusUrl: URL? = nil,
+            subscriptionStatusUrlForSandbox: URL? = nil,
+            subscriptionStatusUrlVersion: SubscriptionStatusUrlVersion? = nil,
+            subscriptionStatusUrlVersionForSandbox: SubscriptionStatusUrlVersion? = nil
         ) {
             self.availableInNewTerritories = availableInNewTerritories
             self.bundleId = bundleId
@@ -71,6 +83,10 @@ public struct App: Hashable, Codable {
             self.name = name
             self.primaryLocale = primaryLocale
             self.sku = sku
+            self.subscriptionStatusUrl = subscriptionStatusUrl
+            self.subscriptionStatusUrlForSandbox = subscriptionStatusUrlForSandbox
+            self.subscriptionStatusUrlVersion = subscriptionStatusUrlVersion
+            self.subscriptionStatusUrlVersionForSandbox = subscriptionStatusUrlVersionForSandbox
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -81,6 +97,10 @@ public struct App: Hashable, Codable {
             case name
             case primaryLocale
             case sku
+            case subscriptionStatusUrl
+            case subscriptionStatusUrlForSandbox
+            case subscriptionStatusUrlVersion
+            case subscriptionStatusUrlVersionForSandbox
         }
 
         public enum ContentRightsDeclaration: Hashable, Codable, RawRepresentable {
@@ -108,6 +128,10 @@ public struct App: Hashable, Codable {
 
     public struct Relationships: Hashable, Codable {
         public var appClips: AppClips?
+
+        public var appCustomProductPages: AppCustomProductPages?
+
+        public var appEvents: AppEvents?
 
         public var appInfos: AppInfos?
 
@@ -139,8 +163,12 @@ public struct App: Hashable, Codable {
 
         public var prices: Prices?
 
+        public var reviewSubmissions: ReviewSubmissions?
+
         public init(
             appClips: AppClips? = nil,
+            appCustomProductPages: AppCustomProductPages? = nil,
+            appEvents: AppEvents? = nil,
             appInfos: AppInfos? = nil,
             appStoreVersions: AppStoreVersions? = nil,
             availableTerritories: AvailableTerritories? = nil,
@@ -155,9 +183,12 @@ public struct App: Hashable, Codable {
             inAppPurchases: InAppPurchases? = nil,
             preOrder: PreOrder? = nil,
             preReleaseVersions: PreReleaseVersions? = nil,
-            prices: Prices? = nil
+            prices: Prices? = nil,
+            reviewSubmissions: ReviewSubmissions? = nil
         ) {
             self.appClips = appClips
+            self.appCustomProductPages = appCustomProductPages
+            self.appEvents = appEvents
             self.appInfos = appInfos
             self.appStoreVersions = appStoreVersions
             self.availableTerritories = availableTerritories
@@ -173,10 +204,13 @@ public struct App: Hashable, Codable {
             self.preOrder = preOrder
             self.preReleaseVersions = preReleaseVersions
             self.prices = prices
+            self.reviewSubmissions = reviewSubmissions
         }
 
         private enum CodingKeys: String, CodingKey {
             case appClips
+            case appCustomProductPages
+            case appEvents
             case appInfos
             case appStoreVersions
             case availableTerritories
@@ -192,6 +226,7 @@ public struct App: Hashable, Codable {
             case preOrder
             case preReleaseVersions
             case prices
+            case reviewSubmissions
         }
 
         public struct AppClips: Hashable, Codable {
@@ -237,6 +272,138 @@ public struct App: Hashable, Codable {
 
                 public enum `Type`: String, Hashable, Codable {
                     case appClips
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct AppCustomProductPages: Hashable, Codable {
+            public var data: [Data]?
+
+            public var links: Links?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: Links? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case appCustomProductPages
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct AppEvents: Hashable, Codable {
+            public var data: [Data]?
+
+            public var links: Links?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: Links? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case appEvents
                 }
             }
 
@@ -1202,6 +1369,72 @@ public struct App: Hashable, Codable {
 
                 public enum `Type`: String, Hashable, Codable {
                     case appPrices
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct ReviewSubmissions: Hashable, Codable {
+            public var data: [Data]?
+
+            public var links: Links?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: Links? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case reviewSubmissions
                 }
             }
 

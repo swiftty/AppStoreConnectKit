@@ -60,6 +60,26 @@ public enum V1 {
         }
     }
 
+    public enum AppCustomProductPageLocalizations {
+        public enum ById {
+            public enum AppPreviewSets {}
+
+            public enum AppScreenshotSets {}
+        }
+    }
+
+    public enum AppCustomProductPageVersions {
+        public enum ById {
+            public enum AppCustomProductPageLocalizations {}
+        }
+    }
+
+    public enum AppCustomProductPages {
+        public enum ById {
+            public enum AppCustomProductPageVersions {}
+        }
+    }
+
     public enum AppEncryptionDeclarations {
         public enum ById {
             public enum App {}
@@ -67,6 +87,28 @@ public enum V1 {
             public enum Relationships {
                 public enum Builds {}
             }
+        }
+    }
+
+    public enum AppEventLocalizations {
+        public enum ById {
+            public enum AppEventScreenshots {}
+
+            public enum AppEventVideoClips {}
+        }
+    }
+
+    public enum AppEventScreenshots {
+        public enum ById {}
+    }
+
+    public enum AppEventVideoClips {
+        public enum ById {}
+    }
+
+    public enum AppEvents {
+        public enum ById {
+            public enum Localizations {}
         }
     }
 
@@ -152,6 +194,26 @@ public enum V1 {
         }
     }
 
+    public enum AppStoreVersionExperimentTreatmentLocalizations {
+        public enum ById {
+            public enum AppPreviewSets {}
+
+            public enum AppScreenshotSets {}
+        }
+    }
+
+    public enum AppStoreVersionExperimentTreatments {
+        public enum ById {
+            public enum AppStoreVersionExperimentTreatmentLocalizations {}
+        }
+    }
+
+    public enum AppStoreVersionExperiments {
+        public enum ById {
+            public enum AppStoreVersionExperimentTreatments {}
+        }
+    }
+
     public enum AppStoreVersionLocalizations {
         public enum ById {
             public enum AppPreviewSets {}
@@ -163,6 +225,8 @@ public enum V1 {
     public enum AppStoreVersionPhasedReleases {
         public enum ById {}
     }
+
+    public enum AppStoreVersionPromotions {}
 
     public enum AppStoreVersionReleaseRequests {}
 
@@ -177,6 +241,8 @@ public enum V1 {
             public enum AppClipDefaultExperience {}
 
             public enum AppStoreReviewDetail {}
+
+            public enum AppStoreVersionExperiments {}
 
             public enum AppStoreVersionLocalizations {}
 
@@ -201,6 +267,10 @@ public enum V1 {
     public enum Apps {
         public enum ById {
             public enum AppClips {}
+
+            public enum AppCustomProductPages {}
+
+            public enum AppEvents {}
 
             public enum AppInfos {}
 
@@ -237,6 +307,8 @@ public enum V1 {
             public enum Relationships {
                 public enum BetaTesters {}
             }
+
+            public enum ReviewSubmissions {}
         }
     }
 
@@ -503,6 +575,16 @@ public enum V1 {
             public enum Certificates {}
 
             public enum Devices {}
+        }
+    }
+
+    public enum ReviewSubmissionItems {
+        public enum ById {}
+    }
+
+    public enum ReviewSubmissions {
+        public enum ById {
+            public enum Items {}
         }
     }
 

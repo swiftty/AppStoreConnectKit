@@ -4,6 +4,7 @@
 import Foundation
 
 public enum AppStoreVersionState: Hashable, Codable, RawRepresentable {
+    case accepted
     case developerRejected
     case developerRemovedFromSale
     case inReview
@@ -15,6 +16,7 @@ public enum AppStoreVersionState: Hashable, Codable, RawRepresentable {
     case preorderReadyForSale
     case prepareForSubmission
     case processingForAppStore
+    case readyForReview
     case readyForSale
     case rejected
     case removedFromSale
@@ -25,6 +27,7 @@ public enum AppStoreVersionState: Hashable, Codable, RawRepresentable {
 
     public var rawValue: String {
         switch self {
+        case .accepted: return "ACCEPTED"
         case .developerRejected: return "DEVELOPER_REJECTED"
         case .developerRemovedFromSale: return "DEVELOPER_REMOVED_FROM_SALE"
         case .inReview: return "IN_REVIEW"
@@ -36,6 +39,7 @@ public enum AppStoreVersionState: Hashable, Codable, RawRepresentable {
         case .preorderReadyForSale: return "PREORDER_READY_FOR_SALE"
         case .prepareForSubmission: return "PREPARE_FOR_SUBMISSION"
         case .processingForAppStore: return "PROCESSING_FOR_APP_STORE"
+        case .readyForReview: return "READY_FOR_REVIEW"
         case .readyForSale: return "READY_FOR_SALE"
         case .rejected: return "REJECTED"
         case .removedFromSale: return "REMOVED_FROM_SALE"
@@ -48,6 +52,7 @@ public enum AppStoreVersionState: Hashable, Codable, RawRepresentable {
 
     public init(rawValue: String) {
         switch rawValue {
+        case "ACCEPTED": self = .accepted
         case "DEVELOPER_REJECTED": self = .developerRejected
         case "DEVELOPER_REMOVED_FROM_SALE": self = .developerRemovedFromSale
         case "IN_REVIEW": self = .inReview
@@ -59,6 +64,7 @@ public enum AppStoreVersionState: Hashable, Codable, RawRepresentable {
         case "PREORDER_READY_FOR_SALE": self = .preorderReadyForSale
         case "PREPARE_FOR_SUBMISSION": self = .prepareForSubmission
         case "PROCESSING_FOR_APP_STORE": self = .processingForAppStore
+        case "READY_FOR_REVIEW": self = .readyForReview
         case "READY_FOR_SALE": self = .readyForSale
         case "REJECTED": self = .rejected
         case "REMOVED_FROM_SALE": self = .removedFromSale

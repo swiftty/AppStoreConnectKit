@@ -42,6 +42,7 @@ public struct AppStoreVersionsResponse: Hashable, Codable {
         case appStoreVersionSubmission(AppStoreVersionSubmission)
         case idfaDeclaration(IdfaDeclaration)
         case appClipDefaultExperience(AppClipDefaultExperience)
+        case appStoreVersionExperiment(AppStoreVersionExperiment)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -96,6 +97,11 @@ public struct AppStoreVersionsResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .appStoreVersionExperiment(try AppStoreVersionExperiment(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -130,6 +136,9 @@ public struct AppStoreVersionsResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .appClipDefaultExperience(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersionExperiment(let value):
                 try value.encode(to: encoder)
             }
         }

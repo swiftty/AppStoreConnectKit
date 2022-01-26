@@ -172,9 +172,17 @@ struct EnumRepr: Repr {
     }
 
     func buildDecl(context: SwiftCodeBuilder.Context) -> Decl? {
+        let hasDuplicatedKeys: Bool = {
+            let lhs = cases
+            let rhs = cases.map { $0.lowercased() }
+            return lhs.count != Set(rhs).count
+        }()
         let caseValues: [(key: String, raw: String)] = cases
             .map { value in
-                var key = value.camelcased().lowerInitialLetter()
+                var key = value.camelcased()
+                if !hasDuplicatedKeys {
+                    key = key.lowerInitialLetter()
+                }
                 if key.hasPrefix("-") {
                     key = String(key.dropFirst()) + "Desc"
                 }

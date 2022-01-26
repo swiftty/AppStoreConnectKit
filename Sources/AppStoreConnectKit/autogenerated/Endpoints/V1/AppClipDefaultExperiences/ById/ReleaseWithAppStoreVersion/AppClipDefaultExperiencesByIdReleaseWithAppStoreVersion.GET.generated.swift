@@ -28,12 +28,16 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appStoreVersionExperiments]",
+                             value: parameters.fields[.appStoreVersionExperiments]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersionLocalizations]",
                              value: parameters.fields[.appStoreVersionLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersions]",
                              value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit[appStoreVersionExperiments]",
+                             value: parameters.limit[.appStoreVersionExperiments].map { "\($0)" }),
                 URLQueryItem(name: "limit[appStoreVersionLocalizations]",
                              value: parameters.limit[.appStoreVersionLocalizations].map { "\($0)" })
             ].filter { $0.value != nil }
@@ -93,6 +97,49 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public enum AppStoreVersionExperiments: Hashable, Codable, RawRepresentable {
+                case appStoreVersion
+                case appStoreVersionExperimentTreatments
+                case endDate
+                case name
+                case reviewRequired
+                case startDate
+                case started
+                case state
+                case trafficProportion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .appStoreVersionExperimentTreatments: return "appStoreVersionExperimentTreatments"
+                    case .endDate: return "endDate"
+                    case .name: return "name"
+                    case .reviewRequired: return "reviewRequired"
+                    case .startDate: return "startDate"
+                    case .started: return "started"
+                    case .state: return "state"
+                    case .trafficProportion: return "trafficProportion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "appStoreVersionExperimentTreatments": self = .appStoreVersionExperimentTreatments
+                    case "endDate": self = .endDate
+                    case "name": self = .name
+                    case "reviewRequired": self = .reviewRequired
+                    case "startDate": self = .startDate
+                    case "started": self = .started
+                    case "state": self = .state
+                    case "trafficProportion": self = .trafficProportion
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum AppStoreVersionLocalizations: Hashable, Codable, RawRepresentable {
                 case appPreviewSets
                 case appScreenshotSets
@@ -145,6 +192,7 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
                 case appClipDefaultExperience
                 case appStoreReviewDetail
                 case appStoreState
+                case appStoreVersionExperiments
                 case appStoreVersionLocalizations
                 case appStoreVersionPhasedRelease
                 case appStoreVersionSubmission
@@ -168,6 +216,7 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
                     case .appClipDefaultExperience: return "appClipDefaultExperience"
                     case .appStoreReviewDetail: return "appStoreReviewDetail"
                     case .appStoreState: return "appStoreState"
+                    case .appStoreVersionExperiments: return "appStoreVersionExperiments"
                     case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
                     case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
                     case .appStoreVersionSubmission: return "appStoreVersionSubmission"
@@ -193,6 +242,7 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
                     case "appClipDefaultExperience": self = .appClipDefaultExperience
                     case "appStoreReviewDetail": self = .appStoreReviewDetail
                     case "appStoreState": self = .appStoreState
+                    case "appStoreVersionExperiments": self = .appStoreVersionExperiments
                     case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
                     case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
                     case "appStoreVersionSubmission": self = .appStoreVersionSubmission
@@ -213,6 +263,11 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appStoreVersionExperiments
+                public static var appStoreVersionExperiments: Relation<[AppStoreVersionExperiments]?> {
+                    .init(key: "fields[appStoreVersionExperiments]")
+                }
+
                 /// the fields to include for returned resources of type appStoreVersionLocalizations
                 public static var appStoreVersionLocalizations: Relation<[AppStoreVersionLocalizations]?> {
                     .init(key: "fields[appStoreVersionLocalizations]")
@@ -232,11 +287,13 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case appStoreVersionExperiments
             case appStoreVersionLocalizations
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .appStoreVersionExperiments: return "appStoreVersionExperiments"
                 case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
                 case .unknown(let rawValue): return rawValue
                 }
@@ -244,6 +301,7 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "appStoreVersionExperiments": self = .appStoreVersionExperiments
                 case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
                 default: self = .unknown(rawValue)
                 }
@@ -259,6 +317,11 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
+                /// maximum number of related appStoreVersionExperiments returned (when they are included)
+                public static var appStoreVersionExperiments: Relation<Int?> {
+                    .init(key: "limit[appStoreVersionExperiments]")
+                }
+
                 /// maximum number of related appStoreVersionLocalizations returned (when they are included)
                 public static var appStoreVersionLocalizations: Relation<Int?> {
                     .init(key: "limit[appStoreVersionLocalizations]")

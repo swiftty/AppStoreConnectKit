@@ -53,21 +53,92 @@ public struct AppPreviewSet: Hashable, Codable {
     }
 
     public struct Relationships: Hashable, Codable {
+        public var appCustomProductPageLocalization: AppCustomProductPageLocalization?
+
         public var appPreviews: AppPreviews?
+
+        public var appStoreVersionExperimentTreatmentLocalization: AppStoreVersionExperimentTreatmentLocalization?
 
         public var appStoreVersionLocalization: AppStoreVersionLocalization?
 
         public init(
+            appCustomProductPageLocalization: AppCustomProductPageLocalization? = nil,
             appPreviews: AppPreviews? = nil,
+            appStoreVersionExperimentTreatmentLocalization: AppStoreVersionExperimentTreatmentLocalization? = nil,
             appStoreVersionLocalization: AppStoreVersionLocalization? = nil
         ) {
+            self.appCustomProductPageLocalization = appCustomProductPageLocalization
             self.appPreviews = appPreviews
+            self.appStoreVersionExperimentTreatmentLocalization = appStoreVersionExperimentTreatmentLocalization
             self.appStoreVersionLocalization = appStoreVersionLocalization
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appCustomProductPageLocalization
             case appPreviews
+            case appStoreVersionExperimentTreatmentLocalization
             case appStoreVersionLocalization
+        }
+
+        public struct AppCustomProductPageLocalization: Hashable, Codable {
+            public var data: Data?
+
+            public var links: Links?
+
+            public init(
+                data: Data? = nil,
+                links: Links? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case appCustomProductPageLocalizations
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
         }
 
         public struct AppPreviews: Hashable, Codable {
@@ -113,6 +184,67 @@ public struct AppPreviewSet: Hashable, Codable {
 
                 public enum `Type`: String, Hashable, Codable {
                     case appPreviews
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct AppStoreVersionExperimentTreatmentLocalization: Hashable, Codable {
+            public var data: Data?
+
+            public var links: Links?
+
+            public init(
+                data: Data? = nil,
+                links: Links? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case appStoreVersionExperimentTreatmentLocalizations
                 }
             }
 

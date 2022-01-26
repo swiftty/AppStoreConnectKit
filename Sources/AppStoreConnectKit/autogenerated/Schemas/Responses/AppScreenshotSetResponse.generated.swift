@@ -28,6 +28,8 @@ public struct AppScreenshotSetResponse: Hashable, Codable {
 
     public enum Included: Hashable, Codable {
         case appStoreVersionLocalization(AppStoreVersionLocalization)
+        case appCustomProductPageLocalization(AppCustomProductPageLocalization)
+        case appStoreVersionExperimentTreatmentLocalization(AppStoreVersionExperimentTreatmentLocalization)
         case appScreenshot(AppScreenshot)
 
         public init(from decoder: Decoder) throws {
@@ -35,6 +37,16 @@ public struct AppScreenshotSetResponse: Hashable, Codable {
                 var lastError: Error!
                 do {
                     return .appStoreVersionLocalization(try AppStoreVersionLocalization(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appCustomProductPageLocalization(try AppCustomProductPageLocalization(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appStoreVersionExperimentTreatmentLocalization(try AppStoreVersionExperimentTreatmentLocalization(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -50,6 +62,12 @@ public struct AppScreenshotSetResponse: Hashable, Codable {
         public func encode(to encoder: Encoder) throws {
             switch self {
             case .appStoreVersionLocalization(let value):
+                try value.encode(to: encoder)
+
+            case .appCustomProductPageLocalization(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersionExperimentTreatmentLocalization(let value):
                 try value.encode(to: encoder)
 
             case .appScreenshot(let value):
