@@ -256,7 +256,13 @@ private func buildResponseDecl<T>(into baseDecl: inout StructDecl,
             \(success ? "return" : "throw") try jsonDecoder.decode(\(type).self, from: data)
             """
 
-        case "gzip":
+        case "gzip", "application/a-gzip":
+            assert(success)
+            return """
+            return data
+            """
+            
+        case "application/vnd.apple.xcode-metrics+json":
             assert(success)
             return """
             return data

@@ -46,6 +46,7 @@ extension OpenAPISchema {
         case boolean
         case anyKey(OpenAPISchema)
         case oneOf([OpenAPISchema])
+        case undefined
 
         public enum StringFormat: String, Decodable {
             case email
@@ -97,9 +98,13 @@ extension OpenAPISchema {
                     self = .anyKey(additionalProperties)
                     return
                 }
-                let properties = try c.decode([String: OpenAPISchema].self, forKey: .properties)
-                let required = try c.decodeIfPresent(Set<String>.self, forKey: .required)
-                self = .object(properties: properties, required: required ?? [])
+                do {
+                    let properties = try c.decode([String: OpenAPISchema].self, forKey: .properties)
+                    let required = try c.decodeIfPresent(Set<String>.self, forKey: .required)
+                    self = .object(properties: properties, required: required ?? [])
+                } catch DecodingError.keyNotFound(CodingKeys.properties, _) {
+                    self = .undefined
+                }
 
             case .array:
                 let value = try c.decode(OpenAPISchema.self, forKey: .items)
