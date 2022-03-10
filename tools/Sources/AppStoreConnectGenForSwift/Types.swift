@@ -425,8 +425,10 @@ struct RefRepr: Repr {
     }
 
     func renderType(context: SwiftCodeBuilder.Context) -> TypeName {
-        let schema = context.resolver(ref)
-        return TypeName(schema?.title ?? ref.key)
+        if let schema = context.resolver(ref) {
+            return findRepr(for: schema, with: schema.title ?? ref.key).renderType(context: context)
+        }
+        return TypeName(ref.key)
     }
 }
 
