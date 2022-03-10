@@ -6,12 +6,12 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension V1.BetaAppLocalizations.ById.App {
+extension V1.Apps.ById.PricePoints {
     public struct GET: Endpoint {
-        public typealias Response = AppResponse
+        public typealias Response = AppPricePointsV2Response
 
         public var path: String {
-            "/v1/betaAppLocalizations/\(id)/app"
+            "/v1/apps/\(id)/pricePoints"
         }
 
         /// the id of the requested resource
@@ -28,8 +28,22 @@ extension V1.BetaAppLocalizations.ById.App {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appPricePoints]",
+                             value: parameters.fields[.appPricePoints]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appPriceTiers]",
+                             value: parameters.fields[.appPriceTiers]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[apps]",
-                             value: parameters.fields[.apps]?.map { "\($0)" }.joined(separator: ","))
+                             value: parameters.fields[.apps]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[territories]",
+                             value: parameters.fields[.territories]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[priceTier]",
+                             value: parameters.filter[.priceTier]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[territory]",
+                             value: parameters.filter[.territory]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit",
+                             value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -40,7 +54,7 @@ extension V1.BetaAppLocalizations.ById.App {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single App as `AppResponse`
+        /// - Returns: **200**, List of AppPricePoints as `AppPricePointsV2Response`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -52,7 +66,7 @@ extension V1.BetaAppLocalizations.ById.App {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(AppResponse.self, from: data)
+                return try jsonDecoder.decode(AppPricePointsV2Response.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
@@ -70,9 +84,17 @@ extension V1.BetaAppLocalizations.ById.App {
     }
 }
 
-extension V1.BetaAppLocalizations.ById.App.GET {
+extension V1.Apps.ById.PricePoints.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
+
+        public var filter: Filter = Filter()
+
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
+        /// maximum resources per page
+        public var limit: Int?
 
         public struct Fields: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
@@ -81,6 +103,56 @@ extension V1.BetaAppLocalizations.ById.App.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AppPricePoints: Hashable, Codable, RawRepresentable {
+                case app
+                case customerPrice
+                case priceTier
+                case proceeds
+                case territory
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .customerPrice: return "customerPrice"
+                    case .priceTier: return "priceTier"
+                    case .proceeds: return "proceeds"
+                    case .territory: return "territory"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "customerPrice": self = .customerPrice
+                    case "priceTier": self = .priceTier
+                    case "proceeds": self = .proceeds
+                    case "territory": self = .territory
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum AppPriceTiers: Hashable, Codable, RawRepresentable {
+                case pricePoints
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .pricePoints: return "pricePoints"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "pricePoints": self = .pricePoints
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum Apps: Hashable, Codable, RawRepresentable {
                 case appClips
@@ -197,16 +269,102 @@ extension V1.BetaAppLocalizations.ById.App.GET {
                 }
             }
 
+            public enum Territories: Hashable, Codable, RawRepresentable {
+                case currency
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .currency: return "currency"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "currency": self = .currency
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appPricePoints
+                public static var appPricePoints: Relation<[AppPricePoints]?> {
+                    .init(key: "fields[appPricePoints]")
+                }
+
+                /// the fields to include for returned resources of type appPriceTiers
+                public static var appPriceTiers: Relation<[AppPriceTiers]?> {
+                    .init(key: "fields[appPriceTiers]")
+                }
+
                 /// the fields to include for returned resources of type apps
                 public static var apps: Relation<[Apps]?> {
                     .init(key: "fields[apps]")
+                }
+
+                /// the fields to include for returned resources of type territories
+                public static var territories: Relation<[Territories]?> {
+                    .init(key: "fields[territories]")
                 }
 
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public struct Filter: Hashable {
+            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+                get { values[relation]?.base as! T }
+                set { values[relation] = AnyHashable(newValue) }
+            }
+
+            private var values: [AnyHashable: AnyHashable] = [:]
+
+            public struct Relation<T>: Hashable {
+                /// filter by id(s) of related 'priceTier'
+                public static var priceTier: Relation<[String]?> {
+                    .init(key: "filter[priceTier]")
+                }
+
+                /// filter by id(s) of related 'territory'
+                public static var territory: Relation<[String]?> {
+                    .init(key: "filter[territory]")
+                }
+
+                internal let key: String
+
+                public func hash(into hasher: inout Hasher) {
+                    hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case app
+            case priceTier
+            case territory
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .app: return "app"
+                case .priceTier: return "priceTier"
+                case .territory: return "territory"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "app": self = .app
+                case "priceTier": self = .priceTier
+                case "territory": self = .territory
+                default: self = .unknown(rawValue)
                 }
             }
         }

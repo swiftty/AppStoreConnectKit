@@ -28,8 +28,18 @@ extension V1.CiProducts.ById.Workflows {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[ciMacOsVersions]",
+                             value: parameters.fields[.ciMacOsVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[ciProducts]",
+                             value: parameters.fields[.ciProducts]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[ciWorkflows]",
                              value: parameters.fields[.ciWorkflows]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[ciXcodeVersions]",
+                             value: parameters.fields[.ciXcodeVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[scmRepositories]",
+                             value: parameters.fields[.scmRepositories]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -42,7 +52,7 @@ extension V1.CiProducts.ById.Workflows {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `CiWorkflowsResponse`
+        /// - Returns: **200**, List of CiWorkflows as `CiWorkflowsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -76,6 +86,9 @@ extension V1.CiProducts.ById.Workflows.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
         /// maximum resources per page
         public var limit: Int?
 
@@ -86,6 +99,74 @@ extension V1.CiProducts.ById.Workflows.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum CiMacOsVersions: Hashable, Codable, RawRepresentable {
+                case name
+                case version
+                case xcodeVersions
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .name: return "name"
+                    case .version: return "version"
+                    case .xcodeVersions: return "xcodeVersions"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "name": self = .name
+                    case "version": self = .version
+                    case "xcodeVersions": self = .xcodeVersions
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum CiProducts: Hashable, Codable, RawRepresentable {
+                case additionalRepositories
+                case app
+                case buildRuns
+                case bundleId
+                case createdDate
+                case name
+                case primaryRepositories
+                case productType
+                case workflows
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .additionalRepositories: return "additionalRepositories"
+                    case .app: return "app"
+                    case .buildRuns: return "buildRuns"
+                    case .bundleId: return "bundleId"
+                    case .createdDate: return "createdDate"
+                    case .name: return "name"
+                    case .primaryRepositories: return "primaryRepositories"
+                    case .productType: return "productType"
+                    case .workflows: return "workflows"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "additionalRepositories": self = .additionalRepositories
+                    case "app": self = .app
+                    case "buildRuns": self = .buildRuns
+                    case "bundleId": self = .bundleId
+                    case "createdDate": self = .createdDate
+                    case "name": self = .name
+                    case "primaryRepositories": self = .primaryRepositories
+                    case "productType": self = .productType
+                    case "workflows": self = .workflows
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum CiWorkflows: Hashable, Codable, RawRepresentable {
                 case actions
@@ -154,16 +235,135 @@ extension V1.CiProducts.ById.Workflows.GET {
                 }
             }
 
+            public enum CiXcodeVersions: Hashable, Codable, RawRepresentable {
+                case macOsVersions
+                case name
+                case testDestinations
+                case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .macOsVersions: return "macOsVersions"
+                    case .name: return "name"
+                    case .testDestinations: return "testDestinations"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "macOsVersions": self = .macOsVersions
+                    case "name": self = .name
+                    case "testDestinations": self = .testDestinations
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
+                case defaultBranch
+                case gitReferences
+                case httpCloneUrl
+                case lastAccessedDate
+                case ownerName
+                case pullRequests
+                case repositoryName
+                case scmProvider
+                case sshCloneUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .defaultBranch: return "defaultBranch"
+                    case .gitReferences: return "gitReferences"
+                    case .httpCloneUrl: return "httpCloneUrl"
+                    case .lastAccessedDate: return "lastAccessedDate"
+                    case .ownerName: return "ownerName"
+                    case .pullRequests: return "pullRequests"
+                    case .repositoryName: return "repositoryName"
+                    case .scmProvider: return "scmProvider"
+                    case .sshCloneUrl: return "sshCloneUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "defaultBranch": self = .defaultBranch
+                    case "gitReferences": self = .gitReferences
+                    case "httpCloneUrl": self = .httpCloneUrl
+                    case "lastAccessedDate": self = .lastAccessedDate
+                    case "ownerName": self = .ownerName
+                    case "pullRequests": self = .pullRequests
+                    case "repositoryName": self = .repositoryName
+                    case "scmProvider": self = .scmProvider
+                    case "sshCloneUrl": self = .sshCloneUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type ciMacOsVersions
+                public static var ciMacOsVersions: Relation<[CiMacOsVersions]?> {
+                    .init(key: "fields[ciMacOsVersions]")
+                }
+
+                /// the fields to include for returned resources of type ciProducts
+                public static var ciProducts: Relation<[CiProducts]?> {
+                    .init(key: "fields[ciProducts]")
+                }
+
                 /// the fields to include for returned resources of type ciWorkflows
                 public static var ciWorkflows: Relation<[CiWorkflows]?> {
                     .init(key: "fields[ciWorkflows]")
+                }
+
+                /// the fields to include for returned resources of type ciXcodeVersions
+                public static var ciXcodeVersions: Relation<[CiXcodeVersions]?> {
+                    .init(key: "fields[ciXcodeVersions]")
+                }
+
+                /// the fields to include for returned resources of type scmRepositories
+                public static var scmRepositories: Relation<[ScmRepositories]?> {
+                    .init(key: "fields[scmRepositories]")
                 }
 
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case macOsVersion
+            case product
+            case repository
+            case xcodeVersion
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .macOsVersion: return "macOsVersion"
+                case .product: return "product"
+                case .repository: return "repository"
+                case .xcodeVersion: return "xcodeVersion"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "macOsVersion": self = .macOsVersion
+                case "product": self = .product
+                case "repository": self = .repository
+                case "xcodeVersion": self = .xcodeVersion
+                default: self = .unknown(rawValue)
                 }
             }
         }

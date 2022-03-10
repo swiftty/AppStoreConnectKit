@@ -28,8 +28,12 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appClipDefaultExperienceLocalizations]",
+                             value: parameters.fields[.appClipDefaultExperienceLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClipHeaderImages]",
-                             value: parameters.fields[.appClipHeaderImages]?.map { "\($0)" }.joined(separator: ","))
+                             value: parameters.fields[.appClipHeaderImages]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -40,7 +44,7 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `AppClipHeaderImageResponse`
+        /// - Returns: **200**, Single AppClipHeaderImage as `AppClipHeaderImageResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -74,6 +78,9 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
         public struct Fields: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
                 get { values[relation]?.base as! T }
@@ -81,6 +88,34 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AppClipDefaultExperienceLocalizations: Hashable, Codable, RawRepresentable {
+                case appClipDefaultExperience
+                case appClipHeaderImage
+                case locale
+                case subtitle
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClipDefaultExperience: return "appClipDefaultExperience"
+                    case .appClipHeaderImage: return "appClipHeaderImage"
+                    case .locale: return "locale"
+                    case .subtitle: return "subtitle"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClipDefaultExperience": self = .appClipDefaultExperience
+                    case "appClipHeaderImage": self = .appClipHeaderImage
+                    case "locale": self = .locale
+                    case "subtitle": self = .subtitle
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum AppClipHeaderImages: Hashable, Codable, RawRepresentable {
                 case appClipDefaultExperienceLocalization
@@ -123,6 +158,11 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appClipDefaultExperienceLocalizations
+                public static var appClipDefaultExperienceLocalizations: Relation<[AppClipDefaultExperienceLocalizations]?> {
+                    .init(key: "fields[appClipDefaultExperienceLocalizations]")
+                }
+
                 /// the fields to include for returned resources of type appClipHeaderImages
                 public static var appClipHeaderImages: Relation<[AppClipHeaderImages]?> {
                     .init(key: "fields[appClipHeaderImages]")
@@ -132,6 +172,25 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET {
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case appClipDefaultExperienceLocalization
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appClipDefaultExperienceLocalization: return "appClipDefaultExperienceLocalization"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appClipDefaultExperienceLocalization": self = .appClipDefaultExperienceLocalization
+                default: self = .unknown(rawValue)
                 }
             }
         }

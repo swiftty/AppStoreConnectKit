@@ -28,8 +28,18 @@ extension V1.ReviewSubmissions.ById.Items {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appCustomProductPageVersions]",
+                             value: parameters.fields[.appCustomProductPageVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appEvents]",
+                             value: parameters.fields[.appEvents]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersionExperiments]",
+                             value: parameters.fields[.appStoreVersionExperiments]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersions]",
+                             value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[reviewSubmissionItems]",
                              value: parameters.fields[.reviewSubmissionItems]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -42,7 +52,7 @@ extension V1.ReviewSubmissions.ById.Items {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `ReviewSubmissionItemsResponse`
+        /// - Returns: **200**, List of ReviewSubmissionItems as `ReviewSubmissionItemsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -76,6 +86,9 @@ extension V1.ReviewSubmissions.ById.Items.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
         /// maximum resources per page
         public var limit: Int?
 
@@ -86,6 +99,205 @@ extension V1.ReviewSubmissions.ById.Items.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AppCustomProductPageVersions: Hashable, Codable, RawRepresentable {
+                case appCustomProductPage
+                case appCustomProductPageLocalizations
+                case state
+                case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appCustomProductPage: return "appCustomProductPage"
+                    case .appCustomProductPageLocalizations: return "appCustomProductPageLocalizations"
+                    case .state: return "state"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appCustomProductPage": self = .appCustomProductPage
+                    case "appCustomProductPageLocalizations": self = .appCustomProductPageLocalizations
+                    case "state": self = .state
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum AppEvents: Hashable, Codable, RawRepresentable {
+                case app
+                case archivedTerritorySchedules
+                case badge
+                case deepLink
+                case eventState
+                case localizations
+                case primaryLocale
+                case priority
+                case purchaseRequirement
+                case purpose
+                case referenceName
+                case territorySchedules
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .archivedTerritorySchedules: return "archivedTerritorySchedules"
+                    case .badge: return "badge"
+                    case .deepLink: return "deepLink"
+                    case .eventState: return "eventState"
+                    case .localizations: return "localizations"
+                    case .primaryLocale: return "primaryLocale"
+                    case .priority: return "priority"
+                    case .purchaseRequirement: return "purchaseRequirement"
+                    case .purpose: return "purpose"
+                    case .referenceName: return "referenceName"
+                    case .territorySchedules: return "territorySchedules"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "archivedTerritorySchedules": self = .archivedTerritorySchedules
+                    case "badge": self = .badge
+                    case "deepLink": self = .deepLink
+                    case "eventState": self = .eventState
+                    case "localizations": self = .localizations
+                    case "primaryLocale": self = .primaryLocale
+                    case "priority": self = .priority
+                    case "purchaseRequirement": self = .purchaseRequirement
+                    case "purpose": self = .purpose
+                    case "referenceName": self = .referenceName
+                    case "territorySchedules": self = .territorySchedules
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum AppStoreVersionExperiments: Hashable, Codable, RawRepresentable {
+                case appStoreVersion
+                case appStoreVersionExperimentTreatments
+                case endDate
+                case name
+                case reviewRequired
+                case startDate
+                case started
+                case state
+                case trafficProportion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .appStoreVersionExperimentTreatments: return "appStoreVersionExperimentTreatments"
+                    case .endDate: return "endDate"
+                    case .name: return "name"
+                    case .reviewRequired: return "reviewRequired"
+                    case .startDate: return "startDate"
+                    case .started: return "started"
+                    case .state: return "state"
+                    case .trafficProportion: return "trafficProportion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "appStoreVersionExperimentTreatments": self = .appStoreVersionExperimentTreatments
+                    case "endDate": self = .endDate
+                    case "name": self = .name
+                    case "reviewRequired": self = .reviewRequired
+                    case "startDate": self = .startDate
+                    case "started": self = .started
+                    case "state": self = .state
+                    case "trafficProportion": self = .trafficProportion
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum AppStoreVersions: Hashable, Codable, RawRepresentable {
+                case ageRatingDeclaration
+                case app
+                case appClipDefaultExperience
+                case appStoreReviewDetail
+                case appStoreState
+                case appStoreVersionExperiments
+                case appStoreVersionLocalizations
+                case appStoreVersionPhasedRelease
+                case appStoreVersionSubmission
+                case build
+                case copyright
+                case createdDate
+                case downloadable
+                case earliestReleaseDate
+                case idfaDeclaration
+                case platform
+                case releaseType
+                case routingAppCoverage
+                case usesIdfa
+                case versionString
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .ageRatingDeclaration: return "ageRatingDeclaration"
+                    case .app: return "app"
+                    case .appClipDefaultExperience: return "appClipDefaultExperience"
+                    case .appStoreReviewDetail: return "appStoreReviewDetail"
+                    case .appStoreState: return "appStoreState"
+                    case .appStoreVersionExperiments: return "appStoreVersionExperiments"
+                    case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
+                    case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
+                    case .appStoreVersionSubmission: return "appStoreVersionSubmission"
+                    case .build: return "build"
+                    case .copyright: return "copyright"
+                    case .createdDate: return "createdDate"
+                    case .downloadable: return "downloadable"
+                    case .earliestReleaseDate: return "earliestReleaseDate"
+                    case .idfaDeclaration: return "idfaDeclaration"
+                    case .platform: return "platform"
+                    case .releaseType: return "releaseType"
+                    case .routingAppCoverage: return "routingAppCoverage"
+                    case .usesIdfa: return "usesIdfa"
+                    case .versionString: return "versionString"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ageRatingDeclaration": self = .ageRatingDeclaration
+                    case "app": self = .app
+                    case "appClipDefaultExperience": self = .appClipDefaultExperience
+                    case "appStoreReviewDetail": self = .appStoreReviewDetail
+                    case "appStoreState": self = .appStoreState
+                    case "appStoreVersionExperiments": self = .appStoreVersionExperiments
+                    case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
+                    case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
+                    case "appStoreVersionSubmission": self = .appStoreVersionSubmission
+                    case "build": self = .build
+                    case "copyright": self = .copyright
+                    case "createdDate": self = .createdDate
+                    case "downloadable": self = .downloadable
+                    case "earliestReleaseDate": self = .earliestReleaseDate
+                    case "idfaDeclaration": self = .idfaDeclaration
+                    case "platform": self = .platform
+                    case "releaseType": self = .releaseType
+                    case "routingAppCoverage": self = .routingAppCoverage
+                    case "usesIdfa": self = .usesIdfa
+                    case "versionString": self = .versionString
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum ReviewSubmissionItems: Hashable, Codable, RawRepresentable {
                 case appCustomProductPageVersion
@@ -128,6 +340,26 @@ extension V1.ReviewSubmissions.ById.Items.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appCustomProductPageVersions
+                public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
+                    .init(key: "fields[appCustomProductPageVersions]")
+                }
+
+                /// the fields to include for returned resources of type appEvents
+                public static var appEvents: Relation<[AppEvents]?> {
+                    .init(key: "fields[appEvents]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersionExperiments
+                public static var appStoreVersionExperiments: Relation<[AppStoreVersionExperiments]?> {
+                    .init(key: "fields[appStoreVersionExperiments]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersions
+                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
+                    .init(key: "fields[appStoreVersions]")
+                }
+
                 /// the fields to include for returned resources of type reviewSubmissionItems
                 public static var reviewSubmissionItems: Relation<[ReviewSubmissionItems]?> {
                     .init(key: "fields[reviewSubmissionItems]")
@@ -137,6 +369,34 @@ extension V1.ReviewSubmissions.ById.Items.GET {
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case appCustomProductPageVersion
+            case appEvent
+            case appStoreVersion
+            case appStoreVersionExperiment
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appCustomProductPageVersion: return "appCustomProductPageVersion"
+                case .appEvent: return "appEvent"
+                case .appStoreVersion: return "appStoreVersion"
+                case .appStoreVersionExperiment: return "appStoreVersionExperiment"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appCustomProductPageVersion": self = .appCustomProductPageVersion
+                case "appEvent": self = .appEvent
+                case "appStoreVersion": self = .appStoreVersion
+                case "appStoreVersionExperiment": self = .appStoreVersionExperiment
+                default: self = .unknown(rawValue)
                 }
             }
         }

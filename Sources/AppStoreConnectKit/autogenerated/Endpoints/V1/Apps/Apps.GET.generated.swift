@@ -37,6 +37,8 @@ extension V1.Apps {
                              value: parameters.fields[.appInfos]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPreOrders]",
                              value: parameters.fields[.appPreOrders]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appPricePoints]",
+                             value: parameters.fields[.appPricePoints]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPrices]",
                              value: parameters.fields[.appPrices]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersions]",
@@ -397,6 +399,37 @@ extension V1.Apps.GET {
                 }
             }
 
+            public enum AppPricePoints: Hashable, Codable, RawRepresentable {
+                case app
+                case customerPrice
+                case priceTier
+                case proceeds
+                case territory
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .customerPrice: return "customerPrice"
+                    case .priceTier: return "priceTier"
+                    case .proceeds: return "proceeds"
+                    case .territory: return "territory"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "customerPrice": self = .customerPrice
+                    case "priceTier": self = .priceTier
+                    case "proceeds": self = .proceeds
+                    case "territory": self = .territory
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum AppPrices: Hashable, Codable, RawRepresentable {
                 case app
                 case priceTier
@@ -520,6 +553,7 @@ extension V1.Apps.GET {
                 case perfPowerMetrics
                 case preOrder
                 case preReleaseVersions
+                case pricePoints
                 case prices
                 case primaryLocale
                 case reviewSubmissions
@@ -556,6 +590,7 @@ extension V1.Apps.GET {
                     case .perfPowerMetrics: return "perfPowerMetrics"
                     case .preOrder: return "preOrder"
                     case .preReleaseVersions: return "preReleaseVersions"
+                    case .pricePoints: return "pricePoints"
                     case .prices: return "prices"
                     case .primaryLocale: return "primaryLocale"
                     case .reviewSubmissions: return "reviewSubmissions"
@@ -594,6 +629,7 @@ extension V1.Apps.GET {
                     case "perfPowerMetrics": self = .perfPowerMetrics
                     case "preOrder": self = .preOrder
                     case "preReleaseVersions": self = .preReleaseVersions
+                    case "pricePoints": self = .pricePoints
                     case "prices": self = .prices
                     case "primaryLocale": self = .primaryLocale
                     case "reviewSubmissions": self = .reviewSubmissions
@@ -1121,6 +1157,11 @@ extension V1.Apps.GET {
                 /// the fields to include for returned resources of type appPreOrders
                 public static var appPreOrders: Relation<[AppPreOrders]?> {
                     .init(key: "fields[appPreOrders]")
+                }
+
+                /// the fields to include for returned resources of type appPricePoints
+                public static var appPricePoints: Relation<[AppPricePoints]?> {
+                    .init(key: "fields[appPricePoints]")
                 }
 
                 /// the fields to include for returned resources of type appPrices

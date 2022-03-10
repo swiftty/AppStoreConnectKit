@@ -30,6 +30,10 @@ extension V1.ScmRepositories.ById.GitReferences {
             components?.queryItems = [
                 URLQueryItem(name: "fields[scmGitReferences]",
                              value: parameters.fields[.scmGitReferences]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[scmRepositories]",
+                             value: parameters.fields[.scmRepositories]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -42,7 +46,7 @@ extension V1.ScmRepositories.ById.GitReferences {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `ScmGitReferencesResponse`
+        /// - Returns: **200**, List of ScmGitReferences as `ScmGitReferencesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -75,6 +79,9 @@ extension V1.ScmRepositories.ById.GitReferences {
 extension V1.ScmRepositories.ById.GitReferences.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
+
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
 
         /// maximum resources per page
         public var limit: Int?
@@ -118,16 +125,83 @@ extension V1.ScmRepositories.ById.GitReferences.GET {
                 }
             }
 
+            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
+                case defaultBranch
+                case gitReferences
+                case httpCloneUrl
+                case lastAccessedDate
+                case ownerName
+                case pullRequests
+                case repositoryName
+                case scmProvider
+                case sshCloneUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .defaultBranch: return "defaultBranch"
+                    case .gitReferences: return "gitReferences"
+                    case .httpCloneUrl: return "httpCloneUrl"
+                    case .lastAccessedDate: return "lastAccessedDate"
+                    case .ownerName: return "ownerName"
+                    case .pullRequests: return "pullRequests"
+                    case .repositoryName: return "repositoryName"
+                    case .scmProvider: return "scmProvider"
+                    case .sshCloneUrl: return "sshCloneUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "defaultBranch": self = .defaultBranch
+                    case "gitReferences": self = .gitReferences
+                    case "httpCloneUrl": self = .httpCloneUrl
+                    case "lastAccessedDate": self = .lastAccessedDate
+                    case "ownerName": self = .ownerName
+                    case "pullRequests": self = .pullRequests
+                    case "repositoryName": self = .repositoryName
+                    case "scmProvider": self = .scmProvider
+                    case "sshCloneUrl": self = .sshCloneUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type scmGitReferences
                 public static var scmGitReferences: Relation<[ScmGitReferences]?> {
                     .init(key: "fields[scmGitReferences]")
                 }
 
+                /// the fields to include for returned resources of type scmRepositories
+                public static var scmRepositories: Relation<[ScmRepositories]?> {
+                    .init(key: "fields[scmRepositories]")
+                }
+
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case repository
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .repository: return "repository"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "repository": self = .repository
+                default: self = .unknown(rawValue)
                 }
             }
         }

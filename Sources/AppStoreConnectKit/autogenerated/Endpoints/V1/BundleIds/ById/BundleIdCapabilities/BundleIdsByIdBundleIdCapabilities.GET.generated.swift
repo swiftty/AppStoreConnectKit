@@ -42,7 +42,7 @@ extension V1.BundleIds.ById.BundleIdCapabilities {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `BundleIdCapabilitiesResponse`
+        /// - Returns: **200**, List of BundleIdCapabilities as `BundleIdCapabilitiesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

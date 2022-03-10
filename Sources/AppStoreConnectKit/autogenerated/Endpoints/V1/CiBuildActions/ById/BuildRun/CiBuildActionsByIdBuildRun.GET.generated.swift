@@ -32,6 +32,14 @@ extension V1.CiBuildActions.ById.BuildRun {
                              value: parameters.fields[.builds]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[ciBuildRuns]",
                              value: parameters.fields[.ciBuildRuns]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[ciProducts]",
+                             value: parameters.fields[.ciProducts]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[ciWorkflows]",
+                             value: parameters.fields[.ciWorkflows]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[scmGitReferences]",
+                             value: parameters.fields[.scmGitReferences]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[scmPullRequests]",
+                             value: parameters.fields[.scmPullRequests]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[builds]",
@@ -46,7 +54,7 @@ extension V1.CiBuildActions.ById.BuildRun {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `CiBuildRunResponse`
+        /// - Returns: **200**, Single CiBuildRun as `CiBuildRunResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -260,6 +268,199 @@ extension V1.CiBuildActions.ById.BuildRun.GET {
                 }
             }
 
+            public enum CiProducts: Hashable, Codable, RawRepresentable {
+                case additionalRepositories
+                case app
+                case buildRuns
+                case bundleId
+                case createdDate
+                case name
+                case primaryRepositories
+                case productType
+                case workflows
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .additionalRepositories: return "additionalRepositories"
+                    case .app: return "app"
+                    case .buildRuns: return "buildRuns"
+                    case .bundleId: return "bundleId"
+                    case .createdDate: return "createdDate"
+                    case .name: return "name"
+                    case .primaryRepositories: return "primaryRepositories"
+                    case .productType: return "productType"
+                    case .workflows: return "workflows"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "additionalRepositories": self = .additionalRepositories
+                    case "app": self = .app
+                    case "buildRuns": self = .buildRuns
+                    case "bundleId": self = .bundleId
+                    case "createdDate": self = .createdDate
+                    case "name": self = .name
+                    case "primaryRepositories": self = .primaryRepositories
+                    case "productType": self = .productType
+                    case "workflows": self = .workflows
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum CiWorkflows: Hashable, Codable, RawRepresentable {
+                case actions
+                case branchStartCondition
+                case buildRuns
+                case clean
+                case containerFilePath
+                case description
+                case isEnabled
+                case isLockedForEditing
+                case lastModifiedDate
+                case macOsVersion
+                case name
+                case product
+                case pullRequestStartCondition
+                case repository
+                case scheduledStartCondition
+                case tagStartCondition
+                case xcodeVersion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .actions: return "actions"
+                    case .branchStartCondition: return "branchStartCondition"
+                    case .buildRuns: return "buildRuns"
+                    case .clean: return "clean"
+                    case .containerFilePath: return "containerFilePath"
+                    case .description: return "description"
+                    case .isEnabled: return "isEnabled"
+                    case .isLockedForEditing: return "isLockedForEditing"
+                    case .lastModifiedDate: return "lastModifiedDate"
+                    case .macOsVersion: return "macOsVersion"
+                    case .name: return "name"
+                    case .product: return "product"
+                    case .pullRequestStartCondition: return "pullRequestStartCondition"
+                    case .repository: return "repository"
+                    case .scheduledStartCondition: return "scheduledStartCondition"
+                    case .tagStartCondition: return "tagStartCondition"
+                    case .xcodeVersion: return "xcodeVersion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "actions": self = .actions
+                    case "branchStartCondition": self = .branchStartCondition
+                    case "buildRuns": self = .buildRuns
+                    case "clean": self = .clean
+                    case "containerFilePath": self = .containerFilePath
+                    case "description": self = .description
+                    case "isEnabled": self = .isEnabled
+                    case "isLockedForEditing": self = .isLockedForEditing
+                    case "lastModifiedDate": self = .lastModifiedDate
+                    case "macOsVersion": self = .macOsVersion
+                    case "name": self = .name
+                    case "product": self = .product
+                    case "pullRequestStartCondition": self = .pullRequestStartCondition
+                    case "repository": self = .repository
+                    case "scheduledStartCondition": self = .scheduledStartCondition
+                    case "tagStartCondition": self = .tagStartCondition
+                    case "xcodeVersion": self = .xcodeVersion
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum ScmGitReferences: Hashable, Codable, RawRepresentable {
+                case canonicalName
+                case isDeleted
+                case kind
+                case name
+                case repository
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .canonicalName: return "canonicalName"
+                    case .isDeleted: return "isDeleted"
+                    case .kind: return "kind"
+                    case .name: return "name"
+                    case .repository: return "repository"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "canonicalName": self = .canonicalName
+                    case "isDeleted": self = .isDeleted
+                    case "kind": self = .kind
+                    case "name": self = .name
+                    case "repository": self = .repository
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum ScmPullRequests: Hashable, Codable, RawRepresentable {
+                case destinationBranchName
+                case destinationRepositoryName
+                case destinationRepositoryOwner
+                case isClosed
+                case isCrossRepository
+                case number
+                case repository
+                case sourceBranchName
+                case sourceRepositoryName
+                case sourceRepositoryOwner
+                case title
+                case webUrl
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .destinationBranchName: return "destinationBranchName"
+                    case .destinationRepositoryName: return "destinationRepositoryName"
+                    case .destinationRepositoryOwner: return "destinationRepositoryOwner"
+                    case .isClosed: return "isClosed"
+                    case .isCrossRepository: return "isCrossRepository"
+                    case .number: return "number"
+                    case .repository: return "repository"
+                    case .sourceBranchName: return "sourceBranchName"
+                    case .sourceRepositoryName: return "sourceRepositoryName"
+                    case .sourceRepositoryOwner: return "sourceRepositoryOwner"
+                    case .title: return "title"
+                    case .webUrl: return "webUrl"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "destinationBranchName": self = .destinationBranchName
+                    case "destinationRepositoryName": self = .destinationRepositoryName
+                    case "destinationRepositoryOwner": self = .destinationRepositoryOwner
+                    case "isClosed": self = .isClosed
+                    case "isCrossRepository": self = .isCrossRepository
+                    case "number": self = .number
+                    case "repository": self = .repository
+                    case "sourceBranchName": self = .sourceBranchName
+                    case "sourceRepositoryName": self = .sourceRepositoryName
+                    case "sourceRepositoryOwner": self = .sourceRepositoryOwner
+                    case "title": self = .title
+                    case "webUrl": self = .webUrl
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type builds
                 public static var builds: Relation<[Builds]?> {
@@ -269,6 +470,26 @@ extension V1.CiBuildActions.ById.BuildRun.GET {
                 /// the fields to include for returned resources of type ciBuildRuns
                 public static var ciBuildRuns: Relation<[CiBuildRuns]?> {
                     .init(key: "fields[ciBuildRuns]")
+                }
+
+                /// the fields to include for returned resources of type ciProducts
+                public static var ciProducts: Relation<[CiProducts]?> {
+                    .init(key: "fields[ciProducts]")
+                }
+
+                /// the fields to include for returned resources of type ciWorkflows
+                public static var ciWorkflows: Relation<[CiWorkflows]?> {
+                    .init(key: "fields[ciWorkflows]")
+                }
+
+                /// the fields to include for returned resources of type scmGitReferences
+                public static var scmGitReferences: Relation<[ScmGitReferences]?> {
+                    .init(key: "fields[scmGitReferences]")
+                }
+
+                /// the fields to include for returned resources of type scmPullRequests
+                public static var scmPullRequests: Relation<[ScmPullRequests]?> {
+                    .init(key: "fields[scmPullRequests]")
                 }
 
                 internal let key: String
@@ -281,11 +502,21 @@ extension V1.CiBuildActions.ById.BuildRun.GET {
 
         public enum Include: Hashable, Codable, RawRepresentable {
             case builds
+            case destinationBranch
+            case product
+            case pullRequest
+            case sourceBranchOrTag
+            case workflow
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
                 case .builds: return "builds"
+                case .destinationBranch: return "destinationBranch"
+                case .product: return "product"
+                case .pullRequest: return "pullRequest"
+                case .sourceBranchOrTag: return "sourceBranchOrTag"
+                case .workflow: return "workflow"
                 case .unknown(let rawValue): return rawValue
                 }
             }
@@ -293,6 +524,11 @@ extension V1.CiBuildActions.ById.BuildRun.GET {
             public init(rawValue: String) {
                 switch rawValue {
                 case "builds": self = .builds
+                case "destinationBranch": self = .destinationBranch
+                case "product": self = .product
+                case "pullRequest": self = .pullRequest
+                case "sourceBranchOrTag": self = .sourceBranchOrTag
+                case "workflow": self = .workflow
                 default: self = .unknown(rawValue)
                 }
             }

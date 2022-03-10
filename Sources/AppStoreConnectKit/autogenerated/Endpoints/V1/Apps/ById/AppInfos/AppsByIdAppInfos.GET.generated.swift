@@ -28,10 +28,16 @@ extension V1.Apps.ById.AppInfos {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[ageRatingDeclarations]",
+                             value: parameters.fields[.ageRatingDeclarations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appCategories]",
+                             value: parameters.fields[.appCategories]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appInfoLocalizations]",
                              value: parameters.fields[.appInfoLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appInfos]",
                              value: parameters.fields[.appInfos]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[apps]",
+                             value: parameters.fields[.apps]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[appInfoLocalizations]",
@@ -48,7 +54,7 @@ extension V1.Apps.ById.AppInfos {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppInfosResponse`
+        /// - Returns: **200**, List of AppInfos as `AppInfosResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -95,6 +101,98 @@ extension V1.Apps.ById.AppInfos.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AgeRatingDeclarations: Hashable, Codable, RawRepresentable {
+                case alcoholTobaccoOrDrugUseOrReferences
+                case contests
+                case gambling
+                case gamblingAndContests
+                case gamblingSimulated
+                case horrorOrFearThemes
+                case kidsAgeBand
+                case matureOrSuggestiveThemes
+                case medicalOrTreatmentInformation
+                case profanityOrCrudeHumor
+                case seventeenPlus
+                case sexualContentGraphicAndNudity
+                case sexualContentOrNudity
+                case unrestrictedWebAccess
+                case violenceCartoonOrFantasy
+                case violenceRealistic
+                case violenceRealisticProlongedGraphicOrSadistic
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .alcoholTobaccoOrDrugUseOrReferences: return "alcoholTobaccoOrDrugUseOrReferences"
+                    case .contests: return "contests"
+                    case .gambling: return "gambling"
+                    case .gamblingAndContests: return "gamblingAndContests"
+                    case .gamblingSimulated: return "gamblingSimulated"
+                    case .horrorOrFearThemes: return "horrorOrFearThemes"
+                    case .kidsAgeBand: return "kidsAgeBand"
+                    case .matureOrSuggestiveThemes: return "matureOrSuggestiveThemes"
+                    case .medicalOrTreatmentInformation: return "medicalOrTreatmentInformation"
+                    case .profanityOrCrudeHumor: return "profanityOrCrudeHumor"
+                    case .seventeenPlus: return "seventeenPlus"
+                    case .sexualContentGraphicAndNudity: return "sexualContentGraphicAndNudity"
+                    case .sexualContentOrNudity: return "sexualContentOrNudity"
+                    case .unrestrictedWebAccess: return "unrestrictedWebAccess"
+                    case .violenceCartoonOrFantasy: return "violenceCartoonOrFantasy"
+                    case .violenceRealistic: return "violenceRealistic"
+                    case .violenceRealisticProlongedGraphicOrSadistic: return "violenceRealisticProlongedGraphicOrSadistic"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "alcoholTobaccoOrDrugUseOrReferences": self = .alcoholTobaccoOrDrugUseOrReferences
+                    case "contests": self = .contests
+                    case "gambling": self = .gambling
+                    case "gamblingAndContests": self = .gamblingAndContests
+                    case "gamblingSimulated": self = .gamblingSimulated
+                    case "horrorOrFearThemes": self = .horrorOrFearThemes
+                    case "kidsAgeBand": self = .kidsAgeBand
+                    case "matureOrSuggestiveThemes": self = .matureOrSuggestiveThemes
+                    case "medicalOrTreatmentInformation": self = .medicalOrTreatmentInformation
+                    case "profanityOrCrudeHumor": self = .profanityOrCrudeHumor
+                    case "seventeenPlus": self = .seventeenPlus
+                    case "sexualContentGraphicAndNudity": self = .sexualContentGraphicAndNudity
+                    case "sexualContentOrNudity": self = .sexualContentOrNudity
+                    case "unrestrictedWebAccess": self = .unrestrictedWebAccess
+                    case "violenceCartoonOrFantasy": self = .violenceCartoonOrFantasy
+                    case "violenceRealistic": self = .violenceRealistic
+                    case "violenceRealisticProlongedGraphicOrSadistic": self = .violenceRealisticProlongedGraphicOrSadistic
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum AppCategories: Hashable, Codable, RawRepresentable {
+                case parent
+                case platforms
+                case subcategories
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .parent: return "parent"
+                    case .platforms: return "platforms"
+                    case .subcategories: return "subcategories"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "parent": self = .parent
+                    case "platforms": self = .platforms
+                    case "subcategories": self = .subcategories
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum AppInfoLocalizations: Hashable, Codable, RawRepresentable {
                 case appInfo
@@ -188,7 +286,132 @@ extension V1.Apps.ById.AppInfos.GET {
                 }
             }
 
+            public enum Apps: Hashable, Codable, RawRepresentable {
+                case appClips
+                case appCustomProductPages
+                case appEvents
+                case appInfos
+                case appStoreVersions
+                case availableInNewTerritories
+                case availableTerritories
+                case betaAppLocalizations
+                case betaAppReviewDetail
+                case betaGroups
+                case betaLicenseAgreement
+                case betaTesters
+                case builds
+                case bundleId
+                case ciProduct
+                case contentRightsDeclaration
+                case endUserLicenseAgreement
+                case gameCenterEnabledVersions
+                case inAppPurchases
+                case isOrEverWasMadeForKids
+                case name
+                case perfPowerMetrics
+                case preOrder
+                case preReleaseVersions
+                case pricePoints
+                case prices
+                case primaryLocale
+                case reviewSubmissions
+                case sku
+                case subscriptionStatusUrl
+                case subscriptionStatusUrlForSandbox
+                case subscriptionStatusUrlVersion
+                case subscriptionStatusUrlVersionForSandbox
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClips: return "appClips"
+                    case .appCustomProductPages: return "appCustomProductPages"
+                    case .appEvents: return "appEvents"
+                    case .appInfos: return "appInfos"
+                    case .appStoreVersions: return "appStoreVersions"
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .betaAppLocalizations: return "betaAppLocalizations"
+                    case .betaAppReviewDetail: return "betaAppReviewDetail"
+                    case .betaGroups: return "betaGroups"
+                    case .betaLicenseAgreement: return "betaLicenseAgreement"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .bundleId: return "bundleId"
+                    case .ciProduct: return "ciProduct"
+                    case .contentRightsDeclaration: return "contentRightsDeclaration"
+                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
+                    case .inAppPurchases: return "inAppPurchases"
+                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
+                    case .name: return "name"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preOrder: return "preOrder"
+                    case .preReleaseVersions: return "preReleaseVersions"
+                    case .pricePoints: return "pricePoints"
+                    case .prices: return "prices"
+                    case .primaryLocale: return "primaryLocale"
+                    case .reviewSubmissions: return "reviewSubmissions"
+                    case .sku: return "sku"
+                    case .subscriptionStatusUrl: return "subscriptionStatusUrl"
+                    case .subscriptionStatusUrlForSandbox: return "subscriptionStatusUrlForSandbox"
+                    case .subscriptionStatusUrlVersion: return "subscriptionStatusUrlVersion"
+                    case .subscriptionStatusUrlVersionForSandbox: return "subscriptionStatusUrlVersionForSandbox"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClips": self = .appClips
+                    case "appCustomProductPages": self = .appCustomProductPages
+                    case "appEvents": self = .appEvents
+                    case "appInfos": self = .appInfos
+                    case "appStoreVersions": self = .appStoreVersions
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "betaAppLocalizations": self = .betaAppLocalizations
+                    case "betaAppReviewDetail": self = .betaAppReviewDetail
+                    case "betaGroups": self = .betaGroups
+                    case "betaLicenseAgreement": self = .betaLicenseAgreement
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "bundleId": self = .bundleId
+                    case "ciProduct": self = .ciProduct
+                    case "contentRightsDeclaration": self = .contentRightsDeclaration
+                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
+                    case "inAppPurchases": self = .inAppPurchases
+                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
+                    case "name": self = .name
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preOrder": self = .preOrder
+                    case "preReleaseVersions": self = .preReleaseVersions
+                    case "pricePoints": self = .pricePoints
+                    case "prices": self = .prices
+                    case "primaryLocale": self = .primaryLocale
+                    case "reviewSubmissions": self = .reviewSubmissions
+                    case "sku": self = .sku
+                    case "subscriptionStatusUrl": self = .subscriptionStatusUrl
+                    case "subscriptionStatusUrlForSandbox": self = .subscriptionStatusUrlForSandbox
+                    case "subscriptionStatusUrlVersion": self = .subscriptionStatusUrlVersion
+                    case "subscriptionStatusUrlVersionForSandbox": self = .subscriptionStatusUrlVersionForSandbox
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type ageRatingDeclarations
+                public static var ageRatingDeclarations: Relation<[AgeRatingDeclarations]?> {
+                    .init(key: "fields[ageRatingDeclarations]")
+                }
+
+                /// the fields to include for returned resources of type appCategories
+                public static var appCategories: Relation<[AppCategories]?> {
+                    .init(key: "fields[appCategories]")
+                }
+
                 /// the fields to include for returned resources of type appInfoLocalizations
                 public static var appInfoLocalizations: Relation<[AppInfoLocalizations]?> {
                     .init(key: "fields[appInfoLocalizations]")
@@ -197,6 +420,11 @@ extension V1.Apps.ById.AppInfos.GET {
                 /// the fields to include for returned resources of type appInfos
                 public static var appInfos: Relation<[AppInfos]?> {
                     .init(key: "fields[appInfos]")
+                }
+
+                /// the fields to include for returned resources of type apps
+                public static var apps: Relation<[Apps]?> {
+                    .init(key: "fields[apps]")
                 }
 
                 internal let key: String
@@ -208,19 +436,43 @@ extension V1.Apps.ById.AppInfos.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case ageRatingDeclaration
+            case app
             case appInfoLocalizations
+            case primaryCategory
+            case primarySubcategoryOne
+            case primarySubcategoryTwo
+            case secondaryCategory
+            case secondarySubcategoryOne
+            case secondarySubcategoryTwo
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .ageRatingDeclaration: return "ageRatingDeclaration"
+                case .app: return "app"
                 case .appInfoLocalizations: return "appInfoLocalizations"
+                case .primaryCategory: return "primaryCategory"
+                case .primarySubcategoryOne: return "primarySubcategoryOne"
+                case .primarySubcategoryTwo: return "primarySubcategoryTwo"
+                case .secondaryCategory: return "secondaryCategory"
+                case .secondarySubcategoryOne: return "secondarySubcategoryOne"
+                case .secondarySubcategoryTwo: return "secondarySubcategoryTwo"
                 case .unknown(let rawValue): return rawValue
                 }
             }
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "ageRatingDeclaration": self = .ageRatingDeclaration
+                case "app": self = .app
                 case "appInfoLocalizations": self = .appInfoLocalizations
+                case "primaryCategory": self = .primaryCategory
+                case "primarySubcategoryOne": self = .primarySubcategoryOne
+                case "primarySubcategoryTwo": self = .primarySubcategoryTwo
+                case "secondaryCategory": self = .secondaryCategory
+                case "secondarySubcategoryOne": self = .secondarySubcategoryOne
+                case "secondarySubcategoryTwo": self = .secondarySubcategoryTwo
                 default: self = .unknown(rawValue)
                 }
             }

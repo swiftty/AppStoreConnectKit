@@ -32,6 +32,8 @@ extension V1.AppStoreVersions.ById.AppStoreVersionExperiments {
                              value: parameters.fields[.appStoreVersionExperimentTreatments]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersionExperiments]",
                              value: parameters.fields[.appStoreVersionExperiments]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersions]",
+                             value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[state]",
                              value: parameters.filter[.state]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -50,7 +52,7 @@ extension V1.AppStoreVersions.ById.AppStoreVersionExperiments {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppStoreVersionExperimentsResponse`
+        /// - Returns: **200**, List of AppStoreVersionExperiments as `AppStoreVersionExperimentsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -177,6 +179,82 @@ extension V1.AppStoreVersions.ById.AppStoreVersionExperiments.GET {
                 }
             }
 
+            public enum AppStoreVersions: Hashable, Codable, RawRepresentable {
+                case ageRatingDeclaration
+                case app
+                case appClipDefaultExperience
+                case appStoreReviewDetail
+                case appStoreState
+                case appStoreVersionExperiments
+                case appStoreVersionLocalizations
+                case appStoreVersionPhasedRelease
+                case appStoreVersionSubmission
+                case build
+                case copyright
+                case createdDate
+                case downloadable
+                case earliestReleaseDate
+                case idfaDeclaration
+                case platform
+                case releaseType
+                case routingAppCoverage
+                case usesIdfa
+                case versionString
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .ageRatingDeclaration: return "ageRatingDeclaration"
+                    case .app: return "app"
+                    case .appClipDefaultExperience: return "appClipDefaultExperience"
+                    case .appStoreReviewDetail: return "appStoreReviewDetail"
+                    case .appStoreState: return "appStoreState"
+                    case .appStoreVersionExperiments: return "appStoreVersionExperiments"
+                    case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
+                    case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
+                    case .appStoreVersionSubmission: return "appStoreVersionSubmission"
+                    case .build: return "build"
+                    case .copyright: return "copyright"
+                    case .createdDate: return "createdDate"
+                    case .downloadable: return "downloadable"
+                    case .earliestReleaseDate: return "earliestReleaseDate"
+                    case .idfaDeclaration: return "idfaDeclaration"
+                    case .platform: return "platform"
+                    case .releaseType: return "releaseType"
+                    case .routingAppCoverage: return "routingAppCoverage"
+                    case .usesIdfa: return "usesIdfa"
+                    case .versionString: return "versionString"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ageRatingDeclaration": self = .ageRatingDeclaration
+                    case "app": self = .app
+                    case "appClipDefaultExperience": self = .appClipDefaultExperience
+                    case "appStoreReviewDetail": self = .appStoreReviewDetail
+                    case "appStoreState": self = .appStoreState
+                    case "appStoreVersionExperiments": self = .appStoreVersionExperiments
+                    case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
+                    case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
+                    case "appStoreVersionSubmission": self = .appStoreVersionSubmission
+                    case "build": self = .build
+                    case "copyright": self = .copyright
+                    case "createdDate": self = .createdDate
+                    case "downloadable": self = .downloadable
+                    case "earliestReleaseDate": self = .earliestReleaseDate
+                    case "idfaDeclaration": self = .idfaDeclaration
+                    case "platform": self = .platform
+                    case "releaseType": self = .releaseType
+                    case "routingAppCoverage": self = .routingAppCoverage
+                    case "usesIdfa": self = .usesIdfa
+                    case "versionString": self = .versionString
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appStoreVersionExperimentTreatments
                 public static var appStoreVersionExperimentTreatments: Relation<[AppStoreVersionExperimentTreatments]?> {
@@ -186,6 +264,11 @@ extension V1.AppStoreVersions.ById.AppStoreVersionExperiments.GET {
                 /// the fields to include for returned resources of type appStoreVersionExperiments
                 public static var appStoreVersionExperiments: Relation<[AppStoreVersionExperiments]?> {
                     .init(key: "fields[appStoreVersionExperiments]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersions
+                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
+                    .init(key: "fields[appStoreVersions]")
                 }
 
                 internal let key: String
@@ -262,11 +345,13 @@ extension V1.AppStoreVersions.ById.AppStoreVersionExperiments.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case appStoreVersion
             case appStoreVersionExperimentTreatments
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .appStoreVersion: return "appStoreVersion"
                 case .appStoreVersionExperimentTreatments: return "appStoreVersionExperimentTreatments"
                 case .unknown(let rawValue): return rawValue
                 }
@@ -274,6 +359,7 @@ extension V1.AppStoreVersions.ById.AppStoreVersionExperiments.GET {
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "appStoreVersion": self = .appStoreVersion
                 case "appStoreVersionExperimentTreatments": self = .appStoreVersionExperimentTreatments
                 default: self = .unknown(rawValue)
                 }

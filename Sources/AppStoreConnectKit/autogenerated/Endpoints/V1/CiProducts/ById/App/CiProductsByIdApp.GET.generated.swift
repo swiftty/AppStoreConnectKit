@@ -36,6 +36,8 @@ extension V1.CiProducts.ById.App {
                              value: parameters.fields[.appEvents]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appInfos]",
                              value: parameters.fields[.appInfos]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appPreOrders]",
+                             value: parameters.fields[.appPreOrders]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPrices]",
                              value: parameters.fields[.appPrices]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersions]",
@@ -44,10 +46,18 @@ extension V1.CiProducts.ById.App {
                              value: parameters.fields[.apps]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[betaAppLocalizations]",
                              value: parameters.fields[.betaAppLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[betaAppReviewDetails]",
+                             value: parameters.fields[.betaAppReviewDetails]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[betaGroups]",
                              value: parameters.fields[.betaGroups]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[betaLicenseAgreements]",
+                             value: parameters.fields[.betaLicenseAgreements]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[builds]",
                              value: parameters.fields[.builds]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[ciProducts]",
+                             value: parameters.fields[.ciProducts]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[endUserLicenseAgreements]",
+                             value: parameters.fields[.endUserLicenseAgreements]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterEnabledVersions]",
                              value: parameters.fields[.gameCenterEnabledVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchases]",
@@ -98,7 +108,7 @@ extension V1.CiProducts.ById.App {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `AppResponse`
+        /// - Returns: **200**, Single App as `AppResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -317,6 +327,31 @@ extension V1.CiProducts.ById.App.GET {
                 }
             }
 
+            public enum AppPreOrders: Hashable, Codable, RawRepresentable {
+                case app
+                case appReleaseDate
+                case preOrderAvailableDate
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appReleaseDate: return "appReleaseDate"
+                    case .preOrderAvailableDate: return "preOrderAvailableDate"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appReleaseDate": self = .appReleaseDate
+                    case "preOrderAvailableDate": self = .preOrderAvailableDate
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum AppPrices: Hashable, Codable, RawRepresentable {
                 case app
                 case priceTier
@@ -440,6 +475,7 @@ extension V1.CiProducts.ById.App.GET {
                 case perfPowerMetrics
                 case preOrder
                 case preReleaseVersions
+                case pricePoints
                 case prices
                 case primaryLocale
                 case reviewSubmissions
@@ -476,6 +512,7 @@ extension V1.CiProducts.ById.App.GET {
                     case .perfPowerMetrics: return "perfPowerMetrics"
                     case .preOrder: return "preOrder"
                     case .preReleaseVersions: return "preReleaseVersions"
+                    case .pricePoints: return "pricePoints"
                     case .prices: return "prices"
                     case .primaryLocale: return "primaryLocale"
                     case .reviewSubmissions: return "reviewSubmissions"
@@ -514,6 +551,7 @@ extension V1.CiProducts.ById.App.GET {
                     case "perfPowerMetrics": self = .perfPowerMetrics
                     case "preOrder": self = .preOrder
                     case "preReleaseVersions": self = .preReleaseVersions
+                    case "pricePoints": self = .pricePoints
                     case "prices": self = .prices
                     case "primaryLocale": self = .primaryLocale
                     case "reviewSubmissions": self = .reviewSubmissions
@@ -559,6 +597,49 @@ extension V1.CiProducts.ById.App.GET {
                     case "marketingUrl": self = .marketingUrl
                     case "privacyPolicyUrl": self = .privacyPolicyUrl
                     case "tvOsPrivacyPolicy": self = .tvOsPrivacyPolicy
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum BetaAppReviewDetails: Hashable, Codable, RawRepresentable {
+                case app
+                case contactEmail
+                case contactFirstName
+                case contactLastName
+                case contactPhone
+                case demoAccountName
+                case demoAccountPassword
+                case demoAccountRequired
+                case notes
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .contactEmail: return "contactEmail"
+                    case .contactFirstName: return "contactFirstName"
+                    case .contactLastName: return "contactLastName"
+                    case .contactPhone: return "contactPhone"
+                    case .demoAccountName: return "demoAccountName"
+                    case .demoAccountPassword: return "demoAccountPassword"
+                    case .demoAccountRequired: return "demoAccountRequired"
+                    case .notes: return "notes"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "contactEmail": self = .contactEmail
+                    case "contactFirstName": self = .contactFirstName
+                    case "contactLastName": self = .contactLastName
+                    case "contactPhone": self = .contactPhone
+                    case "demoAccountName": self = .demoAccountName
+                    case "demoAccountPassword": self = .demoAccountPassword
+                    case "demoAccountRequired": self = .demoAccountRequired
+                    case "notes": self = .notes
                     default: self = .unknown(rawValue)
                     }
                 }
@@ -617,6 +698,28 @@ extension V1.CiProducts.ById.App.GET {
                     case "publicLinkId": self = .publicLinkId
                     case "publicLinkLimit": self = .publicLinkLimit
                     case "publicLinkLimitEnabled": self = .publicLinkLimitEnabled
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum BetaLicenseAgreements: Hashable, Codable, RawRepresentable {
+                case agreementText
+                case app
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .agreementText: return "agreementText"
+                    case .app: return "app"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "agreementText": self = .agreementText
+                    case "app": self = .app
                     default: self = .unknown(rawValue)
                     }
                 }
@@ -705,6 +808,74 @@ extension V1.CiProducts.ById.App.GET {
                     case "uploadedDate": self = .uploadedDate
                     case "usesNonExemptEncryption": self = .usesNonExemptEncryption
                     case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum CiProducts: Hashable, Codable, RawRepresentable {
+                case additionalRepositories
+                case app
+                case buildRuns
+                case bundleId
+                case createdDate
+                case name
+                case primaryRepositories
+                case productType
+                case workflows
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .additionalRepositories: return "additionalRepositories"
+                    case .app: return "app"
+                    case .buildRuns: return "buildRuns"
+                    case .bundleId: return "bundleId"
+                    case .createdDate: return "createdDate"
+                    case .name: return "name"
+                    case .primaryRepositories: return "primaryRepositories"
+                    case .productType: return "productType"
+                    case .workflows: return "workflows"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "additionalRepositories": self = .additionalRepositories
+                    case "app": self = .app
+                    case "buildRuns": self = .buildRuns
+                    case "bundleId": self = .bundleId
+                    case "createdDate": self = .createdDate
+                    case "name": self = .name
+                    case "primaryRepositories": self = .primaryRepositories
+                    case "productType": self = .productType
+                    case "workflows": self = .workflows
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum EndUserLicenseAgreements: Hashable, Codable, RawRepresentable {
+                case agreementText
+                case app
+                case territories
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .agreementText: return "agreementText"
+                    case .app: return "app"
+                    case .territories: return "territories"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "agreementText": self = .agreementText
+                    case "app": self = .app
+                    case "territories": self = .territories
                     default: self = .unknown(rawValue)
                     }
                 }
@@ -880,6 +1051,11 @@ extension V1.CiProducts.ById.App.GET {
                     .init(key: "fields[appInfos]")
                 }
 
+                /// the fields to include for returned resources of type appPreOrders
+                public static var appPreOrders: Relation<[AppPreOrders]?> {
+                    .init(key: "fields[appPreOrders]")
+                }
+
                 /// the fields to include for returned resources of type appPrices
                 public static var appPrices: Relation<[AppPrices]?> {
                     .init(key: "fields[appPrices]")
@@ -900,14 +1076,34 @@ extension V1.CiProducts.ById.App.GET {
                     .init(key: "fields[betaAppLocalizations]")
                 }
 
+                /// the fields to include for returned resources of type betaAppReviewDetails
+                public static var betaAppReviewDetails: Relation<[BetaAppReviewDetails]?> {
+                    .init(key: "fields[betaAppReviewDetails]")
+                }
+
                 /// the fields to include for returned resources of type betaGroups
                 public static var betaGroups: Relation<[BetaGroups]?> {
                     .init(key: "fields[betaGroups]")
                 }
 
+                /// the fields to include for returned resources of type betaLicenseAgreements
+                public static var betaLicenseAgreements: Relation<[BetaLicenseAgreements]?> {
+                    .init(key: "fields[betaLicenseAgreements]")
+                }
+
                 /// the fields to include for returned resources of type builds
                 public static var builds: Relation<[Builds]?> {
                     .init(key: "fields[builds]")
+                }
+
+                /// the fields to include for returned resources of type ciProducts
+                public static var ciProducts: Relation<[CiProducts]?> {
+                    .init(key: "fields[ciProducts]")
+                }
+
+                /// the fields to include for returned resources of type endUserLicenseAgreements
+                public static var endUserLicenseAgreements: Relation<[EndUserLicenseAgreements]?> {
+                    .init(key: "fields[endUserLicenseAgreements]")
                 }
 
                 /// the fields to include for returned resources of type gameCenterEnabledVersions
@@ -951,10 +1147,15 @@ extension V1.CiProducts.ById.App.GET {
             case appStoreVersions
             case availableTerritories
             case betaAppLocalizations
+            case betaAppReviewDetail
             case betaGroups
+            case betaLicenseAgreement
             case builds
+            case ciProduct
+            case endUserLicenseAgreement
             case gameCenterEnabledVersions
             case inAppPurchases
+            case preOrder
             case preReleaseVersions
             case prices
             case reviewSubmissions
@@ -969,10 +1170,15 @@ extension V1.CiProducts.ById.App.GET {
                 case .appStoreVersions: return "appStoreVersions"
                 case .availableTerritories: return "availableTerritories"
                 case .betaAppLocalizations: return "betaAppLocalizations"
+                case .betaAppReviewDetail: return "betaAppReviewDetail"
                 case .betaGroups: return "betaGroups"
+                case .betaLicenseAgreement: return "betaLicenseAgreement"
                 case .builds: return "builds"
+                case .ciProduct: return "ciProduct"
+                case .endUserLicenseAgreement: return "endUserLicenseAgreement"
                 case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
                 case .inAppPurchases: return "inAppPurchases"
+                case .preOrder: return "preOrder"
                 case .preReleaseVersions: return "preReleaseVersions"
                 case .prices: return "prices"
                 case .reviewSubmissions: return "reviewSubmissions"
@@ -989,10 +1195,15 @@ extension V1.CiProducts.ById.App.GET {
                 case "appStoreVersions": self = .appStoreVersions
                 case "availableTerritories": self = .availableTerritories
                 case "betaAppLocalizations": self = .betaAppLocalizations
+                case "betaAppReviewDetail": self = .betaAppReviewDetail
                 case "betaGroups": self = .betaGroups
+                case "betaLicenseAgreement": self = .betaLicenseAgreement
                 case "builds": self = .builds
+                case "ciProduct": self = .ciProduct
+                case "endUserLicenseAgreement": self = .endUserLicenseAgreement
                 case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
                 case "inAppPurchases": self = .inAppPurchases
+                case "preOrder": self = .preOrder
                 case "preReleaseVersions": self = .preReleaseVersions
                 case "prices": self = .prices
                 case "reviewSubmissions": self = .reviewSubmissions

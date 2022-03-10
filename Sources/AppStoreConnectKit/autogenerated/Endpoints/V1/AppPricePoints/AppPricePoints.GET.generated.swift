@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppPricePoints {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = AppPricePointsResponse
 

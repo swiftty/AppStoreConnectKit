@@ -32,6 +32,8 @@ extension V1.AppStoreVersionExperiments.ById.AppStoreVersionExperimentTreatments
                              value: parameters.fields[.appStoreVersionExperimentTreatmentLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersionExperimentTreatments]",
                              value: parameters.fields[.appStoreVersionExperimentTreatments]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersionExperiments]",
+                             value: parameters.fields[.appStoreVersionExperiments]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[appStoreVersionExperimentTreatmentLocalizations]",
@@ -48,7 +50,7 @@ extension V1.AppStoreVersionExperiments.ById.AppStoreVersionExperimentTreatments
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppStoreVersionExperimentTreatmentsResponse`
+        /// - Returns: **200**, List of AppStoreVersionExperimentTreatments as `AppStoreVersionExperimentTreatmentsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -158,6 +160,49 @@ extension V1.AppStoreVersionExperiments.ById.AppStoreVersionExperimentTreatments
                 }
             }
 
+            public enum AppStoreVersionExperiments: Hashable, Codable, RawRepresentable {
+                case appStoreVersion
+                case appStoreVersionExperimentTreatments
+                case endDate
+                case name
+                case reviewRequired
+                case startDate
+                case started
+                case state
+                case trafficProportion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .appStoreVersionExperimentTreatments: return "appStoreVersionExperimentTreatments"
+                    case .endDate: return "endDate"
+                    case .name: return "name"
+                    case .reviewRequired: return "reviewRequired"
+                    case .startDate: return "startDate"
+                    case .started: return "started"
+                    case .state: return "state"
+                    case .trafficProportion: return "trafficProportion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "appStoreVersionExperimentTreatments": self = .appStoreVersionExperimentTreatments
+                    case "endDate": self = .endDate
+                    case "name": self = .name
+                    case "reviewRequired": self = .reviewRequired
+                    case "startDate": self = .startDate
+                    case "started": self = .started
+                    case "state": self = .state
+                    case "trafficProportion": self = .trafficProportion
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
                 public static var appStoreVersionExperimentTreatmentLocalizations: Relation<[AppStoreVersionExperimentTreatmentLocalizations]?> {
@@ -169,6 +214,11 @@ extension V1.AppStoreVersionExperiments.ById.AppStoreVersionExperimentTreatments
                     .init(key: "fields[appStoreVersionExperimentTreatments]")
                 }
 
+                /// the fields to include for returned resources of type appStoreVersionExperiments
+                public static var appStoreVersionExperiments: Relation<[AppStoreVersionExperiments]?> {
+                    .init(key: "fields[appStoreVersionExperiments]")
+                }
+
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
@@ -178,11 +228,13 @@ extension V1.AppStoreVersionExperiments.ById.AppStoreVersionExperimentTreatments
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case appStoreVersionExperiment
             case appStoreVersionExperimentTreatmentLocalizations
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .appStoreVersionExperiment: return "appStoreVersionExperiment"
                 case .appStoreVersionExperimentTreatmentLocalizations: return "appStoreVersionExperimentTreatmentLocalizations"
                 case .unknown(let rawValue): return rawValue
                 }
@@ -190,6 +242,7 @@ extension V1.AppStoreVersionExperiments.ById.AppStoreVersionExperimentTreatments
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "appStoreVersionExperiment": self = .appStoreVersionExperiment
                 case "appStoreVersionExperimentTreatmentLocalizations": self = .appStoreVersionExperimentTreatmentLocalizations
                 default: self = .unknown(rawValue)
                 }

@@ -30,6 +30,10 @@ extension V1.AppStoreReviewDetails.ById.AppStoreReviewAttachments {
             components?.queryItems = [
                 URLQueryItem(name: "fields[appStoreReviewAttachments]",
                              value: parameters.fields[.appStoreReviewAttachments]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreReviewDetails]",
+                             value: parameters.fields[.appStoreReviewDetails]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -42,7 +46,7 @@ extension V1.AppStoreReviewDetails.ById.AppStoreReviewAttachments {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppStoreReviewAttachmentsResponse`
+        /// - Returns: **200**, List of AppStoreReviewAttachments as `AppStoreReviewAttachmentsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -75,6 +79,9 @@ extension V1.AppStoreReviewDetails.ById.AppStoreReviewAttachments {
 extension V1.AppStoreReviewDetails.ById.AppStoreReviewAttachments.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
+
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
 
         /// maximum resources per page
         public var limit: Int?
@@ -124,16 +131,86 @@ extension V1.AppStoreReviewDetails.ById.AppStoreReviewAttachments.GET {
                 }
             }
 
+            public enum AppStoreReviewDetails: Hashable, Codable, RawRepresentable {
+                case appStoreReviewAttachments
+                case appStoreVersion
+                case contactEmail
+                case contactFirstName
+                case contactLastName
+                case contactPhone
+                case demoAccountName
+                case demoAccountPassword
+                case demoAccountRequired
+                case notes
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appStoreReviewAttachments: return "appStoreReviewAttachments"
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .contactEmail: return "contactEmail"
+                    case .contactFirstName: return "contactFirstName"
+                    case .contactLastName: return "contactLastName"
+                    case .contactPhone: return "contactPhone"
+                    case .demoAccountName: return "demoAccountName"
+                    case .demoAccountPassword: return "demoAccountPassword"
+                    case .demoAccountRequired: return "demoAccountRequired"
+                    case .notes: return "notes"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appStoreReviewAttachments": self = .appStoreReviewAttachments
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "contactEmail": self = .contactEmail
+                    case "contactFirstName": self = .contactFirstName
+                    case "contactLastName": self = .contactLastName
+                    case "contactPhone": self = .contactPhone
+                    case "demoAccountName": self = .demoAccountName
+                    case "demoAccountPassword": self = .demoAccountPassword
+                    case "demoAccountRequired": self = .demoAccountRequired
+                    case "notes": self = .notes
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appStoreReviewAttachments
                 public static var appStoreReviewAttachments: Relation<[AppStoreReviewAttachments]?> {
                     .init(key: "fields[appStoreReviewAttachments]")
                 }
 
+                /// the fields to include for returned resources of type appStoreReviewDetails
+                public static var appStoreReviewDetails: Relation<[AppStoreReviewDetails]?> {
+                    .init(key: "fields[appStoreReviewDetails]")
+                }
+
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case appStoreReviewDetail
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appStoreReviewDetail: return "appStoreReviewDetail"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appStoreReviewDetail": self = .appStoreReviewDetail
+                default: self = .unknown(rawValue)
                 }
             }
         }

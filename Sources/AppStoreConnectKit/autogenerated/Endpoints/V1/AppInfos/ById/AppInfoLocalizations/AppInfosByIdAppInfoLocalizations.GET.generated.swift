@@ -30,8 +30,12 @@ extension V1.AppInfos.ById.AppInfoLocalizations {
             components?.queryItems = [
                 URLQueryItem(name: "fields[appInfoLocalizations]",
                              value: parameters.fields[.appInfoLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appInfos]",
+                             value: parameters.fields[.appInfos]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[locale]",
                              value: parameters.filter[.locale]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -44,7 +48,7 @@ extension V1.AppInfos.ById.AppInfoLocalizations {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppInfoLocalizationsResponse`
+        /// - Returns: **200**, List of AppInfoLocalizations as `AppInfoLocalizationsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -79,6 +83,9 @@ extension V1.AppInfos.ById.AppInfoLocalizations.GET {
         public var fields: Fields = Fields()
 
         public var filter: Filter = Filter()
+
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
 
         /// maximum resources per page
         public var limit: Int?
@@ -128,10 +135,70 @@ extension V1.AppInfos.ById.AppInfoLocalizations.GET {
                 }
             }
 
+            public enum AppInfos: Hashable, Codable, RawRepresentable {
+                case ageRatingDeclaration
+                case app
+                case appInfoLocalizations
+                case appStoreAgeRating
+                case appStoreState
+                case brazilAgeRating
+                case kidsAgeBand
+                case primaryCategory
+                case primarySubcategoryOne
+                case primarySubcategoryTwo
+                case secondaryCategory
+                case secondarySubcategoryOne
+                case secondarySubcategoryTwo
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .ageRatingDeclaration: return "ageRatingDeclaration"
+                    case .app: return "app"
+                    case .appInfoLocalizations: return "appInfoLocalizations"
+                    case .appStoreAgeRating: return "appStoreAgeRating"
+                    case .appStoreState: return "appStoreState"
+                    case .brazilAgeRating: return "brazilAgeRating"
+                    case .kidsAgeBand: return "kidsAgeBand"
+                    case .primaryCategory: return "primaryCategory"
+                    case .primarySubcategoryOne: return "primarySubcategoryOne"
+                    case .primarySubcategoryTwo: return "primarySubcategoryTwo"
+                    case .secondaryCategory: return "secondaryCategory"
+                    case .secondarySubcategoryOne: return "secondarySubcategoryOne"
+                    case .secondarySubcategoryTwo: return "secondarySubcategoryTwo"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ageRatingDeclaration": self = .ageRatingDeclaration
+                    case "app": self = .app
+                    case "appInfoLocalizations": self = .appInfoLocalizations
+                    case "appStoreAgeRating": self = .appStoreAgeRating
+                    case "appStoreState": self = .appStoreState
+                    case "brazilAgeRating": self = .brazilAgeRating
+                    case "kidsAgeBand": self = .kidsAgeBand
+                    case "primaryCategory": self = .primaryCategory
+                    case "primarySubcategoryOne": self = .primarySubcategoryOne
+                    case "primarySubcategoryTwo": self = .primarySubcategoryTwo
+                    case "secondaryCategory": self = .secondaryCategory
+                    case "secondarySubcategoryOne": self = .secondarySubcategoryOne
+                    case "secondarySubcategoryTwo": self = .secondarySubcategoryTwo
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appInfoLocalizations
                 public static var appInfoLocalizations: Relation<[AppInfoLocalizations]?> {
                     .init(key: "fields[appInfoLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type appInfos
+                public static var appInfos: Relation<[AppInfos]?> {
+                    .init(key: "fields[appInfos]")
                 }
 
                 internal let key: String
@@ -160,6 +227,25 @@ extension V1.AppInfos.ById.AppInfoLocalizations.GET {
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case appInfo
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appInfo: return "appInfo"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appInfo": self = .appInfo
+                default: self = .unknown(rawValue)
                 }
             }
         }

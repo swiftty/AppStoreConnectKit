@@ -40,7 +40,7 @@ extension V1.Apps.ById.BetaAppReviewDetail {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `BetaAppReviewDetailResponse`
+        /// - Returns: **200**, Single BetaAppReviewDetail as `BetaAppReviewDetailResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

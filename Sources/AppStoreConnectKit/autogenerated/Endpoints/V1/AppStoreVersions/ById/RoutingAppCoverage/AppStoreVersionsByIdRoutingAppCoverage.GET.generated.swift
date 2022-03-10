@@ -40,7 +40,7 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `RoutingAppCoverageResponse`
+        /// - Returns: **200**, Single RoutingAppCoverage as `RoutingAppCoverageResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

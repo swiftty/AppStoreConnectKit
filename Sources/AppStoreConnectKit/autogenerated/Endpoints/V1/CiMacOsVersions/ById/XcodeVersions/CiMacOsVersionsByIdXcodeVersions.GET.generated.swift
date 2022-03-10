@@ -48,7 +48,7 @@ extension V1.CiMacOsVersions.ById.XcodeVersions {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `CiXcodeVersionsResponse`
+        /// - Returns: **200**, List of CiXcodeVersions as `CiXcodeVersionsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

@@ -28,10 +28,16 @@ extension V1.AppStoreVersionLocalizations.ById.AppPreviewSets {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appCustomProductPageLocalizations]",
+                             value: parameters.fields[.appCustomProductPageLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPreviewSets]",
                              value: parameters.fields[.appPreviewSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPreviews]",
                              value: parameters.fields[.appPreviews]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersionExperimentTreatmentLocalizations]",
+                             value: parameters.fields[.appStoreVersionExperimentTreatmentLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersionLocalizations]",
+                             value: parameters.fields[.appStoreVersionLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[appCustomProductPageLocalization]",
                              value: parameters.filter[.appCustomProductPageLocalization]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[appStoreVersionExperimentTreatmentLocalization]",
@@ -54,7 +60,7 @@ extension V1.AppStoreVersionLocalizations.ById.AppPreviewSets {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppPreviewSetsResponse`
+        /// - Returns: **200**, List of AppPreviewSets as `AppPreviewSetsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -103,6 +109,37 @@ extension V1.AppStoreVersionLocalizations.ById.AppPreviewSets.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AppCustomProductPageLocalizations: Hashable, Codable, RawRepresentable {
+                case appCustomProductPageVersion
+                case appPreviewSets
+                case appScreenshotSets
+                case locale
+                case promotionalText
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appCustomProductPageVersion: return "appCustomProductPageVersion"
+                    case .appPreviewSets: return "appPreviewSets"
+                    case .appScreenshotSets: return "appScreenshotSets"
+                    case .locale: return "locale"
+                    case .promotionalText: return "promotionalText"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appCustomProductPageVersion": self = .appCustomProductPageVersion
+                    case "appPreviewSets": self = .appPreviewSets
+                    case "appScreenshotSets": self = .appScreenshotSets
+                    case "locale": self = .locale
+                    case "promotionalText": self = .promotionalText
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum AppPreviewSets: Hashable, Codable, RawRepresentable {
                 case appCustomProductPageLocalization
@@ -184,7 +221,86 @@ extension V1.AppStoreVersionLocalizations.ById.AppPreviewSets.GET {
                 }
             }
 
+            public enum AppStoreVersionExperimentTreatmentLocalizations: Hashable, Codable, RawRepresentable {
+                case appPreviewSets
+                case appScreenshotSets
+                case appStoreVersionExperimentTreatment
+                case locale
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appPreviewSets: return "appPreviewSets"
+                    case .appScreenshotSets: return "appScreenshotSets"
+                    case .appStoreVersionExperimentTreatment: return "appStoreVersionExperimentTreatment"
+                    case .locale: return "locale"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appPreviewSets": self = .appPreviewSets
+                    case "appScreenshotSets": self = .appScreenshotSets
+                    case "appStoreVersionExperimentTreatment": self = .appStoreVersionExperimentTreatment
+                    case "locale": self = .locale
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum AppStoreVersionLocalizations: Hashable, Codable, RawRepresentable {
+                case appPreviewSets
+                case appScreenshotSets
+                case appStoreVersion
+                case description
+                case keywords
+                case locale
+                case marketingUrl
+                case promotionalText
+                case supportUrl
+                case whatsNew
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appPreviewSets: return "appPreviewSets"
+                    case .appScreenshotSets: return "appScreenshotSets"
+                    case .appStoreVersion: return "appStoreVersion"
+                    case .description: return "description"
+                    case .keywords: return "keywords"
+                    case .locale: return "locale"
+                    case .marketingUrl: return "marketingUrl"
+                    case .promotionalText: return "promotionalText"
+                    case .supportUrl: return "supportUrl"
+                    case .whatsNew: return "whatsNew"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appPreviewSets": self = .appPreviewSets
+                    case "appScreenshotSets": self = .appScreenshotSets
+                    case "appStoreVersion": self = .appStoreVersion
+                    case "description": self = .description
+                    case "keywords": self = .keywords
+                    case "locale": self = .locale
+                    case "marketingUrl": self = .marketingUrl
+                    case "promotionalText": self = .promotionalText
+                    case "supportUrl": self = .supportUrl
+                    case "whatsNew": self = .whatsNew
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appCustomProductPageLocalizations
+                public static var appCustomProductPageLocalizations: Relation<[AppCustomProductPageLocalizations]?> {
+                    .init(key: "fields[appCustomProductPageLocalizations]")
+                }
+
                 /// the fields to include for returned resources of type appPreviewSets
                 public static var appPreviewSets: Relation<[AppPreviewSets]?> {
                     .init(key: "fields[appPreviewSets]")
@@ -193,6 +309,16 @@ extension V1.AppStoreVersionLocalizations.ById.AppPreviewSets.GET {
                 /// the fields to include for returned resources of type appPreviews
                 public static var appPreviews: Relation<[AppPreviews]?> {
                     .init(key: "fields[appPreviews]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
+                public static var appStoreVersionExperimentTreatmentLocalizations: Relation<[AppStoreVersionExperimentTreatmentLocalizations]?> {
+                    .init(key: "fields[appStoreVersionExperimentTreatmentLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersionLocalizations
+                public static var appStoreVersionLocalizations: Relation<[AppStoreVersionLocalizations]?> {
+                    .init(key: "fields[appStoreVersionLocalizations]")
                 }
 
                 internal let key: String
@@ -297,19 +423,28 @@ extension V1.AppStoreVersionLocalizations.ById.AppPreviewSets.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case appCustomProductPageLocalization
             case appPreviews
+            case appStoreVersionExperimentTreatmentLocalization
+            case appStoreVersionLocalization
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
                 case .appPreviews: return "appPreviews"
+                case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
+                case .appStoreVersionLocalization: return "appStoreVersionLocalization"
                 case .unknown(let rawValue): return rawValue
                 }
             }
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
                 case "appPreviews": self = .appPreviews
+                case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
+                case "appStoreVersionLocalization": self = .appStoreVersionLocalization
                 default: self = .unknown(rawValue)
                 }
             }

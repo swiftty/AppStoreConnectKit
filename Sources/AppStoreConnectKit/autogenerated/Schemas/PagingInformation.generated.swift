@@ -17,11 +17,11 @@ public struct PagingInformation: Hashable, Codable {
     public struct Paging: Hashable, Codable {
         public var limit: Int
 
-        public var total: Int
+        public var total: Int?
 
         public init(
             limit: Int,
-            total: Int
+            total: Int? = nil
         ) {
             self.limit = limit
             self.total = total

@@ -36,6 +36,7 @@ public struct AppPriceTier: Hashable, Codable {
     }
 
     public struct Relationships: Hashable, Codable {
+        @available(*, deprecated)
         public var pricePoints: PricePoints?
 
         public init(pricePoints: PricePoints? = nil) {

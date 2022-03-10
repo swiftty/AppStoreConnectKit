@@ -79,6 +79,8 @@ extension V1.Builds {
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[betaBuildLocalizations]",
                              value: parameters.limit[.betaBuildLocalizations].map { "\($0)" }),
+                URLQueryItem(name: "limit[betaGroups]",
+                             value: parameters.limit[.betaGroups].map { "\($0)" }),
                 URLQueryItem(name: "limit[buildBundles]",
                              value: parameters.limit[.buildBundles].map { "\($0)" }),
                 URLQueryItem(name: "limit[icons]",
@@ -307,6 +309,7 @@ extension V1.Builds.GET {
                 case perfPowerMetrics
                 case preOrder
                 case preReleaseVersions
+                case pricePoints
                 case prices
                 case primaryLocale
                 case reviewSubmissions
@@ -343,6 +346,7 @@ extension V1.Builds.GET {
                     case .perfPowerMetrics: return "perfPowerMetrics"
                     case .preOrder: return "preOrder"
                     case .preReleaseVersions: return "preReleaseVersions"
+                    case .pricePoints: return "pricePoints"
                     case .prices: return "prices"
                     case .primaryLocale: return "primaryLocale"
                     case .reviewSubmissions: return "reviewSubmissions"
@@ -381,6 +385,7 @@ extension V1.Builds.GET {
                     case "perfPowerMetrics": self = .perfPowerMetrics
                     case "preOrder": self = .preOrder
                     case "preReleaseVersions": self = .preReleaseVersions
+                    case "pricePoints": self = .pricePoints
                     case "prices": self = .prices
                     case "primaryLocale": self = .primaryLocale
                     case "reviewSubmissions": self = .reviewSubmissions
@@ -963,6 +968,7 @@ extension V1.Builds.GET {
             case appStoreVersion
             case betaAppReviewSubmission
             case betaBuildLocalizations
+            case betaGroups
             case buildBetaDetail
             case buildBundles
             case icons
@@ -977,6 +983,7 @@ extension V1.Builds.GET {
                 case .appStoreVersion: return "appStoreVersion"
                 case .betaAppReviewSubmission: return "betaAppReviewSubmission"
                 case .betaBuildLocalizations: return "betaBuildLocalizations"
+                case .betaGroups: return "betaGroups"
                 case .buildBetaDetail: return "buildBetaDetail"
                 case .buildBundles: return "buildBundles"
                 case .icons: return "icons"
@@ -993,6 +1000,7 @@ extension V1.Builds.GET {
                 case "appStoreVersion": self = .appStoreVersion
                 case "betaAppReviewSubmission": self = .betaAppReviewSubmission
                 case "betaBuildLocalizations": self = .betaBuildLocalizations
+                case "betaGroups": self = .betaGroups
                 case "buildBetaDetail": self = .buildBetaDetail
                 case "buildBundles": self = .buildBundles
                 case "icons": self = .icons
@@ -1020,6 +1028,11 @@ extension V1.Builds.GET {
                 /// maximum number of related betaBuildLocalizations returned (when they are included)
                 public static var betaBuildLocalizations: Relation<Int?> {
                     .init(key: "limit[betaBuildLocalizations]")
+                }
+
+                /// maximum number of related betaGroups returned (when they are included)
+                public static var betaGroups: Relation<Int?> {
+                    .init(key: "limit[betaGroups]")
                 }
 
                 /// maximum number of related buildBundles returned (when they are included)

@@ -28,8 +28,12 @@ extension V1.AppPreviewSets.ById.AppPreviews {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appPreviewSets]",
+                             value: parameters.fields[.appPreviewSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPreviews]",
                              value: parameters.fields[.appPreviews]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -42,7 +46,7 @@ extension V1.AppPreviewSets.ById.AppPreviews {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppPreviewsResponse`
+        /// - Returns: **200**, List of AppPreviews as `AppPreviewsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -76,6 +80,9 @@ extension V1.AppPreviewSets.ById.AppPreviews.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
         /// maximum resources per page
         public var limit: Int?
 
@@ -86,6 +93,37 @@ extension V1.AppPreviewSets.ById.AppPreviews.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AppPreviewSets: Hashable, Codable, RawRepresentable {
+                case appCustomProductPageLocalization
+                case appPreviews
+                case appStoreVersionExperimentTreatmentLocalization
+                case appStoreVersionLocalization
+                case previewType
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
+                    case .appPreviews: return "appPreviews"
+                    case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
+                    case .appStoreVersionLocalization: return "appStoreVersionLocalization"
+                    case .previewType: return "previewType"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
+                    case "appPreviews": self = .appPreviews
+                    case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
+                    case "appStoreVersionLocalization": self = .appStoreVersionLocalization
+                    case "previewType": self = .previewType
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum AppPreviews: Hashable, Codable, RawRepresentable {
                 case appPreviewSet
@@ -137,6 +175,11 @@ extension V1.AppPreviewSets.ById.AppPreviews.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appPreviewSets
+                public static var appPreviewSets: Relation<[AppPreviewSets]?> {
+                    .init(key: "fields[appPreviewSets]")
+                }
+
                 /// the fields to include for returned resources of type appPreviews
                 public static var appPreviews: Relation<[AppPreviews]?> {
                     .init(key: "fields[appPreviews]")
@@ -146,6 +189,25 @@ extension V1.AppPreviewSets.ById.AppPreviews.GET {
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case appPreviewSet
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appPreviewSet: return "appPreviewSet"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appPreviewSet": self = .appPreviewSet
+                default: self = .unknown(rawValue)
                 }
             }
         }

@@ -42,7 +42,7 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppStoreVersionLocalizationsResponse`
+        /// - Returns: **200**, List of AppStoreVersionLocalizations as `AppStoreVersionLocalizationsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
