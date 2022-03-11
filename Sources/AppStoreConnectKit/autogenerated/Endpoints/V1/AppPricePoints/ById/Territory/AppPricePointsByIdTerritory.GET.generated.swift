@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppPricePoints.ById.Territory {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = TerritoryResponse
 
@@ -40,7 +41,7 @@ extension V1.AppPricePoints.ById.Territory {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `TerritoryResponse`
+        /// - Returns: **200**, Single Territory as `TerritoryResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

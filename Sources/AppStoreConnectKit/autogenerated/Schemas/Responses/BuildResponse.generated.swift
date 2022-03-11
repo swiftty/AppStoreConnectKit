@@ -29,6 +29,7 @@ public struct BuildResponse: Hashable, Codable {
     public enum Included: Hashable, Codable {
         case prereleaseVersion(PrereleaseVersion)
         case betaTester(BetaTester)
+        case betaGroup(BetaGroup)
         case betaBuildLocalization(BetaBuildLocalization)
         case appEncryptionDeclaration(AppEncryptionDeclaration)
         case betaAppReviewSubmission(BetaAppReviewSubmission)
@@ -48,6 +49,11 @@ public struct BuildResponse: Hashable, Codable {
                 }
                 do {
                     return .betaTester(try BetaTester(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .betaGroup(try BetaGroup(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -101,6 +107,9 @@ public struct BuildResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .betaTester(let value):
+                try value.encode(to: encoder)
+
+            case .betaGroup(let value):
                 try value.encode(to: encoder)
 
             case .betaBuildLocalization(let value):

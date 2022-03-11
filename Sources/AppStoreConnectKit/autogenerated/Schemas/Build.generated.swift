@@ -143,6 +143,8 @@ public struct Build: Hashable, Codable {
 
         public var betaBuildLocalizations: BetaBuildLocalizations?
 
+        public var betaGroups: BetaGroups?
+
         public var buildBetaDetail: BuildBetaDetail?
 
         public var buildBundles: BuildBundles?
@@ -159,6 +161,7 @@ public struct Build: Hashable, Codable {
             appStoreVersion: AppStoreVersion? = nil,
             betaAppReviewSubmission: BetaAppReviewSubmission? = nil,
             betaBuildLocalizations: BetaBuildLocalizations? = nil,
+            betaGroups: BetaGroups? = nil,
             buildBetaDetail: BuildBetaDetail? = nil,
             buildBundles: BuildBundles? = nil,
             icons: Icons? = nil,
@@ -170,6 +173,7 @@ public struct Build: Hashable, Codable {
             self.appStoreVersion = appStoreVersion
             self.betaAppReviewSubmission = betaAppReviewSubmission
             self.betaBuildLocalizations = betaBuildLocalizations
+            self.betaGroups = betaGroups
             self.buildBetaDetail = buildBetaDetail
             self.buildBundles = buildBundles
             self.icons = icons
@@ -183,6 +187,7 @@ public struct Build: Hashable, Codable {
             case appStoreVersion
             case betaAppReviewSubmission
             case betaBuildLocalizations
+            case betaGroups
             case buildBetaDetail
             case buildBundles
             case icons
@@ -477,6 +482,72 @@ public struct Build: Hashable, Codable {
 
                 public enum `Type`: String, Hashable, Codable {
                     case betaBuildLocalizations
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct BetaGroups: Hashable, Codable {
+            public var data: [Data]?
+
+            public var links: Links?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: Links? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case betaGroups
                 }
             }
 

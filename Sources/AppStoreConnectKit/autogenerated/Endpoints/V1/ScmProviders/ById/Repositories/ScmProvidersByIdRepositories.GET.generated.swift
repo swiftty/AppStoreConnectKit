@@ -28,10 +28,16 @@ extension V1.ScmProviders.ById.Repositories {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[scmGitReferences]",
+                             value: parameters.fields[.scmGitReferences]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[scmProviders]",
+                             value: parameters.fields[.scmProviders]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[scmRepositories]",
                              value: parameters.fields[.scmRepositories]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[id]",
                              value: parameters.filter[.id]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -44,7 +50,7 @@ extension V1.ScmProviders.ById.Repositories {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `ScmRepositoriesResponse`
+        /// - Returns: **200**, List of ScmRepositories as `ScmRepositoriesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -80,6 +86,9 @@ extension V1.ScmProviders.ById.Repositories.GET {
 
         public var filter: Filter = Filter()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
         /// maximum resources per page
         public var limit: Int?
 
@@ -90,6 +99,62 @@ extension V1.ScmProviders.ById.Repositories.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum ScmGitReferences: Hashable, Codable, RawRepresentable {
+                case canonicalName
+                case isDeleted
+                case kind
+                case name
+                case repository
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .canonicalName: return "canonicalName"
+                    case .isDeleted: return "isDeleted"
+                    case .kind: return "kind"
+                    case .name: return "name"
+                    case .repository: return "repository"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "canonicalName": self = .canonicalName
+                    case "isDeleted": self = .isDeleted
+                    case "kind": self = .kind
+                    case "name": self = .name
+                    case "repository": self = .repository
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum ScmProviders: Hashable, Codable, RawRepresentable {
+                case repositories
+                case scmProviderType
+                case url
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .repositories: return "repositories"
+                    case .scmProviderType: return "scmProviderType"
+                    case .url: return "url"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "repositories": self = .repositories
+                    case "scmProviderType": self = .scmProviderType
+                    case "url": self = .url
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum ScmRepositories: Hashable, Codable, RawRepresentable {
                 case defaultBranch
@@ -135,6 +200,16 @@ extension V1.ScmProviders.ById.Repositories.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type scmGitReferences
+                public static var scmGitReferences: Relation<[ScmGitReferences]?> {
+                    .init(key: "fields[scmGitReferences]")
+                }
+
+                /// the fields to include for returned resources of type scmProviders
+                public static var scmProviders: Relation<[ScmProviders]?> {
+                    .init(key: "fields[scmProviders]")
+                }
+
                 /// the fields to include for returned resources of type scmRepositories
                 public static var scmRepositories: Relation<[ScmRepositories]?> {
                     .init(key: "fields[scmRepositories]")
@@ -166,6 +241,28 @@ extension V1.ScmProviders.ById.Repositories.GET {
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case defaultBranch
+            case scmProvider
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .defaultBranch: return "defaultBranch"
+                case .scmProvider: return "scmProvider"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "defaultBranch": self = .defaultBranch
+                case "scmProvider": self = .scmProvider
+                default: self = .unknown(rawValue)
                 }
             }
         }

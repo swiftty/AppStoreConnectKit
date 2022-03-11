@@ -42,7 +42,7 @@ extension V1.Builds.ById.Icons {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `BuildIconsResponse`
+        /// - Returns: **200**, List of BuildIcons as `BuildIconsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

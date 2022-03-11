@@ -42,7 +42,7 @@ extension V1.BetaTesters.ById.Builds {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `BuildsResponse`
+        /// - Returns: **200**, List of Builds as `BuildsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

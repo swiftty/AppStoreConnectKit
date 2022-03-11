@@ -40,7 +40,7 @@ extension V1.Builds.ById.BuildBetaDetail {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `BuildBetaDetailResponse`
+        /// - Returns: **200**, Single BuildBetaDetail as `BuildBetaDetailResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

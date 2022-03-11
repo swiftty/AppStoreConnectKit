@@ -30,6 +30,8 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
             components?.queryItems = [
                 URLQueryItem(name: "fields[appCustomProductPageLocalizations]",
                              value: parameters.fields[.appCustomProductPageLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appCustomProductPageVersions]",
+                             value: parameters.fields[.appCustomProductPageVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPreviewSets]",
                              value: parameters.fields[.appPreviewSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appScreenshotSets]",
@@ -54,7 +56,7 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppCustomProductPageLocalizationsResponse`
+        /// - Returns: **200**, List of AppCustomProductPageLocalizations as `AppCustomProductPageLocalizationsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -135,6 +137,34 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
                 }
             }
 
+            public enum AppCustomProductPageVersions: Hashable, Codable, RawRepresentable {
+                case appCustomProductPage
+                case appCustomProductPageLocalizations
+                case state
+                case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appCustomProductPage: return "appCustomProductPage"
+                    case .appCustomProductPageLocalizations: return "appCustomProductPageLocalizations"
+                    case .state: return "state"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appCustomProductPage": self = .appCustomProductPage
+                    case "appCustomProductPageLocalizations": self = .appCustomProductPageLocalizations
+                    case "state": self = .state
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum AppPreviewSets: Hashable, Codable, RawRepresentable {
                 case appCustomProductPageLocalization
                 case appPreviews
@@ -203,6 +233,11 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
                     .init(key: "fields[appCustomProductPageLocalizations]")
                 }
 
+                /// the fields to include for returned resources of type appCustomProductPageVersions
+                public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
+                    .init(key: "fields[appCustomProductPageVersions]")
+                }
+
                 /// the fields to include for returned resources of type appPreviewSets
                 public static var appPreviewSets: Relation<[AppPreviewSets]?> {
                     .init(key: "fields[appPreviewSets]")
@@ -244,12 +279,14 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case appCustomProductPageVersion
             case appPreviewSets
             case appScreenshotSets
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .appCustomProductPageVersion: return "appCustomProductPageVersion"
                 case .appPreviewSets: return "appPreviewSets"
                 case .appScreenshotSets: return "appScreenshotSets"
                 case .unknown(let rawValue): return rawValue
@@ -258,6 +295,7 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "appCustomProductPageVersion": self = .appCustomProductPageVersion
                 case "appPreviewSets": self = .appPreviewSets
                 case "appScreenshotSets": self = .appScreenshotSets
                 default: self = .unknown(rawValue)

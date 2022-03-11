@@ -142,6 +142,7 @@ extension V1.SalesReports.GET {
                 case subscriber
                 case subscription
                 case subscriptionEvent
+                case subscriptionOfferCodeRedemption
                 case unknown(String)
 
                 public var rawValue: String {
@@ -152,6 +153,7 @@ extension V1.SalesReports.GET {
                     case .subscriber: return "SUBSCRIBER"
                     case .subscription: return "SUBSCRIPTION"
                     case .subscriptionEvent: return "SUBSCRIPTION_EVENT"
+                    case .subscriptionOfferCodeRedemption: return "SUBSCRIPTION_OFFER_CODE_REDEMPTION"
                     case .unknown(let rawValue): return rawValue
                     }
                 }
@@ -164,6 +166,7 @@ extension V1.SalesReports.GET {
                     case "SUBSCRIBER": self = .subscriber
                     case "SUBSCRIPTION": self = .subscription
                     case "SUBSCRIPTION_EVENT": self = .subscriptionEvent
+                    case "SUBSCRIPTION_OFFER_CODE_REDEMPTION": self = .subscriptionOfferCodeRedemption
                     default: self = .unknown(rawValue)
                     }
                 }

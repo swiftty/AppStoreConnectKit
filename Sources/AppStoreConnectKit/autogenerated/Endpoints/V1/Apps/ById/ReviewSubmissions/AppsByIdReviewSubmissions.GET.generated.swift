@@ -28,6 +28,10 @@ extension V1.Apps.ById.ReviewSubmissions {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appStoreVersions]",
+                             value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[apps]",
+                             value: parameters.fields[.apps]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[reviewSubmissionItems]",
                              value: parameters.fields[.reviewSubmissionItems]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[reviewSubmissions]",
@@ -52,7 +56,7 @@ extension V1.Apps.ById.ReviewSubmissions {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `ReviewSubmissionsResponse`
+        /// - Returns: **200**, List of ReviewSubmissions as `ReviewSubmissionsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -101,6 +105,197 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AppStoreVersions: Hashable, Codable, RawRepresentable {
+                case ageRatingDeclaration
+                case app
+                case appClipDefaultExperience
+                case appStoreReviewDetail
+                case appStoreState
+                case appStoreVersionExperiments
+                case appStoreVersionLocalizations
+                case appStoreVersionPhasedRelease
+                case appStoreVersionSubmission
+                case build
+                case copyright
+                case createdDate
+                case downloadable
+                case earliestReleaseDate
+                case idfaDeclaration
+                case platform
+                case releaseType
+                case routingAppCoverage
+                case usesIdfa
+                case versionString
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .ageRatingDeclaration: return "ageRatingDeclaration"
+                    case .app: return "app"
+                    case .appClipDefaultExperience: return "appClipDefaultExperience"
+                    case .appStoreReviewDetail: return "appStoreReviewDetail"
+                    case .appStoreState: return "appStoreState"
+                    case .appStoreVersionExperiments: return "appStoreVersionExperiments"
+                    case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
+                    case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
+                    case .appStoreVersionSubmission: return "appStoreVersionSubmission"
+                    case .build: return "build"
+                    case .copyright: return "copyright"
+                    case .createdDate: return "createdDate"
+                    case .downloadable: return "downloadable"
+                    case .earliestReleaseDate: return "earliestReleaseDate"
+                    case .idfaDeclaration: return "idfaDeclaration"
+                    case .platform: return "platform"
+                    case .releaseType: return "releaseType"
+                    case .routingAppCoverage: return "routingAppCoverage"
+                    case .usesIdfa: return "usesIdfa"
+                    case .versionString: return "versionString"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ageRatingDeclaration": self = .ageRatingDeclaration
+                    case "app": self = .app
+                    case "appClipDefaultExperience": self = .appClipDefaultExperience
+                    case "appStoreReviewDetail": self = .appStoreReviewDetail
+                    case "appStoreState": self = .appStoreState
+                    case "appStoreVersionExperiments": self = .appStoreVersionExperiments
+                    case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
+                    case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
+                    case "appStoreVersionSubmission": self = .appStoreVersionSubmission
+                    case "build": self = .build
+                    case "copyright": self = .copyright
+                    case "createdDate": self = .createdDate
+                    case "downloadable": self = .downloadable
+                    case "earliestReleaseDate": self = .earliestReleaseDate
+                    case "idfaDeclaration": self = .idfaDeclaration
+                    case "platform": self = .platform
+                    case "releaseType": self = .releaseType
+                    case "routingAppCoverage": self = .routingAppCoverage
+                    case "usesIdfa": self = .usesIdfa
+                    case "versionString": self = .versionString
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum Apps: Hashable, Codable, RawRepresentable {
+                case appClips
+                case appCustomProductPages
+                case appEvents
+                case appInfos
+                case appStoreVersions
+                case availableInNewTerritories
+                case availableTerritories
+                case betaAppLocalizations
+                case betaAppReviewDetail
+                case betaGroups
+                case betaLicenseAgreement
+                case betaTesters
+                case builds
+                case bundleId
+                case ciProduct
+                case contentRightsDeclaration
+                case endUserLicenseAgreement
+                case gameCenterEnabledVersions
+                case inAppPurchases
+                case isOrEverWasMadeForKids
+                case name
+                case perfPowerMetrics
+                case preOrder
+                case preReleaseVersions
+                case pricePoints
+                case prices
+                case primaryLocale
+                case reviewSubmissions
+                case sku
+                case subscriptionStatusUrl
+                case subscriptionStatusUrlForSandbox
+                case subscriptionStatusUrlVersion
+                case subscriptionStatusUrlVersionForSandbox
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClips: return "appClips"
+                    case .appCustomProductPages: return "appCustomProductPages"
+                    case .appEvents: return "appEvents"
+                    case .appInfos: return "appInfos"
+                    case .appStoreVersions: return "appStoreVersions"
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .betaAppLocalizations: return "betaAppLocalizations"
+                    case .betaAppReviewDetail: return "betaAppReviewDetail"
+                    case .betaGroups: return "betaGroups"
+                    case .betaLicenseAgreement: return "betaLicenseAgreement"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .bundleId: return "bundleId"
+                    case .ciProduct: return "ciProduct"
+                    case .contentRightsDeclaration: return "contentRightsDeclaration"
+                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
+                    case .inAppPurchases: return "inAppPurchases"
+                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
+                    case .name: return "name"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preOrder: return "preOrder"
+                    case .preReleaseVersions: return "preReleaseVersions"
+                    case .pricePoints: return "pricePoints"
+                    case .prices: return "prices"
+                    case .primaryLocale: return "primaryLocale"
+                    case .reviewSubmissions: return "reviewSubmissions"
+                    case .sku: return "sku"
+                    case .subscriptionStatusUrl: return "subscriptionStatusUrl"
+                    case .subscriptionStatusUrlForSandbox: return "subscriptionStatusUrlForSandbox"
+                    case .subscriptionStatusUrlVersion: return "subscriptionStatusUrlVersion"
+                    case .subscriptionStatusUrlVersionForSandbox: return "subscriptionStatusUrlVersionForSandbox"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClips": self = .appClips
+                    case "appCustomProductPages": self = .appCustomProductPages
+                    case "appEvents": self = .appEvents
+                    case "appInfos": self = .appInfos
+                    case "appStoreVersions": self = .appStoreVersions
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "betaAppLocalizations": self = .betaAppLocalizations
+                    case "betaAppReviewDetail": self = .betaAppReviewDetail
+                    case "betaGroups": self = .betaGroups
+                    case "betaLicenseAgreement": self = .betaLicenseAgreement
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "bundleId": self = .bundleId
+                    case "ciProduct": self = .ciProduct
+                    case "contentRightsDeclaration": self = .contentRightsDeclaration
+                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
+                    case "inAppPurchases": self = .inAppPurchases
+                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
+                    case "name": self = .name
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preOrder": self = .preOrder
+                    case "preReleaseVersions": self = .preReleaseVersions
+                    case "pricePoints": self = .pricePoints
+                    case "prices": self = .prices
+                    case "primaryLocale": self = .primaryLocale
+                    case "reviewSubmissions": self = .reviewSubmissions
+                    case "sku": self = .sku
+                    case "subscriptionStatusUrl": self = .subscriptionStatusUrl
+                    case "subscriptionStatusUrlForSandbox": self = .subscriptionStatusUrlForSandbox
+                    case "subscriptionStatusUrlVersion": self = .subscriptionStatusUrlVersion
+                    case "subscriptionStatusUrlVersionForSandbox": self = .subscriptionStatusUrlVersionForSandbox
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum ReviewSubmissionItems: Hashable, Codable, RawRepresentable {
                 case appCustomProductPageVersion
@@ -183,6 +378,16 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appStoreVersions
+                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
+                    .init(key: "fields[appStoreVersions]")
+                }
+
+                /// the fields to include for returned resources of type apps
+                public static var apps: Relation<[Apps]?> {
+                    .init(key: "fields[apps]")
+                }
+
                 /// the fields to include for returned resources of type reviewSubmissionItems
                 public static var reviewSubmissionItems: Relation<[ReviewSubmissionItems]?> {
                     .init(key: "fields[reviewSubmissionItems]")
@@ -291,11 +496,15 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case app
+            case appStoreVersionForReview
             case items
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .app: return "app"
+                case .appStoreVersionForReview: return "appStoreVersionForReview"
                 case .items: return "items"
                 case .unknown(let rawValue): return rawValue
                 }
@@ -303,6 +512,8 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "app": self = .app
+                case "appStoreVersionForReview": self = .appStoreVersionForReview
                 case "items": self = .items
                 default: self = .unknown(rawValue)
                 }

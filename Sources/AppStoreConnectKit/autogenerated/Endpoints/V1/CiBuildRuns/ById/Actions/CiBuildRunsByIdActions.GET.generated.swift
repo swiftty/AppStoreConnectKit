@@ -30,6 +30,10 @@ extension V1.CiBuildRuns.ById.Actions {
             components?.queryItems = [
                 URLQueryItem(name: "fields[ciBuildActions]",
                              value: parameters.fields[.ciBuildActions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[ciBuildRuns]",
+                             value: parameters.fields[.ciBuildRuns]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -42,7 +46,7 @@ extension V1.CiBuildRuns.ById.Actions {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `CiBuildActionsResponse`
+        /// - Returns: **200**, List of CiBuildActions as `CiBuildActionsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -75,6 +79,9 @@ extension V1.CiBuildRuns.ById.Actions {
 extension V1.CiBuildRuns.ById.Actions.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
+
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
 
         /// maximum resources per page
         public var limit: Int?
@@ -139,16 +146,119 @@ extension V1.CiBuildRuns.ById.Actions.GET {
                 }
             }
 
+            public enum CiBuildRuns: Hashable, Codable, RawRepresentable {
+                case actions
+                case buildRun
+                case builds
+                case cancelReason
+                case clean
+                case completionStatus
+                case createdDate
+                case destinationBranch
+                case destinationCommit
+                case executionProgress
+                case finishedDate
+                case isPullRequestBuild
+                case issueCounts
+                case number
+                case product
+                case pullRequest
+                case sourceBranchOrTag
+                case sourceCommit
+                case startReason
+                case startedDate
+                case workflow
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .actions: return "actions"
+                    case .buildRun: return "buildRun"
+                    case .builds: return "builds"
+                    case .cancelReason: return "cancelReason"
+                    case .clean: return "clean"
+                    case .completionStatus: return "completionStatus"
+                    case .createdDate: return "createdDate"
+                    case .destinationBranch: return "destinationBranch"
+                    case .destinationCommit: return "destinationCommit"
+                    case .executionProgress: return "executionProgress"
+                    case .finishedDate: return "finishedDate"
+                    case .isPullRequestBuild: return "isPullRequestBuild"
+                    case .issueCounts: return "issueCounts"
+                    case .number: return "number"
+                    case .product: return "product"
+                    case .pullRequest: return "pullRequest"
+                    case .sourceBranchOrTag: return "sourceBranchOrTag"
+                    case .sourceCommit: return "sourceCommit"
+                    case .startReason: return "startReason"
+                    case .startedDate: return "startedDate"
+                    case .workflow: return "workflow"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "actions": self = .actions
+                    case "buildRun": self = .buildRun
+                    case "builds": self = .builds
+                    case "cancelReason": self = .cancelReason
+                    case "clean": self = .clean
+                    case "completionStatus": self = .completionStatus
+                    case "createdDate": self = .createdDate
+                    case "destinationBranch": self = .destinationBranch
+                    case "destinationCommit": self = .destinationCommit
+                    case "executionProgress": self = .executionProgress
+                    case "finishedDate": self = .finishedDate
+                    case "isPullRequestBuild": self = .isPullRequestBuild
+                    case "issueCounts": self = .issueCounts
+                    case "number": self = .number
+                    case "product": self = .product
+                    case "pullRequest": self = .pullRequest
+                    case "sourceBranchOrTag": self = .sourceBranchOrTag
+                    case "sourceCommit": self = .sourceCommit
+                    case "startReason": self = .startReason
+                    case "startedDate": self = .startedDate
+                    case "workflow": self = .workflow
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type ciBuildActions
                 public static var ciBuildActions: Relation<[CiBuildActions]?> {
                     .init(key: "fields[ciBuildActions]")
                 }
 
+                /// the fields to include for returned resources of type ciBuildRuns
+                public static var ciBuildRuns: Relation<[CiBuildRuns]?> {
+                    .init(key: "fields[ciBuildRuns]")
+                }
+
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case buildRun
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .buildRun: return "buildRun"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "buildRun": self = .buildRun
+                default: self = .unknown(rawValue)
                 }
             }
         }

@@ -42,7 +42,7 @@ extension V1.Apps.ById.BetaGroups {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `BetaGroupsResponse`
+        /// - Returns: **200**, List of BetaGroups as `BetaGroupsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

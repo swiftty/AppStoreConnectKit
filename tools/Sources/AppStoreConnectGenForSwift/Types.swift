@@ -72,7 +72,7 @@ struct Variable {
 }
 
 protocol Repr {
-    init?(_ prop: OpenAPISchema, for key: String)
+    init?(_ schema: OpenAPISchema, for key: String)
 
     func renderType(context: SwiftCodeBuilder.Context) -> TypeName
     func buildDecl(context: SwiftCodeBuilder.Context) -> Decl?
@@ -93,7 +93,8 @@ func findRepr(for prop: OpenAPISchema, with key: String) -> Repr {
         BooleanRepr.self,
         IntegerRepr.self,
         FloatingRepr.self,
-        RefRepr.self
+        RefRepr.self,
+        UndefinedRepr.self
     ] as [Repr.Type]
 
     return targets.lazy
@@ -424,8 +425,20 @@ struct RefRepr: Repr {
     }
 
     func renderType(context: SwiftCodeBuilder.Context) -> TypeName {
-        let schema = context.resolver(ref)
-        return TypeName(schema?.title ?? ref.key)
+        if let schema = context.resolver(ref) {
+            return findRepr(for: schema, with: schema.title ?? ref.key).renderType(context: context)
+        }
+        return TypeName(ref.key)
+    }
+}
+
+struct UndefinedRepr: Repr {
+    init?(_ schema: OpenAPISchema, for key: String) {
+        guard case .undefined = schema.value else { return nil }
+    }
+    
+    func renderType(context: SwiftCodeBuilder.Context) -> TypeName {
+        return TypeName("Data")
     }
 }
 

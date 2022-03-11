@@ -32,6 +32,8 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions {
                              value: parameters.fields[.appCustomProductPageLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appCustomProductPageVersions]",
                              value: parameters.fields[.appCustomProductPageVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appCustomProductPages]",
+                             value: parameters.fields[.appCustomProductPages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[state]",
                              value: parameters.filter[.state]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -50,7 +52,7 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppCustomProductPageVersionsResponse`
+        /// - Returns: **200**, List of AppCustomProductPageVersions as `AppCustomProductPageVersionsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -159,6 +161,43 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
                 }
             }
 
+            public enum AppCustomProductPages: Hashable, Codable, RawRepresentable {
+                case app
+                case appCustomProductPageVersions
+                case appStoreVersionTemplate
+                case customProductPageTemplate
+                case name
+                case url
+                case visible
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appCustomProductPageVersions: return "appCustomProductPageVersions"
+                    case .appStoreVersionTemplate: return "appStoreVersionTemplate"
+                    case .customProductPageTemplate: return "customProductPageTemplate"
+                    case .name: return "name"
+                    case .url: return "url"
+                    case .visible: return "visible"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appCustomProductPageVersions": self = .appCustomProductPageVersions
+                    case "appStoreVersionTemplate": self = .appStoreVersionTemplate
+                    case "customProductPageTemplate": self = .customProductPageTemplate
+                    case "name": self = .name
+                    case "url": self = .url
+                    case "visible": self = .visible
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appCustomProductPageLocalizations
                 public static var appCustomProductPageLocalizations: Relation<[AppCustomProductPageLocalizations]?> {
@@ -168,6 +207,11 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
                 /// the fields to include for returned resources of type appCustomProductPageVersions
                 public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
                     .init(key: "fields[appCustomProductPageVersions]")
+                }
+
+                /// the fields to include for returned resources of type appCustomProductPages
+                public static var appCustomProductPages: Relation<[AppCustomProductPages]?> {
+                    .init(key: "fields[appCustomProductPages]")
                 }
 
                 internal let key: String
@@ -241,11 +285,13 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case appCustomProductPage
             case appCustomProductPageLocalizations
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .appCustomProductPage: return "appCustomProductPage"
                 case .appCustomProductPageLocalizations: return "appCustomProductPageLocalizations"
                 case .unknown(let rawValue): return rawValue
                 }
@@ -253,6 +299,7 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "appCustomProductPage": self = .appCustomProductPage
                 case "appCustomProductPageLocalizations": self = .appCustomProductPageLocalizations
                 default: self = .unknown(rawValue)
                 }

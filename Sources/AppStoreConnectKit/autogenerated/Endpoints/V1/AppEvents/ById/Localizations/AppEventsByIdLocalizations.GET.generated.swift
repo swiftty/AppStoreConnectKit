@@ -34,6 +34,8 @@ extension V1.AppEvents.ById.Localizations {
                              value: parameters.fields[.appEventScreenshots]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appEventVideoClips]",
                              value: parameters.fields[.appEventVideoClips]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appEvents]",
+                             value: parameters.fields[.appEvents]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[appEventScreenshots]",
@@ -52,7 +54,7 @@ extension V1.AppEvents.ById.Localizations {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppEventLocalizationsResponse`
+        /// - Returns: **200**, List of AppEventLocalizations as `AppEventLocalizationsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -226,6 +228,58 @@ extension V1.AppEvents.ById.Localizations.GET {
                 }
             }
 
+            public enum AppEvents: Hashable, Codable, RawRepresentable {
+                case app
+                case archivedTerritorySchedules
+                case badge
+                case deepLink
+                case eventState
+                case localizations
+                case primaryLocale
+                case priority
+                case purchaseRequirement
+                case purpose
+                case referenceName
+                case territorySchedules
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .archivedTerritorySchedules: return "archivedTerritorySchedules"
+                    case .badge: return "badge"
+                    case .deepLink: return "deepLink"
+                    case .eventState: return "eventState"
+                    case .localizations: return "localizations"
+                    case .primaryLocale: return "primaryLocale"
+                    case .priority: return "priority"
+                    case .purchaseRequirement: return "purchaseRequirement"
+                    case .purpose: return "purpose"
+                    case .referenceName: return "referenceName"
+                    case .territorySchedules: return "territorySchedules"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "archivedTerritorySchedules": self = .archivedTerritorySchedules
+                    case "badge": self = .badge
+                    case "deepLink": self = .deepLink
+                    case "eventState": self = .eventState
+                    case "localizations": self = .localizations
+                    case "primaryLocale": self = .primaryLocale
+                    case "priority": self = .priority
+                    case "purchaseRequirement": self = .purchaseRequirement
+                    case "purpose": self = .purpose
+                    case "referenceName": self = .referenceName
+                    case "territorySchedules": self = .territorySchedules
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appEventLocalizations
                 public static var appEventLocalizations: Relation<[AppEventLocalizations]?> {
@@ -242,6 +296,11 @@ extension V1.AppEvents.ById.Localizations.GET {
                     .init(key: "fields[appEventVideoClips]")
                 }
 
+                /// the fields to include for returned resources of type appEvents
+                public static var appEvents: Relation<[AppEvents]?> {
+                    .init(key: "fields[appEvents]")
+                }
+
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
@@ -251,12 +310,14 @@ extension V1.AppEvents.ById.Localizations.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case appEvent
             case appEventScreenshots
             case appEventVideoClips
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .appEvent: return "appEvent"
                 case .appEventScreenshots: return "appEventScreenshots"
                 case .appEventVideoClips: return "appEventVideoClips"
                 case .unknown(let rawValue): return rawValue
@@ -265,6 +326,7 @@ extension V1.AppEvents.ById.Localizations.GET {
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "appEvent": self = .appEvent
                 case "appEventScreenshots": self = .appEventScreenshots
                 case "appEventVideoClips": self = .appEventVideoClips
                 default: self = .unknown(rawValue)

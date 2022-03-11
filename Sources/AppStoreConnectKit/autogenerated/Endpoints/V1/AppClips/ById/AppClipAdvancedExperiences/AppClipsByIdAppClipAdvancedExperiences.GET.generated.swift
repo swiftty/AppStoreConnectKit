@@ -28,10 +28,14 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appClipAdvancedExperienceImages]",
+                             value: parameters.fields[.appClipAdvancedExperienceImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClipAdvancedExperienceLocalizations]",
                              value: parameters.fields[.appClipAdvancedExperienceLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClipAdvancedExperiences]",
                              value: parameters.fields[.appClipAdvancedExperiences]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appClips]",
+                             value: parameters.fields[.appClips]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[action]",
                              value: parameters.filter[.action]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[placeStatus]",
@@ -54,7 +58,7 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppClipAdvancedExperiencesResponse`
+        /// - Returns: **200**, List of AppClipAdvancedExperiences as `AppClipAdvancedExperiencesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -103,6 +107,43 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AppClipAdvancedExperienceImages: Hashable, Codable, RawRepresentable {
+                case assetDeliveryState
+                case fileName
+                case fileSize
+                case imageAsset
+                case sourceFileChecksum
+                case uploadOperations
+                case uploaded
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .assetDeliveryState: return "assetDeliveryState"
+                    case .fileName: return "fileName"
+                    case .fileSize: return "fileSize"
+                    case .imageAsset: return "imageAsset"
+                    case .sourceFileChecksum: return "sourceFileChecksum"
+                    case .uploadOperations: return "uploadOperations"
+                    case .uploaded: return "uploaded"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "assetDeliveryState": self = .assetDeliveryState
+                    case "fileName": self = .fileName
+                    case "fileSize": self = .fileSize
+                    case "imageAsset": self = .imageAsset
+                    case "sourceFileChecksum": self = .sourceFileChecksum
+                    case "uploadOperations": self = .uploadOperations
+                    case "uploaded": self = .uploaded
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum AppClipAdvancedExperienceLocalizations: Hashable, Codable, RawRepresentable {
                 case language
@@ -184,7 +225,40 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
                 }
             }
 
+            public enum AppClips: Hashable, Codable, RawRepresentable {
+                case app
+                case appClipAdvancedExperiences
+                case appClipDefaultExperiences
+                case bundleId
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appClipAdvancedExperiences: return "appClipAdvancedExperiences"
+                    case .appClipDefaultExperiences: return "appClipDefaultExperiences"
+                    case .bundleId: return "bundleId"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appClipAdvancedExperiences": self = .appClipAdvancedExperiences
+                    case "appClipDefaultExperiences": self = .appClipDefaultExperiences
+                    case "bundleId": self = .bundleId
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appClipAdvancedExperienceImages
+                public static var appClipAdvancedExperienceImages: Relation<[AppClipAdvancedExperienceImages]?> {
+                    .init(key: "fields[appClipAdvancedExperienceImages]")
+                }
+
                 /// the fields to include for returned resources of type appClipAdvancedExperienceLocalizations
                 public static var appClipAdvancedExperienceLocalizations: Relation<[AppClipAdvancedExperienceLocalizations]?> {
                     .init(key: "fields[appClipAdvancedExperienceLocalizations]")
@@ -193,6 +267,11 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
                 /// the fields to include for returned resources of type appClipAdvancedExperiences
                 public static var appClipAdvancedExperiences: Relation<[AppClipAdvancedExperiences]?> {
                     .init(key: "fields[appClipAdvancedExperiences]")
+                }
+
+                /// the fields to include for returned resources of type appClips
+                public static var appClips: Relation<[AppClips]?> {
+                    .init(key: "fields[appClips]")
                 }
 
                 internal let key: String
@@ -311,11 +390,15 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case appClip
+            case headerImage
             case localizations
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .appClip: return "appClip"
+                case .headerImage: return "headerImage"
                 case .localizations: return "localizations"
                 case .unknown(let rawValue): return rawValue
                 }
@@ -323,6 +406,8 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "appClip": self = .appClip
+                case "headerImage": self = .headerImage
                 case "localizations": self = .localizations
                 default: self = .unknown(rawValue)
                 }

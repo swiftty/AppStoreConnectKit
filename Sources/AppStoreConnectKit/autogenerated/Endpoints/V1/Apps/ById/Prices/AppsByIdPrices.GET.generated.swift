@@ -28,8 +28,14 @@ extension V1.Apps.ById.Prices {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appPriceTiers]",
+                             value: parameters.fields[.appPriceTiers]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPrices]",
                              value: parameters.fields[.appPrices]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[apps]",
+                             value: parameters.fields[.apps]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -42,7 +48,7 @@ extension V1.Apps.ById.Prices {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppPricesResponse`
+        /// - Returns: **200**, List of AppPrices as `AppPricesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -76,6 +82,9 @@ extension V1.Apps.ById.Prices.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
         /// maximum resources per page
         public var limit: Int?
 
@@ -86,6 +95,25 @@ extension V1.Apps.ById.Prices.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AppPriceTiers: Hashable, Codable, RawRepresentable {
+                case pricePoints
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .pricePoints: return "pricePoints"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "pricePoints": self = .pricePoints
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum AppPrices: Hashable, Codable, RawRepresentable {
                 case app
@@ -109,16 +137,163 @@ extension V1.Apps.ById.Prices.GET {
                 }
             }
 
+            public enum Apps: Hashable, Codable, RawRepresentable {
+                case appClips
+                case appCustomProductPages
+                case appEvents
+                case appInfos
+                case appStoreVersions
+                case availableInNewTerritories
+                case availableTerritories
+                case betaAppLocalizations
+                case betaAppReviewDetail
+                case betaGroups
+                case betaLicenseAgreement
+                case betaTesters
+                case builds
+                case bundleId
+                case ciProduct
+                case contentRightsDeclaration
+                case endUserLicenseAgreement
+                case gameCenterEnabledVersions
+                case inAppPurchases
+                case isOrEverWasMadeForKids
+                case name
+                case perfPowerMetrics
+                case preOrder
+                case preReleaseVersions
+                case pricePoints
+                case prices
+                case primaryLocale
+                case reviewSubmissions
+                case sku
+                case subscriptionStatusUrl
+                case subscriptionStatusUrlForSandbox
+                case subscriptionStatusUrlVersion
+                case subscriptionStatusUrlVersionForSandbox
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClips: return "appClips"
+                    case .appCustomProductPages: return "appCustomProductPages"
+                    case .appEvents: return "appEvents"
+                    case .appInfos: return "appInfos"
+                    case .appStoreVersions: return "appStoreVersions"
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .betaAppLocalizations: return "betaAppLocalizations"
+                    case .betaAppReviewDetail: return "betaAppReviewDetail"
+                    case .betaGroups: return "betaGroups"
+                    case .betaLicenseAgreement: return "betaLicenseAgreement"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .bundleId: return "bundleId"
+                    case .ciProduct: return "ciProduct"
+                    case .contentRightsDeclaration: return "contentRightsDeclaration"
+                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
+                    case .inAppPurchases: return "inAppPurchases"
+                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
+                    case .name: return "name"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preOrder: return "preOrder"
+                    case .preReleaseVersions: return "preReleaseVersions"
+                    case .pricePoints: return "pricePoints"
+                    case .prices: return "prices"
+                    case .primaryLocale: return "primaryLocale"
+                    case .reviewSubmissions: return "reviewSubmissions"
+                    case .sku: return "sku"
+                    case .subscriptionStatusUrl: return "subscriptionStatusUrl"
+                    case .subscriptionStatusUrlForSandbox: return "subscriptionStatusUrlForSandbox"
+                    case .subscriptionStatusUrlVersion: return "subscriptionStatusUrlVersion"
+                    case .subscriptionStatusUrlVersionForSandbox: return "subscriptionStatusUrlVersionForSandbox"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClips": self = .appClips
+                    case "appCustomProductPages": self = .appCustomProductPages
+                    case "appEvents": self = .appEvents
+                    case "appInfos": self = .appInfos
+                    case "appStoreVersions": self = .appStoreVersions
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "betaAppLocalizations": self = .betaAppLocalizations
+                    case "betaAppReviewDetail": self = .betaAppReviewDetail
+                    case "betaGroups": self = .betaGroups
+                    case "betaLicenseAgreement": self = .betaLicenseAgreement
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "bundleId": self = .bundleId
+                    case "ciProduct": self = .ciProduct
+                    case "contentRightsDeclaration": self = .contentRightsDeclaration
+                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
+                    case "inAppPurchases": self = .inAppPurchases
+                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
+                    case "name": self = .name
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preOrder": self = .preOrder
+                    case "preReleaseVersions": self = .preReleaseVersions
+                    case "pricePoints": self = .pricePoints
+                    case "prices": self = .prices
+                    case "primaryLocale": self = .primaryLocale
+                    case "reviewSubmissions": self = .reviewSubmissions
+                    case "sku": self = .sku
+                    case "subscriptionStatusUrl": self = .subscriptionStatusUrl
+                    case "subscriptionStatusUrlForSandbox": self = .subscriptionStatusUrlForSandbox
+                    case "subscriptionStatusUrlVersion": self = .subscriptionStatusUrlVersion
+                    case "subscriptionStatusUrlVersionForSandbox": self = .subscriptionStatusUrlVersionForSandbox
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appPriceTiers
+                public static var appPriceTiers: Relation<[AppPriceTiers]?> {
+                    .init(key: "fields[appPriceTiers]")
+                }
+
                 /// the fields to include for returned resources of type appPrices
                 public static var appPrices: Relation<[AppPrices]?> {
                     .init(key: "fields[appPrices]")
+                }
+
+                /// the fields to include for returned resources of type apps
+                public static var apps: Relation<[Apps]?> {
+                    .init(key: "fields[apps]")
                 }
 
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case app
+            case priceTier
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .app: return "app"
+                case .priceTier: return "priceTier"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "app": self = .app
+                case "priceTier": self = .priceTier
+                default: self = .unknown(rawValue)
                 }
             }
         }

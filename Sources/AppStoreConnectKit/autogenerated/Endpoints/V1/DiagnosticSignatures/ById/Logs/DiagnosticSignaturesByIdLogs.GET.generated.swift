@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.DiagnosticSignatures.ById.Logs {
     public struct GET: Endpoint {
-        public typealias Response = DiagnosticLogsResponse
+        public typealias Response = Data
 
         public var path: String {
             "/v1/diagnosticSignatures/\(id)/logs"
@@ -40,7 +40,7 @@ extension V1.DiagnosticSignatures.ById.Logs {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `DiagnosticLogsResponse`
+        /// - Returns: **200**, List of DiagnosticLogs as `Data`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -52,7 +52,7 @@ extension V1.DiagnosticSignatures.ById.Logs {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(DiagnosticLogsResponse.self, from: data)
+                return data
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

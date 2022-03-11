@@ -40,7 +40,7 @@ extension V1.AppStoreVersions.ById.AppStoreVersionPhasedRelease {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `AppStoreVersionPhasedReleaseResponse`
+        /// - Returns: **200**, Single AppStoreVersionPhasedRelease as `AppStoreVersionPhasedReleaseResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

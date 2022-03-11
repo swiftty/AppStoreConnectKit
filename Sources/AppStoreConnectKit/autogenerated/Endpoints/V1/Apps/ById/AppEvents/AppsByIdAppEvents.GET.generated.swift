@@ -52,7 +52,7 @@ extension V1.Apps.ById.AppEvents {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppEventsResponse`
+        /// - Returns: **200**, List of AppEvents as `AppEventsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

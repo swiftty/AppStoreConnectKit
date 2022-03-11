@@ -42,7 +42,7 @@ extension V1.CiBuildActions.ById.Issues {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `CiIssuesResponse`
+        /// - Returns: **200**, List of CiIssues as `CiIssuesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

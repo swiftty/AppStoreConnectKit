@@ -40,7 +40,7 @@ extension V1.Profiles.ById.BundleId {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `BundleIdResponse`
+        /// - Returns: **200**, Single BundleId as `BundleIdResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

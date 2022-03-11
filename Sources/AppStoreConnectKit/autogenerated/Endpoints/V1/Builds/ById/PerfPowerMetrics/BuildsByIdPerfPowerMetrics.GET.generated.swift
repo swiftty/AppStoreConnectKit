@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.Builds.ById.PerfPowerMetrics {
     public struct GET: Endpoint {
-        public typealias Response = PerfPowerMetricsResponse
+        public typealias Response = Data
 
         public var path: String {
             "/v1/builds/\(id)/perfPowerMetrics"
@@ -44,7 +44,7 @@ extension V1.Builds.ById.PerfPowerMetrics {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `PerfPowerMetricsResponse`
+        /// - Returns: **200**, List of PerfPowerMetrics as `Data`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -56,7 +56,7 @@ extension V1.Builds.ById.PerfPowerMetrics {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(PerfPowerMetricsResponse.self, from: data)
+                return data
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

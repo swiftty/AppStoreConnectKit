@@ -40,7 +40,7 @@ extension V1.BuildBundles.ById.AppClipDomainDebugStatus {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `AppClipDomainStatusResponse`
+        /// - Returns: **200**, Single AppClipDomainStatus as `AppClipDomainStatusResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

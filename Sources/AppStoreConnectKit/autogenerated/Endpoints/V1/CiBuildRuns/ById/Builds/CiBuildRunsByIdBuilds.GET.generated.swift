@@ -28,16 +28,30 @@ extension V1.CiBuildRuns.ById.Builds {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appEncryptionDeclarations]",
+                             value: parameters.fields[.appEncryptionDeclarations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersions]",
+                             value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[apps]",
+                             value: parameters.fields[.apps]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[betaAppReviewSubmissions]",
+                             value: parameters.fields[.betaAppReviewSubmissions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[betaBuildLocalizations]",
                              value: parameters.fields[.betaBuildLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[betaGroups]",
+                             value: parameters.fields[.betaGroups]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[betaTesters]",
                              value: parameters.fields[.betaTesters]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[buildBetaDetails]",
+                             value: parameters.fields[.buildBetaDetails]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[buildBundles]",
                              value: parameters.fields[.buildBundles]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[buildIcons]",
                              value: parameters.fields[.buildIcons]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[builds]",
                              value: parameters.fields[.builds]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[preReleaseVersions]",
+                             value: parameters.fields[.preReleaseVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[appStoreVersion]",
                              value: parameters.filter[.appStoreVersion]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[app]",
@@ -68,6 +82,8 @@ extension V1.CiBuildRuns.ById.Builds {
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[betaBuildLocalizations]",
                              value: parameters.limit[.betaBuildLocalizations].map { "\($0)" }),
+                URLQueryItem(name: "limit[betaGroups]",
+                             value: parameters.limit[.betaGroups].map { "\($0)" }),
                 URLQueryItem(name: "limit[buildBundles]",
                              value: parameters.limit[.buildBundles].map { "\($0)" }),
                 URLQueryItem(name: "limit[icons]",
@@ -88,7 +104,7 @@ extension V1.CiBuildRuns.ById.Builds {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `BuildsResponse`
+        /// - Returns: **200**, List of Builds as `BuildsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -141,6 +157,280 @@ extension V1.CiBuildRuns.ById.Builds.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public enum AppEncryptionDeclarations: Hashable, Codable, RawRepresentable {
+                case app
+                case appEncryptionDeclarationState
+                case availableOnFrenchStore
+                case builds
+                case codeValue
+                case containsProprietaryCryptography
+                case containsThirdPartyCryptography
+                case documentName
+                case documentType
+                case documentUrl
+                case exempt
+                case platform
+                case uploadedDate
+                case usesEncryption
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appEncryptionDeclarationState: return "appEncryptionDeclarationState"
+                    case .availableOnFrenchStore: return "availableOnFrenchStore"
+                    case .builds: return "builds"
+                    case .codeValue: return "codeValue"
+                    case .containsProprietaryCryptography: return "containsProprietaryCryptography"
+                    case .containsThirdPartyCryptography: return "containsThirdPartyCryptography"
+                    case .documentName: return "documentName"
+                    case .documentType: return "documentType"
+                    case .documentUrl: return "documentUrl"
+                    case .exempt: return "exempt"
+                    case .platform: return "platform"
+                    case .uploadedDate: return "uploadedDate"
+                    case .usesEncryption: return "usesEncryption"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appEncryptionDeclarationState": self = .appEncryptionDeclarationState
+                    case "availableOnFrenchStore": self = .availableOnFrenchStore
+                    case "builds": self = .builds
+                    case "codeValue": self = .codeValue
+                    case "containsProprietaryCryptography": self = .containsProprietaryCryptography
+                    case "containsThirdPartyCryptography": self = .containsThirdPartyCryptography
+                    case "documentName": self = .documentName
+                    case "documentType": self = .documentType
+                    case "documentUrl": self = .documentUrl
+                    case "exempt": self = .exempt
+                    case "platform": self = .platform
+                    case "uploadedDate": self = .uploadedDate
+                    case "usesEncryption": self = .usesEncryption
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum AppStoreVersions: Hashable, Codable, RawRepresentable {
+                case ageRatingDeclaration
+                case app
+                case appClipDefaultExperience
+                case appStoreReviewDetail
+                case appStoreState
+                case appStoreVersionExperiments
+                case appStoreVersionLocalizations
+                case appStoreVersionPhasedRelease
+                case appStoreVersionSubmission
+                case build
+                case copyright
+                case createdDate
+                case downloadable
+                case earliestReleaseDate
+                case idfaDeclaration
+                case platform
+                case releaseType
+                case routingAppCoverage
+                case usesIdfa
+                case versionString
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .ageRatingDeclaration: return "ageRatingDeclaration"
+                    case .app: return "app"
+                    case .appClipDefaultExperience: return "appClipDefaultExperience"
+                    case .appStoreReviewDetail: return "appStoreReviewDetail"
+                    case .appStoreState: return "appStoreState"
+                    case .appStoreVersionExperiments: return "appStoreVersionExperiments"
+                    case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
+                    case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
+                    case .appStoreVersionSubmission: return "appStoreVersionSubmission"
+                    case .build: return "build"
+                    case .copyright: return "copyright"
+                    case .createdDate: return "createdDate"
+                    case .downloadable: return "downloadable"
+                    case .earliestReleaseDate: return "earliestReleaseDate"
+                    case .idfaDeclaration: return "idfaDeclaration"
+                    case .platform: return "platform"
+                    case .releaseType: return "releaseType"
+                    case .routingAppCoverage: return "routingAppCoverage"
+                    case .usesIdfa: return "usesIdfa"
+                    case .versionString: return "versionString"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ageRatingDeclaration": self = .ageRatingDeclaration
+                    case "app": self = .app
+                    case "appClipDefaultExperience": self = .appClipDefaultExperience
+                    case "appStoreReviewDetail": self = .appStoreReviewDetail
+                    case "appStoreState": self = .appStoreState
+                    case "appStoreVersionExperiments": self = .appStoreVersionExperiments
+                    case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
+                    case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
+                    case "appStoreVersionSubmission": self = .appStoreVersionSubmission
+                    case "build": self = .build
+                    case "copyright": self = .copyright
+                    case "createdDate": self = .createdDate
+                    case "downloadable": self = .downloadable
+                    case "earliestReleaseDate": self = .earliestReleaseDate
+                    case "idfaDeclaration": self = .idfaDeclaration
+                    case "platform": self = .platform
+                    case "releaseType": self = .releaseType
+                    case "routingAppCoverage": self = .routingAppCoverage
+                    case "usesIdfa": self = .usesIdfa
+                    case "versionString": self = .versionString
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum Apps: Hashable, Codable, RawRepresentable {
+                case appClips
+                case appCustomProductPages
+                case appEvents
+                case appInfos
+                case appStoreVersions
+                case availableInNewTerritories
+                case availableTerritories
+                case betaAppLocalizations
+                case betaAppReviewDetail
+                case betaGroups
+                case betaLicenseAgreement
+                case betaTesters
+                case builds
+                case bundleId
+                case ciProduct
+                case contentRightsDeclaration
+                case endUserLicenseAgreement
+                case gameCenterEnabledVersions
+                case inAppPurchases
+                case isOrEverWasMadeForKids
+                case name
+                case perfPowerMetrics
+                case preOrder
+                case preReleaseVersions
+                case pricePoints
+                case prices
+                case primaryLocale
+                case reviewSubmissions
+                case sku
+                case subscriptionStatusUrl
+                case subscriptionStatusUrlForSandbox
+                case subscriptionStatusUrlVersion
+                case subscriptionStatusUrlVersionForSandbox
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appClips: return "appClips"
+                    case .appCustomProductPages: return "appCustomProductPages"
+                    case .appEvents: return "appEvents"
+                    case .appInfos: return "appInfos"
+                    case .appStoreVersions: return "appStoreVersions"
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .betaAppLocalizations: return "betaAppLocalizations"
+                    case .betaAppReviewDetail: return "betaAppReviewDetail"
+                    case .betaGroups: return "betaGroups"
+                    case .betaLicenseAgreement: return "betaLicenseAgreement"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .bundleId: return "bundleId"
+                    case .ciProduct: return "ciProduct"
+                    case .contentRightsDeclaration: return "contentRightsDeclaration"
+                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
+                    case .inAppPurchases: return "inAppPurchases"
+                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
+                    case .name: return "name"
+                    case .perfPowerMetrics: return "perfPowerMetrics"
+                    case .preOrder: return "preOrder"
+                    case .preReleaseVersions: return "preReleaseVersions"
+                    case .pricePoints: return "pricePoints"
+                    case .prices: return "prices"
+                    case .primaryLocale: return "primaryLocale"
+                    case .reviewSubmissions: return "reviewSubmissions"
+                    case .sku: return "sku"
+                    case .subscriptionStatusUrl: return "subscriptionStatusUrl"
+                    case .subscriptionStatusUrlForSandbox: return "subscriptionStatusUrlForSandbox"
+                    case .subscriptionStatusUrlVersion: return "subscriptionStatusUrlVersion"
+                    case .subscriptionStatusUrlVersionForSandbox: return "subscriptionStatusUrlVersionForSandbox"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appClips": self = .appClips
+                    case "appCustomProductPages": self = .appCustomProductPages
+                    case "appEvents": self = .appEvents
+                    case "appInfos": self = .appInfos
+                    case "appStoreVersions": self = .appStoreVersions
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "betaAppLocalizations": self = .betaAppLocalizations
+                    case "betaAppReviewDetail": self = .betaAppReviewDetail
+                    case "betaGroups": self = .betaGroups
+                    case "betaLicenseAgreement": self = .betaLicenseAgreement
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "bundleId": self = .bundleId
+                    case "ciProduct": self = .ciProduct
+                    case "contentRightsDeclaration": self = .contentRightsDeclaration
+                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
+                    case "inAppPurchases": self = .inAppPurchases
+                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
+                    case "name": self = .name
+                    case "perfPowerMetrics": self = .perfPowerMetrics
+                    case "preOrder": self = .preOrder
+                    case "preReleaseVersions": self = .preReleaseVersions
+                    case "pricePoints": self = .pricePoints
+                    case "prices": self = .prices
+                    case "primaryLocale": self = .primaryLocale
+                    case "reviewSubmissions": self = .reviewSubmissions
+                    case "sku": self = .sku
+                    case "subscriptionStatusUrl": self = .subscriptionStatusUrl
+                    case "subscriptionStatusUrlForSandbox": self = .subscriptionStatusUrlForSandbox
+                    case "subscriptionStatusUrlVersion": self = .subscriptionStatusUrlVersion
+                    case "subscriptionStatusUrlVersionForSandbox": self = .subscriptionStatusUrlVersionForSandbox
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum BetaAppReviewSubmissions: Hashable, Codable, RawRepresentable {
+                case betaReviewState
+                case build
+                case submittedDate
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .betaReviewState: return "betaReviewState"
+                    case .build: return "build"
+                    case .submittedDate: return "submittedDate"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "betaReviewState": self = .betaReviewState
+                    case "build": self = .build
+                    case "submittedDate": self = .submittedDate
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum BetaBuildLocalizations: Hashable, Codable, RawRepresentable {
                 case build
                 case locale
@@ -161,6 +451,64 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                     case "build": self = .build
                     case "locale": self = .locale
                     case "whatsNew": self = .whatsNew
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum BetaGroups: Hashable, Codable, RawRepresentable {
+                case app
+                case betaTesters
+                case builds
+                case createdDate
+                case feedbackEnabled
+                case hasAccessToAllBuilds
+                case iosBuildsAvailableForAppleSiliconMac
+                case isInternalGroup
+                case name
+                case publicLink
+                case publicLinkEnabled
+                case publicLinkId
+                case publicLinkLimit
+                case publicLinkLimitEnabled
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .betaTesters: return "betaTesters"
+                    case .builds: return "builds"
+                    case .createdDate: return "createdDate"
+                    case .feedbackEnabled: return "feedbackEnabled"
+                    case .hasAccessToAllBuilds: return "hasAccessToAllBuilds"
+                    case .iosBuildsAvailableForAppleSiliconMac: return "iosBuildsAvailableForAppleSiliconMac"
+                    case .isInternalGroup: return "isInternalGroup"
+                    case .name: return "name"
+                    case .publicLink: return "publicLink"
+                    case .publicLinkEnabled: return "publicLinkEnabled"
+                    case .publicLinkId: return "publicLinkId"
+                    case .publicLinkLimit: return "publicLinkLimit"
+                    case .publicLinkLimitEnabled: return "publicLinkLimitEnabled"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "betaTesters": self = .betaTesters
+                    case "builds": self = .builds
+                    case "createdDate": self = .createdDate
+                    case "feedbackEnabled": self = .feedbackEnabled
+                    case "hasAccessToAllBuilds": self = .hasAccessToAllBuilds
+                    case "iosBuildsAvailableForAppleSiliconMac": self = .iosBuildsAvailableForAppleSiliconMac
+                    case "isInternalGroup": self = .isInternalGroup
+                    case "name": self = .name
+                    case "publicLink": self = .publicLink
+                    case "publicLinkEnabled": self = .publicLinkEnabled
+                    case "publicLinkId": self = .publicLinkId
+                    case "publicLinkLimit": self = .publicLinkLimit
+                    case "publicLinkLimitEnabled": self = .publicLinkLimitEnabled
                     default: self = .unknown(rawValue)
                     }
                 }
@@ -198,6 +546,34 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                     case "firstName": self = .firstName
                     case "inviteType": self = .inviteType
                     case "lastName": self = .lastName
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum BuildBetaDetails: Hashable, Codable, RawRepresentable {
+                case autoNotifyEnabled
+                case build
+                case externalBuildState
+                case internalBuildState
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .autoNotifyEnabled: return "autoNotifyEnabled"
+                    case .build: return "build"
+                    case .externalBuildState: return "externalBuildState"
+                    case .internalBuildState: return "internalBuildState"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "autoNotifyEnabled": self = .autoNotifyEnabled
+                    case "build": self = .build
+                    case "externalBuildState": self = .externalBuildState
+                    case "internalBuildState": self = .internalBuildState
                     default: self = .unknown(rawValue)
                     }
                 }
@@ -395,15 +771,73 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                 }
             }
 
+            public enum PreReleaseVersions: Hashable, Codable, RawRepresentable {
+                case app
+                case builds
+                case platform
+                case version
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .builds: return "builds"
+                    case .platform: return "platform"
+                    case .version: return "version"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "builds": self = .builds
+                    case "platform": self = .platform
+                    case "version": self = .version
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appEncryptionDeclarations
+                public static var appEncryptionDeclarations: Relation<[AppEncryptionDeclarations]?> {
+                    .init(key: "fields[appEncryptionDeclarations]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersions
+                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
+                    .init(key: "fields[appStoreVersions]")
+                }
+
+                /// the fields to include for returned resources of type apps
+                public static var apps: Relation<[Apps]?> {
+                    .init(key: "fields[apps]")
+                }
+
+                /// the fields to include for returned resources of type betaAppReviewSubmissions
+                public static var betaAppReviewSubmissions: Relation<[BetaAppReviewSubmissions]?> {
+                    .init(key: "fields[betaAppReviewSubmissions]")
+                }
+
                 /// the fields to include for returned resources of type betaBuildLocalizations
                 public static var betaBuildLocalizations: Relation<[BetaBuildLocalizations]?> {
                     .init(key: "fields[betaBuildLocalizations]")
                 }
 
+                /// the fields to include for returned resources of type betaGroups
+                public static var betaGroups: Relation<[BetaGroups]?> {
+                    .init(key: "fields[betaGroups]")
+                }
+
                 /// the fields to include for returned resources of type betaTesters
                 public static var betaTesters: Relation<[BetaTesters]?> {
                     .init(key: "fields[betaTesters]")
+                }
+
+                /// the fields to include for returned resources of type buildBetaDetails
+                public static var buildBetaDetails: Relation<[BuildBetaDetails]?> {
+                    .init(key: "fields[buildBetaDetails]")
                 }
 
                 /// the fields to include for returned resources of type buildBundles
@@ -419,6 +853,11 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                 /// the fields to include for returned resources of type builds
                 public static var builds: Relation<[Builds]?> {
                     .init(key: "fields[builds]")
+                }
+
+                /// the fields to include for returned resources of type preReleaseVersions
+                public static var preReleaseVersions: Relation<[PreReleaseVersions]?> {
+                    .init(key: "fields[preReleaseVersions]")
                 }
 
                 internal let key: String
@@ -615,28 +1054,49 @@ extension V1.CiBuildRuns.ById.Builds.GET {
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
+            case app
+            case appEncryptionDeclaration
+            case appStoreVersion
+            case betaAppReviewSubmission
             case betaBuildLocalizations
+            case betaGroups
+            case buildBetaDetail
             case buildBundles
             case icons
             case individualTesters
+            case preReleaseVersion
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
+                case .app: return "app"
+                case .appEncryptionDeclaration: return "appEncryptionDeclaration"
+                case .appStoreVersion: return "appStoreVersion"
+                case .betaAppReviewSubmission: return "betaAppReviewSubmission"
                 case .betaBuildLocalizations: return "betaBuildLocalizations"
+                case .betaGroups: return "betaGroups"
+                case .buildBetaDetail: return "buildBetaDetail"
                 case .buildBundles: return "buildBundles"
                 case .icons: return "icons"
                 case .individualTesters: return "individualTesters"
+                case .preReleaseVersion: return "preReleaseVersion"
                 case .unknown(let rawValue): return rawValue
                 }
             }
 
             public init(rawValue: String) {
                 switch rawValue {
+                case "app": self = .app
+                case "appEncryptionDeclaration": self = .appEncryptionDeclaration
+                case "appStoreVersion": self = .appStoreVersion
+                case "betaAppReviewSubmission": self = .betaAppReviewSubmission
                 case "betaBuildLocalizations": self = .betaBuildLocalizations
+                case "betaGroups": self = .betaGroups
+                case "buildBetaDetail": self = .buildBetaDetail
                 case "buildBundles": self = .buildBundles
                 case "icons": self = .icons
                 case "individualTesters": self = .individualTesters
+                case "preReleaseVersion": self = .preReleaseVersion
                 default: self = .unknown(rawValue)
                 }
             }
@@ -659,6 +1119,11 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                 /// maximum number of related betaBuildLocalizations returned (when they are included)
                 public static var betaBuildLocalizations: Relation<Int?> {
                     .init(key: "limit[betaBuildLocalizations]")
+                }
+
+                /// maximum number of related betaGroups returned (when they are included)
+                public static var betaGroups: Relation<Int?> {
+                    .init(key: "limit[betaGroups]")
                 }
 
                 /// maximum number of related buildBundles returned (when they are included)

@@ -40,7 +40,7 @@ extension V1.AppInfos.ById.SecondarySubcategoryTwo {
             return urlRequest
         }
 
-        /// - Returns: **200**, Related resource as `AppCategoryResponse`
+        /// - Returns: **200**, Single AppCategory as `AppCategoryResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

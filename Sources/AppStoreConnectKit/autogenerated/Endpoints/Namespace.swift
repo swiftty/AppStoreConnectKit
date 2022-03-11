@@ -302,6 +302,8 @@ public enum V1 {
 
             public enum PreReleaseVersions {}
 
+            public enum PricePoints {}
+
             public enum Prices {}
 
             public enum Relationships {

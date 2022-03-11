@@ -42,7 +42,7 @@ extension V1.Apps.ById.PreReleaseVersions {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `PreReleaseVersionsResponse`
+        /// - Returns: **200**, List of PreReleaseVersions as `PreReleaseVersionsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`

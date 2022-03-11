@@ -28,8 +28,12 @@ extension V1.AppScreenshotSets.ById.AppScreenshots {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appScreenshotSets]",
+                             value: parameters.fields[.appScreenshotSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appScreenshots]",
                              value: parameters.fields[.appScreenshots]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -42,7 +46,7 @@ extension V1.AppScreenshotSets.ById.AppScreenshots {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of related resources as `AppScreenshotsResponse`
+        /// - Returns: **200**, List of AppScreenshots as `AppScreenshotsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -76,6 +80,9 @@ extension V1.AppScreenshotSets.ById.AppScreenshots.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
         /// maximum resources per page
         public var limit: Int?
 
@@ -86,6 +93,37 @@ extension V1.AppScreenshotSets.ById.AppScreenshots.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AppScreenshotSets: Hashable, Codable, RawRepresentable {
+                case appCustomProductPageLocalization
+                case appScreenshots
+                case appStoreVersionExperimentTreatmentLocalization
+                case appStoreVersionLocalization
+                case screenshotDisplayType
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
+                    case .appScreenshots: return "appScreenshots"
+                    case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
+                    case .appStoreVersionLocalization: return "appStoreVersionLocalization"
+                    case .screenshotDisplayType: return "screenshotDisplayType"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
+                    case "appScreenshots": self = .appScreenshots
+                    case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
+                    case "appStoreVersionLocalization": self = .appStoreVersionLocalization
+                    case "screenshotDisplayType": self = .screenshotDisplayType
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum AppScreenshots: Hashable, Codable, RawRepresentable {
                 case appScreenshotSet
@@ -134,6 +172,11 @@ extension V1.AppScreenshotSets.ById.AppScreenshots.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appScreenshotSets
+                public static var appScreenshotSets: Relation<[AppScreenshotSets]?> {
+                    .init(key: "fields[appScreenshotSets]")
+                }
+
                 /// the fields to include for returned resources of type appScreenshots
                 public static var appScreenshots: Relation<[AppScreenshots]?> {
                     .init(key: "fields[appScreenshots]")
@@ -143,6 +186,25 @@ extension V1.AppScreenshotSets.ById.AppScreenshots.GET {
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case appScreenshotSet
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .appScreenshotSet: return "appScreenshotSet"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "appScreenshotSet": self = .appScreenshotSet
+                default: self = .unknown(rawValue)
                 }
             }
         }

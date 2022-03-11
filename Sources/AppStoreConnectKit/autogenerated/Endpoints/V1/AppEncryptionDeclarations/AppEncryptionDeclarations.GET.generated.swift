@@ -178,6 +178,7 @@ extension V1.AppEncryptionDeclarations.GET {
                 case perfPowerMetrics
                 case preOrder
                 case preReleaseVersions
+                case pricePoints
                 case prices
                 case primaryLocale
                 case reviewSubmissions
@@ -214,6 +215,7 @@ extension V1.AppEncryptionDeclarations.GET {
                     case .perfPowerMetrics: return "perfPowerMetrics"
                     case .preOrder: return "preOrder"
                     case .preReleaseVersions: return "preReleaseVersions"
+                    case .pricePoints: return "pricePoints"
                     case .prices: return "prices"
                     case .primaryLocale: return "primaryLocale"
                     case .reviewSubmissions: return "reviewSubmissions"
@@ -252,6 +254,7 @@ extension V1.AppEncryptionDeclarations.GET {
                     case "perfPowerMetrics": self = .perfPowerMetrics
                     case "preOrder": self = .preOrder
                     case "preReleaseVersions": self = .preReleaseVersions
+                    case "pricePoints": self = .pricePoints
                     case "prices": self = .prices
                     case "primaryLocale": self = .primaryLocale
                     case "reviewSubmissions": self = .reviewSubmissions
