@@ -50,9 +50,6 @@ public struct AppStoreVersionCreateRequest: Hashable, Codable {
 
             public var releaseType: ReleaseType?
 
-            @available(*, deprecated)
-            public var usesIdfa: Bool?
-
             public var versionString: String
 
             public init(
@@ -60,14 +57,12 @@ public struct AppStoreVersionCreateRequest: Hashable, Codable {
                 earliestReleaseDate: String? = nil,
                 platform: Platform,
                 releaseType: ReleaseType? = nil,
-                usesIdfa: Bool? = nil,
                 versionString: String
             ) {
                 self.copyright = copyright
                 self.earliestReleaseDate = earliestReleaseDate
                 self.platform = platform
                 self.releaseType = releaseType
-                self.usesIdfa = usesIdfa
                 self.versionString = versionString
             }
 
@@ -76,7 +71,6 @@ public struct AppStoreVersionCreateRequest: Hashable, Codable {
                 case earliestReleaseDate
                 case platform
                 case releaseType
-                case usesIdfa
                 case versionString
             }
 

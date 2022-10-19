@@ -60,11 +60,13 @@ public struct DiagnosticSignature: Hashable, Codable {
 
         public enum DiagnosticType: Hashable, Codable, RawRepresentable {
             case diskWrites
+            case hangs
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
                 case .diskWrites: return "DISK_WRITES"
+                case .hangs: return "HANGS"
                 case .unknown(let rawValue): return rawValue
                 }
             }
@@ -72,6 +74,7 @@ public struct DiagnosticSignature: Hashable, Codable {
             public init(rawValue: String) {
                 switch rawValue {
                 case "DISK_WRITES": self = .diskWrites
+                case "HANGS": self = .hangs
                 default: self = .unknown(rawValue)
                 }
             }

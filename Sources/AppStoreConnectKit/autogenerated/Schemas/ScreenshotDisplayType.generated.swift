@@ -16,10 +16,13 @@ public enum ScreenshotDisplayType: Hashable, Codable, RawRepresentable {
     case appIphone47
     case appIphone55
     case appIphone58
+    case appIphone61
     case appIphone65
+    case appIphone67
     case appWatchSeries3
     case appWatchSeries4
     case appWatchSeries7
+    case appWatchUltra
     case imessageAppIpad105
     case imessageAppIpad97
     case imessageAppIpadPro129
@@ -29,7 +32,9 @@ public enum ScreenshotDisplayType: Hashable, Codable, RawRepresentable {
     case imessageAppIphone47
     case imessageAppIphone55
     case imessageAppIphone58
+    case imessageAppIphone61
     case imessageAppIphone65
+    case imessageAppIphone67
     case unknown(String)
 
     public var rawValue: String {
@@ -46,10 +51,13 @@ public enum ScreenshotDisplayType: Hashable, Codable, RawRepresentable {
         case .appIphone47: return "APP_IPHONE_47"
         case .appIphone55: return "APP_IPHONE_55"
         case .appIphone58: return "APP_IPHONE_58"
+        case .appIphone61: return "APP_IPHONE_61"
         case .appIphone65: return "APP_IPHONE_65"
+        case .appIphone67: return "APP_IPHONE_67"
         case .appWatchSeries3: return "APP_WATCH_SERIES_3"
         case .appWatchSeries4: return "APP_WATCH_SERIES_4"
         case .appWatchSeries7: return "APP_WATCH_SERIES_7"
+        case .appWatchUltra: return "APP_WATCH_ULTRA"
         case .imessageAppIpad105: return "IMESSAGE_APP_IPAD_105"
         case .imessageAppIpad97: return "IMESSAGE_APP_IPAD_97"
         case .imessageAppIpadPro129: return "IMESSAGE_APP_IPAD_PRO_129"
@@ -59,7 +67,9 @@ public enum ScreenshotDisplayType: Hashable, Codable, RawRepresentable {
         case .imessageAppIphone47: return "IMESSAGE_APP_IPHONE_47"
         case .imessageAppIphone55: return "IMESSAGE_APP_IPHONE_55"
         case .imessageAppIphone58: return "IMESSAGE_APP_IPHONE_58"
+        case .imessageAppIphone61: return "IMESSAGE_APP_IPHONE_61"
         case .imessageAppIphone65: return "IMESSAGE_APP_IPHONE_65"
+        case .imessageAppIphone67: return "IMESSAGE_APP_IPHONE_67"
         case .unknown(let rawValue): return rawValue
         }
     }
@@ -78,10 +88,13 @@ public enum ScreenshotDisplayType: Hashable, Codable, RawRepresentable {
         case "APP_IPHONE_47": self = .appIphone47
         case "APP_IPHONE_55": self = .appIphone55
         case "APP_IPHONE_58": self = .appIphone58
+        case "APP_IPHONE_61": self = .appIphone61
         case "APP_IPHONE_65": self = .appIphone65
+        case "APP_IPHONE_67": self = .appIphone67
         case "APP_WATCH_SERIES_3": self = .appWatchSeries3
         case "APP_WATCH_SERIES_4": self = .appWatchSeries4
         case "APP_WATCH_SERIES_7": self = .appWatchSeries7
+        case "APP_WATCH_ULTRA": self = .appWatchUltra
         case "IMESSAGE_APP_IPAD_105": self = .imessageAppIpad105
         case "IMESSAGE_APP_IPAD_97": self = .imessageAppIpad97
         case "IMESSAGE_APP_IPAD_PRO_129": self = .imessageAppIpadPro129
@@ -91,7 +104,9 @@ public enum ScreenshotDisplayType: Hashable, Codable, RawRepresentable {
         case "IMESSAGE_APP_IPHONE_47": self = .imessageAppIphone47
         case "IMESSAGE_APP_IPHONE_55": self = .imessageAppIphone55
         case "IMESSAGE_APP_IPHONE_58": self = .imessageAppIphone58
+        case "IMESSAGE_APP_IPHONE_61": self = .imessageAppIphone61
         case "IMESSAGE_APP_IPHONE_65": self = .imessageAppIphone65
+        case "IMESSAGE_APP_IPHONE_67": self = .imessageAppIphone67
         default: self = .unknown(rawValue)
         }
     }

@@ -52,7 +52,8 @@ struct EndpointRenderer: Renderer {
             while comps.first != name {
                 comps.removeFirst()
             }
-            return "\(comps.joined()).\(method).generated.swift"
+            let uniqueHash = path.sha1?.prefix(7)
+            return "\(comps.joined()).\(method)\(uniqueHash.map { ".\($0)" } ?? "").generated.swift"
         }
 
         self.path = path
@@ -251,18 +252,19 @@ private func buildResponseDecl<T>(into baseDecl: inout StructDecl,
         }
 
         switch contentType {
-        case "application/json":
+        case "application/json",
+            "application/vnd.apple.diagnostic-logs+json",
+            "application/vnd.apple.xcode-metrics+json":
             return """
             \(success ? "return" : "throw") try jsonDecoder.decode(\(type).self, from: data)
             """
 
-        case "gzip", "application/a-gzip":
-            assert(success)
+        case "text/csv":
             return """
-            return data
+            return String(data: data, encoding: .utf8) ?? ""
             """
-            
-        case "application/vnd.apple.xcode-metrics+json":
+
+        case "gzip", "application/a-gzip":
             assert(success)
             return """
             return data
@@ -274,7 +276,16 @@ private func buildResponseDecl<T>(into baseDecl: inout StructDecl,
     }
     for (status, response) in method.responses.sorted(by: { $0.key < $1.key }) {
         let isSuccess = (200..<300).contains(status)
-        assert(response.content?.count ?? 0 < 2, String(describing: response.content))
+        let content: (contentType: String, content: OpenAPIEndpoint.Response.Content)?
+
+        if response.content?.isEmpty ?? false {
+            assertionFailure(String(describing: response.content))
+            continue
+        } else {
+            let found = (response.content?.first(where: { $0.key == "application/json" })
+                         ?? response.content?.first)
+            content = found.map { ($0.key, $0.value) }
+        }
 
         var doc = Doc(prefix: isSuccess ? "Returns:" : "Throws:",
                       status: status,
@@ -283,7 +294,7 @@ private func buildResponseDecl<T>(into baseDecl: inout StructDecl,
             docs.append(doc)
         }
 
-        guard let (contentType, content) = response.content?.first else {
+        guard let (contentType, content) = content else {
             if isSuccess {
                 body += """
                 case \(status):
