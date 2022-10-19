@@ -1,4 +1,5 @@
 import Foundation
+import CryptoKit
 
 extension String {
     func camelcased() -> String {
@@ -44,6 +45,17 @@ extension String {
             .components(separatedBy: "\n")
             .map { $0.allSatisfy(\.isWhitespace) ? "" : $0 }
             .joined(separator: "\n")
+    }
+}
+
+extension String {
+    var sha1: String? {
+        guard let data = data(using: .utf8) else { return nil }
+        return Insecure.SHA1
+            .hash(data: data)
+            .prefix(Insecure.SHA1.byteCount)
+            .map { String(format: "%02hhx", $0) }
+            .joined()
     }
 }
 
