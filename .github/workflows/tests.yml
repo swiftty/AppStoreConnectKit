@@ -10,7 +10,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-11, ubuntu-latest]
+        include:
+          - os: macos-11
+          - os: macos-12
+          - os: ubuntu-latest
+            swift: '5.5'
+          - os: ubuntu-latest
+            swift: '5.7'
 
     runs-on: ${{ matrix.os }}
 
@@ -18,7 +24,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: fwal/setup-swift@v1
       with:
-        swift-version: '5.5'
+        swift-version: ${{ matrix.swift }}
       if: ${{ startsWith(runner.os, 'Linux') }}
     - name: Build
       run: swift build -v
