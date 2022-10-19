@@ -55,9 +55,6 @@ public struct AppStoreVersion: Hashable, Codable {
 
         public var releaseType: ReleaseType?
 
-        @available(*, deprecated)
-        public var usesIdfa: Bool?
-
         public var versionString: String?
 
         public init(
@@ -68,7 +65,6 @@ public struct AppStoreVersion: Hashable, Codable {
             earliestReleaseDate: String? = nil,
             platform: Platform? = nil,
             releaseType: ReleaseType? = nil,
-            usesIdfa: Bool? = nil,
             versionString: String? = nil
         ) {
             self.appStoreState = appStoreState
@@ -78,7 +74,6 @@ public struct AppStoreVersion: Hashable, Codable {
             self.earliestReleaseDate = earliestReleaseDate
             self.platform = platform
             self.releaseType = releaseType
-            self.usesIdfa = usesIdfa
             self.versionString = versionString
         }
 
@@ -90,7 +85,6 @@ public struct AppStoreVersion: Hashable, Codable {
             case earliestReleaseDate
             case platform
             case releaseType
-            case usesIdfa
             case versionString
         }
 
@@ -140,8 +134,6 @@ public struct AppStoreVersion: Hashable, Codable {
 
         public var build: Build?
 
-        public var idfaDeclaration: IdfaDeclaration?
-
         public var routingAppCoverage: RoutingAppCoverage?
 
         public init(
@@ -154,7 +146,6 @@ public struct AppStoreVersion: Hashable, Codable {
             appStoreVersionPhasedRelease: AppStoreVersionPhasedRelease? = nil,
             appStoreVersionSubmission: AppStoreVersionSubmission? = nil,
             build: Build? = nil,
-            idfaDeclaration: IdfaDeclaration? = nil,
             routingAppCoverage: RoutingAppCoverage? = nil
         ) {
             self.ageRatingDeclaration = ageRatingDeclaration
@@ -166,7 +157,6 @@ public struct AppStoreVersion: Hashable, Codable {
             self.appStoreVersionPhasedRelease = appStoreVersionPhasedRelease
             self.appStoreVersionSubmission = appStoreVersionSubmission
             self.build = build
-            self.idfaDeclaration = idfaDeclaration
             self.routingAppCoverage = routingAppCoverage
         }
 
@@ -180,7 +170,6 @@ public struct AppStoreVersion: Hashable, Codable {
             case appStoreVersionPhasedRelease
             case appStoreVersionSubmission
             case build
-            case idfaDeclaration
             case routingAppCoverage
         }
 
@@ -720,67 +709,6 @@ public struct AppStoreVersion: Hashable, Codable {
 
                 public enum `Type`: String, Hashable, Codable {
                     case builds
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
-        }
-
-        public struct IdfaDeclaration: Hashable, Codable {
-            public var data: Data?
-
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
-                self.data = data
-                self.links = links
-            }
-
-            private enum CodingKeys: String, CodingKey {
-                case data
-                case links
-            }
-
-            public struct Data: Hashable, Codable {
-                public var id: String
-
-                public var type: `Type`
-
-                public init(
-                    id: String,
-                    type: `Type`
-                ) {
-                    self.id = id
-                    self.type = type
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case id
-                    case type
-                }
-
-                public enum `Type`: String, Hashable, Codable {
-                    case idfaDeclarations
                 }
             }
 

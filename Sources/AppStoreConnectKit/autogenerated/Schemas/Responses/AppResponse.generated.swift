@@ -42,10 +42,14 @@ public struct AppResponse: Hashable, Codable {
         case appPrice(AppPrice)
         case territory(Territory)
         case inAppPurchase(InAppPurchase)
+        case subscriptionGroup(SubscriptionGroup)
         case gameCenterEnabledVersion(GameCenterEnabledVersion)
         case appCustomProductPage(AppCustomProductPage)
+        case inAppPurchaseV2(InAppPurchaseV2)
+        case promotedPurchase(PromotedPurchase)
         case appEvent(AppEvent)
         case reviewSubmission(ReviewSubmission)
+        case subscriptionGracePeriod(SubscriptionGracePeriod)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -126,6 +130,11 @@ public struct AppResponse: Hashable, Codable {
                     lastError = error
                 }
                 do {
+                    return .subscriptionGroup(try SubscriptionGroup(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
                     return .gameCenterEnabledVersion(try GameCenterEnabledVersion(from: decoder))
                 } catch {
                     lastError = error
@@ -136,12 +145,27 @@ public struct AppResponse: Hashable, Codable {
                     lastError = error
                 }
                 do {
+                    return .inAppPurchaseV2(try InAppPurchaseV2(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .promotedPurchase(try PromotedPurchase(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
                     return .appEvent(try AppEvent(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
                     return .reviewSubmission(try ReviewSubmission(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .subscriptionGracePeriod(try SubscriptionGracePeriod(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -196,16 +220,28 @@ public struct AppResponse: Hashable, Codable {
             case .inAppPurchase(let value):
                 try value.encode(to: encoder)
 
+            case .subscriptionGroup(let value):
+                try value.encode(to: encoder)
+
             case .gameCenterEnabledVersion(let value):
                 try value.encode(to: encoder)
 
             case .appCustomProductPage(let value):
                 try value.encode(to: encoder)
 
+            case .inAppPurchaseV2(let value):
+                try value.encode(to: encoder)
+
+            case .promotedPurchase(let value):
+                try value.encode(to: encoder)
+
             case .appEvent(let value):
                 try value.encode(to: encoder)
 
             case .reviewSubmission(let value):
+                try value.encode(to: encoder)
+
+            case .subscriptionGracePeriod(let value):
                 try value.encode(to: encoder)
             }
         }

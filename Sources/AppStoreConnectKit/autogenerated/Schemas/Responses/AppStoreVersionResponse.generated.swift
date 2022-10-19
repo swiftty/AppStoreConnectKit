@@ -35,7 +35,6 @@ public struct AppStoreVersionResponse: Hashable, Codable {
         case routingAppCoverage(RoutingAppCoverage)
         case appStoreReviewDetail(AppStoreReviewDetail)
         case appStoreVersionSubmission(AppStoreVersionSubmission)
-        case idfaDeclaration(IdfaDeclaration)
         case appClipDefaultExperience(AppClipDefaultExperience)
         case appStoreVersionExperiment(AppStoreVersionExperiment)
 
@@ -83,11 +82,6 @@ public struct AppStoreVersionResponse: Hashable, Codable {
                     lastError = error
                 }
                 do {
-                    return .idfaDeclaration(try IdfaDeclaration(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
                     return .appClipDefaultExperience(try AppClipDefaultExperience(from: decoder))
                 } catch {
                     lastError = error
@@ -125,9 +119,6 @@ public struct AppStoreVersionResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .appStoreVersionSubmission(let value):
-                try value.encode(to: encoder)
-
-            case .idfaDeclaration(let value):
                 try value.encode(to: encoder)
 
             case .appClipDefaultExperience(let value):

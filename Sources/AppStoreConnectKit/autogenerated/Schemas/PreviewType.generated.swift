@@ -16,9 +16,9 @@ public enum PreviewType: Hashable, Codable, RawRepresentable {
     case iphone47
     case iphone55
     case iphone58
+    case iphone61
     case iphone65
-    case watchSeries3
-    case watchSeries4
+    case iphone67
     case unknown(String)
 
     public var rawValue: String {
@@ -35,9 +35,9 @@ public enum PreviewType: Hashable, Codable, RawRepresentable {
         case .iphone47: return "IPHONE_47"
         case .iphone55: return "IPHONE_55"
         case .iphone58: return "IPHONE_58"
+        case .iphone61: return "IPHONE_61"
         case .iphone65: return "IPHONE_65"
-        case .watchSeries3: return "WATCH_SERIES_3"
-        case .watchSeries4: return "WATCH_SERIES_4"
+        case .iphone67: return "IPHONE_67"
         case .unknown(let rawValue): return rawValue
         }
     }
@@ -56,9 +56,9 @@ public enum PreviewType: Hashable, Codable, RawRepresentable {
         case "IPHONE_47": self = .iphone47
         case "IPHONE_55": self = .iphone55
         case "IPHONE_58": self = .iphone58
+        case "IPHONE_61": self = .iphone61
         case "IPHONE_65": self = .iphone65
-        case "WATCH_SERIES_3": self = .watchSeries3
-        case "WATCH_SERIES_4": self = .watchSeries4
+        case "IPHONE_67": self = .iphone67
         default: self = .unknown(rawValue)
         }
     }

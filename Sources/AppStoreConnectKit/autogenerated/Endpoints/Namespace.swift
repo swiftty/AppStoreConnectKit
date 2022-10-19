@@ -252,7 +252,7 @@ public enum V1 {
 
             public enum Build {}
 
-            public enum IdfaDeclaration {}
+            public enum CustomerReviews {}
 
             public enum Relationships {
                 public enum AppClipDefaultExperience {}
@@ -290,11 +290,15 @@ public enum V1 {
 
             public enum CiProduct {}
 
+            public enum CustomerReviews {}
+
             public enum EndUserLicenseAgreement {}
 
             public enum GameCenterEnabledVersions {}
 
             public enum InAppPurchases {}
+
+            public enum InAppPurchasesV2 {}
 
             public enum PerfPowerMetrics {}
 
@@ -306,11 +310,19 @@ public enum V1 {
 
             public enum Prices {}
 
+            public enum PromotedPurchases {}
+
             public enum Relationships {
                 public enum BetaTesters {}
+
+                public enum PromotedPurchases {}
             }
 
             public enum ReviewSubmissions {}
+
+            public enum SubscriptionGracePeriod {}
+
+            public enum SubscriptionGroups {}
         }
     }
 
@@ -526,6 +538,16 @@ public enum V1 {
         }
     }
 
+    public enum CustomerReviewResponses {
+        public enum ById {}
+    }
+
+    public enum CustomerReviews {
+        public enum ById {
+            public enum Response {}
+        }
+    }
+
     public enum Devices {
         public enum ById {}
     }
@@ -554,9 +576,25 @@ public enum V1 {
         }
     }
 
-    public enum IdfaDeclarations {
+    public enum InAppPurchaseAppStoreReviewScreenshots {
         public enum ById {}
     }
+
+    public enum InAppPurchaseContents {
+        public enum ById {}
+    }
+
+    public enum InAppPurchaseLocalizations {
+        public enum ById {}
+    }
+
+    public enum InAppPurchasePriceSchedules {
+        public enum ById {
+            public enum ManualPrices {}
+        }
+    }
+
+    public enum InAppPurchaseSubmissions {}
 
     public enum InAppPurchases {
         public enum ById {}
@@ -577,6 +615,16 @@ public enum V1 {
             public enum Certificates {}
 
             public enum Devices {}
+        }
+    }
+
+    public enum PromotedPurchaseImages {
+        public enum ById {}
+    }
+
+    public enum PromotedPurchases {
+        public enum ById {
+            public enum PromotionImages {}
         }
     }
 
@@ -618,6 +666,100 @@ public enum V1 {
         }
     }
 
+    public enum SubscriptionAppStoreReviewScreenshots {
+        public enum ById {}
+    }
+
+    public enum SubscriptionGracePeriods {
+        public enum ById {}
+    }
+
+    public enum SubscriptionGroupLocalizations {
+        public enum ById {}
+    }
+
+    public enum SubscriptionGroupSubmissions {}
+
+    public enum SubscriptionGroups {
+        public enum ById {
+            public enum SubscriptionGroupLocalizations {}
+
+            public enum Subscriptions {}
+        }
+    }
+
+    public enum SubscriptionIntroductoryOffers {
+        public enum ById {}
+    }
+
+    public enum SubscriptionLocalizations {
+        public enum ById {}
+    }
+
+    public enum SubscriptionOfferCodeCustomCodes {
+        public enum ById {}
+    }
+
+    public enum SubscriptionOfferCodeOneTimeUseCodes {
+        public enum ById {
+            public enum Values {}
+        }
+    }
+
+    public enum SubscriptionOfferCodes {
+        public enum ById {
+            public enum CustomCodes {}
+
+            public enum OneTimeUseCodes {}
+
+            public enum Prices {}
+        }
+    }
+
+    public enum SubscriptionPricePoints {
+        public enum ById {
+            public enum Equalizations {}
+        }
+    }
+
+    public enum SubscriptionPrices {
+        public enum ById {}
+    }
+
+    public enum SubscriptionPromotionalOffers {
+        public enum ById {
+            public enum Prices {}
+        }
+    }
+
+    public enum SubscriptionSubmissions {}
+
+    public enum Subscriptions {
+        public enum ById {
+            public enum AppStoreReviewScreenshot {}
+
+            public enum IntroductoryOffers {}
+
+            public enum OfferCodes {}
+
+            public enum PricePoints {}
+
+            public enum Prices {}
+
+            public enum PromotedPurchase {}
+
+            public enum PromotionalOffers {}
+
+            public enum Relationships {
+                public enum IntroductoryOffers {}
+
+                public enum Prices {}
+            }
+
+            public enum SubscriptionLocalizations {}
+        }
+    }
+
     public enum Territories {}
 
     public enum UserInvitations {
@@ -633,6 +775,23 @@ public enum V1 {
             }
 
             public enum VisibleApps {}
+        }
+    }
+}
+public enum V2 {
+    public enum InAppPurchases {
+        public enum ById {
+            public enum AppStoreReviewScreenshot {}
+
+            public enum Content {}
+
+            public enum IapPriceSchedule {}
+
+            public enum InAppPurchaseLocalizations {}
+
+            public enum PricePoints {}
+
+            public enum PromotedPurchase {}
         }
     }
 }
