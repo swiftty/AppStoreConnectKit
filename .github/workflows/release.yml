@@ -1,0 +1,39 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: choice
+        description: 'patch | minor | major'
+        required: true
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: swiftty/nextversion@v0.0.1
+        id: nextversion
+        with:
+          bump: ${{ github.event.inputs.version }}
+      - name: git settings
+        run: |
+          # https://qiita.com/thaim/items/3d1a4d09ec4a7d8844ce
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: update README
+        run: |
+          sed -i -E 's/from: \"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\"/from: \"${{ steps.nextversion.outputs.next }}\"/g' README.md
+          
+          git add README.md
+          git commit -m 'update README.md'
+          git push origin main
+      - uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          tag_name: ${{ steps.nextversion.outputs.next }}
