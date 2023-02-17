@@ -238,6 +238,7 @@ extension V1.Apps.ById.AppInfos.GET {
                 case appStoreAgeRating
                 case appStoreState
                 case brazilAgeRating
+                case brazilAgeRatingV2
                 case kidsAgeBand
                 case primaryCategory
                 case primarySubcategoryOne
@@ -255,6 +256,7 @@ extension V1.Apps.ById.AppInfos.GET {
                     case .appStoreAgeRating: return "appStoreAgeRating"
                     case .appStoreState: return "appStoreState"
                     case .brazilAgeRating: return "brazilAgeRating"
+                    case .brazilAgeRatingV2: return "brazilAgeRatingV2"
                     case .kidsAgeBand: return "kidsAgeBand"
                     case .primaryCategory: return "primaryCategory"
                     case .primarySubcategoryOne: return "primarySubcategoryOne"
@@ -274,6 +276,7 @@ extension V1.Apps.ById.AppInfos.GET {
                     case "appStoreAgeRating": self = .appStoreAgeRating
                     case "appStoreState": self = .appStoreState
                     case "brazilAgeRating": self = .brazilAgeRating
+                    case "brazilAgeRatingV2": self = .brazilAgeRatingV2
                     case "kidsAgeBand": self = .kidsAgeBand
                     case "primaryCategory": self = .primaryCategory
                     case "primarySubcategoryOne": self = .primarySubcategoryOne

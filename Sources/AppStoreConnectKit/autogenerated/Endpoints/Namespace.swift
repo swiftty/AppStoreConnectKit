@@ -80,9 +80,15 @@ public enum V1 {
         }
     }
 
+    public enum AppEncryptionDeclarationDocuments {
+        public enum ById {}
+    }
+
     public enum AppEncryptionDeclarations {
         public enum ById {
             public enum App {}
+
+            public enum AppEncryptionDeclarationDocument {}
 
             public enum Relationships {
                 public enum Builds {}
@@ -794,6 +800,12 @@ public enum V2 {
             public enum PromotedPurchase {}
         }
     }
+
+    public enum SandboxTesters {
+        public enum ById {}
+    }
+
+    public enum SandboxTestersClearPurchaseHistoryRequest {}
 }
 
 // swiftlint:enable all

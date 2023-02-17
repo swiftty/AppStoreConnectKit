@@ -29,7 +29,11 @@ extension V1.AppInfos.ById.PrimaryCategory {
 
             components?.queryItems = [
                 URLQueryItem(name: "fields[appCategories]",
-                             value: parameters.fields[.appCategories]?.map { "\($0)" }.joined(separator: ","))
+                             value: parameters.fields[.appCategories]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit[subcategories]",
+                             value: parameters.limit[.subcategories].map { "\($0)" })
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -74,6 +78,11 @@ extension V1.AppInfos.ById.PrimaryCategory.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
+        public var limit: Limit = Limit()
+
         public struct Fields: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
                 get { values[relation]?.base as! T }
@@ -111,6 +120,50 @@ extension V1.AppInfos.ById.PrimaryCategory.GET {
                 /// the fields to include for returned resources of type appCategories
                 public static var appCategories: Relation<[AppCategories]?> {
                     .init(key: "fields[appCategories]")
+                }
+
+                internal let key: String
+
+                public func hash(into hasher: inout Hasher) {
+                    hasher.combine(key)
+                }
+            }
+        }
+
+        public enum Include: Hashable, Codable, RawRepresentable {
+            case parent
+            case subcategories
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .parent: return "parent"
+                case .subcategories: return "subcategories"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "parent": self = .parent
+                case "subcategories": self = .subcategories
+                default: self = .unknown(rawValue)
+                }
+            }
+        }
+
+        public struct Limit: Hashable {
+            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+                get { values[relation]?.base as! T }
+                set { values[relation] = AnyHashable(newValue) }
+            }
+
+            private var values: [AnyHashable: AnyHashable] = [:]
+
+            public struct Relation<T>: Hashable {
+                /// maximum number of related subcategories returned (when they are included)
+                public static var subcategories: Relation<Int?> {
+                    .init(key: "limit[subcategories]")
                 }
 
                 internal let key: String

@@ -83,22 +83,28 @@ extension V1.SubscriptionGracePeriods.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public enum SubscriptionGracePeriods: Hashable, Codable, RawRepresentable {
-                case app
+                case duration
                 case optIn
+                case renewalType
+                case sandboxOptIn
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
-                    case .app: return "app"
+                    case .duration: return "duration"
                     case .optIn: return "optIn"
+                    case .renewalType: return "renewalType"
+                    case .sandboxOptIn: return "sandboxOptIn"
                     case .unknown(let rawValue): return rawValue
                     }
                 }
 
                 public init(rawValue: String) {
                     switch rawValue {
-                    case "app": self = .app
+                    case "duration": self = .duration
                     case "optIn": self = .optIn
+                    case "renewalType": self = .renewalType
+                    case "sandboxOptIn": self = .sandboxOptIn
                     default: self = .unknown(rawValue)
                     }
                 }

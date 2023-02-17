@@ -5,6 +5,7 @@ import Foundation
 
 public enum AppEncryptionDeclarationState: Hashable, Codable, RawRepresentable {
     case approved
+    case created
     case expired
     case inReview
     case invalid
@@ -14,6 +15,7 @@ public enum AppEncryptionDeclarationState: Hashable, Codable, RawRepresentable {
     public var rawValue: String {
         switch self {
         case .approved: return "APPROVED"
+        case .created: return "CREATED"
         case .expired: return "EXPIRED"
         case .inReview: return "IN_REVIEW"
         case .invalid: return "INVALID"
@@ -25,6 +27,7 @@ public enum AppEncryptionDeclarationState: Hashable, Codable, RawRepresentable {
     public init(rawValue: String) {
         switch rawValue {
         case "APPROVED": self = .approved
+        case "CREATED": self = .created
         case "EXPIRED": self = .expired
         case "IN_REVIEW": self = .inReview
         case "INVALID": self = .invalid
