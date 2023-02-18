@@ -25,6 +25,8 @@ extension V1.AppEncryptionDeclarations {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appEncryptionDeclarationDocuments]",
+                             value: parameters.fields[.appEncryptionDeclarationDocuments]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appEncryptionDeclarations]",
                              value: parameters.fields[.appEncryptionDeclarations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[apps]",
@@ -37,8 +39,10 @@ extension V1.AppEncryptionDeclarations {
                              value: parameters.filter[.platform]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit[builds]",
+                             value: parameters.limit[.builds].map { "\($0)" }),
                 URLQueryItem(name: "limit",
-                             value: parameters.limit.map { "\($0)" })
+                             value: parameters.limit[].map { "\($0)" })
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -85,7 +89,7 @@ extension V1.AppEncryptionDeclarations.GET {
         public var include: [Include]?
 
         /// maximum resources per page
-        public var limit: Int?
+        public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
@@ -95,14 +99,60 @@ extension V1.AppEncryptionDeclarations.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public enum AppEncryptionDeclarationDocuments: Hashable, Codable, RawRepresentable {
+                case appEncryptionDeclaration
+                case assetDeliveryState
+                case assetToken
+                case downloadUrl
+                case fileName
+                case fileSize
+                case sourceFileChecksum
+                case uploadOperations
+                case uploaded
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .appEncryptionDeclaration: return "appEncryptionDeclaration"
+                    case .assetDeliveryState: return "assetDeliveryState"
+                    case .assetToken: return "assetToken"
+                    case .downloadUrl: return "downloadUrl"
+                    case .fileName: return "fileName"
+                    case .fileSize: return "fileSize"
+                    case .sourceFileChecksum: return "sourceFileChecksum"
+                    case .uploadOperations: return "uploadOperations"
+                    case .uploaded: return "uploaded"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "appEncryptionDeclaration": self = .appEncryptionDeclaration
+                    case "assetDeliveryState": self = .assetDeliveryState
+                    case "assetToken": self = .assetToken
+                    case "downloadUrl": self = .downloadUrl
+                    case "fileName": self = .fileName
+                    case "fileSize": self = .fileSize
+                    case "sourceFileChecksum": self = .sourceFileChecksum
+                    case "uploadOperations": self = .uploadOperations
+                    case "uploaded": self = .uploaded
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum AppEncryptionDeclarations: Hashable, Codable, RawRepresentable {
                 case app
+                case appDescription
+                case appEncryptionDeclarationDocument
                 case appEncryptionDeclarationState
                 case availableOnFrenchStore
                 case builds
                 case codeValue
                 case containsProprietaryCryptography
                 case containsThirdPartyCryptography
+                case createdDate
                 case documentName
                 case documentType
                 case documentUrl
@@ -115,12 +165,15 @@ extension V1.AppEncryptionDeclarations.GET {
                 public var rawValue: String {
                     switch self {
                     case .app: return "app"
+                    case .appDescription: return "appDescription"
+                    case .appEncryptionDeclarationDocument: return "appEncryptionDeclarationDocument"
                     case .appEncryptionDeclarationState: return "appEncryptionDeclarationState"
                     case .availableOnFrenchStore: return "availableOnFrenchStore"
                     case .builds: return "builds"
                     case .codeValue: return "codeValue"
                     case .containsProprietaryCryptography: return "containsProprietaryCryptography"
                     case .containsThirdPartyCryptography: return "containsThirdPartyCryptography"
+                    case .createdDate: return "createdDate"
                     case .documentName: return "documentName"
                     case .documentType: return "documentType"
                     case .documentUrl: return "documentUrl"
@@ -135,12 +188,15 @@ extension V1.AppEncryptionDeclarations.GET {
                 public init(rawValue: String) {
                     switch rawValue {
                     case "app": self = .app
+                    case "appDescription": self = .appDescription
+                    case "appEncryptionDeclarationDocument": self = .appEncryptionDeclarationDocument
                     case "appEncryptionDeclarationState": self = .appEncryptionDeclarationState
                     case "availableOnFrenchStore": self = .availableOnFrenchStore
                     case "builds": self = .builds
                     case "codeValue": self = .codeValue
                     case "containsProprietaryCryptography": self = .containsProprietaryCryptography
                     case "containsThirdPartyCryptography": self = .containsThirdPartyCryptography
+                    case "createdDate": self = .createdDate
                     case "documentName": self = .documentName
                     case "documentType": self = .documentType
                     case "documentUrl": self = .documentUrl
@@ -284,6 +340,11 @@ extension V1.AppEncryptionDeclarations.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appEncryptionDeclarationDocuments
+                public static var appEncryptionDeclarationDocuments: Relation<[AppEncryptionDeclarationDocuments]?> {
+                    .init(key: "fields[appEncryptionDeclarationDocuments]")
+                }
+
                 /// the fields to include for returned resources of type appEncryptionDeclarations
                 public static var appEncryptionDeclarations: Relation<[AppEncryptionDeclarations]?> {
                     .init(key: "fields[appEncryptionDeclarations]")
@@ -361,11 +422,15 @@ extension V1.AppEncryptionDeclarations.GET {
 
         public enum Include: Hashable, Codable, RawRepresentable {
             case app
+            case appEncryptionDeclarationDocument
+            case builds
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
                 case .app: return "app"
+                case .appEncryptionDeclarationDocument: return "appEncryptionDeclarationDocument"
+                case .builds: return "builds"
                 case .unknown(let rawValue): return rawValue
                 }
             }
@@ -373,7 +438,36 @@ extension V1.AppEncryptionDeclarations.GET {
             public init(rawValue: String) {
                 switch rawValue {
                 case "app": self = .app
+                case "appEncryptionDeclarationDocument": self = .appEncryptionDeclarationDocument
+                case "builds": self = .builds
                 default: self = .unknown(rawValue)
+                }
+            }
+        }
+
+        public struct Limit: Hashable {
+            public subscript () -> Int? {
+                get { self[Relation<Int?>(key: "limit")] }
+                set { self[Relation<Int?>(key: "limit")] = newValue }
+            }
+
+            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+                get { values[relation]?.base as! T }
+                set { values[relation] = AnyHashable(newValue) }
+            }
+
+            private var values: [AnyHashable: AnyHashable] = [:]
+
+            public struct Relation<T>: Hashable {
+                /// maximum number of related builds returned (when they are included)
+                public static var builds: Relation<Int?> {
+                    .init(key: "limit[builds]")
+                }
+
+                internal let key: String
+
+                public func hash(into hasher: inout Hasher) {
+                    hasher.combine(key)
                 }
             }
         }

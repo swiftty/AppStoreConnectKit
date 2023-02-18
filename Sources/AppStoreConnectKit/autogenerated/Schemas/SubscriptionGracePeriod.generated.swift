@@ -36,14 +36,53 @@ public struct SubscriptionGracePeriod: Hashable, Codable {
     }
 
     public struct Attributes: Hashable, Codable {
+        public var duration: SubscriptionGracePeriodDuration?
+
         public var optIn: Bool?
 
-        public init(optIn: Bool? = nil) {
+        public var renewalType: RenewalType?
+
+        public var sandboxOptIn: Bool?
+
+        public init(
+            duration: SubscriptionGracePeriodDuration? = nil,
+            optIn: Bool? = nil,
+            renewalType: RenewalType? = nil,
+            sandboxOptIn: Bool? = nil
+        ) {
+            self.duration = duration
             self.optIn = optIn
+            self.renewalType = renewalType
+            self.sandboxOptIn = sandboxOptIn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case duration
             case optIn
+            case renewalType
+            case sandboxOptIn
+        }
+
+        public enum RenewalType: Hashable, Codable, RawRepresentable {
+            case allRenewals
+            case paidToPaidOnly
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .allRenewals: return "ALL_RENEWALS"
+                case .paidToPaidOnly: return "PAID_TO_PAID_ONLY"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "ALL_RENEWALS": self = .allRenewals
+                case "PAID_TO_PAID_ONLY": self = .paidToPaidOnly
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 }

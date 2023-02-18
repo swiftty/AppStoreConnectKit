@@ -340,6 +340,7 @@ extension V1.Apps.GET {
                 case appStoreAgeRating
                 case appStoreState
                 case brazilAgeRating
+                case brazilAgeRatingV2
                 case kidsAgeBand
                 case primaryCategory
                 case primarySubcategoryOne
@@ -357,6 +358,7 @@ extension V1.Apps.GET {
                     case .appStoreAgeRating: return "appStoreAgeRating"
                     case .appStoreState: return "appStoreState"
                     case .brazilAgeRating: return "brazilAgeRating"
+                    case .brazilAgeRatingV2: return "brazilAgeRatingV2"
                     case .kidsAgeBand: return "kidsAgeBand"
                     case .primaryCategory: return "primaryCategory"
                     case .primarySubcategoryOne: return "primarySubcategoryOne"
@@ -376,6 +378,7 @@ extension V1.Apps.GET {
                     case "appStoreAgeRating": self = .appStoreAgeRating
                     case "appStoreState": self = .appStoreState
                     case "brazilAgeRating": self = .brazilAgeRating
+                    case "brazilAgeRatingV2": self = .brazilAgeRatingV2
                     case "kidsAgeBand": self = .kidsAgeBand
                     case "primaryCategory": self = .primaryCategory
                     case "primarySubcategoryOne": self = .primarySubcategoryOne
@@ -1215,22 +1218,28 @@ extension V1.Apps.GET {
             }
 
             public enum SubscriptionGracePeriods: Hashable, Codable, RawRepresentable {
-                case app
+                case duration
                 case optIn
+                case renewalType
+                case sandboxOptIn
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
-                    case .app: return "app"
+                    case .duration: return "duration"
                     case .optIn: return "optIn"
+                    case .renewalType: return "renewalType"
+                    case .sandboxOptIn: return "sandboxOptIn"
                     case .unknown(let rawValue): return rawValue
                     }
                 }
 
                 public init(rawValue: String) {
                     switch rawValue {
-                    case "app": self = .app
+                    case "duration": self = .duration
                     case "optIn": self = .optIn
+                    case "renewalType": self = .renewalType
+                    case "sandboxOptIn": self = .sandboxOptIn
                     default: self = .unknown(rawValue)
                     }
                 }

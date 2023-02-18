@@ -45,7 +45,10 @@ public struct AppInfo: Hashable, Codable {
 
         public var appStoreState: AppStoreVersionState?
 
+        @available(*, deprecated)
         public var brazilAgeRating: BrazilAgeRating?
+
+        public var brazilAgeRatingV2: BrazilAgeRatingV2?
 
         public var kidsAgeBand: KidsAgeBand?
 
@@ -53,11 +56,13 @@ public struct AppInfo: Hashable, Codable {
             appStoreAgeRating: AppStoreAgeRating? = nil,
             appStoreState: AppStoreVersionState? = nil,
             brazilAgeRating: BrazilAgeRating? = nil,
+            brazilAgeRatingV2: BrazilAgeRatingV2? = nil,
             kidsAgeBand: KidsAgeBand? = nil
         ) {
             self.appStoreAgeRating = appStoreAgeRating
             self.appStoreState = appStoreState
             self.brazilAgeRating = brazilAgeRating
+            self.brazilAgeRatingV2 = brazilAgeRatingV2
             self.kidsAgeBand = kidsAgeBand
         }
 
@@ -65,7 +70,60 @@ public struct AppInfo: Hashable, Codable {
             case appStoreAgeRating
             case appStoreState
             case brazilAgeRating
+            case brazilAgeRatingV2
             case kidsAgeBand
+        }
+
+        public enum BrazilAgeRatingV2: Hashable, Codable, RawRepresentable {
+            case officialEighteen
+            case officialFourteen
+            case officialL
+            case officialSixteen
+            case officialTen
+            case officialTwelve
+            case selfRatedEighteen
+            case selfRatedFourteen
+            case selfRatedL
+            case selfRatedSixteen
+            case selfRatedTen
+            case selfRatedTwelve
+            case unknown(String)
+
+            public var rawValue: String {
+                switch self {
+                case .officialEighteen: return "OFFICIAL_EIGHTEEN"
+                case .officialFourteen: return "OFFICIAL_FOURTEEN"
+                case .officialL: return "OFFICIAL_L"
+                case .officialSixteen: return "OFFICIAL_SIXTEEN"
+                case .officialTen: return "OFFICIAL_TEN"
+                case .officialTwelve: return "OFFICIAL_TWELVE"
+                case .selfRatedEighteen: return "SELF_RATED_EIGHTEEN"
+                case .selfRatedFourteen: return "SELF_RATED_FOURTEEN"
+                case .selfRatedL: return "SELF_RATED_L"
+                case .selfRatedSixteen: return "SELF_RATED_SIXTEEN"
+                case .selfRatedTen: return "SELF_RATED_TEN"
+                case .selfRatedTwelve: return "SELF_RATED_TWELVE"
+                case .unknown(let rawValue): return rawValue
+                }
+            }
+
+            public init(rawValue: String) {
+                switch rawValue {
+                case "OFFICIAL_EIGHTEEN": self = .officialEighteen
+                case "OFFICIAL_FOURTEEN": self = .officialFourteen
+                case "OFFICIAL_L": self = .officialL
+                case "OFFICIAL_SIXTEEN": self = .officialSixteen
+                case "OFFICIAL_TEN": self = .officialTen
+                case "OFFICIAL_TWELVE": self = .officialTwelve
+                case "SELF_RATED_EIGHTEEN": self = .selfRatedEighteen
+                case "SELF_RATED_FOURTEEN": self = .selfRatedFourteen
+                case "SELF_RATED_L": self = .selfRatedL
+                case "SELF_RATED_SIXTEEN": self = .selfRatedSixteen
+                case "SELF_RATED_TEN": self = .selfRatedTen
+                case "SELF_RATED_TWELVE": self = .selfRatedTwelve
+                default: self = .unknown(rawValue)
+                }
+            }
         }
     }
 

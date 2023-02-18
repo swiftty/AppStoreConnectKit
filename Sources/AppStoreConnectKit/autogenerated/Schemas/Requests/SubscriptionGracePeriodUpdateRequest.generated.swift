@@ -6,19 +6,12 @@ import Foundation
 public struct SubscriptionGracePeriodUpdateRequest: Hashable, Codable {
     public var data: Data
 
-    public var included: [AppInlineCreate]?
-
-    public init(
-        data: Data,
-        included: [AppInlineCreate]? = nil
-    ) {
+    public init(data: Data) {
         self.data = data
-        self.included = included
     }
 
     private enum CodingKeys: String, CodingKey {
         case data
-        case included
     }
 
     public struct Data: Hashable, Codable {
@@ -28,25 +21,20 @@ public struct SubscriptionGracePeriodUpdateRequest: Hashable, Codable {
 
         public var attributes: Attributes?
 
-        public var relationships: Relationships?
-
         public init(
             id: String,
             type: `Type`,
-            attributes: Attributes? = nil,
-            relationships: Relationships? = nil
+            attributes: Attributes? = nil
         ) {
             self.id = id
             self.type = type
             self.attributes = attributes
-            self.relationships = relationships
         }
 
         private enum CodingKeys: String, CodingKey {
             case id
             case type
             case attributes
-            case relationships
         }
 
         public enum `Type`: String, Hashable, Codable {
@@ -54,59 +42,51 @@ public struct SubscriptionGracePeriodUpdateRequest: Hashable, Codable {
         }
 
         public struct Attributes: Hashable, Codable {
+            public var duration: SubscriptionGracePeriodDuration?
+
             public var optIn: Bool?
 
-            public init(optIn: Bool? = nil) {
+            public var renewalType: RenewalType?
+
+            public var sandboxOptIn: Bool?
+
+            public init(
+                duration: SubscriptionGracePeriodDuration? = nil,
+                optIn: Bool? = nil,
+                renewalType: RenewalType? = nil,
+                sandboxOptIn: Bool? = nil
+            ) {
+                self.duration = duration
                 self.optIn = optIn
+                self.renewalType = renewalType
+                self.sandboxOptIn = sandboxOptIn
             }
 
             private enum CodingKeys: String, CodingKey {
+                case duration
                 case optIn
-            }
-        }
-
-        public struct Relationships: Hashable, Codable {
-            public var app: App?
-
-            public init(app: App? = nil) {
-                self.app = app
+                case renewalType
+                case sandboxOptIn
             }
 
-            private enum CodingKeys: String, CodingKey {
-                case app
-            }
+            public enum RenewalType: Hashable, Codable, RawRepresentable {
+                case allRenewals
+                case paidToPaidOnly
+                case unknown(String)
 
-            public struct App: Hashable, Codable {
-                public var data: Data?
-
-                public init(data: Data? = nil) {
-                    self.data = data
+                public var rawValue: String {
+                    switch self {
+                    case .allRenewals: return "ALL_RENEWALS"
+                    case .paidToPaidOnly: return "PAID_TO_PAID_ONLY"
+                    case .unknown(let rawValue): return rawValue
+                    }
                 }
 
-                private enum CodingKeys: String, CodingKey {
-                    case data
-                }
-
-                public struct Data: Hashable, Codable {
-                    public var id: String
-
-                    public var type: `Type`
-
-                    public init(
-                        id: String,
-                        type: `Type`
-                    ) {
-                        self.id = id
-                        self.type = type
-                    }
-
-                    private enum CodingKeys: String, CodingKey {
-                        case id
-                        case type
-                    }
-
-                    public enum `Type`: String, Hashable, Codable {
-                        case apps
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "ALL_RENEWALS": self = .allRenewals
+                    case "PAID_TO_PAID_ONLY": self = .paidToPaidOnly
+                    default: self = .unknown(rawValue)
                     }
                 }
             }

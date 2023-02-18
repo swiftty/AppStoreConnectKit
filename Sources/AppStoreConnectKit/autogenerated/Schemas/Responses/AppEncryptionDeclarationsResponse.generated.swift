@@ -6,7 +6,7 @@ import Foundation
 public struct AppEncryptionDeclarationsResponse: Hashable, Codable {
     public var data: [AppEncryptionDeclaration]
 
-    public var included: [App]?
+    public var included: [Included]?
 
     public var links: PagedDocumentLinks
 
@@ -14,7 +14,7 @@ public struct AppEncryptionDeclarationsResponse: Hashable, Codable {
 
     public init(
         data: [AppEncryptionDeclaration],
-        included: [App]? = nil,
+        included: [Included]? = nil,
         links: PagedDocumentLinks,
         meta: PagingInformation? = nil
     ) {
@@ -29,6 +29,47 @@ public struct AppEncryptionDeclarationsResponse: Hashable, Codable {
         case included
         case links
         case meta
+    }
+
+    public enum Included: Hashable, Codable {
+        case app(App)
+        case build(Build)
+        case appEncryptionDeclarationDocument(AppEncryptionDeclarationDocument)
+
+        public init(from decoder: Decoder) throws {
+            self = try {
+                var lastError: Error!
+                do {
+                    return .app(try App(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .build(try Build(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appEncryptionDeclarationDocument(try AppEncryptionDeclarationDocument(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                throw lastError
+            }()
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            switch self {
+            case .app(let value):
+                try value.encode(to: encoder)
+
+            case .build(let value):
+                try value.encode(to: encoder)
+
+            case .appEncryptionDeclarationDocument(let value):
+                try value.encode(to: encoder)
+            }
+        }
     }
 }
 

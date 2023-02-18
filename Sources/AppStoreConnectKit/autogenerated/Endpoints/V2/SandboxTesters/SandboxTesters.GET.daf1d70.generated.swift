@@ -6,21 +6,18 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension V1.Apps.ById.SubscriptionGracePeriod {
+extension V2.SandboxTesters {
     public struct GET: Endpoint {
-        public typealias Response = SubscriptionGracePeriodResponse
+        public typealias Response = SandboxTestersV2Response
 
         public var path: String {
-            "/v1/apps/\(id)/subscriptionGracePeriod"
+            "/v2/sandboxTesters"
         }
-
-        /// the id of the requested resource
-        public var id: String
 
         public var parameters: Parameters = Parameters()
 
-        public init(id: String) {
-            self.id = id
+        public init() {
+
         }
 
         public func request(with baseURL: URL) throws -> URLRequest? {
@@ -28,8 +25,10 @@ extension V1.Apps.ById.SubscriptionGracePeriod {
             components?.path = path
 
             components?.queryItems = [
-                URLQueryItem(name: "fields[subscriptionGracePeriods]",
-                             value: parameters.fields[.subscriptionGracePeriods]?.map { "\($0)" }.joined(separator: ","))
+                URLQueryItem(name: "fields[sandboxTesters]",
+                             value: parameters.fields[.sandboxTesters]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit",
+                             value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -40,10 +39,9 @@ extension V1.Apps.ById.SubscriptionGracePeriod {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single SubscriptionGracePeriod as `SubscriptionGracePeriodResponse`
+        /// - Returns: **200**, List of SandboxTesters as `SandboxTestersV2Response`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
-        /// - Throws: **404**, Not found error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -52,15 +50,12 @@ extension V1.Apps.ById.SubscriptionGracePeriod {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(SubscriptionGracePeriodResponse.self, from: data)
+                return try jsonDecoder.decode(SandboxTestersV2Response.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 403:
-                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
-
-            case 404:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -70,9 +65,12 @@ extension V1.Apps.ById.SubscriptionGracePeriod {
     }
 }
 
-extension V1.Apps.ById.SubscriptionGracePeriod.GET {
+extension V2.SandboxTesters.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
+
+        /// maximum resources per page
+        public var limit: Int?
 
         public struct Fields: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
@@ -82,38 +80,47 @@ extension V1.Apps.ById.SubscriptionGracePeriod.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum SubscriptionGracePeriods: Hashable, Codable, RawRepresentable {
-                case duration
-                case optIn
-                case renewalType
-                case sandboxOptIn
+            public enum SandboxTesters: Hashable, Codable, RawRepresentable {
+                case acAccountName
+                case applePayCompatible
+                case firstName
+                case interruptPurchases
+                case lastName
+                case subscriptionRenewalRate
+                case territory
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
-                    case .duration: return "duration"
-                    case .optIn: return "optIn"
-                    case .renewalType: return "renewalType"
-                    case .sandboxOptIn: return "sandboxOptIn"
+                    case .acAccountName: return "acAccountName"
+                    case .applePayCompatible: return "applePayCompatible"
+                    case .firstName: return "firstName"
+                    case .interruptPurchases: return "interruptPurchases"
+                    case .lastName: return "lastName"
+                    case .subscriptionRenewalRate: return "subscriptionRenewalRate"
+                    case .territory: return "territory"
                     case .unknown(let rawValue): return rawValue
                     }
                 }
 
                 public init(rawValue: String) {
                     switch rawValue {
-                    case "duration": self = .duration
-                    case "optIn": self = .optIn
-                    case "renewalType": self = .renewalType
-                    case "sandboxOptIn": self = .sandboxOptIn
+                    case "acAccountName": self = .acAccountName
+                    case "applePayCompatible": self = .applePayCompatible
+                    case "firstName": self = .firstName
+                    case "interruptPurchases": self = .interruptPurchases
+                    case "lastName": self = .lastName
+                    case "subscriptionRenewalRate": self = .subscriptionRenewalRate
+                    case "territory": self = .territory
                     default: self = .unknown(rawValue)
                     }
                 }
             }
 
             public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionGracePeriods
-                public static var subscriptionGracePeriods: Relation<[SubscriptionGracePeriods]?> {
-                    .init(key: "fields[subscriptionGracePeriods]")
+                /// the fields to include for returned resources of type sandboxTesters
+                public static var sandboxTesters: Relation<[SandboxTesters]?> {
+                    .init(key: "fields[sandboxTesters]")
                 }
 
                 internal let key: String

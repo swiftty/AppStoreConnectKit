@@ -152,12 +152,15 @@ extension V1.Builds.GET {
 
             public enum AppEncryptionDeclarations: Hashable, Codable, RawRepresentable {
                 case app
+                case appDescription
+                case appEncryptionDeclarationDocument
                 case appEncryptionDeclarationState
                 case availableOnFrenchStore
                 case builds
                 case codeValue
                 case containsProprietaryCryptography
                 case containsThirdPartyCryptography
+                case createdDate
                 case documentName
                 case documentType
                 case documentUrl
@@ -170,12 +173,15 @@ extension V1.Builds.GET {
                 public var rawValue: String {
                     switch self {
                     case .app: return "app"
+                    case .appDescription: return "appDescription"
+                    case .appEncryptionDeclarationDocument: return "appEncryptionDeclarationDocument"
                     case .appEncryptionDeclarationState: return "appEncryptionDeclarationState"
                     case .availableOnFrenchStore: return "availableOnFrenchStore"
                     case .builds: return "builds"
                     case .codeValue: return "codeValue"
                     case .containsProprietaryCryptography: return "containsProprietaryCryptography"
                     case .containsThirdPartyCryptography: return "containsThirdPartyCryptography"
+                    case .createdDate: return "createdDate"
                     case .documentName: return "documentName"
                     case .documentType: return "documentType"
                     case .documentUrl: return "documentUrl"
@@ -190,12 +196,15 @@ extension V1.Builds.GET {
                 public init(rawValue: String) {
                     switch rawValue {
                     case "app": self = .app
+                    case "appDescription": self = .appDescription
+                    case "appEncryptionDeclarationDocument": self = .appEncryptionDeclarationDocument
                     case "appEncryptionDeclarationState": self = .appEncryptionDeclarationState
                     case "availableOnFrenchStore": self = .availableOnFrenchStore
                     case "builds": self = .builds
                     case "codeValue": self = .codeValue
                     case "containsProprietaryCryptography": self = .containsProprietaryCryptography
                     case "containsThirdPartyCryptography": self = .containsThirdPartyCryptography
+                    case "createdDate": self = .createdDate
                     case "documentName": self = .documentName
                     case "documentType": self = .documentType
                     case "documentUrl": self = .documentUrl

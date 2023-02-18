@@ -6,12 +6,12 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension V1.Apps.ById.SubscriptionGracePeriod {
+extension V1.AppEncryptionDeclarationDocuments.ById {
     public struct GET: Endpoint {
-        public typealias Response = SubscriptionGracePeriodResponse
+        public typealias Response = AppEncryptionDeclarationDocumentResponse
 
         public var path: String {
-            "/v1/apps/\(id)/subscriptionGracePeriod"
+            "/v1/appEncryptionDeclarationDocuments/\(id)"
         }
 
         /// the id of the requested resource
@@ -28,8 +28,8 @@ extension V1.Apps.ById.SubscriptionGracePeriod {
             components?.path = path
 
             components?.queryItems = [
-                URLQueryItem(name: "fields[subscriptionGracePeriods]",
-                             value: parameters.fields[.subscriptionGracePeriods]?.map { "\($0)" }.joined(separator: ","))
+                URLQueryItem(name: "fields[appEncryptionDeclarationDocuments]",
+                             value: parameters.fields[.appEncryptionDeclarationDocuments]?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -40,7 +40,7 @@ extension V1.Apps.ById.SubscriptionGracePeriod {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single SubscriptionGracePeriod as `SubscriptionGracePeriodResponse`
+        /// - Returns: **200**, Single AppEncryptionDeclarationDocument as `AppEncryptionDeclarationDocumentResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -52,7 +52,7 @@ extension V1.Apps.ById.SubscriptionGracePeriod {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(SubscriptionGracePeriodResponse.self, from: data)
+                return try jsonDecoder.decode(AppEncryptionDeclarationDocumentResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
@@ -70,7 +70,7 @@ extension V1.Apps.ById.SubscriptionGracePeriod {
     }
 }
 
-extension V1.Apps.ById.SubscriptionGracePeriod.GET {
+extension V1.AppEncryptionDeclarationDocuments.ById.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
 
@@ -82,38 +82,53 @@ extension V1.Apps.ById.SubscriptionGracePeriod.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum SubscriptionGracePeriods: Hashable, Codable, RawRepresentable {
-                case duration
-                case optIn
-                case renewalType
-                case sandboxOptIn
+            public enum AppEncryptionDeclarationDocuments: Hashable, Codable, RawRepresentable {
+                case appEncryptionDeclaration
+                case assetDeliveryState
+                case assetToken
+                case downloadUrl
+                case fileName
+                case fileSize
+                case sourceFileChecksum
+                case uploadOperations
+                case uploaded
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
-                    case .duration: return "duration"
-                    case .optIn: return "optIn"
-                    case .renewalType: return "renewalType"
-                    case .sandboxOptIn: return "sandboxOptIn"
+                    case .appEncryptionDeclaration: return "appEncryptionDeclaration"
+                    case .assetDeliveryState: return "assetDeliveryState"
+                    case .assetToken: return "assetToken"
+                    case .downloadUrl: return "downloadUrl"
+                    case .fileName: return "fileName"
+                    case .fileSize: return "fileSize"
+                    case .sourceFileChecksum: return "sourceFileChecksum"
+                    case .uploadOperations: return "uploadOperations"
+                    case .uploaded: return "uploaded"
                     case .unknown(let rawValue): return rawValue
                     }
                 }
 
                 public init(rawValue: String) {
                     switch rawValue {
-                    case "duration": self = .duration
-                    case "optIn": self = .optIn
-                    case "renewalType": self = .renewalType
-                    case "sandboxOptIn": self = .sandboxOptIn
+                    case "appEncryptionDeclaration": self = .appEncryptionDeclaration
+                    case "assetDeliveryState": self = .assetDeliveryState
+                    case "assetToken": self = .assetToken
+                    case "downloadUrl": self = .downloadUrl
+                    case "fileName": self = .fileName
+                    case "fileSize": self = .fileSize
+                    case "sourceFileChecksum": self = .sourceFileChecksum
+                    case "uploadOperations": self = .uploadOperations
+                    case "uploaded": self = .uploaded
                     default: self = .unknown(rawValue)
                     }
                 }
             }
 
             public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionGracePeriods
-                public static var subscriptionGracePeriods: Relation<[SubscriptionGracePeriods]?> {
-                    .init(key: "fields[subscriptionGracePeriods]")
+                /// the fields to include for returned resources of type appEncryptionDeclarationDocuments
+                public static var appEncryptionDeclarationDocuments: Relation<[AppEncryptionDeclarationDocuments]?> {
+                    .init(key: "fields[appEncryptionDeclarationDocuments]")
                 }
 
                 internal let key: String
