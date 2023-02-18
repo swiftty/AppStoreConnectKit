@@ -1,4 +1,4 @@
-name: Checks
+name: checks
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ jobs:
         include:
           - os: macos-11
           - os: macos-12
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
             swift: '5.5'
           - os: ubuntu-latest
             swift: '5.7'
