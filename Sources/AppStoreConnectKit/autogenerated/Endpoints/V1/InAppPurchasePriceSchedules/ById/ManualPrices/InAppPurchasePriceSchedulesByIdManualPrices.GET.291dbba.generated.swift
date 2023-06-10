@@ -132,16 +132,20 @@ extension V1.InAppPurchasePriceSchedules.ById.ManualPrices.GET {
             }
 
             public enum InAppPurchasePrices: Hashable, Codable, RawRepresentable {
+                case endDate
                 case inAppPurchasePricePoint
                 case inAppPurchaseV2
+                case manual
                 case startDate
                 case territory
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
+                    case .endDate: return "endDate"
                     case .inAppPurchasePricePoint: return "inAppPurchasePricePoint"
                     case .inAppPurchaseV2: return "inAppPurchaseV2"
+                    case .manual: return "manual"
                     case .startDate: return "startDate"
                     case .territory: return "territory"
                     case .unknown(let rawValue): return rawValue
@@ -150,8 +154,10 @@ extension V1.InAppPurchasePriceSchedules.ById.ManualPrices.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "endDate": self = .endDate
                     case "inAppPurchasePricePoint": self = .inAppPurchasePricePoint
                     case "inAppPurchaseV2": self = .inAppPurchaseV2
+                    case "manual": self = .manual
                     case "startDate": self = .startDate
                     case "territory": self = .territory
                     default: self = .unknown(rawValue)

@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppStoreVersionExperiments.ById {
+    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = AppStoreVersionExperimentUpdateRequest
         public typealias Response = AppStoreVersionExperimentResponse

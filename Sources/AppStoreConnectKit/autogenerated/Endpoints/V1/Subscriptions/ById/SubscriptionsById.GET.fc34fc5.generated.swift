@@ -32,6 +32,8 @@ extension V1.Subscriptions.ById {
                              value: parameters.fields[.promotedPurchases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionAppStoreReviewScreenshots]",
                              value: parameters.fields[.subscriptionAppStoreReviewScreenshots]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptionAvailabilities]",
+                             value: parameters.fields[.subscriptionAvailabilities]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionIntroductoryOffers]",
                              value: parameters.fields[.subscriptionIntroductoryOffers]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionLocalizations]",
@@ -193,6 +195,31 @@ extension V1.Subscriptions.ById.GET {
                     case "subscription": self = .subscription
                     case "uploadOperations": self = .uploadOperations
                     case "uploaded": self = .uploaded
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
+            public enum SubscriptionAvailabilities: Hashable, Codable, RawRepresentable {
+                case availableInNewTerritories
+                case availableTerritories
+                case subscription
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .subscription: return "subscription"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "subscription": self = .subscription
                     default: self = .unknown(rawValue)
                     }
                 }
@@ -442,6 +469,7 @@ extension V1.Subscriptions.ById.GET {
                 case promotionalOffers
                 case reviewNote
                 case state
+                case subscriptionAvailability
                 case subscriptionLocalizations
                 case subscriptionPeriod
                 case unknown(String)
@@ -463,6 +491,7 @@ extension V1.Subscriptions.ById.GET {
                     case .promotionalOffers: return "promotionalOffers"
                     case .reviewNote: return "reviewNote"
                     case .state: return "state"
+                    case .subscriptionAvailability: return "subscriptionAvailability"
                     case .subscriptionLocalizations: return "subscriptionLocalizations"
                     case .subscriptionPeriod: return "subscriptionPeriod"
                     case .unknown(let rawValue): return rawValue
@@ -486,6 +515,7 @@ extension V1.Subscriptions.ById.GET {
                     case "promotionalOffers": self = .promotionalOffers
                     case "reviewNote": self = .reviewNote
                     case "state": self = .state
+                    case "subscriptionAvailability": self = .subscriptionAvailability
                     case "subscriptionLocalizations": self = .subscriptionLocalizations
                     case "subscriptionPeriod": self = .subscriptionPeriod
                     default: self = .unknown(rawValue)
@@ -502,6 +532,11 @@ extension V1.Subscriptions.ById.GET {
                 /// the fields to include for returned resources of type subscriptionAppStoreReviewScreenshots
                 public static var subscriptionAppStoreReviewScreenshots: Relation<[SubscriptionAppStoreReviewScreenshots]?> {
                     .init(key: "fields[subscriptionAppStoreReviewScreenshots]")
+                }
+
+                /// the fields to include for returned resources of type subscriptionAvailabilities
+                public static var subscriptionAvailabilities: Relation<[SubscriptionAvailabilities]?> {
+                    .init(key: "fields[subscriptionAvailabilities]")
                 }
 
                 /// the fields to include for returned resources of type subscriptionIntroductoryOffers
@@ -555,6 +590,7 @@ extension V1.Subscriptions.ById.GET {
             case prices
             case promotedPurchase
             case promotionalOffers
+            case subscriptionAvailability
             case subscriptionLocalizations
             case unknown(String)
 
@@ -567,6 +603,7 @@ extension V1.Subscriptions.ById.GET {
                 case .prices: return "prices"
                 case .promotedPurchase: return "promotedPurchase"
                 case .promotionalOffers: return "promotionalOffers"
+                case .subscriptionAvailability: return "subscriptionAvailability"
                 case .subscriptionLocalizations: return "subscriptionLocalizations"
                 case .unknown(let rawValue): return rawValue
                 }
@@ -581,6 +618,7 @@ extension V1.Subscriptions.ById.GET {
                 case "prices": self = .prices
                 case "promotedPurchase": self = .promotedPurchase
                 case "promotionalOffers": self = .promotionalOffers
+                case "subscriptionAvailability": self = .subscriptionAvailability
                 case "subscriptionLocalizations": self = .subscriptionLocalizations
                 default: self = .unknown(rawValue)
                 }

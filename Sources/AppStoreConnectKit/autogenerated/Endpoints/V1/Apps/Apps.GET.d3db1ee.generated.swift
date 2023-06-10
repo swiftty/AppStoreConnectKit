@@ -27,6 +27,8 @@ extension V1.Apps {
             components?.queryItems = [
                 URLQueryItem(name: "exists[gameCenterEnabledVersions]",
                              value: parameters.exists[.gameCenterEnabledVersions].map { "\($0)" }),
+                URLQueryItem(name: "fields[appAvailabilities]",
+                             value: parameters.fields[.appAvailabilities]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClips]",
                              value: parameters.fields[.appClips]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appCustomProductPages]",
@@ -39,8 +41,12 @@ extension V1.Apps {
                              value: parameters.fields[.appPreOrders]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPricePoints]",
                              value: parameters.fields[.appPricePoints]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appPriceSchedules]",
+                             value: parameters.fields[.appPriceSchedules]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPrices]",
                              value: parameters.fields[.appPrices]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersionExperiments]",
+                             value: parameters.fields[.appStoreVersionExperiments]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersions]",
                              value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[apps]",
@@ -103,6 +109,8 @@ extension V1.Apps {
                              value: parameters.limit[.appEvents].map { "\($0)" }),
                 URLQueryItem(name: "limit[appInfos]",
                              value: parameters.limit[.appInfos].map { "\($0)" }),
+                URLQueryItem(name: "limit[appStoreVersionExperimentsV2]",
+                             value: parameters.limit[.appStoreVersionExperimentsV2].map { "\($0)" }),
                 URLQueryItem(name: "limit[appStoreVersions]",
                              value: parameters.limit[.appStoreVersions].map { "\($0)" }),
                 URLQueryItem(name: "limit[availableTerritories]",
@@ -215,6 +223,31 @@ extension V1.Apps.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public enum AppAvailabilities: Hashable, Codable, RawRepresentable {
+                case app
+                case availableInNewTerritories
+                case availableTerritories
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
 
             public enum AppClips: Hashable, Codable, RawRepresentable {
                 case app
@@ -447,6 +480,34 @@ extension V1.Apps.GET {
                 }
             }
 
+            public enum AppPriceSchedules: Hashable, Codable, RawRepresentable {
+                case app
+                case automaticPrices
+                case baseTerritory
+                case manualPrices
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .automaticPrices: return "automaticPrices"
+                    case .baseTerritory: return "baseTerritory"
+                    case .manualPrices: return "manualPrices"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "automaticPrices": self = .automaticPrices
+                    case "baseTerritory": self = .baseTerritory
+                    case "manualPrices": self = .manualPrices
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum AppPrices: Hashable, Codable, RawRepresentable {
                 case app
                 case priceTier
@@ -469,6 +530,58 @@ extension V1.Apps.GET {
                 }
             }
 
+            public enum AppStoreVersionExperiments: Hashable, Codable, RawRepresentable {
+                case app
+                case appStoreVersionExperimentTreatments
+                case controlVersions
+                case endDate
+                case latestControlVersion
+                case name
+                case platform
+                case reviewRequired
+                case startDate
+                case started
+                case state
+                case trafficProportion
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appStoreVersionExperimentTreatments: return "appStoreVersionExperimentTreatments"
+                    case .controlVersions: return "controlVersions"
+                    case .endDate: return "endDate"
+                    case .latestControlVersion: return "latestControlVersion"
+                    case .name: return "name"
+                    case .platform: return "platform"
+                    case .reviewRequired: return "reviewRequired"
+                    case .startDate: return "startDate"
+                    case .started: return "started"
+                    case .state: return "state"
+                    case .trafficProportion: return "trafficProportion"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appStoreVersionExperimentTreatments": self = .appStoreVersionExperimentTreatments
+                    case "controlVersions": self = .controlVersions
+                    case "endDate": self = .endDate
+                    case "latestControlVersion": self = .latestControlVersion
+                    case "name": self = .name
+                    case "platform": self = .platform
+                    case "reviewRequired": self = .reviewRequired
+                    case "startDate": self = .startDate
+                    case "started": self = .started
+                    case "state": self = .state
+                    case "trafficProportion": self = .trafficProportion
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum AppStoreVersions: Hashable, Codable, RawRepresentable {
                 case ageRatingDeclaration
                 case app
@@ -476,6 +589,7 @@ extension V1.Apps.GET {
                 case appStoreReviewDetail
                 case appStoreState
                 case appStoreVersionExperiments
+                case appStoreVersionExperimentsV2
                 case appStoreVersionLocalizations
                 case appStoreVersionPhasedRelease
                 case appStoreVersionSubmission
@@ -499,6 +613,7 @@ extension V1.Apps.GET {
                     case .appStoreReviewDetail: return "appStoreReviewDetail"
                     case .appStoreState: return "appStoreState"
                     case .appStoreVersionExperiments: return "appStoreVersionExperiments"
+                    case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
                     case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
                     case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
                     case .appStoreVersionSubmission: return "appStoreVersionSubmission"
@@ -524,6 +639,7 @@ extension V1.Apps.GET {
                     case "appStoreReviewDetail": self = .appStoreReviewDetail
                     case "appStoreState": self = .appStoreState
                     case "appStoreVersionExperiments": self = .appStoreVersionExperiments
+                    case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
                     case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
                     case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
                     case "appStoreVersionSubmission": self = .appStoreVersionSubmission
@@ -543,10 +659,14 @@ extension V1.Apps.GET {
             }
 
             public enum Apps: Hashable, Codable, RawRepresentable {
+                case appAvailability
                 case appClips
                 case appCustomProductPages
                 case appEvents
                 case appInfos
+                case appPricePoints
+                case appPriceSchedule
+                case appStoreVersionExperimentsV2
                 case appStoreVersions
                 case availableInNewTerritories
                 case availableTerritories
@@ -585,10 +705,14 @@ extension V1.Apps.GET {
 
                 public var rawValue: String {
                     switch self {
+                    case .appAvailability: return "appAvailability"
                     case .appClips: return "appClips"
                     case .appCustomProductPages: return "appCustomProductPages"
                     case .appEvents: return "appEvents"
                     case .appInfos: return "appInfos"
+                    case .appPricePoints: return "appPricePoints"
+                    case .appPriceSchedule: return "appPriceSchedule"
+                    case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
                     case .appStoreVersions: return "appStoreVersions"
                     case .availableInNewTerritories: return "availableInNewTerritories"
                     case .availableTerritories: return "availableTerritories"
@@ -629,10 +753,14 @@ extension V1.Apps.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "appAvailability": self = .appAvailability
                     case "appClips": self = .appClips
                     case "appCustomProductPages": self = .appCustomProductPages
                     case "appEvents": self = .appEvents
                     case "appInfos": self = .appInfos
+                    case "appPricePoints": self = .appPricePoints
+                    case "appPriceSchedule": self = .appPriceSchedule
+                    case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
                     case "appStoreVersions": self = .appStoreVersions
                     case "availableInNewTerritories": self = .availableInNewTerritories
                     case "availableTerritories": self = .availableTerritories
@@ -1182,9 +1310,11 @@ extension V1.Apps.GET {
                 case appStoreVersionForReview
                 case canceled
                 case items
+                case lastUpdatedByActor
                 case platform
                 case state
                 case submitted
+                case submittedByActor
                 case submittedDate
                 case unknown(String)
 
@@ -1194,9 +1324,11 @@ extension V1.Apps.GET {
                     case .appStoreVersionForReview: return "appStoreVersionForReview"
                     case .canceled: return "canceled"
                     case .items: return "items"
+                    case .lastUpdatedByActor: return "lastUpdatedByActor"
                     case .platform: return "platform"
                     case .state: return "state"
                     case .submitted: return "submitted"
+                    case .submittedByActor: return "submittedByActor"
                     case .submittedDate: return "submittedDate"
                     case .unknown(let rawValue): return rawValue
                     }
@@ -1208,9 +1340,11 @@ extension V1.Apps.GET {
                     case "appStoreVersionForReview": self = .appStoreVersionForReview
                     case "canceled": self = .canceled
                     case "items": self = .items
+                    case "lastUpdatedByActor": self = .lastUpdatedByActor
                     case "platform": self = .platform
                     case "state": self = .state
                     case "submitted": self = .submitted
+                    case "submittedByActor": self = .submittedByActor
                     case "submittedDate": self = .submittedDate
                     default: self = .unknown(rawValue)
                     }
@@ -1293,6 +1427,11 @@ extension V1.Apps.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appAvailabilities
+                public static var appAvailabilities: Relation<[AppAvailabilities]?> {
+                    .init(key: "fields[appAvailabilities]")
+                }
+
                 /// the fields to include for returned resources of type appClips
                 public static var appClips: Relation<[AppClips]?> {
                     .init(key: "fields[appClips]")
@@ -1323,9 +1462,19 @@ extension V1.Apps.GET {
                     .init(key: "fields[appPricePoints]")
                 }
 
+                /// the fields to include for returned resources of type appPriceSchedules
+                public static var appPriceSchedules: Relation<[AppPriceSchedules]?> {
+                    .init(key: "fields[appPriceSchedules]")
+                }
+
                 /// the fields to include for returned resources of type appPrices
                 public static var appPrices: Relation<[AppPrices]?> {
                     .init(key: "fields[appPrices]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersionExperiments
+                public static var appStoreVersionExperiments: Relation<[AppStoreVersionExperiments]?> {
+                    .init(key: "fields[appStoreVersionExperiments]")
                 }
 
                 /// the fields to include for returned resources of type appStoreVersions
@@ -1586,6 +1735,7 @@ extension V1.Apps.GET {
             case appCustomProductPages
             case appEvents
             case appInfos
+            case appStoreVersionExperimentsV2
             case appStoreVersions
             case availableTerritories
             case betaAppLocalizations
@@ -1613,6 +1763,7 @@ extension V1.Apps.GET {
                 case .appCustomProductPages: return "appCustomProductPages"
                 case .appEvents: return "appEvents"
                 case .appInfos: return "appInfos"
+                case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
                 case .appStoreVersions: return "appStoreVersions"
                 case .availableTerritories: return "availableTerritories"
                 case .betaAppLocalizations: return "betaAppLocalizations"
@@ -1642,6 +1793,7 @@ extension V1.Apps.GET {
                 case "appCustomProductPages": self = .appCustomProductPages
                 case "appEvents": self = .appEvents
                 case "appInfos": self = .appInfos
+                case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
                 case "appStoreVersions": self = .appStoreVersions
                 case "availableTerritories": self = .availableTerritories
                 case "betaAppLocalizations": self = .betaAppLocalizations
@@ -1698,6 +1850,11 @@ extension V1.Apps.GET {
                 /// maximum number of related appInfos returned (when they are included)
                 public static var appInfos: Relation<Int?> {
                     .init(key: "limit[appInfos]")
+                }
+
+                /// maximum number of related appStoreVersionExperimentsV2 returned (when they are included)
+                public static var appStoreVersionExperimentsV2: Relation<Int?> {
+                    .init(key: "limit[appStoreVersionExperimentsV2]")
                 }
 
                 /// maximum number of related appStoreVersions returned (when they are included)

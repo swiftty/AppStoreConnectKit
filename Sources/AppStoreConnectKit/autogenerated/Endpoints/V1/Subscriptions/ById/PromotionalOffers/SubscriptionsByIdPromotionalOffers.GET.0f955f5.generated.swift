@@ -177,6 +177,7 @@ extension V1.Subscriptions.ById.PromotionalOffers.GET {
                 case promotionalOffers
                 case reviewNote
                 case state
+                case subscriptionAvailability
                 case subscriptionLocalizations
                 case subscriptionPeriod
                 case unknown(String)
@@ -198,6 +199,7 @@ extension V1.Subscriptions.ById.PromotionalOffers.GET {
                     case .promotionalOffers: return "promotionalOffers"
                     case .reviewNote: return "reviewNote"
                     case .state: return "state"
+                    case .subscriptionAvailability: return "subscriptionAvailability"
                     case .subscriptionLocalizations: return "subscriptionLocalizations"
                     case .subscriptionPeriod: return "subscriptionPeriod"
                     case .unknown(let rawValue): return rawValue
@@ -221,6 +223,7 @@ extension V1.Subscriptions.ById.PromotionalOffers.GET {
                     case "promotionalOffers": self = .promotionalOffers
                     case "reviewNote": self = .reviewNote
                     case "state": self = .state
+                    case "subscriptionAvailability": self = .subscriptionAvailability
                     case "subscriptionLocalizations": self = .subscriptionLocalizations
                     case "subscriptionPeriod": self = .subscriptionPeriod
                     default: self = .unknown(rawValue)

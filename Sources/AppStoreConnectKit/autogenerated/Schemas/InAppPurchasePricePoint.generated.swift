@@ -43,6 +43,7 @@ public struct InAppPurchasePricePoint: Hashable, Codable {
     public struct Attributes: Hashable, Codable {
         public var customerPrice: String?
 
+        @available(*, deprecated)
         public var priceTier: String?
 
         public var proceeds: String?

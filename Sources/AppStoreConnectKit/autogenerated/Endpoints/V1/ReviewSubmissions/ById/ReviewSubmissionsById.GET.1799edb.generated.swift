@@ -98,6 +98,7 @@ extension V1.ReviewSubmissions.ById.GET {
                 case appEvent
                 case appStoreVersion
                 case appStoreVersionExperiment
+                case appStoreVersionExperimentV2
                 case removed
                 case resolved
                 case reviewSubmission
@@ -110,6 +111,7 @@ extension V1.ReviewSubmissions.ById.GET {
                     case .appEvent: return "appEvent"
                     case .appStoreVersion: return "appStoreVersion"
                     case .appStoreVersionExperiment: return "appStoreVersionExperiment"
+                    case .appStoreVersionExperimentV2: return "appStoreVersionExperimentV2"
                     case .removed: return "removed"
                     case .resolved: return "resolved"
                     case .reviewSubmission: return "reviewSubmission"
@@ -124,6 +126,7 @@ extension V1.ReviewSubmissions.ById.GET {
                     case "appEvent": self = .appEvent
                     case "appStoreVersion": self = .appStoreVersion
                     case "appStoreVersionExperiment": self = .appStoreVersionExperiment
+                    case "appStoreVersionExperimentV2": self = .appStoreVersionExperimentV2
                     case "removed": self = .removed
                     case "resolved": self = .resolved
                     case "reviewSubmission": self = .reviewSubmission
@@ -138,9 +141,11 @@ extension V1.ReviewSubmissions.ById.GET {
                 case appStoreVersionForReview
                 case canceled
                 case items
+                case lastUpdatedByActor
                 case platform
                 case state
                 case submitted
+                case submittedByActor
                 case submittedDate
                 case unknown(String)
 
@@ -150,9 +155,11 @@ extension V1.ReviewSubmissions.ById.GET {
                     case .appStoreVersionForReview: return "appStoreVersionForReview"
                     case .canceled: return "canceled"
                     case .items: return "items"
+                    case .lastUpdatedByActor: return "lastUpdatedByActor"
                     case .platform: return "platform"
                     case .state: return "state"
                     case .submitted: return "submitted"
+                    case .submittedByActor: return "submittedByActor"
                     case .submittedDate: return "submittedDate"
                     case .unknown(let rawValue): return rawValue
                     }
@@ -164,9 +171,11 @@ extension V1.ReviewSubmissions.ById.GET {
                     case "appStoreVersionForReview": self = .appStoreVersionForReview
                     case "canceled": self = .canceled
                     case "items": self = .items
+                    case "lastUpdatedByActor": self = .lastUpdatedByActor
                     case "platform": self = .platform
                     case "state": self = .state
                     case "submitted": self = .submitted
+                    case "submittedByActor": self = .submittedByActor
                     case "submittedDate": self = .submittedDate
                     default: self = .unknown(rawValue)
                     }
@@ -196,6 +205,8 @@ extension V1.ReviewSubmissions.ById.GET {
             case app
             case appStoreVersionForReview
             case items
+            case lastUpdatedByActor
+            case submittedByActor
             case unknown(String)
 
             public var rawValue: String {
@@ -203,6 +214,8 @@ extension V1.ReviewSubmissions.ById.GET {
                 case .app: return "app"
                 case .appStoreVersionForReview: return "appStoreVersionForReview"
                 case .items: return "items"
+                case .lastUpdatedByActor: return "lastUpdatedByActor"
+                case .submittedByActor: return "submittedByActor"
                 case .unknown(let rawValue): return rawValue
                 }
             }
@@ -212,6 +225,8 @@ extension V1.ReviewSubmissions.ById.GET {
                 case "app": self = .app
                 case "appStoreVersionForReview": self = .appStoreVersionForReview
                 case "items": self = .items
+                case "lastUpdatedByActor": self = .lastUpdatedByActor
+                case "submittedByActor": self = .submittedByActor
                 default: self = .unknown(rawValue)
                 }
             }

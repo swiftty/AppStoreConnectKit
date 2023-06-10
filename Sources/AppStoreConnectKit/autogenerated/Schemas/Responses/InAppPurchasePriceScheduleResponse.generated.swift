@@ -28,6 +28,7 @@ public struct InAppPurchasePriceScheduleResponse: Hashable, Codable {
 
     public enum Included: Hashable, Codable {
         case inAppPurchaseV2(InAppPurchaseV2)
+        case territory(Territory)
         case inAppPurchasePrice(InAppPurchasePrice)
 
         public init(from decoder: Decoder) throws {
@@ -35,6 +36,11 @@ public struct InAppPurchasePriceScheduleResponse: Hashable, Codable {
                 var lastError: Error!
                 do {
                     return .inAppPurchaseV2(try InAppPurchaseV2(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .territory(try Territory(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -50,6 +56,9 @@ public struct InAppPurchasePriceScheduleResponse: Hashable, Codable {
         public func encode(to encoder: Encoder) throws {
             switch self {
             case .inAppPurchaseV2(let value):
+                try value.encode(to: encoder)
+
+            case .territory(let value):
                 try value.encode(to: encoder)
 
             case .inAppPurchasePrice(let value):

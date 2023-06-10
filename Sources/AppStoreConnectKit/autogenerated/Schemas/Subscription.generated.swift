@@ -184,6 +184,8 @@ public struct Subscription: Hashable, Codable {
 
         public var promotionalOffers: PromotionalOffers?
 
+        public var subscriptionAvailability: SubscriptionAvailability?
+
         public var subscriptionLocalizations: SubscriptionLocalizations?
 
         public init(
@@ -194,6 +196,7 @@ public struct Subscription: Hashable, Codable {
             prices: Prices? = nil,
             promotedPurchase: PromotedPurchase? = nil,
             promotionalOffers: PromotionalOffers? = nil,
+            subscriptionAvailability: SubscriptionAvailability? = nil,
             subscriptionLocalizations: SubscriptionLocalizations? = nil
         ) {
             self.appStoreReviewScreenshot = appStoreReviewScreenshot
@@ -203,6 +206,7 @@ public struct Subscription: Hashable, Codable {
             self.prices = prices
             self.promotedPurchase = promotedPurchase
             self.promotionalOffers = promotionalOffers
+            self.subscriptionAvailability = subscriptionAvailability
             self.subscriptionLocalizations = subscriptionLocalizations
         }
 
@@ -214,6 +218,7 @@ public struct Subscription: Hashable, Codable {
             case prices
             case promotedPurchase
             case promotionalOffers
+            case subscriptionAvailability
             case subscriptionLocalizations
         }
 
@@ -641,6 +646,67 @@ public struct Subscription: Hashable, Codable {
 
                 public enum `Type`: String, Hashable, Codable {
                     case subscriptionPromotionalOffers
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct SubscriptionAvailability: Hashable, Codable {
+            public var data: Data?
+
+            public var links: Links?
+
+            public init(
+                data: Data? = nil,
+                links: Links? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case subscriptionAvailabilities
                 }
             }
 

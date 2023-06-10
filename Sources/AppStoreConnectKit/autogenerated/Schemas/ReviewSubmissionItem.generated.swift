@@ -92,16 +92,20 @@ public struct ReviewSubmissionItem: Hashable, Codable {
 
         public var appStoreVersionExperiment: AppStoreVersionExperiment?
 
+        public var appStoreVersionExperimentV2: AppStoreVersionExperimentV2?
+
         public init(
             appCustomProductPageVersion: AppCustomProductPageVersion? = nil,
             appEvent: AppEvent? = nil,
             appStoreVersion: AppStoreVersion? = nil,
-            appStoreVersionExperiment: AppStoreVersionExperiment? = nil
+            appStoreVersionExperiment: AppStoreVersionExperiment? = nil,
+            appStoreVersionExperimentV2: AppStoreVersionExperimentV2? = nil
         ) {
             self.appCustomProductPageVersion = appCustomProductPageVersion
             self.appEvent = appEvent
             self.appStoreVersion = appStoreVersion
             self.appStoreVersionExperiment = appStoreVersionExperiment
+            self.appStoreVersionExperimentV2 = appStoreVersionExperimentV2
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -109,6 +113,7 @@ public struct ReviewSubmissionItem: Hashable, Codable {
             case appEvent
             case appStoreVersion
             case appStoreVersionExperiment
+            case appStoreVersionExperimentV2
         }
 
         public struct AppCustomProductPageVersion: Hashable, Codable {
@@ -295,6 +300,67 @@ public struct ReviewSubmissionItem: Hashable, Codable {
         }
 
         public struct AppStoreVersionExperiment: Hashable, Codable {
+            public var data: Data?
+
+            public var links: Links?
+
+            public init(
+                data: Data? = nil,
+                links: Links? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case appStoreVersionExperiments
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct AppStoreVersionExperimentV2: Hashable, Codable {
             public var data: Data?
 
             public var links: Links?

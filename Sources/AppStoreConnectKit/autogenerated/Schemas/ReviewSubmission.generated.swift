@@ -108,20 +108,30 @@ public struct ReviewSubmission: Hashable, Codable {
 
         public var items: Items?
 
+        public var lastUpdatedByActor: LastUpdatedByActor?
+
+        public var submittedByActor: SubmittedByActor?
+
         public init(
             app: App? = nil,
             appStoreVersionForReview: AppStoreVersionForReview? = nil,
-            items: Items? = nil
+            items: Items? = nil,
+            lastUpdatedByActor: LastUpdatedByActor? = nil,
+            submittedByActor: SubmittedByActor? = nil
         ) {
             self.app = app
             self.appStoreVersionForReview = appStoreVersionForReview
             self.items = items
+            self.lastUpdatedByActor = lastUpdatedByActor
+            self.submittedByActor = submittedByActor
         }
 
         private enum CodingKeys: String, CodingKey {
             case app
             case appStoreVersionForReview
             case items
+            case lastUpdatedByActor
+            case submittedByActor
         }
 
         public struct App: Hashable, Codable {
@@ -289,6 +299,128 @@ public struct ReviewSubmission: Hashable, Codable {
 
                 public enum `Type`: String, Hashable, Codable {
                     case reviewSubmissionItems
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct LastUpdatedByActor: Hashable, Codable {
+            public var data: Data?
+
+            public var links: Links?
+
+            public init(
+                data: Data? = nil,
+                links: Links? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case actors
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct SubmittedByActor: Hashable, Codable {
+            public var data: Data?
+
+            public var links: Links?
+
+            public init(
+                data: Data? = nil,
+                links: Links? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case actors
                 }
             }
 

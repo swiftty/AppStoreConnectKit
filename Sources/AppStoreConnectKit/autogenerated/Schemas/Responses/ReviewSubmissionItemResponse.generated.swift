@@ -30,6 +30,7 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable {
         case appStoreVersion(AppStoreVersion)
         case appCustomProductPageVersion(AppCustomProductPageVersion)
         case appStoreVersionExperiment(AppStoreVersionExperiment)
+        case appStoreVersionExperimentV2(AppStoreVersionExperimentV2)
         case appEvent(AppEvent)
 
         public init(from decoder: Decoder) throws {
@@ -51,6 +52,11 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable {
                     lastError = error
                 }
                 do {
+                    return .appStoreVersionExperimentV2(try AppStoreVersionExperimentV2(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
                     return .appEvent(try AppEvent(from: decoder))
                 } catch {
                     lastError = error
@@ -68,6 +74,9 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .appStoreVersionExperiment(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersionExperimentV2(let value):
                 try value.encode(to: encoder)
 
             case .appEvent(let value):

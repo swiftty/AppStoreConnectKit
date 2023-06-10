@@ -54,6 +54,7 @@ public struct AppUpdateRequest: Hashable, Codable {
         }
 
         public struct Attributes: Hashable, Codable {
+            @available(*, deprecated)
             public var availableInNewTerritories: Bool?
 
             public var bundleId: String?
@@ -125,8 +126,10 @@ public struct AppUpdateRequest: Hashable, Codable {
         }
 
         public struct Relationships: Hashable, Codable {
+            @available(*, deprecated)
             public var availableTerritories: AvailableTerritories?
 
+            @available(*, deprecated)
             public var prices: Prices?
 
             public init(

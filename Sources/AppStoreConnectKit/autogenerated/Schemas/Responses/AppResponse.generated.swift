@@ -30,7 +30,7 @@ public struct AppResponse: Hashable, Codable {
         case ciProduct(CiProduct)
         case betaGroup(BetaGroup)
         case appStoreVersion(AppStoreVersion)
-        case prereleaseVersion(PrereleaseVersion)
+        case preReleaseVersion(PreReleaseVersion)
         case betaAppLocalization(BetaAppLocalization)
         case build(Build)
         case betaLicenseAgreement(BetaLicenseAgreement)
@@ -50,6 +50,7 @@ public struct AppResponse: Hashable, Codable {
         case appEvent(AppEvent)
         case reviewSubmission(ReviewSubmission)
         case subscriptionGracePeriod(SubscriptionGracePeriod)
+        case appStoreVersionExperimentV2(AppStoreVersionExperimentV2)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -70,7 +71,7 @@ public struct AppResponse: Hashable, Codable {
                     lastError = error
                 }
                 do {
-                    return .prereleaseVersion(try PrereleaseVersion(from: decoder))
+                    return .preReleaseVersion(try PreReleaseVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -169,6 +170,11 @@ public struct AppResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .appStoreVersionExperimentV2(try AppStoreVersionExperimentV2(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -184,7 +190,7 @@ public struct AppResponse: Hashable, Codable {
             case .appStoreVersion(let value):
                 try value.encode(to: encoder)
 
-            case .prereleaseVersion(let value):
+            case .preReleaseVersion(let value):
                 try value.encode(to: encoder)
 
             case .betaAppLocalization(let value):
@@ -242,6 +248,9 @@ public struct AppResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .subscriptionGracePeriod(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersionExperimentV2(let value):
                 try value.encode(to: encoder)
             }
         }

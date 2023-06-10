@@ -28,6 +28,8 @@ extension V1.Apps.ById.ReviewSubmissions {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[actors]",
+                             value: parameters.fields[.actors]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersions]",
                              value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[apps]",
@@ -106,6 +108,37 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public enum Actors: Hashable, Codable, RawRepresentable {
+                case actorType
+                case apiKeyId
+                case userEmail
+                case userFirstName
+                case userLastName
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .actorType: return "actorType"
+                    case .apiKeyId: return "apiKeyId"
+                    case .userEmail: return "userEmail"
+                    case .userFirstName: return "userFirstName"
+                    case .userLastName: return "userLastName"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "actorType": self = .actorType
+                    case "apiKeyId": self = .apiKeyId
+                    case "userEmail": self = .userEmail
+                    case "userFirstName": self = .userFirstName
+                    case "userLastName": self = .userLastName
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum AppStoreVersions: Hashable, Codable, RawRepresentable {
                 case ageRatingDeclaration
                 case app
@@ -113,6 +146,7 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                 case appStoreReviewDetail
                 case appStoreState
                 case appStoreVersionExperiments
+                case appStoreVersionExperimentsV2
                 case appStoreVersionLocalizations
                 case appStoreVersionPhasedRelease
                 case appStoreVersionSubmission
@@ -136,6 +170,7 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                     case .appStoreReviewDetail: return "appStoreReviewDetail"
                     case .appStoreState: return "appStoreState"
                     case .appStoreVersionExperiments: return "appStoreVersionExperiments"
+                    case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
                     case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
                     case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
                     case .appStoreVersionSubmission: return "appStoreVersionSubmission"
@@ -161,6 +196,7 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                     case "appStoreReviewDetail": self = .appStoreReviewDetail
                     case "appStoreState": self = .appStoreState
                     case "appStoreVersionExperiments": self = .appStoreVersionExperiments
+                    case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
                     case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
                     case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
                     case "appStoreVersionSubmission": self = .appStoreVersionSubmission
@@ -180,10 +216,14 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
             }
 
             public enum Apps: Hashable, Codable, RawRepresentable {
+                case appAvailability
                 case appClips
                 case appCustomProductPages
                 case appEvents
                 case appInfos
+                case appPricePoints
+                case appPriceSchedule
+                case appStoreVersionExperimentsV2
                 case appStoreVersions
                 case availableInNewTerritories
                 case availableTerritories
@@ -222,10 +262,14 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
 
                 public var rawValue: String {
                     switch self {
+                    case .appAvailability: return "appAvailability"
                     case .appClips: return "appClips"
                     case .appCustomProductPages: return "appCustomProductPages"
                     case .appEvents: return "appEvents"
                     case .appInfos: return "appInfos"
+                    case .appPricePoints: return "appPricePoints"
+                    case .appPriceSchedule: return "appPriceSchedule"
+                    case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
                     case .appStoreVersions: return "appStoreVersions"
                     case .availableInNewTerritories: return "availableInNewTerritories"
                     case .availableTerritories: return "availableTerritories"
@@ -266,10 +310,14 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "appAvailability": self = .appAvailability
                     case "appClips": self = .appClips
                     case "appCustomProductPages": self = .appCustomProductPages
                     case "appEvents": self = .appEvents
                     case "appInfos": self = .appInfos
+                    case "appPricePoints": self = .appPricePoints
+                    case "appPriceSchedule": self = .appPriceSchedule
+                    case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
                     case "appStoreVersions": self = .appStoreVersions
                     case "availableInNewTerritories": self = .availableInNewTerritories
                     case "availableTerritories": self = .availableTerritories
@@ -314,6 +362,7 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                 case appEvent
                 case appStoreVersion
                 case appStoreVersionExperiment
+                case appStoreVersionExperimentV2
                 case removed
                 case resolved
                 case reviewSubmission
@@ -326,6 +375,7 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                     case .appEvent: return "appEvent"
                     case .appStoreVersion: return "appStoreVersion"
                     case .appStoreVersionExperiment: return "appStoreVersionExperiment"
+                    case .appStoreVersionExperimentV2: return "appStoreVersionExperimentV2"
                     case .removed: return "removed"
                     case .resolved: return "resolved"
                     case .reviewSubmission: return "reviewSubmission"
@@ -340,6 +390,7 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                     case "appEvent": self = .appEvent
                     case "appStoreVersion": self = .appStoreVersion
                     case "appStoreVersionExperiment": self = .appStoreVersionExperiment
+                    case "appStoreVersionExperimentV2": self = .appStoreVersionExperimentV2
                     case "removed": self = .removed
                     case "resolved": self = .resolved
                     case "reviewSubmission": self = .reviewSubmission
@@ -354,9 +405,11 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                 case appStoreVersionForReview
                 case canceled
                 case items
+                case lastUpdatedByActor
                 case platform
                 case state
                 case submitted
+                case submittedByActor
                 case submittedDate
                 case unknown(String)
 
@@ -366,9 +419,11 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                     case .appStoreVersionForReview: return "appStoreVersionForReview"
                     case .canceled: return "canceled"
                     case .items: return "items"
+                    case .lastUpdatedByActor: return "lastUpdatedByActor"
                     case .platform: return "platform"
                     case .state: return "state"
                     case .submitted: return "submitted"
+                    case .submittedByActor: return "submittedByActor"
                     case .submittedDate: return "submittedDate"
                     case .unknown(let rawValue): return rawValue
                     }
@@ -380,9 +435,11 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                     case "appStoreVersionForReview": self = .appStoreVersionForReview
                     case "canceled": self = .canceled
                     case "items": self = .items
+                    case "lastUpdatedByActor": self = .lastUpdatedByActor
                     case "platform": self = .platform
                     case "state": self = .state
                     case "submitted": self = .submitted
+                    case "submittedByActor": self = .submittedByActor
                     case "submittedDate": self = .submittedDate
                     default: self = .unknown(rawValue)
                     }
@@ -390,6 +447,11 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type actors
+                public static var actors: Relation<[Actors]?> {
+                    .init(key: "fields[actors]")
+                }
+
                 /// the fields to include for returned resources of type appStoreVersions
                 public static var appStoreVersions: Relation<[AppStoreVersions]?> {
                     .init(key: "fields[appStoreVersions]")
@@ -511,6 +573,8 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
             case app
             case appStoreVersionForReview
             case items
+            case lastUpdatedByActor
+            case submittedByActor
             case unknown(String)
 
             public var rawValue: String {
@@ -518,6 +582,8 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                 case .app: return "app"
                 case .appStoreVersionForReview: return "appStoreVersionForReview"
                 case .items: return "items"
+                case .lastUpdatedByActor: return "lastUpdatedByActor"
+                case .submittedByActor: return "submittedByActor"
                 case .unknown(let rawValue): return rawValue
                 }
             }
@@ -527,6 +593,8 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                 case "app": self = .app
                 case "appStoreVersionForReview": self = .appStoreVersionForReview
                 case "items": self = .items
+                case "lastUpdatedByActor": self = .lastUpdatedByActor
+                case "submittedByActor": self = .submittedByActor
                 default: self = .unknown(rawValue)
                 }
             }

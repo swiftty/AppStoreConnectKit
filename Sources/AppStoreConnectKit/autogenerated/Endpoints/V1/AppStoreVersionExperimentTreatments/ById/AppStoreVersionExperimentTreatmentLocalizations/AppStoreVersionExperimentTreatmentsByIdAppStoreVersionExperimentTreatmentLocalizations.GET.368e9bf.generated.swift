@@ -201,6 +201,7 @@ extension V1.AppStoreVersionExperimentTreatments.ById.AppStoreVersionExperimentT
                 case appIconName
                 case appStoreVersionExperiment
                 case appStoreVersionExperimentTreatmentLocalizations
+                case appStoreVersionExperimentV2
                 case name
                 case promotedDate
                 case unknown(String)
@@ -211,6 +212,7 @@ extension V1.AppStoreVersionExperimentTreatments.ById.AppStoreVersionExperimentT
                     case .appIconName: return "appIconName"
                     case .appStoreVersionExperiment: return "appStoreVersionExperiment"
                     case .appStoreVersionExperimentTreatmentLocalizations: return "appStoreVersionExperimentTreatmentLocalizations"
+                    case .appStoreVersionExperimentV2: return "appStoreVersionExperimentV2"
                     case .name: return "name"
                     case .promotedDate: return "promotedDate"
                     case .unknown(let rawValue): return rawValue
@@ -223,6 +225,7 @@ extension V1.AppStoreVersionExperimentTreatments.ById.AppStoreVersionExperimentT
                     case "appIconName": self = .appIconName
                     case "appStoreVersionExperiment": self = .appStoreVersionExperiment
                     case "appStoreVersionExperimentTreatmentLocalizations": self = .appStoreVersionExperimentTreatmentLocalizations
+                    case "appStoreVersionExperimentV2": self = .appStoreVersionExperimentV2
                     case "name": self = .name
                     case "promotedDate": self = .promotedDate
                     default: self = .unknown(rawValue)
