@@ -6,11 +6,11 @@ import Foundation
 public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
     public var data: Data
 
-    public var included: [InAppPurchasePriceInlineCreate]?
+    public var included: [Included]?
 
     public init(
         data: Data,
-        included: [InAppPurchasePriceInlineCreate]? = nil
+        included: [Included]? = nil
     ) {
         self.data = data
         self.included = included
@@ -44,21 +44,61 @@ public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
         }
 
         public struct Relationships: Hashable, Codable {
+            public var baseTerritory: BaseTerritory?
+
             public var inAppPurchase: InAppPurchase
 
             public var manualPrices: ManualPrices
 
             public init(
+                baseTerritory: BaseTerritory? = nil,
                 inAppPurchase: InAppPurchase,
                 manualPrices: ManualPrices
             ) {
+                self.baseTerritory = baseTerritory
                 self.inAppPurchase = inAppPurchase
                 self.manualPrices = manualPrices
             }
 
             private enum CodingKeys: String, CodingKey {
+                case baseTerritory
                 case inAppPurchase
                 case manualPrices
+            }
+
+            public struct BaseTerritory: Hashable, Codable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable {
+                        case territories
+                    }
+                }
             }
 
             public struct InAppPurchase: Hashable, Codable {
@@ -129,6 +169,38 @@ public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
                         case inAppPurchasePrices
                     }
                 }
+            }
+        }
+    }
+
+    public enum Included: Hashable, Codable {
+        case inAppPurchasePriceInlineCreate(InAppPurchasePriceInlineCreate)
+        case territoryInlineCreate(TerritoryInlineCreate)
+
+        public init(from decoder: Decoder) throws {
+            self = try {
+                var lastError: Error!
+                do {
+                    return .inAppPurchasePriceInlineCreate(try InAppPurchasePriceInlineCreate(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .territoryInlineCreate(try TerritoryInlineCreate(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                throw lastError
+            }()
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            switch self {
+            case .inAppPurchasePriceInlineCreate(let value):
+                try value.encode(to: encoder)
+
+            case .territoryInlineCreate(let value):
+                try value.encode(to: encoder)
             }
         }
     }

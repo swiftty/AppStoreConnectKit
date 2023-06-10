@@ -126,6 +126,8 @@ public struct AppStoreVersion: Hashable, Codable {
 
         public var appStoreVersionExperiments: AppStoreVersionExperiments?
 
+        public var appStoreVersionExperimentsV2: AppStoreVersionExperimentsV2?
+
         public var appStoreVersionLocalizations: AppStoreVersionLocalizations?
 
         public var appStoreVersionPhasedRelease: AppStoreVersionPhasedRelease?
@@ -142,6 +144,7 @@ public struct AppStoreVersion: Hashable, Codable {
             appClipDefaultExperience: AppClipDefaultExperience? = nil,
             appStoreReviewDetail: AppStoreReviewDetail? = nil,
             appStoreVersionExperiments: AppStoreVersionExperiments? = nil,
+            appStoreVersionExperimentsV2: AppStoreVersionExperimentsV2? = nil,
             appStoreVersionLocalizations: AppStoreVersionLocalizations? = nil,
             appStoreVersionPhasedRelease: AppStoreVersionPhasedRelease? = nil,
             appStoreVersionSubmission: AppStoreVersionSubmission? = nil,
@@ -153,6 +156,7 @@ public struct AppStoreVersion: Hashable, Codable {
             self.appClipDefaultExperience = appClipDefaultExperience
             self.appStoreReviewDetail = appStoreReviewDetail
             self.appStoreVersionExperiments = appStoreVersionExperiments
+            self.appStoreVersionExperimentsV2 = appStoreVersionExperimentsV2
             self.appStoreVersionLocalizations = appStoreVersionLocalizations
             self.appStoreVersionPhasedRelease = appStoreVersionPhasedRelease
             self.appStoreVersionSubmission = appStoreVersionSubmission
@@ -166,6 +170,7 @@ public struct AppStoreVersion: Hashable, Codable {
             case appClipDefaultExperience
             case appStoreReviewDetail
             case appStoreVersionExperiments
+            case appStoreVersionExperimentsV2
             case appStoreVersionLocalizations
             case appStoreVersionPhasedRelease
             case appStoreVersionSubmission
@@ -418,6 +423,72 @@ public struct AppStoreVersion: Hashable, Codable {
         }
 
         public struct AppStoreVersionExperiments: Hashable, Codable {
+            public var data: [Data]?
+
+            public var links: Links?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: Links? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case appStoreVersionExperiments
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct AppStoreVersionExperimentsV2: Hashable, Codable {
             public var data: [Data]?
 
             public var links: Links?

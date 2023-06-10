@@ -33,6 +33,7 @@ public struct InAppPurchaseV2Response: Hashable, Codable {
         case inAppPurchaseAppStoreReviewScreenshot(InAppPurchaseAppStoreReviewScreenshot)
         case promotedPurchase(PromotedPurchase)
         case inAppPurchasePriceSchedule(InAppPurchasePriceSchedule)
+        case inAppPurchaseAvailability(InAppPurchaseAvailability)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -67,6 +68,11 @@ public struct InAppPurchaseV2Response: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .inAppPurchaseAvailability(try InAppPurchaseAvailability(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -89,6 +95,9 @@ public struct InAppPurchaseV2Response: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .inAppPurchasePriceSchedule(let value):
+                try value.encode(to: encoder)
+
+            case .inAppPurchaseAvailability(let value):
                 try value.encode(to: encoder)
             }
         }

@@ -36,13 +36,20 @@ public struct InAppPurchasePriceInlineCreate: Hashable, Codable {
     }
 
     public struct Attributes: Hashable, Codable {
+        public var endDate: String?
+
         public var startDate: String?
 
-        public init(startDate: String? = nil) {
+        public init(
+            endDate: String? = nil,
+            startDate: String? = nil
+        ) {
+            self.endDate = endDate
             self.startDate = startDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case endDate
             case startDate
         }
     }

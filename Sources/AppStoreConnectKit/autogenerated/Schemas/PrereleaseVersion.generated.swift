@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct PrereleaseVersion: Hashable, Codable {
+public struct PreReleaseVersion: Hashable, Codable {
     public var id: String
 
     public var type: `Type`

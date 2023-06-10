@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppEncryptionDeclarations.ById.Relationships.Builds {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = AppEncryptionDeclarationBuildsLinkagesRequest
         public typealias Response = Void

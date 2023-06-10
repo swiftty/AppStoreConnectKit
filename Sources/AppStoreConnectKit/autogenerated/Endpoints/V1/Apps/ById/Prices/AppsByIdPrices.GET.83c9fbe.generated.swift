@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.Apps.ById.Prices {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = AppPricesResponse
 
@@ -138,10 +139,14 @@ extension V1.Apps.ById.Prices.GET {
             }
 
             public enum Apps: Hashable, Codable, RawRepresentable {
+                case appAvailability
                 case appClips
                 case appCustomProductPages
                 case appEvents
                 case appInfos
+                case appPricePoints
+                case appPriceSchedule
+                case appStoreVersionExperimentsV2
                 case appStoreVersions
                 case availableInNewTerritories
                 case availableTerritories
@@ -180,10 +185,14 @@ extension V1.Apps.ById.Prices.GET {
 
                 public var rawValue: String {
                     switch self {
+                    case .appAvailability: return "appAvailability"
                     case .appClips: return "appClips"
                     case .appCustomProductPages: return "appCustomProductPages"
                     case .appEvents: return "appEvents"
                     case .appInfos: return "appInfos"
+                    case .appPricePoints: return "appPricePoints"
+                    case .appPriceSchedule: return "appPriceSchedule"
+                    case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
                     case .appStoreVersions: return "appStoreVersions"
                     case .availableInNewTerritories: return "availableInNewTerritories"
                     case .availableTerritories: return "availableTerritories"
@@ -224,10 +233,14 @@ extension V1.Apps.ById.Prices.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "appAvailability": self = .appAvailability
                     case "appClips": self = .appClips
                     case "appCustomProductPages": self = .appCustomProductPages
                     case "appEvents": self = .appEvents
                     case "appInfos": self = .appInfos
+                    case "appPricePoints": self = .appPricePoints
+                    case "appPriceSchedule": self = .appPriceSchedule
+                    case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
                     case "appStoreVersions": self = .appStoreVersions
                     case "availableInNewTerritories": self = .availableInNewTerritories
                     case "availableTerritories": self = .availableTerritories

@@ -33,6 +33,7 @@ public struct AppStoreVersionExperimentTreatmentsResponse: Hashable, Codable {
 
     public enum Included: Hashable, Codable {
         case appStoreVersionExperiment(AppStoreVersionExperiment)
+        case appStoreVersionExperimentV2(AppStoreVersionExperimentV2)
         case appStoreVersionExperimentTreatmentLocalization(AppStoreVersionExperimentTreatmentLocalization)
 
         public init(from decoder: Decoder) throws {
@@ -40,6 +41,11 @@ public struct AppStoreVersionExperimentTreatmentsResponse: Hashable, Codable {
                 var lastError: Error!
                 do {
                     return .appStoreVersionExperiment(try AppStoreVersionExperiment(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appStoreVersionExperimentV2(try AppStoreVersionExperimentV2(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -55,6 +61,9 @@ public struct AppStoreVersionExperimentTreatmentsResponse: Hashable, Codable {
         public func encode(to encoder: Encoder) throws {
             switch self {
             case .appStoreVersionExperiment(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersionExperimentV2(let value):
                 try value.encode(to: encoder)
 
             case .appStoreVersionExperimentTreatmentLocalization(let value):

@@ -130,6 +130,7 @@ public struct AppEncryptionDeclaration: Hashable, Codable {
 
         public var appEncryptionDeclarationDocument: AppEncryptionDeclarationDocument?
 
+        @available(*, deprecated)
         public var builds: Builds?
 
         public init(

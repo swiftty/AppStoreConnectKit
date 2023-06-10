@@ -63,18 +63,60 @@ public struct AppStoreVersionExperimentTreatmentCreateRequest: Hashable, Codable
         public struct Relationships: Hashable, Codable {
             public var appStoreVersionExperiment: AppStoreVersionExperiment
 
-            public init(appStoreVersionExperiment: AppStoreVersionExperiment) {
+            public var appStoreVersionExperimentV2: AppStoreVersionExperimentV2?
+
+            public init(
+                appStoreVersionExperiment: AppStoreVersionExperiment,
+                appStoreVersionExperimentV2: AppStoreVersionExperimentV2? = nil
+            ) {
                 self.appStoreVersionExperiment = appStoreVersionExperiment
+                self.appStoreVersionExperimentV2 = appStoreVersionExperimentV2
             }
 
             private enum CodingKeys: String, CodingKey {
                 case appStoreVersionExperiment
+                case appStoreVersionExperimentV2
             }
 
             public struct AppStoreVersionExperiment: Hashable, Codable {
                 public var data: Data
 
                 public init(data: Data) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable {
+                        case appStoreVersionExperiments
+                    }
+                }
+            }
+
+            public struct AppStoreVersionExperimentV2: Hashable, Codable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
                     self.data = data
                 }
 

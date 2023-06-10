@@ -35,6 +35,7 @@ public struct SubscriptionResponse: Hashable, Codable {
         case subscriptionOfferCode(SubscriptionOfferCode)
         case subscriptionPrice(SubscriptionPrice)
         case promotedPurchase(PromotedPurchase)
+        case subscriptionAvailability(SubscriptionAvailability)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -79,6 +80,11 @@ public struct SubscriptionResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .subscriptionAvailability(try SubscriptionAvailability(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -107,6 +113,9 @@ public struct SubscriptionResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .promotedPurchase(let value):
+                try value.encode(to: encoder)
+
+            case .subscriptionAvailability(let value):
                 try value.encode(to: encoder)
             }
         }

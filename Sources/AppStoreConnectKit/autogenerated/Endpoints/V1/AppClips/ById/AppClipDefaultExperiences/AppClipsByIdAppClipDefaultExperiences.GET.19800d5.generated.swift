@@ -247,6 +247,7 @@ extension V1.AppClips.ById.AppClipDefaultExperiences.GET {
                 case appStoreReviewDetail
                 case appStoreState
                 case appStoreVersionExperiments
+                case appStoreVersionExperimentsV2
                 case appStoreVersionLocalizations
                 case appStoreVersionPhasedRelease
                 case appStoreVersionSubmission
@@ -270,6 +271,7 @@ extension V1.AppClips.ById.AppClipDefaultExperiences.GET {
                     case .appStoreReviewDetail: return "appStoreReviewDetail"
                     case .appStoreState: return "appStoreState"
                     case .appStoreVersionExperiments: return "appStoreVersionExperiments"
+                    case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
                     case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
                     case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
                     case .appStoreVersionSubmission: return "appStoreVersionSubmission"
@@ -295,6 +297,7 @@ extension V1.AppClips.ById.AppClipDefaultExperiences.GET {
                     case "appStoreReviewDetail": self = .appStoreReviewDetail
                     case "appStoreState": self = .appStoreState
                     case "appStoreVersionExperiments": self = .appStoreVersionExperiments
+                    case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
                     case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
                     case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
                     case "appStoreVersionSubmission": self = .appStoreVersionSubmission

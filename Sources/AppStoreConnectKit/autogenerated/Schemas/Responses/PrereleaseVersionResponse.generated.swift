@@ -3,15 +3,15 @@
 // swiftlint:disable all
 import Foundation
 
-public struct PrereleaseVersionResponse: Hashable, Codable {
-    public var data: PrereleaseVersion
+public struct PreReleaseVersionResponse: Hashable, Codable {
+    public var data: PreReleaseVersion
 
     public var included: [Included]?
 
     public var links: DocumentLinks
 
     public init(
-        data: PrereleaseVersion,
+        data: PreReleaseVersion,
         included: [Included]? = nil,
         links: DocumentLinks
     ) {

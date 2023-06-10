@@ -108,6 +108,7 @@ extension V1.Apps.ById.PromotedPurchases.GET {
                 case contentHosting
                 case familySharable
                 case iapPriceSchedule
+                case inAppPurchaseAvailability
                 case inAppPurchaseLocalizations
                 case inAppPurchaseType
                 case name
@@ -127,6 +128,7 @@ extension V1.Apps.ById.PromotedPurchases.GET {
                     case .contentHosting: return "contentHosting"
                     case .familySharable: return "familySharable"
                     case .iapPriceSchedule: return "iapPriceSchedule"
+                    case .inAppPurchaseAvailability: return "inAppPurchaseAvailability"
                     case .inAppPurchaseLocalizations: return "inAppPurchaseLocalizations"
                     case .inAppPurchaseType: return "inAppPurchaseType"
                     case .name: return "name"
@@ -148,6 +150,7 @@ extension V1.Apps.ById.PromotedPurchases.GET {
                     case "contentHosting": self = .contentHosting
                     case "familySharable": self = .familySharable
                     case "iapPriceSchedule": self = .iapPriceSchedule
+                    case "inAppPurchaseAvailability": self = .inAppPurchaseAvailability
                     case "inAppPurchaseLocalizations": self = .inAppPurchaseLocalizations
                     case "inAppPurchaseType": self = .inAppPurchaseType
                     case "name": self = .name
@@ -260,6 +263,7 @@ extension V1.Apps.ById.PromotedPurchases.GET {
                 case promotionalOffers
                 case reviewNote
                 case state
+                case subscriptionAvailability
                 case subscriptionLocalizations
                 case subscriptionPeriod
                 case unknown(String)
@@ -281,6 +285,7 @@ extension V1.Apps.ById.PromotedPurchases.GET {
                     case .promotionalOffers: return "promotionalOffers"
                     case .reviewNote: return "reviewNote"
                     case .state: return "state"
+                    case .subscriptionAvailability: return "subscriptionAvailability"
                     case .subscriptionLocalizations: return "subscriptionLocalizations"
                     case .subscriptionPeriod: return "subscriptionPeriod"
                     case .unknown(let rawValue): return rawValue
@@ -304,6 +309,7 @@ extension V1.Apps.ById.PromotedPurchases.GET {
                     case "promotionalOffers": self = .promotionalOffers
                     case "reviewNote": self = .reviewNote
                     case "state": self = .state
+                    case "subscriptionAvailability": self = .subscriptionAvailability
                     case "subscriptionLocalizations": self = .subscriptionLocalizations
                     case "subscriptionPeriod": self = .subscriptionPeriod
                     default: self = .unknown(rawValue)

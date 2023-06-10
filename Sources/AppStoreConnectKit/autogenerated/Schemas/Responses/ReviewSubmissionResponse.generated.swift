@@ -30,6 +30,7 @@ public struct ReviewSubmissionResponse: Hashable, Codable {
         case app(App)
         case reviewSubmissionItem(ReviewSubmissionItem)
         case appStoreVersion(AppStoreVersion)
+        case actor(Actor)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -49,6 +50,11 @@ public struct ReviewSubmissionResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .actor(try Actor(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -62,6 +68,9 @@ public struct ReviewSubmissionResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .appStoreVersion(let value):
+                try value.encode(to: encoder)
+
+            case .actor(let value):
                 try value.encode(to: encoder)
             }
         }

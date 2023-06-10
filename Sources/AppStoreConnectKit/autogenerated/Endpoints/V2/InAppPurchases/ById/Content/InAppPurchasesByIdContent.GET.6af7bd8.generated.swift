@@ -128,6 +128,7 @@ extension V2.InAppPurchases.ById.Content.GET {
                 case contentHosting
                 case familySharable
                 case iapPriceSchedule
+                case inAppPurchaseAvailability
                 case inAppPurchaseLocalizations
                 case inAppPurchaseType
                 case name
@@ -147,6 +148,7 @@ extension V2.InAppPurchases.ById.Content.GET {
                     case .contentHosting: return "contentHosting"
                     case .familySharable: return "familySharable"
                     case .iapPriceSchedule: return "iapPriceSchedule"
+                    case .inAppPurchaseAvailability: return "inAppPurchaseAvailability"
                     case .inAppPurchaseLocalizations: return "inAppPurchaseLocalizations"
                     case .inAppPurchaseType: return "inAppPurchaseType"
                     case .name: return "name"
@@ -168,6 +170,7 @@ extension V2.InAppPurchases.ById.Content.GET {
                     case "contentHosting": self = .contentHosting
                     case "familySharable": self = .familySharable
                     case "iapPriceSchedule": self = .iapPriceSchedule
+                    case "inAppPurchaseAvailability": self = .inAppPurchaseAvailability
                     case "inAppPurchaseLocalizations": self = .inAppPurchaseLocalizations
                     case "inAppPurchaseType": self = .inAppPurchaseType
                     case "name": self = .name

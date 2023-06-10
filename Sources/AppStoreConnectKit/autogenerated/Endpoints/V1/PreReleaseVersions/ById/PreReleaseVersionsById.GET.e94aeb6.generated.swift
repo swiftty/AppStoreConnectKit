@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.PreReleaseVersions.ById {
     public struct GET: Endpoint {
-        public typealias Response = PrereleaseVersionResponse
+        public typealias Response = PreReleaseVersionResponse
 
         public var path: String {
             "/v1/preReleaseVersions/\(id)"
@@ -48,7 +48,7 @@ extension V1.PreReleaseVersions.ById {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single PrereleaseVersion as `PrereleaseVersionResponse`
+        /// - Returns: **200**, Single PreReleaseVersion as `PreReleaseVersionResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -60,7 +60,7 @@ extension V1.PreReleaseVersions.ById {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(PrereleaseVersionResponse.self, from: data)
+                return try jsonDecoder.decode(PreReleaseVersionResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
@@ -96,10 +96,14 @@ extension V1.PreReleaseVersions.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public enum Apps: Hashable, Codable, RawRepresentable {
+                case appAvailability
                 case appClips
                 case appCustomProductPages
                 case appEvents
                 case appInfos
+                case appPricePoints
+                case appPriceSchedule
+                case appStoreVersionExperimentsV2
                 case appStoreVersions
                 case availableInNewTerritories
                 case availableTerritories
@@ -138,10 +142,14 @@ extension V1.PreReleaseVersions.ById.GET {
 
                 public var rawValue: String {
                     switch self {
+                    case .appAvailability: return "appAvailability"
                     case .appClips: return "appClips"
                     case .appCustomProductPages: return "appCustomProductPages"
                     case .appEvents: return "appEvents"
                     case .appInfos: return "appInfos"
+                    case .appPricePoints: return "appPricePoints"
+                    case .appPriceSchedule: return "appPriceSchedule"
+                    case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
                     case .appStoreVersions: return "appStoreVersions"
                     case .availableInNewTerritories: return "availableInNewTerritories"
                     case .availableTerritories: return "availableTerritories"
@@ -182,10 +190,14 @@ extension V1.PreReleaseVersions.ById.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "appAvailability": self = .appAvailability
                     case "appClips": self = .appClips
                     case "appCustomProductPages": self = .appCustomProductPages
                     case "appEvents": self = .appEvents
                     case "appInfos": self = .appInfos
+                    case "appPricePoints": self = .appPricePoints
+                    case "appPriceSchedule": self = .appPriceSchedule
+                    case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
                     case "appStoreVersions": self = .appStoreVersions
                     case "availableInNewTerritories": self = .availableInNewTerritories
                     case "availableTerritories": self = .availableTerritories

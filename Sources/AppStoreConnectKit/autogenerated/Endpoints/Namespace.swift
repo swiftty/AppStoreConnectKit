@@ -4,8 +4,18 @@
 import Foundation
 
 public enum V1 {
+    public enum Actors {
+        public enum ById {}
+    }
+
     public enum AgeRatingDeclarations {
         public enum ById {}
+    }
+
+    public enum AppAvailabilities {
+        public enum ById {
+            public enum AvailableTerritories {}
+        }
     }
 
     public enum AppCategories {
@@ -166,6 +176,16 @@ public enum V1 {
         }
     }
 
+    public enum AppPriceSchedules {
+        public enum ById {
+            public enum AutomaticPrices {}
+
+            public enum BaseTerritory {}
+
+            public enum ManualPrices {}
+        }
+    }
+
     public enum AppPriceTiers {
         public enum ById {
             public enum PricePoints {}
@@ -250,6 +270,8 @@ public enum V1 {
 
             public enum AppStoreVersionExperiments {}
 
+            public enum AppStoreVersionExperimentsV2 {}
+
             public enum AppStoreVersionLocalizations {}
 
             public enum AppStoreVersionPhasedRelease {}
@@ -272,6 +294,8 @@ public enum V1 {
 
     public enum Apps {
         public enum ById {
+            public enum AppAvailability {}
+
             public enum AppClips {}
 
             public enum AppCustomProductPages {}
@@ -279,6 +303,12 @@ public enum V1 {
             public enum AppEvents {}
 
             public enum AppInfos {}
+
+            public enum AppPricePoints {}
+
+            public enum AppPriceSchedule {}
+
+            public enum AppStoreVersionExperimentsV2 {}
 
             public enum AppStoreVersions {}
 
@@ -586,6 +616,12 @@ public enum V1 {
         public enum ById {}
     }
 
+    public enum InAppPurchaseAvailabilities {
+        public enum ById {
+            public enum AvailableTerritories {}
+        }
+    }
+
     public enum InAppPurchaseContents {
         public enum ById {}
     }
@@ -596,6 +632,10 @@ public enum V1 {
 
     public enum InAppPurchasePriceSchedules {
         public enum ById {
+            public enum AutomaticPrices {}
+
+            public enum BaseTerritory {}
+
             public enum ManualPrices {}
         }
     }
@@ -674,6 +714,12 @@ public enum V1 {
 
     public enum SubscriptionAppStoreReviewScreenshots {
         public enum ById {}
+    }
+
+    public enum SubscriptionAvailabilities {
+        public enum ById {
+            public enum AvailableTerritories {}
+        }
     }
 
     public enum SubscriptionGracePeriods {
@@ -762,6 +808,8 @@ public enum V1 {
                 public enum Prices {}
             }
 
+            public enum SubscriptionAvailability {}
+
             public enum SubscriptionLocalizations {}
         }
     }
@@ -785,6 +833,12 @@ public enum V1 {
     }
 }
 public enum V2 {
+    public enum AppStoreVersionExperiments {
+        public enum ById {
+            public enum AppStoreVersionExperimentTreatments {}
+        }
+    }
+
     public enum InAppPurchases {
         public enum ById {
             public enum AppStoreReviewScreenshot {}
@@ -792,6 +846,8 @@ public enum V2 {
             public enum Content {}
 
             public enum IapPriceSchedule {}
+
+            public enum InAppPurchaseAvailability {}
 
             public enum InAppPurchaseLocalizations {}
 
@@ -806,6 +862,13 @@ public enum V2 {
     }
 
     public enum SandboxTestersClearPurchaseHistoryRequest {}
+}
+public enum V3 {
+    public enum AppPricePoints {
+        public enum ById {
+            public enum Equalizations {}
+        }
+    }
 }
 
 // swiftlint:enable all

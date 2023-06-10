@@ -30,6 +30,8 @@ extension V2.InAppPurchases.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[inAppPurchaseAppStoreReviewScreenshots]",
                              value: parameters.fields[.inAppPurchaseAppStoreReviewScreenshots]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[inAppPurchaseAvailabilities]",
+                             value: parameters.fields[.inAppPurchaseAvailabilities]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchaseContents]",
                              value: parameters.fields[.inAppPurchaseContents]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchaseLocalizations]",
@@ -151,6 +153,31 @@ extension V2.InAppPurchases.ById.GET {
                 }
             }
 
+            public enum InAppPurchaseAvailabilities: Hashable, Codable, RawRepresentable {
+                case availableInNewTerritories
+                case availableTerritories
+                case inAppPurchase
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .availableInNewTerritories: return "availableInNewTerritories"
+                    case .availableTerritories: return "availableTerritories"
+                    case .inAppPurchase: return "inAppPurchase"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "availableInNewTerritories": self = .availableInNewTerritories
+                    case "availableTerritories": self = .availableTerritories
+                    case "inAppPurchase": self = .inAppPurchase
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum InAppPurchaseContents: Hashable, Codable, RawRepresentable {
                 case fileName
                 case fileSize
@@ -245,12 +272,16 @@ extension V2.InAppPurchases.ById.GET {
             }
 
             public enum InAppPurchasePriceSchedules: Hashable, Codable, RawRepresentable {
+                case automaticPrices
+                case baseTerritory
                 case inAppPurchase
                 case manualPrices
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
+                    case .automaticPrices: return "automaticPrices"
+                    case .baseTerritory: return "baseTerritory"
                     case .inAppPurchase: return "inAppPurchase"
                     case .manualPrices: return "manualPrices"
                     case .unknown(let rawValue): return rawValue
@@ -259,6 +290,8 @@ extension V2.InAppPurchases.ById.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "automaticPrices": self = .automaticPrices
+                    case "baseTerritory": self = .baseTerritory
                     case "inAppPurchase": self = .inAppPurchase
                     case "manualPrices": self = .manualPrices
                     default: self = .unknown(rawValue)
@@ -274,6 +307,7 @@ extension V2.InAppPurchases.ById.GET {
                 case contentHosting
                 case familySharable
                 case iapPriceSchedule
+                case inAppPurchaseAvailability
                 case inAppPurchaseLocalizations
                 case inAppPurchaseType
                 case name
@@ -293,6 +327,7 @@ extension V2.InAppPurchases.ById.GET {
                     case .contentHosting: return "contentHosting"
                     case .familySharable: return "familySharable"
                     case .iapPriceSchedule: return "iapPriceSchedule"
+                    case .inAppPurchaseAvailability: return "inAppPurchaseAvailability"
                     case .inAppPurchaseLocalizations: return "inAppPurchaseLocalizations"
                     case .inAppPurchaseType: return "inAppPurchaseType"
                     case .name: return "name"
@@ -314,6 +349,7 @@ extension V2.InAppPurchases.ById.GET {
                     case "contentHosting": self = .contentHosting
                     case "familySharable": self = .familySharable
                     case "iapPriceSchedule": self = .iapPriceSchedule
+                    case "inAppPurchaseAvailability": self = .inAppPurchaseAvailability
                     case "inAppPurchaseLocalizations": self = .inAppPurchaseLocalizations
                     case "inAppPurchaseType": self = .inAppPurchaseType
                     case "name": self = .name
@@ -370,6 +406,11 @@ extension V2.InAppPurchases.ById.GET {
                     .init(key: "fields[inAppPurchaseAppStoreReviewScreenshots]")
                 }
 
+                /// the fields to include for returned resources of type inAppPurchaseAvailabilities
+                public static var inAppPurchaseAvailabilities: Relation<[InAppPurchaseAvailabilities]?> {
+                    .init(key: "fields[inAppPurchaseAvailabilities]")
+                }
+
                 /// the fields to include for returned resources of type inAppPurchaseContents
                 public static var inAppPurchaseContents: Relation<[InAppPurchaseContents]?> {
                     .init(key: "fields[inAppPurchaseContents]")
@@ -412,6 +453,7 @@ extension V2.InAppPurchases.ById.GET {
             case appStoreReviewScreenshot
             case content
             case iapPriceSchedule
+            case inAppPurchaseAvailability
             case inAppPurchaseLocalizations
             case pricePoints
             case promotedPurchase
@@ -422,6 +464,7 @@ extension V2.InAppPurchases.ById.GET {
                 case .appStoreReviewScreenshot: return "appStoreReviewScreenshot"
                 case .content: return "content"
                 case .iapPriceSchedule: return "iapPriceSchedule"
+                case .inAppPurchaseAvailability: return "inAppPurchaseAvailability"
                 case .inAppPurchaseLocalizations: return "inAppPurchaseLocalizations"
                 case .pricePoints: return "pricePoints"
                 case .promotedPurchase: return "promotedPurchase"
@@ -434,6 +477,7 @@ extension V2.InAppPurchases.ById.GET {
                 case "appStoreReviewScreenshot": self = .appStoreReviewScreenshot
                 case "content": self = .content
                 case "iapPriceSchedule": self = .iapPriceSchedule
+                case "inAppPurchaseAvailability": self = .inAppPurchaseAvailability
                 case "inAppPurchaseLocalizations": self = .inAppPurchaseLocalizations
                 case "pricePoints": self = .pricePoints
                 case "promotedPurchase": self = .promotedPurchase

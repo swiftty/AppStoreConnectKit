@@ -52,6 +52,8 @@ extension V1.AppStoreVersions.ById {
                              value: parameters.fields[.routingAppCoverages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit[appStoreVersionExperimentsV2]",
+                             value: parameters.limit[.appStoreVersionExperimentsV2].map { "\($0)" }),
                 URLQueryItem(name: "limit[appStoreVersionExperiments]",
                              value: parameters.limit[.appStoreVersionExperiments].map { "\($0)" }),
                 URLQueryItem(name: "limit[appStoreVersionLocalizations]",
@@ -261,10 +263,13 @@ extension V1.AppStoreVersions.ById.GET {
             }
 
             public enum AppStoreVersionExperiments: Hashable, Codable, RawRepresentable {
-                case appStoreVersion
+                case app
                 case appStoreVersionExperimentTreatments
+                case controlVersions
                 case endDate
+                case latestControlVersion
                 case name
+                case platform
                 case reviewRequired
                 case startDate
                 case started
@@ -274,10 +279,13 @@ extension V1.AppStoreVersions.ById.GET {
 
                 public var rawValue: String {
                     switch self {
-                    case .appStoreVersion: return "appStoreVersion"
+                    case .app: return "app"
                     case .appStoreVersionExperimentTreatments: return "appStoreVersionExperimentTreatments"
+                    case .controlVersions: return "controlVersions"
                     case .endDate: return "endDate"
+                    case .latestControlVersion: return "latestControlVersion"
                     case .name: return "name"
+                    case .platform: return "platform"
                     case .reviewRequired: return "reviewRequired"
                     case .startDate: return "startDate"
                     case .started: return "started"
@@ -289,10 +297,13 @@ extension V1.AppStoreVersions.ById.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
-                    case "appStoreVersion": self = .appStoreVersion
+                    case "app": self = .app
                     case "appStoreVersionExperimentTreatments": self = .appStoreVersionExperimentTreatments
+                    case "controlVersions": self = .controlVersions
                     case "endDate": self = .endDate
+                    case "latestControlVersion": self = .latestControlVersion
                     case "name": self = .name
+                    case "platform": self = .platform
                     case "reviewRequired": self = .reviewRequired
                     case "startDate": self = .startDate
                     case "started": self = .started
@@ -406,6 +417,7 @@ extension V1.AppStoreVersions.ById.GET {
                 case appStoreReviewDetail
                 case appStoreState
                 case appStoreVersionExperiments
+                case appStoreVersionExperimentsV2
                 case appStoreVersionLocalizations
                 case appStoreVersionPhasedRelease
                 case appStoreVersionSubmission
@@ -429,6 +441,7 @@ extension V1.AppStoreVersions.ById.GET {
                     case .appStoreReviewDetail: return "appStoreReviewDetail"
                     case .appStoreState: return "appStoreState"
                     case .appStoreVersionExperiments: return "appStoreVersionExperiments"
+                    case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
                     case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
                     case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
                     case .appStoreVersionSubmission: return "appStoreVersionSubmission"
@@ -454,6 +467,7 @@ extension V1.AppStoreVersions.ById.GET {
                     case "appStoreReviewDetail": self = .appStoreReviewDetail
                     case "appStoreState": self = .appStoreState
                     case "appStoreVersionExperiments": self = .appStoreVersionExperiments
+                    case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
                     case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
                     case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
                     case "appStoreVersionSubmission": self = .appStoreVersionSubmission
@@ -704,6 +718,7 @@ extension V1.AppStoreVersions.ById.GET {
             case appClipDefaultExperience
             case appStoreReviewDetail
             case appStoreVersionExperiments
+            case appStoreVersionExperimentsV2
             case appStoreVersionLocalizations
             case appStoreVersionPhasedRelease
             case appStoreVersionSubmission
@@ -718,6 +733,7 @@ extension V1.AppStoreVersions.ById.GET {
                 case .appClipDefaultExperience: return "appClipDefaultExperience"
                 case .appStoreReviewDetail: return "appStoreReviewDetail"
                 case .appStoreVersionExperiments: return "appStoreVersionExperiments"
+                case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
                 case .appStoreVersionLocalizations: return "appStoreVersionLocalizations"
                 case .appStoreVersionPhasedRelease: return "appStoreVersionPhasedRelease"
                 case .appStoreVersionSubmission: return "appStoreVersionSubmission"
@@ -734,6 +750,7 @@ extension V1.AppStoreVersions.ById.GET {
                 case "appClipDefaultExperience": self = .appClipDefaultExperience
                 case "appStoreReviewDetail": self = .appStoreReviewDetail
                 case "appStoreVersionExperiments": self = .appStoreVersionExperiments
+                case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
                 case "appStoreVersionLocalizations": self = .appStoreVersionLocalizations
                 case "appStoreVersionPhasedRelease": self = .appStoreVersionPhasedRelease
                 case "appStoreVersionSubmission": self = .appStoreVersionSubmission
@@ -753,6 +770,11 @@ extension V1.AppStoreVersions.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
+                /// maximum number of related appStoreVersionExperimentsV2 returned (when they are included)
+                public static var appStoreVersionExperimentsV2: Relation<Int?> {
+                    .init(key: "limit[appStoreVersionExperimentsV2]")
+                }
+
                 /// maximum number of related appStoreVersionExperiments returned (when they are included)
                 public static var appStoreVersionExperiments: Relation<Int?> {
                     .init(key: "limit[appStoreVersionExperiments]")
