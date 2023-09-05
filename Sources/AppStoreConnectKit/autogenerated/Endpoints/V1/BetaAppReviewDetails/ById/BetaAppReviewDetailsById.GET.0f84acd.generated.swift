@@ -82,7 +82,7 @@ extension V1.BetaAppReviewDetails.ById.GET {
         public var include: [Include]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -273,24 +273,6 @@ extension V1.BetaAppReviewDetails.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type betaAppReviewDetails
-                public static var betaAppReviewDetails: Relation<[BetaAppReviewDetails]?> {
-                    .init(key: "fields[betaAppReviewDetails]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -311,6 +293,20 @@ extension V1.BetaAppReviewDetails.ById.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.BetaAppReviewDetails.ById.GET.Parameters.Fields, [V1.BetaAppReviewDetails.ById.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.BetaAppReviewDetails.ById.GET.Parameters.Fields, [V1.BetaAppReviewDetails.ById.GET.Parameters.Fields.BetaAppReviewDetails]?> {
+    /// the fields to include for returned resources of type betaAppReviewDetails
+    public static var betaAppReviewDetails: Relation {
+        .init(key: "fields[betaAppReviewDetails]")
     }
 }
 

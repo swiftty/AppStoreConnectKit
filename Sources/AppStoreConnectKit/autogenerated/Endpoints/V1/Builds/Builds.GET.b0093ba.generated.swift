@@ -143,7 +143,7 @@ extension V1.Builds.GET {
         public var sort: [Sort]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -743,78 +743,10 @@ extension V1.Builds.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appEncryptionDeclarations
-                public static var appEncryptionDeclarations: Relation<[AppEncryptionDeclarations]?> {
-                    .init(key: "fields[appEncryptionDeclarations]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersions
-                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
-                    .init(key: "fields[appStoreVersions]")
-                }
-
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type betaAppReviewSubmissions
-                public static var betaAppReviewSubmissions: Relation<[BetaAppReviewSubmissions]?> {
-                    .init(key: "fields[betaAppReviewSubmissions]")
-                }
-
-                /// the fields to include for returned resources of type betaBuildLocalizations
-                public static var betaBuildLocalizations: Relation<[BetaBuildLocalizations]?> {
-                    .init(key: "fields[betaBuildLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type betaTesters
-                public static var betaTesters: Relation<[BetaTesters]?> {
-                    .init(key: "fields[betaTesters]")
-                }
-
-                /// the fields to include for returned resources of type buildBetaDetails
-                public static var buildBetaDetails: Relation<[BuildBetaDetails]?> {
-                    .init(key: "fields[buildBetaDetails]")
-                }
-
-                /// the fields to include for returned resources of type buildIcons
-                public static var buildIcons: Relation<[BuildIcons]?> {
-                    .init(key: "fields[buildIcons]")
-                }
-
-                /// the fields to include for returned resources of type builds
-                public static var builds: Relation<[Builds]?> {
-                    .init(key: "fields[builds]")
-                }
-
-                /// the fields to include for returned resources of type diagnosticSignatures
-                public static var diagnosticSignatures: Relation<[DiagnosticSignatures]?> {
-                    .init(key: "fields[diagnosticSignatures]")
-                }
-
-                /// the fields to include for returned resources of type perfPowerMetrics
-                public static var perfPowerMetrics: Relation<[PerfPowerMetrics]?> {
-                    .init(key: "fields[perfPowerMetrics]")
-                }
-
-                /// the fields to include for returned resources of type preReleaseVersions
-                public static var preReleaseVersions: Relation<[PreReleaseVersions]?> {
-                    .init(key: "fields[preReleaseVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -923,79 +855,6 @@ extension V1.Builds.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'appStoreVersion'
-                public static var appStoreVersion: Relation<[String]?> {
-                    .init(key: "filter[appStoreVersion]")
-                }
-
-                /// filter by id(s) of related 'app'
-                public static var app: Relation<[String]?> {
-                    .init(key: "filter[app]")
-                }
-
-                /// filter by attribute 'betaAppReviewSubmission.betaReviewState'
-                public static var betaAppReviewSubmissionBetaReviewState: Relation<[BetaAppReviewSubmissionBetaReviewState]?> {
-                    .init(key: "filter[betaAppReviewSubmission.betaReviewState]")
-                }
-
-                /// filter by id(s) of related 'betaGroups'
-                public static var betaGroups: Relation<[String]?> {
-                    .init(key: "filter[betaGroups]")
-                }
-
-                /// filter by attribute 'buildAudienceType'
-                public static var buildAudienceType: Relation<[BuildAudienceType]?> {
-                    .init(key: "filter[buildAudienceType]")
-                }
-
-                /// filter by attribute 'expired'
-                public static var expired: Relation<[String]?> {
-                    .init(key: "filter[expired]")
-                }
-
-                /// filter by id(s)
-                public static var id: Relation<[String]?> {
-                    .init(key: "filter[id]")
-                }
-
-                /// filter by attribute 'preReleaseVersion.platform'
-                public static var preReleaseVersionPlatform: Relation<[PreReleaseVersionPlatform]?> {
-                    .init(key: "filter[preReleaseVersion.platform]")
-                }
-
-                /// filter by attribute 'preReleaseVersion.version'
-                public static var preReleaseVersionVersion: Relation<[String]?> {
-                    .init(key: "filter[preReleaseVersion.version]")
-                }
-
-                /// filter by id(s) of related 'preReleaseVersion'
-                public static var preReleaseVersion: Relation<[String]?> {
-                    .init(key: "filter[preReleaseVersion]")
-                }
-
-                /// filter by attribute 'processingState'
-                public static var processingState: Relation<[ProcessingState]?> {
-                    .init(key: "filter[processingState]")
-                }
-
-                /// filter by attribute 'usesNonExemptEncryption'
-                public static var usesNonExemptEncryption: Relation<[String]?> {
-                    .init(key: "filter[usesNonExemptEncryption]")
-                }
-
-                /// filter by attribute 'version'
-                public static var version: Relation<[String]?> {
-                    .init(key: "filter[version]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -1049,49 +908,16 @@ extension V1.Builds.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related betaBuildLocalizations returned (when they are included)
-                public static var betaBuildLocalizations: Relation<Int?> {
-                    .init(key: "limit[betaBuildLocalizations]")
-                }
-
-                /// maximum number of related betaGroups returned (when they are included)
-                public static var betaGroups: Relation<Int?> {
-                    .init(key: "limit[betaGroups]")
-                }
-
-                /// maximum number of related buildBundles returned (when they are included)
-                public static var buildBundles: Relation<Int?> {
-                    .init(key: "limit[buildBundles]")
-                }
-
-                /// maximum number of related icons returned (when they are included)
-                public static var icons: Relation<Int?> {
-                    .init(key: "limit[icons]")
-                }
-
-                /// maximum number of related individualTesters returned (when they are included)
-                public static var individualTesters: Relation<Int?> {
-                    .init(key: "limit[individualTesters]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Sort: Hashable, Codable, RawRepresentable {
@@ -1127,6 +953,216 @@ extension V1.Builds.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.AppEncryptionDeclarations]?> {
+    /// the fields to include for returned resources of type appEncryptionDeclarations
+    public static var appEncryptionDeclarations: Relation {
+        .init(key: "fields[appEncryptionDeclarations]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.AppStoreVersions]?> {
+    /// the fields to include for returned resources of type appStoreVersions
+    public static var appStoreVersions: Relation {
+        .init(key: "fields[appStoreVersions]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.BetaAppReviewSubmissions]?> {
+    /// the fields to include for returned resources of type betaAppReviewSubmissions
+    public static var betaAppReviewSubmissions: Relation {
+        .init(key: "fields[betaAppReviewSubmissions]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.BetaBuildLocalizations]?> {
+    /// the fields to include for returned resources of type betaBuildLocalizations
+    public static var betaBuildLocalizations: Relation {
+        .init(key: "fields[betaBuildLocalizations]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.BetaTesters]?> {
+    /// the fields to include for returned resources of type betaTesters
+    public static var betaTesters: Relation {
+        .init(key: "fields[betaTesters]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.BuildBetaDetails]?> {
+    /// the fields to include for returned resources of type buildBetaDetails
+    public static var buildBetaDetails: Relation {
+        .init(key: "fields[buildBetaDetails]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.BuildIcons]?> {
+    /// the fields to include for returned resources of type buildIcons
+    public static var buildIcons: Relation {
+        .init(key: "fields[buildIcons]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.Builds]?> {
+    /// the fields to include for returned resources of type builds
+    public static var builds: Relation {
+        .init(key: "fields[builds]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.DiagnosticSignatures]?> {
+    /// the fields to include for returned resources of type diagnosticSignatures
+    public static var diagnosticSignatures: Relation {
+        .init(key: "fields[diagnosticSignatures]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.PerfPowerMetrics]?> {
+    /// the fields to include for returned resources of type perfPowerMetrics
+    public static var perfPowerMetrics: Relation {
+        .init(key: "fields[perfPowerMetrics]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Fields, [V1.Builds.GET.Parameters.Fields.PreReleaseVersions]?> {
+    /// the fields to include for returned resources of type preReleaseVersions
+    public static var preReleaseVersions: Relation {
+        .init(key: "fields[preReleaseVersions]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'appStoreVersion'
+    public static var appStoreVersion: Relation {
+        .init(key: "filter[appStoreVersion]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'app'
+    public static var app: Relation {
+        .init(key: "filter[app]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [V1.Builds.GET.Parameters.Filter.BetaAppReviewSubmissionBetaReviewState]?> {
+    /// filter by attribute 'betaAppReviewSubmission.betaReviewState'
+    public static var betaAppReviewSubmissionBetaReviewState: Relation {
+        .init(key: "filter[betaAppReviewSubmission.betaReviewState]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'betaGroups'
+    public static var betaGroups: Relation {
+        .init(key: "filter[betaGroups]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [V1.Builds.GET.Parameters.Filter.BuildAudienceType]?> {
+    /// filter by attribute 'buildAudienceType'
+    public static var buildAudienceType: Relation {
+        .init(key: "filter[buildAudienceType]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'expired'
+    public static var expired: Relation {
+        .init(key: "filter[expired]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s)
+    public static var id: Relation {
+        .init(key: "filter[id]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [V1.Builds.GET.Parameters.Filter.PreReleaseVersionPlatform]?> {
+    /// filter by attribute 'preReleaseVersion.platform'
+    public static var preReleaseVersionPlatform: Relation {
+        .init(key: "filter[preReleaseVersion.platform]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'preReleaseVersion.version'
+    public static var preReleaseVersionVersion: Relation {
+        .init(key: "filter[preReleaseVersion.version]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'preReleaseVersion'
+    public static var preReleaseVersion: Relation {
+        .init(key: "filter[preReleaseVersion]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [V1.Builds.GET.Parameters.Filter.ProcessingState]?> {
+    /// filter by attribute 'processingState'
+    public static var processingState: Relation {
+        .init(key: "filter[processingState]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'usesNonExemptEncryption'
+    public static var usesNonExemptEncryption: Relation {
+        .init(key: "filter[usesNonExemptEncryption]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'version'
+    public static var version: Relation {
+        .init(key: "filter[version]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Limit, Int?> {
+    /// maximum number of related betaBuildLocalizations returned (when they are included)
+    public static var betaBuildLocalizations: Relation {
+        .init(key: "limit[betaBuildLocalizations]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Limit, Int?> {
+    /// maximum number of related betaGroups returned (when they are included)
+    public static var betaGroups: Relation {
+        .init(key: "limit[betaGroups]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Limit, Int?> {
+    /// maximum number of related buildBundles returned (when they are included)
+    public static var buildBundles: Relation {
+        .init(key: "limit[buildBundles]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Limit, Int?> {
+    /// maximum number of related icons returned (when they are included)
+    public static var icons: Relation {
+        .init(key: "limit[icons]")
+    }
+}
+
+extension Relation<V1.Builds.GET.Parameters.Limit, Int?> {
+    /// maximum number of related individualTesters returned (when they are included)
+    public static var individualTesters: Relation {
+        .init(key: "limit[individualTesters]")
     }
 }
 

@@ -95,7 +95,7 @@ extension V1.Apps.ById.AppCustomProductPages.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -308,51 +308,15 @@ extension V1.Apps.ById.AppCustomProductPages.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCustomProductPageVersions
-                public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
-                    .init(key: "fields[appCustomProductPageVersions]")
-                }
-
-                /// the fields to include for returned resources of type appCustomProductPages
-                public static var appCustomProductPages: Relation<[AppCustomProductPages]?> {
-                    .init(key: "fields[appCustomProductPages]")
-                }
-
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'visible'
-                public static var visible: Relation<[String]?> {
-                    .init(key: "filter[visible]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -379,30 +343,52 @@ extension V1.Apps.ById.AppCustomProductPages.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appCustomProductPageVersions returned (when they are included)
-                public static var appCustomProductPageVersions: Relation<Int?> {
-                    .init(key: "limit[appCustomProductPageVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.AppCustomProductPages.GET.Parameters.Fields, [V1.Apps.ById.AppCustomProductPages.GET.Parameters.Fields.AppCustomProductPageVersions]?> {
+    /// the fields to include for returned resources of type appCustomProductPageVersions
+    public static var appCustomProductPageVersions: Relation {
+        .init(key: "fields[appCustomProductPageVersions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppCustomProductPages.GET.Parameters.Fields, [V1.Apps.ById.AppCustomProductPages.GET.Parameters.Fields.AppCustomProductPages]?> {
+    /// the fields to include for returned resources of type appCustomProductPages
+    public static var appCustomProductPages: Relation {
+        .init(key: "fields[appCustomProductPages]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppCustomProductPages.GET.Parameters.Fields, [V1.Apps.ById.AppCustomProductPages.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppCustomProductPages.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'visible'
+    public static var visible: Relation {
+        .init(key: "filter[visible]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppCustomProductPages.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appCustomProductPageVersions returned (when they are included)
+    public static var appCustomProductPageVersions: Relation {
+        .init(key: "limit[appCustomProductPageVersions]")
     }
 }
 

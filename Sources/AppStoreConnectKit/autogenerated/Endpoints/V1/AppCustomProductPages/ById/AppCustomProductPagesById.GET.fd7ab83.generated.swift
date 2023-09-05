@@ -86,7 +86,7 @@ extension V1.AppCustomProductPages.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -157,24 +157,6 @@ extension V1.AppCustomProductPages.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCustomProductPageVersions
-                public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
-                    .init(key: "fields[appCustomProductPageVersions]")
-                }
-
-                /// the fields to include for returned resources of type appCustomProductPages
-                public static var appCustomProductPages: Relation<[AppCustomProductPages]?> {
-                    .init(key: "fields[appCustomProductPages]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -200,26 +182,34 @@ extension V1.AppCustomProductPages.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appCustomProductPageVersions returned (when they are included)
-                public static var appCustomProductPageVersions: Relation<Int?> {
-                    .init(key: "limit[appCustomProductPageVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppCustomProductPages.ById.GET.Parameters.Fields, [V1.AppCustomProductPages.ById.GET.Parameters.Fields.AppCustomProductPageVersions]?> {
+    /// the fields to include for returned resources of type appCustomProductPageVersions
+    public static var appCustomProductPageVersions: Relation {
+        .init(key: "fields[appCustomProductPageVersions]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPages.ById.GET.Parameters.Fields, [V1.AppCustomProductPages.ById.GET.Parameters.Fields.AppCustomProductPages]?> {
+    /// the fields to include for returned resources of type appCustomProductPages
+    public static var appCustomProductPages: Relation {
+        .init(key: "fields[appCustomProductPages]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPages.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appCustomProductPageVersions returned (when they are included)
+    public static var appCustomProductPageVersions: Relation {
+        .init(key: "limit[appCustomProductPageVersions]")
     }
 }
 

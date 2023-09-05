@@ -92,7 +92,7 @@ extension V1.BetaGroups.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -423,34 +423,6 @@ extension V1.BetaGroups.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type betaGroups
-                public static var betaGroups: Relation<[BetaGroups]?> {
-                    .init(key: "fields[betaGroups]")
-                }
-
-                /// the fields to include for returned resources of type betaTesters
-                public static var betaTesters: Relation<[BetaTesters]?> {
-                    .init(key: "fields[betaTesters]")
-                }
-
-                /// the fields to include for returned resources of type builds
-                public static var builds: Relation<[Builds]?> {
-                    .init(key: "fields[builds]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -479,31 +451,55 @@ extension V1.BetaGroups.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related betaTesters returned (when they are included)
-                public static var betaTesters: Relation<Int?> {
-                    .init(key: "limit[betaTesters]")
-                }
-
-                /// maximum number of related builds returned (when they are included)
-                public static var builds: Relation<Int?> {
-                    .init(key: "limit[builds]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.BetaGroups.ById.GET.Parameters.Fields, [V1.BetaGroups.ById.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.BetaGroups.ById.GET.Parameters.Fields, [V1.BetaGroups.ById.GET.Parameters.Fields.BetaGroups]?> {
+    /// the fields to include for returned resources of type betaGroups
+    public static var betaGroups: Relation {
+        .init(key: "fields[betaGroups]")
+    }
+}
+
+extension Relation<V1.BetaGroups.ById.GET.Parameters.Fields, [V1.BetaGroups.ById.GET.Parameters.Fields.BetaTesters]?> {
+    /// the fields to include for returned resources of type betaTesters
+    public static var betaTesters: Relation {
+        .init(key: "fields[betaTesters]")
+    }
+}
+
+extension Relation<V1.BetaGroups.ById.GET.Parameters.Fields, [V1.BetaGroups.ById.GET.Parameters.Fields.Builds]?> {
+    /// the fields to include for returned resources of type builds
+    public static var builds: Relation {
+        .init(key: "fields[builds]")
+    }
+}
+
+extension Relation<V1.BetaGroups.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related betaTesters returned (when they are included)
+    public static var betaTesters: Relation {
+        .init(key: "limit[betaTesters]")
+    }
+}
+
+extension Relation<V1.BetaGroups.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related builds returned (when they are included)
+    public static var builds: Relation {
+        .init(key: "limit[builds]")
     }
 }
 

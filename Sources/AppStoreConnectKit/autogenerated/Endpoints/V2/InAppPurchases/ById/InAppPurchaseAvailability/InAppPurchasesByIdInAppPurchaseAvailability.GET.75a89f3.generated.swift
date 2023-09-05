@@ -86,7 +86,7 @@ extension V2.InAppPurchases.ById.InAppPurchaseAvailability.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -136,24 +136,6 @@ extension V2.InAppPurchases.ById.InAppPurchaseAvailability.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type inAppPurchaseAvailabilities
-                public static var inAppPurchaseAvailabilities: Relation<[InAppPurchaseAvailabilities]?> {
-                    .init(key: "fields[inAppPurchaseAvailabilities]")
-                }
-
-                /// the fields to include for returned resources of type territories
-                public static var territories: Relation<[Territories]?> {
-                    .init(key: "fields[territories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -176,26 +158,34 @@ extension V2.InAppPurchases.ById.InAppPurchaseAvailability.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related availableTerritories returned (when they are included)
-                public static var availableTerritories: Relation<Int?> {
-                    .init(key: "limit[availableTerritories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.InAppPurchaseAvailability.GET.Parameters.Fields, [V2.InAppPurchases.ById.InAppPurchaseAvailability.GET.Parameters.Fields.InAppPurchaseAvailabilities]?> {
+    /// the fields to include for returned resources of type inAppPurchaseAvailabilities
+    public static var inAppPurchaseAvailabilities: Relation {
+        .init(key: "fields[inAppPurchaseAvailabilities]")
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.InAppPurchaseAvailability.GET.Parameters.Fields, [V2.InAppPurchases.ById.InAppPurchaseAvailability.GET.Parameters.Fields.Territories]?> {
+    /// the fields to include for returned resources of type territories
+    public static var territories: Relation {
+        .init(key: "fields[territories]")
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.InAppPurchaseAvailability.GET.Parameters.Limit, Int?> {
+    /// maximum number of related availableTerritories returned (when they are included)
+    public static var availableTerritories: Relation {
+        .init(key: "limit[availableTerritories]")
     }
 }
 

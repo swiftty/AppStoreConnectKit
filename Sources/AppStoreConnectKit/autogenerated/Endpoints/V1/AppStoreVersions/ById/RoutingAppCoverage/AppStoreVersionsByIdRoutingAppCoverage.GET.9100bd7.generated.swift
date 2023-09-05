@@ -75,7 +75,7 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -118,20 +118,14 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type routingAppCoverages
-                public static var routingAppCoverages: Relation<[RoutingAppCoverages]?> {
-                    .init(key: "fields[routingAppCoverages]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.RoutingAppCoverage.GET.Parameters.Fields, [V1.AppStoreVersions.ById.RoutingAppCoverage.GET.Parameters.Fields.RoutingAppCoverages]?> {
+    /// the fields to include for returned resources of type routingAppCoverages
+    public static var routingAppCoverages: Relation {
+        .init(key: "fields[routingAppCoverages]")
     }
 }
 

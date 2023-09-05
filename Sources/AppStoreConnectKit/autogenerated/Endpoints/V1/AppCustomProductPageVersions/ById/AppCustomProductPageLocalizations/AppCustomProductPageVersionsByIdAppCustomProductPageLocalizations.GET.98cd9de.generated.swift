@@ -99,7 +99,7 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -226,56 +226,15 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCustomProductPageLocalizations
-                public static var appCustomProductPageLocalizations: Relation<[AppCustomProductPageLocalizations]?> {
-                    .init(key: "fields[appCustomProductPageLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appCustomProductPageVersions
-                public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
-                    .init(key: "fields[appCustomProductPageVersions]")
-                }
-
-                /// the fields to include for returned resources of type appPreviewSets
-                public static var appPreviewSets: Relation<[AppPreviewSets]?> {
-                    .init(key: "fields[appPreviewSets]")
-                }
-
-                /// the fields to include for returned resources of type appScreenshotSets
-                public static var appScreenshotSets: Relation<[AppScreenshotSets]?> {
-                    .init(key: "fields[appScreenshotSets]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'locale'
-                public static var locale: Relation<[String]?> {
-                    .init(key: "filter[locale]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -305,35 +264,66 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appPreviewSets returned (when they are included)
-                public static var appPreviewSets: Relation<Int?> {
-                    .init(key: "limit[appPreviewSets]")
-                }
-
-                /// maximum number of related appScreenshotSets returned (when they are included)
-                public static var appScreenshotSets: Relation<Int?> {
-                    .init(key: "limit[appScreenshotSets]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Fields, [V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Fields.AppCustomProductPageLocalizations]?> {
+    /// the fields to include for returned resources of type appCustomProductPageLocalizations
+    public static var appCustomProductPageLocalizations: Relation {
+        .init(key: "fields[appCustomProductPageLocalizations]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Fields, [V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Fields.AppCustomProductPageVersions]?> {
+    /// the fields to include for returned resources of type appCustomProductPageVersions
+    public static var appCustomProductPageVersions: Relation {
+        .init(key: "fields[appCustomProductPageVersions]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Fields, [V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Fields.AppPreviewSets]?> {
+    /// the fields to include for returned resources of type appPreviewSets
+    public static var appPreviewSets: Relation {
+        .init(key: "fields[appPreviewSets]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Fields, [V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Fields.AppScreenshotSets]?> {
+    /// the fields to include for returned resources of type appScreenshotSets
+    public static var appScreenshotSets: Relation {
+        .init(key: "fields[appScreenshotSets]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'locale'
+    public static var locale: Relation {
+        .init(key: "filter[locale]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appPreviewSets returned (when they are included)
+    public static var appPreviewSets: Relation {
+        .init(key: "limit[appPreviewSets]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appScreenshotSets returned (when they are included)
+    public static var appScreenshotSets: Relation {
+        .init(key: "limit[appScreenshotSets]")
     }
 }
 

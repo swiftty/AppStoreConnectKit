@@ -87,7 +87,7 @@ extension V1.CiBuildRuns.ById.Actions.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -224,24 +224,6 @@ extension V1.CiBuildRuns.ById.Actions.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type ciBuildActions
-                public static var ciBuildActions: Relation<[CiBuildActions]?> {
-                    .init(key: "fields[ciBuildActions]")
-                }
-
-                /// the fields to include for returned resources of type ciBuildRuns
-                public static var ciBuildRuns: Relation<[CiBuildRuns]?> {
-                    .init(key: "fields[ciBuildRuns]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -262,6 +244,20 @@ extension V1.CiBuildRuns.ById.Actions.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.CiBuildRuns.ById.Actions.GET.Parameters.Fields, [V1.CiBuildRuns.ById.Actions.GET.Parameters.Fields.CiBuildActions]?> {
+    /// the fields to include for returned resources of type ciBuildActions
+    public static var ciBuildActions: Relation {
+        .init(key: "fields[ciBuildActions]")
+    }
+}
+
+extension Relation<V1.CiBuildRuns.ById.Actions.GET.Parameters.Fields, [V1.CiBuildRuns.ById.Actions.GET.Parameters.Fields.CiBuildRuns]?> {
+    /// the fields to include for returned resources of type ciBuildRuns
+    public static var ciBuildRuns: Relation {
+        .init(key: "fields[ciBuildRuns]")
     }
 }
 

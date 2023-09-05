@@ -103,7 +103,7 @@ extension V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -291,43 +291,10 @@ extension V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCustomProductPageLocalizations
-                public static var appCustomProductPageLocalizations: Relation<[AppCustomProductPageLocalizations]?> {
-                    .init(key: "fields[appCustomProductPageLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appScreenshotSets
-                public static var appScreenshotSets: Relation<[AppScreenshotSets]?> {
-                    .init(key: "fields[appScreenshotSets]")
-                }
-
-                /// the fields to include for returned resources of type appScreenshots
-                public static var appScreenshots: Relation<[AppScreenshots]?> {
-                    .init(key: "fields[appScreenshots]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
-                public static var appStoreVersionExperimentTreatmentLocalizations: Relation<[AppStoreVersionExperimentTreatmentLocalizations]?> {
-                    .init(key: "fields[appStoreVersionExperimentTreatmentLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionLocalizations
-                public static var appStoreVersionLocalizations: Relation<[AppStoreVersionLocalizations]?> {
-                    .init(key: "fields[appStoreVersionLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -442,29 +409,6 @@ extension V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'appStoreVersionExperimentTreatmentLocalization'
-                public static var appStoreVersionExperimentTreatmentLocalization: Relation<[String]?> {
-                    .init(key: "filter[appStoreVersionExperimentTreatmentLocalization]")
-                }
-
-                /// filter by id(s) of related 'appStoreVersionLocalization'
-                public static var appStoreVersionLocalization: Relation<[String]?> {
-                    .init(key: "filter[appStoreVersionLocalization]")
-                }
-
-                /// filter by attribute 'screenshotDisplayType'
-                public static var screenshotDisplayType: Relation<[ScreenshotDisplayType]?> {
-                    .init(key: "filter[screenshotDisplayType]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -497,30 +441,80 @@ extension V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appScreenshots returned (when they are included)
-                public static var appScreenshots: Relation<Int?> {
-                    .init(key: "limit[appScreenshots]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Fields, [V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Fields.AppCustomProductPageLocalizations]?> {
+    /// the fields to include for returned resources of type appCustomProductPageLocalizations
+    public static var appCustomProductPageLocalizations: Relation {
+        .init(key: "fields[appCustomProductPageLocalizations]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Fields, [V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Fields.AppScreenshotSets]?> {
+    /// the fields to include for returned resources of type appScreenshotSets
+    public static var appScreenshotSets: Relation {
+        .init(key: "fields[appScreenshotSets]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Fields, [V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Fields.AppScreenshots]?> {
+    /// the fields to include for returned resources of type appScreenshots
+    public static var appScreenshots: Relation {
+        .init(key: "fields[appScreenshots]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Fields, [V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Fields.AppStoreVersionExperimentTreatmentLocalizations]?> {
+    /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
+    public static var appStoreVersionExperimentTreatmentLocalizations: Relation {
+        .init(key: "fields[appStoreVersionExperimentTreatmentLocalizations]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Fields, [V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Fields.AppStoreVersionLocalizations]?> {
+    /// the fields to include for returned resources of type appStoreVersionLocalizations
+    public static var appStoreVersionLocalizations: Relation {
+        .init(key: "fields[appStoreVersionLocalizations]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'appStoreVersionExperimentTreatmentLocalization'
+    public static var appStoreVersionExperimentTreatmentLocalization: Relation {
+        .init(key: "filter[appStoreVersionExperimentTreatmentLocalization]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'appStoreVersionLocalization'
+    public static var appStoreVersionLocalization: Relation {
+        .init(key: "filter[appStoreVersionLocalization]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Filter, [V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Filter.ScreenshotDisplayType]?> {
+    /// filter by attribute 'screenshotDisplayType'
+    public static var screenshotDisplayType: Relation {
+        .init(key: "filter[screenshotDisplayType]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appScreenshots returned (when they are included)
+    public static var appScreenshots: Relation {
+        .init(key: "limit[appScreenshots]")
     }
 }
 

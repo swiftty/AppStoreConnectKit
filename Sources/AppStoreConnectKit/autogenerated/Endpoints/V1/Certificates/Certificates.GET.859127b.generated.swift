@@ -88,7 +88,7 @@ extension V1.Certificates.GET {
         public var sort: [Sort]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -134,23 +134,10 @@ extension V1.Certificates.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type certificates
-                public static var certificates: Relation<[Certificates]?> {
-                    .init(key: "fields[certificates]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -205,34 +192,6 @@ extension V1.Certificates.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'certificateType'
-                public static var certificateType: Relation<[CertificateType]?> {
-                    .init(key: "filter[certificateType]")
-                }
-
-                /// filter by attribute 'displayName'
-                public static var displayName: Relation<[String]?> {
-                    .init(key: "filter[displayName]")
-                }
-
-                /// filter by id(s)
-                public static var id: Relation<[String]?> {
-                    .init(key: "filter[id]")
-                }
-
-                /// filter by attribute 'serialNumber'
-                public static var serialNumber: Relation<[String]?> {
-                    .init(key: "filter[serialNumber]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Sort: Hashable, Codable, RawRepresentable {
@@ -274,6 +233,41 @@ extension V1.Certificates.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.Certificates.GET.Parameters.Fields, [V1.Certificates.GET.Parameters.Fields.Certificates]?> {
+    /// the fields to include for returned resources of type certificates
+    public static var certificates: Relation {
+        .init(key: "fields[certificates]")
+    }
+}
+
+extension Relation<V1.Certificates.GET.Parameters.Filter, [V1.Certificates.GET.Parameters.Filter.CertificateType]?> {
+    /// filter by attribute 'certificateType'
+    public static var certificateType: Relation {
+        .init(key: "filter[certificateType]")
+    }
+}
+
+extension Relation<V1.Certificates.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'displayName'
+    public static var displayName: Relation {
+        .init(key: "filter[displayName]")
+    }
+}
+
+extension Relation<V1.Certificates.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s)
+    public static var id: Relation {
+        .init(key: "filter[id]")
+    }
+}
+
+extension Relation<V1.Certificates.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'serialNumber'
+    public static var serialNumber: Relation {
+        .init(key: "filter[serialNumber]")
     }
 }
 

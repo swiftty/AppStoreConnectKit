@@ -108,7 +108,7 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -752,69 +752,6 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type ageRatingDeclarations
-                public static var ageRatingDeclarations: Relation<[AgeRatingDeclarations]?> {
-                    .init(key: "fields[ageRatingDeclarations]")
-                }
-
-                /// the fields to include for returned resources of type appClipDefaultExperiences
-                public static var appClipDefaultExperiences: Relation<[AppClipDefaultExperiences]?> {
-                    .init(key: "fields[appClipDefaultExperiences]")
-                }
-
-                /// the fields to include for returned resources of type appStoreReviewDetails
-                public static var appStoreReviewDetails: Relation<[AppStoreReviewDetails]?> {
-                    .init(key: "fields[appStoreReviewDetails]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionExperiments
-                public static var appStoreVersionExperiments: Relation<[AppStoreVersionExperiments]?> {
-                    .init(key: "fields[appStoreVersionExperiments]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionLocalizations
-                public static var appStoreVersionLocalizations: Relation<[AppStoreVersionLocalizations]?> {
-                    .init(key: "fields[appStoreVersionLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionPhasedReleases
-                public static var appStoreVersionPhasedReleases: Relation<[AppStoreVersionPhasedReleases]?> {
-                    .init(key: "fields[appStoreVersionPhasedReleases]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionSubmissions
-                public static var appStoreVersionSubmissions: Relation<[AppStoreVersionSubmissions]?> {
-                    .init(key: "fields[appStoreVersionSubmissions]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersions
-                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
-                    .init(key: "fields[appStoreVersions]")
-                }
-
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type builds
-                public static var builds: Relation<[Builds]?> {
-                    .init(key: "fields[builds]")
-                }
-
-                /// the fields to include for returned resources of type routingAppCoverages
-                public static var routingAppCoverages: Relation<[RoutingAppCoverages]?> {
-                    .init(key: "fields[routingAppCoverages]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -867,36 +804,111 @@ extension V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appStoreVersionExperimentsV2 returned (when they are included)
-                public static var appStoreVersionExperimentsV2: Relation<Int?> {
-                    .init(key: "limit[appStoreVersionExperimentsV2]")
-                }
-
-                /// maximum number of related appStoreVersionExperiments returned (when they are included)
-                public static var appStoreVersionExperiments: Relation<Int?> {
-                    .init(key: "limit[appStoreVersionExperiments]")
-                }
-
-                /// maximum number of related appStoreVersionLocalizations returned (when they are included)
-                public static var appStoreVersionLocalizations: Relation<Int?> {
-                    .init(key: "limit[appStoreVersionLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.AgeRatingDeclarations]?> {
+    /// the fields to include for returned resources of type ageRatingDeclarations
+    public static var ageRatingDeclarations: Relation {
+        .init(key: "fields[ageRatingDeclarations]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.AppClipDefaultExperiences]?> {
+    /// the fields to include for returned resources of type appClipDefaultExperiences
+    public static var appClipDefaultExperiences: Relation {
+        .init(key: "fields[appClipDefaultExperiences]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.AppStoreReviewDetails]?> {
+    /// the fields to include for returned resources of type appStoreReviewDetails
+    public static var appStoreReviewDetails: Relation {
+        .init(key: "fields[appStoreReviewDetails]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.AppStoreVersionExperiments]?> {
+    /// the fields to include for returned resources of type appStoreVersionExperiments
+    public static var appStoreVersionExperiments: Relation {
+        .init(key: "fields[appStoreVersionExperiments]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.AppStoreVersionLocalizations]?> {
+    /// the fields to include for returned resources of type appStoreVersionLocalizations
+    public static var appStoreVersionLocalizations: Relation {
+        .init(key: "fields[appStoreVersionLocalizations]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.AppStoreVersionPhasedReleases]?> {
+    /// the fields to include for returned resources of type appStoreVersionPhasedReleases
+    public static var appStoreVersionPhasedReleases: Relation {
+        .init(key: "fields[appStoreVersionPhasedReleases]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.AppStoreVersionSubmissions]?> {
+    /// the fields to include for returned resources of type appStoreVersionSubmissions
+    public static var appStoreVersionSubmissions: Relation {
+        .init(key: "fields[appStoreVersionSubmissions]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.AppStoreVersions]?> {
+    /// the fields to include for returned resources of type appStoreVersions
+    public static var appStoreVersions: Relation {
+        .init(key: "fields[appStoreVersions]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.Builds]?> {
+    /// the fields to include for returned resources of type builds
+    public static var builds: Relation {
+        .init(key: "fields[builds]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Fields.RoutingAppCoverages]?> {
+    /// the fields to include for returned resources of type routingAppCoverages
+    public static var routingAppCoverages: Relation {
+        .init(key: "fields[routingAppCoverages]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appStoreVersionExperimentsV2 returned (when they are included)
+    public static var appStoreVersionExperimentsV2: Relation {
+        .init(key: "limit[appStoreVersionExperimentsV2]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appStoreVersionExperiments returned (when they are included)
+    public static var appStoreVersionExperiments: Relation {
+        .init(key: "limit[appStoreVersionExperiments]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.ReleaseWithAppStoreVersion.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appStoreVersionLocalizations returned (when they are included)
+    public static var appStoreVersionLocalizations: Relation {
+        .init(key: "limit[appStoreVersionLocalizations]")
     }
 }
 

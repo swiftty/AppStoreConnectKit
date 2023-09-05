@@ -93,7 +93,7 @@ extension V1.Apps.ById.AppPricePoints.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -291,51 +291,15 @@ extension V1.Apps.ById.AppPricePoints.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appPricePoints
-                public static var appPricePoints: Relation<[AppPricePoints]?> {
-                    .init(key: "fields[appPricePoints]")
-                }
-
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type territories
-                public static var territories: Relation<[Territories]?> {
-                    .init(key: "fields[territories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'territory'
-                public static var territory: Relation<[String]?> {
-                    .init(key: "filter[territory]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -359,6 +323,34 @@ extension V1.Apps.ById.AppPricePoints.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.AppPricePoints.GET.Parameters.Fields, [V1.Apps.ById.AppPricePoints.GET.Parameters.Fields.AppPricePoints]?> {
+    /// the fields to include for returned resources of type appPricePoints
+    public static var appPricePoints: Relation {
+        .init(key: "fields[appPricePoints]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppPricePoints.GET.Parameters.Fields, [V1.Apps.ById.AppPricePoints.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppPricePoints.GET.Parameters.Fields, [V1.Apps.ById.AppPricePoints.GET.Parameters.Fields.Territories]?> {
+    /// the fields to include for returned resources of type territories
+    public static var territories: Relation {
+        .init(key: "fields[territories]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppPricePoints.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'territory'
+    public static var territory: Relation {
+        .init(key: "filter[territory]")
     }
 }
 

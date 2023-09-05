@@ -83,7 +83,7 @@ extension V1.AppStoreVersions.ById.AppStoreVersionSubmission.GET {
         public var include: [Include]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -184,24 +184,6 @@ extension V1.AppStoreVersions.ById.AppStoreVersionSubmission.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appStoreVersionSubmissions
-                public static var appStoreVersionSubmissions: Relation<[AppStoreVersionSubmissions]?> {
-                    .init(key: "fields[appStoreVersionSubmissions]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersions
-                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
-                    .init(key: "fields[appStoreVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -222,6 +204,20 @@ extension V1.AppStoreVersions.ById.AppStoreVersionSubmission.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.AppStoreVersionSubmission.GET.Parameters.Fields, [V1.AppStoreVersions.ById.AppStoreVersionSubmission.GET.Parameters.Fields.AppStoreVersionSubmissions]?> {
+    /// the fields to include for returned resources of type appStoreVersionSubmissions
+    public static var appStoreVersionSubmissions: Relation {
+        .init(key: "fields[appStoreVersionSubmissions]")
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.AppStoreVersionSubmission.GET.Parameters.Fields, [V1.AppStoreVersions.ById.AppStoreVersionSubmission.GET.Parameters.Fields.AppStoreVersions]?> {
+    /// the fields to include for returned resources of type appStoreVersions
+    public static var appStoreVersions: Relation {
+        .init(key: "fields[appStoreVersions]")
     }
 }
 

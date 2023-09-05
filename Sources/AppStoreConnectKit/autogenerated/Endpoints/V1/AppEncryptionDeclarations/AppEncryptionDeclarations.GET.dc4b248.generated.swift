@@ -92,7 +92,7 @@ extension V1.AppEncryptionDeclarations.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -350,33 +350,10 @@ extension V1.AppEncryptionDeclarations.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appEncryptionDeclarationDocuments
-                public static var appEncryptionDeclarationDocuments: Relation<[AppEncryptionDeclarationDocuments]?> {
-                    .init(key: "fields[appEncryptionDeclarationDocuments]")
-                }
-
-                /// the fields to include for returned resources of type appEncryptionDeclarations
-                public static var appEncryptionDeclarations: Relation<[AppEncryptionDeclarations]?> {
-                    .init(key: "fields[appEncryptionDeclarations]")
-                }
-
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -405,29 +382,6 @@ extension V1.AppEncryptionDeclarations.GET {
                     case "TV_OS": self = .tvOS
                     default: self = .unknown(rawValue)
                     }
-                }
-            }
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'app'
-                public static var app: Relation<[String]?> {
-                    .init(key: "filter[app]")
-                }
-
-                /// filter by id(s) of related 'builds'
-                public static var builds: Relation<[String]?> {
-                    .init(key: "filter[builds]")
-                }
-
-                /// filter by attribute 'platform'
-                public static var platform: Relation<[Platform]?> {
-                    .init(key: "filter[platform]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
                 }
             }
         }
@@ -459,30 +413,66 @@ extension V1.AppEncryptionDeclarations.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related builds returned (when they are included)
-                public static var builds: Relation<Int?> {
-                    .init(key: "limit[builds]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppEncryptionDeclarations.GET.Parameters.Fields, [V1.AppEncryptionDeclarations.GET.Parameters.Fields.AppEncryptionDeclarationDocuments]?> {
+    /// the fields to include for returned resources of type appEncryptionDeclarationDocuments
+    public static var appEncryptionDeclarationDocuments: Relation {
+        .init(key: "fields[appEncryptionDeclarationDocuments]")
+    }
+}
+
+extension Relation<V1.AppEncryptionDeclarations.GET.Parameters.Fields, [V1.AppEncryptionDeclarations.GET.Parameters.Fields.AppEncryptionDeclarations]?> {
+    /// the fields to include for returned resources of type appEncryptionDeclarations
+    public static var appEncryptionDeclarations: Relation {
+        .init(key: "fields[appEncryptionDeclarations]")
+    }
+}
+
+extension Relation<V1.AppEncryptionDeclarations.GET.Parameters.Fields, [V1.AppEncryptionDeclarations.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.AppEncryptionDeclarations.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'app'
+    public static var app: Relation {
+        .init(key: "filter[app]")
+    }
+}
+
+extension Relation<V1.AppEncryptionDeclarations.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'builds'
+    public static var builds: Relation {
+        .init(key: "filter[builds]")
+    }
+}
+
+extension Relation<V1.AppEncryptionDeclarations.GET.Parameters.Filter, [V1.AppEncryptionDeclarations.GET.Parameters.Filter.Platform]?> {
+    /// filter by attribute 'platform'
+    public static var platform: Relation {
+        .init(key: "filter[platform]")
+    }
+}
+
+extension Relation<V1.AppEncryptionDeclarations.GET.Parameters.Limit, Int?> {
+    /// maximum number of related builds returned (when they are included)
+    public static var builds: Relation {
+        .init(key: "limit[builds]")
     }
 }
 

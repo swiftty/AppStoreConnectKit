@@ -103,7 +103,7 @@ extension V1.Profiles.GET {
         public var sort: [Sort]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -272,38 +272,10 @@ extension V1.Profiles.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type bundleIds
-                public static var bundleIds: Relation<[BundleIds]?> {
-                    .init(key: "fields[bundleIds]")
-                }
-
-                /// the fields to include for returned resources of type certificates
-                public static var certificates: Relation<[Certificates]?> {
-                    .init(key: "fields[certificates]")
-                }
-
-                /// the fields to include for returned resources of type devices
-                public static var devices: Relation<[Devices]?> {
-                    .init(key: "fields[devices]")
-                }
-
-                /// the fields to include for returned resources of type profiles
-                public static var profiles: Relation<[Profiles]?> {
-                    .init(key: "fields[profiles]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -389,34 +361,6 @@ extension V1.Profiles.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s)
-                public static var id: Relation<[String]?> {
-                    .init(key: "filter[id]")
-                }
-
-                /// filter by attribute 'name'
-                public static var name: Relation<[String]?> {
-                    .init(key: "filter[name]")
-                }
-
-                /// filter by attribute 'profileState'
-                public static var profileState: Relation<[ProfileState]?> {
-                    .init(key: "filter[profileState]")
-                }
-
-                /// filter by attribute 'profileType'
-                public static var profileType: Relation<[ProfileType]?> {
-                    .init(key: "filter[profileType]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -446,34 +390,16 @@ extension V1.Profiles.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related certificates returned (when they are included)
-                public static var certificates: Relation<Int?> {
-                    .init(key: "limit[certificates]")
-                }
-
-                /// maximum number of related devices returned (when they are included)
-                public static var devices: Relation<Int?> {
-                    .init(key: "limit[devices]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Sort: Hashable, Codable, RawRepresentable {
@@ -515,6 +441,76 @@ extension V1.Profiles.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.Profiles.GET.Parameters.Fields, [V1.Profiles.GET.Parameters.Fields.BundleIds]?> {
+    /// the fields to include for returned resources of type bundleIds
+    public static var bundleIds: Relation {
+        .init(key: "fields[bundleIds]")
+    }
+}
+
+extension Relation<V1.Profiles.GET.Parameters.Fields, [V1.Profiles.GET.Parameters.Fields.Certificates]?> {
+    /// the fields to include for returned resources of type certificates
+    public static var certificates: Relation {
+        .init(key: "fields[certificates]")
+    }
+}
+
+extension Relation<V1.Profiles.GET.Parameters.Fields, [V1.Profiles.GET.Parameters.Fields.Devices]?> {
+    /// the fields to include for returned resources of type devices
+    public static var devices: Relation {
+        .init(key: "fields[devices]")
+    }
+}
+
+extension Relation<V1.Profiles.GET.Parameters.Fields, [V1.Profiles.GET.Parameters.Fields.Profiles]?> {
+    /// the fields to include for returned resources of type profiles
+    public static var profiles: Relation {
+        .init(key: "fields[profiles]")
+    }
+}
+
+extension Relation<V1.Profiles.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s)
+    public static var id: Relation {
+        .init(key: "filter[id]")
+    }
+}
+
+extension Relation<V1.Profiles.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'name'
+    public static var name: Relation {
+        .init(key: "filter[name]")
+    }
+}
+
+extension Relation<V1.Profiles.GET.Parameters.Filter, [V1.Profiles.GET.Parameters.Filter.ProfileState]?> {
+    /// filter by attribute 'profileState'
+    public static var profileState: Relation {
+        .init(key: "filter[profileState]")
+    }
+}
+
+extension Relation<V1.Profiles.GET.Parameters.Filter, [V1.Profiles.GET.Parameters.Filter.ProfileType]?> {
+    /// filter by attribute 'profileType'
+    public static var profileType: Relation {
+        .init(key: "filter[profileType]")
+    }
+}
+
+extension Relation<V1.Profiles.GET.Parameters.Limit, Int?> {
+    /// maximum number of related certificates returned (when they are included)
+    public static var certificates: Relation {
+        .init(key: "limit[certificates]")
+    }
+}
+
+extension Relation<V1.Profiles.GET.Parameters.Limit, Int?> {
+    /// maximum number of related devices returned (when they are included)
+    public static var devices: Relation {
+        .init(key: "limit[devices]")
     }
 }
 

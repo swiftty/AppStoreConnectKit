@@ -86,7 +86,7 @@ extension V1.SubscriptionPromotionalOffers.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -151,24 +151,6 @@ extension V1.SubscriptionPromotionalOffers.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionPromotionalOfferPrices
-                public static var subscriptionPromotionalOfferPrices: Relation<[SubscriptionPromotionalOfferPrices]?> {
-                    .init(key: "fields[subscriptionPromotionalOfferPrices]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionPromotionalOffers
-                public static var subscriptionPromotionalOffers: Relation<[SubscriptionPromotionalOffers]?> {
-                    .init(key: "fields[subscriptionPromotionalOffers]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -194,26 +176,34 @@ extension V1.SubscriptionPromotionalOffers.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related prices returned (when they are included)
-                public static var prices: Relation<Int?> {
-                    .init(key: "limit[prices]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.SubscriptionPromotionalOffers.ById.GET.Parameters.Fields, [V1.SubscriptionPromotionalOffers.ById.GET.Parameters.Fields.SubscriptionPromotionalOfferPrices]?> {
+    /// the fields to include for returned resources of type subscriptionPromotionalOfferPrices
+    public static var subscriptionPromotionalOfferPrices: Relation {
+        .init(key: "fields[subscriptionPromotionalOfferPrices]")
+    }
+}
+
+extension Relation<V1.SubscriptionPromotionalOffers.ById.GET.Parameters.Fields, [V1.SubscriptionPromotionalOffers.ById.GET.Parameters.Fields.SubscriptionPromotionalOffers]?> {
+    /// the fields to include for returned resources of type subscriptionPromotionalOffers
+    public static var subscriptionPromotionalOffers: Relation {
+        .init(key: "fields[subscriptionPromotionalOffers]")
+    }
+}
+
+extension Relation<V1.SubscriptionPromotionalOffers.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related prices returned (when they are included)
+    public static var prices: Relation {
+        .init(key: "limit[prices]")
     }
 }
 

@@ -75,7 +75,7 @@ extension V1.Apps.ById.BetaAppReviewDetail.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -124,20 +124,14 @@ extension V1.Apps.ById.BetaAppReviewDetail.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type betaAppReviewDetails
-                public static var betaAppReviewDetails: Relation<[BetaAppReviewDetails]?> {
-                    .init(key: "fields[betaAppReviewDetails]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.BetaAppReviewDetail.GET.Parameters.Fields, [V1.Apps.ById.BetaAppReviewDetail.GET.Parameters.Fields.BetaAppReviewDetails]?> {
+    /// the fields to include for returned resources of type betaAppReviewDetails
+    public static var betaAppReviewDetails: Relation {
+        .init(key: "fields[betaAppReviewDetails]")
     }
 }
 

@@ -114,7 +114,7 @@ extension V1.Apps.ById.InAppPurchasesV2.GET {
         public var sort: [Sort]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -379,53 +379,10 @@ extension V1.Apps.ById.InAppPurchasesV2.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type inAppPurchaseAppStoreReviewScreenshots
-                public static var inAppPurchaseAppStoreReviewScreenshots: Relation<[InAppPurchaseAppStoreReviewScreenshots]?> {
-                    .init(key: "fields[inAppPurchaseAppStoreReviewScreenshots]")
-                }
-
-                /// the fields to include for returned resources of type inAppPurchaseAvailabilities
-                public static var inAppPurchaseAvailabilities: Relation<[InAppPurchaseAvailabilities]?> {
-                    .init(key: "fields[inAppPurchaseAvailabilities]")
-                }
-
-                /// the fields to include for returned resources of type inAppPurchaseContents
-                public static var inAppPurchaseContents: Relation<[InAppPurchaseContents]?> {
-                    .init(key: "fields[inAppPurchaseContents]")
-                }
-
-                /// the fields to include for returned resources of type inAppPurchaseLocalizations
-                public static var inAppPurchaseLocalizations: Relation<[InAppPurchaseLocalizations]?> {
-                    .init(key: "fields[inAppPurchaseLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type inAppPurchasePriceSchedules
-                public static var inAppPurchasePriceSchedules: Relation<[InAppPurchasePriceSchedules]?> {
-                    .init(key: "fields[inAppPurchasePriceSchedules]")
-                }
-
-                /// the fields to include for returned resources of type inAppPurchases
-                public static var inAppPurchases: Relation<[InAppPurchases]?> {
-                    .init(key: "fields[inAppPurchases]")
-                }
-
-                /// the fields to include for returned resources of type promotedPurchases
-                public static var promotedPurchases: Relation<[PromotedPurchases]?> {
-                    .init(key: "fields[promotedPurchases]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -508,34 +465,6 @@ extension V1.Apps.ById.InAppPurchasesV2.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'inAppPurchaseType'
-                public static var inAppPurchaseType: Relation<[InAppPurchaseType]?> {
-                    .init(key: "filter[inAppPurchaseType]")
-                }
-
-                /// filter by attribute 'name'
-                public static var name: Relation<[String]?> {
-                    .init(key: "filter[name]")
-                }
-
-                /// filter by attribute 'productId'
-                public static var productId: Relation<[String]?> {
-                    .init(key: "filter[productId]")
-                }
-
-                /// filter by attribute 'state'
-                public static var state: Relation<[State]?> {
-                    .init(key: "filter[state]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -574,29 +503,16 @@ extension V1.Apps.ById.InAppPurchasesV2.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related inAppPurchaseLocalizations returned (when they are included)
-                public static var inAppPurchaseLocalizations: Relation<Int?> {
-                    .init(key: "limit[inAppPurchaseLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Sort: Hashable, Codable, RawRepresentable {
@@ -626,6 +542,90 @@ extension V1.Apps.ById.InAppPurchasesV2.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields, [V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields.InAppPurchaseAppStoreReviewScreenshots]?> {
+    /// the fields to include for returned resources of type inAppPurchaseAppStoreReviewScreenshots
+    public static var inAppPurchaseAppStoreReviewScreenshots: Relation {
+        .init(key: "fields[inAppPurchaseAppStoreReviewScreenshots]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields, [V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields.InAppPurchaseAvailabilities]?> {
+    /// the fields to include for returned resources of type inAppPurchaseAvailabilities
+    public static var inAppPurchaseAvailabilities: Relation {
+        .init(key: "fields[inAppPurchaseAvailabilities]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields, [V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields.InAppPurchaseContents]?> {
+    /// the fields to include for returned resources of type inAppPurchaseContents
+    public static var inAppPurchaseContents: Relation {
+        .init(key: "fields[inAppPurchaseContents]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields, [V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields.InAppPurchaseLocalizations]?> {
+    /// the fields to include for returned resources of type inAppPurchaseLocalizations
+    public static var inAppPurchaseLocalizations: Relation {
+        .init(key: "fields[inAppPurchaseLocalizations]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields, [V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields.InAppPurchasePriceSchedules]?> {
+    /// the fields to include for returned resources of type inAppPurchasePriceSchedules
+    public static var inAppPurchasePriceSchedules: Relation {
+        .init(key: "fields[inAppPurchasePriceSchedules]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields, [V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields.InAppPurchases]?> {
+    /// the fields to include for returned resources of type inAppPurchases
+    public static var inAppPurchases: Relation {
+        .init(key: "fields[inAppPurchases]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields, [V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Fields.PromotedPurchases]?> {
+    /// the fields to include for returned resources of type promotedPurchases
+    public static var promotedPurchases: Relation {
+        .init(key: "fields[promotedPurchases]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Filter, [V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Filter.InAppPurchaseType]?> {
+    /// filter by attribute 'inAppPurchaseType'
+    public static var inAppPurchaseType: Relation {
+        .init(key: "filter[inAppPurchaseType]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'name'
+    public static var name: Relation {
+        .init(key: "filter[name]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'productId'
+    public static var productId: Relation {
+        .init(key: "filter[productId]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Filter, [V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Filter.State]?> {
+    /// filter by attribute 'state'
+    public static var state: Relation {
+        .init(key: "filter[state]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchasesV2.GET.Parameters.Limit, Int?> {
+    /// maximum number of related inAppPurchaseLocalizations returned (when they are included)
+    public static var inAppPurchaseLocalizations: Relation {
+        .init(key: "limit[inAppPurchaseLocalizations]")
     }
 }
 

@@ -87,7 +87,7 @@ extension V1.Subscriptions.ById.SubscriptionLocalizations.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -194,24 +194,6 @@ extension V1.Subscriptions.ById.SubscriptionLocalizations.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionLocalizations
-                public static var subscriptionLocalizations: Relation<[SubscriptionLocalizations]?> {
-                    .init(key: "fields[subscriptionLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type subscriptions
-                public static var subscriptions: Relation<[Subscriptions]?> {
-                    .init(key: "fields[subscriptions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -232,6 +214,20 @@ extension V1.Subscriptions.ById.SubscriptionLocalizations.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.SubscriptionLocalizations.GET.Parameters.Fields, [V1.Subscriptions.ById.SubscriptionLocalizations.GET.Parameters.Fields.SubscriptionLocalizations]?> {
+    /// the fields to include for returned resources of type subscriptionLocalizations
+    public static var subscriptionLocalizations: Relation {
+        .init(key: "fields[subscriptionLocalizations]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.SubscriptionLocalizations.GET.Parameters.Fields, [V1.Subscriptions.ById.SubscriptionLocalizations.GET.Parameters.Fields.Subscriptions]?> {
+    /// the fields to include for returned resources of type subscriptions
+    public static var subscriptions: Relation {
+        .init(key: "fields[subscriptions]")
     }
 }
 

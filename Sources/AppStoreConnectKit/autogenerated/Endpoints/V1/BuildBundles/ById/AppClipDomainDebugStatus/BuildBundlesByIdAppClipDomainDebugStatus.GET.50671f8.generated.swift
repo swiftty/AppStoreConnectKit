@@ -75,7 +75,7 @@ extension V1.BuildBundles.ById.AppClipDomainDebugStatus.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -103,20 +103,14 @@ extension V1.BuildBundles.ById.AppClipDomainDebugStatus.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appClipDomainStatuses
-                public static var appClipDomainStatuses: Relation<[AppClipDomainStatuses]?> {
-                    .init(key: "fields[appClipDomainStatuses]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.BuildBundles.ById.AppClipDomainDebugStatus.GET.Parameters.Fields, [V1.BuildBundles.ById.AppClipDomainDebugStatus.GET.Parameters.Fields.AppClipDomainStatuses]?> {
+    /// the fields to include for returned resources of type appClipDomainStatuses
+    public static var appClipDomainStatuses: Relation {
+        .init(key: "fields[appClipDomainStatuses]")
     }
 }
 

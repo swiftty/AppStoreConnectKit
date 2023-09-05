@@ -75,7 +75,7 @@ extension V1.Apps.ById.BetaLicenseAgreement.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -103,20 +103,14 @@ extension V1.Apps.ById.BetaLicenseAgreement.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type betaLicenseAgreements
-                public static var betaLicenseAgreements: Relation<[BetaLicenseAgreements]?> {
-                    .init(key: "fields[betaLicenseAgreements]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.BetaLicenseAgreement.GET.Parameters.Fields, [V1.Apps.ById.BetaLicenseAgreement.GET.Parameters.Fields.BetaLicenseAgreements]?> {
+    /// the fields to include for returned resources of type betaLicenseAgreements
+    public static var betaLicenseAgreements: Relation {
+        .init(key: "fields[betaLicenseAgreements]")
     }
 }
 

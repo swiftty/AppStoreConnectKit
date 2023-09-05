@@ -87,7 +87,7 @@ extension V1.SubscriptionGroups.ById.SubscriptionGroupLocalizations.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -152,24 +152,6 @@ extension V1.SubscriptionGroups.ById.SubscriptionGroupLocalizations.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionGroupLocalizations
-                public static var subscriptionGroupLocalizations: Relation<[SubscriptionGroupLocalizations]?> {
-                    .init(key: "fields[subscriptionGroupLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionGroups
-                public static var subscriptionGroups: Relation<[SubscriptionGroups]?> {
-                    .init(key: "fields[subscriptionGroups]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -190,6 +172,20 @@ extension V1.SubscriptionGroups.ById.SubscriptionGroupLocalizations.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.SubscriptionGroups.ById.SubscriptionGroupLocalizations.GET.Parameters.Fields, [V1.SubscriptionGroups.ById.SubscriptionGroupLocalizations.GET.Parameters.Fields.SubscriptionGroupLocalizations]?> {
+    /// the fields to include for returned resources of type subscriptionGroupLocalizations
+    public static var subscriptionGroupLocalizations: Relation {
+        .init(key: "fields[subscriptionGroupLocalizations]")
+    }
+}
+
+extension Relation<V1.SubscriptionGroups.ById.SubscriptionGroupLocalizations.GET.Parameters.Fields, [V1.SubscriptionGroups.ById.SubscriptionGroupLocalizations.GET.Parameters.Fields.SubscriptionGroups]?> {
+    /// the fields to include for returned resources of type subscriptionGroups
+    public static var subscriptionGroups: Relation {
+        .init(key: "fields[subscriptionGroups]")
     }
 }
 

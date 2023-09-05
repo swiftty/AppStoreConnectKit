@@ -110,7 +110,7 @@ extension V1.Subscriptions.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -522,64 +522,6 @@ extension V1.Subscriptions.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type promotedPurchases
-                public static var promotedPurchases: Relation<[PromotedPurchases]?> {
-                    .init(key: "fields[promotedPurchases]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionAppStoreReviewScreenshots
-                public static var subscriptionAppStoreReviewScreenshots: Relation<[SubscriptionAppStoreReviewScreenshots]?> {
-                    .init(key: "fields[subscriptionAppStoreReviewScreenshots]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionAvailabilities
-                public static var subscriptionAvailabilities: Relation<[SubscriptionAvailabilities]?> {
-                    .init(key: "fields[subscriptionAvailabilities]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionIntroductoryOffers
-                public static var subscriptionIntroductoryOffers: Relation<[SubscriptionIntroductoryOffers]?> {
-                    .init(key: "fields[subscriptionIntroductoryOffers]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionLocalizations
-                public static var subscriptionLocalizations: Relation<[SubscriptionLocalizations]?> {
-                    .init(key: "fields[subscriptionLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionOfferCodes
-                public static var subscriptionOfferCodes: Relation<[SubscriptionOfferCodes]?> {
-                    .init(key: "fields[subscriptionOfferCodes]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionPricePoints
-                public static var subscriptionPricePoints: Relation<[SubscriptionPricePoints]?> {
-                    .init(key: "fields[subscriptionPricePoints]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionPrices
-                public static var subscriptionPrices: Relation<[SubscriptionPrices]?> {
-                    .init(key: "fields[subscriptionPrices]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionPromotionalOffers
-                public static var subscriptionPromotionalOffers: Relation<[SubscriptionPromotionalOffers]?> {
-                    .init(key: "fields[subscriptionPromotionalOffers]")
-                }
-
-                /// the fields to include for returned resources of type subscriptions
-                public static var subscriptions: Relation<[Subscriptions]?> {
-                    .init(key: "fields[subscriptions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -626,46 +568,118 @@ extension V1.Subscriptions.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related introductoryOffers returned (when they are included)
-                public static var introductoryOffers: Relation<Int?> {
-                    .init(key: "limit[introductoryOffers]")
-                }
-
-                /// maximum number of related offerCodes returned (when they are included)
-                public static var offerCodes: Relation<Int?> {
-                    .init(key: "limit[offerCodes]")
-                }
-
-                /// maximum number of related prices returned (when they are included)
-                public static var prices: Relation<Int?> {
-                    .init(key: "limit[prices]")
-                }
-
-                /// maximum number of related promotionalOffers returned (when they are included)
-                public static var promotionalOffers: Relation<Int?> {
-                    .init(key: "limit[promotionalOffers]")
-                }
-
-                /// maximum number of related subscriptionLocalizations returned (when they are included)
-                public static var subscriptionLocalizations: Relation<Int?> {
-                    .init(key: "limit[subscriptionLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Fields, [V1.Subscriptions.ById.GET.Parameters.Fields.PromotedPurchases]?> {
+    /// the fields to include for returned resources of type promotedPurchases
+    public static var promotedPurchases: Relation {
+        .init(key: "fields[promotedPurchases]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Fields, [V1.Subscriptions.ById.GET.Parameters.Fields.SubscriptionAppStoreReviewScreenshots]?> {
+    /// the fields to include for returned resources of type subscriptionAppStoreReviewScreenshots
+    public static var subscriptionAppStoreReviewScreenshots: Relation {
+        .init(key: "fields[subscriptionAppStoreReviewScreenshots]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Fields, [V1.Subscriptions.ById.GET.Parameters.Fields.SubscriptionAvailabilities]?> {
+    /// the fields to include for returned resources of type subscriptionAvailabilities
+    public static var subscriptionAvailabilities: Relation {
+        .init(key: "fields[subscriptionAvailabilities]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Fields, [V1.Subscriptions.ById.GET.Parameters.Fields.SubscriptionIntroductoryOffers]?> {
+    /// the fields to include for returned resources of type subscriptionIntroductoryOffers
+    public static var subscriptionIntroductoryOffers: Relation {
+        .init(key: "fields[subscriptionIntroductoryOffers]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Fields, [V1.Subscriptions.ById.GET.Parameters.Fields.SubscriptionLocalizations]?> {
+    /// the fields to include for returned resources of type subscriptionLocalizations
+    public static var subscriptionLocalizations: Relation {
+        .init(key: "fields[subscriptionLocalizations]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Fields, [V1.Subscriptions.ById.GET.Parameters.Fields.SubscriptionOfferCodes]?> {
+    /// the fields to include for returned resources of type subscriptionOfferCodes
+    public static var subscriptionOfferCodes: Relation {
+        .init(key: "fields[subscriptionOfferCodes]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Fields, [V1.Subscriptions.ById.GET.Parameters.Fields.SubscriptionPricePoints]?> {
+    /// the fields to include for returned resources of type subscriptionPricePoints
+    public static var subscriptionPricePoints: Relation {
+        .init(key: "fields[subscriptionPricePoints]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Fields, [V1.Subscriptions.ById.GET.Parameters.Fields.SubscriptionPrices]?> {
+    /// the fields to include for returned resources of type subscriptionPrices
+    public static var subscriptionPrices: Relation {
+        .init(key: "fields[subscriptionPrices]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Fields, [V1.Subscriptions.ById.GET.Parameters.Fields.SubscriptionPromotionalOffers]?> {
+    /// the fields to include for returned resources of type subscriptionPromotionalOffers
+    public static var subscriptionPromotionalOffers: Relation {
+        .init(key: "fields[subscriptionPromotionalOffers]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Fields, [V1.Subscriptions.ById.GET.Parameters.Fields.Subscriptions]?> {
+    /// the fields to include for returned resources of type subscriptions
+    public static var subscriptions: Relation {
+        .init(key: "fields[subscriptions]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related introductoryOffers returned (when they are included)
+    public static var introductoryOffers: Relation {
+        .init(key: "limit[introductoryOffers]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related offerCodes returned (when they are included)
+    public static var offerCodes: Relation {
+        .init(key: "limit[offerCodes]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related prices returned (when they are included)
+    public static var prices: Relation {
+        .init(key: "limit[prices]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related promotionalOffers returned (when they are included)
+    public static var promotionalOffers: Relation {
+        .init(key: "limit[promotionalOffers]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related subscriptionLocalizations returned (when they are included)
+    public static var subscriptionLocalizations: Relation {
+        .init(key: "limit[subscriptionLocalizations]")
     }
 }
 

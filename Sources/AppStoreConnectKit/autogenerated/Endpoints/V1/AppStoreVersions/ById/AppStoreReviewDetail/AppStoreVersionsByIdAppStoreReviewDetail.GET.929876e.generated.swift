@@ -88,7 +88,7 @@ extension V1.AppStoreVersions.ById.AppStoreReviewDetail.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -253,29 +253,6 @@ extension V1.AppStoreVersions.ById.AppStoreReviewDetail.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appStoreReviewAttachments
-                public static var appStoreReviewAttachments: Relation<[AppStoreReviewAttachments]?> {
-                    .init(key: "fields[appStoreReviewAttachments]")
-                }
-
-                /// the fields to include for returned resources of type appStoreReviewDetails
-                public static var appStoreReviewDetails: Relation<[AppStoreReviewDetails]?> {
-                    .init(key: "fields[appStoreReviewDetails]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersions
-                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
-                    .init(key: "fields[appStoreVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -301,26 +278,41 @@ extension V1.AppStoreVersions.ById.AppStoreReviewDetail.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appStoreReviewAttachments returned (when they are included)
-                public static var appStoreReviewAttachments: Relation<Int?> {
-                    .init(key: "limit[appStoreReviewAttachments]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.AppStoreReviewDetail.GET.Parameters.Fields, [V1.AppStoreVersions.ById.AppStoreReviewDetail.GET.Parameters.Fields.AppStoreReviewAttachments]?> {
+    /// the fields to include for returned resources of type appStoreReviewAttachments
+    public static var appStoreReviewAttachments: Relation {
+        .init(key: "fields[appStoreReviewAttachments]")
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.AppStoreReviewDetail.GET.Parameters.Fields, [V1.AppStoreVersions.ById.AppStoreReviewDetail.GET.Parameters.Fields.AppStoreReviewDetails]?> {
+    /// the fields to include for returned resources of type appStoreReviewDetails
+    public static var appStoreReviewDetails: Relation {
+        .init(key: "fields[appStoreReviewDetails]")
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.AppStoreReviewDetail.GET.Parameters.Fields, [V1.AppStoreVersions.ById.AppStoreReviewDetail.GET.Parameters.Fields.AppStoreVersions]?> {
+    /// the fields to include for returned resources of type appStoreVersions
+    public static var appStoreVersions: Relation {
+        .init(key: "fields[appStoreVersions]")
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.AppStoreReviewDetail.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appStoreReviewAttachments returned (when they are included)
+    public static var appStoreReviewAttachments: Relation {
+        .init(key: "limit[appStoreReviewAttachments]")
     }
 }
 

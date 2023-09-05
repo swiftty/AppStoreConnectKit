@@ -82,7 +82,7 @@ extension V1.BuildBetaDetails.ById.GET {
         public var include: [Include]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -204,24 +204,6 @@ extension V1.BuildBetaDetails.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type buildBetaDetails
-                public static var buildBetaDetails: Relation<[BuildBetaDetails]?> {
-                    .init(key: "fields[buildBetaDetails]")
-                }
-
-                /// the fields to include for returned resources of type builds
-                public static var builds: Relation<[Builds]?> {
-                    .init(key: "fields[builds]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -242,6 +224,20 @@ extension V1.BuildBetaDetails.ById.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.BuildBetaDetails.ById.GET.Parameters.Fields, [V1.BuildBetaDetails.ById.GET.Parameters.Fields.BuildBetaDetails]?> {
+    /// the fields to include for returned resources of type buildBetaDetails
+    public static var buildBetaDetails: Relation {
+        .init(key: "fields[buildBetaDetails]")
+    }
+}
+
+extension Relation<V1.BuildBetaDetails.ById.GET.Parameters.Fields, [V1.BuildBetaDetails.ById.GET.Parameters.Fields.Builds]?> {
+    /// the fields to include for returned resources of type builds
+    public static var builds: Relation {
+        .init(key: "fields[builds]")
     }
 }
 

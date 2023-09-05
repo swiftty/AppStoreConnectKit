@@ -82,7 +82,7 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET {
         public var include: [Include]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -156,24 +156,6 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appClipDefaultExperienceLocalizations
-                public static var appClipDefaultExperienceLocalizations: Relation<[AppClipDefaultExperienceLocalizations]?> {
-                    .init(key: "fields[appClipDefaultExperienceLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appClipHeaderImages
-                public static var appClipHeaderImages: Relation<[AppClipHeaderImages]?> {
-                    .init(key: "fields[appClipHeaderImages]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -194,6 +176,20 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET.Parameters.Fields, [V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET.Parameters.Fields.AppClipDefaultExperienceLocalizations]?> {
+    /// the fields to include for returned resources of type appClipDefaultExperienceLocalizations
+    public static var appClipDefaultExperienceLocalizations: Relation {
+        .init(key: "fields[appClipDefaultExperienceLocalizations]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET.Parameters.Fields, [V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET.Parameters.Fields.AppClipHeaderImages]?> {
+    /// the fields to include for returned resources of type appClipHeaderImages
+    public static var appClipHeaderImages: Relation {
+        .init(key: "fields[appClipHeaderImages]")
     }
 }
 

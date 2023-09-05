@@ -86,7 +86,7 @@ extension V1.AppPreviewSets.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -172,24 +172,6 @@ extension V1.AppPreviewSets.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appPreviewSets
-                public static var appPreviewSets: Relation<[AppPreviewSets]?> {
-                    .init(key: "fields[appPreviewSets]")
-                }
-
-                /// the fields to include for returned resources of type appPreviews
-                public static var appPreviews: Relation<[AppPreviews]?> {
-                    .init(key: "fields[appPreviews]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -221,26 +203,34 @@ extension V1.AppPreviewSets.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appPreviews returned (when they are included)
-                public static var appPreviews: Relation<Int?> {
-                    .init(key: "limit[appPreviews]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppPreviewSets.ById.GET.Parameters.Fields, [V1.AppPreviewSets.ById.GET.Parameters.Fields.AppPreviewSets]?> {
+    /// the fields to include for returned resources of type appPreviewSets
+    public static var appPreviewSets: Relation {
+        .init(key: "fields[appPreviewSets]")
+    }
+}
+
+extension Relation<V1.AppPreviewSets.ById.GET.Parameters.Fields, [V1.AppPreviewSets.ById.GET.Parameters.Fields.AppPreviews]?> {
+    /// the fields to include for returned resources of type appPreviews
+    public static var appPreviews: Relation {
+        .init(key: "fields[appPreviews]")
+    }
+}
+
+extension Relation<V1.AppPreviewSets.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appPreviews returned (when they are included)
+    public static var appPreviews: Relation {
+        .init(key: "limit[appPreviews]")
     }
 }
 

@@ -90,7 +90,7 @@ extension V1.Devices.GET {
         public var sort: [Sort]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -133,23 +133,10 @@ extension V1.Devices.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type devices
-                public static var devices: Relation<[Devices]?> {
-                    .init(key: "fields[devices]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -199,39 +186,6 @@ extension V1.Devices.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s)
-                public static var id: Relation<[String]?> {
-                    .init(key: "filter[id]")
-                }
-
-                /// filter by attribute 'name'
-                public static var name: Relation<[String]?> {
-                    .init(key: "filter[name]")
-                }
-
-                /// filter by attribute 'platform'
-                public static var platform: Relation<[Platform]?> {
-                    .init(key: "filter[platform]")
-                }
-
-                /// filter by attribute 'status'
-                public static var status: Relation<[Status]?> {
-                    .init(key: "filter[status]")
-                }
-
-                /// filter by attribute 'udid'
-                public static var udid: Relation<[String]?> {
-                    .init(key: "filter[udid]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Sort: Hashable, Codable, RawRepresentable {
@@ -279,6 +233,48 @@ extension V1.Devices.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.Devices.GET.Parameters.Fields, [V1.Devices.GET.Parameters.Fields.Devices]?> {
+    /// the fields to include for returned resources of type devices
+    public static var devices: Relation {
+        .init(key: "fields[devices]")
+    }
+}
+
+extension Relation<V1.Devices.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s)
+    public static var id: Relation {
+        .init(key: "filter[id]")
+    }
+}
+
+extension Relation<V1.Devices.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'name'
+    public static var name: Relation {
+        .init(key: "filter[name]")
+    }
+}
+
+extension Relation<V1.Devices.GET.Parameters.Filter, [V1.Devices.GET.Parameters.Filter.Platform]?> {
+    /// filter by attribute 'platform'
+    public static var platform: Relation {
+        .init(key: "filter[platform]")
+    }
+}
+
+extension Relation<V1.Devices.GET.Parameters.Filter, [V1.Devices.GET.Parameters.Filter.Status]?> {
+    /// filter by attribute 'status'
+    public static var status: Relation {
+        .init(key: "filter[status]")
+    }
+}
+
+extension Relation<V1.Devices.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'udid'
+    public static var udid: Relation {
+        .init(key: "filter[udid]")
     }
 }
 

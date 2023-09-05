@@ -93,7 +93,7 @@ extension V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalization
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -201,51 +201,15 @@ extension V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalization
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appClipDefaultExperienceLocalizations
-                public static var appClipDefaultExperienceLocalizations: Relation<[AppClipDefaultExperienceLocalizations]?> {
-                    .init(key: "fields[appClipDefaultExperienceLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appClipDefaultExperiences
-                public static var appClipDefaultExperiences: Relation<[AppClipDefaultExperiences]?> {
-                    .init(key: "fields[appClipDefaultExperiences]")
-                }
-
-                /// the fields to include for returned resources of type appClipHeaderImages
-                public static var appClipHeaderImages: Relation<[AppClipHeaderImages]?> {
-                    .init(key: "fields[appClipHeaderImages]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'locale'
-                public static var locale: Relation<[String]?> {
-                    .init(key: "filter[locale]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -269,6 +233,34 @@ extension V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalization
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalizations.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalizations.GET.Parameters.Fields.AppClipDefaultExperienceLocalizations]?> {
+    /// the fields to include for returned resources of type appClipDefaultExperienceLocalizations
+    public static var appClipDefaultExperienceLocalizations: Relation {
+        .init(key: "fields[appClipDefaultExperienceLocalizations]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalizations.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalizations.GET.Parameters.Fields.AppClipDefaultExperiences]?> {
+    /// the fields to include for returned resources of type appClipDefaultExperiences
+    public static var appClipDefaultExperiences: Relation {
+        .init(key: "fields[appClipDefaultExperiences]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalizations.GET.Parameters.Fields, [V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalizations.GET.Parameters.Fields.AppClipHeaderImages]?> {
+    /// the fields to include for returned resources of type appClipHeaderImages
+    public static var appClipHeaderImages: Relation {
+        .init(key: "fields[appClipHeaderImages]")
+    }
+}
+
+extension Relation<V1.AppClipDefaultExperiences.ById.AppClipDefaultExperienceLocalizations.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'locale'
+    public static var locale: Relation {
+        .init(key: "filter[locale]")
     }
 }
 

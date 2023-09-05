@@ -80,7 +80,7 @@ extension V1.AppInfoLocalizations.ById.GET {
         public var include: [Include]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -123,19 +123,6 @@ extension V1.AppInfoLocalizations.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appInfoLocalizations
-                public static var appInfoLocalizations: Relation<[AppInfoLocalizations]?> {
-                    .init(key: "fields[appInfoLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -156,6 +143,13 @@ extension V1.AppInfoLocalizations.ById.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.AppInfoLocalizations.ById.GET.Parameters.Fields, [V1.AppInfoLocalizations.ById.GET.Parameters.Fields.AppInfoLocalizations]?> {
+    /// the fields to include for returned resources of type appInfoLocalizations
+    public static var appInfoLocalizations: Relation {
+        .init(key: "fields[appInfoLocalizations]")
     }
 }
 

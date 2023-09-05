@@ -86,7 +86,7 @@ extension V1.AppStoreVersionExperimentTreatments.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -157,24 +157,6 @@ extension V1.AppStoreVersionExperimentTreatments.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
-                public static var appStoreVersionExperimentTreatmentLocalizations: Relation<[AppStoreVersionExperimentTreatmentLocalizations]?> {
-                    .init(key: "fields[appStoreVersionExperimentTreatmentLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionExperimentTreatments
-                public static var appStoreVersionExperimentTreatments: Relation<[AppStoreVersionExperimentTreatments]?> {
-                    .init(key: "fields[appStoreVersionExperimentTreatments]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -203,26 +185,34 @@ extension V1.AppStoreVersionExperimentTreatments.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appStoreVersionExperimentTreatmentLocalizations returned (when they are included)
-                public static var appStoreVersionExperimentTreatmentLocalizations: Relation<Int?> {
-                    .init(key: "limit[appStoreVersionExperimentTreatmentLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatments.ById.GET.Parameters.Fields, [V1.AppStoreVersionExperimentTreatments.ById.GET.Parameters.Fields.AppStoreVersionExperimentTreatmentLocalizations]?> {
+    /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
+    public static var appStoreVersionExperimentTreatmentLocalizations: Relation {
+        .init(key: "fields[appStoreVersionExperimentTreatmentLocalizations]")
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatments.ById.GET.Parameters.Fields, [V1.AppStoreVersionExperimentTreatments.ById.GET.Parameters.Fields.AppStoreVersionExperimentTreatments]?> {
+    /// the fields to include for returned resources of type appStoreVersionExperimentTreatments
+    public static var appStoreVersionExperimentTreatments: Relation {
+        .init(key: "fields[appStoreVersionExperimentTreatments]")
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatments.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appStoreVersionExperimentTreatmentLocalizations returned (when they are included)
+    public static var appStoreVersionExperimentTreatmentLocalizations: Relation {
+        .init(key: "limit[appStoreVersionExperimentTreatmentLocalizations]")
     }
 }
 

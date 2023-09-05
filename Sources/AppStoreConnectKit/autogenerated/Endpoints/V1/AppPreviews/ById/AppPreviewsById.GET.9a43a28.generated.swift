@@ -80,7 +80,7 @@ extension V1.AppPreviews.ById.GET {
         public var include: [Include]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -135,19 +135,6 @@ extension V1.AppPreviews.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appPreviews
-                public static var appPreviews: Relation<[AppPreviews]?> {
-                    .init(key: "fields[appPreviews]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -168,6 +155,13 @@ extension V1.AppPreviews.ById.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.AppPreviews.ById.GET.Parameters.Fields, [V1.AppPreviews.ById.GET.Parameters.Fields.AppPreviews]?> {
+    /// the fields to include for returned resources of type appPreviews
+    public static var appPreviews: Relation {
+        .init(key: "fields[appPreviews]")
     }
 }
 

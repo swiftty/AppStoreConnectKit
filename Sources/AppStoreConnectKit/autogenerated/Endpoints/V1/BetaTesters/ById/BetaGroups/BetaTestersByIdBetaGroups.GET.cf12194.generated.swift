@@ -80,7 +80,7 @@ extension V1.BetaTesters.ById.BetaGroups.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -144,20 +144,14 @@ extension V1.BetaTesters.ById.BetaGroups.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type betaGroups
-                public static var betaGroups: Relation<[BetaGroups]?> {
-                    .init(key: "fields[betaGroups]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.BetaTesters.ById.BetaGroups.GET.Parameters.Fields, [V1.BetaTesters.ById.BetaGroups.GET.Parameters.Fields.BetaGroups]?> {
+    /// the fields to include for returned resources of type betaGroups
+    public static var betaGroups: Relation {
+        .init(key: "fields[betaGroups]")
     }
 }
 

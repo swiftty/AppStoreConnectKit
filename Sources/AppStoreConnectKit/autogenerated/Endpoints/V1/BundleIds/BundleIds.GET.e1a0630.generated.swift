@@ -105,7 +105,7 @@ extension V1.BundleIds.GET {
         public var sort: [Sort]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -364,38 +364,10 @@ extension V1.BundleIds.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type bundleIdCapabilities
-                public static var bundleIdCapabilities: Relation<[BundleIdCapabilities]?> {
-                    .init(key: "fields[bundleIdCapabilities]")
-                }
-
-                /// the fields to include for returned resources of type bundleIds
-                public static var bundleIds: Relation<[BundleIds]?> {
-                    .init(key: "fields[bundleIds]")
-                }
-
-                /// the fields to include for returned resources of type profiles
-                public static var profiles: Relation<[Profiles]?> {
-                    .init(key: "fields[profiles]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -421,39 +393,6 @@ extension V1.BundleIds.GET {
                     case "MAC_OS": self = .macOS
                     default: self = .unknown(rawValue)
                     }
-                }
-            }
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s)
-                public static var id: Relation<[String]?> {
-                    .init(key: "filter[id]")
-                }
-
-                /// filter by attribute 'identifier'
-                public static var identifier: Relation<[String]?> {
-                    .init(key: "filter[identifier]")
-                }
-
-                /// filter by attribute 'name'
-                public static var name: Relation<[String]?> {
-                    .init(key: "filter[name]")
-                }
-
-                /// filter by attribute 'platform'
-                public static var platform: Relation<[Platform]?> {
-                    .init(key: "filter[platform]")
-                }
-
-                /// filter by attribute 'seedId'
-                public static var seedId: Relation<[String]?> {
-                    .init(key: "filter[seedId]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
                 }
             }
         }
@@ -485,34 +424,16 @@ extension V1.BundleIds.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related bundleIdCapabilities returned (when they are included)
-                public static var bundleIdCapabilities: Relation<Int?> {
-                    .init(key: "limit[bundleIdCapabilities]")
-                }
-
-                /// maximum number of related profiles returned (when they are included)
-                public static var profiles: Relation<Int?> {
-                    .init(key: "limit[profiles]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Sort: Hashable, Codable, RawRepresentable {
@@ -560,6 +481,83 @@ extension V1.BundleIds.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Fields, [V1.BundleIds.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Fields, [V1.BundleIds.GET.Parameters.Fields.BundleIdCapabilities]?> {
+    /// the fields to include for returned resources of type bundleIdCapabilities
+    public static var bundleIdCapabilities: Relation {
+        .init(key: "fields[bundleIdCapabilities]")
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Fields, [V1.BundleIds.GET.Parameters.Fields.BundleIds]?> {
+    /// the fields to include for returned resources of type bundleIds
+    public static var bundleIds: Relation {
+        .init(key: "fields[bundleIds]")
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Fields, [V1.BundleIds.GET.Parameters.Fields.Profiles]?> {
+    /// the fields to include for returned resources of type profiles
+    public static var profiles: Relation {
+        .init(key: "fields[profiles]")
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s)
+    public static var id: Relation {
+        .init(key: "filter[id]")
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'identifier'
+    public static var identifier: Relation {
+        .init(key: "filter[identifier]")
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'name'
+    public static var name: Relation {
+        .init(key: "filter[name]")
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Filter, [V1.BundleIds.GET.Parameters.Filter.Platform]?> {
+    /// filter by attribute 'platform'
+    public static var platform: Relation {
+        .init(key: "filter[platform]")
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'seedId'
+    public static var seedId: Relation {
+        .init(key: "filter[seedId]")
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Limit, Int?> {
+    /// maximum number of related bundleIdCapabilities returned (when they are included)
+    public static var bundleIdCapabilities: Relation {
+        .init(key: "limit[bundleIdCapabilities]")
+    }
+}
+
+extension Relation<V1.BundleIds.GET.Parameters.Limit, Int?> {
+    /// maximum number of related profiles returned (when they are included)
+    public static var profiles: Relation {
+        .init(key: "limit[profiles]")
     }
 }
 

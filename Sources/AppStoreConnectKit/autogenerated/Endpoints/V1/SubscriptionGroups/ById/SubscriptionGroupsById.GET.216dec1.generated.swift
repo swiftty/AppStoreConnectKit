@@ -90,7 +90,7 @@ extension V1.SubscriptionGroups.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -225,29 +225,6 @@ extension V1.SubscriptionGroups.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionGroupLocalizations
-                public static var subscriptionGroupLocalizations: Relation<[SubscriptionGroupLocalizations]?> {
-                    .init(key: "fields[subscriptionGroupLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionGroups
-                public static var subscriptionGroups: Relation<[SubscriptionGroups]?> {
-                    .init(key: "fields[subscriptionGroups]")
-                }
-
-                /// the fields to include for returned resources of type subscriptions
-                public static var subscriptions: Relation<[Subscriptions]?> {
-                    .init(key: "fields[subscriptions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -273,31 +250,48 @@ extension V1.SubscriptionGroups.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related subscriptionGroupLocalizations returned (when they are included)
-                public static var subscriptionGroupLocalizations: Relation<Int?> {
-                    .init(key: "limit[subscriptionGroupLocalizations]")
-                }
-
-                /// maximum number of related subscriptions returned (when they are included)
-                public static var subscriptions: Relation<Int?> {
-                    .init(key: "limit[subscriptions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.SubscriptionGroups.ById.GET.Parameters.Fields, [V1.SubscriptionGroups.ById.GET.Parameters.Fields.SubscriptionGroupLocalizations]?> {
+    /// the fields to include for returned resources of type subscriptionGroupLocalizations
+    public static var subscriptionGroupLocalizations: Relation {
+        .init(key: "fields[subscriptionGroupLocalizations]")
+    }
+}
+
+extension Relation<V1.SubscriptionGroups.ById.GET.Parameters.Fields, [V1.SubscriptionGroups.ById.GET.Parameters.Fields.SubscriptionGroups]?> {
+    /// the fields to include for returned resources of type subscriptionGroups
+    public static var subscriptionGroups: Relation {
+        .init(key: "fields[subscriptionGroups]")
+    }
+}
+
+extension Relation<V1.SubscriptionGroups.ById.GET.Parameters.Fields, [V1.SubscriptionGroups.ById.GET.Parameters.Fields.Subscriptions]?> {
+    /// the fields to include for returned resources of type subscriptions
+    public static var subscriptions: Relation {
+        .init(key: "fields[subscriptions]")
+    }
+}
+
+extension Relation<V1.SubscriptionGroups.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related subscriptionGroupLocalizations returned (when they are included)
+    public static var subscriptionGroupLocalizations: Relation {
+        .init(key: "limit[subscriptionGroupLocalizations]")
+    }
+}
+
+extension Relation<V1.SubscriptionGroups.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related subscriptions returned (when they are included)
+    public static var subscriptions: Relation {
+        .init(key: "limit[subscriptions]")
     }
 }
 

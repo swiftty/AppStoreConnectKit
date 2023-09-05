@@ -80,7 +80,7 @@ extension V1.BuildBundles.ById.BuildBundleFileSizes.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -114,20 +114,14 @@ extension V1.BuildBundles.ById.BuildBundleFileSizes.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type buildBundleFileSizes
-                public static var buildBundleFileSizes: Relation<[BuildBundleFileSizes]?> {
-                    .init(key: "fields[buildBundleFileSizes]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.BuildBundles.ById.BuildBundleFileSizes.GET.Parameters.Fields, [V1.BuildBundles.ById.BuildBundleFileSizes.GET.Parameters.Fields.BuildBundleFileSizes]?> {
+    /// the fields to include for returned resources of type buildBundleFileSizes
+    public static var buildBundleFileSizes: Relation {
+        .init(key: "fields[buildBundleFileSizes]")
     }
 }
 

@@ -82,7 +82,7 @@ extension V1.CiXcodeVersions.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -141,24 +141,6 @@ extension V1.CiXcodeVersions.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type ciMacOsVersions
-                public static var ciMacOsVersions: Relation<[CiMacOsVersions]?> {
-                    .init(key: "fields[ciMacOsVersions]")
-                }
-
-                /// the fields to include for returned resources of type ciXcodeVersions
-                public static var ciXcodeVersions: Relation<[CiXcodeVersions]?> {
-                    .init(key: "fields[ciXcodeVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -182,30 +164,38 @@ extension V1.CiXcodeVersions.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related macOsVersions returned (when they are included)
-                public static var macOsVersions: Relation<Int?> {
-                    .init(key: "limit[macOsVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.CiXcodeVersions.GET.Parameters.Fields, [V1.CiXcodeVersions.GET.Parameters.Fields.CiMacOsVersions]?> {
+    /// the fields to include for returned resources of type ciMacOsVersions
+    public static var ciMacOsVersions: Relation {
+        .init(key: "fields[ciMacOsVersions]")
+    }
+}
+
+extension Relation<V1.CiXcodeVersions.GET.Parameters.Fields, [V1.CiXcodeVersions.GET.Parameters.Fields.CiXcodeVersions]?> {
+    /// the fields to include for returned resources of type ciXcodeVersions
+    public static var ciXcodeVersions: Relation {
+        .init(key: "fields[ciXcodeVersions]")
+    }
+}
+
+extension Relation<V1.CiXcodeVersions.GET.Parameters.Limit, Int?> {
+    /// maximum number of related macOsVersions returned (when they are included)
+    public static var macOsVersions: Relation {
+        .init(key: "limit[macOsVersions]")
     }
 }
 

@@ -78,7 +78,7 @@ extension V1.SalesReports.GET {
         public var filter: Filter = Filter()
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -171,45 +171,49 @@ extension V1.SalesReports.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'frequency' **(required)**
-                public static var frequency: Relation<[Frequency]?> {
-                    .init(key: "filter[frequency]")
-                }
-
-                /// filter by attribute 'reportDate'
-                public static var reportDate: Relation<[String]?> {
-                    .init(key: "filter[reportDate]")
-                }
-
-                /// filter by attribute 'reportSubType' **(required)**
-                public static var reportSubType: Relation<[ReportSubType]?> {
-                    .init(key: "filter[reportSubType]")
-                }
-
-                /// filter by attribute 'reportType' **(required)**
-                public static var reportType: Relation<[ReportType]?> {
-                    .init(key: "filter[reportType]")
-                }
-
-                /// filter by attribute 'vendorNumber' **(required)**
-                public static var vendorNumber: Relation<[String]?> {
-                    .init(key: "filter[vendorNumber]")
-                }
-
-                /// filter by attribute 'version'
-                public static var version: Relation<[String]?> {
-                    .init(key: "filter[version]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.SalesReports.GET.Parameters.Filter, [V1.SalesReports.GET.Parameters.Filter.Frequency]?> {
+    /// filter by attribute 'frequency' **(required)**
+    public static var frequency: Relation {
+        .init(key: "filter[frequency]")
+    }
+}
+
+extension Relation<V1.SalesReports.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'reportDate'
+    public static var reportDate: Relation {
+        .init(key: "filter[reportDate]")
+    }
+}
+
+extension Relation<V1.SalesReports.GET.Parameters.Filter, [V1.SalesReports.GET.Parameters.Filter.ReportSubType]?> {
+    /// filter by attribute 'reportSubType' **(required)**
+    public static var reportSubType: Relation {
+        .init(key: "filter[reportSubType]")
+    }
+}
+
+extension Relation<V1.SalesReports.GET.Parameters.Filter, [V1.SalesReports.GET.Parameters.Filter.ReportType]?> {
+    /// filter by attribute 'reportType' **(required)**
+    public static var reportType: Relation {
+        .init(key: "filter[reportType]")
+    }
+}
+
+extension Relation<V1.SalesReports.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'vendorNumber' **(required)**
+    public static var vendorNumber: Relation {
+        .init(key: "filter[vendorNumber]")
+    }
+}
+
+extension Relation<V1.SalesReports.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'version'
+    public static var version: Relation {
+        .init(key: "filter[version]")
     }
 }
 

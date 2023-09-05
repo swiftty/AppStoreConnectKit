@@ -93,7 +93,7 @@ extension V1.ReviewSubmissions.ById.Items.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -350,39 +350,6 @@ extension V1.ReviewSubmissions.ById.Items.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCustomProductPageVersions
-                public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
-                    .init(key: "fields[appCustomProductPageVersions]")
-                }
-
-                /// the fields to include for returned resources of type appEvents
-                public static var appEvents: Relation<[AppEvents]?> {
-                    .init(key: "fields[appEvents]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionExperiments
-                public static var appStoreVersionExperiments: Relation<[AppStoreVersionExperiments]?> {
-                    .init(key: "fields[appStoreVersionExperiments]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersions
-                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
-                    .init(key: "fields[appStoreVersions]")
-                }
-
-                /// the fields to include for returned resources of type reviewSubmissionItems
-                public static var reviewSubmissionItems: Relation<[ReviewSubmissionItems]?> {
-                    .init(key: "fields[reviewSubmissionItems]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -415,6 +382,41 @@ extension V1.ReviewSubmissions.ById.Items.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.ReviewSubmissions.ById.Items.GET.Parameters.Fields, [V1.ReviewSubmissions.ById.Items.GET.Parameters.Fields.AppCustomProductPageVersions]?> {
+    /// the fields to include for returned resources of type appCustomProductPageVersions
+    public static var appCustomProductPageVersions: Relation {
+        .init(key: "fields[appCustomProductPageVersions]")
+    }
+}
+
+extension Relation<V1.ReviewSubmissions.ById.Items.GET.Parameters.Fields, [V1.ReviewSubmissions.ById.Items.GET.Parameters.Fields.AppEvents]?> {
+    /// the fields to include for returned resources of type appEvents
+    public static var appEvents: Relation {
+        .init(key: "fields[appEvents]")
+    }
+}
+
+extension Relation<V1.ReviewSubmissions.ById.Items.GET.Parameters.Fields, [V1.ReviewSubmissions.ById.Items.GET.Parameters.Fields.AppStoreVersionExperiments]?> {
+    /// the fields to include for returned resources of type appStoreVersionExperiments
+    public static var appStoreVersionExperiments: Relation {
+        .init(key: "fields[appStoreVersionExperiments]")
+    }
+}
+
+extension Relation<V1.ReviewSubmissions.ById.Items.GET.Parameters.Fields, [V1.ReviewSubmissions.ById.Items.GET.Parameters.Fields.AppStoreVersions]?> {
+    /// the fields to include for returned resources of type appStoreVersions
+    public static var appStoreVersions: Relation {
+        .init(key: "fields[appStoreVersions]")
+    }
+}
+
+extension Relation<V1.ReviewSubmissions.ById.Items.GET.Parameters.Fields, [V1.ReviewSubmissions.ById.Items.GET.Parameters.Fields.ReviewSubmissionItems]?> {
+    /// the fields to include for returned resources of type reviewSubmissionItems
+    public static var reviewSubmissionItems: Relation {
+        .init(key: "fields[reviewSubmissionItems]")
     }
 }
 

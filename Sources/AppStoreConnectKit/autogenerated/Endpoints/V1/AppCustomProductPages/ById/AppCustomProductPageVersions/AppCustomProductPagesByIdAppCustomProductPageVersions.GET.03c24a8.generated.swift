@@ -95,7 +95,7 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -197,33 +197,10 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCustomProductPageLocalizations
-                public static var appCustomProductPageLocalizations: Relation<[AppCustomProductPageLocalizations]?> {
-                    .init(key: "fields[appCustomProductPageLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appCustomProductPageVersions
-                public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
-                    .init(key: "fields[appCustomProductPageVersions]")
-                }
-
-                /// the fields to include for returned resources of type appCustomProductPages
-                public static var appCustomProductPages: Relation<[AppCustomProductPages]?> {
-                    .init(key: "fields[appCustomProductPages]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -269,19 +246,6 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'state'
-                public static var state: Relation<[State]?> {
-                    .init(key: "filter[state]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -308,30 +272,52 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appCustomProductPageLocalizations returned (when they are included)
-                public static var appCustomProductPageLocalizations: Relation<Int?> {
-                    .init(key: "limit[appCustomProductPageLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET.Parameters.Fields, [V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET.Parameters.Fields.AppCustomProductPageLocalizations]?> {
+    /// the fields to include for returned resources of type appCustomProductPageLocalizations
+    public static var appCustomProductPageLocalizations: Relation {
+        .init(key: "fields[appCustomProductPageLocalizations]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET.Parameters.Fields, [V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET.Parameters.Fields.AppCustomProductPageVersions]?> {
+    /// the fields to include for returned resources of type appCustomProductPageVersions
+    public static var appCustomProductPageVersions: Relation {
+        .init(key: "fields[appCustomProductPageVersions]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET.Parameters.Fields, [V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET.Parameters.Fields.AppCustomProductPages]?> {
+    /// the fields to include for returned resources of type appCustomProductPages
+    public static var appCustomProductPages: Relation {
+        .init(key: "fields[appCustomProductPages]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET.Parameters.Filter, [V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET.Parameters.Filter.State]?> {
+    /// filter by attribute 'state'
+    public static var state: Relation {
+        .init(key: "filter[state]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appCustomProductPageLocalizations returned (when they are included)
+    public static var appCustomProductPageLocalizations: Relation {
+        .init(key: "limit[appCustomProductPageLocalizations]")
     }
 }
 

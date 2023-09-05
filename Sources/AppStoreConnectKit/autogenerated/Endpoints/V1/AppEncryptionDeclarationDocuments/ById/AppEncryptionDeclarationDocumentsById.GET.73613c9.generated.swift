@@ -75,7 +75,7 @@ extension V1.AppEncryptionDeclarationDocuments.ById.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -124,20 +124,14 @@ extension V1.AppEncryptionDeclarationDocuments.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appEncryptionDeclarationDocuments
-                public static var appEncryptionDeclarationDocuments: Relation<[AppEncryptionDeclarationDocuments]?> {
-                    .init(key: "fields[appEncryptionDeclarationDocuments]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppEncryptionDeclarationDocuments.ById.GET.Parameters.Fields, [V1.AppEncryptionDeclarationDocuments.ById.GET.Parameters.Fields.AppEncryptionDeclarationDocuments]?> {
+    /// the fields to include for returned resources of type appEncryptionDeclarationDocuments
+    public static var appEncryptionDeclarationDocuments: Relation {
+        .init(key: "fields[appEncryptionDeclarationDocuments]")
     }
 }
 

@@ -86,7 +86,7 @@ extension V1.AppEvents.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -181,24 +181,6 @@ extension V1.AppEvents.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appEventLocalizations
-                public static var appEventLocalizations: Relation<[AppEventLocalizations]?> {
-                    .init(key: "fields[appEventLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appEvents
-                public static var appEvents: Relation<[AppEvents]?> {
-                    .init(key: "fields[appEvents]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -221,26 +203,34 @@ extension V1.AppEvents.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related localizations returned (when they are included)
-                public static var localizations: Relation<Int?> {
-                    .init(key: "limit[localizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppEvents.ById.GET.Parameters.Fields, [V1.AppEvents.ById.GET.Parameters.Fields.AppEventLocalizations]?> {
+    /// the fields to include for returned resources of type appEventLocalizations
+    public static var appEventLocalizations: Relation {
+        .init(key: "fields[appEventLocalizations]")
+    }
+}
+
+extension Relation<V1.AppEvents.ById.GET.Parameters.Fields, [V1.AppEvents.ById.GET.Parameters.Fields.AppEvents]?> {
+    /// the fields to include for returned resources of type appEvents
+    public static var appEvents: Relation {
+        .init(key: "fields[appEvents]")
+    }
+}
+
+extension Relation<V1.AppEvents.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related localizations returned (when they are included)
+    public static var localizations: Relation {
+        .init(key: "limit[localizations]")
     }
 }
 

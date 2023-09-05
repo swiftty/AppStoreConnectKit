@@ -75,7 +75,7 @@ extension V1.CiIssues.ById.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -109,20 +109,14 @@ extension V1.CiIssues.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type ciIssues
-                public static var ciIssues: Relation<[CiIssues]?> {
-                    .init(key: "fields[ciIssues]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.CiIssues.ById.GET.Parameters.Fields, [V1.CiIssues.ById.GET.Parameters.Fields.CiIssues]?> {
+    /// the fields to include for returned resources of type ciIssues
+    public static var ciIssues: Relation {
+        .init(key: "fields[ciIssues]")
     }
 }
 

@@ -86,7 +86,7 @@ extension V1.UserInvitations.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -274,24 +274,6 @@ extension V1.UserInvitations.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type userInvitations
-                public static var userInvitations: Relation<[UserInvitations]?> {
-                    .init(key: "fields[userInvitations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -314,26 +296,34 @@ extension V1.UserInvitations.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related visibleApps returned (when they are included)
-                public static var visibleApps: Relation<Int?> {
-                    .init(key: "limit[visibleApps]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.UserInvitations.ById.GET.Parameters.Fields, [V1.UserInvitations.ById.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.UserInvitations.ById.GET.Parameters.Fields, [V1.UserInvitations.ById.GET.Parameters.Fields.UserInvitations]?> {
+    /// the fields to include for returned resources of type userInvitations
+    public static var userInvitations: Relation {
+        .init(key: "fields[userInvitations]")
+    }
+}
+
+extension Relation<V1.UserInvitations.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related visibleApps returned (when they are included)
+    public static var visibleApps: Relation {
+        .init(key: "limit[visibleApps]")
     }
 }
 

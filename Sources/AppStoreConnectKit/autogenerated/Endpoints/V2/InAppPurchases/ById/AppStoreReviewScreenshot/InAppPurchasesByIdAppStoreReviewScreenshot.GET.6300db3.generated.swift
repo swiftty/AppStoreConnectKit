@@ -82,7 +82,7 @@ extension V2.InAppPurchases.ById.AppStoreReviewScreenshot.GET {
         public var include: [Include]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -198,24 +198,6 @@ extension V2.InAppPurchases.ById.AppStoreReviewScreenshot.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type inAppPurchaseAppStoreReviewScreenshots
-                public static var inAppPurchaseAppStoreReviewScreenshots: Relation<[InAppPurchaseAppStoreReviewScreenshots]?> {
-                    .init(key: "fields[inAppPurchaseAppStoreReviewScreenshots]")
-                }
-
-                /// the fields to include for returned resources of type inAppPurchases
-                public static var inAppPurchases: Relation<[InAppPurchases]?> {
-                    .init(key: "fields[inAppPurchases]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -236,6 +218,20 @@ extension V2.InAppPurchases.ById.AppStoreReviewScreenshot.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.AppStoreReviewScreenshot.GET.Parameters.Fields, [V2.InAppPurchases.ById.AppStoreReviewScreenshot.GET.Parameters.Fields.InAppPurchaseAppStoreReviewScreenshots]?> {
+    /// the fields to include for returned resources of type inAppPurchaseAppStoreReviewScreenshots
+    public static var inAppPurchaseAppStoreReviewScreenshots: Relation {
+        .init(key: "fields[inAppPurchaseAppStoreReviewScreenshots]")
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.AppStoreReviewScreenshot.GET.Parameters.Fields, [V2.InAppPurchases.ById.AppStoreReviewScreenshot.GET.Parameters.Fields.InAppPurchases]?> {
+    /// the fields to include for returned resources of type inAppPurchases
+    public static var inAppPurchases: Relation {
+        .init(key: "fields[inAppPurchases]")
     }
 }
 

@@ -80,7 +80,7 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -132,20 +132,14 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appStoreVersionLocalizations
-                public static var appStoreVersionLocalizations: Relation<[AppStoreVersionLocalizations]?> {
-                    .init(key: "fields[appStoreVersionLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.AppStoreVersionLocalizations.GET.Parameters.Fields, [V1.AppStoreVersions.ById.AppStoreVersionLocalizations.GET.Parameters.Fields.AppStoreVersionLocalizations]?> {
+    /// the fields to include for returned resources of type appStoreVersionLocalizations
+    public static var appStoreVersionLocalizations: Relation {
+        .init(key: "fields[appStoreVersionLocalizations]")
     }
 }
 

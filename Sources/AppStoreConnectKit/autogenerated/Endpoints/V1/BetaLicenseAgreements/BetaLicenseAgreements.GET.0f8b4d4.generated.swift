@@ -84,7 +84,7 @@ extension V1.BetaLicenseAgreements.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -254,46 +254,15 @@ extension V1.BetaLicenseAgreements.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type betaLicenseAgreements
-                public static var betaLicenseAgreements: Relation<[BetaLicenseAgreements]?> {
-                    .init(key: "fields[betaLicenseAgreements]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'app'
-                public static var app: Relation<[String]?> {
-                    .init(key: "filter[app]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -314,6 +283,27 @@ extension V1.BetaLicenseAgreements.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.BetaLicenseAgreements.GET.Parameters.Fields, [V1.BetaLicenseAgreements.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.BetaLicenseAgreements.GET.Parameters.Fields, [V1.BetaLicenseAgreements.GET.Parameters.Fields.BetaLicenseAgreements]?> {
+    /// the fields to include for returned resources of type betaLicenseAgreements
+    public static var betaLicenseAgreements: Relation {
+        .init(key: "fields[betaLicenseAgreements]")
+    }
+}
+
+extension Relation<V1.BetaLicenseAgreements.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'app'
+    public static var app: Relation {
+        .init(key: "filter[app]")
     }
 }
 

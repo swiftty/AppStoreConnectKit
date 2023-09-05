@@ -92,7 +92,7 @@ extension V2.InAppPurchases.ById.IapPriceSchedule.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -243,34 +243,6 @@ extension V2.InAppPurchases.ById.IapPriceSchedule.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type inAppPurchasePriceSchedules
-                public static var inAppPurchasePriceSchedules: Relation<[InAppPurchasePriceSchedules]?> {
-                    .init(key: "fields[inAppPurchasePriceSchedules]")
-                }
-
-                /// the fields to include for returned resources of type inAppPurchasePrices
-                public static var inAppPurchasePrices: Relation<[InAppPurchasePrices]?> {
-                    .init(key: "fields[inAppPurchasePrices]")
-                }
-
-                /// the fields to include for returned resources of type inAppPurchases
-                public static var inAppPurchases: Relation<[InAppPurchases]?> {
-                    .init(key: "fields[inAppPurchases]")
-                }
-
-                /// the fields to include for returned resources of type territories
-                public static var territories: Relation<[Territories]?> {
-                    .init(key: "fields[territories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -302,31 +274,55 @@ extension V2.InAppPurchases.ById.IapPriceSchedule.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related automaticPrices returned (when they are included)
-                public static var automaticPrices: Relation<Int?> {
-                    .init(key: "limit[automaticPrices]")
-                }
-
-                /// maximum number of related manualPrices returned (when they are included)
-                public static var manualPrices: Relation<Int?> {
-                    .init(key: "limit[manualPrices]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.IapPriceSchedule.GET.Parameters.Fields, [V2.InAppPurchases.ById.IapPriceSchedule.GET.Parameters.Fields.InAppPurchasePriceSchedules]?> {
+    /// the fields to include for returned resources of type inAppPurchasePriceSchedules
+    public static var inAppPurchasePriceSchedules: Relation {
+        .init(key: "fields[inAppPurchasePriceSchedules]")
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.IapPriceSchedule.GET.Parameters.Fields, [V2.InAppPurchases.ById.IapPriceSchedule.GET.Parameters.Fields.InAppPurchasePrices]?> {
+    /// the fields to include for returned resources of type inAppPurchasePrices
+    public static var inAppPurchasePrices: Relation {
+        .init(key: "fields[inAppPurchasePrices]")
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.IapPriceSchedule.GET.Parameters.Fields, [V2.InAppPurchases.ById.IapPriceSchedule.GET.Parameters.Fields.InAppPurchases]?> {
+    /// the fields to include for returned resources of type inAppPurchases
+    public static var inAppPurchases: Relation {
+        .init(key: "fields[inAppPurchases]")
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.IapPriceSchedule.GET.Parameters.Fields, [V2.InAppPurchases.ById.IapPriceSchedule.GET.Parameters.Fields.Territories]?> {
+    /// the fields to include for returned resources of type territories
+    public static var territories: Relation {
+        .init(key: "fields[territories]")
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.IapPriceSchedule.GET.Parameters.Limit, Int?> {
+    /// maximum number of related automaticPrices returned (when they are included)
+    public static var automaticPrices: Relation {
+        .init(key: "limit[automaticPrices]")
+    }
+}
+
+extension Relation<V2.InAppPurchases.ById.IapPriceSchedule.GET.Parameters.Limit, Int?> {
+    /// maximum number of related manualPrices returned (when they are included)
+    public static var manualPrices: Relation {
+        .init(key: "limit[manualPrices]")
     }
 }
 

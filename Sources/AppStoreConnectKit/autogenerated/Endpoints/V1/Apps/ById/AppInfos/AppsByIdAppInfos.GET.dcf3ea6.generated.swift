@@ -95,7 +95,7 @@ extension V1.Apps.ById.AppInfos.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -430,39 +430,6 @@ extension V1.Apps.ById.AppInfos.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type ageRatingDeclarations
-                public static var ageRatingDeclarations: Relation<[AgeRatingDeclarations]?> {
-                    .init(key: "fields[ageRatingDeclarations]")
-                }
-
-                /// the fields to include for returned resources of type appCategories
-                public static var appCategories: Relation<[AppCategories]?> {
-                    .init(key: "fields[appCategories]")
-                }
-
-                /// the fields to include for returned resources of type appInfoLocalizations
-                public static var appInfoLocalizations: Relation<[AppInfoLocalizations]?> {
-                    .init(key: "fields[appInfoLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appInfos
-                public static var appInfos: Relation<[AppInfos]?> {
-                    .init(key: "fields[appInfos]")
-                }
-
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -510,30 +477,59 @@ extension V1.Apps.ById.AppInfos.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appInfoLocalizations returned (when they are included)
-                public static var appInfoLocalizations: Relation<Int?> {
-                    .init(key: "limit[appInfoLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.AppInfos.GET.Parameters.Fields, [V1.Apps.ById.AppInfos.GET.Parameters.Fields.AgeRatingDeclarations]?> {
+    /// the fields to include for returned resources of type ageRatingDeclarations
+    public static var ageRatingDeclarations: Relation {
+        .init(key: "fields[ageRatingDeclarations]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppInfos.GET.Parameters.Fields, [V1.Apps.ById.AppInfos.GET.Parameters.Fields.AppCategories]?> {
+    /// the fields to include for returned resources of type appCategories
+    public static var appCategories: Relation {
+        .init(key: "fields[appCategories]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppInfos.GET.Parameters.Fields, [V1.Apps.ById.AppInfos.GET.Parameters.Fields.AppInfoLocalizations]?> {
+    /// the fields to include for returned resources of type appInfoLocalizations
+    public static var appInfoLocalizations: Relation {
+        .init(key: "fields[appInfoLocalizations]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppInfos.GET.Parameters.Fields, [V1.Apps.ById.AppInfos.GET.Parameters.Fields.AppInfos]?> {
+    /// the fields to include for returned resources of type appInfos
+    public static var appInfos: Relation {
+        .init(key: "fields[appInfos]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppInfos.GET.Parameters.Fields, [V1.Apps.ById.AppInfos.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppInfos.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appInfoLocalizations returned (when they are included)
+    public static var appInfoLocalizations: Relation {
+        .init(key: "limit[appInfoLocalizations]")
     }
 }
 

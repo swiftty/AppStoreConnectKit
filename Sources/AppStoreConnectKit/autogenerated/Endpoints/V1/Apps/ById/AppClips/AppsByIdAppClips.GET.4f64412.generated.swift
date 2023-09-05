@@ -95,7 +95,7 @@ extension V1.Apps.ById.AppClips.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -305,51 +305,15 @@ extension V1.Apps.ById.AppClips.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appClipDefaultExperiences
-                public static var appClipDefaultExperiences: Relation<[AppClipDefaultExperiences]?> {
-                    .init(key: "fields[appClipDefaultExperiences]")
-                }
-
-                /// the fields to include for returned resources of type appClips
-                public static var appClips: Relation<[AppClips]?> {
-                    .init(key: "fields[appClips]")
-                }
-
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'bundleId'
-                public static var bundleId: Relation<[String]?> {
-                    .init(key: "filter[bundleId]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -376,30 +340,52 @@ extension V1.Apps.ById.AppClips.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appClipDefaultExperiences returned (when they are included)
-                public static var appClipDefaultExperiences: Relation<Int?> {
-                    .init(key: "limit[appClipDefaultExperiences]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.AppClips.GET.Parameters.Fields, [V1.Apps.ById.AppClips.GET.Parameters.Fields.AppClipDefaultExperiences]?> {
+    /// the fields to include for returned resources of type appClipDefaultExperiences
+    public static var appClipDefaultExperiences: Relation {
+        .init(key: "fields[appClipDefaultExperiences]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppClips.GET.Parameters.Fields, [V1.Apps.ById.AppClips.GET.Parameters.Fields.AppClips]?> {
+    /// the fields to include for returned resources of type appClips
+    public static var appClips: Relation {
+        .init(key: "fields[appClips]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppClips.GET.Parameters.Fields, [V1.Apps.ById.AppClips.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppClips.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'bundleId'
+    public static var bundleId: Relation {
+        .init(key: "filter[bundleId]")
+    }
+}
+
+extension Relation<V1.Apps.ById.AppClips.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appClipDefaultExperiences returned (when they are included)
+    public static var appClipDefaultExperiences: Relation {
+        .init(key: "limit[appClipDefaultExperiences]")
     }
 }
 

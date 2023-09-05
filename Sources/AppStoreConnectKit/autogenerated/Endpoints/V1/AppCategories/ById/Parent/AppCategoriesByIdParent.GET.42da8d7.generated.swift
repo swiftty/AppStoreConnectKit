@@ -75,7 +75,7 @@ extension V1.AppCategories.ById.Parent.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -106,20 +106,14 @@ extension V1.AppCategories.ById.Parent.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCategories
-                public static var appCategories: Relation<[AppCategories]?> {
-                    .init(key: "fields[appCategories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppCategories.ById.Parent.GET.Parameters.Fields, [V1.AppCategories.ById.Parent.GET.Parameters.Fields.AppCategories]?> {
+    /// the fields to include for returned resources of type appCategories
+    public static var appCategories: Relation {
+        .init(key: "fields[appCategories]")
     }
 }
 

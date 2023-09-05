@@ -75,7 +75,7 @@ extension V1.Builds.ById.BuildBetaDetail.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -109,20 +109,14 @@ extension V1.Builds.ById.BuildBetaDetail.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type buildBetaDetails
-                public static var buildBetaDetails: Relation<[BuildBetaDetails]?> {
-                    .init(key: "fields[buildBetaDetails]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Builds.ById.BuildBetaDetail.GET.Parameters.Fields, [V1.Builds.ById.BuildBetaDetail.GET.Parameters.Fields.BuildBetaDetails]?> {
+    /// the fields to include for returned resources of type buildBetaDetails
+    public static var buildBetaDetails: Relation {
+        .init(key: "fields[buildBetaDetails]")
     }
 }
 
