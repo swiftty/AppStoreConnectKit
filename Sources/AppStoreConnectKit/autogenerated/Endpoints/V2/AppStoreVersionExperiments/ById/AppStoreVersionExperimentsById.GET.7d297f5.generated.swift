@@ -88,7 +88,7 @@ extension V2.AppStoreVersionExperiments.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -183,24 +183,6 @@ extension V2.AppStoreVersionExperiments.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appStoreVersionExperimentTreatments
-                public static var appStoreVersionExperimentTreatments: Relation<[AppStoreVersionExperimentTreatments]?> {
-                    .init(key: "fields[appStoreVersionExperimentTreatments]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionExperiments
-                public static var appStoreVersionExperiments: Relation<[AppStoreVersionExperiments]?> {
-                    .init(key: "fields[appStoreVersionExperiments]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -232,31 +214,41 @@ extension V2.AppStoreVersionExperiments.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appStoreVersionExperimentTreatments returned (when they are included)
-                public static var appStoreVersionExperimentTreatments: Relation<Int?> {
-                    .init(key: "limit[appStoreVersionExperimentTreatments]")
-                }
-
-                /// maximum number of related controlVersions returned (when they are included)
-                public static var controlVersions: Relation<Int?> {
-                    .init(key: "limit[controlVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V2.AppStoreVersionExperiments.ById.GET.Parameters.Fields, [V2.AppStoreVersionExperiments.ById.GET.Parameters.Fields.AppStoreVersionExperimentTreatments]?> {
+    /// the fields to include for returned resources of type appStoreVersionExperimentTreatments
+    public static var appStoreVersionExperimentTreatments: Relation {
+        .init(key: "fields[appStoreVersionExperimentTreatments]")
+    }
+}
+
+extension Relation<V2.AppStoreVersionExperiments.ById.GET.Parameters.Fields, [V2.AppStoreVersionExperiments.ById.GET.Parameters.Fields.AppStoreVersionExperiments]?> {
+    /// the fields to include for returned resources of type appStoreVersionExperiments
+    public static var appStoreVersionExperiments: Relation {
+        .init(key: "fields[appStoreVersionExperiments]")
+    }
+}
+
+extension Relation<V2.AppStoreVersionExperiments.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appStoreVersionExperimentTreatments returned (when they are included)
+    public static var appStoreVersionExperimentTreatments: Relation {
+        .init(key: "limit[appStoreVersionExperimentTreatments]")
+    }
+}
+
+extension Relation<V2.AppStoreVersionExperiments.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related controlVersions returned (when they are included)
+    public static var controlVersions: Relation {
+        .init(key: "limit[controlVersions]")
     }
 }
 

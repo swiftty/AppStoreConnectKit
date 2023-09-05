@@ -79,7 +79,7 @@ extension V1.Builds.ById.PerfPowerMetrics.GET {
         public var filter: Filter = Filter()
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -141,30 +141,28 @@ extension V1.Builds.ById.PerfPowerMetrics.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'deviceType'
-                public static var deviceType: Relation<[String]?> {
-                    .init(key: "filter[deviceType]")
-                }
-
-                /// filter by attribute 'metricType'
-                public static var metricType: Relation<[MetricType]?> {
-                    .init(key: "filter[metricType]")
-                }
-
-                /// filter by attribute 'platform'
-                public static var platform: Relation<[Platform]?> {
-                    .init(key: "filter[platform]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Builds.ById.PerfPowerMetrics.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'deviceType'
+    public static var deviceType: Relation {
+        .init(key: "filter[deviceType]")
+    }
+}
+
+extension Relation<V1.Builds.ById.PerfPowerMetrics.GET.Parameters.Filter, [V1.Builds.ById.PerfPowerMetrics.GET.Parameters.Filter.MetricType]?> {
+    /// filter by attribute 'metricType'
+    public static var metricType: Relation {
+        .init(key: "filter[metricType]")
+    }
+}
+
+extension Relation<V1.Builds.ById.PerfPowerMetrics.GET.Parameters.Filter, [V1.Builds.ById.PerfPowerMetrics.GET.Parameters.Filter.Platform]?> {
+    /// filter by attribute 'platform'
+    public static var platform: Relation {
+        .init(key: "filter[platform]")
     }
 }
 

@@ -381,16 +381,22 @@ struct EnumDecl: Decl {
 }
 
 struct ExtensionDecl: Decl {
-    var name: String
+    var nameComponents: ([String]) -> [String]
     var inheritances: [String] = []
     var body: [Decl]
 
     func render(context: inout RenderContext, in namespaces: [String]) -> String {
+        let namespaces = nameComponents(namespaces)
+        context.insert(extensions: body, with: namespaces)
+        return ""
+    }
+
+    func extensionRender(context: inout RenderContext, in namespaces: [String]) -> String {
         return """
-        extension \(namespaces.isEmpty ? "" : namespaces.joined(separator: ".") + ".")\(name)\
+        extension \(namespaces.joined(separator: "."))\
         \(inheritances.isEmpty ? "" : ": " + inheritances.joined(separator: ", ")) {
             \(body
-                .map { $0.render(context: &context, in: name.components(separatedBy: ".")) }
+                .map { $0.render(context: &context, in: namespaces) }
                 .joined(separator: "\n\n")
                 .indent(to: 4)
                 .trimmingCharacters(in: .whitespacesAndNewlines))
@@ -418,9 +424,13 @@ struct SourceFile {
 
         func renderExtension(context: RenderContext) {
             for (decl, namespaces) in context.extensions where !namespaces.isEmpty {
-                let ext = ExtensionDecl(name: namespaces.joined(separator: "."), body: [decl])
+                let ext = if let decl = decl as? ExtensionDecl {
+                    decl
+                } else {
+                    ExtensionDecl(nameComponents: { ($0 + namespaces) }, body: [decl])
+                }
                 var childContext = RenderContext()
-                result += ext.render(context: &childContext, in: []) + "\n\n"
+                result += ext.extensionRender(context: &childContext, in: namespaces) + "\n\n"
                 renderExtension(context: childContext)
             }
         }

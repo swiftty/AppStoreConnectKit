@@ -93,7 +93,7 @@ extension V1.SubscriptionPromotionalOffers.ById.Prices.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -174,51 +174,15 @@ extension V1.SubscriptionPromotionalOffers.ById.Prices.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionPricePoints
-                public static var subscriptionPricePoints: Relation<[SubscriptionPricePoints]?> {
-                    .init(key: "fields[subscriptionPricePoints]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionPromotionalOfferPrices
-                public static var subscriptionPromotionalOfferPrices: Relation<[SubscriptionPromotionalOfferPrices]?> {
-                    .init(key: "fields[subscriptionPromotionalOfferPrices]")
-                }
-
-                /// the fields to include for returned resources of type territories
-                public static var territories: Relation<[Territories]?> {
-                    .init(key: "fields[territories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'territory'
-                public static var territory: Relation<[String]?> {
-                    .init(key: "filter[territory]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -242,6 +206,34 @@ extension V1.SubscriptionPromotionalOffers.ById.Prices.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.SubscriptionPromotionalOffers.ById.Prices.GET.Parameters.Fields, [V1.SubscriptionPromotionalOffers.ById.Prices.GET.Parameters.Fields.SubscriptionPricePoints]?> {
+    /// the fields to include for returned resources of type subscriptionPricePoints
+    public static var subscriptionPricePoints: Relation {
+        .init(key: "fields[subscriptionPricePoints]")
+    }
+}
+
+extension Relation<V1.SubscriptionPromotionalOffers.ById.Prices.GET.Parameters.Fields, [V1.SubscriptionPromotionalOffers.ById.Prices.GET.Parameters.Fields.SubscriptionPromotionalOfferPrices]?> {
+    /// the fields to include for returned resources of type subscriptionPromotionalOfferPrices
+    public static var subscriptionPromotionalOfferPrices: Relation {
+        .init(key: "fields[subscriptionPromotionalOfferPrices]")
+    }
+}
+
+extension Relation<V1.SubscriptionPromotionalOffers.ById.Prices.GET.Parameters.Fields, [V1.SubscriptionPromotionalOffers.ById.Prices.GET.Parameters.Fields.Territories]?> {
+    /// the fields to include for returned resources of type territories
+    public static var territories: Relation {
+        .init(key: "fields[territories]")
+    }
+}
+
+extension Relation<V1.SubscriptionPromotionalOffers.ById.Prices.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'territory'
+    public static var territory: Relation {
+        .init(key: "filter[territory]")
     }
 }
 

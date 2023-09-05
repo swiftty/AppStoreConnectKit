@@ -94,7 +94,7 @@ extension V1.CiProducts.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -474,43 +474,10 @@ extension V1.CiProducts.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type ciBuildRuns
-                public static var ciBuildRuns: Relation<[CiBuildRuns]?> {
-                    .init(key: "fields[ciBuildRuns]")
-                }
-
-                /// the fields to include for returned resources of type ciProducts
-                public static var ciProducts: Relation<[CiProducts]?> {
-                    .init(key: "fields[ciProducts]")
-                }
-
-                /// the fields to include for returned resources of type ciWorkflows
-                public static var ciWorkflows: Relation<[CiWorkflows]?> {
-                    .init(key: "fields[ciWorkflows]")
-                }
-
-                /// the fields to include for returned resources of type scmRepositories
-                public static var scmRepositories: Relation<[ScmRepositories]?> {
-                    .init(key: "fields[scmRepositories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -536,24 +503,6 @@ extension V1.CiProducts.GET {
                     case "FRAMEWORK": self = .framework
                     default: self = .unknown(rawValue)
                     }
-                }
-            }
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'app'
-                public static var app: Relation<[String]?> {
-                    .init(key: "filter[app]")
-                }
-
-                /// filter by attribute 'productType'
-                public static var productType: Relation<[ProductType]?> {
-                    .init(key: "filter[productType]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
                 }
             }
         }
@@ -585,30 +534,73 @@ extension V1.CiProducts.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related primaryRepositories returned (when they are included)
-                public static var primaryRepositories: Relation<Int?> {
-                    .init(key: "limit[primaryRepositories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.CiProducts.GET.Parameters.Fields, [V1.CiProducts.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.CiProducts.GET.Parameters.Fields, [V1.CiProducts.GET.Parameters.Fields.CiBuildRuns]?> {
+    /// the fields to include for returned resources of type ciBuildRuns
+    public static var ciBuildRuns: Relation {
+        .init(key: "fields[ciBuildRuns]")
+    }
+}
+
+extension Relation<V1.CiProducts.GET.Parameters.Fields, [V1.CiProducts.GET.Parameters.Fields.CiProducts]?> {
+    /// the fields to include for returned resources of type ciProducts
+    public static var ciProducts: Relation {
+        .init(key: "fields[ciProducts]")
+    }
+}
+
+extension Relation<V1.CiProducts.GET.Parameters.Fields, [V1.CiProducts.GET.Parameters.Fields.CiWorkflows]?> {
+    /// the fields to include for returned resources of type ciWorkflows
+    public static var ciWorkflows: Relation {
+        .init(key: "fields[ciWorkflows]")
+    }
+}
+
+extension Relation<V1.CiProducts.GET.Parameters.Fields, [V1.CiProducts.GET.Parameters.Fields.ScmRepositories]?> {
+    /// the fields to include for returned resources of type scmRepositories
+    public static var scmRepositories: Relation {
+        .init(key: "fields[scmRepositories]")
+    }
+}
+
+extension Relation<V1.CiProducts.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'app'
+    public static var app: Relation {
+        .init(key: "filter[app]")
+    }
+}
+
+extension Relation<V1.CiProducts.GET.Parameters.Filter, [V1.CiProducts.GET.Parameters.Filter.ProductType]?> {
+    /// filter by attribute 'productType'
+    public static var productType: Relation {
+        .init(key: "filter[productType]")
+    }
+}
+
+extension Relation<V1.CiProducts.GET.Parameters.Limit, Int?> {
+    /// maximum number of related primaryRepositories returned (when they are included)
+    public static var primaryRepositories: Relation {
+        .init(key: "limit[primaryRepositories]")
     }
 }
 

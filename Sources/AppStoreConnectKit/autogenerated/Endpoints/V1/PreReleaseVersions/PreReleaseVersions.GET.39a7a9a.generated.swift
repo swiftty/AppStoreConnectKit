@@ -105,7 +105,7 @@ extension V1.PreReleaseVersions.GET {
         public var sort: [Sort]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -369,33 +369,10 @@ extension V1.PreReleaseVersions.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type builds
-                public static var builds: Relation<[Builds]?> {
-                    .init(key: "fields[builds]")
-                }
-
-                /// the fields to include for returned resources of type preReleaseVersions
-                public static var preReleaseVersions: Relation<[PreReleaseVersions]?> {
-                    .init(key: "fields[preReleaseVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -454,49 +431,6 @@ extension V1.PreReleaseVersions.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'app'
-                public static var app: Relation<[String]?> {
-                    .init(key: "filter[app]")
-                }
-
-                /// filter by attribute 'builds.expired'
-                public static var buildsExpired: Relation<[String]?> {
-                    .init(key: "filter[builds.expired]")
-                }
-
-                /// filter by attribute 'builds.processingState'
-                public static var buildsProcessingState: Relation<[BuildsProcessingState]?> {
-                    .init(key: "filter[builds.processingState]")
-                }
-
-                /// filter by attribute 'builds.version'
-                public static var buildsVersion: Relation<[String]?> {
-                    .init(key: "filter[builds.version]")
-                }
-
-                /// filter by id(s) of related 'builds'
-                public static var builds: Relation<[String]?> {
-                    .init(key: "filter[builds]")
-                }
-
-                /// filter by attribute 'platform'
-                public static var platform: Relation<[Platform]?> {
-                    .init(key: "filter[platform]")
-                }
-
-                /// filter by attribute 'version'
-                public static var version: Relation<[String]?> {
-                    .init(key: "filter[version]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -523,29 +457,16 @@ extension V1.PreReleaseVersions.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related builds returned (when they are included)
-                public static var builds: Relation<Int?> {
-                    .init(key: "limit[builds]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Sort: Hashable, Codable, RawRepresentable {
@@ -569,6 +490,83 @@ extension V1.PreReleaseVersions.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Fields, [V1.PreReleaseVersions.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Fields, [V1.PreReleaseVersions.GET.Parameters.Fields.Builds]?> {
+    /// the fields to include for returned resources of type builds
+    public static var builds: Relation {
+        .init(key: "fields[builds]")
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Fields, [V1.PreReleaseVersions.GET.Parameters.Fields.PreReleaseVersions]?> {
+    /// the fields to include for returned resources of type preReleaseVersions
+    public static var preReleaseVersions: Relation {
+        .init(key: "fields[preReleaseVersions]")
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'app'
+    public static var app: Relation {
+        .init(key: "filter[app]")
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'builds.expired'
+    public static var buildsExpired: Relation {
+        .init(key: "filter[builds.expired]")
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Filter, [V1.PreReleaseVersions.GET.Parameters.Filter.BuildsProcessingState]?> {
+    /// filter by attribute 'builds.processingState'
+    public static var buildsProcessingState: Relation {
+        .init(key: "filter[builds.processingState]")
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'builds.version'
+    public static var buildsVersion: Relation {
+        .init(key: "filter[builds.version]")
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'builds'
+    public static var builds: Relation {
+        .init(key: "filter[builds]")
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Filter, [V1.PreReleaseVersions.GET.Parameters.Filter.Platform]?> {
+    /// filter by attribute 'platform'
+    public static var platform: Relation {
+        .init(key: "filter[platform]")
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'version'
+    public static var version: Relation {
+        .init(key: "filter[version]")
+    }
+}
+
+extension Relation<V1.PreReleaseVersions.GET.Parameters.Limit, Int?> {
+    /// maximum number of related builds returned (when they are included)
+    public static var builds: Relation {
+        .init(key: "limit[builds]")
     }
 }
 

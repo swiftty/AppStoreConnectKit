@@ -80,7 +80,7 @@ extension V1.BundleIds.ById.BundleIdCapabilities.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -111,20 +111,14 @@ extension V1.BundleIds.ById.BundleIdCapabilities.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type bundleIdCapabilities
-                public static var bundleIdCapabilities: Relation<[BundleIdCapabilities]?> {
-                    .init(key: "fields[bundleIdCapabilities]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.BundleIds.ById.BundleIdCapabilities.GET.Parameters.Fields, [V1.BundleIds.ById.BundleIdCapabilities.GET.Parameters.Fields.BundleIdCapabilities]?> {
+    /// the fields to include for returned resources of type bundleIdCapabilities
+    public static var bundleIdCapabilities: Relation {
+        .init(key: "fields[bundleIdCapabilities]")
     }
 }
 

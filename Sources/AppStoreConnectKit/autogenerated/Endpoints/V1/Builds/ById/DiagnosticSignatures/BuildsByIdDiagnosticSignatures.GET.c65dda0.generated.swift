@@ -84,7 +84,7 @@ extension V1.Builds.ById.DiagnosticSignatures.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -118,23 +118,10 @@ extension V1.Builds.ById.DiagnosticSignatures.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type diagnosticSignatures
-                public static var diagnosticSignatures: Relation<[DiagnosticSignatures]?> {
-                    .init(key: "fields[diagnosticSignatures]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -162,20 +149,21 @@ extension V1.Builds.ById.DiagnosticSignatures.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'diagnosticType'
-                public static var diagnosticType: Relation<[DiagnosticType]?> {
-                    .init(key: "filter[diagnosticType]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Builds.ById.DiagnosticSignatures.GET.Parameters.Fields, [V1.Builds.ById.DiagnosticSignatures.GET.Parameters.Fields.DiagnosticSignatures]?> {
+    /// the fields to include for returned resources of type diagnosticSignatures
+    public static var diagnosticSignatures: Relation {
+        .init(key: "fields[diagnosticSignatures]")
+    }
+}
+
+extension Relation<V1.Builds.ById.DiagnosticSignatures.GET.Parameters.Filter, [V1.Builds.ById.DiagnosticSignatures.GET.Parameters.Filter.DiagnosticType]?> {
+    /// filter by attribute 'diagnosticType'
+    public static var diagnosticType: Relation {
+        .init(key: "filter[diagnosticType]")
     }
 }
 

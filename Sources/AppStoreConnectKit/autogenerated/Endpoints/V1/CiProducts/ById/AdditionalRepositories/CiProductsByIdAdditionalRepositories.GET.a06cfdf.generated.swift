@@ -93,7 +93,7 @@ extension V1.CiProducts.ById.AdditionalRepositories.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -198,51 +198,15 @@ extension V1.CiProducts.ById.AdditionalRepositories.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type scmGitReferences
-                public static var scmGitReferences: Relation<[ScmGitReferences]?> {
-                    .init(key: "fields[scmGitReferences]")
-                }
-
-                /// the fields to include for returned resources of type scmProviders
-                public static var scmProviders: Relation<[ScmProviders]?> {
-                    .init(key: "fields[scmProviders]")
-                }
-
-                /// the fields to include for returned resources of type scmRepositories
-                public static var scmRepositories: Relation<[ScmRepositories]?> {
-                    .init(key: "fields[scmRepositories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s)
-                public static var id: Relation<[String]?> {
-                    .init(key: "filter[id]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -266,6 +230,34 @@ extension V1.CiProducts.ById.AdditionalRepositories.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.CiProducts.ById.AdditionalRepositories.GET.Parameters.Fields, [V1.CiProducts.ById.AdditionalRepositories.GET.Parameters.Fields.ScmGitReferences]?> {
+    /// the fields to include for returned resources of type scmGitReferences
+    public static var scmGitReferences: Relation {
+        .init(key: "fields[scmGitReferences]")
+    }
+}
+
+extension Relation<V1.CiProducts.ById.AdditionalRepositories.GET.Parameters.Fields, [V1.CiProducts.ById.AdditionalRepositories.GET.Parameters.Fields.ScmProviders]?> {
+    /// the fields to include for returned resources of type scmProviders
+    public static var scmProviders: Relation {
+        .init(key: "fields[scmProviders]")
+    }
+}
+
+extension Relation<V1.CiProducts.ById.AdditionalRepositories.GET.Parameters.Fields, [V1.CiProducts.ById.AdditionalRepositories.GET.Parameters.Fields.ScmRepositories]?> {
+    /// the fields to include for returned resources of type scmRepositories
+    public static var scmRepositories: Relation {
+        .init(key: "fields[scmRepositories]")
+    }
+}
+
+extension Relation<V1.CiProducts.ById.AdditionalRepositories.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s)
+    public static var id: Relation {
+        .init(key: "filter[id]")
     }
 }
 

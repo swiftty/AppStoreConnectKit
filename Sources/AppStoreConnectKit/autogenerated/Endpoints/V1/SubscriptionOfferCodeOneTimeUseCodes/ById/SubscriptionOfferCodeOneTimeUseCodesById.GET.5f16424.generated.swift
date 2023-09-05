@@ -82,7 +82,7 @@ extension V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET {
         public var include: [Include]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -140,24 +140,6 @@ extension V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionOfferCodeOneTimeUseCodeValues
-                public static var subscriptionOfferCodeOneTimeUseCodeValues: Relation<[SubscriptionOfferCodeOneTimeUseCodeValues]?> {
-                    .init(key: "fields[subscriptionOfferCodeOneTimeUseCodeValues]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionOfferCodeOneTimeUseCodes
-                public static var subscriptionOfferCodeOneTimeUseCodes: Relation<[SubscriptionOfferCodeOneTimeUseCodes]?> {
-                    .init(key: "fields[subscriptionOfferCodeOneTimeUseCodes]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -178,6 +160,20 @@ extension V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET.Parameters.Fields, [V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET.Parameters.Fields.SubscriptionOfferCodeOneTimeUseCodeValues]?> {
+    /// the fields to include for returned resources of type subscriptionOfferCodeOneTimeUseCodeValues
+    public static var subscriptionOfferCodeOneTimeUseCodeValues: Relation {
+        .init(key: "fields[subscriptionOfferCodeOneTimeUseCodeValues]")
+    }
+}
+
+extension Relation<V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET.Parameters.Fields, [V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET.Parameters.Fields.SubscriptionOfferCodeOneTimeUseCodes]?> {
+    /// the fields to include for returned resources of type subscriptionOfferCodeOneTimeUseCodes
+    public static var subscriptionOfferCodeOneTimeUseCodes: Relation {
+        .init(key: "fields[subscriptionOfferCodeOneTimeUseCodes]")
     }
 }
 

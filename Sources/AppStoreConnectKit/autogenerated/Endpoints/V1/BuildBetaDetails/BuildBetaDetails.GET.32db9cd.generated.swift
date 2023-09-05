@@ -86,7 +86,7 @@ extension V1.BuildBetaDetails.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -208,51 +208,15 @@ extension V1.BuildBetaDetails.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type buildBetaDetails
-                public static var buildBetaDetails: Relation<[BuildBetaDetails]?> {
-                    .init(key: "fields[buildBetaDetails]")
-                }
-
-                /// the fields to include for returned resources of type builds
-                public static var builds: Relation<[Builds]?> {
-                    .init(key: "fields[builds]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'build'
-                public static var build: Relation<[String]?> {
-                    .init(key: "filter[build]")
-                }
-
-                /// filter by id(s)
-                public static var id: Relation<[String]?> {
-                    .init(key: "filter[id]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -273,6 +237,34 @@ extension V1.BuildBetaDetails.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.BuildBetaDetails.GET.Parameters.Fields, [V1.BuildBetaDetails.GET.Parameters.Fields.BuildBetaDetails]?> {
+    /// the fields to include for returned resources of type buildBetaDetails
+    public static var buildBetaDetails: Relation {
+        .init(key: "fields[buildBetaDetails]")
+    }
+}
+
+extension Relation<V1.BuildBetaDetails.GET.Parameters.Fields, [V1.BuildBetaDetails.GET.Parameters.Fields.Builds]?> {
+    /// the fields to include for returned resources of type builds
+    public static var builds: Relation {
+        .init(key: "fields[builds]")
+    }
+}
+
+extension Relation<V1.BuildBetaDetails.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'build'
+    public static var build: Relation {
+        .init(key: "filter[build]")
+    }
+}
+
+extension Relation<V1.BuildBetaDetails.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s)
+    public static var id: Relation {
+        .init(key: "filter[id]")
     }
 }
 

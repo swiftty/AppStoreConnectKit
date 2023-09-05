@@ -91,7 +91,7 @@ extension V1.AppInfos.ById.AppInfoLocalizations.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -192,46 +192,15 @@ extension V1.AppInfos.ById.AppInfoLocalizations.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appInfoLocalizations
-                public static var appInfoLocalizations: Relation<[AppInfoLocalizations]?> {
-                    .init(key: "fields[appInfoLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appInfos
-                public static var appInfos: Relation<[AppInfos]?> {
-                    .init(key: "fields[appInfos]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'locale'
-                public static var locale: Relation<[String]?> {
-                    .init(key: "filter[locale]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -252,6 +221,27 @@ extension V1.AppInfos.ById.AppInfoLocalizations.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.AppInfos.ById.AppInfoLocalizations.GET.Parameters.Fields, [V1.AppInfos.ById.AppInfoLocalizations.GET.Parameters.Fields.AppInfoLocalizations]?> {
+    /// the fields to include for returned resources of type appInfoLocalizations
+    public static var appInfoLocalizations: Relation {
+        .init(key: "fields[appInfoLocalizations]")
+    }
+}
+
+extension Relation<V1.AppInfos.ById.AppInfoLocalizations.GET.Parameters.Fields, [V1.AppInfos.ById.AppInfoLocalizations.GET.Parameters.Fields.AppInfos]?> {
+    /// the fields to include for returned resources of type appInfos
+    public static var appInfos: Relation {
+        .init(key: "fields[appInfos]")
+    }
+}
+
+extension Relation<V1.AppInfos.ById.AppInfoLocalizations.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'locale'
+    public static var locale: Relation {
+        .init(key: "filter[locale]")
     }
 }
 

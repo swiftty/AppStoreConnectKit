@@ -103,7 +103,7 @@ extension V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -294,43 +294,10 @@ extension V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCustomProductPageLocalizations
-                public static var appCustomProductPageLocalizations: Relation<[AppCustomProductPageLocalizations]?> {
-                    .init(key: "fields[appCustomProductPageLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appPreviewSets
-                public static var appPreviewSets: Relation<[AppPreviewSets]?> {
-                    .init(key: "fields[appPreviewSets]")
-                }
-
-                /// the fields to include for returned resources of type appPreviews
-                public static var appPreviews: Relation<[AppPreviews]?> {
-                    .init(key: "fields[appPreviews]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
-                public static var appStoreVersionExperimentTreatmentLocalizations: Relation<[AppStoreVersionExperimentTreatmentLocalizations]?> {
-                    .init(key: "fields[appStoreVersionExperimentTreatmentLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionLocalizations
-                public static var appStoreVersionLocalizations: Relation<[AppStoreVersionLocalizations]?> {
-                    .init(key: "fields[appStoreVersionLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -397,29 +364,6 @@ extension V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'appCustomProductPageLocalization'
-                public static var appCustomProductPageLocalization: Relation<[String]?> {
-                    .init(key: "filter[appCustomProductPageLocalization]")
-                }
-
-                /// filter by id(s) of related 'appStoreVersionLocalization'
-                public static var appStoreVersionLocalization: Relation<[String]?> {
-                    .init(key: "filter[appStoreVersionLocalization]")
-                }
-
-                /// filter by attribute 'previewType'
-                public static var previewType: Relation<[PreviewType]?> {
-                    .init(key: "filter[previewType]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -452,30 +396,80 @@ extension V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appPreviews returned (when they are included)
-                public static var appPreviews: Relation<Int?> {
-                    .init(key: "limit[appPreviews]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Fields, [V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Fields.AppCustomProductPageLocalizations]?> {
+    /// the fields to include for returned resources of type appCustomProductPageLocalizations
+    public static var appCustomProductPageLocalizations: Relation {
+        .init(key: "fields[appCustomProductPageLocalizations]")
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Fields, [V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Fields.AppPreviewSets]?> {
+    /// the fields to include for returned resources of type appPreviewSets
+    public static var appPreviewSets: Relation {
+        .init(key: "fields[appPreviewSets]")
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Fields, [V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Fields.AppPreviews]?> {
+    /// the fields to include for returned resources of type appPreviews
+    public static var appPreviews: Relation {
+        .init(key: "fields[appPreviews]")
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Fields, [V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Fields.AppStoreVersionExperimentTreatmentLocalizations]?> {
+    /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
+    public static var appStoreVersionExperimentTreatmentLocalizations: Relation {
+        .init(key: "fields[appStoreVersionExperimentTreatmentLocalizations]")
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Fields, [V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Fields.AppStoreVersionLocalizations]?> {
+    /// the fields to include for returned resources of type appStoreVersionLocalizations
+    public static var appStoreVersionLocalizations: Relation {
+        .init(key: "fields[appStoreVersionLocalizations]")
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'appCustomProductPageLocalization'
+    public static var appCustomProductPageLocalization: Relation {
+        .init(key: "filter[appCustomProductPageLocalization]")
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'appStoreVersionLocalization'
+    public static var appStoreVersionLocalization: Relation {
+        .init(key: "filter[appStoreVersionLocalization]")
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Filter, [V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Filter.PreviewType]?> {
+    /// filter by attribute 'previewType'
+    public static var previewType: Relation {
+        .init(key: "filter[previewType]")
+    }
+}
+
+extension Relation<V1.AppStoreVersionExperimentTreatmentLocalizations.ById.AppPreviewSets.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appPreviews returned (when they are included)
+    public static var appPreviews: Relation {
+        .init(key: "limit[appPreviews]")
     }
 }
 

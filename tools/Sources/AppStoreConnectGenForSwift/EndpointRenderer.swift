@@ -82,7 +82,7 @@ struct EndpointRenderer: Renderer {
             #endif
 
             \(SourceFile(decl: ExtensionDecl(
-                name: pathComponents.joined(separator: "."),
+                nameComponents: { $0 + pathComponents },
                 body: [decl]
             )).render())
 

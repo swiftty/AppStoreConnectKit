@@ -87,7 +87,7 @@ extension V1.SubscriptionOfferCodes.ById.CustomCodes.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -179,24 +179,6 @@ extension V1.SubscriptionOfferCodes.ById.CustomCodes.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionOfferCodeCustomCodes
-                public static var subscriptionOfferCodeCustomCodes: Relation<[SubscriptionOfferCodeCustomCodes]?> {
-                    .init(key: "fields[subscriptionOfferCodeCustomCodes]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionOfferCodes
-                public static var subscriptionOfferCodes: Relation<[SubscriptionOfferCodes]?> {
-                    .init(key: "fields[subscriptionOfferCodes]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -217,6 +199,20 @@ extension V1.SubscriptionOfferCodes.ById.CustomCodes.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.SubscriptionOfferCodes.ById.CustomCodes.GET.Parameters.Fields, [V1.SubscriptionOfferCodes.ById.CustomCodes.GET.Parameters.Fields.SubscriptionOfferCodeCustomCodes]?> {
+    /// the fields to include for returned resources of type subscriptionOfferCodeCustomCodes
+    public static var subscriptionOfferCodeCustomCodes: Relation {
+        .init(key: "fields[subscriptionOfferCodeCustomCodes]")
+    }
+}
+
+extension Relation<V1.SubscriptionOfferCodes.ById.CustomCodes.GET.Parameters.Fields, [V1.SubscriptionOfferCodes.ById.CustomCodes.GET.Parameters.Fields.SubscriptionOfferCodes]?> {
+    /// the fields to include for returned resources of type subscriptionOfferCodes
+    public static var subscriptionOfferCodes: Relation {
+        .init(key: "fields[subscriptionOfferCodes]")
     }
 }
 

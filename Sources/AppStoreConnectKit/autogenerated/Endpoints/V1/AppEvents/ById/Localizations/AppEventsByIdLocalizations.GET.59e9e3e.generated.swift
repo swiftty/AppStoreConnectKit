@@ -95,7 +95,7 @@ extension V1.AppEvents.ById.Localizations.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -279,34 +279,6 @@ extension V1.AppEvents.ById.Localizations.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appEventLocalizations
-                public static var appEventLocalizations: Relation<[AppEventLocalizations]?> {
-                    .init(key: "fields[appEventLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appEventScreenshots
-                public static var appEventScreenshots: Relation<[AppEventScreenshots]?> {
-                    .init(key: "fields[appEventScreenshots]")
-                }
-
-                /// the fields to include for returned resources of type appEventVideoClips
-                public static var appEventVideoClips: Relation<[AppEventVideoClips]?> {
-                    .init(key: "fields[appEventVideoClips]")
-                }
-
-                /// the fields to include for returned resources of type appEvents
-                public static var appEvents: Relation<[AppEvents]?> {
-                    .init(key: "fields[appEvents]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -336,35 +308,59 @@ extension V1.AppEvents.ById.Localizations.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appEventScreenshots returned (when they are included)
-                public static var appEventScreenshots: Relation<Int?> {
-                    .init(key: "limit[appEventScreenshots]")
-                }
-
-                /// maximum number of related appEventVideoClips returned (when they are included)
-                public static var appEventVideoClips: Relation<Int?> {
-                    .init(key: "limit[appEventVideoClips]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppEvents.ById.Localizations.GET.Parameters.Fields, [V1.AppEvents.ById.Localizations.GET.Parameters.Fields.AppEventLocalizations]?> {
+    /// the fields to include for returned resources of type appEventLocalizations
+    public static var appEventLocalizations: Relation {
+        .init(key: "fields[appEventLocalizations]")
+    }
+}
+
+extension Relation<V1.AppEvents.ById.Localizations.GET.Parameters.Fields, [V1.AppEvents.ById.Localizations.GET.Parameters.Fields.AppEventScreenshots]?> {
+    /// the fields to include for returned resources of type appEventScreenshots
+    public static var appEventScreenshots: Relation {
+        .init(key: "fields[appEventScreenshots]")
+    }
+}
+
+extension Relation<V1.AppEvents.ById.Localizations.GET.Parameters.Fields, [V1.AppEvents.ById.Localizations.GET.Parameters.Fields.AppEventVideoClips]?> {
+    /// the fields to include for returned resources of type appEventVideoClips
+    public static var appEventVideoClips: Relation {
+        .init(key: "fields[appEventVideoClips]")
+    }
+}
+
+extension Relation<V1.AppEvents.ById.Localizations.GET.Parameters.Fields, [V1.AppEvents.ById.Localizations.GET.Parameters.Fields.AppEvents]?> {
+    /// the fields to include for returned resources of type appEvents
+    public static var appEvents: Relation {
+        .init(key: "fields[appEvents]")
+    }
+}
+
+extension Relation<V1.AppEvents.ById.Localizations.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appEventScreenshots returned (when they are included)
+    public static var appEventScreenshots: Relation {
+        .init(key: "limit[appEventScreenshots]")
+    }
+}
+
+extension Relation<V1.AppEvents.ById.Localizations.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appEventVideoClips returned (when they are included)
+    public static var appEventVideoClips: Relation {
+        .init(key: "limit[appEventVideoClips]")
     }
 }
 

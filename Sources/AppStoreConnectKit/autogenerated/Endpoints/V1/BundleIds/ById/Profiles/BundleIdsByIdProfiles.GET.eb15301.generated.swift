@@ -80,7 +80,7 @@ extension V1.BundleIds.ById.Profiles.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -135,20 +135,14 @@ extension V1.BundleIds.ById.Profiles.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type profiles
-                public static var profiles: Relation<[Profiles]?> {
-                    .init(key: "fields[profiles]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.BundleIds.ById.Profiles.GET.Parameters.Fields, [V1.BundleIds.ById.Profiles.GET.Parameters.Fields.Profiles]?> {
+    /// the fields to include for returned resources of type profiles
+    public static var profiles: Relation {
+        .init(key: "fields[profiles]")
     }
 }
 

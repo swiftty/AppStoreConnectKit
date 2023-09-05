@@ -86,7 +86,7 @@ extension V1.ReviewSubmissions.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -181,24 +181,6 @@ extension V1.ReviewSubmissions.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type reviewSubmissionItems
-                public static var reviewSubmissionItems: Relation<[ReviewSubmissionItems]?> {
-                    .init(key: "fields[reviewSubmissionItems]")
-                }
-
-                /// the fields to include for returned resources of type reviewSubmissions
-                public static var reviewSubmissions: Relation<[ReviewSubmissions]?> {
-                    .init(key: "fields[reviewSubmissions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -233,26 +215,34 @@ extension V1.ReviewSubmissions.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related items returned (when they are included)
-                public static var items: Relation<Int?> {
-                    .init(key: "limit[items]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.ReviewSubmissions.ById.GET.Parameters.Fields, [V1.ReviewSubmissions.ById.GET.Parameters.Fields.ReviewSubmissionItems]?> {
+    /// the fields to include for returned resources of type reviewSubmissionItems
+    public static var reviewSubmissionItems: Relation {
+        .init(key: "fields[reviewSubmissionItems]")
+    }
+}
+
+extension Relation<V1.ReviewSubmissions.ById.GET.Parameters.Fields, [V1.ReviewSubmissions.ById.GET.Parameters.Fields.ReviewSubmissions]?> {
+    /// the fields to include for returned resources of type reviewSubmissions
+    public static var reviewSubmissions: Relation {
+        .init(key: "fields[reviewSubmissions]")
+    }
+}
+
+extension Relation<V1.ReviewSubmissions.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related items returned (when they are included)
+    public static var items: Relation {
+        .init(key: "limit[items]")
     }
 }
 

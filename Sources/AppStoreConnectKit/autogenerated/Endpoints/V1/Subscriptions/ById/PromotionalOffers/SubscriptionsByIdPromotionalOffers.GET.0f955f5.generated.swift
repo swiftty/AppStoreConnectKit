@@ -95,7 +95,7 @@ extension V1.Subscriptions.ById.PromotionalOffers.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -230,51 +230,15 @@ extension V1.Subscriptions.ById.PromotionalOffers.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionPromotionalOfferPrices
-                public static var subscriptionPromotionalOfferPrices: Relation<[SubscriptionPromotionalOfferPrices]?> {
-                    .init(key: "fields[subscriptionPromotionalOfferPrices]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionPromotionalOffers
-                public static var subscriptionPromotionalOffers: Relation<[SubscriptionPromotionalOffers]?> {
-                    .init(key: "fields[subscriptionPromotionalOffers]")
-                }
-
-                /// the fields to include for returned resources of type subscriptions
-                public static var subscriptions: Relation<[Subscriptions]?> {
-                    .init(key: "fields[subscriptions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by territory
-                public static var territory: Relation<[String]?> {
-                    .init(key: "filter[territory]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -301,30 +265,52 @@ extension V1.Subscriptions.ById.PromotionalOffers.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related prices returned (when they are included)
-                public static var prices: Relation<Int?> {
-                    .init(key: "limit[prices]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.PromotionalOffers.GET.Parameters.Fields, [V1.Subscriptions.ById.PromotionalOffers.GET.Parameters.Fields.SubscriptionPromotionalOfferPrices]?> {
+    /// the fields to include for returned resources of type subscriptionPromotionalOfferPrices
+    public static var subscriptionPromotionalOfferPrices: Relation {
+        .init(key: "fields[subscriptionPromotionalOfferPrices]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.PromotionalOffers.GET.Parameters.Fields, [V1.Subscriptions.ById.PromotionalOffers.GET.Parameters.Fields.SubscriptionPromotionalOffers]?> {
+    /// the fields to include for returned resources of type subscriptionPromotionalOffers
+    public static var subscriptionPromotionalOffers: Relation {
+        .init(key: "fields[subscriptionPromotionalOffers]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.PromotionalOffers.GET.Parameters.Fields, [V1.Subscriptions.ById.PromotionalOffers.GET.Parameters.Fields.Subscriptions]?> {
+    /// the fields to include for returned resources of type subscriptions
+    public static var subscriptions: Relation {
+        .init(key: "fields[subscriptions]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.PromotionalOffers.GET.Parameters.Filter, [String]?> {
+    /// filter by territory
+    public static var territory: Relation {
+        .init(key: "filter[territory]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.PromotionalOffers.GET.Parameters.Limit, Int?> {
+    /// maximum number of related prices returned (when they are included)
+    public static var prices: Relation {
+        .init(key: "limit[prices]")
     }
 }
 

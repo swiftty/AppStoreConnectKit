@@ -75,7 +75,7 @@ extension V1.Apps.ById.EndUserLicenseAgreement.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -106,20 +106,14 @@ extension V1.Apps.ById.EndUserLicenseAgreement.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type endUserLicenseAgreements
-                public static var endUserLicenseAgreements: Relation<[EndUserLicenseAgreements]?> {
-                    .init(key: "fields[endUserLicenseAgreements]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.EndUserLicenseAgreement.GET.Parameters.Fields, [V1.Apps.ById.EndUserLicenseAgreement.GET.Parameters.Fields.EndUserLicenseAgreements]?> {
+    /// the fields to include for returned resources of type endUserLicenseAgreements
+    public static var endUserLicenseAgreements: Relation {
+        .init(key: "fields[endUserLicenseAgreements]")
     }
 }
 

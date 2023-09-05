@@ -74,7 +74,7 @@ extension V1.FinanceReports.GET {
         public var filter: Filter = Filter()
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -102,35 +102,35 @@ extension V1.FinanceReports.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'regionCode' **(required)**
-                public static var regionCode: Relation<[String]?> {
-                    .init(key: "filter[regionCode]")
-                }
-
-                /// filter by attribute 'reportDate' **(required)**
-                public static var reportDate: Relation<[String]?> {
-                    .init(key: "filter[reportDate]")
-                }
-
-                /// filter by attribute 'reportType' **(required)**
-                public static var reportType: Relation<[ReportType]?> {
-                    .init(key: "filter[reportType]")
-                }
-
-                /// filter by attribute 'vendorNumber' **(required)**
-                public static var vendorNumber: Relation<[String]?> {
-                    .init(key: "filter[vendorNumber]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.FinanceReports.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'regionCode' **(required)**
+    public static var regionCode: Relation {
+        .init(key: "filter[regionCode]")
+    }
+}
+
+extension Relation<V1.FinanceReports.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'reportDate' **(required)**
+    public static var reportDate: Relation {
+        .init(key: "filter[reportDate]")
+    }
+}
+
+extension Relation<V1.FinanceReports.GET.Parameters.Filter, [V1.FinanceReports.GET.Parameters.Filter.ReportType]?> {
+    /// filter by attribute 'reportType' **(required)**
+    public static var reportType: Relation {
+        .init(key: "filter[reportType]")
+    }
+}
+
+extension Relation<V1.FinanceReports.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'vendorNumber' **(required)**
+    public static var vendorNumber: Relation {
+        .init(key: "filter[vendorNumber]")
     }
 }
 

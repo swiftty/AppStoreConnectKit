@@ -75,7 +75,7 @@ extension V1.Actors.ById.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -112,20 +112,14 @@ extension V1.Actors.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type actors
-                public static var actors: Relation<[Actors]?> {
-                    .init(key: "fields[actors]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Actors.ById.GET.Parameters.Fields, [V1.Actors.ById.GET.Parameters.Fields.Actors]?> {
+    /// the fields to include for returned resources of type actors
+    public static var actors: Relation {
+        .init(key: "fields[actors]")
     }
 }
 

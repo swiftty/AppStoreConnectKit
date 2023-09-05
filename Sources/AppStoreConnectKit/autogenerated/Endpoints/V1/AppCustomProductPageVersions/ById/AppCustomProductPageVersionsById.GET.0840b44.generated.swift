@@ -86,7 +86,7 @@ extension V1.AppCustomProductPageVersions.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -151,24 +151,6 @@ extension V1.AppCustomProductPageVersions.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCustomProductPageLocalizations
-                public static var appCustomProductPageLocalizations: Relation<[AppCustomProductPageLocalizations]?> {
-                    .init(key: "fields[appCustomProductPageLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appCustomProductPageVersions
-                public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
-                    .init(key: "fields[appCustomProductPageVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -194,26 +176,34 @@ extension V1.AppCustomProductPageVersions.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appCustomProductPageLocalizations returned (when they are included)
-                public static var appCustomProductPageLocalizations: Relation<Int?> {
-                    .init(key: "limit[appCustomProductPageLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppCustomProductPageVersions.ById.GET.Parameters.Fields, [V1.AppCustomProductPageVersions.ById.GET.Parameters.Fields.AppCustomProductPageLocalizations]?> {
+    /// the fields to include for returned resources of type appCustomProductPageLocalizations
+    public static var appCustomProductPageLocalizations: Relation {
+        .init(key: "fields[appCustomProductPageLocalizations]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageVersions.ById.GET.Parameters.Fields, [V1.AppCustomProductPageVersions.ById.GET.Parameters.Fields.AppCustomProductPageVersions]?> {
+    /// the fields to include for returned resources of type appCustomProductPageVersions
+    public static var appCustomProductPageVersions: Relation {
+        .init(key: "fields[appCustomProductPageVersions]")
+    }
+}
+
+extension Relation<V1.AppCustomProductPageVersions.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appCustomProductPageLocalizations returned (when they are included)
+    public static var appCustomProductPageLocalizations: Relation {
+        .init(key: "limit[appCustomProductPageLocalizations]")
     }
 }
 

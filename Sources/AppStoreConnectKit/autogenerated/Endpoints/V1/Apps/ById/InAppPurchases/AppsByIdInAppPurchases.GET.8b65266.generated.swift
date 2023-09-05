@@ -101,7 +101,7 @@ extension V1.Apps.ById.InAppPurchases.GET {
         public var sort: [Sort]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -280,28 +280,10 @@ extension V1.Apps.ById.InAppPurchases.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type inAppPurchases
-                public static var inAppPurchases: Relation<[InAppPurchases]?> {
-                    .init(key: "fields[inAppPurchases]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -338,24 +320,6 @@ extension V1.Apps.ById.InAppPurchases.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by canBeSubmitted
-                public static var canBeSubmitted: Relation<[String]?> {
-                    .init(key: "filter[canBeSubmitted]")
-                }
-
-                /// filter by attribute 'inAppPurchaseType'
-                public static var inAppPurchaseType: Relation<[InAppPurchaseType]?> {
-                    .init(key: "filter[inAppPurchaseType]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -379,29 +343,16 @@ extension V1.Apps.ById.InAppPurchases.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related apps returned (when they are included)
-                public static var apps: Relation<Int?> {
-                    .init(key: "limit[apps]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Sort: Hashable, Codable, RawRepresentable {
@@ -437,6 +388,41 @@ extension V1.Apps.ById.InAppPurchases.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchases.GET.Parameters.Fields, [V1.Apps.ById.InAppPurchases.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchases.GET.Parameters.Fields, [V1.Apps.ById.InAppPurchases.GET.Parameters.Fields.InAppPurchases]?> {
+    /// the fields to include for returned resources of type inAppPurchases
+    public static var inAppPurchases: Relation {
+        .init(key: "fields[inAppPurchases]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchases.GET.Parameters.Filter, [String]?> {
+    /// filter by canBeSubmitted
+    public static var canBeSubmitted: Relation {
+        .init(key: "filter[canBeSubmitted]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchases.GET.Parameters.Filter, [V1.Apps.ById.InAppPurchases.GET.Parameters.Filter.InAppPurchaseType]?> {
+    /// filter by attribute 'inAppPurchaseType'
+    public static var inAppPurchaseType: Relation {
+        .init(key: "filter[inAppPurchaseType]")
+    }
+}
+
+extension Relation<V1.Apps.ById.InAppPurchases.GET.Parameters.Limit, Int?> {
+    /// maximum number of related apps returned (when they are included)
+    public static var apps: Relation {
+        .init(key: "limit[apps]")
     }
 }
 

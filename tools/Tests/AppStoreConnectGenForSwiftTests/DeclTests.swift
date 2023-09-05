@@ -185,7 +185,7 @@ class DeclTests: XCTestCase {
     func testExtension() {
         let expected = render(
             ExtensionDecl(
-                name: "Foo.Bar",
+                nameComponents: { _ in ["Foo", "Bar"] },
                 body: [
                     FunctionDecl(
                         access: .public,

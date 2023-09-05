@@ -44,10 +44,10 @@ extension EndpointRenderer {
                             arguments: [],
                             returnType: "\(type)",
                             getter: """
-                            self[Relation<\(type)>(key: "\(name)")]
+                            self[Relation<Self, \(type)>(key: "\(name)")]
                             """,
                             setter: """
-                            self[Relation<\(type)>(key: "\(name)")] = newValue
+                            self[Relation<Self, \(type)>(key: "\(name)")] = newValue
                             """
                         )
                     ] + nested.subscripts
@@ -207,12 +207,10 @@ private func declForNestedParameter(
         return repr.buildDecl(context: context)
     }
 
-    func relationMemberDecl(_ p: OpenAPIEndpoint.Parameter) -> MemberDecl {
+    func relationMemberDecl(_ p: OpenAPIEndpoint.Parameter) -> ExtensionDecl {
         let name = makeKey(p.name)
         let repr = findRepr(for: p.schema, with: name)
-        let innerType = repr.renderType(context: context)
-        let type = TypeName(rawValue: "Relation<\(innerType.withRequired(false))>")
-        let variable = Variable(key: name, type: type,
+        let variable = Variable(key: name, type: TypeName(rawValue: "Relation"),
                                 required: true, deprecated: p.schema.deprecated,
                                 description: p.description)
 
@@ -225,7 +223,7 @@ private func declForNestedParameter(
 
         queryItemComponents.append((p.name, keyName + "[.\(variable.escapedKey)]", repr))
 
-        return MemberDecl(
+        let memberDecl = MemberDecl(
             access: .public,
             modifier: .static,
             keyword: .var,
@@ -235,6 +233,17 @@ private func declForNestedParameter(
             .init(key: "\(p.name)")
             """),
             doc: doc()
+        )
+
+        return ExtensionDecl(
+            nameComponents: {
+                let parent = $0.joined(separator: ".")
+                var context = context
+                context.fullpath = parent
+                let innerType = repr.renderType(context: context)
+                return ["Relation<\(parent), \(innerType.withRequired(false))>"]
+            },
+            body: [memberDecl]
         )
     }
 
@@ -250,7 +259,7 @@ private func declForNestedParameter(
                     ArgumentDecl(
                         name: "relation",
                         alt: "_",
-                        type: "Relation<T>"
+                        type: "Relation<Self, T>"
                     )
                 ],
                 returnType: "T",
@@ -269,40 +278,7 @@ private func declForNestedParameter(
         ],
         initializers: [],
         functions: [],
-        nested: nestedParameters.compactMap(nestedRelationDecl) + [
-            StructDecl(
-                access: .public,
-                name: "Relation<T>",
-                inheritances: ["Hashable"],
-                subscripts: [
-                ],
-                members: nestedParameters.map(relationMemberDecl) + [
-                    MemberDecl(
-                        access: .internal,
-                        keyword: .let,
-                        name: "key",
-                        type: "String"
-                    )
-                ],
-                initializers: [],
-                functions: [
-                    FunctionDecl(
-                        access: .public,
-                        name: "hash",
-                        arguments: [
-                            ArgumentDecl(
-                                name: "hasher",
-                                alt: "into",
-                                type: "inout Hasher"
-                            )
-                        ],
-                        body: "hasher.combine(key)"
-                    )
-                ],
-                nested: [],
-                extensions: []
-            )
-        ],
+        nested: nestedParameters.compactMap(nestedRelationDecl) + nestedParameters.map(relationMemberDecl),
         extensions: []
     )
 }

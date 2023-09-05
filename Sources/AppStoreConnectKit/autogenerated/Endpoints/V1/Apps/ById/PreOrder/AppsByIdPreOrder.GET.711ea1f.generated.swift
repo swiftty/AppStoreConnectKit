@@ -75,7 +75,7 @@ extension V1.Apps.ById.PreOrder.GET {
         public var fields: Fields = Fields()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -106,20 +106,14 @@ extension V1.Apps.ById.PreOrder.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appPreOrders
-                public static var appPreOrders: Relation<[AppPreOrders]?> {
-                    .init(key: "fields[appPreOrders]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.PreOrder.GET.Parameters.Fields, [V1.Apps.ById.PreOrder.GET.Parameters.Fields.AppPreOrders]?> {
+    /// the fields to include for returned resources of type appPreOrders
+    public static var appPreOrders: Relation {
+        .init(key: "fields[appPreOrders]")
     }
 }
 

@@ -102,29 +102,16 @@ extension V1.AppStoreVersions.ById.CustomerReviews.GET {
         public var sort: [Sort]?
 
         public struct Exists: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by publishedResponse
-                public static var publishedResponse: Relation<Bool?> {
-                    .init(key: "exists[publishedResponse]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -195,28 +182,10 @@ extension V1.AppStoreVersions.ById.CustomerReviews.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type customerReviewResponses
-                public static var customerReviewResponses: Relation<[CustomerReviewResponses]?> {
-                    .init(key: "fields[customerReviewResponses]")
-                }
-
-                /// the fields to include for returned resources of type customerReviews
-                public static var customerReviews: Relation<[CustomerReviews]?> {
-                    .init(key: "fields[customerReviews]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -934,24 +903,6 @@ extension V1.AppStoreVersions.ById.CustomerReviews.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'rating'
-                public static var rating: Relation<[String]?> {
-                    .init(key: "filter[rating]")
-                }
-
-                /// filter by attribute 'territory'
-                public static var territory: Relation<[Territory]?> {
-                    .init(key: "filter[territory]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -1000,6 +951,41 @@ extension V1.AppStoreVersions.ById.CustomerReviews.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.CustomerReviews.GET.Parameters.Exists, Bool?> {
+    /// filter by publishedResponse
+    public static var publishedResponse: Relation {
+        .init(key: "exists[publishedResponse]")
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.CustomerReviews.GET.Parameters.Fields, [V1.AppStoreVersions.ById.CustomerReviews.GET.Parameters.Fields.CustomerReviewResponses]?> {
+    /// the fields to include for returned resources of type customerReviewResponses
+    public static var customerReviewResponses: Relation {
+        .init(key: "fields[customerReviewResponses]")
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.CustomerReviews.GET.Parameters.Fields, [V1.AppStoreVersions.ById.CustomerReviews.GET.Parameters.Fields.CustomerReviews]?> {
+    /// the fields to include for returned resources of type customerReviews
+    public static var customerReviews: Relation {
+        .init(key: "fields[customerReviews]")
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.CustomerReviews.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'rating'
+    public static var rating: Relation {
+        .init(key: "filter[rating]")
+    }
+}
+
+extension Relation<V1.AppStoreVersions.ById.CustomerReviews.GET.Parameters.Filter, [V1.AppStoreVersions.ById.CustomerReviews.GET.Parameters.Filter.Territory]?> {
+    /// filter by attribute 'territory'
+    public static var territory: Relation {
+        .init(key: "filter[territory]")
     }
 }
 

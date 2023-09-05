@@ -94,7 +94,7 @@ extension V1.CiBuildActions.ById.BuildRun.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -460,44 +460,6 @@ extension V1.CiBuildActions.ById.BuildRun.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type builds
-                public static var builds: Relation<[Builds]?> {
-                    .init(key: "fields[builds]")
-                }
-
-                /// the fields to include for returned resources of type ciBuildRuns
-                public static var ciBuildRuns: Relation<[CiBuildRuns]?> {
-                    .init(key: "fields[ciBuildRuns]")
-                }
-
-                /// the fields to include for returned resources of type ciProducts
-                public static var ciProducts: Relation<[CiProducts]?> {
-                    .init(key: "fields[ciProducts]")
-                }
-
-                /// the fields to include for returned resources of type ciWorkflows
-                public static var ciWorkflows: Relation<[CiWorkflows]?> {
-                    .init(key: "fields[ciWorkflows]")
-                }
-
-                /// the fields to include for returned resources of type scmGitReferences
-                public static var scmGitReferences: Relation<[ScmGitReferences]?> {
-                    .init(key: "fields[scmGitReferences]")
-                }
-
-                /// the fields to include for returned resources of type scmPullRequests
-                public static var scmPullRequests: Relation<[ScmPullRequests]?> {
-                    .init(key: "fields[scmPullRequests]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -535,26 +497,62 @@ extension V1.CiBuildActions.ById.BuildRun.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related builds returned (when they are included)
-                public static var builds: Relation<Int?> {
-                    .init(key: "limit[builds]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields, [V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields.Builds]?> {
+    /// the fields to include for returned resources of type builds
+    public static var builds: Relation {
+        .init(key: "fields[builds]")
+    }
+}
+
+extension Relation<V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields, [V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields.CiBuildRuns]?> {
+    /// the fields to include for returned resources of type ciBuildRuns
+    public static var ciBuildRuns: Relation {
+        .init(key: "fields[ciBuildRuns]")
+    }
+}
+
+extension Relation<V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields, [V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields.CiProducts]?> {
+    /// the fields to include for returned resources of type ciProducts
+    public static var ciProducts: Relation {
+        .init(key: "fields[ciProducts]")
+    }
+}
+
+extension Relation<V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields, [V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields.CiWorkflows]?> {
+    /// the fields to include for returned resources of type ciWorkflows
+    public static var ciWorkflows: Relation {
+        .init(key: "fields[ciWorkflows]")
+    }
+}
+
+extension Relation<V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields, [V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields.ScmGitReferences]?> {
+    /// the fields to include for returned resources of type scmGitReferences
+    public static var scmGitReferences: Relation {
+        .init(key: "fields[scmGitReferences]")
+    }
+}
+
+extension Relation<V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields, [V1.CiBuildActions.ById.BuildRun.GET.Parameters.Fields.ScmPullRequests]?> {
+    /// the fields to include for returned resources of type scmPullRequests
+    public static var scmPullRequests: Relation {
+        .init(key: "fields[scmPullRequests]")
+    }
+}
+
+extension Relation<V1.CiBuildActions.ById.BuildRun.GET.Parameters.Limit, Int?> {
+    /// maximum number of related builds returned (when they are included)
+    public static var builds: Relation {
+        .init(key: "limit[builds]")
     }
 }
 

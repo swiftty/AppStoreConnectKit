@@ -95,7 +95,7 @@ extension V1.Users.GET {
         public var sort: [Sort]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -280,28 +280,10 @@ extension V1.Users.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type users
-                public static var users: Relation<[Users]?> {
-                    .init(key: "fields[users]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -362,29 +344,6 @@ extension V1.Users.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'roles'
-                public static var roles: Relation<[Roles]?> {
-                    .init(key: "filter[roles]")
-                }
-
-                /// filter by attribute 'username'
-                public static var username: Relation<[String]?> {
-                    .init(key: "filter[username]")
-                }
-
-                /// filter by id(s) of related 'visibleApps'
-                public static var visibleApps: Relation<[String]?> {
-                    .init(key: "filter[visibleApps]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -408,29 +367,16 @@ extension V1.Users.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related visibleApps returned (when they are included)
-                public static var visibleApps: Relation<Int?> {
-                    .init(key: "limit[visibleApps]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Sort: Hashable, Codable, RawRepresentable {
@@ -460,6 +406,48 @@ extension V1.Users.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.Users.GET.Parameters.Fields, [V1.Users.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.Users.GET.Parameters.Fields, [V1.Users.GET.Parameters.Fields.Users]?> {
+    /// the fields to include for returned resources of type users
+    public static var users: Relation {
+        .init(key: "fields[users]")
+    }
+}
+
+extension Relation<V1.Users.GET.Parameters.Filter, [V1.Users.GET.Parameters.Filter.Roles]?> {
+    /// filter by attribute 'roles'
+    public static var roles: Relation {
+        .init(key: "filter[roles]")
+    }
+}
+
+extension Relation<V1.Users.GET.Parameters.Filter, [String]?> {
+    /// filter by attribute 'username'
+    public static var username: Relation {
+        .init(key: "filter[username]")
+    }
+}
+
+extension Relation<V1.Users.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'visibleApps'
+    public static var visibleApps: Relation {
+        .init(key: "filter[visibleApps]")
+    }
+}
+
+extension Relation<V1.Users.GET.Parameters.Limit, Int?> {
+    /// maximum number of related visibleApps returned (when they are included)
+    public static var visibleApps: Relation {
+        .init(key: "limit[visibleApps]")
     }
 }
 

@@ -101,7 +101,7 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -252,38 +252,10 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appClipAdvancedExperienceImages
-                public static var appClipAdvancedExperienceImages: Relation<[AppClipAdvancedExperienceImages]?> {
-                    .init(key: "fields[appClipAdvancedExperienceImages]")
-                }
-
-                /// the fields to include for returned resources of type appClipAdvancedExperienceLocalizations
-                public static var appClipAdvancedExperienceLocalizations: Relation<[AppClipAdvancedExperienceLocalizations]?> {
-                    .init(key: "fields[appClipAdvancedExperienceLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type appClipAdvancedExperiences
-                public static var appClipAdvancedExperiences: Relation<[AppClipAdvancedExperiences]?> {
-                    .init(key: "fields[appClipAdvancedExperiences]")
-                }
-
-                /// the fields to include for returned resources of type appClips
-                public static var appClips: Relation<[AppClips]?> {
-                    .init(key: "fields[appClips]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -364,29 +336,6 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'action'
-                public static var action: Relation<[Action]?> {
-                    .init(key: "filter[action]")
-                }
-
-                /// filter by attribute 'placeStatus'
-                public static var placeStatus: Relation<[PlaceStatus]?> {
-                    .init(key: "filter[placeStatus]")
-                }
-
-                /// filter by attribute 'status'
-                public static var status: Relation<[Status]?> {
-                    .init(key: "filter[status]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -416,30 +365,73 @@ extension V1.AppClips.ById.AppClipAdvancedExperiences.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related localizations returned (when they are included)
-                public static var localizations: Relation<Int?> {
-                    .init(key: "limit[localizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Fields, [V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Fields.AppClipAdvancedExperienceImages]?> {
+    /// the fields to include for returned resources of type appClipAdvancedExperienceImages
+    public static var appClipAdvancedExperienceImages: Relation {
+        .init(key: "fields[appClipAdvancedExperienceImages]")
+    }
+}
+
+extension Relation<V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Fields, [V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Fields.AppClipAdvancedExperienceLocalizations]?> {
+    /// the fields to include for returned resources of type appClipAdvancedExperienceLocalizations
+    public static var appClipAdvancedExperienceLocalizations: Relation {
+        .init(key: "fields[appClipAdvancedExperienceLocalizations]")
+    }
+}
+
+extension Relation<V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Fields, [V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Fields.AppClipAdvancedExperiences]?> {
+    /// the fields to include for returned resources of type appClipAdvancedExperiences
+    public static var appClipAdvancedExperiences: Relation {
+        .init(key: "fields[appClipAdvancedExperiences]")
+    }
+}
+
+extension Relation<V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Fields, [V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Fields.AppClips]?> {
+    /// the fields to include for returned resources of type appClips
+    public static var appClips: Relation {
+        .init(key: "fields[appClips]")
+    }
+}
+
+extension Relation<V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Filter, [V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Filter.Action]?> {
+    /// filter by attribute 'action'
+    public static var action: Relation {
+        .init(key: "filter[action]")
+    }
+}
+
+extension Relation<V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Filter, [V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Filter.PlaceStatus]?> {
+    /// filter by attribute 'placeStatus'
+    public static var placeStatus: Relation {
+        .init(key: "filter[placeStatus]")
+    }
+}
+
+extension Relation<V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Filter, [V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Filter.Status]?> {
+    /// filter by attribute 'status'
+    public static var status: Relation {
+        .init(key: "filter[status]")
+    }
+}
+
+extension Relation<V1.AppClips.ById.AppClipAdvancedExperiences.GET.Parameters.Limit, Int?> {
+    /// maximum number of related localizations returned (when they are included)
+    public static var localizations: Relation {
+        .init(key: "limit[localizations]")
     }
 }
 

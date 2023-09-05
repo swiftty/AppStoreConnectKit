@@ -80,7 +80,7 @@ extension V1.CiBuildActions.ById.TestResults.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -120,20 +120,14 @@ extension V1.CiBuildActions.ById.TestResults.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type ciTestResults
-                public static var ciTestResults: Relation<[CiTestResults]?> {
-                    .init(key: "fields[ciTestResults]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.CiBuildActions.ById.TestResults.GET.Parameters.Fields, [V1.CiBuildActions.ById.TestResults.GET.Parameters.Fields.CiTestResults]?> {
+    /// the fields to include for returned resources of type ciTestResults
+    public static var ciTestResults: Relation {
+        .init(key: "fields[ciTestResults]")
     }
 }
 

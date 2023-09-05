@@ -174,7 +174,7 @@ extension V1.Apps.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -1382,159 +1382,6 @@ extension V1.Apps.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appAvailabilities
-                public static var appAvailabilities: Relation<[AppAvailabilities]?> {
-                    .init(key: "fields[appAvailabilities]")
-                }
-
-                /// the fields to include for returned resources of type appClips
-                public static var appClips: Relation<[AppClips]?> {
-                    .init(key: "fields[appClips]")
-                }
-
-                /// the fields to include for returned resources of type appCustomProductPages
-                public static var appCustomProductPages: Relation<[AppCustomProductPages]?> {
-                    .init(key: "fields[appCustomProductPages]")
-                }
-
-                /// the fields to include for returned resources of type appEvents
-                public static var appEvents: Relation<[AppEvents]?> {
-                    .init(key: "fields[appEvents]")
-                }
-
-                /// the fields to include for returned resources of type appInfos
-                public static var appInfos: Relation<[AppInfos]?> {
-                    .init(key: "fields[appInfos]")
-                }
-
-                /// the fields to include for returned resources of type appPreOrders
-                public static var appPreOrders: Relation<[AppPreOrders]?> {
-                    .init(key: "fields[appPreOrders]")
-                }
-
-                /// the fields to include for returned resources of type appPricePoints
-                public static var appPricePoints: Relation<[AppPricePoints]?> {
-                    .init(key: "fields[appPricePoints]")
-                }
-
-                /// the fields to include for returned resources of type appPriceSchedules
-                public static var appPriceSchedules: Relation<[AppPriceSchedules]?> {
-                    .init(key: "fields[appPriceSchedules]")
-                }
-
-                /// the fields to include for returned resources of type appPrices
-                public static var appPrices: Relation<[AppPrices]?> {
-                    .init(key: "fields[appPrices]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersionExperiments
-                public static var appStoreVersionExperiments: Relation<[AppStoreVersionExperiments]?> {
-                    .init(key: "fields[appStoreVersionExperiments]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersions
-                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
-                    .init(key: "fields[appStoreVersions]")
-                }
-
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type betaAppLocalizations
-                public static var betaAppLocalizations: Relation<[BetaAppLocalizations]?> {
-                    .init(key: "fields[betaAppLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type betaAppReviewDetails
-                public static var betaAppReviewDetails: Relation<[BetaAppReviewDetails]?> {
-                    .init(key: "fields[betaAppReviewDetails]")
-                }
-
-                /// the fields to include for returned resources of type betaGroups
-                public static var betaGroups: Relation<[BetaGroups]?> {
-                    .init(key: "fields[betaGroups]")
-                }
-
-                /// the fields to include for returned resources of type betaLicenseAgreements
-                public static var betaLicenseAgreements: Relation<[BetaLicenseAgreements]?> {
-                    .init(key: "fields[betaLicenseAgreements]")
-                }
-
-                /// the fields to include for returned resources of type builds
-                public static var builds: Relation<[Builds]?> {
-                    .init(key: "fields[builds]")
-                }
-
-                /// the fields to include for returned resources of type ciProducts
-                public static var ciProducts: Relation<[CiProducts]?> {
-                    .init(key: "fields[ciProducts]")
-                }
-
-                /// the fields to include for returned resources of type customerReviews
-                public static var customerReviews: Relation<[CustomerReviews]?> {
-                    .init(key: "fields[customerReviews]")
-                }
-
-                /// the fields to include for returned resources of type endUserLicenseAgreements
-                public static var endUserLicenseAgreements: Relation<[EndUserLicenseAgreements]?> {
-                    .init(key: "fields[endUserLicenseAgreements]")
-                }
-
-                /// the fields to include for returned resources of type gameCenterEnabledVersions
-                public static var gameCenterEnabledVersions: Relation<[GameCenterEnabledVersions]?> {
-                    .init(key: "fields[gameCenterEnabledVersions]")
-                }
-
-                /// the fields to include for returned resources of type inAppPurchases
-                public static var inAppPurchases: Relation<[InAppPurchases]?> {
-                    .init(key: "fields[inAppPurchases]")
-                }
-
-                /// the fields to include for returned resources of type perfPowerMetrics
-                public static var perfPowerMetrics: Relation<[PerfPowerMetrics]?> {
-                    .init(key: "fields[perfPowerMetrics]")
-                }
-
-                /// the fields to include for returned resources of type preReleaseVersions
-                public static var preReleaseVersions: Relation<[PreReleaseVersions]?> {
-                    .init(key: "fields[preReleaseVersions]")
-                }
-
-                /// the fields to include for returned resources of type promotedPurchases
-                public static var promotedPurchases: Relation<[PromotedPurchases]?> {
-                    .init(key: "fields[promotedPurchases]")
-                }
-
-                /// the fields to include for returned resources of type reviewSubmissions
-                public static var reviewSubmissions: Relation<[ReviewSubmissions]?> {
-                    .init(key: "fields[reviewSubmissions]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionGracePeriods
-                public static var subscriptionGracePeriods: Relation<[SubscriptionGracePeriods]?> {
-                    .init(key: "fields[subscriptionGracePeriods]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionGroups
-                public static var subscriptionGroups: Relation<[SubscriptionGroups]?> {
-                    .init(key: "fields[subscriptionGroups]")
-                }
-
-                /// the fields to include for returned resources of type territories
-                public static var territories: Relation<[Territories]?> {
-                    .init(key: "fields[territories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -1626,111 +1473,342 @@ extension V1.Apps.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related appClips returned (when they are included)
-                public static var appClips: Relation<Int?> {
-                    .init(key: "limit[appClips]")
-                }
-
-                /// maximum number of related appCustomProductPages returned (when they are included)
-                public static var appCustomProductPages: Relation<Int?> {
-                    .init(key: "limit[appCustomProductPages]")
-                }
-
-                /// maximum number of related appEvents returned (when they are included)
-                public static var appEvents: Relation<Int?> {
-                    .init(key: "limit[appEvents]")
-                }
-
-                /// maximum number of related appInfos returned (when they are included)
-                public static var appInfos: Relation<Int?> {
-                    .init(key: "limit[appInfos]")
-                }
-
-                /// maximum number of related appStoreVersionExperimentsV2 returned (when they are included)
-                public static var appStoreVersionExperimentsV2: Relation<Int?> {
-                    .init(key: "limit[appStoreVersionExperimentsV2]")
-                }
-
-                /// maximum number of related appStoreVersions returned (when they are included)
-                public static var appStoreVersions: Relation<Int?> {
-                    .init(key: "limit[appStoreVersions]")
-                }
-
-                /// maximum number of related availableTerritories returned (when they are included)
-                public static var availableTerritories: Relation<Int?> {
-                    .init(key: "limit[availableTerritories]")
-                }
-
-                /// maximum number of related betaAppLocalizations returned (when they are included)
-                public static var betaAppLocalizations: Relation<Int?> {
-                    .init(key: "limit[betaAppLocalizations]")
-                }
-
-                /// maximum number of related betaGroups returned (when they are included)
-                public static var betaGroups: Relation<Int?> {
-                    .init(key: "limit[betaGroups]")
-                }
-
-                /// maximum number of related builds returned (when they are included)
-                public static var builds: Relation<Int?> {
-                    .init(key: "limit[builds]")
-                }
-
-                /// maximum number of related gameCenterEnabledVersions returned (when they are included)
-                public static var gameCenterEnabledVersions: Relation<Int?> {
-                    .init(key: "limit[gameCenterEnabledVersions]")
-                }
-
-                /// maximum number of related inAppPurchasesV2 returned (when they are included)
-                public static var inAppPurchasesV2: Relation<Int?> {
-                    .init(key: "limit[inAppPurchasesV2]")
-                }
-
-                /// maximum number of related inAppPurchases returned (when they are included)
-                public static var inAppPurchases: Relation<Int?> {
-                    .init(key: "limit[inAppPurchases]")
-                }
-
-                /// maximum number of related preReleaseVersions returned (when they are included)
-                public static var preReleaseVersions: Relation<Int?> {
-                    .init(key: "limit[preReleaseVersions]")
-                }
-
-                /// maximum number of related prices returned (when they are included)
-                public static var prices: Relation<Int?> {
-                    .init(key: "limit[prices]")
-                }
-
-                /// maximum number of related promotedPurchases returned (when they are included)
-                public static var promotedPurchases: Relation<Int?> {
-                    .init(key: "limit[promotedPurchases]")
-                }
-
-                /// maximum number of related reviewSubmissions returned (when they are included)
-                public static var reviewSubmissions: Relation<Int?> {
-                    .init(key: "limit[reviewSubmissions]")
-                }
-
-                /// maximum number of related subscriptionGroups returned (when they are included)
-                public static var subscriptionGroups: Relation<Int?> {
-                    .init(key: "limit[subscriptionGroups]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppAvailabilities]?> {
+    /// the fields to include for returned resources of type appAvailabilities
+    public static var appAvailabilities: Relation {
+        .init(key: "fields[appAvailabilities]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppClips]?> {
+    /// the fields to include for returned resources of type appClips
+    public static var appClips: Relation {
+        .init(key: "fields[appClips]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppCustomProductPages]?> {
+    /// the fields to include for returned resources of type appCustomProductPages
+    public static var appCustomProductPages: Relation {
+        .init(key: "fields[appCustomProductPages]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppEvents]?> {
+    /// the fields to include for returned resources of type appEvents
+    public static var appEvents: Relation {
+        .init(key: "fields[appEvents]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppInfos]?> {
+    /// the fields to include for returned resources of type appInfos
+    public static var appInfos: Relation {
+        .init(key: "fields[appInfos]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppPreOrders]?> {
+    /// the fields to include for returned resources of type appPreOrders
+    public static var appPreOrders: Relation {
+        .init(key: "fields[appPreOrders]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppPricePoints]?> {
+    /// the fields to include for returned resources of type appPricePoints
+    public static var appPricePoints: Relation {
+        .init(key: "fields[appPricePoints]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppPriceSchedules]?> {
+    /// the fields to include for returned resources of type appPriceSchedules
+    public static var appPriceSchedules: Relation {
+        .init(key: "fields[appPriceSchedules]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppPrices]?> {
+    /// the fields to include for returned resources of type appPrices
+    public static var appPrices: Relation {
+        .init(key: "fields[appPrices]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppStoreVersionExperiments]?> {
+    /// the fields to include for returned resources of type appStoreVersionExperiments
+    public static var appStoreVersionExperiments: Relation {
+        .init(key: "fields[appStoreVersionExperiments]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.AppStoreVersions]?> {
+    /// the fields to include for returned resources of type appStoreVersions
+    public static var appStoreVersions: Relation {
+        .init(key: "fields[appStoreVersions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.BetaAppLocalizations]?> {
+    /// the fields to include for returned resources of type betaAppLocalizations
+    public static var betaAppLocalizations: Relation {
+        .init(key: "fields[betaAppLocalizations]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.BetaAppReviewDetails]?> {
+    /// the fields to include for returned resources of type betaAppReviewDetails
+    public static var betaAppReviewDetails: Relation {
+        .init(key: "fields[betaAppReviewDetails]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.BetaGroups]?> {
+    /// the fields to include for returned resources of type betaGroups
+    public static var betaGroups: Relation {
+        .init(key: "fields[betaGroups]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.BetaLicenseAgreements]?> {
+    /// the fields to include for returned resources of type betaLicenseAgreements
+    public static var betaLicenseAgreements: Relation {
+        .init(key: "fields[betaLicenseAgreements]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.Builds]?> {
+    /// the fields to include for returned resources of type builds
+    public static var builds: Relation {
+        .init(key: "fields[builds]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.CiProducts]?> {
+    /// the fields to include for returned resources of type ciProducts
+    public static var ciProducts: Relation {
+        .init(key: "fields[ciProducts]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.CustomerReviews]?> {
+    /// the fields to include for returned resources of type customerReviews
+    public static var customerReviews: Relation {
+        .init(key: "fields[customerReviews]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.EndUserLicenseAgreements]?> {
+    /// the fields to include for returned resources of type endUserLicenseAgreements
+    public static var endUserLicenseAgreements: Relation {
+        .init(key: "fields[endUserLicenseAgreements]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.GameCenterEnabledVersions]?> {
+    /// the fields to include for returned resources of type gameCenterEnabledVersions
+    public static var gameCenterEnabledVersions: Relation {
+        .init(key: "fields[gameCenterEnabledVersions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.InAppPurchases]?> {
+    /// the fields to include for returned resources of type inAppPurchases
+    public static var inAppPurchases: Relation {
+        .init(key: "fields[inAppPurchases]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.PerfPowerMetrics]?> {
+    /// the fields to include for returned resources of type perfPowerMetrics
+    public static var perfPowerMetrics: Relation {
+        .init(key: "fields[perfPowerMetrics]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.PreReleaseVersions]?> {
+    /// the fields to include for returned resources of type preReleaseVersions
+    public static var preReleaseVersions: Relation {
+        .init(key: "fields[preReleaseVersions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.PromotedPurchases]?> {
+    /// the fields to include for returned resources of type promotedPurchases
+    public static var promotedPurchases: Relation {
+        .init(key: "fields[promotedPurchases]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.ReviewSubmissions]?> {
+    /// the fields to include for returned resources of type reviewSubmissions
+    public static var reviewSubmissions: Relation {
+        .init(key: "fields[reviewSubmissions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.SubscriptionGracePeriods]?> {
+    /// the fields to include for returned resources of type subscriptionGracePeriods
+    public static var subscriptionGracePeriods: Relation {
+        .init(key: "fields[subscriptionGracePeriods]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.SubscriptionGroups]?> {
+    /// the fields to include for returned resources of type subscriptionGroups
+    public static var subscriptionGroups: Relation {
+        .init(key: "fields[subscriptionGroups]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Fields, [V1.Apps.ById.GET.Parameters.Fields.Territories]?> {
+    /// the fields to include for returned resources of type territories
+    public static var territories: Relation {
+        .init(key: "fields[territories]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appClips returned (when they are included)
+    public static var appClips: Relation {
+        .init(key: "limit[appClips]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appCustomProductPages returned (when they are included)
+    public static var appCustomProductPages: Relation {
+        .init(key: "limit[appCustomProductPages]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appEvents returned (when they are included)
+    public static var appEvents: Relation {
+        .init(key: "limit[appEvents]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appInfos returned (when they are included)
+    public static var appInfos: Relation {
+        .init(key: "limit[appInfos]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appStoreVersionExperimentsV2 returned (when they are included)
+    public static var appStoreVersionExperimentsV2: Relation {
+        .init(key: "limit[appStoreVersionExperimentsV2]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related appStoreVersions returned (when they are included)
+    public static var appStoreVersions: Relation {
+        .init(key: "limit[appStoreVersions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related availableTerritories returned (when they are included)
+    public static var availableTerritories: Relation {
+        .init(key: "limit[availableTerritories]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related betaAppLocalizations returned (when they are included)
+    public static var betaAppLocalizations: Relation {
+        .init(key: "limit[betaAppLocalizations]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related betaGroups returned (when they are included)
+    public static var betaGroups: Relation {
+        .init(key: "limit[betaGroups]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related builds returned (when they are included)
+    public static var builds: Relation {
+        .init(key: "limit[builds]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related gameCenterEnabledVersions returned (when they are included)
+    public static var gameCenterEnabledVersions: Relation {
+        .init(key: "limit[gameCenterEnabledVersions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related inAppPurchasesV2 returned (when they are included)
+    public static var inAppPurchasesV2: Relation {
+        .init(key: "limit[inAppPurchasesV2]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related inAppPurchases returned (when they are included)
+    public static var inAppPurchases: Relation {
+        .init(key: "limit[inAppPurchases]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related preReleaseVersions returned (when they are included)
+    public static var preReleaseVersions: Relation {
+        .init(key: "limit[preReleaseVersions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related prices returned (when they are included)
+    public static var prices: Relation {
+        .init(key: "limit[prices]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related promotedPurchases returned (when they are included)
+    public static var promotedPurchases: Relation {
+        .init(key: "limit[promotedPurchases]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related reviewSubmissions returned (when they are included)
+    public static var reviewSubmissions: Relation {
+        .init(key: "limit[reviewSubmissions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related subscriptionGroups returned (when they are included)
+    public static var subscriptionGroups: Relation {
+        .init(key: "limit[subscriptionGroups]")
     }
 }
 

@@ -84,7 +84,7 @@ extension V1.CiWorkflows.ById.GET {
         public var include: [Include]?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -279,29 +279,6 @@ extension V1.CiWorkflows.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type ciBuildRuns
-                public static var ciBuildRuns: Relation<[CiBuildRuns]?> {
-                    .init(key: "fields[ciBuildRuns]")
-                }
-
-                /// the fields to include for returned resources of type ciWorkflows
-                public static var ciWorkflows: Relation<[CiWorkflows]?> {
-                    .init(key: "fields[ciWorkflows]")
-                }
-
-                /// the fields to include for returned resources of type scmRepositories
-                public static var scmRepositories: Relation<[ScmRepositories]?> {
-                    .init(key: "fields[scmRepositories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -331,6 +308,27 @@ extension V1.CiWorkflows.ById.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.CiWorkflows.ById.GET.Parameters.Fields, [V1.CiWorkflows.ById.GET.Parameters.Fields.CiBuildRuns]?> {
+    /// the fields to include for returned resources of type ciBuildRuns
+    public static var ciBuildRuns: Relation {
+        .init(key: "fields[ciBuildRuns]")
+    }
+}
+
+extension Relation<V1.CiWorkflows.ById.GET.Parameters.Fields, [V1.CiWorkflows.ById.GET.Parameters.Fields.CiWorkflows]?> {
+    /// the fields to include for returned resources of type ciWorkflows
+    public static var ciWorkflows: Relation {
+        .init(key: "fields[ciWorkflows]")
+    }
+}
+
+extension Relation<V1.CiWorkflows.ById.GET.Parameters.Fields, [V1.CiWorkflows.ById.GET.Parameters.Fields.ScmRepositories]?> {
+    /// the fields to include for returned resources of type scmRepositories
+    public static var scmRepositories: Relation {
+        .init(key: "fields[scmRepositories]")
     }
 }
 

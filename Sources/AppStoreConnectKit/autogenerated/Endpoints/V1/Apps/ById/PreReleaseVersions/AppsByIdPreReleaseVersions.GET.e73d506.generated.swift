@@ -80,7 +80,7 @@ extension V1.Apps.ById.PreReleaseVersions.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -114,20 +114,14 @@ extension V1.Apps.ById.PreReleaseVersions.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type preReleaseVersions
-                public static var preReleaseVersions: Relation<[PreReleaseVersions]?> {
-                    .init(key: "fields[preReleaseVersions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.PreReleaseVersions.GET.Parameters.Fields, [V1.Apps.ById.PreReleaseVersions.GET.Parameters.Fields.PreReleaseVersions]?> {
+    /// the fields to include for returned resources of type preReleaseVersions
+    public static var preReleaseVersions: Relation {
+        .init(key: "fields[preReleaseVersions]")
     }
 }
 

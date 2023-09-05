@@ -95,7 +95,7 @@ extension V1.Subscriptions.ById.IntroductoryOffers.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -264,56 +264,15 @@ extension V1.Subscriptions.ById.IntroductoryOffers.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionIntroductoryOffers
-                public static var subscriptionIntroductoryOffers: Relation<[SubscriptionIntroductoryOffers]?> {
-                    .init(key: "fields[subscriptionIntroductoryOffers]")
-                }
-
-                /// the fields to include for returned resources of type subscriptionPricePoints
-                public static var subscriptionPricePoints: Relation<[SubscriptionPricePoints]?> {
-                    .init(key: "fields[subscriptionPricePoints]")
-                }
-
-                /// the fields to include for returned resources of type subscriptions
-                public static var subscriptions: Relation<[Subscriptions]?> {
-                    .init(key: "fields[subscriptions]")
-                }
-
-                /// the fields to include for returned resources of type territories
-                public static var territories: Relation<[Territories]?> {
-                    .init(key: "fields[territories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) of related 'territory'
-                public static var territory: Relation<[String]?> {
-                    .init(key: "filter[territory]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -340,6 +299,41 @@ extension V1.Subscriptions.ById.IntroductoryOffers.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.IntroductoryOffers.GET.Parameters.Fields, [V1.Subscriptions.ById.IntroductoryOffers.GET.Parameters.Fields.SubscriptionIntroductoryOffers]?> {
+    /// the fields to include for returned resources of type subscriptionIntroductoryOffers
+    public static var subscriptionIntroductoryOffers: Relation {
+        .init(key: "fields[subscriptionIntroductoryOffers]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.IntroductoryOffers.GET.Parameters.Fields, [V1.Subscriptions.ById.IntroductoryOffers.GET.Parameters.Fields.SubscriptionPricePoints]?> {
+    /// the fields to include for returned resources of type subscriptionPricePoints
+    public static var subscriptionPricePoints: Relation {
+        .init(key: "fields[subscriptionPricePoints]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.IntroductoryOffers.GET.Parameters.Fields, [V1.Subscriptions.ById.IntroductoryOffers.GET.Parameters.Fields.Subscriptions]?> {
+    /// the fields to include for returned resources of type subscriptions
+    public static var subscriptions: Relation {
+        .init(key: "fields[subscriptions]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.IntroductoryOffers.GET.Parameters.Fields, [V1.Subscriptions.ById.IntroductoryOffers.GET.Parameters.Fields.Territories]?> {
+    /// the fields to include for returned resources of type territories
+    public static var territories: Relation {
+        .init(key: "fields[territories]")
+    }
+}
+
+extension Relation<V1.Subscriptions.ById.IntroductoryOffers.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) of related 'territory'
+    public static var territory: Relation {
+        .init(key: "filter[territory]")
     }
 }
 

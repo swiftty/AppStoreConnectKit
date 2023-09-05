@@ -84,7 +84,7 @@ extension V1.AppInfos.ById.SecondarySubcategoryTwo.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -115,19 +115,6 @@ extension V1.AppInfos.ById.SecondarySubcategoryTwo.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCategories
-                public static var appCategories: Relation<[AppCategories]?> {
-                    .init(key: "fields[appCategories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -153,26 +140,27 @@ extension V1.AppInfos.ById.SecondarySubcategoryTwo.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related subcategories returned (when they are included)
-                public static var subcategories: Relation<Int?> {
-                    .init(key: "limit[subcategories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppInfos.ById.SecondarySubcategoryTwo.GET.Parameters.Fields, [V1.AppInfos.ById.SecondarySubcategoryTwo.GET.Parameters.Fields.AppCategories]?> {
+    /// the fields to include for returned resources of type appCategories
+    public static var appCategories: Relation {
+        .init(key: "fields[appCategories]")
+    }
+}
+
+extension Relation<V1.AppInfos.ById.SecondarySubcategoryTwo.GET.Parameters.Limit, Int?> {
+    /// maximum number of related subcategories returned (when they are included)
+    public static var subcategories: Relation {
+        .init(key: "limit[subcategories]")
     }
 }
 

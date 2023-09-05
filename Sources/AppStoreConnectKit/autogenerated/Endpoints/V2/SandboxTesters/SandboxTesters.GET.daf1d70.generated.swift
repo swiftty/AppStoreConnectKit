@@ -73,7 +73,7 @@ extension V2.SandboxTesters.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -116,20 +116,14 @@ extension V2.SandboxTesters.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type sandboxTesters
-                public static var sandboxTesters: Relation<[SandboxTesters]?> {
-                    .init(key: "fields[sandboxTesters]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V2.SandboxTesters.GET.Parameters.Fields, [V2.SandboxTesters.GET.Parameters.Fields.SandboxTesters]?> {
+    /// the fields to include for returned resources of type sandboxTesters
+    public static var sandboxTesters: Relation {
+        .init(key: "fields[sandboxTesters]")
     }
 }
 

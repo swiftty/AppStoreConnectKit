@@ -87,7 +87,7 @@ extension V1.AppScreenshotSets.ById.AppScreenshots.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -170,24 +170,6 @@ extension V1.AppScreenshotSets.ById.AppScreenshots.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appScreenshotSets
-                public static var appScreenshotSets: Relation<[AppScreenshotSets]?> {
-                    .init(key: "fields[appScreenshotSets]")
-                }
-
-                /// the fields to include for returned resources of type appScreenshots
-                public static var appScreenshots: Relation<[AppScreenshots]?> {
-                    .init(key: "fields[appScreenshots]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -208,6 +190,20 @@ extension V1.AppScreenshotSets.ById.AppScreenshots.GET {
                 }
             }
         }
+    }
+}
+
+extension Relation<V1.AppScreenshotSets.ById.AppScreenshots.GET.Parameters.Fields, [V1.AppScreenshotSets.ById.AppScreenshots.GET.Parameters.Fields.AppScreenshotSets]?> {
+    /// the fields to include for returned resources of type appScreenshotSets
+    public static var appScreenshotSets: Relation {
+        .init(key: "fields[appScreenshotSets]")
+    }
+}
+
+extension Relation<V1.AppScreenshotSets.ById.AppScreenshots.GET.Parameters.Fields, [V1.AppScreenshotSets.ById.AppScreenshots.GET.Parameters.Fields.AppScreenshots]?> {
+    /// the fields to include for returned resources of type appScreenshots
+    public static var appScreenshots: Relation {
+        .init(key: "fields[appScreenshots]")
     }
 }
 

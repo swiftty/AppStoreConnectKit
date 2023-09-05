@@ -101,7 +101,7 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -445,43 +445,10 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type actors
-                public static var actors: Relation<[Actors]?> {
-                    .init(key: "fields[actors]")
-                }
-
-                /// the fields to include for returned resources of type appStoreVersions
-                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
-                    .init(key: "fields[appStoreVersions]")
-                }
-
-                /// the fields to include for returned resources of type apps
-                public static var apps: Relation<[Apps]?> {
-                    .init(key: "fields[apps]")
-                }
-
-                /// the fields to include for returned resources of type reviewSubmissionItems
-                public static var reviewSubmissionItems: Relation<[ReviewSubmissionItems]?> {
-                    .init(key: "fields[reviewSubmissionItems]")
-                }
-
-                /// the fields to include for returned resources of type reviewSubmissions
-                public static var reviewSubmissions: Relation<[ReviewSubmissions]?> {
-                    .init(key: "fields[reviewSubmissions]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -549,24 +516,6 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'platform'
-                public static var platform: Relation<[Platform]?> {
-                    .init(key: "filter[platform]")
-                }
-
-                /// filter by attribute 'state'
-                public static var state: Relation<[State]?> {
-                    .init(key: "filter[state]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -602,30 +551,73 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related items returned (when they are included)
-                public static var items: Relation<Int?> {
-                    .init(key: "limit[items]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Apps.ById.ReviewSubmissions.GET.Parameters.Fields, [V1.Apps.ById.ReviewSubmissions.GET.Parameters.Fields.Actors]?> {
+    /// the fields to include for returned resources of type actors
+    public static var actors: Relation {
+        .init(key: "fields[actors]")
+    }
+}
+
+extension Relation<V1.Apps.ById.ReviewSubmissions.GET.Parameters.Fields, [V1.Apps.ById.ReviewSubmissions.GET.Parameters.Fields.AppStoreVersions]?> {
+    /// the fields to include for returned resources of type appStoreVersions
+    public static var appStoreVersions: Relation {
+        .init(key: "fields[appStoreVersions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.ReviewSubmissions.GET.Parameters.Fields, [V1.Apps.ById.ReviewSubmissions.GET.Parameters.Fields.Apps]?> {
+    /// the fields to include for returned resources of type apps
+    public static var apps: Relation {
+        .init(key: "fields[apps]")
+    }
+}
+
+extension Relation<V1.Apps.ById.ReviewSubmissions.GET.Parameters.Fields, [V1.Apps.ById.ReviewSubmissions.GET.Parameters.Fields.ReviewSubmissionItems]?> {
+    /// the fields to include for returned resources of type reviewSubmissionItems
+    public static var reviewSubmissionItems: Relation {
+        .init(key: "fields[reviewSubmissionItems]")
+    }
+}
+
+extension Relation<V1.Apps.ById.ReviewSubmissions.GET.Parameters.Fields, [V1.Apps.ById.ReviewSubmissions.GET.Parameters.Fields.ReviewSubmissions]?> {
+    /// the fields to include for returned resources of type reviewSubmissions
+    public static var reviewSubmissions: Relation {
+        .init(key: "fields[reviewSubmissions]")
+    }
+}
+
+extension Relation<V1.Apps.ById.ReviewSubmissions.GET.Parameters.Filter, [V1.Apps.ById.ReviewSubmissions.GET.Parameters.Filter.Platform]?> {
+    /// filter by attribute 'platform'
+    public static var platform: Relation {
+        .init(key: "filter[platform]")
+    }
+}
+
+extension Relation<V1.Apps.ById.ReviewSubmissions.GET.Parameters.Filter, [V1.Apps.ById.ReviewSubmissions.GET.Parameters.Filter.State]?> {
+    /// filter by attribute 'state'
+    public static var state: Relation {
+        .init(key: "filter[state]")
+    }
+}
+
+extension Relation<V1.Apps.ById.ReviewSubmissions.GET.Parameters.Limit, Int?> {
+    /// maximum number of related items returned (when they are included)
+    public static var items: Relation {
+        .init(key: "limit[items]")
     }
 }
 

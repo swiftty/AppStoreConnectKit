@@ -88,29 +88,16 @@ extension V1.AppCategories.GET {
         public var limit: Limit = Limit()
 
         public struct Exists: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by existence or non-existence of related 'parent'
-                public static var parent: Relation<Bool?> {
-                    .init(key: "exists[parent]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -141,23 +128,10 @@ extension V1.AppCategories.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appCategories
-                public static var appCategories: Relation<[AppCategories]?> {
-                    .init(key: "fields[appCategories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -188,19 +162,6 @@ extension V1.AppCategories.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// filter by attribute 'platforms'
-                public static var platforms: Relation<[Platforms]?> {
-                    .init(key: "filter[platforms]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -227,30 +188,45 @@ extension V1.AppCategories.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related subcategories returned (when they are included)
-                public static var subcategories: Relation<Int?> {
-                    .init(key: "limit[subcategories]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppCategories.GET.Parameters.Exists, Bool?> {
+    /// filter by existence or non-existence of related 'parent'
+    public static var parent: Relation {
+        .init(key: "exists[parent]")
+    }
+}
+
+extension Relation<V1.AppCategories.GET.Parameters.Fields, [V1.AppCategories.GET.Parameters.Fields.AppCategories]?> {
+    /// the fields to include for returned resources of type appCategories
+    public static var appCategories: Relation {
+        .init(key: "fields[appCategories]")
+    }
+}
+
+extension Relation<V1.AppCategories.GET.Parameters.Filter, [V1.AppCategories.GET.Parameters.Filter.Platforms]?> {
+    /// filter by attribute 'platforms'
+    public static var platforms: Relation {
+        .init(key: "filter[platforms]")
+    }
+}
+
+extension Relation<V1.AppCategories.GET.Parameters.Limit, Int?> {
+    /// maximum number of related subcategories returned (when they are included)
+    public static var subcategories: Relation {
+        .init(key: "limit[subcategories]")
     }
 }
 

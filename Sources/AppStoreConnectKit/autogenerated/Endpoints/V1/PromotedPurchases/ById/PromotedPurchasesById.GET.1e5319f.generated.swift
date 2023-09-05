@@ -86,7 +86,7 @@ extension V1.PromotedPurchases.ById.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -175,24 +175,6 @@ extension V1.PromotedPurchases.ById.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type promotedPurchaseImages
-                public static var promotedPurchaseImages: Relation<[PromotedPurchaseImages]?> {
-                    .init(key: "fields[promotedPurchaseImages]")
-                }
-
-                /// the fields to include for returned resources of type promotedPurchases
-                public static var promotedPurchases: Relation<[PromotedPurchases]?> {
-                    .init(key: "fields[promotedPurchases]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -221,26 +203,34 @@ extension V1.PromotedPurchases.ById.GET {
         }
 
         public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related promotionImages returned (when they are included)
-                public static var promotionImages: Relation<Int?> {
-                    .init(key: "limit[promotionImages]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.PromotedPurchases.ById.GET.Parameters.Fields, [V1.PromotedPurchases.ById.GET.Parameters.Fields.PromotedPurchaseImages]?> {
+    /// the fields to include for returned resources of type promotedPurchaseImages
+    public static var promotedPurchaseImages: Relation {
+        .init(key: "fields[promotedPurchaseImages]")
+    }
+}
+
+extension Relation<V1.PromotedPurchases.ById.GET.Parameters.Fields, [V1.PromotedPurchases.ById.GET.Parameters.Fields.PromotedPurchases]?> {
+    /// the fields to include for returned resources of type promotedPurchases
+    public static var promotedPurchases: Relation {
+        .init(key: "fields[promotedPurchases]")
+    }
+}
+
+extension Relation<V1.PromotedPurchases.ById.GET.Parameters.Limit, Int?> {
+    /// maximum number of related promotionImages returned (when they are included)
+    public static var promotionImages: Relation {
+        .init(key: "limit[promotionImages]")
     }
 }
 

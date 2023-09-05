@@ -87,7 +87,7 @@ extension V1.AppPriceTiers.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -140,46 +140,15 @@ extension V1.AppPriceTiers.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appPricePoints
-                public static var appPricePoints: Relation<[AppPricePoints]?> {
-                    .init(key: "fields[appPricePoints]")
-                }
-
-                /// the fields to include for returned resources of type appPriceTiers
-                public static var appPriceTiers: Relation<[AppPriceTiers]?> {
-                    .init(key: "fields[appPriceTiers]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s)
-                public static var id: Relation<[String]?> {
-                    .init(key: "filter[id]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -203,30 +172,45 @@ extension V1.AppPriceTiers.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related pricePoints returned (when they are included)
-                public static var pricePoints: Relation<Int?> {
-                    .init(key: "limit[pricePoints]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.AppPriceTiers.GET.Parameters.Fields, [V1.AppPriceTiers.GET.Parameters.Fields.AppPricePoints]?> {
+    /// the fields to include for returned resources of type appPricePoints
+    public static var appPricePoints: Relation {
+        .init(key: "fields[appPricePoints]")
+    }
+}
+
+extension Relation<V1.AppPriceTiers.GET.Parameters.Fields, [V1.AppPriceTiers.GET.Parameters.Fields.AppPriceTiers]?> {
+    /// the fields to include for returned resources of type appPriceTiers
+    public static var appPriceTiers: Relation {
+        .init(key: "fields[appPriceTiers]")
+    }
+}
+
+extension Relation<V1.AppPriceTiers.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s)
+    public static var id: Relation {
+        .init(key: "filter[id]")
+    }
+}
+
+extension Relation<V1.AppPriceTiers.GET.Parameters.Limit, Int?> {
+    /// maximum number of related pricePoints returned (when they are included)
+    public static var pricePoints: Relation {
+        .init(key: "limit[pricePoints]")
     }
 }
 

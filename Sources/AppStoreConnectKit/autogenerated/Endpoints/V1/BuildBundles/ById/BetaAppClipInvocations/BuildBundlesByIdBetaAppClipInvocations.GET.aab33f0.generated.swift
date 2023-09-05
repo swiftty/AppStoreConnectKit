@@ -89,7 +89,7 @@ extension V1.BuildBundles.ById.BetaAppClipInvocations.GET {
         public var limit: Limit = Limit()
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -145,24 +145,6 @@ extension V1.BuildBundles.ById.BetaAppClipInvocations.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type betaAppClipInvocationLocalizations
-                public static var betaAppClipInvocationLocalizations: Relation<[BetaAppClipInvocationLocalizations]?> {
-                    .init(key: "fields[betaAppClipInvocationLocalizations]")
-                }
-
-                /// the fields to include for returned resources of type betaAppClipInvocations
-                public static var betaAppClipInvocations: Relation<[BetaAppClipInvocations]?> {
-                    .init(key: "fields[betaAppClipInvocations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public enum Include: Hashable, Codable, RawRepresentable {
@@ -186,30 +168,38 @@ extension V1.BuildBundles.ById.BetaAppClipInvocations.GET {
 
         public struct Limit: Hashable {
             public subscript () -> Int? {
-                get { self[Relation<Int?>(key: "limit")] }
-                set { self[Relation<Int?>(key: "limit")] = newValue }
+                get { self[Relation<Self, Int?>(key: "limit")] }
+                set { self[Relation<Self, Int?>(key: "limit")] = newValue }
             }
 
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related betaAppClipInvocationLocalizations returned (when they are included)
-                public static var betaAppClipInvocationLocalizations: Relation<Int?> {
-                    .init(key: "limit[betaAppClipInvocationLocalizations]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.BuildBundles.ById.BetaAppClipInvocations.GET.Parameters.Fields, [V1.BuildBundles.ById.BetaAppClipInvocations.GET.Parameters.Fields.BetaAppClipInvocationLocalizations]?> {
+    /// the fields to include for returned resources of type betaAppClipInvocationLocalizations
+    public static var betaAppClipInvocationLocalizations: Relation {
+        .init(key: "fields[betaAppClipInvocationLocalizations]")
+    }
+}
+
+extension Relation<V1.BuildBundles.ById.BetaAppClipInvocations.GET.Parameters.Fields, [V1.BuildBundles.ById.BetaAppClipInvocations.GET.Parameters.Fields.BetaAppClipInvocations]?> {
+    /// the fields to include for returned resources of type betaAppClipInvocations
+    public static var betaAppClipInvocations: Relation {
+        .init(key: "fields[betaAppClipInvocations]")
+    }
+}
+
+extension Relation<V1.BuildBundles.ById.BetaAppClipInvocations.GET.Parameters.Limit, Int?> {
+    /// maximum number of related betaAppClipInvocationLocalizations returned (when they are included)
+    public static var betaAppClipInvocationLocalizations: Relation {
+        .init(key: "limit[betaAppClipInvocationLocalizations]")
     }
 }
 

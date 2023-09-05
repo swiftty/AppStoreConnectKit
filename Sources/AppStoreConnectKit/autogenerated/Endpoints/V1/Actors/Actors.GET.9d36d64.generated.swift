@@ -77,7 +77,7 @@ extension V1.Actors.GET {
         public var limit: Int?
 
         public struct Fields: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
@@ -114,42 +114,30 @@ extension V1.Actors.GET {
                     }
                 }
             }
-
-            public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type actors
-                public static var actors: Relation<[Actors]?> {
-                    .init(key: "fields[actors]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
 
         public struct Filter: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+            public subscript <T: Hashable>(_ relation: Relation<Self, T>) -> T {
                 get { values[relation]?.base as! T }
                 set { values[relation] = AnyHashable(newValue) }
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// filter by id(s) **(required)**
-                public static var id: Relation<[String]?> {
-                    .init(key: "filter[id]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
-            }
         }
+    }
+}
+
+extension Relation<V1.Actors.GET.Parameters.Fields, [V1.Actors.GET.Parameters.Fields.Actors]?> {
+    /// the fields to include for returned resources of type actors
+    public static var actors: Relation {
+        .init(key: "fields[actors]")
+    }
+}
+
+extension Relation<V1.Actors.GET.Parameters.Filter, [String]?> {
+    /// filter by id(s) **(required)**
+    public static var id: Relation {
+        .init(key: "filter[id]")
     }
 }
 
