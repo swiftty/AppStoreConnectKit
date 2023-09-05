@@ -26,7 +26,7 @@ struct SchemaRenderer: Renderer {
         let decl: Decl
         if let nest = context.nestings[scopeName] {
             let parent = TypeName(nest)
-            decl = ExtensionDecl(name: "\(parent)", body: [content])
+            decl = ExtensionDecl(nameComponents: { $0 + ["\(parent)"] }, body: [content])
         } else {
             decl = content
         }

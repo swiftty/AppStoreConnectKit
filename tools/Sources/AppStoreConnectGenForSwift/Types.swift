@@ -39,8 +39,8 @@ struct TypeName: RawRepresentable, Hashable, CustomStringConvertible {
         : rawValue
     }
 
-    init(_ key: String) {
-        let key = key.upperInitialLetter()
+    init(qualifiedprefix: String? = nil, _ key: String) {
+        let key = (qualifiedprefix.map { $0 + "." } ?? "") + key.upperInitialLetter()
         self.init(rawValue: key)
     }
 
@@ -119,7 +119,7 @@ struct StructRepr: Repr {
     }
 
     func renderType(context: SwiftCodeBuilder.Context) -> TypeName {
-        TypeName(key)
+        TypeName(qualifiedprefix: context.fullpath, key)
     }
 
     func buildDecl(context: SwiftCodeBuilder.Context) -> Decl? {
@@ -169,7 +169,7 @@ struct EnumRepr: Repr {
     }
 
     func renderType(context: SwiftCodeBuilder.Context) -> TypeName {
-        TypeName(key)
+        TypeName(qualifiedprefix: context.fullpath, key)
     }
 
     func buildDecl(context: SwiftCodeBuilder.Context) -> Decl? {
@@ -278,7 +278,7 @@ struct OneOfRepr: Repr {
     }
 
     func renderType(context: SwiftCodeBuilder.Context) -> TypeName {
-        TypeName(key)
+        TypeName(qualifiedprefix: context.fullpath, key)
     }
 
     func buildDecl(context: SwiftCodeBuilder.Context) -> Decl? {
@@ -428,7 +428,7 @@ struct RefRepr: Repr {
         if let schema = context.resolver(ref) {
             return findRepr(for: schema, with: schema.title ?? ref.key).renderType(context: context)
         }
-        return TypeName(ref.key)
+        return TypeName(qualifiedprefix: context.fullpath, ref.key)
     }
 }
 

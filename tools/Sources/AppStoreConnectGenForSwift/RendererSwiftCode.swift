@@ -58,6 +58,7 @@ extension SwiftCodeBuilder {
         var resolver: (OpenAPISchema.Ref) -> OpenAPISchema? = { _ in nil }
         var nestings: [String: String] = [:]
         var inherits: [String: [String]] = [:]
+        var fullpath: String?
     }
 }
 
