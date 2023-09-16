@@ -54,6 +54,8 @@ extension OpenAPISchema {
             case uriReference = "uri-reference"
             case date
             case dateTime = "date-time"
+            case number
+            case duration
             case binary
         }
 

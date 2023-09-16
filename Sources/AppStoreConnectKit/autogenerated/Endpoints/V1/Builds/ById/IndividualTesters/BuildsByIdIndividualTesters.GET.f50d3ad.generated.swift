@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.Builds.ById.IndividualTesters {
     public struct GET: Endpoint {
-        public typealias Response = BetaTestersResponse
+        public typealias Response = BetaTestersWithoutIncludesResponse
 
         public var path: String {
             "/v1/builds/\(id)/individualTesters"
@@ -42,7 +42,7 @@ extension V1.Builds.ById.IndividualTesters {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of BetaTesters as `BetaTestersResponse`
+        /// - Returns: **200**, List of BetaTesters with get as `BetaTestersWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -54,7 +54,7 @@ extension V1.Builds.ById.IndividualTesters {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(BetaTestersResponse.self, from: data)
+                return try jsonDecoder.decode(BetaTestersWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

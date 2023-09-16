@@ -165,6 +165,7 @@ extension V2.AppStoreVersionExperiments.ById.AppStoreVersionExperimentTreatments
 
             public enum AppStoreVersionExperiments: Hashable, Codable, RawRepresentable {
                 case app
+                case appStoreVersion
                 case appStoreVersionExperimentTreatments
                 case controlVersions
                 case endDate
@@ -181,6 +182,7 @@ extension V2.AppStoreVersionExperiments.ById.AppStoreVersionExperimentTreatments
                 public var rawValue: String {
                     switch self {
                     case .app: return "app"
+                    case .appStoreVersion: return "appStoreVersion"
                     case .appStoreVersionExperimentTreatments: return "appStoreVersionExperimentTreatments"
                     case .controlVersions: return "controlVersions"
                     case .endDate: return "endDate"
@@ -199,6 +201,7 @@ extension V2.AppStoreVersionExperiments.ById.AppStoreVersionExperimentTreatments
                 public init(rawValue: String) {
                     switch rawValue {
                     case "app": self = .app
+                    case "appStoreVersion": self = .appStoreVersion
                     case "appStoreVersionExperimentTreatments": self = .appStoreVersionExperimentTreatments
                     case "controlVersions": self = .controlVersions
                     case "endDate": self = .endDate

@@ -27,7 +27,7 @@ public struct BuildResponse: Hashable, Codable {
     }
 
     public enum Included: Hashable, Codable {
-        case preReleaseVersion(PreReleaseVersion)
+        case prereleaseVersion(PrereleaseVersion)
         case betaTester(BetaTester)
         case betaGroup(BetaGroup)
         case betaBuildLocalization(BetaBuildLocalization)
@@ -43,7 +43,7 @@ public struct BuildResponse: Hashable, Codable {
             self = try {
                 var lastError: Error!
                 do {
-                    return .preReleaseVersion(try PreReleaseVersion(from: decoder))
+                    return .prereleaseVersion(try PrereleaseVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -103,7 +103,7 @@ public struct BuildResponse: Hashable, Codable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .preReleaseVersion(let value):
+            case .prereleaseVersion(let value):
                 try value.encode(to: encoder)
 
             case .betaTester(let value):

@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.AppStoreVersions.ById.RoutingAppCoverage {
     public struct GET: Endpoint {
-        public typealias Response = RoutingAppCoverageResponse
+        public typealias Response = RoutingAppCoverageWithoutIncludesResponse
 
         public var path: String {
             "/v1/appStoreVersions/\(id)/routingAppCoverage"
@@ -40,7 +40,7 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single RoutingAppCoverage as `RoutingAppCoverageResponse`
+        /// - Returns: **200**, Single RoutingAppCoverage with get as `RoutingAppCoverageWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -52,7 +52,7 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(RoutingAppCoverageResponse.self, from: data)
+                return try jsonDecoder.decode(RoutingAppCoverageWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

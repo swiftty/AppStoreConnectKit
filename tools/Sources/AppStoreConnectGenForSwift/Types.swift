@@ -378,7 +378,7 @@ struct StringRepr: Repr {
             switch format {
             case .date, .dateTime: return "String"
             case .uri, .uriReference: return "URL"
-            case .email: return "String"
+            case .email, .number, .duration: return "String"
             case .binary: return "Data"
             case nil: return "String"
             }

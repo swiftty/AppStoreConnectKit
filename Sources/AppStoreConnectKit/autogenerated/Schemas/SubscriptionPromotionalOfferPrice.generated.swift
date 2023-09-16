@@ -10,25 +10,20 @@ public struct SubscriptionPromotionalOfferPrice: Hashable, Codable {
 
     public var relationships: Relationships?
 
-    public var links: ResourceLinks
-
     public init(
         id: String,
         type: `Type`,
-        relationships: Relationships? = nil,
-        links: ResourceLinks
+        relationships: Relationships? = nil
     ) {
         self.id = id
         self.type = type
         self.relationships = relationships
-        self.links = links
     }
 
     private enum CodingKeys: String, CodingKey {
         case id
         case type
         case relationships
-        case links
     }
 
     public enum `Type`: String, Hashable, Codable {

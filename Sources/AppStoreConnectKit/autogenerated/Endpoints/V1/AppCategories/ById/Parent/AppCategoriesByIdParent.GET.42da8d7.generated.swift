@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.AppCategories.ById.Parent {
     public struct GET: Endpoint {
-        public typealias Response = AppCategoryResponse
+        public typealias Response = AppCategoryWithoutIncludesResponse
 
         public var path: String {
             "/v1/appCategories/\(id)/parent"
@@ -40,7 +40,7 @@ extension V1.AppCategories.ById.Parent {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single AppCategory as `AppCategoryResponse`
+        /// - Returns: **200**, Single AppCategory with get as `AppCategoryWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -52,7 +52,7 @@ extension V1.AppCategories.ById.Parent {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(AppCategoryResponse.self, from: data)
+                return try jsonDecoder.decode(AppCategoryWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

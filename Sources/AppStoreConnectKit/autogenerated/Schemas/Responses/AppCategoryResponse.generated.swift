@@ -6,13 +6,13 @@ import Foundation
 public struct AppCategoryResponse: Hashable, Codable {
     public var data: AppCategory
 
-    public var included: [Included]?
+    public var included: [AppCategory]?
 
     public var links: DocumentLinks
 
     public init(
         data: AppCategory,
-        included: [Included]? = nil,
+        included: [AppCategory]? = nil,
         links: DocumentLinks
     ) {
         self.data = data
@@ -24,29 +24,6 @@ public struct AppCategoryResponse: Hashable, Codable {
         case data
         case included
         case links
-    }
-
-    public enum Included: Hashable, Codable {
-        case appCategory(AppCategory)
-
-        public init(from decoder: Decoder) throws {
-            self = try {
-                var lastError: Error!
-                do {
-                    return .appCategory(try AppCategory(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                throw lastError
-            }()
-        }
-
-        public func encode(to encoder: Encoder) throws {
-            switch self {
-            case .appCategory(let value):
-                try value.encode(to: encoder)
-            }
-        }
     }
 }
 

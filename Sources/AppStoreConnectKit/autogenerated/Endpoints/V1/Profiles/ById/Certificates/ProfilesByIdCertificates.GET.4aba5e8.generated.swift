@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.Profiles.ById.Certificates {
     public struct GET: Endpoint {
-        public typealias Response = CertificatesResponse
+        public typealias Response = CertificatesWithoutIncludesResponse
 
         public var path: String {
             "/v1/profiles/\(id)/certificates"
@@ -42,7 +42,7 @@ extension V1.Profiles.ById.Certificates {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of Certificates as `CertificatesResponse`
+        /// - Returns: **200**, List of Certificates with get as `CertificatesWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -54,7 +54,7 @@ extension V1.Profiles.ById.Certificates {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(CertificatesResponse.self, from: data)
+                return try jsonDecoder.decode(CertificatesWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

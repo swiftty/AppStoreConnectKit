@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.Apps.ById.BetaAppReviewDetail {
     public struct GET: Endpoint {
-        public typealias Response = BetaAppReviewDetailResponse
+        public typealias Response = BetaAppReviewDetailWithoutIncludesResponse
 
         public var path: String {
             "/v1/apps/\(id)/betaAppReviewDetail"
@@ -40,7 +40,7 @@ extension V1.Apps.ById.BetaAppReviewDetail {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single BetaAppReviewDetail as `BetaAppReviewDetailResponse`
+        /// - Returns: **200**, Single BetaAppReviewDetail with get as `BetaAppReviewDetailWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -52,7 +52,7 @@ extension V1.Apps.ById.BetaAppReviewDetail {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(BetaAppReviewDetailResponse.self, from: data)
+                return try jsonDecoder.decode(BetaAppReviewDetailWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

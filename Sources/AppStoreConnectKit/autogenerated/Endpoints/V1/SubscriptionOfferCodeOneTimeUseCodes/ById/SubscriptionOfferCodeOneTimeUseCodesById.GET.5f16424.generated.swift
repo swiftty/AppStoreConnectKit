@@ -28,8 +28,6 @@ extension V1.SubscriptionOfferCodeOneTimeUseCodes.ById {
             components?.path = path
 
             components?.queryItems = [
-                URLQueryItem(name: "fields[subscriptionOfferCodeOneTimeUseCodeValues]",
-                             value: parameters.fields[.subscriptionOfferCodeOneTimeUseCodeValues]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionOfferCodeOneTimeUseCodes]",
                              value: parameters.fields[.subscriptionOfferCodeOneTimeUseCodes]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -89,24 +87,6 @@ extension V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum SubscriptionOfferCodeOneTimeUseCodeValues: Hashable, Codable, RawRepresentable {
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-
-                    case .unknown(let rawValue): return rawValue
-                    }
-                }
-
-                public init(rawValue: String) {
-                    switch rawValue {
-
-                    default: self = .unknown(rawValue)
-                    }
-                }
-            }
-
             public enum SubscriptionOfferCodeOneTimeUseCodes: Hashable, Codable, RawRepresentable {
                 case active
                 case createdDate
@@ -142,11 +122,6 @@ extension V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type subscriptionOfferCodeOneTimeUseCodeValues
-                public static var subscriptionOfferCodeOneTimeUseCodeValues: Relation<[SubscriptionOfferCodeOneTimeUseCodeValues]?> {
-                    .init(key: "fields[subscriptionOfferCodeOneTimeUseCodeValues]")
-                }
-
                 /// the fields to include for returned resources of type subscriptionOfferCodeOneTimeUseCodes
                 public static var subscriptionOfferCodeOneTimeUseCodes: Relation<[SubscriptionOfferCodeOneTimeUseCodes]?> {
                     .init(key: "fields[subscriptionOfferCodeOneTimeUseCodes]")

@@ -4,9 +4,9 @@
 import Foundation
 
 public struct ResourceLinks: Hashable, Codable {
-    public var `self`: URL
+    public var `self`: URL?
 
-    public init(self _self: URL) {
+    public init(self _self: URL? = nil) {
         self.`self` = _self
     }
 
