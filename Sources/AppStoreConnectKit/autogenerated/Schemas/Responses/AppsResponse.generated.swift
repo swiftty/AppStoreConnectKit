@@ -32,10 +32,11 @@ public struct AppsResponse: Hashable, Codable {
     }
 
     public enum Included: Hashable, Codable {
+        case appEncryptionDeclaration(AppEncryptionDeclaration)
         case ciProduct(CiProduct)
         case betaGroup(BetaGroup)
         case appStoreVersion(AppStoreVersion)
-        case preReleaseVersion(PreReleaseVersion)
+        case prereleaseVersion(PrereleaseVersion)
         case betaAppLocalization(BetaAppLocalization)
         case build(Build)
         case betaLicenseAgreement(BetaLicenseAgreement)
@@ -55,11 +56,17 @@ public struct AppsResponse: Hashable, Codable {
         case appEvent(AppEvent)
         case reviewSubmission(ReviewSubmission)
         case subscriptionGracePeriod(SubscriptionGracePeriod)
+        case gameCenterDetail(GameCenterDetail)
         case appStoreVersionExperimentV2(AppStoreVersionExperimentV2)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
+                do {
+                    return .appEncryptionDeclaration(try AppEncryptionDeclaration(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 do {
                     return .ciProduct(try CiProduct(from: decoder))
                 } catch {
@@ -76,7 +83,7 @@ public struct AppsResponse: Hashable, Codable {
                     lastError = error
                 }
                 do {
-                    return .preReleaseVersion(try PreReleaseVersion(from: decoder))
+                    return .prereleaseVersion(try PrereleaseVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -176,6 +183,11 @@ public struct AppsResponse: Hashable, Codable {
                     lastError = error
                 }
                 do {
+                    return .gameCenterDetail(try GameCenterDetail(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
                     return .appStoreVersionExperimentV2(try AppStoreVersionExperimentV2(from: decoder))
                 } catch {
                     lastError = error
@@ -186,6 +198,9 @@ public struct AppsResponse: Hashable, Codable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
+            case .appEncryptionDeclaration(let value):
+                try value.encode(to: encoder)
+
             case .ciProduct(let value):
                 try value.encode(to: encoder)
 
@@ -195,7 +210,7 @@ public struct AppsResponse: Hashable, Codable {
             case .appStoreVersion(let value):
                 try value.encode(to: encoder)
 
-            case .preReleaseVersion(let value):
+            case .prereleaseVersion(let value):
                 try value.encode(to: encoder)
 
             case .betaAppLocalization(let value):
@@ -253,6 +268,9 @@ public struct AppsResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .subscriptionGracePeriod(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterDetail(let value):
                 try value.encode(to: encoder)
 
             case .appStoreVersionExperimentV2(let value):

@@ -12,14 +12,14 @@ public struct Subscription: Hashable, Codable {
 
     public var relationships: Relationships?
 
-    public var links: ResourceLinks
+    public var links: ResourceLinks?
 
     public init(
         id: String,
         type: `Type`,
         attributes: Attributes? = nil,
         relationships: Relationships? = nil,
-        links: ResourceLinks
+        links: ResourceLinks? = nil
     ) {
         self.id = id
         self.type = type
@@ -41,6 +41,7 @@ public struct Subscription: Hashable, Codable {
     }
 
     public struct Attributes: Hashable, Codable {
+        @available(*, deprecated)
         public var availableInAllTerritories: Bool?
 
         public var familySharable: Bool?

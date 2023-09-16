@@ -300,6 +300,8 @@ public enum V1 {
 
             public enum AppCustomProductPages {}
 
+            public enum AppEncryptionDeclarations {}
+
             public enum AppEvents {}
 
             public enum AppInfos {}
@@ -329,6 +331,8 @@ public enum V1 {
             public enum CustomerReviews {}
 
             public enum EndUserLicenseAgreement {}
+
+            public enum GameCenterDetail {}
 
             public enum GameCenterEnabledVersions {}
 
@@ -594,6 +598,8 @@ public enum V1 {
         }
     }
 
+    public enum EndAppAvailabilityPreOrders {}
+
     public enum EndUserLicenseAgreements {
         public enum ById {
             public enum Territories {}
@@ -602,6 +608,76 @@ public enum V1 {
 
     public enum FinanceReports {}
 
+    public enum GameCenterAchievementImages {
+        public enum ById {}
+    }
+
+    public enum GameCenterAchievementLocalizations {
+        public enum ById {
+            public enum GameCenterAchievement {}
+
+            public enum GameCenterAchievementImage {}
+        }
+    }
+
+    public enum GameCenterAchievementReleases {
+        public enum ById {}
+    }
+
+    public enum GameCenterAchievements {
+        public enum ById {
+            public enum GroupAchievement {}
+
+            public enum Localizations {}
+
+            public enum Relationships {
+                public enum GroupAchievement {}
+            }
+
+            public enum Releases {}
+        }
+    }
+
+    public enum GameCenterAppVersions {
+        public enum ById {
+            public enum AppStoreVersion {}
+
+            public enum CompatibilityVersions {}
+
+            public enum Relationships {
+                public enum CompatibilityVersions {}
+            }
+        }
+    }
+
+    public enum GameCenterDetails {
+        public enum ById {
+            public enum AchievementReleases {}
+
+            public enum GameCenterAchievements {}
+
+            public enum GameCenterAppVersions {}
+
+            public enum GameCenterGroup {}
+
+            public enum GameCenterLeaderboardSets {}
+
+            public enum GameCenterLeaderboards {}
+
+            public enum LeaderboardReleases {}
+
+            public enum LeaderboardSetReleases {}
+
+            public enum Relationships {
+                public enum GameCenterAchievements {}
+
+                public enum GameCenterLeaderboardSets {}
+
+                public enum GameCenterLeaderboards {}
+            }
+        }
+    }
+
     public enum GameCenterEnabledVersions {
         public enum ById {
             public enum CompatibleVersions {}
@@ -609,6 +685,94 @@ public enum V1 {
             public enum Relationships {
                 public enum CompatibleVersions {}
             }
+        }
+    }
+
+    public enum GameCenterGroups {
+        public enum ById {
+            public enum GameCenterAchievements {}
+
+            public enum GameCenterDetails {}
+
+            public enum GameCenterLeaderboardSets {}
+
+            public enum GameCenterLeaderboards {}
+
+            public enum Relationships {
+                public enum GameCenterAchievements {}
+
+                public enum GameCenterLeaderboardSets {}
+
+                public enum GameCenterLeaderboards {}
+            }
+        }
+    }
+
+    public enum GameCenterLeaderboardImages {
+        public enum ById {}
+    }
+
+    public enum GameCenterLeaderboardLocalizations {
+        public enum ById {
+            public enum GameCenterLeaderboardImage {}
+        }
+    }
+
+    public enum GameCenterLeaderboardReleases {
+        public enum ById {}
+    }
+
+    public enum GameCenterLeaderboardSetImages {
+        public enum ById {}
+    }
+
+    public enum GameCenterLeaderboardSetLocalizations {
+        public enum ById {
+            public enum GameCenterLeaderboardSetImage {}
+        }
+    }
+
+    public enum GameCenterLeaderboardSetMemberLocalizations {
+        public enum ById {
+            public enum GameCenterLeaderboard {}
+
+            public enum GameCenterLeaderboardSet {}
+        }
+    }
+
+    public enum GameCenterLeaderboardSetReleases {
+        public enum ById {}
+    }
+
+    public enum GameCenterLeaderboardSets {
+        public enum ById {
+            public enum GameCenterLeaderboards {}
+
+            public enum GroupLeaderboardSet {}
+
+            public enum Localizations {}
+
+            public enum Relationships {
+                public enum GameCenterLeaderboards {}
+
+                public enum GroupLeaderboardSet {}
+            }
+
+            public enum Releases {}
+        }
+    }
+
+    public enum GameCenterLeaderboards {
+        public enum ById {
+            public enum GroupLeaderboard {}
+
+            public enum Localizations {}
+
+            public enum Relationships {
+                public enum GroupLeaderboard {}
+            }
+
+            public enum Releases {}
         }
     }
 
@@ -816,6 +980,10 @@ public enum V1 {
 
     public enum Territories {}
 
+    public enum TerritoryAvailabilities {
+        public enum ById {}
+    }
+
     public enum UserInvitations {
         public enum ById {
             public enum VisibleApps {}
@@ -833,6 +1001,12 @@ public enum V1 {
     }
 }
 public enum V2 {
+    public enum AppAvailabilities {
+        public enum ById {
+            public enum TerritoryAvailabilities {}
+        }
+    }
+
     public enum AppStoreVersionExperiments {
         public enum ById {
             public enum AppStoreVersionExperimentTreatments {}

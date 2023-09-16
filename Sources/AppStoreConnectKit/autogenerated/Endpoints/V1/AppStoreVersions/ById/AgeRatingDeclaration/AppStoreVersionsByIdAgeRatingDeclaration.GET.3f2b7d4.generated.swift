@@ -9,7 +9,7 @@ import FoundationNetworking
 extension V1.AppStoreVersions.ById.AgeRatingDeclaration {
     @available(*, deprecated)
     public struct GET: Endpoint {
-        public typealias Response = AgeRatingDeclarationResponse
+        public typealias Response = AgeRatingDeclarationWithoutIncludesResponse
 
         public var path: String {
             "/v1/appStoreVersions/\(id)/ageRatingDeclaration"
@@ -41,7 +41,7 @@ extension V1.AppStoreVersions.ById.AgeRatingDeclaration {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single AgeRatingDeclaration as `AgeRatingDeclarationResponse`
+        /// - Returns: **200**, Single AgeRatingDeclaration with get as `AgeRatingDeclarationWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -53,7 +53,7 @@ extension V1.AppStoreVersions.ById.AgeRatingDeclaration {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(AgeRatingDeclarationResponse.self, from: data)
+                return try jsonDecoder.decode(AgeRatingDeclarationWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

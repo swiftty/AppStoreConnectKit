@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.BundleIds.ById.BundleIdCapabilities {
     public struct GET: Endpoint {
-        public typealias Response = BundleIdCapabilitiesResponse
+        public typealias Response = BundleIdCapabilitiesWithoutIncludesResponse
 
         public var path: String {
             "/v1/bundleIds/\(id)/bundleIdCapabilities"
@@ -42,7 +42,7 @@ extension V1.BundleIds.ById.BundleIdCapabilities {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of BundleIdCapabilities as `BundleIdCapabilitiesResponse`
+        /// - Returns: **200**, List of BundleIdCapabilities with get as `BundleIdCapabilitiesWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -54,7 +54,7 @@ extension V1.BundleIds.ById.BundleIdCapabilities {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(BundleIdCapabilitiesResponse.self, from: data)
+                return try jsonDecoder.decode(BundleIdCapabilitiesWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

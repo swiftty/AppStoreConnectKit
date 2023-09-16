@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.Apps.ById.EndUserLicenseAgreement {
     public struct GET: Endpoint {
-        public typealias Response = EndUserLicenseAgreementResponse
+        public typealias Response = EndUserLicenseAgreementWithoutIncludesResponse
 
         public var path: String {
             "/v1/apps/\(id)/endUserLicenseAgreement"
@@ -40,7 +40,7 @@ extension V1.Apps.ById.EndUserLicenseAgreement {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single EndUserLicenseAgreement as `EndUserLicenseAgreementResponse`
+        /// - Returns: **200**, Single EndUserLicenseAgreement with get as `EndUserLicenseAgreementWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -52,7 +52,7 @@ extension V1.Apps.ById.EndUserLicenseAgreement {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(EndUserLicenseAgreementResponse.self, from: data)
+                return try jsonDecoder.decode(EndUserLicenseAgreementWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.Builds.ById.PreReleaseVersion {
     public struct GET: Endpoint {
-        public typealias Response = PreReleaseVersionResponse
+        public typealias Response = PrereleaseVersionWithoutIncludesResponse
 
         public var path: String {
             "/v1/builds/\(id)/preReleaseVersion"
@@ -40,7 +40,7 @@ extension V1.Builds.ById.PreReleaseVersion {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single PreReleaseVersion as `PreReleaseVersionResponse`
+        /// - Returns: **200**, Single PrereleaseVersion with get as `PrereleaseVersionWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -52,7 +52,7 @@ extension V1.Builds.ById.PreReleaseVersion {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(PreReleaseVersionResponse.self, from: data)
+                return try jsonDecoder.decode(PrereleaseVersionWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

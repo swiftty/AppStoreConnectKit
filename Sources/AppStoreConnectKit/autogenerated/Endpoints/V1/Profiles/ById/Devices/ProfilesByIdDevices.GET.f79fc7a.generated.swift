@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.Profiles.ById.Devices {
     public struct GET: Endpoint {
-        public typealias Response = DevicesResponse
+        public typealias Response = DevicesWithoutIncludesResponse
 
         public var path: String {
             "/v1/profiles/\(id)/devices"
@@ -42,7 +42,7 @@ extension V1.Profiles.ById.Devices {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of Devices as `DevicesResponse`
+        /// - Returns: **200**, List of Devices with get as `DevicesWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -54,7 +54,7 @@ extension V1.Profiles.ById.Devices {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(DevicesResponse.self, from: data)
+                return try jsonDecoder.decode(DevicesWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

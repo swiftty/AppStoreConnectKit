@@ -42,6 +42,7 @@ public struct InAppPurchaseV2UpdateRequest: Hashable, Codable {
         }
 
         public struct Attributes: Hashable, Codable {
+            @available(*, deprecated)
             public var availableInAllTerritories: Bool?
 
             public var familySharable: Bool?

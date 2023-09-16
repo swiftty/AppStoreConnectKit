@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.Builds.ById.Icons {
     public struct GET: Endpoint {
-        public typealias Response = BuildIconsResponse
+        public typealias Response = BuildIconsWithoutIncludesResponse
 
         public var path: String {
             "/v1/builds/\(id)/icons"
@@ -42,7 +42,7 @@ extension V1.Builds.ById.Icons {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of BuildIcons as `BuildIconsResponse`
+        /// - Returns: **200**, List of BuildIcons with get as `BuildIconsWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -54,7 +54,7 @@ extension V1.Builds.ById.Icons {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(BuildIconsResponse.self, from: data)
+                return try jsonDecoder.decode(BuildIconsWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

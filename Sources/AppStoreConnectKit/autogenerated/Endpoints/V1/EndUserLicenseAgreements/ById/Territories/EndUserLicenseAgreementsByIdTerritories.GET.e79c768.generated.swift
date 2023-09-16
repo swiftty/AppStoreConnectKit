@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.EndUserLicenseAgreements.ById.Territories {
     public struct GET: Endpoint {
-        public typealias Response = TerritoriesResponse
+        public typealias Response = TerritoriesWithoutIncludesResponse
 
         public var path: String {
             "/v1/endUserLicenseAgreements/\(id)/territories"
@@ -42,7 +42,7 @@ extension V1.EndUserLicenseAgreements.ById.Territories {
             return urlRequest
         }
 
-        /// - Returns: **200**, List of Territories as `TerritoriesResponse`
+        /// - Returns: **200**, List of Territories with get as `TerritoriesWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -54,7 +54,7 @@ extension V1.EndUserLicenseAgreements.ById.Territories {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(TerritoriesResponse.self, from: data)
+                return try jsonDecoder.decode(TerritoriesWithoutIncludesResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)

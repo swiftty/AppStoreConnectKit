@@ -142,6 +142,7 @@ extension V1.Apps.ById.Prices.GET {
                 case appAvailability
                 case appClips
                 case appCustomProductPages
+                case appEncryptionDeclarations
                 case appEvents
                 case appInfos
                 case appPricePoints
@@ -161,6 +162,7 @@ extension V1.Apps.ById.Prices.GET {
                 case contentRightsDeclaration
                 case customerReviews
                 case endUserLicenseAgreement
+                case gameCenterDetail
                 case gameCenterEnabledVersions
                 case inAppPurchases
                 case inAppPurchasesV2
@@ -188,6 +190,7 @@ extension V1.Apps.ById.Prices.GET {
                     case .appAvailability: return "appAvailability"
                     case .appClips: return "appClips"
                     case .appCustomProductPages: return "appCustomProductPages"
+                    case .appEncryptionDeclarations: return "appEncryptionDeclarations"
                     case .appEvents: return "appEvents"
                     case .appInfos: return "appInfos"
                     case .appPricePoints: return "appPricePoints"
@@ -207,6 +210,7 @@ extension V1.Apps.ById.Prices.GET {
                     case .contentRightsDeclaration: return "contentRightsDeclaration"
                     case .customerReviews: return "customerReviews"
                     case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterDetail: return "gameCenterDetail"
                     case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
                     case .inAppPurchases: return "inAppPurchases"
                     case .inAppPurchasesV2: return "inAppPurchasesV2"
@@ -236,6 +240,7 @@ extension V1.Apps.ById.Prices.GET {
                     case "appAvailability": self = .appAvailability
                     case "appClips": self = .appClips
                     case "appCustomProductPages": self = .appCustomProductPages
+                    case "appEncryptionDeclarations": self = .appEncryptionDeclarations
                     case "appEvents": self = .appEvents
                     case "appInfos": self = .appInfos
                     case "appPricePoints": self = .appPricePoints
@@ -255,6 +260,7 @@ extension V1.Apps.ById.Prices.GET {
                     case "contentRightsDeclaration": self = .contentRightsDeclaration
                     case "customerReviews": self = .customerReviews
                     case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterDetail": self = .gameCenterDetail
                     case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
                     case "inAppPurchases": self = .inAppPurchases
                     case "inAppPurchasesV2": self = .inAppPurchasesV2

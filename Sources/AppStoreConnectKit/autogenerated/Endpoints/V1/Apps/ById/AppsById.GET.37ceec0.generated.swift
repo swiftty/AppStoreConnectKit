@@ -34,6 +34,8 @@ extension V1.Apps.ById {
                              value: parameters.fields[.appClips]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appCustomProductPages]",
                              value: parameters.fields[.appCustomProductPages]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appEncryptionDeclarations]",
+                             value: parameters.fields[.appEncryptionDeclarations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appEvents]",
                              value: parameters.fields[.appEvents]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appInfos]",
@@ -68,6 +70,8 @@ extension V1.Apps.ById {
                              value: parameters.fields[.customerReviews]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[endUserLicenseAgreements]",
                              value: parameters.fields[.endUserLicenseAgreements]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterDetails]",
+                             value: parameters.fields[.gameCenterDetails]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterEnabledVersions]",
                              value: parameters.fields[.gameCenterEnabledVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchases]",
@@ -92,6 +96,8 @@ extension V1.Apps.ById {
                              value: parameters.limit[.appClips].map { "\($0)" }),
                 URLQueryItem(name: "limit[appCustomProductPages]",
                              value: parameters.limit[.appCustomProductPages].map { "\($0)" }),
+                URLQueryItem(name: "limit[appEncryptionDeclarations]",
+                             value: parameters.limit[.appEncryptionDeclarations].map { "\($0)" }),
                 URLQueryItem(name: "limit[appEvents]",
                              value: parameters.limit[.appEvents].map { "\($0)" }),
                 URLQueryItem(name: "limit[appInfos]",
@@ -271,6 +277,73 @@ extension V1.Apps.ById.GET {
                 }
             }
 
+            public enum AppEncryptionDeclarations: Hashable, Codable, RawRepresentable {
+                case app
+                case appDescription
+                case appEncryptionDeclarationDocument
+                case appEncryptionDeclarationState
+                case availableOnFrenchStore
+                case builds
+                case codeValue
+                case containsProprietaryCryptography
+                case containsThirdPartyCryptography
+                case createdDate
+                case documentName
+                case documentType
+                case documentUrl
+                case exempt
+                case platform
+                case uploadedDate
+                case usesEncryption
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .app: return "app"
+                    case .appDescription: return "appDescription"
+                    case .appEncryptionDeclarationDocument: return "appEncryptionDeclarationDocument"
+                    case .appEncryptionDeclarationState: return "appEncryptionDeclarationState"
+                    case .availableOnFrenchStore: return "availableOnFrenchStore"
+                    case .builds: return "builds"
+                    case .codeValue: return "codeValue"
+                    case .containsProprietaryCryptography: return "containsProprietaryCryptography"
+                    case .containsThirdPartyCryptography: return "containsThirdPartyCryptography"
+                    case .createdDate: return "createdDate"
+                    case .documentName: return "documentName"
+                    case .documentType: return "documentType"
+                    case .documentUrl: return "documentUrl"
+                    case .exempt: return "exempt"
+                    case .platform: return "platform"
+                    case .uploadedDate: return "uploadedDate"
+                    case .usesEncryption: return "usesEncryption"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "app": self = .app
+                    case "appDescription": self = .appDescription
+                    case "appEncryptionDeclarationDocument": self = .appEncryptionDeclarationDocument
+                    case "appEncryptionDeclarationState": self = .appEncryptionDeclarationState
+                    case "availableOnFrenchStore": self = .availableOnFrenchStore
+                    case "builds": self = .builds
+                    case "codeValue": self = .codeValue
+                    case "containsProprietaryCryptography": self = .containsProprietaryCryptography
+                    case "containsThirdPartyCryptography": self = .containsThirdPartyCryptography
+                    case "createdDate": self = .createdDate
+                    case "documentName": self = .documentName
+                    case "documentType": self = .documentType
+                    case "documentUrl": self = .documentUrl
+                    case "exempt": self = .exempt
+                    case "platform": self = .platform
+                    case "uploadedDate": self = .uploadedDate
+                    case "usesEncryption": self = .usesEncryption
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum AppEvents: Hashable, Codable, RawRepresentable {
                 case app
                 case archivedTerritorySchedules
@@ -409,6 +482,7 @@ extension V1.Apps.ById.GET {
             public enum AppPricePoints: Hashable, Codable, RawRepresentable {
                 case app
                 case customerPrice
+                case equalizations
                 case priceTier
                 case proceeds
                 case territory
@@ -418,6 +492,7 @@ extension V1.Apps.ById.GET {
                     switch self {
                     case .app: return "app"
                     case .customerPrice: return "customerPrice"
+                    case .equalizations: return "equalizations"
                     case .priceTier: return "priceTier"
                     case .proceeds: return "proceeds"
                     case .territory: return "territory"
@@ -429,6 +504,7 @@ extension V1.Apps.ById.GET {
                     switch rawValue {
                     case "app": self = .app
                     case "customerPrice": self = .customerPrice
+                    case "equalizations": self = .equalizations
                     case "priceTier": self = .priceTier
                     case "proceeds": self = .proceeds
                     case "territory": self = .territory
@@ -619,6 +695,7 @@ extension V1.Apps.ById.GET {
                 case appAvailability
                 case appClips
                 case appCustomProductPages
+                case appEncryptionDeclarations
                 case appEvents
                 case appInfos
                 case appPricePoints
@@ -638,6 +715,7 @@ extension V1.Apps.ById.GET {
                 case contentRightsDeclaration
                 case customerReviews
                 case endUserLicenseAgreement
+                case gameCenterDetail
                 case gameCenterEnabledVersions
                 case inAppPurchases
                 case inAppPurchasesV2
@@ -665,6 +743,7 @@ extension V1.Apps.ById.GET {
                     case .appAvailability: return "appAvailability"
                     case .appClips: return "appClips"
                     case .appCustomProductPages: return "appCustomProductPages"
+                    case .appEncryptionDeclarations: return "appEncryptionDeclarations"
                     case .appEvents: return "appEvents"
                     case .appInfos: return "appInfos"
                     case .appPricePoints: return "appPricePoints"
@@ -684,6 +763,7 @@ extension V1.Apps.ById.GET {
                     case .contentRightsDeclaration: return "contentRightsDeclaration"
                     case .customerReviews: return "customerReviews"
                     case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                    case .gameCenterDetail: return "gameCenterDetail"
                     case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
                     case .inAppPurchases: return "inAppPurchases"
                     case .inAppPurchasesV2: return "inAppPurchasesV2"
@@ -713,6 +793,7 @@ extension V1.Apps.ById.GET {
                     case "appAvailability": self = .appAvailability
                     case "appClips": self = .appClips
                     case "appCustomProductPages": self = .appCustomProductPages
+                    case "appEncryptionDeclarations": self = .appEncryptionDeclarations
                     case "appEvents": self = .appEvents
                     case "appInfos": self = .appInfos
                     case "appPricePoints": self = .appPricePoints
@@ -732,6 +813,7 @@ extension V1.Apps.ById.GET {
                     case "contentRightsDeclaration": self = .contentRightsDeclaration
                     case "customerReviews": self = .customerReviews
                     case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                    case "gameCenterDetail": self = .gameCenterDetail
                     case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
                     case "inAppPurchases": self = .inAppPurchases
                     case "inAppPurchasesV2": self = .inAppPurchasesV2
@@ -1110,6 +1192,61 @@ extension V1.Apps.ById.GET {
                 }
             }
 
+            public enum GameCenterDetails: Hashable, Codable, RawRepresentable {
+                case achievementReleases
+                case app
+                case arcadeEnabled
+                case challengeEnabled
+                case defaultGroupLeaderboard
+                case defaultLeaderboard
+                case gameCenterAchievements
+                case gameCenterAppVersions
+                case gameCenterGroup
+                case gameCenterLeaderboardSets
+                case gameCenterLeaderboards
+                case leaderboardReleases
+                case leaderboardSetReleases
+                case unknown(String)
+
+                public var rawValue: String {
+                    switch self {
+                    case .achievementReleases: return "achievementReleases"
+                    case .app: return "app"
+                    case .arcadeEnabled: return "arcadeEnabled"
+                    case .challengeEnabled: return "challengeEnabled"
+                    case .defaultGroupLeaderboard: return "defaultGroupLeaderboard"
+                    case .defaultLeaderboard: return "defaultLeaderboard"
+                    case .gameCenterAchievements: return "gameCenterAchievements"
+                    case .gameCenterAppVersions: return "gameCenterAppVersions"
+                    case .gameCenterGroup: return "gameCenterGroup"
+                    case .gameCenterLeaderboardSets: return "gameCenterLeaderboardSets"
+                    case .gameCenterLeaderboards: return "gameCenterLeaderboards"
+                    case .leaderboardReleases: return "leaderboardReleases"
+                    case .leaderboardSetReleases: return "leaderboardSetReleases"
+                    case .unknown(let rawValue): return rawValue
+                    }
+                }
+
+                public init(rawValue: String) {
+                    switch rawValue {
+                    case "achievementReleases": self = .achievementReleases
+                    case "app": self = .app
+                    case "arcadeEnabled": self = .arcadeEnabled
+                    case "challengeEnabled": self = .challengeEnabled
+                    case "defaultGroupLeaderboard": self = .defaultGroupLeaderboard
+                    case "defaultLeaderboard": self = .defaultLeaderboard
+                    case "gameCenterAchievements": self = .gameCenterAchievements
+                    case "gameCenterAppVersions": self = .gameCenterAppVersions
+                    case "gameCenterGroup": self = .gameCenterGroup
+                    case "gameCenterLeaderboardSets": self = .gameCenterLeaderboardSets
+                    case "gameCenterLeaderboards": self = .gameCenterLeaderboards
+                    case "leaderboardReleases": self = .leaderboardReleases
+                    case "leaderboardSetReleases": self = .leaderboardSetReleases
+                    default: self = .unknown(rawValue)
+                    }
+                }
+            }
+
             public enum GameCenterEnabledVersions: Hashable, Codable, RawRepresentable {
                 case app
                 case compatibleVersions
@@ -1142,19 +1279,45 @@ extension V1.Apps.ById.GET {
             }
 
             public enum InAppPurchases: Hashable, Codable, RawRepresentable {
+                case app
+                case appStoreReviewScreenshot
                 case apps
+                case availableInAllTerritories
+                case content
+                case contentHosting
+                case familySharable
+                case iapPriceSchedule
+                case inAppPurchaseAvailability
+                case inAppPurchaseLocalizations
                 case inAppPurchaseType
+                case name
+                case pricePoints
                 case productId
+                case promotedPurchase
                 case referenceName
+                case reviewNote
                 case state
                 case unknown(String)
 
                 public var rawValue: String {
                     switch self {
+                    case .app: return "app"
+                    case .appStoreReviewScreenshot: return "appStoreReviewScreenshot"
                     case .apps: return "apps"
+                    case .availableInAllTerritories: return "availableInAllTerritories"
+                    case .content: return "content"
+                    case .contentHosting: return "contentHosting"
+                    case .familySharable: return "familySharable"
+                    case .iapPriceSchedule: return "iapPriceSchedule"
+                    case .inAppPurchaseAvailability: return "inAppPurchaseAvailability"
+                    case .inAppPurchaseLocalizations: return "inAppPurchaseLocalizations"
                     case .inAppPurchaseType: return "inAppPurchaseType"
+                    case .name: return "name"
+                    case .pricePoints: return "pricePoints"
                     case .productId: return "productId"
+                    case .promotedPurchase: return "promotedPurchase"
                     case .referenceName: return "referenceName"
+                    case .reviewNote: return "reviewNote"
                     case .state: return "state"
                     case .unknown(let rawValue): return rawValue
                     }
@@ -1162,10 +1325,23 @@ extension V1.Apps.ById.GET {
 
                 public init(rawValue: String) {
                     switch rawValue {
+                    case "app": self = .app
+                    case "appStoreReviewScreenshot": self = .appStoreReviewScreenshot
                     case "apps": self = .apps
+                    case "availableInAllTerritories": self = .availableInAllTerritories
+                    case "content": self = .content
+                    case "contentHosting": self = .contentHosting
+                    case "familySharable": self = .familySharable
+                    case "iapPriceSchedule": self = .iapPriceSchedule
+                    case "inAppPurchaseAvailability": self = .inAppPurchaseAvailability
+                    case "inAppPurchaseLocalizations": self = .inAppPurchaseLocalizations
                     case "inAppPurchaseType": self = .inAppPurchaseType
+                    case "name": self = .name
+                    case "pricePoints": self = .pricePoints
                     case "productId": self = .productId
+                    case "promotedPurchase": self = .promotedPurchase
                     case "referenceName": self = .referenceName
+                    case "reviewNote": self = .reviewNote
                     case "state": self = .state
                     default: self = .unknown(rawValue)
                     }
@@ -1399,6 +1575,11 @@ extension V1.Apps.ById.GET {
                     .init(key: "fields[appCustomProductPages]")
                 }
 
+                /// the fields to include for returned resources of type appEncryptionDeclarations
+                public static var appEncryptionDeclarations: Relation<[AppEncryptionDeclarations]?> {
+                    .init(key: "fields[appEncryptionDeclarations]")
+                }
+
                 /// the fields to include for returned resources of type appEvents
                 public static var appEvents: Relation<[AppEvents]?> {
                     .init(key: "fields[appEvents]")
@@ -1484,6 +1665,11 @@ extension V1.Apps.ById.GET {
                     .init(key: "fields[endUserLicenseAgreements]")
                 }
 
+                /// the fields to include for returned resources of type gameCenterDetails
+                public static var gameCenterDetails: Relation<[GameCenterDetails]?> {
+                    .init(key: "fields[gameCenterDetails]")
+                }
+
                 /// the fields to include for returned resources of type gameCenterEnabledVersions
                 public static var gameCenterEnabledVersions: Relation<[GameCenterEnabledVersions]?> {
                     .init(key: "fields[gameCenterEnabledVersions]")
@@ -1540,6 +1726,7 @@ extension V1.Apps.ById.GET {
         public enum Include: Hashable, Codable, RawRepresentable {
             case appClips
             case appCustomProductPages
+            case appEncryptionDeclarations
             case appEvents
             case appInfos
             case appStoreVersionExperimentsV2
@@ -1552,6 +1739,7 @@ extension V1.Apps.ById.GET {
             case builds
             case ciProduct
             case endUserLicenseAgreement
+            case gameCenterDetail
             case gameCenterEnabledVersions
             case inAppPurchases
             case inAppPurchasesV2
@@ -1568,6 +1756,7 @@ extension V1.Apps.ById.GET {
                 switch self {
                 case .appClips: return "appClips"
                 case .appCustomProductPages: return "appCustomProductPages"
+                case .appEncryptionDeclarations: return "appEncryptionDeclarations"
                 case .appEvents: return "appEvents"
                 case .appInfos: return "appInfos"
                 case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
@@ -1580,6 +1769,7 @@ extension V1.Apps.ById.GET {
                 case .builds: return "builds"
                 case .ciProduct: return "ciProduct"
                 case .endUserLicenseAgreement: return "endUserLicenseAgreement"
+                case .gameCenterDetail: return "gameCenterDetail"
                 case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
                 case .inAppPurchases: return "inAppPurchases"
                 case .inAppPurchasesV2: return "inAppPurchasesV2"
@@ -1598,6 +1788,7 @@ extension V1.Apps.ById.GET {
                 switch rawValue {
                 case "appClips": self = .appClips
                 case "appCustomProductPages": self = .appCustomProductPages
+                case "appEncryptionDeclarations": self = .appEncryptionDeclarations
                 case "appEvents": self = .appEvents
                 case "appInfos": self = .appInfos
                 case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
@@ -1610,6 +1801,7 @@ extension V1.Apps.ById.GET {
                 case "builds": self = .builds
                 case "ciProduct": self = .ciProduct
                 case "endUserLicenseAgreement": self = .endUserLicenseAgreement
+                case "gameCenterDetail": self = .gameCenterDetail
                 case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
                 case "inAppPurchases": self = .inAppPurchases
                 case "inAppPurchasesV2": self = .inAppPurchasesV2
@@ -1642,6 +1834,11 @@ extension V1.Apps.ById.GET {
                 /// maximum number of related appCustomProductPages returned (when they are included)
                 public static var appCustomProductPages: Relation<Int?> {
                     .init(key: "limit[appCustomProductPages]")
+                }
+
+                /// maximum number of related appEncryptionDeclarations returned (when they are included)
+                public static var appEncryptionDeclarations: Relation<Int?> {
+                    .init(key: "limit[appEncryptionDeclarations]")
                 }
 
                 /// maximum number of related appEvents returned (when they are included)

@@ -8,22 +8,17 @@ public struct BetaTesterInvitation: Hashable, Codable {
 
     public var type: `Type`
 
-    public var links: ResourceLinks
-
     public init(
         id: String,
-        type: `Type`,
-        links: ResourceLinks
+        type: `Type`
     ) {
         self.id = id
         self.type = type
-        self.links = links
     }
 
     private enum CodingKeys: String, CodingKey {
         case id
         case type
-        case links
     }
 
     public enum `Type`: String, Hashable, Codable {

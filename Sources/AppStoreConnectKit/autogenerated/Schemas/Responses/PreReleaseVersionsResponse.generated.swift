@@ -4,7 +4,7 @@
 import Foundation
 
 public struct PreReleaseVersionsResponse: Hashable, Codable {
-    public var data: [PreReleaseVersion]
+    public var data: [PrereleaseVersion]
 
     public var included: [Included]?
 
@@ -13,7 +13,7 @@ public struct PreReleaseVersionsResponse: Hashable, Codable {
     public var meta: PagingInformation?
 
     public init(
-        data: [PreReleaseVersion],
+        data: [PrereleaseVersion],
         included: [Included]? = nil,
         links: PagedDocumentLinks,
         meta: PagingInformation? = nil

@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterEnabledVersions.ById.Relationships.CompatibleVersions {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = GameCenterEnabledVersionCompatibleVersionsLinkagesRequest
         public typealias Response = Void

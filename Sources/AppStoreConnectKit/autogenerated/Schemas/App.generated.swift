@@ -12,14 +12,14 @@ public struct App: Hashable, Codable {
 
     public var relationships: Relationships?
 
-    public var links: ResourceLinks
+    public var links: ResourceLinks?
 
     public init(
         id: String,
         type: `Type`,
         attributes: Attributes? = nil,
         relationships: Relationships? = nil,
-        links: ResourceLinks
+        links: ResourceLinks? = nil
     ) {
         self.id = id
         self.type = type
@@ -132,6 +132,8 @@ public struct App: Hashable, Codable {
 
         public var appCustomProductPages: AppCustomProductPages?
 
+        public var appEncryptionDeclarations: AppEncryptionDeclarations?
+
         public var appEvents: AppEvents?
 
         public var appInfos: AppInfos?
@@ -156,6 +158,8 @@ public struct App: Hashable, Codable {
         public var ciProduct: CiProduct?
 
         public var endUserLicenseAgreement: EndUserLicenseAgreement?
+
+        public var gameCenterDetail: GameCenterDetail?
 
         public var gameCenterEnabledVersions: GameCenterEnabledVersions?
 
@@ -182,6 +186,7 @@ public struct App: Hashable, Codable {
         public init(
             appClips: AppClips? = nil,
             appCustomProductPages: AppCustomProductPages? = nil,
+            appEncryptionDeclarations: AppEncryptionDeclarations? = nil,
             appEvents: AppEvents? = nil,
             appInfos: AppInfos? = nil,
             appStoreVersionExperimentsV2: AppStoreVersionExperimentsV2? = nil,
@@ -194,6 +199,7 @@ public struct App: Hashable, Codable {
             builds: Builds? = nil,
             ciProduct: CiProduct? = nil,
             endUserLicenseAgreement: EndUserLicenseAgreement? = nil,
+            gameCenterDetail: GameCenterDetail? = nil,
             gameCenterEnabledVersions: GameCenterEnabledVersions? = nil,
             inAppPurchases: InAppPurchases? = nil,
             inAppPurchasesV2: InAppPurchasesV2? = nil,
@@ -207,6 +213,7 @@ public struct App: Hashable, Codable {
         ) {
             self.appClips = appClips
             self.appCustomProductPages = appCustomProductPages
+            self.appEncryptionDeclarations = appEncryptionDeclarations
             self.appEvents = appEvents
             self.appInfos = appInfos
             self.appStoreVersionExperimentsV2 = appStoreVersionExperimentsV2
@@ -219,6 +226,7 @@ public struct App: Hashable, Codable {
             self.builds = builds
             self.ciProduct = ciProduct
             self.endUserLicenseAgreement = endUserLicenseAgreement
+            self.gameCenterDetail = gameCenterDetail
             self.gameCenterEnabledVersions = gameCenterEnabledVersions
             self.inAppPurchases = inAppPurchases
             self.inAppPurchasesV2 = inAppPurchasesV2
@@ -234,6 +242,7 @@ public struct App: Hashable, Codable {
         private enum CodingKeys: String, CodingKey {
             case appClips
             case appCustomProductPages
+            case appEncryptionDeclarations
             case appEvents
             case appInfos
             case appStoreVersionExperimentsV2
@@ -246,6 +255,7 @@ public struct App: Hashable, Codable {
             case builds
             case ciProduct
             case endUserLicenseAgreement
+            case gameCenterDetail
             case gameCenterEnabledVersions
             case inAppPurchases
             case inAppPurchasesV2
@@ -367,6 +377,72 @@ public struct App: Hashable, Codable {
 
                 public enum `Type`: String, Hashable, Codable {
                     case appCustomProductPages
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct AppEncryptionDeclarations: Hashable, Codable {
+            public var data: [Data]?
+
+            public var links: Links?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: Links? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case appEncryptionDeclarations
                 }
             }
 
@@ -1139,6 +1215,67 @@ public struct App: Hashable, Codable {
 
                 public enum `Type`: String, Hashable, Codable {
                     case endUserLicenseAgreements
+                }
+            }
+
+            public struct Links: Hashable, Codable {
+                public var related: URL?
+
+                public var `self`: URL?
+
+                public init(
+                    related: URL? = nil,
+                    self _self: URL? = nil
+                ) {
+                    self.related = related
+                    self.`self` = _self
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case related
+                    case `self` = "self"
+                }
+            }
+        }
+
+        public struct GameCenterDetail: Hashable, Codable {
+            public var data: Data?
+
+            public var links: Links?
+
+            public init(
+                data: Data? = nil,
+                links: Links? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable {
+                    case gameCenterDetails
                 }
             }
 
