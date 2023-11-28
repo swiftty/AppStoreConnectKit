@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppPreOrders.ById {
+    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = AppPreOrderUpdateRequest
         public typealias Response = AppPreOrderResponse

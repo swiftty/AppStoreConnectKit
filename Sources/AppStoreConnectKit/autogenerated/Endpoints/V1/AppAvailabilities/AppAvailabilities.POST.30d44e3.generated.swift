@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppAvailabilities {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = AppAvailabilityCreateRequest
         public typealias Response = AppAvailabilityResponse

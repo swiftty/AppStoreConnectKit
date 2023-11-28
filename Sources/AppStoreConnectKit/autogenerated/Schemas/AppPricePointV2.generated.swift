@@ -12,16 +12,20 @@ public struct AppPricePointV2: Hashable, Codable {
 
     public var relationships: Relationships?
 
+    public var links: ResourceLinks?
+
     public init(
         id: String,
         type: `Type`,
         attributes: Attributes? = nil,
-        relationships: Relationships? = nil
+        relationships: Relationships? = nil,
+        links: ResourceLinks? = nil
     ) {
         self.id = id
         self.type = type
         self.attributes = attributes
         self.relationships = relationships
+        self.links = links
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -29,6 +33,7 @@ public struct AppPricePointV2: Hashable, Codable {
         case type
         case attributes
         case relationships
+        case links
     }
 
     public enum `Type`: String, Hashable, Codable {
