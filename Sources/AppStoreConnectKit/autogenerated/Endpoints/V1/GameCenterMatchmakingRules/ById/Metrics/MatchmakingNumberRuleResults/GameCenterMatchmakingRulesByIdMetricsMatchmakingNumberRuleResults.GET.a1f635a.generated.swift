@@ -31,7 +31,7 @@ extension V1.GameCenterMatchmakingRules.ById.Metrics.MatchmakingNumberRuleResult
                 URLQueryItem(name: "filter[gameCenterMatchmakingQueue]",
                              value: parameters.filter[.gameCenterMatchmakingQueue].map { "\($0)" }),
                 URLQueryItem(name: "granularity",
-                             value: parameters.granularity?.map { "\($0)" }.joined(separator: ",")),
+                             value: parameters.granularity.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "groupBy",
                              value: parameters.groupBy?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
@@ -83,7 +83,7 @@ extension V1.GameCenterMatchmakingRules.ById.Metrics.MatchmakingNumberRuleResult
         public var filter: Filter = Filter()
 
         /// the granularity of the per-group dataset
-        public var granularity: [Granularity]
+        public var granularity: [Granularity] = []
 
         /// the dimension by which to group the results
         public var groupBy: [GroupBy]?

@@ -29,7 +29,7 @@ extension V1.GameCenterMatchmakingQueues.ById.Metrics.MatchmakingSessions {
 
             components?.queryItems = [
                 URLQueryItem(name: "granularity",
-                             value: parameters.granularity?.map { "\($0)" }.joined(separator: ",")),
+                             value: parameters.granularity.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" }),
                 URLQueryItem(name: "sort",
@@ -77,7 +77,7 @@ extension V1.GameCenterMatchmakingQueues.ById.Metrics.MatchmakingSessions {
 extension V1.GameCenterMatchmakingQueues.ById.Metrics.MatchmakingSessions.GET {
     public struct Parameters: Hashable {
         /// the granularity of the per-group dataset
-        public var granularity: [Granularity]
+        public var granularity: [Granularity] = []
 
         /// maximum number of groups to return per page
         public var limit: Int?

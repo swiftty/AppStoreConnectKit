@@ -94,133 +94,133 @@ public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable {
         }
 
         public enum Locale: Hashable, Codable, RawRepresentable {
-            case aR-SA
-            case cA-ES
-            case cS-CZ
-            case dA-DK
-            case dE-DE
-            case eL-GR
-            case eN-AU
-            case eN-GB
-            case eN-KY
-            case eN-US
-            case eS-ES
-            case eS-MX
-            case fI-FI
-            case fR-CA
-            case fR-FR
-            case hI-IN
-            case hR-HR
-            case hU-HU
-            case iD-ID
-            case iT-IT
-            case iW-IL
-            case jA-JP
-            case kO-KR
-            case mS-MY
-            case nL-NL
-            case nO-NO
-            case pL-PL
-            case pT-BR
-            case pT-PT
-            case rO-RO
-            case rU-RU
-            case sK-SK
-            case sV-SE
-            case tH-TH
-            case tR-TR
-            case uK-UA
-            case zH-CN
-            case zH-HK
-            case zH-TW
+            case ar_sa
+            case ca_es
+            case cs_cz
+            case da_dk
+            case de_de
+            case el_gr
+            case en_au
+            case en_gb
+            case en_ky
+            case en_us
+            case es_es
+            case es_mx
+            case fi_fi
+            case fr_ca
+            case fr_fr
+            case hi_in
+            case hr_hr
+            case hu_hu
+            case id_id
+            case it_it
+            case iw_il
+            case ja_jp
+            case ko_kr
+            case ms_my
+            case nl_nl
+            case no_no
+            case pl_pl
+            case pt_br
+            case pt_pt
+            case ro_ro
+            case ru_ru
+            case sk_sk
+            case sv_se
+            case th_th
+            case tr_tr
+            case uk_ua
+            case zh_cn
+            case zh_hk
+            case zh_tw
             case unknown(String)
 
             public var rawValue: String {
                 switch self {
-                case .aR-SA: return "AR-SA"
-                case .cA-ES: return "CA-ES"
-                case .cS-CZ: return "CS-CZ"
-                case .dA-DK: return "DA-DK"
-                case .dE-DE: return "DE-DE"
-                case .eL-GR: return "EL-GR"
-                case .eN-AU: return "EN-AU"
-                case .eN-GB: return "EN-GB"
-                case .eN-KY: return "EN-KY"
-                case .eN-US: return "EN-US"
-                case .eS-ES: return "ES-ES"
-                case .eS-MX: return "ES-MX"
-                case .fI-FI: return "FI-FI"
-                case .fR-CA: return "FR-CA"
-                case .fR-FR: return "FR-FR"
-                case .hI-IN: return "HI-IN"
-                case .hR-HR: return "HR-HR"
-                case .hU-HU: return "HU-HU"
-                case .iD-ID: return "ID-ID"
-                case .iT-IT: return "IT-IT"
-                case .iW-IL: return "IW-IL"
-                case .jA-JP: return "JA-JP"
-                case .kO-KR: return "KO-KR"
-                case .mS-MY: return "MS-MY"
-                case .nL-NL: return "NL-NL"
-                case .nO-NO: return "NO-NO"
-                case .pL-PL: return "PL-PL"
-                case .pT-BR: return "PT-BR"
-                case .pT-PT: return "PT-PT"
-                case .rO-RO: return "RO-RO"
-                case .rU-RU: return "RU-RU"
-                case .sK-SK: return "SK-SK"
-                case .sV-SE: return "SV-SE"
-                case .tH-TH: return "TH-TH"
-                case .tR-TR: return "TR-TR"
-                case .uK-UA: return "UK-UA"
-                case .zH-CN: return "ZH-CN"
-                case .zH-HK: return "ZH-HK"
-                case .zH-TW: return "ZH-TW"
+                case .ar_sa: return "AR-SA"
+                case .ca_es: return "CA-ES"
+                case .cs_cz: return "CS-CZ"
+                case .da_dk: return "DA-DK"
+                case .de_de: return "DE-DE"
+                case .el_gr: return "EL-GR"
+                case .en_au: return "EN-AU"
+                case .en_gb: return "EN-GB"
+                case .en_ky: return "EN-KY"
+                case .en_us: return "EN-US"
+                case .es_es: return "ES-ES"
+                case .es_mx: return "ES-MX"
+                case .fi_fi: return "FI-FI"
+                case .fr_ca: return "FR-CA"
+                case .fr_fr: return "FR-FR"
+                case .hi_in: return "HI-IN"
+                case .hr_hr: return "HR-HR"
+                case .hu_hu: return "HU-HU"
+                case .id_id: return "ID-ID"
+                case .it_it: return "IT-IT"
+                case .iw_il: return "IW-IL"
+                case .ja_jp: return "JA-JP"
+                case .ko_kr: return "KO-KR"
+                case .ms_my: return "MS-MY"
+                case .nl_nl: return "NL-NL"
+                case .no_no: return "NO-NO"
+                case .pl_pl: return "PL-PL"
+                case .pt_br: return "PT-BR"
+                case .pt_pt: return "PT-PT"
+                case .ro_ro: return "RO-RO"
+                case .ru_ru: return "RU-RU"
+                case .sk_sk: return "SK-SK"
+                case .sv_se: return "SV-SE"
+                case .th_th: return "TH-TH"
+                case .tr_tr: return "TR-TR"
+                case .uk_ua: return "UK-UA"
+                case .zh_cn: return "ZH-CN"
+                case .zh_hk: return "ZH-HK"
+                case .zh_tw: return "ZH-TW"
                 case .unknown(let rawValue): return rawValue
                 }
             }
 
             public init(rawValue: String) {
                 switch rawValue {
-                case "AR-SA": self = .aR-SA
-                case "CA-ES": self = .cA-ES
-                case "CS-CZ": self = .cS-CZ
-                case "DA-DK": self = .dA-DK
-                case "DE-DE": self = .dE-DE
-                case "EL-GR": self = .eL-GR
-                case "EN-AU": self = .eN-AU
-                case "EN-GB": self = .eN-GB
-                case "EN-KY": self = .eN-KY
-                case "EN-US": self = .eN-US
-                case "ES-ES": self = .eS-ES
-                case "ES-MX": self = .eS-MX
-                case "FI-FI": self = .fI-FI
-                case "FR-CA": self = .fR-CA
-                case "FR-FR": self = .fR-FR
-                case "HI-IN": self = .hI-IN
-                case "HR-HR": self = .hR-HR
-                case "HU-HU": self = .hU-HU
-                case "ID-ID": self = .iD-ID
-                case "IT-IT": self = .iT-IT
-                case "IW-IL": self = .iW-IL
-                case "JA-JP": self = .jA-JP
-                case "KO-KR": self = .kO-KR
-                case "MS-MY": self = .mS-MY
-                case "NL-NL": self = .nL-NL
-                case "NO-NO": self = .nO-NO
-                case "PL-PL": self = .pL-PL
-                case "PT-BR": self = .pT-BR
-                case "PT-PT": self = .pT-PT
-                case "RO-RO": self = .rO-RO
-                case "RU-RU": self = .rU-RU
-                case "SK-SK": self = .sK-SK
-                case "SV-SE": self = .sV-SE
-                case "TH-TH": self = .tH-TH
-                case "TR-TR": self = .tR-TR
-                case "UK-UA": self = .uK-UA
-                case "ZH-CN": self = .zH-CN
-                case "ZH-HK": self = .zH-HK
-                case "ZH-TW": self = .zH-TW
+                case "AR-SA": self = .ar_sa
+                case "CA-ES": self = .ca_es
+                case "CS-CZ": self = .cs_cz
+                case "DA-DK": self = .da_dk
+                case "DE-DE": self = .de_de
+                case "EL-GR": self = .el_gr
+                case "EN-AU": self = .en_au
+                case "EN-GB": self = .en_gb
+                case "EN-KY": self = .en_ky
+                case "EN-US": self = .en_us
+                case "ES-ES": self = .es_es
+                case "ES-MX": self = .es_mx
+                case "FI-FI": self = .fi_fi
+                case "FR-CA": self = .fr_ca
+                case "FR-FR": self = .fr_fr
+                case "HI-IN": self = .hi_in
+                case "HR-HR": self = .hr_hr
+                case "HU-HU": self = .hu_hu
+                case "ID-ID": self = .id_id
+                case "IT-IT": self = .it_it
+                case "IW-IL": self = .iw_il
+                case "JA-JP": self = .ja_jp
+                case "KO-KR": self = .ko_kr
+                case "MS-MY": self = .ms_my
+                case "NL-NL": self = .nl_nl
+                case "NO-NO": self = .no_no
+                case "PL-PL": self = .pl_pl
+                case "PT-BR": self = .pt_br
+                case "PT-PT": self = .pt_pt
+                case "RO-RO": self = .ro_ro
+                case "RU-RU": self = .ru_ru
+                case "SK-SK": self = .sk_sk
+                case "SV-SE": self = .sv_se
+                case "TH-TH": self = .th_th
+                case "TR-TR": self = .tr_tr
+                case "UK-UA": self = .uk_ua
+                case "ZH-CN": self = .zh_cn
+                case "ZH-HK": self = .zh_hk
+                case "ZH-TW": self = .zh_tw
                 default: self = .unknown(rawValue)
                 }
             }
