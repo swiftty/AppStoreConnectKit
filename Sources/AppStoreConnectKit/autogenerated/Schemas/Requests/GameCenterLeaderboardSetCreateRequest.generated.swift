@@ -19,12 +19,12 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
 
         public var attributes: Attributes
 
-        public var relationships: Relationships
+        public var relationships: Relationships?
 
         public init(
             type: `Type`,
             attributes: Attributes,
-            relationships: Relationships
+            relationships: Relationships? = nil
         ) {
             self.type = type
             self.attributes = attributes
@@ -61,20 +61,102 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
         }
 
         public struct Relationships: Hashable, Codable {
-            public var gameCenterLeaderboards: GameCenterLeaderboards
+            public var gameCenterDetail: GameCenterDetail?
 
-            public init(gameCenterLeaderboards: GameCenterLeaderboards) {
+            public var gameCenterGroup: GameCenterGroup?
+
+            public var gameCenterLeaderboards: GameCenterLeaderboards?
+
+            public init(
+                gameCenterDetail: GameCenterDetail? = nil,
+                gameCenterGroup: GameCenterGroup? = nil,
+                gameCenterLeaderboards: GameCenterLeaderboards? = nil
+            ) {
+                self.gameCenterDetail = gameCenterDetail
+                self.gameCenterGroup = gameCenterGroup
                 self.gameCenterLeaderboards = gameCenterLeaderboards
             }
 
             private enum CodingKeys: String, CodingKey {
+                case gameCenterDetail
+                case gameCenterGroup
                 case gameCenterLeaderboards
             }
 
-            public struct GameCenterLeaderboards: Hashable, Codable {
-                public var data: [Data]
+            public struct GameCenterDetail: Hashable, Codable {
+                public var data: Data?
 
-                public init(data: [Data]) {
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable {
+                        case gameCenterDetails
+                    }
+                }
+            }
+
+            public struct GameCenterGroup: Hashable, Codable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable {
+                        case gameCenterGroups
+                    }
+                }
+            }
+
+            public struct GameCenterLeaderboards: Hashable, Codable {
+                public var data: [Data]?
+
+                public init(data: [Data]? = nil) {
                     self.data = data
                 }
 

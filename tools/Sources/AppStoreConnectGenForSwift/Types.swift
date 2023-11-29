@@ -49,6 +49,24 @@ struct TypeName: RawRepresentable, Hashable, CustomStringConvertible {
     }
 }
 
+struct IdentifierName: RawRepresentable, Hashable, CustomStringConvertible {
+    let rawValue: String
+    var description: String { rawValue }
+
+    init(rawValue: String) {
+        if !rawValue.contains("-") {
+            self.rawValue = rawValue
+        } else {
+            // special case for containing `-`
+            self.rawValue = rawValue.replacingOccurrences(of: "-", with: "_").lowercased()
+        }
+    }
+
+    init(_ key: String) {
+        self.init(rawValue: key.lowerInitialLetter())
+    }
+}
+
 struct Variable {
     let key: String
     let type: TypeName
@@ -173,23 +191,23 @@ struct EnumRepr: Repr {
     }
 
     func buildDecl(context: SwiftCodeBuilder.Context) -> Decl? {
-        let hasDuplicatedKeys: Bool = {
-            let lhs = cases
-            let rhs = cases.map { $0.lowercased() }
-            return lhs.count != Set(rhs).count
-        }()
-        let caseValues: [(key: String, raw: String)] = cases
+        var duplicatedKeys: Set<String> = []
+        let caseValues: [(key: IdentifierName, raw: String)] = cases
+            .sorted(by: >)
             .map { value in
-                var key = value.camelcased()
-                if !hasDuplicatedKeys {
-                    key = key.lowerInitialLetter()
+                var rawKey = value.camelcased()
+                if rawKey.hasPrefix("-") {
+                    rawKey = String(rawKey.dropFirst()) + "Desc"
                 }
-                if key.hasPrefix("-") {
-                    key = String(key.dropFirst()) + "Desc"
+                let key: IdentifierName
+                if duplicatedKeys.insert(rawKey.lowercased()).inserted {
+                    key = IdentifierName(rawKey)
+                } else {
+                    key = IdentifierName(rawValue: rawKey)
                 }
                 return (key, value)
             }
-            .sorted(by: { $0.key < $1.key })
+            .sorted(by: { $0.key.rawValue < $1.key.rawValue })
 
         let name = "\(renderType(context: context))"
 
@@ -200,7 +218,7 @@ struct EnumRepr: Repr {
                 name: name,
                 inheritances: (context.inherits[name] ?? []) + ["String", "Hashable", "Codable"],
                 cases: caseValues.map {
-                    CaseDecl(name: $0.key, value: $0.key == $0.raw ? nil : .string($0.raw))
+                    CaseDecl(name: $0.key.rawValue, value: $0.key.rawValue == $0.raw ? nil : .string($0.raw))
                 }
             )
         } else {
@@ -208,7 +226,7 @@ struct EnumRepr: Repr {
                 access: .public,
                 name: name,
                 inheritances: (context.inherits[name] ?? []) + ["Hashable", "Codable", "RawRepresentable"],
-                cases: caseValues.map { CaseDecl(name: $0.key) } + [
+                cases: caseValues.map { CaseDecl(name: $0.key.rawValue) } + [
                     CaseDecl(name: "unknown", value: .arguments([
                         ArgumentDecl(name: "", type: "String")
                     ]))
@@ -283,7 +301,7 @@ struct OneOfRepr: Repr {
 
     func buildDecl(context: SwiftCodeBuilder.Context) -> Decl? {
         var result: [(
-            key: String,
+            key: IdentifierName,
             type: TypeName,
             decl: Decl?
         )] = []
@@ -292,7 +310,7 @@ struct OneOfRepr: Repr {
             let repr = findRepr(for: prop, with: "")
             let type = repr.renderType(context: context)
             guard used.insert(type).inserted else { continue }
-            result.append((type.rawValue.lowerInitialLetter(), type, repr.buildDecl(context: context)))
+            result.append((IdentifierName(type.rawValue), type, repr.buildDecl(context: context)))
         }
 
         return EnumDecl(
@@ -300,7 +318,7 @@ struct OneOfRepr: Repr {
             name: "\(renderType(context: context))",
             inheritances: ["Hashable", "Codable"],
             cases: result.map {
-                CaseDecl(name: $0.key, value: .arguments([ArgumentDecl(name: "", type: "\($0.type)")]))
+                CaseDecl(name: $0.key.rawValue, value: .arguments([ArgumentDecl(name: "", type: "\($0.type)")]))
             },
             initializers: [
                 InitializerDecl(

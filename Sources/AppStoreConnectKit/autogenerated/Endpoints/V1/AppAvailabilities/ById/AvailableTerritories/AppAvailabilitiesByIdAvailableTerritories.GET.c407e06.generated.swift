@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppAvailabilities.ById.AvailableTerritories {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = TerritoriesResponse
 

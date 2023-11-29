@@ -10,20 +10,25 @@ public struct PerfPowerMetric: Hashable, Codable {
 
     public var attributes: Attributes?
 
+    public var links: ResourceLinks?
+
     public init(
         id: String,
         type: `Type`,
-        attributes: Attributes? = nil
+        attributes: Attributes? = nil,
+        links: ResourceLinks? = nil
     ) {
         self.id = id
         self.type = type
         self.attributes = attributes
+        self.links = links
     }
 
     private enum CodingKeys: String, CodingKey {
         case id
         case type
         case attributes
+        case links
     }
 
     public enum `Type`: String, Hashable, Codable {

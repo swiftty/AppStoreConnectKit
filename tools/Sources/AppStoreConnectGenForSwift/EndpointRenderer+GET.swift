@@ -14,9 +14,17 @@ extension EndpointRenderer {
             functions: []
         )
         let params = buildParameters(get.content.parameters)
-        var queryItemComponents: [(key: String?, name: String, repr: Repr)] = []
+        var queryItemComponents: [(key: String?, name: String, repr: Repr, required: Bool)] = []
         for (name, root, nested) in params {
             if nested.isEmpty {
+                func customInitialValue(_ repr: Repr) -> String? {
+                    if repr is ArrayRepr {
+                        return "[]"
+                    } else {
+                        return nil
+                    }
+                }
+
                 let prop = root!
                 let repr = findRepr(for: prop.schema, with: name)
                 let type = repr.renderType(context: context)
@@ -25,12 +33,13 @@ extension EndpointRenderer {
                     keyword: .var,
                     name: name,
                     type: "\(type.withRequired(prop.required))",
+                    value: prop.required ?? false ? customInitialValue(repr).map { .assignment($0) } : nil,
                     doc: prop.description)
                 )
                 if let nested = repr.buildDecl(context: context) {
                     parametersDecl.nested.append(nested)
                 }
-                queryItemComponents.append((nil, name, repr))
+                queryItemComponents.append((nil, name, repr, prop.required ?? false))
             } else {
                 let type = TypeName(name)
                 var nested = declForNestedParameter(nested, for: name, with: context,
@@ -51,7 +60,7 @@ extension EndpointRenderer {
                             """
                         )
                     ] + nested.subscripts
-                    queryItemComponents.append((name, name + "[]", repr))
+                    queryItemComponents.append((name, name + "[]", repr, root.required ?? false))
                 }
                 parametersDecl.members.append(MemberDecl(
                     access: .public,
@@ -74,12 +83,12 @@ extension EndpointRenderer {
             value: .assignment("Parameters()")
         ))
         methodDecl.extensions.append(parametersDecl)
-        func buildQueryItem(key: String? = nil, name: String, repr: Repr) -> String {
+        func buildQueryItem(key: String? = nil, name: String, repr: Repr, required: Bool) -> String {
             var value: String {
                 switch repr {
                 case is ArrayRepr:
                     return """
-                    parameters.\(name)?.map { "\\($0)" }.joined(separator: ",")
+                    parameters.\(name)\(required ? "" : "?").map { "\\($0)" }.joined(separator: ",")
                     """
 
                 default:
@@ -191,7 +200,7 @@ private func declForNestedParameter(
     _ nestedParameters: [OpenAPIEndpoint.Parameter],
     for keyName: String,
     with context: SwiftCodeBuilder.Context,
-    queryItemComponents: inout [(key: String?, name: String, repr: Repr)]
+    queryItemComponents: inout [(key: String?, name: String, repr: Repr, required: Bool)]
 ) -> StructDecl {
     func makeKey(_ target: String) -> String {
         let key = String(target.components(separatedBy: "[")[1].dropLast())
@@ -223,7 +232,7 @@ private func declForNestedParameter(
             } ?? (required ? "**(required)**" : nil)
         }
 
-        queryItemComponents.append((p.name, keyName + "[.\(variable.escapedKey)]", repr))
+        queryItemComponents.append((p.name, keyName + "[.\(variable.escapedKey)]", repr, false))
 
         return MemberDecl(
             access: .public,

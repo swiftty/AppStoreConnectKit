@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppPreOrders {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = AppPreOrderCreateRequest
         public typealias Response = AppPreOrderResponse

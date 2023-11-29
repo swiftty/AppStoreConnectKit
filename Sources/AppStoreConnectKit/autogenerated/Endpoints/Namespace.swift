@@ -340,6 +340,10 @@ public enum V1 {
 
             public enum InAppPurchasesV2 {}
 
+            public enum Metrics {
+                public enum BetaTesterUsages {}
+            }
+
             public enum PerfPowerMetrics {}
 
             public enum PreOrder {}
@@ -406,6 +410,10 @@ public enum V1 {
 
             public enum Builds {}
 
+            public enum Metrics {
+                public enum BetaTesterUsages {}
+            }
+
             public enum Relationships {
                 public enum BetaTesters {}
 
@@ -429,6 +437,10 @@ public enum V1 {
             public enum BetaGroups {}
 
             public enum Builds {}
+
+            public enum Metrics {
+                public enum BetaTesterUsages {}
+            }
 
             public enum Relationships {
                 public enum Apps {}
@@ -479,6 +491,10 @@ public enum V1 {
             public enum Icons {}
 
             public enum IndividualTesters {}
+
+            public enum Metrics {
+                public enum BetaBuildUsages {}
+            }
 
             public enum PerfPowerMetrics {}
 
@@ -668,6 +684,12 @@ public enum V1 {
 
             public enum LeaderboardSetReleases {}
 
+            public enum Metrics {
+                public enum ClassicMatchmakingRequests {}
+
+                public enum RuleBasedMatchmakingRequests {}
+            }
+
             public enum Relationships {
                 public enum GameCenterAchievements {}
 
@@ -774,6 +796,50 @@ public enum V1 {
 
             public enum Releases {}
         }
+    }
+
+    public enum GameCenterMatchmakingQueues {
+        public enum ById {
+            public enum Metrics {
+                public enum ExperimentMatchmakingQueueSizes {}
+
+                public enum ExperimentMatchmakingRequests {}
+
+                public enum MatchmakingQueueSizes {}
+
+                public enum MatchmakingRequests {}
+
+                public enum MatchmakingSessions {}
+            }
+        }
+    }
+
+    public enum GameCenterMatchmakingRuleSetTests {}
+
+    public enum GameCenterMatchmakingRuleSets {
+        public enum ById {
+            public enum MatchmakingQueues {}
+
+            public enum Rules {}
+
+            public enum Teams {}
+        }
+    }
+
+    public enum GameCenterMatchmakingRules {
+        public enum ById {
+            public enum Metrics {
+                public enum MatchmakingBooleanRuleResults {}
+
+                public enum MatchmakingNumberRuleResults {}
+
+                public enum MatchmakingRuleErrors {}
+            }
+        }
+    }
+
+    public enum GameCenterMatchmakingTeams {
+        public enum ById {}
     }
 
     public enum InAppPurchaseAppStoreReviewScreenshots {
