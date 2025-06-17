@@ -5,7 +5,7 @@ on:
     inputs:
       version:
         type: choice
-        description: 'patch | minor | major'
+        description: "patch | minor | major"
         required: true
         options:
           - patch
@@ -29,7 +29,7 @@ jobs:
       - name: update README
         run: |
           sed -i -E 's/from: \"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\"/from: \"${{ steps.nextversion.outputs.next }}\"/g' README.md
-          
+
           git add README.md
           git commit -m 'update README.md'
           git push origin main
