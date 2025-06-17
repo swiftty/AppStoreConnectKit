@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ScmRepository: Hashable, Codable {
+public struct ScmRepository: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct ScmRepository: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case scmRepositories
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var httpCloneUrl: URL?
 
         public var lastAccessedDate: String?
@@ -74,43 +74,46 @@ public struct ScmRepository: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var defaultBranch: DefaultBranch?
+
+        public var gitReferences: GitReferences?
+
+        public var pullRequests: PullRequests?
 
         public var scmProvider: ScmProvider?
 
         public init(
             defaultBranch: DefaultBranch? = nil,
+            gitReferences: GitReferences? = nil,
+            pullRequests: PullRequests? = nil,
             scmProvider: ScmProvider? = nil
         ) {
             self.defaultBranch = defaultBranch
+            self.gitReferences = gitReferences
+            self.pullRequests = pullRequests
             self.scmProvider = scmProvider
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultBranch
+            case gitReferences
+            case pullRequests
             case scmProvider
         }
 
-        public struct DefaultBranch: Hashable, Codable {
+        public struct DefaultBranch: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -128,50 +131,48 @@ public struct ScmRepository: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case scmGitReferences
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }
 
-        public struct ScmProvider: Hashable, Codable {
-            public var data: Data?
+        public struct GitReferences: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
-                self.data = data
+            public init(links: RelationshipLinks? = nil) {
                 self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
-                case data
                 case links
             }
+        }
 
-            public struct Data: Hashable, Codable {
+        public struct PullRequests: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
+            }
+        }
+
+        public struct ScmProvider: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -189,27 +190,8 @@ public struct ScmRepository: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case scmProviders
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

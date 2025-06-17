@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaBuildUsagesV1MetricResponse: Hashable, Codable {
+public struct BetaBuildUsagesV1MetricResponse: Hashable, Codable, Sendable {
     public var data: [Data]
 
     public var links: PagedDocumentLinks
@@ -26,25 +26,18 @@ public struct BetaBuildUsagesV1MetricResponse: Hashable, Codable {
         case meta
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var dataPoints: DataPoints?
 
-        public var dimensions: Dimensions?
-
-        public init(
-            dataPoints: DataPoints? = nil,
-            dimensions: Dimensions? = nil
-        ) {
+        public init(dataPoints: DataPoints? = nil) {
             self.dataPoints = dataPoints
-            self.dimensions = dimensions
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataPoints
-            case dimensions
         }
 
-        public struct DataPoints: Hashable, Codable {
+        public struct DataPoints: Hashable, Codable, Sendable {
             public var end: String?
 
             public var start: String?
@@ -67,7 +60,7 @@ public struct BetaBuildUsagesV1MetricResponse: Hashable, Codable {
                 case values
             }
 
-            public struct Values: Hashable, Codable {
+            public struct Values: Hashable, Codable, Sendable {
                 public var crashCount: Int?
 
                 public var feedbackCount: Int?
@@ -98,42 +91,6 @@ public struct BetaBuildUsagesV1MetricResponse: Hashable, Codable {
                     case installCount
                     case inviteCount
                     case sessionCount
-                }
-            }
-        }
-
-        public struct Dimensions: Hashable, Codable {
-            public var bundleIds: BundleIds?
-
-            public init(bundleIds: BundleIds? = nil) {
-                self.bundleIds = bundleIds
-            }
-
-            private enum CodingKeys: String, CodingKey {
-                case bundleIds
-            }
-
-            public struct BundleIds: Hashable, Codable {
-                public var links: Links?
-
-                public init(links: Links? = nil) {
-                    self.links = links
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case links
-                }
-
-                public struct Links: Hashable, Codable {
-                    public var groupBy: URL?
-
-                    public init(groupBy: URL? = nil) {
-                        self.groupBy = groupBy
-                    }
-
-                    private enum CodingKeys: String, CodingKey {
-                        case groupBy
-                    }
                 }
             }
         }

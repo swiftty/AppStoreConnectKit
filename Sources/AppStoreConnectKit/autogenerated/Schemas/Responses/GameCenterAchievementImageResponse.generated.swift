@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterAchievementImageResponse: Hashable, Codable {
+public struct GameCenterAchievementImageResponse: Hashable, Codable, Sendable {
     public var data: GameCenterAchievementImage
 
     public var included: [GameCenterAchievementLocalization]?

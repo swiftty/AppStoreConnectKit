@@ -52,8 +52,10 @@ extension V1.AppPriceSchedules.ById {
 
         /// - Returns: **200**, Single AppPriceSchedule as `AppPriceScheduleResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -67,10 +69,16 @@ extension V1.AppPriceSchedules.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -97,81 +105,79 @@ extension V1.AppPriceSchedules.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppPriceSchedules: Hashable, Codable, RawRepresentable {
-                case app
-                case automaticPrices
-                case baseTerritory
-                case manualPrices
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .automaticPrices: return "automaticPrices"
-                    case .baseTerritory: return "baseTerritory"
-                    case .manualPrices: return "manualPrices"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppPriceSchedules: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var automaticPrices: Self {
+                    .init(rawValue: "automaticPrices")
+                }
+
+                public static var baseTerritory: Self {
+                    .init(rawValue: "baseTerritory")
+                }
+
+                public static var manualPrices: Self {
+                    .init(rawValue: "manualPrices")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "automaticPrices": self = .automaticPrices
-                    case "baseTerritory": self = .baseTerritory
-                    case "manualPrices": self = .manualPrices
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppPrices: Hashable, Codable, RawRepresentable {
-                case appPricePoint
-                case endDate
-                case manual
-                case startDate
-                case territory
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appPricePoint: return "appPricePoint"
-                    case .endDate: return "endDate"
-                    case .manual: return "manual"
-                    case .startDate: return "startDate"
-                    case .territory: return "territory"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppPrices: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appPricePoint: Self {
+                    .init(rawValue: "appPricePoint")
                 }
 
+                public static var endDate: Self {
+                    .init(rawValue: "endDate")
+                }
+
+                public static var manual: Self {
+                    .init(rawValue: "manual")
+                }
+
+                public static var startDate: Self {
+                    .init(rawValue: "startDate")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appPricePoint": self = .appPricePoint
-                    case "endDate": self = .endDate
-                    case "manual": self = .manual
-                    case "startDate": self = .startDate
-                    case "territory": self = .territory
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Territories: Hashable, Codable, RawRepresentable {
-                case currency
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .currency: return "currency"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Territories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var currency: Self {
+                    .init(rawValue: "currency")
                 }
 
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "currency": self = .currency
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -199,31 +205,31 @@ extension V1.AppPriceSchedules.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case app
-            case automaticPrices
-            case baseTerritory
-            case manualPrices
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .app: return "app"
-                case .automaticPrices: return "automaticPrices"
-                case .baseTerritory: return "baseTerritory"
-                case .manualPrices: return "manualPrices"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var app: Self {
+                .init(rawValue: "app")
             }
 
+            public static var automaticPrices: Self {
+                .init(rawValue: "automaticPrices")
+            }
+
+            public static var baseTerritory: Self {
+                .init(rawValue: "baseTerritory")
+            }
+
+            public static var manualPrices: Self {
+                .init(rawValue: "manualPrices")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "app": self = .app
-                case "automaticPrices": self = .automaticPrices
-                case "baseTerritory": self = .baseTerritory
-                case "manualPrices": self = .manualPrices
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

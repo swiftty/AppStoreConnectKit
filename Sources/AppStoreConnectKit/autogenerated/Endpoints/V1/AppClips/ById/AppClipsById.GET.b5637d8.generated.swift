@@ -28,8 +28,6 @@ extension V1.AppClips.ById {
             components?.path = path
 
             components?.queryItems = [
-                URLQueryItem(name: "fields[appClipAdvancedExperiences]",
-                             value: parameters.fields[.appClipAdvancedExperiences]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClipDefaultExperiences]",
                              value: parameters.fields[.appClipDefaultExperiences]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClips]",
@@ -50,8 +48,10 @@ extension V1.AppClips.ById {
 
         /// - Returns: **200**, Single AppClip as `AppClipResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -65,10 +65,16 @@ extension V1.AppClips.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -95,129 +101,67 @@ extension V1.AppClips.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipAdvancedExperiences: Hashable, Codable, RawRepresentable {
-                case action
-                case appClip
-                case businessCategory
-                case defaultLanguage
-                case headerImage
-                case isPoweredBy
-                case link
-                case localizations
-                case place
-                case placeStatus
-                case removed
-                case status
-                case version
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .action: return "action"
-                    case .appClip: return "appClip"
-                    case .businessCategory: return "businessCategory"
-                    case .defaultLanguage: return "defaultLanguage"
-                    case .headerImage: return "headerImage"
-                    case .isPoweredBy: return "isPoweredBy"
-                    case .link: return "link"
-                    case .localizations: return "localizations"
-                    case .place: return "place"
-                    case .placeStatus: return "placeStatus"
-                    case .removed: return "removed"
-                    case .status: return "status"
-                    case .version: return "version"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppClipDefaultExperiences: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var action: Self {
+                    .init(rawValue: "action")
                 }
 
+                public static var appClip: Self {
+                    .init(rawValue: "appClip")
+                }
+
+                public static var appClipAppStoreReviewDetail: Self {
+                    .init(rawValue: "appClipAppStoreReviewDetail")
+                }
+
+                public static var appClipDefaultExperienceLocalizations: Self {
+                    .init(rawValue: "appClipDefaultExperienceLocalizations")
+                }
+
+                public static var releaseWithAppStoreVersion: Self {
+                    .init(rawValue: "releaseWithAppStoreVersion")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "action": self = .action
-                    case "appClip": self = .appClip
-                    case "businessCategory": self = .businessCategory
-                    case "defaultLanguage": self = .defaultLanguage
-                    case "headerImage": self = .headerImage
-                    case "isPoweredBy": self = .isPoweredBy
-                    case "link": self = .link
-                    case "localizations": self = .localizations
-                    case "place": self = .place
-                    case "placeStatus": self = .placeStatus
-                    case "removed": self = .removed
-                    case "status": self = .status
-                    case "version": self = .version
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppClipDefaultExperiences: Hashable, Codable, RawRepresentable {
-                case action
-                case appClip
-                case appClipAppStoreReviewDetail
-                case appClipDefaultExperienceLocalizations
-                case appClipDefaultExperienceTemplate
-                case releaseWithAppStoreVersion
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .action: return "action"
-                    case .appClip: return "appClip"
-                    case .appClipAppStoreReviewDetail: return "appClipAppStoreReviewDetail"
-                    case .appClipDefaultExperienceLocalizations: return "appClipDefaultExperienceLocalizations"
-                    case .appClipDefaultExperienceTemplate: return "appClipDefaultExperienceTemplate"
-                    case .releaseWithAppStoreVersion: return "releaseWithAppStoreVersion"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppClips: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
+
+                public static var appClipAdvancedExperiences: Self {
+                    .init(rawValue: "appClipAdvancedExperiences")
+                }
+
+                public static var appClipDefaultExperiences: Self {
+                    .init(rawValue: "appClipDefaultExperiences")
+                }
+
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
 
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "action": self = .action
-                    case "appClip": self = .appClip
-                    case "appClipAppStoreReviewDetail": self = .appClipAppStoreReviewDetail
-                    case "appClipDefaultExperienceLocalizations": self = .appClipDefaultExperienceLocalizations
-                    case "appClipDefaultExperienceTemplate": self = .appClipDefaultExperienceTemplate
-                    case "releaseWithAppStoreVersion": self = .releaseWithAppStoreVersion
-                    default: self = .unknown(rawValue)
-                    }
-                }
-            }
-
-            public enum AppClips: Hashable, Codable, RawRepresentable {
-                case app
-                case appClipAdvancedExperiences
-                case appClipDefaultExperiences
-                case bundleId
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .appClipAdvancedExperiences: return "appClipAdvancedExperiences"
-                    case .appClipDefaultExperiences: return "appClipDefaultExperiences"
-                    case .bundleId: return "bundleId"
-                    case .unknown(let rawValue): return rawValue
-                    }
-                }
-
-                public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "appClipAdvancedExperiences": self = .appClipAdvancedExperiences
-                    case "appClipDefaultExperiences": self = .appClipDefaultExperiences
-                    case "bundleId": self = .bundleId
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
             public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type appClipAdvancedExperiences
-                public static var appClipAdvancedExperiences: Relation<[AppClipAdvancedExperiences]?> {
-                    .init(key: "fields[appClipAdvancedExperiences]")
-                }
-
                 /// the fields to include for returned resources of type appClipDefaultExperiences
                 public static var appClipDefaultExperiences: Relation<[AppClipDefaultExperiences]?> {
                     .init(key: "fields[appClipDefaultExperiences]")
@@ -236,25 +180,23 @@ extension V1.AppClips.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case app
-            case appClipDefaultExperiences
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .app: return "app"
-                case .appClipDefaultExperiences: return "appClipDefaultExperiences"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var app: Self {
+                .init(rawValue: "app")
             }
 
+            public static var appClipDefaultExperiences: Self {
+                .init(rawValue: "appClipDefaultExperiences")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "app": self = .app
-                case "appClipDefaultExperiences": self = .appClipDefaultExperiences
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

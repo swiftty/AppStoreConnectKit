@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct InAppPurchaseLocalization: Hashable, Codable {
+public struct InAppPurchaseLocalization: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct InAppPurchaseLocalization: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case inAppPurchaseLocalizations
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var description: String?
 
         public var locale: String?
@@ -68,36 +68,36 @@ public struct InAppPurchaseLocalization: Hashable, Codable {
             case state
         }
 
-        public enum State: Hashable, Codable, RawRepresentable {
-            case approved
-            case prepareForSubmission
-            case rejected
-            case waitingForReview
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .approved: return "APPROVED"
-                case .prepareForSubmission: return "PREPARE_FOR_SUBMISSION"
-                case .rejected: return "REJECTED"
-                case .waitingForReview: return "WAITING_FOR_REVIEW"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var approved: Self {
+                .init(rawValue: "APPROVED")
             }
 
+            public static var prepareForSubmission: Self {
+                .init(rawValue: "PREPARE_FOR_SUBMISSION")
+            }
+
+            public static var rejected: Self {
+                .init(rawValue: "REJECTED")
+            }
+
+            public static var waitingForReview: Self {
+                .init(rawValue: "WAITING_FOR_REVIEW")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "APPROVED": self = .approved
-                case "PREPARE_FOR_SUBMISSION": self = .prepareForSubmission
-                case "REJECTED": self = .rejected
-                case "WAITING_FOR_REVIEW": self = .waitingForReview
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var inAppPurchaseV2: InAppPurchaseV2?
 
         public init(inAppPurchaseV2: InAppPurchaseV2? = nil) {
@@ -108,25 +108,18 @@ public struct InAppPurchaseLocalization: Hashable, Codable {
             case inAppPurchaseV2
         }
 
-        public struct InAppPurchaseV2: Hashable, Codable {
+        public struct InAppPurchaseV2: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -144,27 +137,8 @@ public struct InAppPurchaseLocalization: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchases
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

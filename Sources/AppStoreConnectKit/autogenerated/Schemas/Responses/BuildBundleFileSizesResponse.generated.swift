@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BuildBundleFileSizesResponse: Hashable, Codable {
+public struct BuildBundleFileSizesResponse: Hashable, Codable, Sendable {
     public var data: [BuildBundleFileSize]
 
     public var links: PagedDocumentLinks

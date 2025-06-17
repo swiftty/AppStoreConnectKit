@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BuildIconsResponse: Hashable, Codable {
+public struct BuildIconsResponse: Hashable, Codable, Sendable {
     public var data: [BuildIcon]
 
     public var links: PagedDocumentLinks

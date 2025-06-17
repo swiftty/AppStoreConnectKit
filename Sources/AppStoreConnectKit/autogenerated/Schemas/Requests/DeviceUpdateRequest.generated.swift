@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct DeviceUpdateRequest: Hashable, Codable {
+public struct DeviceUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct DeviceUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -37,11 +37,11 @@ public struct DeviceUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case devices
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var name: String?
 
             public var status: Status?
@@ -59,25 +59,23 @@ public struct DeviceUpdateRequest: Hashable, Codable {
                 case status
             }
 
-            public enum Status: Hashable, Codable, RawRepresentable {
-                case disabled
-                case enabled
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .disabled: return "DISABLED"
-                    case .enabled: return "ENABLED"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Status: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var disabled: Self {
+                    .init(rawValue: "DISABLED")
                 }
 
+                public static var enabled: Self {
+                    .init(rawValue: "ENABLED")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "DISABLED": self = .disabled
-                    case "ENABLED": self = .enabled
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
         }

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiBuildAction: Hashable, Codable {
+public struct CiBuildAction: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct CiBuildAction: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case ciBuildActions
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var actionType: CiActionType?
 
         public var completionStatus: CiCompletionStatus?
@@ -89,25 +89,54 @@ public struct CiBuildAction: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
+        public var artifacts: Artifacts?
+
         public var buildRun: BuildRun?
 
-        public init(buildRun: BuildRun? = nil) {
+        public var issues: Issues?
+
+        public var testResults: TestResults?
+
+        public init(
+            artifacts: Artifacts? = nil,
+            buildRun: BuildRun? = nil,
+            issues: Issues? = nil,
+            testResults: TestResults? = nil
+        ) {
+            self.artifacts = artifacts
             self.buildRun = buildRun
+            self.issues = issues
+            self.testResults = testResults
         }
 
         private enum CodingKeys: String, CodingKey {
+            case artifacts
             case buildRun
+            case issues
+            case testResults
         }
 
-        public struct BuildRun: Hashable, Codable {
+        public struct Artifacts: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
+            }
+        }
+
+        public struct BuildRun: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -118,7 +147,7 @@ public struct CiBuildAction: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -136,28 +165,33 @@ public struct CiBuildAction: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case ciBuildRuns
                 }
             }
+        }
 
-            public struct Links: Hashable, Codable {
-                public var related: URL?
+        public struct Issues: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
 
-                public var `self`: URL?
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
 
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
+            private enum CodingKeys: String, CodingKey {
+                case links
+            }
+        }
 
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
+        public struct TestResults: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
             }
         }
     }

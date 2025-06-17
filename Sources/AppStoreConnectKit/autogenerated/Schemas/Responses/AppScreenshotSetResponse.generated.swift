@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppScreenshotSetResponse: Hashable, Codable {
+public struct AppScreenshotSetResponse: Hashable, Codable, Sendable {
     public var data: AppScreenshotSet
 
     public var included: [Included]?
@@ -26,7 +26,7 @@ public struct AppScreenshotSetResponse: Hashable, Codable {
         case links
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case appStoreVersionLocalization(AppStoreVersionLocalization)
         case appCustomProductPageLocalization(AppCustomProductPageLocalization)
         case appStoreVersionExperimentTreatmentLocalization(AppStoreVersionExperimentTreatmentLocalization)

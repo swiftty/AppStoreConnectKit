@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiPullRequestStartCondition: Hashable, Codable {
+public struct CiPullRequestStartCondition: Hashable, Codable, Sendable {
     public var autoCancel: Bool?
 
     public var destination: CiBranchPatterns?

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable {
+public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable, Sendable {
     public var id: String?
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable {
         case relationships
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case gameCenterMatchmakingTestRequests
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var appVersion: String
 
         public var bundleId: String
@@ -93,141 +93,176 @@ public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable {
             case secondsInQueue
         }
 
-        public enum Locale: Hashable, Codable, RawRepresentable {
-            case ar_sa
-            case ca_es
-            case cs_cz
-            case da_dk
-            case de_de
-            case el_gr
-            case en_au
-            case en_gb
-            case en_ky
-            case en_us
-            case es_es
-            case es_mx
-            case fi_fi
-            case fr_ca
-            case fr_fr
-            case hi_in
-            case hr_hr
-            case hu_hu
-            case id_id
-            case it_it
-            case iw_il
-            case ja_jp
-            case ko_kr
-            case ms_my
-            case nl_nl
-            case no_no
-            case pl_pl
-            case pt_br
-            case pt_pt
-            case ro_ro
-            case ru_ru
-            case sk_sk
-            case sv_se
-            case th_th
-            case tr_tr
-            case uk_ua
-            case zh_cn
-            case zh_hk
-            case zh_tw
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .ar_sa: return "AR-SA"
-                case .ca_es: return "CA-ES"
-                case .cs_cz: return "CS-CZ"
-                case .da_dk: return "DA-DK"
-                case .de_de: return "DE-DE"
-                case .el_gr: return "EL-GR"
-                case .en_au: return "EN-AU"
-                case .en_gb: return "EN-GB"
-                case .en_ky: return "EN-KY"
-                case .en_us: return "EN-US"
-                case .es_es: return "ES-ES"
-                case .es_mx: return "ES-MX"
-                case .fi_fi: return "FI-FI"
-                case .fr_ca: return "FR-CA"
-                case .fr_fr: return "FR-FR"
-                case .hi_in: return "HI-IN"
-                case .hr_hr: return "HR-HR"
-                case .hu_hu: return "HU-HU"
-                case .id_id: return "ID-ID"
-                case .it_it: return "IT-IT"
-                case .iw_il: return "IW-IL"
-                case .ja_jp: return "JA-JP"
-                case .ko_kr: return "KO-KR"
-                case .ms_my: return "MS-MY"
-                case .nl_nl: return "NL-NL"
-                case .no_no: return "NO-NO"
-                case .pl_pl: return "PL-PL"
-                case .pt_br: return "PT-BR"
-                case .pt_pt: return "PT-PT"
-                case .ro_ro: return "RO-RO"
-                case .ru_ru: return "RU-RU"
-                case .sk_sk: return "SK-SK"
-                case .sv_se: return "SV-SE"
-                case .th_th: return "TH-TH"
-                case .tr_tr: return "TR-TR"
-                case .uk_ua: return "UK-UA"
-                case .zh_cn: return "ZH-CN"
-                case .zh_hk: return "ZH-HK"
-                case .zh_tw: return "ZH-TW"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Locale: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var ar_sa: Self {
+                .init(rawValue: "AR-SA")
             }
 
+            public static var ca_es: Self {
+                .init(rawValue: "CA-ES")
+            }
+
+            public static var cs_cz: Self {
+                .init(rawValue: "CS-CZ")
+            }
+
+            public static var da_dk: Self {
+                .init(rawValue: "DA-DK")
+            }
+
+            public static var de_de: Self {
+                .init(rawValue: "DE-DE")
+            }
+
+            public static var el_gr: Self {
+                .init(rawValue: "EL-GR")
+            }
+
+            public static var en_au: Self {
+                .init(rawValue: "EN-AU")
+            }
+
+            public static var en_gb: Self {
+                .init(rawValue: "EN-GB")
+            }
+
+            public static var en_ky: Self {
+                .init(rawValue: "EN-KY")
+            }
+
+            public static var en_us: Self {
+                .init(rawValue: "EN-US")
+            }
+
+            public static var es_es: Self {
+                .init(rawValue: "ES-ES")
+            }
+
+            public static var es_mx: Self {
+                .init(rawValue: "ES-MX")
+            }
+
+            public static var fi_fi: Self {
+                .init(rawValue: "FI-FI")
+            }
+
+            public static var fr_ca: Self {
+                .init(rawValue: "FR-CA")
+            }
+
+            public static var fr_fr: Self {
+                .init(rawValue: "FR-FR")
+            }
+
+            public static var hi_in: Self {
+                .init(rawValue: "HI-IN")
+            }
+
+            public static var hr_hr: Self {
+                .init(rawValue: "HR-HR")
+            }
+
+            public static var hu_hu: Self {
+                .init(rawValue: "HU-HU")
+            }
+
+            public static var id_id: Self {
+                .init(rawValue: "ID-ID")
+            }
+
+            public static var it_it: Self {
+                .init(rawValue: "IT-IT")
+            }
+
+            public static var iw_il: Self {
+                .init(rawValue: "IW-IL")
+            }
+
+            public static var ja_jp: Self {
+                .init(rawValue: "JA-JP")
+            }
+
+            public static var ko_kr: Self {
+                .init(rawValue: "KO-KR")
+            }
+
+            public static var ms_my: Self {
+                .init(rawValue: "MS-MY")
+            }
+
+            public static var nl_nl: Self {
+                .init(rawValue: "NL-NL")
+            }
+
+            public static var no_no: Self {
+                .init(rawValue: "NO-NO")
+            }
+
+            public static var pl_pl: Self {
+                .init(rawValue: "PL-PL")
+            }
+
+            public static var pt_br: Self {
+                .init(rawValue: "PT-BR")
+            }
+
+            public static var pt_pt: Self {
+                .init(rawValue: "PT-PT")
+            }
+
+            public static var ro_ro: Self {
+                .init(rawValue: "RO-RO")
+            }
+
+            public static var ru_ru: Self {
+                .init(rawValue: "RU-RU")
+            }
+
+            public static var sk_sk: Self {
+                .init(rawValue: "SK-SK")
+            }
+
+            public static var sv_se: Self {
+                .init(rawValue: "SV-SE")
+            }
+
+            public static var th_th: Self {
+                .init(rawValue: "TH-TH")
+            }
+
+            public static var tr_tr: Self {
+                .init(rawValue: "TR-TR")
+            }
+
+            public static var uk_ua: Self {
+                .init(rawValue: "UK-UA")
+            }
+
+            public static var zh_cn: Self {
+                .init(rawValue: "ZH-CN")
+            }
+
+            public static var zh_hk: Self {
+                .init(rawValue: "ZH-HK")
+            }
+
+            public static var zh_tw: Self {
+                .init(rawValue: "ZH-TW")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "AR-SA": self = .ar_sa
-                case "CA-ES": self = .ca_es
-                case "CS-CZ": self = .cs_cz
-                case "DA-DK": self = .da_dk
-                case "DE-DE": self = .de_de
-                case "EL-GR": self = .el_gr
-                case "EN-AU": self = .en_au
-                case "EN-GB": self = .en_gb
-                case "EN-KY": self = .en_ky
-                case "EN-US": self = .en_us
-                case "ES-ES": self = .es_es
-                case "ES-MX": self = .es_mx
-                case "FI-FI": self = .fi_fi
-                case "FR-CA": self = .fr_ca
-                case "FR-FR": self = .fr_fr
-                case "HI-IN": self = .hi_in
-                case "HR-HR": self = .hr_hr
-                case "HU-HU": self = .hu_hu
-                case "ID-ID": self = .id_id
-                case "IT-IT": self = .it_it
-                case "IW-IL": self = .iw_il
-                case "JA-JP": self = .ja_jp
-                case "KO-KR": self = .ko_kr
-                case "MS-MY": self = .ms_my
-                case "NL-NL": self = .nl_nl
-                case "NO-NO": self = .no_no
-                case "PL-PL": self = .pl_pl
-                case "PT-BR": self = .pt_br
-                case "PT-PT": self = .pt_pt
-                case "RO-RO": self = .ro_ro
-                case "RU-RU": self = .ru_ru
-                case "SK-SK": self = .sk_sk
-                case "SV-SE": self = .sv_se
-                case "TH-TH": self = .th_th
-                case "TR-TR": self = .tr_tr
-                case "UK-UA": self = .uk_ua
-                case "ZH-CN": self = .zh_cn
-                case "ZH-HK": self = .zh_hk
-                case "ZH-TW": self = .zh_tw
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var matchmakingPlayerProperties: MatchmakingPlayerProperties?
 
         public init(matchmakingPlayerProperties: MatchmakingPlayerProperties? = nil) {
@@ -238,7 +273,7 @@ public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable {
             case matchmakingPlayerProperties
         }
 
-        public struct MatchmakingPlayerProperties: Hashable, Codable {
+        public struct MatchmakingPlayerProperties: Hashable, Codable, Sendable {
             public var data: [Data]?
 
             public init(data: [Data]? = nil) {
@@ -249,7 +284,7 @@ public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable {
                 case data
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -267,7 +302,7 @@ public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case gameCenterMatchmakingTestPlayerProperties
                 }
             }

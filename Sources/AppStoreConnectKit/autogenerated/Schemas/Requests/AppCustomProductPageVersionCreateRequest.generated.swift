@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppCustomProductPageVersionCreateRequest: Hashable, Codable {
+public struct AppCustomProductPageVersionCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,29 +14,46 @@ public struct AppCustomProductPageVersionCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
+
+        public var attributes: Attributes?
 
         public var relationships: Relationships
 
         public init(
             type: `Type`,
+            attributes: Attributes? = nil,
             relationships: Relationships
         ) {
             self.type = type
+            self.attributes = attributes
             self.relationships = relationships
         }
 
         private enum CodingKeys: String, CodingKey {
             case type
+            case attributes
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appCustomProductPageVersions
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
+            public var deepLink: URL?
+
+            public init(deepLink: URL? = nil) {
+                self.deepLink = deepLink
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case deepLink
+            }
+        }
+
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appCustomProductPage: AppCustomProductPage
 
             public var appCustomProductPageLocalizations: AppCustomProductPageLocalizations?
@@ -54,7 +71,7 @@ public struct AppCustomProductPageVersionCreateRequest: Hashable, Codable {
                 case appCustomProductPageLocalizations
             }
 
-            public struct AppCustomProductPage: Hashable, Codable {
+            public struct AppCustomProductPage: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -65,7 +82,7 @@ public struct AppCustomProductPageVersionCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -83,13 +100,13 @@ public struct AppCustomProductPageVersionCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appCustomProductPages
                     }
                 }
             }
 
-            public struct AppCustomProductPageLocalizations: Hashable, Codable {
+            public struct AppCustomProductPageLocalizations: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -100,7 +117,7 @@ public struct AppCustomProductPageVersionCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -118,7 +135,7 @@ public struct AppCustomProductPageVersionCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appCustomProductPageLocalizations
                     }
                 }

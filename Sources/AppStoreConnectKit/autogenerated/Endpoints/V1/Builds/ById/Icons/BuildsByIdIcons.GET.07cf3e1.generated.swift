@@ -44,8 +44,10 @@ extension V1.Builds.ById.Icons {
 
         /// - Returns: **200**, List of BuildIcons with get as `BuildIconsWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.Builds.ById.Icons {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,28 +95,27 @@ extension V1.Builds.ById.Icons.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BuildIcons: Hashable, Codable, RawRepresentable {
-                case iconAsset
-                case iconType
-                case name
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .iconAsset: return "iconAsset"
-                    case .iconType: return "iconType"
-                    case .name: return "name"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BuildIcons: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var iconAsset: Self {
+                    .init(rawValue: "iconAsset")
                 }
 
+                public static var iconType: Self {
+                    .init(rawValue: "iconType")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "iconAsset": self = .iconAsset
-                    case "iconType": self = .iconType
-                    case "name": self = .name
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

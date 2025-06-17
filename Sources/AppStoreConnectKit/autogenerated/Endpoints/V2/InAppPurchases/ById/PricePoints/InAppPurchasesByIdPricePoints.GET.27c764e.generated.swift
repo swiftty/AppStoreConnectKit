@@ -32,8 +32,6 @@ extension V2.InAppPurchases.ById.PricePoints {
                              value: parameters.fields[.inAppPurchasePricePoints]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[territories]",
                              value: parameters.fields[.territories]?.map { "\($0)" }.joined(separator: ",")),
-                URLQueryItem(name: "filter[priceTier]",
-                             value: parameters.filter[.priceTier]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[territory]",
                              value: parameters.filter[.territory]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -52,8 +50,10 @@ extension V2.InAppPurchases.ById.PricePoints {
 
         /// - Returns: **200**, List of InAppPurchasePricePoints as `InAppPurchasePricePointsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -67,10 +67,16 @@ extension V2.InAppPurchases.ById.PricePoints {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -100,53 +106,47 @@ extension V2.InAppPurchases.ById.PricePoints.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum InAppPurchasePricePoints: Hashable, Codable, RawRepresentable {
-                case customerPrice
-                case inAppPurchaseV2
-                case priceTier
-                case proceeds
-                case territory
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .customerPrice: return "customerPrice"
-                    case .inAppPurchaseV2: return "inAppPurchaseV2"
-                    case .priceTier: return "priceTier"
-                    case .proceeds: return "proceeds"
-                    case .territory: return "territory"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchasePricePoints: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var customerPrice: Self {
+                    .init(rawValue: "customerPrice")
                 }
 
+                public static var equalizations: Self {
+                    .init(rawValue: "equalizations")
+                }
+
+                public static var proceeds: Self {
+                    .init(rawValue: "proceeds")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "customerPrice": self = .customerPrice
-                    case "inAppPurchaseV2": self = .inAppPurchaseV2
-                    case "priceTier": self = .priceTier
-                    case "proceeds": self = .proceeds
-                    case "territory": self = .territory
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Territories: Hashable, Codable, RawRepresentable {
-                case currency
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .currency: return "currency"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Territories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var currency: Self {
+                    .init(rawValue: "currency")
                 }
 
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "currency": self = .currency
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -178,11 +178,6 @@ extension V2.InAppPurchases.ById.PricePoints.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
-                /// filter by attribute 'priceTier'
-                public static var priceTier: Relation<[String]?> {
-                    .init(key: "filter[priceTier]")
-                }
-
                 /// filter by id(s) of related 'territory'
                 public static var territory: Relation<[String]?> {
                     .init(key: "filter[territory]")
@@ -196,22 +191,19 @@ extension V2.InAppPurchases.ById.PricePoints.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case territory
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .territory: return "territory"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var territory: Self {
+                .init(rawValue: "territory")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "territory": self = .territory
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterLeaderboardSetImageResponse: Hashable, Codable {
+public struct GameCenterLeaderboardSetImageResponse: Hashable, Codable, Sendable {
     public var data: GameCenterLeaderboardSetImage
 
     public var included: [GameCenterLeaderboardSetLocalization]?

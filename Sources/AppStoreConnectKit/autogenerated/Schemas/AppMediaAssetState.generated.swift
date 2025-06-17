@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppMediaAssetState: Hashable, Codable {
+public struct AppMediaAssetState: Hashable, Codable, Sendable {
     public var errors: [AppMediaStateError]?
 
     public var state: State?
@@ -26,31 +26,31 @@ public struct AppMediaAssetState: Hashable, Codable {
         case warnings
     }
 
-    public enum State: Hashable, Codable, RawRepresentable {
-        case awaitingUpload
-        case complete
-        case failed
-        case uploadComplete
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .awaitingUpload: return "AWAITING_UPLOAD"
-            case .complete: return "COMPLETE"
-            case .failed: return "FAILED"
-            case .uploadComplete: return "UPLOAD_COMPLETE"
-            case .unknown(let rawValue): return rawValue
-            }
+    public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+        public static var awaitingUpload: Self {
+            .init(rawValue: "AWAITING_UPLOAD")
         }
 
+        public static var complete: Self {
+            .init(rawValue: "COMPLETE")
+        }
+
+        public static var failed: Self {
+            .init(rawValue: "FAILED")
+        }
+
+        public static var uploadComplete: Self {
+            .init(rawValue: "UPLOAD_COMPLETE")
+        }
+
+        public var description: String {
+            rawValue
+        }
+
+        public var rawValue: String
+
         public init(rawValue: String) {
-            switch rawValue {
-            case "AWAITING_UPLOAD": self = .awaitingUpload
-            case "COMPLETE": self = .complete
-            case "FAILED": self = .failed
-            case "UPLOAD_COMPLETE": self = .uploadComplete
-            default: self = .unknown(rawValue)
-            }
+            self.rawValue = rawValue
         }
     }
 }

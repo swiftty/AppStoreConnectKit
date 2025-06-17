@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppScreenshotCreateRequest: Hashable, Codable {
+public struct AppScreenshotCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppScreenshotCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct AppScreenshotCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appScreenshots
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var fileName: String
 
             public var fileSize: Int
@@ -60,7 +60,7 @@ public struct AppScreenshotCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appScreenshotSet: AppScreenshotSet
 
             public init(appScreenshotSet: AppScreenshotSet) {
@@ -71,7 +71,7 @@ public struct AppScreenshotCreateRequest: Hashable, Codable {
                 case appScreenshotSet
             }
 
-            public struct AppScreenshotSet: Hashable, Codable {
+            public struct AppScreenshotSet: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -82,7 +82,7 @@ public struct AppScreenshotCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -100,7 +100,7 @@ public struct AppScreenshotCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appScreenshotSets
                     }
                 }

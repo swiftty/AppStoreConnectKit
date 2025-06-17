@@ -44,8 +44,10 @@ extension V1.CustomerReviewResponses.ById {
 
         /// - Returns: **200**, Single CustomerReviewResponse as `CustomerReviewResponseV1Response`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.CustomerReviewResponses.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,31 +95,31 @@ extension V1.CustomerReviewResponses.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CustomerReviewResponses: Hashable, Codable, RawRepresentable {
-                case lastModifiedDate
-                case responseBody
-                case review
-                case state
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .lastModifiedDate: return "lastModifiedDate"
-                    case .responseBody: return "responseBody"
-                    case .review: return "review"
-                    case .state: return "state"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CustomerReviewResponses: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var lastModifiedDate: Self {
+                    .init(rawValue: "lastModifiedDate")
                 }
 
+                public static var responseBody: Self {
+                    .init(rawValue: "responseBody")
+                }
+
+                public static var review: Self {
+                    .init(rawValue: "review")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "lastModifiedDate": self = .lastModifiedDate
-                    case "responseBody": self = .responseBody
-                    case "review": self = .review
-                    case "state": self = .state
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -129,22 +137,19 @@ extension V1.CustomerReviewResponses.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case review
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .review: return "review"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var review: Self {
+                .init(rawValue: "review")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "review": self = .review
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

@@ -53,7 +53,9 @@ extension V1.ReviewSubmissions {
 
         /// - Returns: **200**, List of ReviewSubmissions as `ReviewSubmissionsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -67,7 +69,13 @@ extension V1.ReviewSubmissions {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -97,92 +105,83 @@ extension V1.ReviewSubmissions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ReviewSubmissionItems: Hashable, Codable, RawRepresentable {
-                case appCustomProductPageVersion
-                case appEvent
-                case appStoreVersion
-                case appStoreVersionExperiment
-                case appStoreVersionExperimentV2
-                case removed
-                case resolved
-                case reviewSubmission
-                case state
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appCustomProductPageVersion: return "appCustomProductPageVersion"
-                    case .appEvent: return "appEvent"
-                    case .appStoreVersion: return "appStoreVersion"
-                    case .appStoreVersionExperiment: return "appStoreVersionExperiment"
-                    case .appStoreVersionExperimentV2: return "appStoreVersionExperimentV2"
-                    case .removed: return "removed"
-                    case .resolved: return "resolved"
-                    case .reviewSubmission: return "reviewSubmission"
-                    case .state: return "state"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ReviewSubmissionItems: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPageVersion: Self {
+                    .init(rawValue: "appCustomProductPageVersion")
                 }
 
+                public static var appEvent: Self {
+                    .init(rawValue: "appEvent")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var appStoreVersionExperiment: Self {
+                    .init(rawValue: "appStoreVersionExperiment")
+                }
+
+                public static var appStoreVersionExperimentV2: Self {
+                    .init(rawValue: "appStoreVersionExperimentV2")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appCustomProductPageVersion": self = .appCustomProductPageVersion
-                    case "appEvent": self = .appEvent
-                    case "appStoreVersion": self = .appStoreVersion
-                    case "appStoreVersionExperiment": self = .appStoreVersionExperiment
-                    case "appStoreVersionExperimentV2": self = .appStoreVersionExperimentV2
-                    case "removed": self = .removed
-                    case "resolved": self = .resolved
-                    case "reviewSubmission": self = .reviewSubmission
-                    case "state": self = .state
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum ReviewSubmissions: Hashable, Codable, RawRepresentable {
-                case app
-                case appStoreVersionForReview
-                case canceled
-                case items
-                case lastUpdatedByActor
-                case platform
-                case state
-                case submitted
-                case submittedByActor
-                case submittedDate
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .appStoreVersionForReview: return "appStoreVersionForReview"
-                    case .canceled: return "canceled"
-                    case .items: return "items"
-                    case .lastUpdatedByActor: return "lastUpdatedByActor"
-                    case .platform: return "platform"
-                    case .state: return "state"
-                    case .submitted: return "submitted"
-                    case .submittedByActor: return "submittedByActor"
-                    case .submittedDate: return "submittedDate"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ReviewSubmissions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var appStoreVersionForReview: Self {
+                    .init(rawValue: "appStoreVersionForReview")
+                }
+
+                public static var items: Self {
+                    .init(rawValue: "items")
+                }
+
+                public static var lastUpdatedByActor: Self {
+                    .init(rawValue: "lastUpdatedByActor")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var submittedByActor: Self {
+                    .init(rawValue: "submittedByActor")
+                }
+
+                public static var submittedDate: Self {
+                    .init(rawValue: "submittedDate")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "appStoreVersionForReview": self = .appStoreVersionForReview
-                    case "canceled": self = .canceled
-                    case "items": self = .items
-                    case "lastUpdatedByActor": self = .lastUpdatedByActor
-                    case "platform": self = .platform
-                    case "state": self = .state
-                    case "submitted": self = .submitted
-                    case "submittedByActor": self = .submittedByActor
-                    case "submittedDate": self = .submittedDate
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -213,65 +212,71 @@ extension V1.ReviewSubmissions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Platform: Hashable, Codable, RawRepresentable {
-                case iOS
-                case macOS
-                case tvOS
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .iOS: return "IOS"
-                    case .macOS: return "MAC_OS"
-                    case .tvOS: return "TV_OS"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Platform: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var iOS: Self {
+                    .init(rawValue: "IOS")
                 }
 
+                public static var macOS: Self {
+                    .init(rawValue: "MAC_OS")
+                }
+
+                public static var tvOS: Self {
+                    .init(rawValue: "TV_OS")
+                }
+
+                public static var visionOS: Self {
+                    .init(rawValue: "VISION_OS")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "IOS": self = .iOS
-                    case "MAC_OS": self = .macOS
-                    case "TV_OS": self = .tvOS
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum State: Hashable, Codable, RawRepresentable {
-                case canceling
-                case complete
-                case completing
-                case inReview
-                case readyForReview
-                case unresolvedIssues
-                case waitingForReview
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .canceling: return "CANCELING"
-                    case .complete: return "COMPLETE"
-                    case .completing: return "COMPLETING"
-                    case .inReview: return "IN_REVIEW"
-                    case .readyForReview: return "READY_FOR_REVIEW"
-                    case .unresolvedIssues: return "UNRESOLVED_ISSUES"
-                    case .waitingForReview: return "WAITING_FOR_REVIEW"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var canceling: Self {
+                    .init(rawValue: "CANCELING")
                 }
 
+                public static var complete: Self {
+                    .init(rawValue: "COMPLETE")
+                }
+
+                public static var completing: Self {
+                    .init(rawValue: "COMPLETING")
+                }
+
+                public static var inReview: Self {
+                    .init(rawValue: "IN_REVIEW")
+                }
+
+                public static var readyForReview: Self {
+                    .init(rawValue: "READY_FOR_REVIEW")
+                }
+
+                public static var unresolvedIssues: Self {
+                    .init(rawValue: "UNRESOLVED_ISSUES")
+                }
+
+                public static var waitingForReview: Self {
+                    .init(rawValue: "WAITING_FOR_REVIEW")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "CANCELING": self = .canceling
-                    case "COMPLETE": self = .complete
-                    case "COMPLETING": self = .completing
-                    case "IN_REVIEW": self = .inReview
-                    case "READY_FOR_REVIEW": self = .readyForReview
-                    case "UNRESOLVED_ISSUES": self = .unresolvedIssues
-                    case "WAITING_FOR_REVIEW": self = .waitingForReview
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -299,34 +304,35 @@ extension V1.ReviewSubmissions.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case app
-            case appStoreVersionForReview
-            case items
-            case lastUpdatedByActor
-            case submittedByActor
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .app: return "app"
-                case .appStoreVersionForReview: return "appStoreVersionForReview"
-                case .items: return "items"
-                case .lastUpdatedByActor: return "lastUpdatedByActor"
-                case .submittedByActor: return "submittedByActor"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var app: Self {
+                .init(rawValue: "app")
             }
 
+            public static var appStoreVersionForReview: Self {
+                .init(rawValue: "appStoreVersionForReview")
+            }
+
+            public static var items: Self {
+                .init(rawValue: "items")
+            }
+
+            public static var lastUpdatedByActor: Self {
+                .init(rawValue: "lastUpdatedByActor")
+            }
+
+            public static var submittedByActor: Self {
+                .init(rawValue: "submittedByActor")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "app": self = .app
-                case "appStoreVersionForReview": self = .appStoreVersionForReview
-                case "items": self = .items
-                case "lastUpdatedByActor": self = .lastUpdatedByActor
-                case "submittedByActor": self = .submittedByActor
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

@@ -42,8 +42,10 @@ extension V1.SubscriptionGracePeriods.ById {
 
         /// - Returns: **200**, Single SubscriptionGracePeriod as `SubscriptionGracePeriodResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -57,10 +59,16 @@ extension V1.SubscriptionGracePeriods.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -82,31 +90,31 @@ extension V1.SubscriptionGracePeriods.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum SubscriptionGracePeriods: Hashable, Codable, RawRepresentable {
-                case duration
-                case optIn
-                case renewalType
-                case sandboxOptIn
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .duration: return "duration"
-                    case .optIn: return "optIn"
-                    case .renewalType: return "renewalType"
-                    case .sandboxOptIn: return "sandboxOptIn"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionGracePeriods: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var duration: Self {
+                    .init(rawValue: "duration")
                 }
 
+                public static var optIn: Self {
+                    .init(rawValue: "optIn")
+                }
+
+                public static var renewalType: Self {
+                    .init(rawValue: "renewalType")
+                }
+
+                public static var sandboxOptIn: Self {
+                    .init(rawValue: "sandboxOptIn")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "duration": self = .duration
-                    case "optIn": self = .optIn
-                    case "renewalType": self = .renewalType
-                    case "sandboxOptIn": self = .sandboxOptIn
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

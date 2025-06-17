@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppPriceV2InlineCreate: Hashable, Codable {
+public struct AppPriceV2InlineCreate: Hashable, Codable, Sendable {
     public var id: String?
 
     public var type: `Type`
@@ -21,7 +21,7 @@ public struct AppPriceV2InlineCreate: Hashable, Codable {
         case type
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appPrices
     }
 }

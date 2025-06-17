@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingQueueCreateRequest: Hashable, Codable {
+public struct GameCenterMatchmakingQueueCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct GameCenterMatchmakingQueueCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,23 +37,30 @@ public struct GameCenterMatchmakingQueueCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterMatchmakingQueues
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
+            public var classicMatchmakingBundleIds: [String]?
+
             public var referenceName: String
 
-            public init(referenceName: String) {
+            public init(
+                classicMatchmakingBundleIds: [String]? = nil,
+                referenceName: String
+            ) {
+                self.classicMatchmakingBundleIds = classicMatchmakingBundleIds
                 self.referenceName = referenceName
             }
 
             private enum CodingKeys: String, CodingKey {
+                case classicMatchmakingBundleIds
                 case referenceName
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var experimentRuleSet: ExperimentRuleSet?
 
             public var ruleSet: RuleSet
@@ -71,7 +78,7 @@ public struct GameCenterMatchmakingQueueCreateRequest: Hashable, Codable {
                 case ruleSet
             }
 
-            public struct ExperimentRuleSet: Hashable, Codable {
+            public struct ExperimentRuleSet: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -82,7 +89,7 @@ public struct GameCenterMatchmakingQueueCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -100,13 +107,13 @@ public struct GameCenterMatchmakingQueueCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterMatchmakingRuleSets
                     }
                 }
             }
 
-            public struct RuleSet: Hashable, Codable {
+            public struct RuleSet: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -117,7 +124,7 @@ public struct GameCenterMatchmakingQueueCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -135,7 +142,7 @@ public struct GameCenterMatchmakingQueueCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterMatchmakingRuleSets
                     }
                 }

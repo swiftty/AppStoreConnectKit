@@ -31,7 +31,7 @@ extension V1.GameCenterDetails.ById.Metrics.RuleBasedMatchmakingRequests {
                 URLQueryItem(name: "filter[result]",
                              value: parameters.filter[.result].map { "\($0)" }),
                 URLQueryItem(name: "granularity",
-                             value: parameters.granularity.map { "\($0)" }.joined(separator: ",")),
+                             value: parameters.granularity.map { "\($0)" }),
                 URLQueryItem(name: "groupBy",
                              value: parameters.groupBy?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
@@ -50,8 +50,10 @@ extension V1.GameCenterDetails.ById.Metrics.RuleBasedMatchmakingRequests {
 
         /// - Returns: **200**, Metrics data response as `GameCenterMatchmakingAppRequestsV1MetricResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -65,10 +67,16 @@ extension V1.GameCenterDetails.ById.Metrics.RuleBasedMatchmakingRequests {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -83,7 +91,7 @@ extension V1.GameCenterDetails.ById.Metrics.RuleBasedMatchmakingRequests.GET {
         public var filter: Filter = Filter()
 
         /// the granularity of the per-group dataset
-        public var granularity: [Granularity] = []
+        public var granularity: Granularity?
 
         /// the dimension by which to group the results
         public var groupBy: [GroupBy]?
@@ -102,28 +110,27 @@ extension V1.GameCenterDetails.ById.Metrics.RuleBasedMatchmakingRequests.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Result: Hashable, Codable, RawRepresentable {
-                case canceled
-                case expired
-                case matched
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .canceled: return "CANCELED"
-                    case .expired: return "EXPIRED"
-                    case .matched: return "MATCHED"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Result: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var canceled: Self {
+                    .init(rawValue: "CANCELED")
                 }
 
+                public static var expired: Self {
+                    .init(rawValue: "EXPIRED")
+                }
+
+                public static var matched: Self {
+                    .init(rawValue: "MATCHED")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "CANCELED": self = .canceled
-                    case "EXPIRED": self = .expired
-                    case "MATCHED": self = .matched
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -141,87 +148,87 @@ extension V1.GameCenterDetails.ById.Metrics.RuleBasedMatchmakingRequests.GET {
             }
         }
 
-        public enum Granularity: Hashable, Codable, RawRepresentable {
-            case p1D
-            case pT15M
-            case pT1H
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .p1D: return "P1D"
-                case .pT15M: return "PT15M"
-                case .pT1H: return "PT1H"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Granularity: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var p1D: Self {
+                .init(rawValue: "P1D")
             }
 
+            public static var pT15M: Self {
+                .init(rawValue: "PT15M")
+            }
+
+            public static var pT1H: Self {
+                .init(rawValue: "PT1H")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "P1D": self = .p1D
-                case "PT15M": self = .pT15M
-                case "PT1H": self = .pT1H
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum GroupBy: Hashable, Codable, RawRepresentable {
-            case result
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .result: return "result"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct GroupBy: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var result: Self {
+                .init(rawValue: "result")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "result": self = .result
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum Sort: Hashable, Codable, RawRepresentable {
-            case averageSecondsInQueue
-            case averageSecondsInQueueDesc
-            case count
-            case countDesc
-            case p50SecondsInQueue
-            case p50SecondsInQueueDesc
-            case p95SecondsInQueue
-            case p95SecondsInQueueDesc
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .averageSecondsInQueue: return "averageSecondsInQueue"
-                case .averageSecondsInQueueDesc: return "-averageSecondsInQueue"
-                case .count: return "count"
-                case .countDesc: return "-count"
-                case .p50SecondsInQueue: return "p50SecondsInQueue"
-                case .p50SecondsInQueueDesc: return "-p50SecondsInQueue"
-                case .p95SecondsInQueue: return "p95SecondsInQueue"
-                case .p95SecondsInQueueDesc: return "-p95SecondsInQueue"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Sort: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var averageSecondsInQueue: Self {
+                .init(rawValue: "averageSecondsInQueue")
             }
 
+            public static var averageSecondsInQueueDesc: Self {
+                .init(rawValue: "-averageSecondsInQueue")
+            }
+
+            public static var count: Self {
+                .init(rawValue: "count")
+            }
+
+            public static var countDesc: Self {
+                .init(rawValue: "-count")
+            }
+
+            public static var p50SecondsInQueue: Self {
+                .init(rawValue: "p50SecondsInQueue")
+            }
+
+            public static var p50SecondsInQueueDesc: Self {
+                .init(rawValue: "-p50SecondsInQueue")
+            }
+
+            public static var p95SecondsInQueue: Self {
+                .init(rawValue: "p95SecondsInQueue")
+            }
+
+            public static var p95SecondsInQueueDesc: Self {
+                .init(rawValue: "-p95SecondsInQueue")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "averageSecondsInQueue": self = .averageSecondsInQueue
-                case "-averageSecondsInQueue": self = .averageSecondsInQueueDesc
-                case "count": self = .count
-                case "-count": self = .countDesc
-                case "p50SecondsInQueue": self = .p50SecondsInQueue
-                case "-p50SecondsInQueue": self = .p50SecondsInQueueDesc
-                case "p95SecondsInQueue": self = .p95SecondsInQueue
-                case "-p95SecondsInQueue": self = .p95SecondsInQueueDesc
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

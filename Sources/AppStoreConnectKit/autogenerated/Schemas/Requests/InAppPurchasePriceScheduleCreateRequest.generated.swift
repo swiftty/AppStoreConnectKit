@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
+public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public var included: [Included]?
@@ -21,7 +21,7 @@ public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
         case included
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var relationships: Relationships
@@ -39,19 +39,19 @@ public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case inAppPurchasePriceSchedules
         }
 
-        public struct Relationships: Hashable, Codable {
-            public var baseTerritory: BaseTerritory?
+        public struct Relationships: Hashable, Codable, Sendable {
+            public var baseTerritory: BaseTerritory
 
             public var inAppPurchase: InAppPurchase
 
             public var manualPrices: ManualPrices
 
             public init(
-                baseTerritory: BaseTerritory? = nil,
+                baseTerritory: BaseTerritory,
                 inAppPurchase: InAppPurchase,
                 manualPrices: ManualPrices
             ) {
@@ -66,42 +66,7 @@ public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
                 case manualPrices
             }
 
-            public struct BaseTerritory: Hashable, Codable {
-                public var data: Data?
-
-                public init(data: Data? = nil) {
-                    self.data = data
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case data
-                }
-
-                public struct Data: Hashable, Codable {
-                    public var id: String
-
-                    public var type: `Type`
-
-                    public init(
-                        id: String,
-                        type: `Type`
-                    ) {
-                        self.id = id
-                        self.type = type
-                    }
-
-                    private enum CodingKeys: String, CodingKey {
-                        case id
-                        case type
-                    }
-
-                    public enum `Type`: String, Hashable, Codable {
-                        case territories
-                    }
-                }
-            }
-
-            public struct InAppPurchase: Hashable, Codable {
+            public struct BaseTerritory: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -112,7 +77,7 @@ public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -130,13 +95,48 @@ public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case territories
+                    }
+                }
+            }
+
+            public struct InAppPurchase: Hashable, Codable, Sendable {
+                public var data: Data
+
+                public init(data: Data) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case inAppPurchases
                     }
                 }
             }
 
-            public struct ManualPrices: Hashable, Codable {
+            public struct ManualPrices: Hashable, Codable, Sendable {
                 public var data: [Data]
 
                 public init(data: [Data]) {
@@ -147,7 +147,7 @@ public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -165,7 +165,7 @@ public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case inAppPurchasePrices
                     }
                 }
@@ -173,7 +173,7 @@ public struct InAppPurchasePriceScheduleCreateRequest: Hashable, Codable {
         }
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case inAppPurchasePriceInlineCreate(InAppPurchasePriceInlineCreate)
         case territoryInlineCreate(TerritoryInlineCreate)
 

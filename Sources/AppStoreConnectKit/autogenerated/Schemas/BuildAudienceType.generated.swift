@@ -3,25 +3,23 @@
 // swiftlint:disable all
 import Foundation
 
-public enum BuildAudienceType: Hashable, Codable, RawRepresentable {
-    case appStoreEligible
-    case internalOnly
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .appStoreEligible: return "APP_STORE_ELIGIBLE"
-        case .internalOnly: return "INTERNAL_ONLY"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct BuildAudienceType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var appStoreEligible: Self {
+        .init(rawValue: "APP_STORE_ELIGIBLE")
     }
 
+    public static var internalOnly: Self {
+        .init(rawValue: "INTERNAL_ONLY")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "APP_STORE_ELIGIBLE": self = .appStoreEligible
-        case "INTERNAL_ONLY": self = .internalOnly
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

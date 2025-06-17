@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiBuildActionsResponse: Hashable, Codable {
+public struct CiBuildActionsResponse: Hashable, Codable, Sendable {
     public var data: [CiBuildAction]
 
     public var included: [CiBuildRun]?

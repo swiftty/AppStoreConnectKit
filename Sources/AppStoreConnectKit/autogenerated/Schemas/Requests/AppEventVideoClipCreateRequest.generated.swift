@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppEventVideoClipCreateRequest: Hashable, Codable {
+public struct AppEventVideoClipCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppEventVideoClipCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct AppEventVideoClipCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appEventVideoClips
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var appEventAssetType: AppEventAssetType
 
             public var fileName: String
@@ -70,7 +70,7 @@ public struct AppEventVideoClipCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appEventLocalization: AppEventLocalization
 
             public init(appEventLocalization: AppEventLocalization) {
@@ -81,7 +81,7 @@ public struct AppEventVideoClipCreateRequest: Hashable, Codable {
                 case appEventLocalization
             }
 
-            public struct AppEventLocalization: Hashable, Codable {
+            public struct AppEventLocalization: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -92,7 +92,7 @@ public struct AppEventVideoClipCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -110,7 +110,7 @@ public struct AppEventVideoClipCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appEventLocalizations
                     }
                 }

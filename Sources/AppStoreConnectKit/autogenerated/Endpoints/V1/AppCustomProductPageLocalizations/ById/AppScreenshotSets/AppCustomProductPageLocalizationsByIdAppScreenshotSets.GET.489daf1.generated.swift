@@ -62,8 +62,10 @@ extension V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets {
 
         /// - Returns: **200**, List of AppScreenshotSets as `AppScreenshotSetsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -77,10 +79,16 @@ extension V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -110,185 +118,195 @@ extension V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppCustomProductPageLocalizations: Hashable, Codable, RawRepresentable {
-                case appCustomProductPageVersion
-                case appPreviewSets
-                case appScreenshotSets
-                case locale
-                case promotionalText
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appCustomProductPageVersion: return "appCustomProductPageVersion"
-                    case .appPreviewSets: return "appPreviewSets"
-                    case .appScreenshotSets: return "appScreenshotSets"
-                    case .locale: return "locale"
-                    case .promotionalText: return "promotionalText"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppCustomProductPageLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPageVersion: Self {
+                    .init(rawValue: "appCustomProductPageVersion")
                 }
 
+                public static var appPreviewSets: Self {
+                    .init(rawValue: "appPreviewSets")
+                }
+
+                public static var appScreenshotSets: Self {
+                    .init(rawValue: "appScreenshotSets")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var promotionalText: Self {
+                    .init(rawValue: "promotionalText")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appCustomProductPageVersion": self = .appCustomProductPageVersion
-                    case "appPreviewSets": self = .appPreviewSets
-                    case "appScreenshotSets": self = .appScreenshotSets
-                    case "locale": self = .locale
-                    case "promotionalText": self = .promotionalText
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppScreenshotSets: Hashable, Codable, RawRepresentable {
-                case appCustomProductPageLocalization
-                case appScreenshots
-                case appStoreVersionExperimentTreatmentLocalization
-                case appStoreVersionLocalization
-                case screenshotDisplayType
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
-                    case .appScreenshots: return "appScreenshots"
-                    case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
-                    case .appStoreVersionLocalization: return "appStoreVersionLocalization"
-                    case .screenshotDisplayType: return "screenshotDisplayType"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppScreenshotSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPageLocalization: Self {
+                    .init(rawValue: "appCustomProductPageLocalization")
                 }
 
+                public static var appScreenshots: Self {
+                    .init(rawValue: "appScreenshots")
+                }
+
+                public static var appStoreVersionExperimentTreatmentLocalization: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatmentLocalization")
+                }
+
+                public static var appStoreVersionLocalization: Self {
+                    .init(rawValue: "appStoreVersionLocalization")
+                }
+
+                public static var screenshotDisplayType: Self {
+                    .init(rawValue: "screenshotDisplayType")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
-                    case "appScreenshots": self = .appScreenshots
-                    case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
-                    case "appStoreVersionLocalization": self = .appStoreVersionLocalization
-                    case "screenshotDisplayType": self = .screenshotDisplayType
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppScreenshots: Hashable, Codable, RawRepresentable {
-                case appScreenshotSet
-                case assetDeliveryState
-                case assetToken
-                case assetType
-                case fileName
-                case fileSize
-                case imageAsset
-                case sourceFileChecksum
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appScreenshotSet: return "appScreenshotSet"
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .assetToken: return "assetToken"
-                    case .assetType: return "assetType"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .imageAsset: return "imageAsset"
-                    case .sourceFileChecksum: return "sourceFileChecksum"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppScreenshots: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appScreenshotSet: Self {
+                    .init(rawValue: "appScreenshotSet")
                 }
 
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
+                }
+
+                public static var assetToken: Self {
+                    .init(rawValue: "assetToken")
+                }
+
+                public static var assetType: Self {
+                    .init(rawValue: "assetType")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appScreenshotSet": self = .appScreenshotSet
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "assetToken": self = .assetToken
-                    case "assetType": self = .assetType
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "imageAsset": self = .imageAsset
-                    case "sourceFileChecksum": self = .sourceFileChecksum
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppStoreVersionExperimentTreatmentLocalizations: Hashable, Codable, RawRepresentable {
-                case appPreviewSets
-                case appScreenshotSets
-                case appStoreVersionExperimentTreatment
-                case locale
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appPreviewSets: return "appPreviewSets"
-                    case .appScreenshotSets: return "appScreenshotSets"
-                    case .appStoreVersionExperimentTreatment: return "appStoreVersionExperimentTreatment"
-                    case .locale: return "locale"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppStoreVersionExperimentTreatmentLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appPreviewSets: Self {
+                    .init(rawValue: "appPreviewSets")
                 }
 
+                public static var appScreenshotSets: Self {
+                    .init(rawValue: "appScreenshotSets")
+                }
+
+                public static var appStoreVersionExperimentTreatment: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatment")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appPreviewSets": self = .appPreviewSets
-                    case "appScreenshotSets": self = .appScreenshotSets
-                    case "appStoreVersionExperimentTreatment": self = .appStoreVersionExperimentTreatment
-                    case "locale": self = .locale
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppStoreVersionLocalizations: Hashable, Codable, RawRepresentable {
-                case appPreviewSets
-                case appScreenshotSets
-                case appStoreVersion
-                case description
-                case keywords
-                case locale
-                case marketingUrl
-                case promotionalText
-                case supportUrl
-                case whatsNew
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appPreviewSets: return "appPreviewSets"
-                    case .appScreenshotSets: return "appScreenshotSets"
-                    case .appStoreVersion: return "appStoreVersion"
-                    case .description: return "description"
-                    case .keywords: return "keywords"
-                    case .locale: return "locale"
-                    case .marketingUrl: return "marketingUrl"
-                    case .promotionalText: return "promotionalText"
-                    case .supportUrl: return "supportUrl"
-                    case .whatsNew: return "whatsNew"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppStoreVersionLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appPreviewSets: Self {
+                    .init(rawValue: "appPreviewSets")
                 }
 
+                public static var appScreenshotSets: Self {
+                    .init(rawValue: "appScreenshotSets")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var description: Self {
+                    .init(rawValue: "description")
+                }
+
+                public static var keywords: Self {
+                    .init(rawValue: "keywords")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var marketingUrl: Self {
+                    .init(rawValue: "marketingUrl")
+                }
+
+                public static var promotionalText: Self {
+                    .init(rawValue: "promotionalText")
+                }
+
+                public static var supportUrl: Self {
+                    .init(rawValue: "supportUrl")
+                }
+
+                public static var whatsNew: Self {
+                    .init(rawValue: "whatsNew")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appPreviewSets": self = .appPreviewSets
-                    case "appScreenshotSets": self = .appScreenshotSets
-                    case "appStoreVersion": self = .appStoreVersion
-                    case "description": self = .description
-                    case "keywords": self = .keywords
-                    case "locale": self = .locale
-                    case "marketingUrl": self = .marketingUrl
-                    case "promotionalText": self = .promotionalText
-                    case "supportUrl": self = .supportUrl
-                    case "whatsNew": self = .whatsNew
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -334,112 +352,147 @@ extension V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ScreenshotDisplayType: Hashable, Codable, RawRepresentable {
-                case appAppleTv
-                case appDesktop
-                case appIpad105
-                case appIpad97
-                case appIpadPro129
-                case appIpadPro3Gen11
-                case appIpadPro3Gen129
-                case appIphone35
-                case appIphone40
-                case appIphone47
-                case appIphone55
-                case appIphone58
-                case appIphone61
-                case appIphone65
-                case appIphone67
-                case appWatchSeries3
-                case appWatchSeries4
-                case appWatchSeries7
-                case appWatchUltra
-                case imessageAppIpad105
-                case imessageAppIpad97
-                case imessageAppIpadPro129
-                case imessageAppIpadPro3Gen11
-                case imessageAppIpadPro3Gen129
-                case imessageAppIphone40
-                case imessageAppIphone47
-                case imessageAppIphone55
-                case imessageAppIphone58
-                case imessageAppIphone61
-                case imessageAppIphone65
-                case imessageAppIphone67
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appAppleTv: return "APP_APPLE_TV"
-                    case .appDesktop: return "APP_DESKTOP"
-                    case .appIpad105: return "APP_IPAD_105"
-                    case .appIpad97: return "APP_IPAD_97"
-                    case .appIpadPro129: return "APP_IPAD_PRO_129"
-                    case .appIpadPro3Gen11: return "APP_IPAD_PRO_3GEN_11"
-                    case .appIpadPro3Gen129: return "APP_IPAD_PRO_3GEN_129"
-                    case .appIphone35: return "APP_IPHONE_35"
-                    case .appIphone40: return "APP_IPHONE_40"
-                    case .appIphone47: return "APP_IPHONE_47"
-                    case .appIphone55: return "APP_IPHONE_55"
-                    case .appIphone58: return "APP_IPHONE_58"
-                    case .appIphone61: return "APP_IPHONE_61"
-                    case .appIphone65: return "APP_IPHONE_65"
-                    case .appIphone67: return "APP_IPHONE_67"
-                    case .appWatchSeries3: return "APP_WATCH_SERIES_3"
-                    case .appWatchSeries4: return "APP_WATCH_SERIES_4"
-                    case .appWatchSeries7: return "APP_WATCH_SERIES_7"
-                    case .appWatchUltra: return "APP_WATCH_ULTRA"
-                    case .imessageAppIpad105: return "IMESSAGE_APP_IPAD_105"
-                    case .imessageAppIpad97: return "IMESSAGE_APP_IPAD_97"
-                    case .imessageAppIpadPro129: return "IMESSAGE_APP_IPAD_PRO_129"
-                    case .imessageAppIpadPro3Gen11: return "IMESSAGE_APP_IPAD_PRO_3GEN_11"
-                    case .imessageAppIpadPro3Gen129: return "IMESSAGE_APP_IPAD_PRO_3GEN_129"
-                    case .imessageAppIphone40: return "IMESSAGE_APP_IPHONE_40"
-                    case .imessageAppIphone47: return "IMESSAGE_APP_IPHONE_47"
-                    case .imessageAppIphone55: return "IMESSAGE_APP_IPHONE_55"
-                    case .imessageAppIphone58: return "IMESSAGE_APP_IPHONE_58"
-                    case .imessageAppIphone61: return "IMESSAGE_APP_IPHONE_61"
-                    case .imessageAppIphone65: return "IMESSAGE_APP_IPHONE_65"
-                    case .imessageAppIphone67: return "IMESSAGE_APP_IPHONE_67"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ScreenshotDisplayType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appAppleTv: Self {
+                    .init(rawValue: "APP_APPLE_TV")
                 }
 
+                public static var appAppleVisionPro: Self {
+                    .init(rawValue: "APP_APPLE_VISION_PRO")
+                }
+
+                public static var appDesktop: Self {
+                    .init(rawValue: "APP_DESKTOP")
+                }
+
+                public static var appIpad105: Self {
+                    .init(rawValue: "APP_IPAD_105")
+                }
+
+                public static var appIpad97: Self {
+                    .init(rawValue: "APP_IPAD_97")
+                }
+
+                public static var appIpadPro129: Self {
+                    .init(rawValue: "APP_IPAD_PRO_129")
+                }
+
+                public static var appIpadPro3Gen11: Self {
+                    .init(rawValue: "APP_IPAD_PRO_3GEN_11")
+                }
+
+                public static var appIpadPro3Gen129: Self {
+                    .init(rawValue: "APP_IPAD_PRO_3GEN_129")
+                }
+
+                public static var appIphone35: Self {
+                    .init(rawValue: "APP_IPHONE_35")
+                }
+
+                public static var appIphone40: Self {
+                    .init(rawValue: "APP_IPHONE_40")
+                }
+
+                public static var appIphone47: Self {
+                    .init(rawValue: "APP_IPHONE_47")
+                }
+
+                public static var appIphone55: Self {
+                    .init(rawValue: "APP_IPHONE_55")
+                }
+
+                public static var appIphone58: Self {
+                    .init(rawValue: "APP_IPHONE_58")
+                }
+
+                public static var appIphone61: Self {
+                    .init(rawValue: "APP_IPHONE_61")
+                }
+
+                public static var appIphone65: Self {
+                    .init(rawValue: "APP_IPHONE_65")
+                }
+
+                public static var appIphone67: Self {
+                    .init(rawValue: "APP_IPHONE_67")
+                }
+
+                public static var appWatchSeries10: Self {
+                    .init(rawValue: "APP_WATCH_SERIES_10")
+                }
+
+                public static var appWatchSeries3: Self {
+                    .init(rawValue: "APP_WATCH_SERIES_3")
+                }
+
+                public static var appWatchSeries4: Self {
+                    .init(rawValue: "APP_WATCH_SERIES_4")
+                }
+
+                public static var appWatchSeries7: Self {
+                    .init(rawValue: "APP_WATCH_SERIES_7")
+                }
+
+                public static var appWatchUltra: Self {
+                    .init(rawValue: "APP_WATCH_ULTRA")
+                }
+
+                public static var imessageAppIpad105: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPAD_105")
+                }
+
+                public static var imessageAppIpad97: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPAD_97")
+                }
+
+                public static var imessageAppIpadPro129: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPAD_PRO_129")
+                }
+
+                public static var imessageAppIpadPro3Gen11: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPAD_PRO_3GEN_11")
+                }
+
+                public static var imessageAppIpadPro3Gen129: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPAD_PRO_3GEN_129")
+                }
+
+                public static var imessageAppIphone40: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPHONE_40")
+                }
+
+                public static var imessageAppIphone47: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPHONE_47")
+                }
+
+                public static var imessageAppIphone55: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPHONE_55")
+                }
+
+                public static var imessageAppIphone58: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPHONE_58")
+                }
+
+                public static var imessageAppIphone61: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPHONE_61")
+                }
+
+                public static var imessageAppIphone65: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPHONE_65")
+                }
+
+                public static var imessageAppIphone67: Self {
+                    .init(rawValue: "IMESSAGE_APP_IPHONE_67")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "APP_APPLE_TV": self = .appAppleTv
-                    case "APP_DESKTOP": self = .appDesktop
-                    case "APP_IPAD_105": self = .appIpad105
-                    case "APP_IPAD_97": self = .appIpad97
-                    case "APP_IPAD_PRO_129": self = .appIpadPro129
-                    case "APP_IPAD_PRO_3GEN_11": self = .appIpadPro3Gen11
-                    case "APP_IPAD_PRO_3GEN_129": self = .appIpadPro3Gen129
-                    case "APP_IPHONE_35": self = .appIphone35
-                    case "APP_IPHONE_40": self = .appIphone40
-                    case "APP_IPHONE_47": self = .appIphone47
-                    case "APP_IPHONE_55": self = .appIphone55
-                    case "APP_IPHONE_58": self = .appIphone58
-                    case "APP_IPHONE_61": self = .appIphone61
-                    case "APP_IPHONE_65": self = .appIphone65
-                    case "APP_IPHONE_67": self = .appIphone67
-                    case "APP_WATCH_SERIES_3": self = .appWatchSeries3
-                    case "APP_WATCH_SERIES_4": self = .appWatchSeries4
-                    case "APP_WATCH_SERIES_7": self = .appWatchSeries7
-                    case "APP_WATCH_ULTRA": self = .appWatchUltra
-                    case "IMESSAGE_APP_IPAD_105": self = .imessageAppIpad105
-                    case "IMESSAGE_APP_IPAD_97": self = .imessageAppIpad97
-                    case "IMESSAGE_APP_IPAD_PRO_129": self = .imessageAppIpadPro129
-                    case "IMESSAGE_APP_IPAD_PRO_3GEN_11": self = .imessageAppIpadPro3Gen11
-                    case "IMESSAGE_APP_IPAD_PRO_3GEN_129": self = .imessageAppIpadPro3Gen129
-                    case "IMESSAGE_APP_IPHONE_40": self = .imessageAppIphone40
-                    case "IMESSAGE_APP_IPHONE_47": self = .imessageAppIphone47
-                    case "IMESSAGE_APP_IPHONE_55": self = .imessageAppIphone55
-                    case "IMESSAGE_APP_IPHONE_58": self = .imessageAppIphone58
-                    case "IMESSAGE_APP_IPHONE_61": self = .imessageAppIphone61
-                    case "IMESSAGE_APP_IPHONE_65": self = .imessageAppIphone65
-                    case "IMESSAGE_APP_IPHONE_67": self = .imessageAppIphone67
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -467,31 +520,31 @@ extension V1.AppCustomProductPageLocalizations.ById.AppScreenshotSets.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appCustomProductPageLocalization
-            case appScreenshots
-            case appStoreVersionExperimentTreatmentLocalization
-            case appStoreVersionLocalization
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
-                case .appScreenshots: return "appScreenshots"
-                case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
-                case .appStoreVersionLocalization: return "appStoreVersionLocalization"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appCustomProductPageLocalization: Self {
+                .init(rawValue: "appCustomProductPageLocalization")
             }
 
+            public static var appScreenshots: Self {
+                .init(rawValue: "appScreenshots")
+            }
+
+            public static var appStoreVersionExperimentTreatmentLocalization: Self {
+                .init(rawValue: "appStoreVersionExperimentTreatmentLocalization")
+            }
+
+            public static var appStoreVersionLocalization: Self {
+                .init(rawValue: "appStoreVersionLocalization")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
-                case "appScreenshots": self = .appScreenshots
-                case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
-                case "appStoreVersionLocalization": self = .appStoreVersionLocalization
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

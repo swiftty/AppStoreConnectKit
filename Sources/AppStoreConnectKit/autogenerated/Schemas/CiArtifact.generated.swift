@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiArtifact: Hashable, Codable {
+public struct CiArtifact: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct CiArtifact: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case ciArtifacts
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var downloadUrl: URL?
 
         public var fileName: String?
@@ -63,37 +63,43 @@ public struct CiArtifact: Hashable, Codable {
             case fileType
         }
 
-        public enum FileType: Hashable, Codable, RawRepresentable {
-            case archive
-            case archiveExport
-            case logBundle
-            case resultBundle
-            case testProducts
-            case xcodebuildProducts
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .archive: return "ARCHIVE"
-                case .archiveExport: return "ARCHIVE_EXPORT"
-                case .logBundle: return "LOG_BUNDLE"
-                case .resultBundle: return "RESULT_BUNDLE"
-                case .testProducts: return "TEST_PRODUCTS"
-                case .xcodebuildProducts: return "XCODEBUILD_PRODUCTS"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct FileType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var archive: Self {
+                .init(rawValue: "ARCHIVE")
             }
 
+            public static var archiveExport: Self {
+                .init(rawValue: "ARCHIVE_EXPORT")
+            }
+
+            public static var logBundle: Self {
+                .init(rawValue: "LOG_BUNDLE")
+            }
+
+            public static var resultBundle: Self {
+                .init(rawValue: "RESULT_BUNDLE")
+            }
+
+            public static var stapledNotarizedArchive: Self {
+                .init(rawValue: "STAPLED_NOTARIZED_ARCHIVE")
+            }
+
+            public static var testProducts: Self {
+                .init(rawValue: "TEST_PRODUCTS")
+            }
+
+            public static var xcodebuildProducts: Self {
+                .init(rawValue: "XCODEBUILD_PRODUCTS")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "ARCHIVE": self = .archive
-                case "ARCHIVE_EXPORT": self = .archiveExport
-                case "LOG_BUNDLE": self = .logBundle
-                case "RESULT_BUNDLE": self = .resultBundle
-                case "TEST_PRODUCTS": self = .testProducts
-                case "XCODEBUILD_PRODUCTS": self = .xcodebuildProducts
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterEnabledVersionCompatibleVersionsLinkagesResponse: Hashable, Codable {
+public struct GameCenterEnabledVersionCompatibleVersionsLinkagesResponse: Hashable, Codable, Sendable {
     public var data: [Data]
 
     public var links: PagedDocumentLinks
@@ -26,7 +26,7 @@ public struct GameCenterEnabledVersionCompatibleVersionsLinkagesResponse: Hashab
         case meta
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -44,7 +44,7 @@ public struct GameCenterEnabledVersionCompatibleVersionsLinkagesResponse: Hashab
             case type
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterEnabledVersions
         }
     }

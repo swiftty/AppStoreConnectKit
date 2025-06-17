@@ -56,8 +56,10 @@ extension V1.Apps.ById.CustomerReviews {
 
         /// - Returns: **200**, List of CustomerReviews as `CustomerReviewsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -71,10 +73,16 @@ extension V1.Apps.ById.CustomerReviews {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -131,68 +139,71 @@ extension V1.Apps.ById.CustomerReviews.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CustomerReviewResponses: Hashable, Codable, RawRepresentable {
-                case lastModifiedDate
-                case responseBody
-                case review
-                case state
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .lastModifiedDate: return "lastModifiedDate"
-                    case .responseBody: return "responseBody"
-                    case .review: return "review"
-                    case .state: return "state"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CustomerReviewResponses: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var lastModifiedDate: Self {
+                    .init(rawValue: "lastModifiedDate")
                 }
 
+                public static var responseBody: Self {
+                    .init(rawValue: "responseBody")
+                }
+
+                public static var review: Self {
+                    .init(rawValue: "review")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "lastModifiedDate": self = .lastModifiedDate
-                    case "responseBody": self = .responseBody
-                    case "review": self = .review
-                    case "state": self = .state
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum CustomerReviews: Hashable, Codable, RawRepresentable {
-                case body
-                case createdDate
-                case rating
-                case response
-                case reviewerNickname
-                case territory
-                case title
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .body: return "body"
-                    case .createdDate: return "createdDate"
-                    case .rating: return "rating"
-                    case .response: return "response"
-                    case .reviewerNickname: return "reviewerNickname"
-                    case .territory: return "territory"
-                    case .title: return "title"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CustomerReviews: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var body: Self {
+                    .init(rawValue: "body")
                 }
 
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var rating: Self {
+                    .init(rawValue: "rating")
+                }
+
+                public static var response: Self {
+                    .init(rawValue: "response")
+                }
+
+                public static var reviewerNickname: Self {
+                    .init(rawValue: "reviewerNickname")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public static var title: Self {
+                    .init(rawValue: "title")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "body": self = .body
-                    case "createdDate": self = .createdDate
-                    case "rating": self = .rating
-                    case "response": self = .response
-                    case "reviewerNickname": self = .reviewerNickname
-                    case "territory": self = .territory
-                    case "title": self = .title
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -223,715 +234,943 @@ extension V1.Apps.ById.CustomerReviews.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Territory: Hashable, Codable, RawRepresentable {
-                case abw
-                case afg
-                case ago
-                case aia
-                case alb
-                case and
-                case ant
-                case are
-                case arg
-                case arm
-                case asm
-                case atg
-                case aus
-                case aut
-                case aze
-                case bdi
-                case bel
-                case ben
-                case bes
-                case bfa
-                case bgd
-                case bgr
-                case bhr
-                case bhs
-                case bih
-                case blr
-                case blz
-                case bmu
-                case bol
-                case bra
-                case brb
-                case brn
-                case btn
-                case bwa
-                case caf
-                case can
-                case che
-                case chl
-                case chn
-                case civ
-                case cmr
-                case cod
-                case cog
-                case cok
-                case col
-                case com
-                case cpv
-                case cri
-                case cub
-                case cuw
-                case cxr
-                case cym
-                case cyp
-                case cze
-                case deu
-                case dji
-                case dma
-                case dnk
-                case dom
-                case dza
-                case ecu
-                case egy
-                case eri
-                case esp
-                case est
-                case eth
-                case fin
-                case fji
-                case flk
-                case fra
-                case fro
-                case fsm
-                case gab
-                case gbr
-                case geo
-                case ggy
-                case gha
-                case gib
-                case gin
-                case glp
-                case gmb
-                case gnb
-                case gnq
-                case grc
-                case grd
-                case grl
-                case gtm
-                case guf
-                case gum
-                case guy
-                case hkg
-                case hnd
-                case hrv
-                case hti
-                case hun
-                case idn
-                case imn
-                case ind
-                case irl
-                case irq
-                case isl
-                case isr
-                case ita
-                case jam
-                case jey
-                case jor
-                case jpn
-                case kaz
-                case ken
-                case kgz
-                case khm
-                case kir
-                case kna
-                case kor
-                case kwt
-                case lao
-                case lbn
-                case lbr
-                case lby
-                case lca
-                case lie
-                case lka
-                case lso
-                case ltu
-                case lux
-                case lva
-                case mac
-                case mar
-                case mco
-                case mda
-                case mdg
-                case mdv
-                case mex
-                case mhl
-                case mkd
-                case mli
-                case mlt
-                case mmr
-                case mne
-                case mng
-                case mnp
-                case moz
-                case mrt
-                case msr
-                case mtq
-                case mus
-                case mwi
-                case mys
-                case myt
-                case nam
-                case ncl
-                case ner
-                case nfk
-                case nga
-                case nic
-                case niu
-                case nld
-                case nor
-                case npl
-                case nru
-                case nzl
-                case omn
-                case pak
-                case pan
-                case per
-                case phl
-                case plw
-                case png
-                case pol
-                case pri
-                case prt
-                case pry
-                case pse
-                case pyf
-                case qat
-                case reu
-                case rou
-                case rus
-                case rwa
-                case sau
-                case sen
-                case sgp
-                case shn
-                case slb
-                case sle
-                case slv
-                case smr
-                case som
-                case spm
-                case srb
-                case ssd
-                case stp
-                case sur
-                case svk
-                case svn
-                case swe
-                case swz
-                case sxm
-                case syc
-                case tca
-                case tcd
-                case tgo
-                case tha
-                case tjk
-                case tkm
-                case tls
-                case ton
-                case tto
-                case tun
-                case tur
-                case tuv
-                case twn
-                case tza
-                case uga
-                case ukr
-                case umi
-                case ury
-                case usa
-                case uzb
-                case vat
-                case vct
-                case ven
-                case vgb
-                case vir
-                case vnm
-                case vut
-                case wlf
-                case wsm
-                case yem
-                case zaf
-                case zmb
-                case zwe
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .abw: return "ABW"
-                    case .afg: return "AFG"
-                    case .ago: return "AGO"
-                    case .aia: return "AIA"
-                    case .alb: return "ALB"
-                    case .and: return "AND"
-                    case .ant: return "ANT"
-                    case .are: return "ARE"
-                    case .arg: return "ARG"
-                    case .arm: return "ARM"
-                    case .asm: return "ASM"
-                    case .atg: return "ATG"
-                    case .aus: return "AUS"
-                    case .aut: return "AUT"
-                    case .aze: return "AZE"
-                    case .bdi: return "BDI"
-                    case .bel: return "BEL"
-                    case .ben: return "BEN"
-                    case .bes: return "BES"
-                    case .bfa: return "BFA"
-                    case .bgd: return "BGD"
-                    case .bgr: return "BGR"
-                    case .bhr: return "BHR"
-                    case .bhs: return "BHS"
-                    case .bih: return "BIH"
-                    case .blr: return "BLR"
-                    case .blz: return "BLZ"
-                    case .bmu: return "BMU"
-                    case .bol: return "BOL"
-                    case .bra: return "BRA"
-                    case .brb: return "BRB"
-                    case .brn: return "BRN"
-                    case .btn: return "BTN"
-                    case .bwa: return "BWA"
-                    case .caf: return "CAF"
-                    case .can: return "CAN"
-                    case .che: return "CHE"
-                    case .chl: return "CHL"
-                    case .chn: return "CHN"
-                    case .civ: return "CIV"
-                    case .cmr: return "CMR"
-                    case .cod: return "COD"
-                    case .cog: return "COG"
-                    case .cok: return "COK"
-                    case .col: return "COL"
-                    case .com: return "COM"
-                    case .cpv: return "CPV"
-                    case .cri: return "CRI"
-                    case .cub: return "CUB"
-                    case .cuw: return "CUW"
-                    case .cxr: return "CXR"
-                    case .cym: return "CYM"
-                    case .cyp: return "CYP"
-                    case .cze: return "CZE"
-                    case .deu: return "DEU"
-                    case .dji: return "DJI"
-                    case .dma: return "DMA"
-                    case .dnk: return "DNK"
-                    case .dom: return "DOM"
-                    case .dza: return "DZA"
-                    case .ecu: return "ECU"
-                    case .egy: return "EGY"
-                    case .eri: return "ERI"
-                    case .esp: return "ESP"
-                    case .est: return "EST"
-                    case .eth: return "ETH"
-                    case .fin: return "FIN"
-                    case .fji: return "FJI"
-                    case .flk: return "FLK"
-                    case .fra: return "FRA"
-                    case .fro: return "FRO"
-                    case .fsm: return "FSM"
-                    case .gab: return "GAB"
-                    case .gbr: return "GBR"
-                    case .geo: return "GEO"
-                    case .ggy: return "GGY"
-                    case .gha: return "GHA"
-                    case .gib: return "GIB"
-                    case .gin: return "GIN"
-                    case .glp: return "GLP"
-                    case .gmb: return "GMB"
-                    case .gnb: return "GNB"
-                    case .gnq: return "GNQ"
-                    case .grc: return "GRC"
-                    case .grd: return "GRD"
-                    case .grl: return "GRL"
-                    case .gtm: return "GTM"
-                    case .guf: return "GUF"
-                    case .gum: return "GUM"
-                    case .guy: return "GUY"
-                    case .hkg: return "HKG"
-                    case .hnd: return "HND"
-                    case .hrv: return "HRV"
-                    case .hti: return "HTI"
-                    case .hun: return "HUN"
-                    case .idn: return "IDN"
-                    case .imn: return "IMN"
-                    case .ind: return "IND"
-                    case .irl: return "IRL"
-                    case .irq: return "IRQ"
-                    case .isl: return "ISL"
-                    case .isr: return "ISR"
-                    case .ita: return "ITA"
-                    case .jam: return "JAM"
-                    case .jey: return "JEY"
-                    case .jor: return "JOR"
-                    case .jpn: return "JPN"
-                    case .kaz: return "KAZ"
-                    case .ken: return "KEN"
-                    case .kgz: return "KGZ"
-                    case .khm: return "KHM"
-                    case .kir: return "KIR"
-                    case .kna: return "KNA"
-                    case .kor: return "KOR"
-                    case .kwt: return "KWT"
-                    case .lao: return "LAO"
-                    case .lbn: return "LBN"
-                    case .lbr: return "LBR"
-                    case .lby: return "LBY"
-                    case .lca: return "LCA"
-                    case .lie: return "LIE"
-                    case .lka: return "LKA"
-                    case .lso: return "LSO"
-                    case .ltu: return "LTU"
-                    case .lux: return "LUX"
-                    case .lva: return "LVA"
-                    case .mac: return "MAC"
-                    case .mar: return "MAR"
-                    case .mco: return "MCO"
-                    case .mda: return "MDA"
-                    case .mdg: return "MDG"
-                    case .mdv: return "MDV"
-                    case .mex: return "MEX"
-                    case .mhl: return "MHL"
-                    case .mkd: return "MKD"
-                    case .mli: return "MLI"
-                    case .mlt: return "MLT"
-                    case .mmr: return "MMR"
-                    case .mne: return "MNE"
-                    case .mng: return "MNG"
-                    case .mnp: return "MNP"
-                    case .moz: return "MOZ"
-                    case .mrt: return "MRT"
-                    case .msr: return "MSR"
-                    case .mtq: return "MTQ"
-                    case .mus: return "MUS"
-                    case .mwi: return "MWI"
-                    case .mys: return "MYS"
-                    case .myt: return "MYT"
-                    case .nam: return "NAM"
-                    case .ncl: return "NCL"
-                    case .ner: return "NER"
-                    case .nfk: return "NFK"
-                    case .nga: return "NGA"
-                    case .nic: return "NIC"
-                    case .niu: return "NIU"
-                    case .nld: return "NLD"
-                    case .nor: return "NOR"
-                    case .npl: return "NPL"
-                    case .nru: return "NRU"
-                    case .nzl: return "NZL"
-                    case .omn: return "OMN"
-                    case .pak: return "PAK"
-                    case .pan: return "PAN"
-                    case .per: return "PER"
-                    case .phl: return "PHL"
-                    case .plw: return "PLW"
-                    case .png: return "PNG"
-                    case .pol: return "POL"
-                    case .pri: return "PRI"
-                    case .prt: return "PRT"
-                    case .pry: return "PRY"
-                    case .pse: return "PSE"
-                    case .pyf: return "PYF"
-                    case .qat: return "QAT"
-                    case .reu: return "REU"
-                    case .rou: return "ROU"
-                    case .rus: return "RUS"
-                    case .rwa: return "RWA"
-                    case .sau: return "SAU"
-                    case .sen: return "SEN"
-                    case .sgp: return "SGP"
-                    case .shn: return "SHN"
-                    case .slb: return "SLB"
-                    case .sle: return "SLE"
-                    case .slv: return "SLV"
-                    case .smr: return "SMR"
-                    case .som: return "SOM"
-                    case .spm: return "SPM"
-                    case .srb: return "SRB"
-                    case .ssd: return "SSD"
-                    case .stp: return "STP"
-                    case .sur: return "SUR"
-                    case .svk: return "SVK"
-                    case .svn: return "SVN"
-                    case .swe: return "SWE"
-                    case .swz: return "SWZ"
-                    case .sxm: return "SXM"
-                    case .syc: return "SYC"
-                    case .tca: return "TCA"
-                    case .tcd: return "TCD"
-                    case .tgo: return "TGO"
-                    case .tha: return "THA"
-                    case .tjk: return "TJK"
-                    case .tkm: return "TKM"
-                    case .tls: return "TLS"
-                    case .ton: return "TON"
-                    case .tto: return "TTO"
-                    case .tun: return "TUN"
-                    case .tur: return "TUR"
-                    case .tuv: return "TUV"
-                    case .twn: return "TWN"
-                    case .tza: return "TZA"
-                    case .uga: return "UGA"
-                    case .ukr: return "UKR"
-                    case .umi: return "UMI"
-                    case .ury: return "URY"
-                    case .usa: return "USA"
-                    case .uzb: return "UZB"
-                    case .vat: return "VAT"
-                    case .vct: return "VCT"
-                    case .ven: return "VEN"
-                    case .vgb: return "VGB"
-                    case .vir: return "VIR"
-                    case .vnm: return "VNM"
-                    case .vut: return "VUT"
-                    case .wlf: return "WLF"
-                    case .wsm: return "WSM"
-                    case .yem: return "YEM"
-                    case .zaf: return "ZAF"
-                    case .zmb: return "ZMB"
-                    case .zwe: return "ZWE"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Territory: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var abw: Self {
+                    .init(rawValue: "ABW")
                 }
 
+                public static var afg: Self {
+                    .init(rawValue: "AFG")
+                }
+
+                public static var ago: Self {
+                    .init(rawValue: "AGO")
+                }
+
+                public static var aia: Self {
+                    .init(rawValue: "AIA")
+                }
+
+                public static var alb: Self {
+                    .init(rawValue: "ALB")
+                }
+
+                public static var and: Self {
+                    .init(rawValue: "AND")
+                }
+
+                public static var ant: Self {
+                    .init(rawValue: "ANT")
+                }
+
+                public static var are: Self {
+                    .init(rawValue: "ARE")
+                }
+
+                public static var arg: Self {
+                    .init(rawValue: "ARG")
+                }
+
+                public static var arm: Self {
+                    .init(rawValue: "ARM")
+                }
+
+                public static var asm: Self {
+                    .init(rawValue: "ASM")
+                }
+
+                public static var atg: Self {
+                    .init(rawValue: "ATG")
+                }
+
+                public static var aus: Self {
+                    .init(rawValue: "AUS")
+                }
+
+                public static var aut: Self {
+                    .init(rawValue: "AUT")
+                }
+
+                public static var aze: Self {
+                    .init(rawValue: "AZE")
+                }
+
+                public static var bdi: Self {
+                    .init(rawValue: "BDI")
+                }
+
+                public static var bel: Self {
+                    .init(rawValue: "BEL")
+                }
+
+                public static var ben: Self {
+                    .init(rawValue: "BEN")
+                }
+
+                public static var bes: Self {
+                    .init(rawValue: "BES")
+                }
+
+                public static var bfa: Self {
+                    .init(rawValue: "BFA")
+                }
+
+                public static var bgd: Self {
+                    .init(rawValue: "BGD")
+                }
+
+                public static var bgr: Self {
+                    .init(rawValue: "BGR")
+                }
+
+                public static var bhr: Self {
+                    .init(rawValue: "BHR")
+                }
+
+                public static var bhs: Self {
+                    .init(rawValue: "BHS")
+                }
+
+                public static var bih: Self {
+                    .init(rawValue: "BIH")
+                }
+
+                public static var blr: Self {
+                    .init(rawValue: "BLR")
+                }
+
+                public static var blz: Self {
+                    .init(rawValue: "BLZ")
+                }
+
+                public static var bmu: Self {
+                    .init(rawValue: "BMU")
+                }
+
+                public static var bol: Self {
+                    .init(rawValue: "BOL")
+                }
+
+                public static var bra: Self {
+                    .init(rawValue: "BRA")
+                }
+
+                public static var brb: Self {
+                    .init(rawValue: "BRB")
+                }
+
+                public static var brn: Self {
+                    .init(rawValue: "BRN")
+                }
+
+                public static var btn: Self {
+                    .init(rawValue: "BTN")
+                }
+
+                public static var bwa: Self {
+                    .init(rawValue: "BWA")
+                }
+
+                public static var caf: Self {
+                    .init(rawValue: "CAF")
+                }
+
+                public static var can: Self {
+                    .init(rawValue: "CAN")
+                }
+
+                public static var che: Self {
+                    .init(rawValue: "CHE")
+                }
+
+                public static var chl: Self {
+                    .init(rawValue: "CHL")
+                }
+
+                public static var chn: Self {
+                    .init(rawValue: "CHN")
+                }
+
+                public static var civ: Self {
+                    .init(rawValue: "CIV")
+                }
+
+                public static var cmr: Self {
+                    .init(rawValue: "CMR")
+                }
+
+                public static var cod: Self {
+                    .init(rawValue: "COD")
+                }
+
+                public static var cog: Self {
+                    .init(rawValue: "COG")
+                }
+
+                public static var cok: Self {
+                    .init(rawValue: "COK")
+                }
+
+                public static var col: Self {
+                    .init(rawValue: "COL")
+                }
+
+                public static var com: Self {
+                    .init(rawValue: "COM")
+                }
+
+                public static var cpv: Self {
+                    .init(rawValue: "CPV")
+                }
+
+                public static var cri: Self {
+                    .init(rawValue: "CRI")
+                }
+
+                public static var cub: Self {
+                    .init(rawValue: "CUB")
+                }
+
+                public static var cuw: Self {
+                    .init(rawValue: "CUW")
+                }
+
+                public static var cxr: Self {
+                    .init(rawValue: "CXR")
+                }
+
+                public static var cym: Self {
+                    .init(rawValue: "CYM")
+                }
+
+                public static var cyp: Self {
+                    .init(rawValue: "CYP")
+                }
+
+                public static var cze: Self {
+                    .init(rawValue: "CZE")
+                }
+
+                public static var deu: Self {
+                    .init(rawValue: "DEU")
+                }
+
+                public static var dji: Self {
+                    .init(rawValue: "DJI")
+                }
+
+                public static var dma: Self {
+                    .init(rawValue: "DMA")
+                }
+
+                public static var dnk: Self {
+                    .init(rawValue: "DNK")
+                }
+
+                public static var dom: Self {
+                    .init(rawValue: "DOM")
+                }
+
+                public static var dza: Self {
+                    .init(rawValue: "DZA")
+                }
+
+                public static var ecu: Self {
+                    .init(rawValue: "ECU")
+                }
+
+                public static var egy: Self {
+                    .init(rawValue: "EGY")
+                }
+
+                public static var eri: Self {
+                    .init(rawValue: "ERI")
+                }
+
+                public static var esp: Self {
+                    .init(rawValue: "ESP")
+                }
+
+                public static var est: Self {
+                    .init(rawValue: "EST")
+                }
+
+                public static var eth: Self {
+                    .init(rawValue: "ETH")
+                }
+
+                public static var fin: Self {
+                    .init(rawValue: "FIN")
+                }
+
+                public static var fji: Self {
+                    .init(rawValue: "FJI")
+                }
+
+                public static var flk: Self {
+                    .init(rawValue: "FLK")
+                }
+
+                public static var fra: Self {
+                    .init(rawValue: "FRA")
+                }
+
+                public static var fro: Self {
+                    .init(rawValue: "FRO")
+                }
+
+                public static var fsm: Self {
+                    .init(rawValue: "FSM")
+                }
+
+                public static var gab: Self {
+                    .init(rawValue: "GAB")
+                }
+
+                public static var gbr: Self {
+                    .init(rawValue: "GBR")
+                }
+
+                public static var geo: Self {
+                    .init(rawValue: "GEO")
+                }
+
+                public static var ggy: Self {
+                    .init(rawValue: "GGY")
+                }
+
+                public static var gha: Self {
+                    .init(rawValue: "GHA")
+                }
+
+                public static var gib: Self {
+                    .init(rawValue: "GIB")
+                }
+
+                public static var gin: Self {
+                    .init(rawValue: "GIN")
+                }
+
+                public static var glp: Self {
+                    .init(rawValue: "GLP")
+                }
+
+                public static var gmb: Self {
+                    .init(rawValue: "GMB")
+                }
+
+                public static var gnb: Self {
+                    .init(rawValue: "GNB")
+                }
+
+                public static var gnq: Self {
+                    .init(rawValue: "GNQ")
+                }
+
+                public static var grc: Self {
+                    .init(rawValue: "GRC")
+                }
+
+                public static var grd: Self {
+                    .init(rawValue: "GRD")
+                }
+
+                public static var grl: Self {
+                    .init(rawValue: "GRL")
+                }
+
+                public static var gtm: Self {
+                    .init(rawValue: "GTM")
+                }
+
+                public static var guf: Self {
+                    .init(rawValue: "GUF")
+                }
+
+                public static var gum: Self {
+                    .init(rawValue: "GUM")
+                }
+
+                public static var guy: Self {
+                    .init(rawValue: "GUY")
+                }
+
+                public static var hkg: Self {
+                    .init(rawValue: "HKG")
+                }
+
+                public static var hnd: Self {
+                    .init(rawValue: "HND")
+                }
+
+                public static var hrv: Self {
+                    .init(rawValue: "HRV")
+                }
+
+                public static var hti: Self {
+                    .init(rawValue: "HTI")
+                }
+
+                public static var hun: Self {
+                    .init(rawValue: "HUN")
+                }
+
+                public static var idn: Self {
+                    .init(rawValue: "IDN")
+                }
+
+                public static var imn: Self {
+                    .init(rawValue: "IMN")
+                }
+
+                public static var ind: Self {
+                    .init(rawValue: "IND")
+                }
+
+                public static var irl: Self {
+                    .init(rawValue: "IRL")
+                }
+
+                public static var irq: Self {
+                    .init(rawValue: "IRQ")
+                }
+
+                public static var isl: Self {
+                    .init(rawValue: "ISL")
+                }
+
+                public static var isr: Self {
+                    .init(rawValue: "ISR")
+                }
+
+                public static var ita: Self {
+                    .init(rawValue: "ITA")
+                }
+
+                public static var jam: Self {
+                    .init(rawValue: "JAM")
+                }
+
+                public static var jey: Self {
+                    .init(rawValue: "JEY")
+                }
+
+                public static var jor: Self {
+                    .init(rawValue: "JOR")
+                }
+
+                public static var jpn: Self {
+                    .init(rawValue: "JPN")
+                }
+
+                public static var kaz: Self {
+                    .init(rawValue: "KAZ")
+                }
+
+                public static var ken: Self {
+                    .init(rawValue: "KEN")
+                }
+
+                public static var kgz: Self {
+                    .init(rawValue: "KGZ")
+                }
+
+                public static var khm: Self {
+                    .init(rawValue: "KHM")
+                }
+
+                public static var kir: Self {
+                    .init(rawValue: "KIR")
+                }
+
+                public static var kna: Self {
+                    .init(rawValue: "KNA")
+                }
+
+                public static var kor: Self {
+                    .init(rawValue: "KOR")
+                }
+
+                public static var kwt: Self {
+                    .init(rawValue: "KWT")
+                }
+
+                public static var lao: Self {
+                    .init(rawValue: "LAO")
+                }
+
+                public static var lbn: Self {
+                    .init(rawValue: "LBN")
+                }
+
+                public static var lbr: Self {
+                    .init(rawValue: "LBR")
+                }
+
+                public static var lby: Self {
+                    .init(rawValue: "LBY")
+                }
+
+                public static var lca: Self {
+                    .init(rawValue: "LCA")
+                }
+
+                public static var lie: Self {
+                    .init(rawValue: "LIE")
+                }
+
+                public static var lka: Self {
+                    .init(rawValue: "LKA")
+                }
+
+                public static var lso: Self {
+                    .init(rawValue: "LSO")
+                }
+
+                public static var ltu: Self {
+                    .init(rawValue: "LTU")
+                }
+
+                public static var lux: Self {
+                    .init(rawValue: "LUX")
+                }
+
+                public static var lva: Self {
+                    .init(rawValue: "LVA")
+                }
+
+                public static var mac: Self {
+                    .init(rawValue: "MAC")
+                }
+
+                public static var mar: Self {
+                    .init(rawValue: "MAR")
+                }
+
+                public static var mco: Self {
+                    .init(rawValue: "MCO")
+                }
+
+                public static var mda: Self {
+                    .init(rawValue: "MDA")
+                }
+
+                public static var mdg: Self {
+                    .init(rawValue: "MDG")
+                }
+
+                public static var mdv: Self {
+                    .init(rawValue: "MDV")
+                }
+
+                public static var mex: Self {
+                    .init(rawValue: "MEX")
+                }
+
+                public static var mhl: Self {
+                    .init(rawValue: "MHL")
+                }
+
+                public static var mkd: Self {
+                    .init(rawValue: "MKD")
+                }
+
+                public static var mli: Self {
+                    .init(rawValue: "MLI")
+                }
+
+                public static var mlt: Self {
+                    .init(rawValue: "MLT")
+                }
+
+                public static var mmr: Self {
+                    .init(rawValue: "MMR")
+                }
+
+                public static var mne: Self {
+                    .init(rawValue: "MNE")
+                }
+
+                public static var mng: Self {
+                    .init(rawValue: "MNG")
+                }
+
+                public static var mnp: Self {
+                    .init(rawValue: "MNP")
+                }
+
+                public static var moz: Self {
+                    .init(rawValue: "MOZ")
+                }
+
+                public static var mrt: Self {
+                    .init(rawValue: "MRT")
+                }
+
+                public static var msr: Self {
+                    .init(rawValue: "MSR")
+                }
+
+                public static var mtq: Self {
+                    .init(rawValue: "MTQ")
+                }
+
+                public static var mus: Self {
+                    .init(rawValue: "MUS")
+                }
+
+                public static var mwi: Self {
+                    .init(rawValue: "MWI")
+                }
+
+                public static var mys: Self {
+                    .init(rawValue: "MYS")
+                }
+
+                public static var myt: Self {
+                    .init(rawValue: "MYT")
+                }
+
+                public static var nam: Self {
+                    .init(rawValue: "NAM")
+                }
+
+                public static var ncl: Self {
+                    .init(rawValue: "NCL")
+                }
+
+                public static var ner: Self {
+                    .init(rawValue: "NER")
+                }
+
+                public static var nfk: Self {
+                    .init(rawValue: "NFK")
+                }
+
+                public static var nga: Self {
+                    .init(rawValue: "NGA")
+                }
+
+                public static var nic: Self {
+                    .init(rawValue: "NIC")
+                }
+
+                public static var niu: Self {
+                    .init(rawValue: "NIU")
+                }
+
+                public static var nld: Self {
+                    .init(rawValue: "NLD")
+                }
+
+                public static var nor: Self {
+                    .init(rawValue: "NOR")
+                }
+
+                public static var npl: Self {
+                    .init(rawValue: "NPL")
+                }
+
+                public static var nru: Self {
+                    .init(rawValue: "NRU")
+                }
+
+                public static var nzl: Self {
+                    .init(rawValue: "NZL")
+                }
+
+                public static var omn: Self {
+                    .init(rawValue: "OMN")
+                }
+
+                public static var pak: Self {
+                    .init(rawValue: "PAK")
+                }
+
+                public static var pan: Self {
+                    .init(rawValue: "PAN")
+                }
+
+                public static var per: Self {
+                    .init(rawValue: "PER")
+                }
+
+                public static var phl: Self {
+                    .init(rawValue: "PHL")
+                }
+
+                public static var plw: Self {
+                    .init(rawValue: "PLW")
+                }
+
+                public static var png: Self {
+                    .init(rawValue: "PNG")
+                }
+
+                public static var pol: Self {
+                    .init(rawValue: "POL")
+                }
+
+                public static var pri: Self {
+                    .init(rawValue: "PRI")
+                }
+
+                public static var prt: Self {
+                    .init(rawValue: "PRT")
+                }
+
+                public static var pry: Self {
+                    .init(rawValue: "PRY")
+                }
+
+                public static var pse: Self {
+                    .init(rawValue: "PSE")
+                }
+
+                public static var pyf: Self {
+                    .init(rawValue: "PYF")
+                }
+
+                public static var qat: Self {
+                    .init(rawValue: "QAT")
+                }
+
+                public static var reu: Self {
+                    .init(rawValue: "REU")
+                }
+
+                public static var rou: Self {
+                    .init(rawValue: "ROU")
+                }
+
+                public static var rus: Self {
+                    .init(rawValue: "RUS")
+                }
+
+                public static var rwa: Self {
+                    .init(rawValue: "RWA")
+                }
+
+                public static var sau: Self {
+                    .init(rawValue: "SAU")
+                }
+
+                public static var sen: Self {
+                    .init(rawValue: "SEN")
+                }
+
+                public static var sgp: Self {
+                    .init(rawValue: "SGP")
+                }
+
+                public static var shn: Self {
+                    .init(rawValue: "SHN")
+                }
+
+                public static var slb: Self {
+                    .init(rawValue: "SLB")
+                }
+
+                public static var sle: Self {
+                    .init(rawValue: "SLE")
+                }
+
+                public static var slv: Self {
+                    .init(rawValue: "SLV")
+                }
+
+                public static var smr: Self {
+                    .init(rawValue: "SMR")
+                }
+
+                public static var som: Self {
+                    .init(rawValue: "SOM")
+                }
+
+                public static var spm: Self {
+                    .init(rawValue: "SPM")
+                }
+
+                public static var srb: Self {
+                    .init(rawValue: "SRB")
+                }
+
+                public static var ssd: Self {
+                    .init(rawValue: "SSD")
+                }
+
+                public static var stp: Self {
+                    .init(rawValue: "STP")
+                }
+
+                public static var sur: Self {
+                    .init(rawValue: "SUR")
+                }
+
+                public static var svk: Self {
+                    .init(rawValue: "SVK")
+                }
+
+                public static var svn: Self {
+                    .init(rawValue: "SVN")
+                }
+
+                public static var swe: Self {
+                    .init(rawValue: "SWE")
+                }
+
+                public static var swz: Self {
+                    .init(rawValue: "SWZ")
+                }
+
+                public static var sxm: Self {
+                    .init(rawValue: "SXM")
+                }
+
+                public static var syc: Self {
+                    .init(rawValue: "SYC")
+                }
+
+                public static var tca: Self {
+                    .init(rawValue: "TCA")
+                }
+
+                public static var tcd: Self {
+                    .init(rawValue: "TCD")
+                }
+
+                public static var tgo: Self {
+                    .init(rawValue: "TGO")
+                }
+
+                public static var tha: Self {
+                    .init(rawValue: "THA")
+                }
+
+                public static var tjk: Self {
+                    .init(rawValue: "TJK")
+                }
+
+                public static var tkm: Self {
+                    .init(rawValue: "TKM")
+                }
+
+                public static var tls: Self {
+                    .init(rawValue: "TLS")
+                }
+
+                public static var ton: Self {
+                    .init(rawValue: "TON")
+                }
+
+                public static var tto: Self {
+                    .init(rawValue: "TTO")
+                }
+
+                public static var tun: Self {
+                    .init(rawValue: "TUN")
+                }
+
+                public static var tur: Self {
+                    .init(rawValue: "TUR")
+                }
+
+                public static var tuv: Self {
+                    .init(rawValue: "TUV")
+                }
+
+                public static var twn: Self {
+                    .init(rawValue: "TWN")
+                }
+
+                public static var tza: Self {
+                    .init(rawValue: "TZA")
+                }
+
+                public static var uga: Self {
+                    .init(rawValue: "UGA")
+                }
+
+                public static var ukr: Self {
+                    .init(rawValue: "UKR")
+                }
+
+                public static var umi: Self {
+                    .init(rawValue: "UMI")
+                }
+
+                public static var ury: Self {
+                    .init(rawValue: "URY")
+                }
+
+                public static var usa: Self {
+                    .init(rawValue: "USA")
+                }
+
+                public static var uzb: Self {
+                    .init(rawValue: "UZB")
+                }
+
+                public static var vat: Self {
+                    .init(rawValue: "VAT")
+                }
+
+                public static var vct: Self {
+                    .init(rawValue: "VCT")
+                }
+
+                public static var ven: Self {
+                    .init(rawValue: "VEN")
+                }
+
+                public static var vgb: Self {
+                    .init(rawValue: "VGB")
+                }
+
+                public static var vir: Self {
+                    .init(rawValue: "VIR")
+                }
+
+                public static var vnm: Self {
+                    .init(rawValue: "VNM")
+                }
+
+                public static var vut: Self {
+                    .init(rawValue: "VUT")
+                }
+
+                public static var wlf: Self {
+                    .init(rawValue: "WLF")
+                }
+
+                public static var wsm: Self {
+                    .init(rawValue: "WSM")
+                }
+
+                public static var yem: Self {
+                    .init(rawValue: "YEM")
+                }
+
+                public static var zaf: Self {
+                    .init(rawValue: "ZAF")
+                }
+
+                public static var zmb: Self {
+                    .init(rawValue: "ZMB")
+                }
+
+                public static var zwe: Self {
+                    .init(rawValue: "ZWE")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "ABW": self = .abw
-                    case "AFG": self = .afg
-                    case "AGO": self = .ago
-                    case "AIA": self = .aia
-                    case "ALB": self = .alb
-                    case "AND": self = .and
-                    case "ANT": self = .ant
-                    case "ARE": self = .are
-                    case "ARG": self = .arg
-                    case "ARM": self = .arm
-                    case "ASM": self = .asm
-                    case "ATG": self = .atg
-                    case "AUS": self = .aus
-                    case "AUT": self = .aut
-                    case "AZE": self = .aze
-                    case "BDI": self = .bdi
-                    case "BEL": self = .bel
-                    case "BEN": self = .ben
-                    case "BES": self = .bes
-                    case "BFA": self = .bfa
-                    case "BGD": self = .bgd
-                    case "BGR": self = .bgr
-                    case "BHR": self = .bhr
-                    case "BHS": self = .bhs
-                    case "BIH": self = .bih
-                    case "BLR": self = .blr
-                    case "BLZ": self = .blz
-                    case "BMU": self = .bmu
-                    case "BOL": self = .bol
-                    case "BRA": self = .bra
-                    case "BRB": self = .brb
-                    case "BRN": self = .brn
-                    case "BTN": self = .btn
-                    case "BWA": self = .bwa
-                    case "CAF": self = .caf
-                    case "CAN": self = .can
-                    case "CHE": self = .che
-                    case "CHL": self = .chl
-                    case "CHN": self = .chn
-                    case "CIV": self = .civ
-                    case "CMR": self = .cmr
-                    case "COD": self = .cod
-                    case "COG": self = .cog
-                    case "COK": self = .cok
-                    case "COL": self = .col
-                    case "COM": self = .com
-                    case "CPV": self = .cpv
-                    case "CRI": self = .cri
-                    case "CUB": self = .cub
-                    case "CUW": self = .cuw
-                    case "CXR": self = .cxr
-                    case "CYM": self = .cym
-                    case "CYP": self = .cyp
-                    case "CZE": self = .cze
-                    case "DEU": self = .deu
-                    case "DJI": self = .dji
-                    case "DMA": self = .dma
-                    case "DNK": self = .dnk
-                    case "DOM": self = .dom
-                    case "DZA": self = .dza
-                    case "ECU": self = .ecu
-                    case "EGY": self = .egy
-                    case "ERI": self = .eri
-                    case "ESP": self = .esp
-                    case "EST": self = .est
-                    case "ETH": self = .eth
-                    case "FIN": self = .fin
-                    case "FJI": self = .fji
-                    case "FLK": self = .flk
-                    case "FRA": self = .fra
-                    case "FRO": self = .fro
-                    case "FSM": self = .fsm
-                    case "GAB": self = .gab
-                    case "GBR": self = .gbr
-                    case "GEO": self = .geo
-                    case "GGY": self = .ggy
-                    case "GHA": self = .gha
-                    case "GIB": self = .gib
-                    case "GIN": self = .gin
-                    case "GLP": self = .glp
-                    case "GMB": self = .gmb
-                    case "GNB": self = .gnb
-                    case "GNQ": self = .gnq
-                    case "GRC": self = .grc
-                    case "GRD": self = .grd
-                    case "GRL": self = .grl
-                    case "GTM": self = .gtm
-                    case "GUF": self = .guf
-                    case "GUM": self = .gum
-                    case "GUY": self = .guy
-                    case "HKG": self = .hkg
-                    case "HND": self = .hnd
-                    case "HRV": self = .hrv
-                    case "HTI": self = .hti
-                    case "HUN": self = .hun
-                    case "IDN": self = .idn
-                    case "IMN": self = .imn
-                    case "IND": self = .ind
-                    case "IRL": self = .irl
-                    case "IRQ": self = .irq
-                    case "ISL": self = .isl
-                    case "ISR": self = .isr
-                    case "ITA": self = .ita
-                    case "JAM": self = .jam
-                    case "JEY": self = .jey
-                    case "JOR": self = .jor
-                    case "JPN": self = .jpn
-                    case "KAZ": self = .kaz
-                    case "KEN": self = .ken
-                    case "KGZ": self = .kgz
-                    case "KHM": self = .khm
-                    case "KIR": self = .kir
-                    case "KNA": self = .kna
-                    case "KOR": self = .kor
-                    case "KWT": self = .kwt
-                    case "LAO": self = .lao
-                    case "LBN": self = .lbn
-                    case "LBR": self = .lbr
-                    case "LBY": self = .lby
-                    case "LCA": self = .lca
-                    case "LIE": self = .lie
-                    case "LKA": self = .lka
-                    case "LSO": self = .lso
-                    case "LTU": self = .ltu
-                    case "LUX": self = .lux
-                    case "LVA": self = .lva
-                    case "MAC": self = .mac
-                    case "MAR": self = .mar
-                    case "MCO": self = .mco
-                    case "MDA": self = .mda
-                    case "MDG": self = .mdg
-                    case "MDV": self = .mdv
-                    case "MEX": self = .mex
-                    case "MHL": self = .mhl
-                    case "MKD": self = .mkd
-                    case "MLI": self = .mli
-                    case "MLT": self = .mlt
-                    case "MMR": self = .mmr
-                    case "MNE": self = .mne
-                    case "MNG": self = .mng
-                    case "MNP": self = .mnp
-                    case "MOZ": self = .moz
-                    case "MRT": self = .mrt
-                    case "MSR": self = .msr
-                    case "MTQ": self = .mtq
-                    case "MUS": self = .mus
-                    case "MWI": self = .mwi
-                    case "MYS": self = .mys
-                    case "MYT": self = .myt
-                    case "NAM": self = .nam
-                    case "NCL": self = .ncl
-                    case "NER": self = .ner
-                    case "NFK": self = .nfk
-                    case "NGA": self = .nga
-                    case "NIC": self = .nic
-                    case "NIU": self = .niu
-                    case "NLD": self = .nld
-                    case "NOR": self = .nor
-                    case "NPL": self = .npl
-                    case "NRU": self = .nru
-                    case "NZL": self = .nzl
-                    case "OMN": self = .omn
-                    case "PAK": self = .pak
-                    case "PAN": self = .pan
-                    case "PER": self = .per
-                    case "PHL": self = .phl
-                    case "PLW": self = .plw
-                    case "PNG": self = .png
-                    case "POL": self = .pol
-                    case "PRI": self = .pri
-                    case "PRT": self = .prt
-                    case "PRY": self = .pry
-                    case "PSE": self = .pse
-                    case "PYF": self = .pyf
-                    case "QAT": self = .qat
-                    case "REU": self = .reu
-                    case "ROU": self = .rou
-                    case "RUS": self = .rus
-                    case "RWA": self = .rwa
-                    case "SAU": self = .sau
-                    case "SEN": self = .sen
-                    case "SGP": self = .sgp
-                    case "SHN": self = .shn
-                    case "SLB": self = .slb
-                    case "SLE": self = .sle
-                    case "SLV": self = .slv
-                    case "SMR": self = .smr
-                    case "SOM": self = .som
-                    case "SPM": self = .spm
-                    case "SRB": self = .srb
-                    case "SSD": self = .ssd
-                    case "STP": self = .stp
-                    case "SUR": self = .sur
-                    case "SVK": self = .svk
-                    case "SVN": self = .svn
-                    case "SWE": self = .swe
-                    case "SWZ": self = .swz
-                    case "SXM": self = .sxm
-                    case "SYC": self = .syc
-                    case "TCA": self = .tca
-                    case "TCD": self = .tcd
-                    case "TGO": self = .tgo
-                    case "THA": self = .tha
-                    case "TJK": self = .tjk
-                    case "TKM": self = .tkm
-                    case "TLS": self = .tls
-                    case "TON": self = .ton
-                    case "TTO": self = .tto
-                    case "TUN": self = .tun
-                    case "TUR": self = .tur
-                    case "TUV": self = .tuv
-                    case "TWN": self = .twn
-                    case "TZA": self = .tza
-                    case "UGA": self = .uga
-                    case "UKR": self = .ukr
-                    case "UMI": self = .umi
-                    case "URY": self = .ury
-                    case "USA": self = .usa
-                    case "UZB": self = .uzb
-                    case "VAT": self = .vat
-                    case "VCT": self = .vct
-                    case "VEN": self = .ven
-                    case "VGB": self = .vgb
-                    case "VIR": self = .vir
-                    case "VNM": self = .vnm
-                    case "VUT": self = .vut
-                    case "WLF": self = .wlf
-                    case "WSM": self = .wsm
-                    case "YEM": self = .yem
-                    case "ZAF": self = .zaf
-                    case "ZMB": self = .zmb
-                    case "ZWE": self = .zwe
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -954,50 +1193,47 @@ extension V1.Apps.ById.CustomerReviews.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case response
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .response: return "response"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var response: Self {
+                .init(rawValue: "response")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "response": self = .response
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum Sort: Hashable, Codable, RawRepresentable {
-            case createdDate
-            case createdDateDesc
-            case rating
-            case ratingDesc
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .createdDate: return "createdDate"
-                case .createdDateDesc: return "-createdDate"
-                case .rating: return "rating"
-                case .ratingDesc: return "-rating"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Sort: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var createdDate: Self {
+                .init(rawValue: "createdDate")
             }
 
+            public static var createdDateDesc: Self {
+                .init(rawValue: "-createdDate")
+            }
+
+            public static var rating: Self {
+                .init(rawValue: "rating")
+            }
+
+            public static var ratingDesc: Self {
+                .init(rawValue: "-rating")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "createdDate": self = .createdDate
-                case "-createdDate": self = .createdDateDesc
-                case "rating": self = .rating
-                case "-rating": self = .ratingDesc
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

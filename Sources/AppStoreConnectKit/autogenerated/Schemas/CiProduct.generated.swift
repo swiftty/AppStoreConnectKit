@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiProduct: Hashable, Codable {
+public struct CiProduct: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct CiProduct: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case ciProducts
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var createdDate: String?
 
         public var name: String?
@@ -63,60 +63,85 @@ public struct CiProduct: Hashable, Codable {
             case productType
         }
 
-        public enum ProductType: Hashable, Codable, RawRepresentable {
-            case app
-            case framework
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .app: return "APP"
-                case .framework: return "FRAMEWORK"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct ProductType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var app: Self {
+                .init(rawValue: "APP")
             }
 
+            public static var framework: Self {
+                .init(rawValue: "FRAMEWORK")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "APP": self = .app
-                case "FRAMEWORK": self = .framework
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
+        public var additionalRepositories: AdditionalRepositories?
+
         public var app: App?
+
+        public var buildRuns: BuildRuns?
 
         public var bundleId: BundleId?
 
         public var primaryRepositories: PrimaryRepositories?
 
+        public var workflows: Workflows?
+
         public init(
+            additionalRepositories: AdditionalRepositories? = nil,
             app: App? = nil,
+            buildRuns: BuildRuns? = nil,
             bundleId: BundleId? = nil,
-            primaryRepositories: PrimaryRepositories? = nil
+            primaryRepositories: PrimaryRepositories? = nil,
+            workflows: Workflows? = nil
         ) {
+            self.additionalRepositories = additionalRepositories
             self.app = app
+            self.buildRuns = buildRuns
             self.bundleId = bundleId
             self.primaryRepositories = primaryRepositories
+            self.workflows = workflows
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalRepositories
             case app
+            case buildRuns
             case bundleId
             case primaryRepositories
+            case workflows
         }
 
-        public struct App: Hashable, Codable {
+        public struct AdditionalRepositories: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
+            }
+        }
+
+        public struct App: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -127,7 +152,7 @@ public struct CiProduct: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -145,50 +170,36 @@ public struct CiProduct: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case apps
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct BundleId: Hashable, Codable {
-            public var data: Data?
+        public struct BuildRuns: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
-                self.data = data
+            public init(links: RelationshipLinks? = nil) {
                 self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
-                case data
                 case links
             }
+        }
 
-            public struct Data: Hashable, Codable {
+        public struct BundleId: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -206,41 +217,22 @@ public struct CiProduct: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case bundleIds
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }
 
-        public struct PrimaryRepositories: Hashable, Codable {
+        public struct PrimaryRepositories: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -254,7 +246,7 @@ public struct CiProduct: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -272,28 +264,21 @@ public struct CiProduct: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case scmRepositories
                 }
             }
+        }
 
-            public struct Links: Hashable, Codable {
-                public var related: URL?
+        public struct Workflows: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
 
-                public var `self`: URL?
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
 
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
+            private enum CodingKeys: String, CodingKey {
+                case links
             }
         }
     }

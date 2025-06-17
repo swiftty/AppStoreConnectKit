@@ -46,8 +46,10 @@ extension V1.BetaTesters.ById.Metrics.BetaTesterUsages {
 
         /// - Returns: **200**, Metrics data response as `BetaTesterUsagesV1MetricResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -61,10 +63,16 @@ extension V1.BetaTesters.ById.Metrics.BetaTesterUsages {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -82,7 +90,7 @@ extension V1.BetaTesters.ById.Metrics.BetaTesterUsages.GET {
         public var limit: Int?
 
         /// the duration of the reporting period
-        public var period: String?
+        public var period: Period?
 
         public struct Filter: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
@@ -93,7 +101,7 @@ extension V1.BetaTesters.ById.Metrics.BetaTesterUsages.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
-                /// filter by 'apps' relationship dimension
+                /// filter by 'apps' relationship dimension **(required)**
                 public static var apps: Relation<String?> {
                     .init(key: "filter[apps]")
                 }
@@ -103,6 +111,34 @@ extension V1.BetaTesters.ById.Metrics.BetaTesterUsages.GET {
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
                 }
+            }
+        }
+
+        public struct Period: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var p30D: Self {
+                .init(rawValue: "P30D")
+            }
+
+            public static var p365D: Self {
+                .init(rawValue: "P365D")
+            }
+
+            public static var p7D: Self {
+                .init(rawValue: "P7D")
+            }
+
+            public static var p90D: Self {
+                .init(rawValue: "P90D")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
+            public init(rawValue: String) {
+                self.rawValue = rawValue
             }
         }
     }

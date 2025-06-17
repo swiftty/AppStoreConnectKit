@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BuildUpdateRequest: Hashable, Codable {
+public struct BuildUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct BuildUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -42,11 +42,11 @@ public struct BuildUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case builds
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var expired: Bool?
 
             public var usesNonExemptEncryption: Bool?
@@ -65,7 +65,7 @@ public struct BuildUpdateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appEncryptionDeclaration: AppEncryptionDeclaration?
 
             public init(appEncryptionDeclaration: AppEncryptionDeclaration? = nil) {
@@ -76,7 +76,7 @@ public struct BuildUpdateRequest: Hashable, Codable {
                 case appEncryptionDeclaration
             }
 
-            public struct AppEncryptionDeclaration: Hashable, Codable {
+            public struct AppEncryptionDeclaration: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -87,7 +87,7 @@ public struct BuildUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -105,7 +105,7 @@ public struct BuildUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appEncryptionDeclarations
                     }
                 }

@@ -3,25 +3,23 @@
 // swiftlint:disable all
 import Foundation
 
-public enum CiGitRefKind: Hashable, Codable, RawRepresentable {
-    case branch
-    case tag
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .branch: return "BRANCH"
-        case .tag: return "TAG"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct CiGitRefKind: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var branch: Self {
+        .init(rawValue: "BRANCH")
     }
 
+    public static var tag: Self {
+        .init(rawValue: "TAG")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "BRANCH": self = .branch
-        case "TAG": self = .tag
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

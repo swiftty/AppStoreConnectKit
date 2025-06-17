@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiWorkflowCreateRequest: Hashable, Codable {
+public struct CiWorkflowCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case ciWorkflows
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var actions: [CiAction]
 
             public var branchStartCondition: CiBranchStartCondition?
@@ -55,6 +55,12 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
             public var isEnabled: Bool
 
             public var isLockedForEditing: Bool?
+
+            public var manualBranchStartCondition: CiManualBranchStartCondition?
+
+            public var manualPullRequestStartCondition: CiManualPullRequestStartCondition?
+
+            public var manualTagStartCondition: CiManualTagStartCondition?
 
             public var name: String
 
@@ -72,6 +78,9 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                 description: String,
                 isEnabled: Bool,
                 isLockedForEditing: Bool? = nil,
+                manualBranchStartCondition: CiManualBranchStartCondition? = nil,
+                manualPullRequestStartCondition: CiManualPullRequestStartCondition? = nil,
+                manualTagStartCondition: CiManualTagStartCondition? = nil,
                 name: String,
                 pullRequestStartCondition: CiPullRequestStartCondition? = nil,
                 scheduledStartCondition: CiScheduledStartCondition? = nil,
@@ -84,6 +93,9 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                 self.description = description
                 self.isEnabled = isEnabled
                 self.isLockedForEditing = isLockedForEditing
+                self.manualBranchStartCondition = manualBranchStartCondition
+                self.manualPullRequestStartCondition = manualPullRequestStartCondition
+                self.manualTagStartCondition = manualTagStartCondition
                 self.name = name
                 self.pullRequestStartCondition = pullRequestStartCondition
                 self.scheduledStartCondition = scheduledStartCondition
@@ -98,6 +110,9 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                 case description
                 case isEnabled
                 case isLockedForEditing
+                case manualBranchStartCondition
+                case manualPullRequestStartCondition
+                case manualTagStartCondition
                 case name
                 case pullRequestStartCondition
                 case scheduledStartCondition
@@ -105,7 +120,7 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var macOsVersion: MacOsVersion
 
             public var product: Product
@@ -133,7 +148,7 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                 case xcodeVersion
             }
 
-            public struct MacOsVersion: Hashable, Codable {
+            public struct MacOsVersion: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -144,7 +159,7 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -162,13 +177,13 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case ciMacOsVersions
                     }
                 }
             }
 
-            public struct Product: Hashable, Codable {
+            public struct Product: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -179,7 +194,7 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -197,13 +212,13 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case ciProducts
                     }
                 }
             }
 
-            public struct Repository: Hashable, Codable {
+            public struct Repository: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -214,7 +229,7 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -232,13 +247,13 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case scmRepositories
                     }
                 }
             }
 
-            public struct XcodeVersion: Hashable, Codable {
+            public struct XcodeVersion: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -249,7 +264,7 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -267,7 +282,7 @@ public struct CiWorkflowCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case ciXcodeVersions
                     }
                 }

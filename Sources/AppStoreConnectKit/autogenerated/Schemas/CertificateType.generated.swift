@@ -3,52 +3,87 @@
 // swiftlint:disable all
 import Foundation
 
-public enum CertificateType: Hashable, Codable, RawRepresentable {
-    case developerIdApplication
-    case developerIdKext
-    case development
-    case distribution
-    case iOSDevelopment
-    case iOSDistribution
-    case macAppDevelopment
-    case macAppDistribution
-    case macInstallerDistribution
-    case passTypeId
-    case passTypeIdWithNfc
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .developerIdApplication: return "DEVELOPER_ID_APPLICATION"
-        case .developerIdKext: return "DEVELOPER_ID_KEXT"
-        case .development: return "DEVELOPMENT"
-        case .distribution: return "DISTRIBUTION"
-        case .iOSDevelopment: return "IOS_DEVELOPMENT"
-        case .iOSDistribution: return "IOS_DISTRIBUTION"
-        case .macAppDevelopment: return "MAC_APP_DEVELOPMENT"
-        case .macAppDistribution: return "MAC_APP_DISTRIBUTION"
-        case .macInstallerDistribution: return "MAC_INSTALLER_DISTRIBUTION"
-        case .passTypeId: return "PASS_TYPE_ID"
-        case .passTypeIdWithNfc: return "PASS_TYPE_ID_WITH_NFC"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct CertificateType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var applePay: Self {
+        .init(rawValue: "APPLE_PAY")
     }
 
+    public static var applePayMerchantIdentity: Self {
+        .init(rawValue: "APPLE_PAY_MERCHANT_IDENTITY")
+    }
+
+    public static var applePayPspIdentity: Self {
+        .init(rawValue: "APPLE_PAY_PSP_IDENTITY")
+    }
+
+    public static var applePayRsa: Self {
+        .init(rawValue: "APPLE_PAY_RSA")
+    }
+
+    public static var developerIdApplication: Self {
+        .init(rawValue: "DEVELOPER_ID_APPLICATION")
+    }
+
+    public static var developerIdApplicationG2: Self {
+        .init(rawValue: "DEVELOPER_ID_APPLICATION_G2")
+    }
+
+    public static var developerIdKext: Self {
+        .init(rawValue: "DEVELOPER_ID_KEXT")
+    }
+
+    public static var developerIdKextG2: Self {
+        .init(rawValue: "DEVELOPER_ID_KEXT_G2")
+    }
+
+    public static var development: Self {
+        .init(rawValue: "DEVELOPMENT")
+    }
+
+    public static var distribution: Self {
+        .init(rawValue: "DISTRIBUTION")
+    }
+
+    public static var iOSDevelopment: Self {
+        .init(rawValue: "IOS_DEVELOPMENT")
+    }
+
+    public static var iOSDistribution: Self {
+        .init(rawValue: "IOS_DISTRIBUTION")
+    }
+
+    public static var identityAccess: Self {
+        .init(rawValue: "IDENTITY_ACCESS")
+    }
+
+    public static var macAppDevelopment: Self {
+        .init(rawValue: "MAC_APP_DEVELOPMENT")
+    }
+
+    public static var macAppDistribution: Self {
+        .init(rawValue: "MAC_APP_DISTRIBUTION")
+    }
+
+    public static var macInstallerDistribution: Self {
+        .init(rawValue: "MAC_INSTALLER_DISTRIBUTION")
+    }
+
+    public static var passTypeId: Self {
+        .init(rawValue: "PASS_TYPE_ID")
+    }
+
+    public static var passTypeIdWithNfc: Self {
+        .init(rawValue: "PASS_TYPE_ID_WITH_NFC")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "DEVELOPER_ID_APPLICATION": self = .developerIdApplication
-        case "DEVELOPER_ID_KEXT": self = .developerIdKext
-        case "DEVELOPMENT": self = .development
-        case "DISTRIBUTION": self = .distribution
-        case "IOS_DEVELOPMENT": self = .iOSDevelopment
-        case "IOS_DISTRIBUTION": self = .iOSDistribution
-        case "MAC_APP_DEVELOPMENT": self = .macAppDevelopment
-        case "MAC_APP_DISTRIBUTION": self = .macAppDistribution
-        case "MAC_INSTALLER_DISTRIBUTION": self = .macInstallerDistribution
-        case "PASS_TYPE_ID": self = .passTypeId
-        case "PASS_TYPE_ID_WITH_NFC": self = .passTypeIdWithNfc
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

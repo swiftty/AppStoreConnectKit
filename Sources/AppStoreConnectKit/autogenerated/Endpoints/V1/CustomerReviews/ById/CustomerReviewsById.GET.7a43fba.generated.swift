@@ -46,8 +46,10 @@ extension V1.CustomerReviews.ById {
 
         /// - Returns: **200**, Single CustomerReview as `CustomerReviewResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -61,10 +63,16 @@ extension V1.CustomerReviews.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -89,68 +97,71 @@ extension V1.CustomerReviews.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CustomerReviewResponses: Hashable, Codable, RawRepresentable {
-                case lastModifiedDate
-                case responseBody
-                case review
-                case state
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .lastModifiedDate: return "lastModifiedDate"
-                    case .responseBody: return "responseBody"
-                    case .review: return "review"
-                    case .state: return "state"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CustomerReviewResponses: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var lastModifiedDate: Self {
+                    .init(rawValue: "lastModifiedDate")
                 }
 
+                public static var responseBody: Self {
+                    .init(rawValue: "responseBody")
+                }
+
+                public static var review: Self {
+                    .init(rawValue: "review")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "lastModifiedDate": self = .lastModifiedDate
-                    case "responseBody": self = .responseBody
-                    case "review": self = .review
-                    case "state": self = .state
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum CustomerReviews: Hashable, Codable, RawRepresentable {
-                case body
-                case createdDate
-                case rating
-                case response
-                case reviewerNickname
-                case territory
-                case title
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .body: return "body"
-                    case .createdDate: return "createdDate"
-                    case .rating: return "rating"
-                    case .response: return "response"
-                    case .reviewerNickname: return "reviewerNickname"
-                    case .territory: return "territory"
-                    case .title: return "title"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CustomerReviews: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var body: Self {
+                    .init(rawValue: "body")
                 }
 
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var rating: Self {
+                    .init(rawValue: "rating")
+                }
+
+                public static var response: Self {
+                    .init(rawValue: "response")
+                }
+
+                public static var reviewerNickname: Self {
+                    .init(rawValue: "reviewerNickname")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public static var title: Self {
+                    .init(rawValue: "title")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "body": self = .body
-                    case "createdDate": self = .createdDate
-                    case "rating": self = .rating
-                    case "response": self = .response
-                    case "reviewerNickname": self = .reviewerNickname
-                    case "territory": self = .territory
-                    case "title": self = .title
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -173,22 +184,19 @@ extension V1.CustomerReviews.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case response
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .response: return "response"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var response: Self {
+                .init(rawValue: "response")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "response": self = .response
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

@@ -54,8 +54,10 @@ extension V1.Profiles.ById {
 
         /// - Returns: **200**, Single Profile as `ProfileResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -69,10 +71,16 @@ extension V1.Profiles.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -99,166 +107,187 @@ extension V1.Profiles.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BundleIds: Hashable, Codable, RawRepresentable {
-                case app
-                case bundleIdCapabilities
-                case identifier
-                case name
-                case platform
-                case profiles
-                case seedId
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .bundleIdCapabilities: return "bundleIdCapabilities"
-                    case .identifier: return "identifier"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .profiles: return "profiles"
-                    case .seedId: return "seedId"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BundleIds: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var bundleIdCapabilities: Self {
+                    .init(rawValue: "bundleIdCapabilities")
+                }
+
+                public static var identifier: Self {
+                    .init(rawValue: "identifier")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var profiles: Self {
+                    .init(rawValue: "profiles")
+                }
+
+                public static var seedId: Self {
+                    .init(rawValue: "seedId")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "bundleIdCapabilities": self = .bundleIdCapabilities
-                    case "identifier": self = .identifier
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "profiles": self = .profiles
-                    case "seedId": self = .seedId
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Certificates: Hashable, Codable, RawRepresentable {
-                case certificateContent
-                case certificateType
-                case csrContent
-                case displayName
-                case expirationDate
-                case name
-                case platform
-                case serialNumber
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .certificateContent: return "certificateContent"
-                    case .certificateType: return "certificateType"
-                    case .csrContent: return "csrContent"
-                    case .displayName: return "displayName"
-                    case .expirationDate: return "expirationDate"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .serialNumber: return "serialNumber"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Certificates: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activated: Self {
+                    .init(rawValue: "activated")
                 }
 
+                public static var certificateContent: Self {
+                    .init(rawValue: "certificateContent")
+                }
+
+                public static var certificateType: Self {
+                    .init(rawValue: "certificateType")
+                }
+
+                public static var displayName: Self {
+                    .init(rawValue: "displayName")
+                }
+
+                public static var expirationDate: Self {
+                    .init(rawValue: "expirationDate")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var passTypeId: Self {
+                    .init(rawValue: "passTypeId")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var serialNumber: Self {
+                    .init(rawValue: "serialNumber")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "certificateContent": self = .certificateContent
-                    case "certificateType": self = .certificateType
-                    case "csrContent": self = .csrContent
-                    case "displayName": self = .displayName
-                    case "expirationDate": self = .expirationDate
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "serialNumber": self = .serialNumber
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Devices: Hashable, Codable, RawRepresentable {
-                case addedDate
-                case deviceClass
-                case model
-                case name
-                case platform
-                case status
-                case udid
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .addedDate: return "addedDate"
-                    case .deviceClass: return "deviceClass"
-                    case .model: return "model"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .status: return "status"
-                    case .udid: return "udid"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Devices: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var addedDate: Self {
+                    .init(rawValue: "addedDate")
                 }
 
+                public static var deviceClass: Self {
+                    .init(rawValue: "deviceClass")
+                }
+
+                public static var model: Self {
+                    .init(rawValue: "model")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var status: Self {
+                    .init(rawValue: "status")
+                }
+
+                public static var udid: Self {
+                    .init(rawValue: "udid")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "addedDate": self = .addedDate
-                    case "deviceClass": self = .deviceClass
-                    case "model": self = .model
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "status": self = .status
-                    case "udid": self = .udid
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Profiles: Hashable, Codable, RawRepresentable {
-                case bundleId
-                case certificates
-                case createdDate
-                case devices
-                case expirationDate
-                case name
-                case platform
-                case profileContent
-                case profileState
-                case profileType
-                case uuid
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .bundleId: return "bundleId"
-                    case .certificates: return "certificates"
-                    case .createdDate: return "createdDate"
-                    case .devices: return "devices"
-                    case .expirationDate: return "expirationDate"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .profileContent: return "profileContent"
-                    case .profileState: return "profileState"
-                    case .profileType: return "profileType"
-                    case .uuid: return "uuid"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Profiles: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
                 }
 
+                public static var certificates: Self {
+                    .init(rawValue: "certificates")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var devices: Self {
+                    .init(rawValue: "devices")
+                }
+
+                public static var expirationDate: Self {
+                    .init(rawValue: "expirationDate")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var profileContent: Self {
+                    .init(rawValue: "profileContent")
+                }
+
+                public static var profileState: Self {
+                    .init(rawValue: "profileState")
+                }
+
+                public static var profileType: Self {
+                    .init(rawValue: "profileType")
+                }
+
+                public static var uuid: Self {
+                    .init(rawValue: "uuid")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "bundleId": self = .bundleId
-                    case "certificates": self = .certificates
-                    case "createdDate": self = .createdDate
-                    case "devices": self = .devices
-                    case "expirationDate": self = .expirationDate
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "profileContent": self = .profileContent
-                    case "profileState": self = .profileState
-                    case "profileType": self = .profileType
-                    case "uuid": self = .uuid
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -291,28 +320,27 @@ extension V1.Profiles.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case bundleId
-            case certificates
-            case devices
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .bundleId: return "bundleId"
-                case .certificates: return "certificates"
-                case .devices: return "devices"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var bundleId: Self {
+                .init(rawValue: "bundleId")
             }
 
+            public static var certificates: Self {
+                .init(rawValue: "certificates")
+            }
+
+            public static var devices: Self {
+                .init(rawValue: "devices")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "bundleId": self = .bundleId
-                case "certificates": self = .certificates
-                case "devices": self = .devices
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

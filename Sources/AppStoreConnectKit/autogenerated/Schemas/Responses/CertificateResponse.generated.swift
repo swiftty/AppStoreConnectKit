@@ -3,21 +3,26 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CertificateResponse: Hashable, Codable {
+public struct CertificateResponse: Hashable, Codable, Sendable {
     public var data: Certificate
+
+    public var included: [PassTypeId]?
 
     public var links: DocumentLinks
 
     public init(
         data: Certificate,
+        included: [PassTypeId]? = nil,
         links: DocumentLinks
     ) {
         self.data = data
+        self.included = included
         self.links = links
     }
 
     private enum CodingKeys: String, CodingKey {
         case data
+        case included
         case links
     }
 }

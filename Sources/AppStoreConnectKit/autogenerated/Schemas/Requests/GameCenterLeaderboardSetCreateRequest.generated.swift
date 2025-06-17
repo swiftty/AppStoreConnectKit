@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
+public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterLeaderboardSets
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var referenceName: String
 
             public var vendorIdentifier: String
@@ -60,7 +60,7 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var gameCenterDetail: GameCenterDetail?
 
             public var gameCenterGroup: GameCenterGroup?
@@ -83,7 +83,7 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
                 case gameCenterLeaderboards
             }
 
-            public struct GameCenterDetail: Hashable, Codable {
+            public struct GameCenterDetail: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -94,7 +94,7 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -112,13 +112,13 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterDetails
                     }
                 }
             }
 
-            public struct GameCenterGroup: Hashable, Codable {
+            public struct GameCenterGroup: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -129,7 +129,7 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -147,13 +147,13 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterGroups
                     }
                 }
             }
 
-            public struct GameCenterLeaderboards: Hashable, Codable {
+            public struct GameCenterLeaderboards: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -164,7 +164,7 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -182,7 +182,7 @@ public struct GameCenterLeaderboardSetCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterLeaderboards
                     }
                 }

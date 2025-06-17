@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionPromotionalOfferCreateRequest: Hashable, Codable {
+public struct SubscriptionPromotionalOfferCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public var included: [SubscriptionPromotionalOfferPriceInlineCreate]?
@@ -21,7 +21,7 @@ public struct SubscriptionPromotionalOfferCreateRequest: Hashable, Codable {
         case included
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -44,11 +44,11 @@ public struct SubscriptionPromotionalOfferCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case subscriptionPromotionalOffers
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var duration: SubscriptionOfferDuration
 
             public var name: String
@@ -82,7 +82,7 @@ public struct SubscriptionPromotionalOfferCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var prices: Prices
 
             public var subscription: Subscription
@@ -100,7 +100,7 @@ public struct SubscriptionPromotionalOfferCreateRequest: Hashable, Codable {
                 case subscription
             }
 
-            public struct Prices: Hashable, Codable {
+            public struct Prices: Hashable, Codable, Sendable {
                 public var data: [Data]
 
                 public init(data: [Data]) {
@@ -111,7 +111,7 @@ public struct SubscriptionPromotionalOfferCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -129,13 +129,13 @@ public struct SubscriptionPromotionalOfferCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case subscriptionPromotionalOfferPrices
                     }
                 }
             }
 
-            public struct Subscription: Hashable, Codable {
+            public struct Subscription: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -146,7 +146,7 @@ public struct SubscriptionPromotionalOfferCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -164,7 +164,7 @@ public struct SubscriptionPromotionalOfferCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case subscriptions
                     }
                 }

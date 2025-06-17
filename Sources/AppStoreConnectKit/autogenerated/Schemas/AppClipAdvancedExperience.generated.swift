@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppClipAdvancedExperience: Hashable, Codable {
+public struct AppClipAdvancedExperience: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appClipAdvancedExperiences
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var action: AppClipAction?
 
         public var businessCategory: BusinessCategory?
@@ -93,104 +93,127 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
             case version
         }
 
-        public enum BusinessCategory: Hashable, Codable, RawRepresentable {
-            case automotive
-            case beauty
-            case bikes
-            case books
-            case casino
-            case education
-            case educationJapan
-            case entertainment
-            case evCharger
-            case financialCny
-            case financialEur
-            case financialGbp
-            case financialJpy
-            case financialUsd
-            case fitness
-            case foodAndDrink
-            case gas
-            case grocery
-            case healthAndMedical
-            case hotelAndTravel
-            case music
-            case parking
-            case petServices
-            case professionalServices
-            case shopping
-            case ticketing
-            case transit
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .automotive: return "AUTOMOTIVE"
-                case .beauty: return "BEAUTY"
-                case .bikes: return "BIKES"
-                case .books: return "BOOKS"
-                case .casino: return "CASINO"
-                case .education: return "EDUCATION"
-                case .educationJapan: return "EDUCATION_JAPAN"
-                case .entertainment: return "ENTERTAINMENT"
-                case .evCharger: return "EV_CHARGER"
-                case .financialCny: return "FINANCIAL_CNY"
-                case .financialEur: return "FINANCIAL_EUR"
-                case .financialGbp: return "FINANCIAL_GBP"
-                case .financialJpy: return "FINANCIAL_JPY"
-                case .financialUsd: return "FINANCIAL_USD"
-                case .fitness: return "FITNESS"
-                case .foodAndDrink: return "FOOD_AND_DRINK"
-                case .gas: return "GAS"
-                case .grocery: return "GROCERY"
-                case .healthAndMedical: return "HEALTH_AND_MEDICAL"
-                case .hotelAndTravel: return "HOTEL_AND_TRAVEL"
-                case .music: return "MUSIC"
-                case .parking: return "PARKING"
-                case .petServices: return "PET_SERVICES"
-                case .professionalServices: return "PROFESSIONAL_SERVICES"
-                case .shopping: return "SHOPPING"
-                case .ticketing: return "TICKETING"
-                case .transit: return "TRANSIT"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct BusinessCategory: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var automotive: Self {
+                .init(rawValue: "AUTOMOTIVE")
             }
 
+            public static var beauty: Self {
+                .init(rawValue: "BEAUTY")
+            }
+
+            public static var bikes: Self {
+                .init(rawValue: "BIKES")
+            }
+
+            public static var books: Self {
+                .init(rawValue: "BOOKS")
+            }
+
+            public static var casino: Self {
+                .init(rawValue: "CASINO")
+            }
+
+            public static var education: Self {
+                .init(rawValue: "EDUCATION")
+            }
+
+            public static var educationJapan: Self {
+                .init(rawValue: "EDUCATION_JAPAN")
+            }
+
+            public static var entertainment: Self {
+                .init(rawValue: "ENTERTAINMENT")
+            }
+
+            public static var evCharger: Self {
+                .init(rawValue: "EV_CHARGER")
+            }
+
+            public static var financialCny: Self {
+                .init(rawValue: "FINANCIAL_CNY")
+            }
+
+            public static var financialEur: Self {
+                .init(rawValue: "FINANCIAL_EUR")
+            }
+
+            public static var financialGbp: Self {
+                .init(rawValue: "FINANCIAL_GBP")
+            }
+
+            public static var financialJpy: Self {
+                .init(rawValue: "FINANCIAL_JPY")
+            }
+
+            public static var financialUsd: Self {
+                .init(rawValue: "FINANCIAL_USD")
+            }
+
+            public static var fitness: Self {
+                .init(rawValue: "FITNESS")
+            }
+
+            public static var foodAndDrink: Self {
+                .init(rawValue: "FOOD_AND_DRINK")
+            }
+
+            public static var gas: Self {
+                .init(rawValue: "GAS")
+            }
+
+            public static var grocery: Self {
+                .init(rawValue: "GROCERY")
+            }
+
+            public static var healthAndMedical: Self {
+                .init(rawValue: "HEALTH_AND_MEDICAL")
+            }
+
+            public static var hotelAndTravel: Self {
+                .init(rawValue: "HOTEL_AND_TRAVEL")
+            }
+
+            public static var music: Self {
+                .init(rawValue: "MUSIC")
+            }
+
+            public static var parking: Self {
+                .init(rawValue: "PARKING")
+            }
+
+            public static var petServices: Self {
+                .init(rawValue: "PET_SERVICES")
+            }
+
+            public static var professionalServices: Self {
+                .init(rawValue: "PROFESSIONAL_SERVICES")
+            }
+
+            public static var shopping: Self {
+                .init(rawValue: "SHOPPING")
+            }
+
+            public static var ticketing: Self {
+                .init(rawValue: "TICKETING")
+            }
+
+            public static var transit: Self {
+                .init(rawValue: "TRANSIT")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "AUTOMOTIVE": self = .automotive
-                case "BEAUTY": self = .beauty
-                case "BIKES": self = .bikes
-                case "BOOKS": self = .books
-                case "CASINO": self = .casino
-                case "EDUCATION": self = .education
-                case "EDUCATION_JAPAN": self = .educationJapan
-                case "ENTERTAINMENT": self = .entertainment
-                case "EV_CHARGER": self = .evCharger
-                case "FINANCIAL_CNY": self = .financialCny
-                case "FINANCIAL_EUR": self = .financialEur
-                case "FINANCIAL_GBP": self = .financialGbp
-                case "FINANCIAL_JPY": self = .financialJpy
-                case "FINANCIAL_USD": self = .financialUsd
-                case "FITNESS": self = .fitness
-                case "FOOD_AND_DRINK": self = .foodAndDrink
-                case "GAS": self = .gas
-                case "GROCERY": self = .grocery
-                case "HEALTH_AND_MEDICAL": self = .healthAndMedical
-                case "HOTEL_AND_TRAVEL": self = .hotelAndTravel
-                case "MUSIC": self = .music
-                case "PARKING": self = .parking
-                case "PET_SERVICES": self = .petServices
-                case "PROFESSIONAL_SERVICES": self = .professionalServices
-                case "SHOPPING": self = .shopping
-                case "TICKETING": self = .ticketing
-                case "TRANSIT": self = .transit
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public struct Place: Hashable, Codable {
+        public struct Place: Hashable, Codable, Sendable {
             public var categories: [String]?
 
             public var displayPoint: DisplayPoint?
@@ -243,7 +266,7 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
                 case relationship
             }
 
-            public struct DisplayPoint: Hashable, Codable {
+            public struct DisplayPoint: Hashable, Codable, Sendable {
                 public var coordinates: Coordinates?
 
                 public var source: Source?
@@ -261,7 +284,7 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
                     case source
                 }
 
-                public struct Coordinates: Hashable, Codable {
+                public struct Coordinates: Hashable, Codable, Sendable {
                     public var latitude: Float?
 
                     public var longitude: Float?
@@ -280,30 +303,28 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
                     }
                 }
 
-                public enum Source: Hashable, Codable, RawRepresentable {
-                    case calculated
-                    case manuallyPlaced
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .calculated: return "CALCULATED"
-                        case .manuallyPlaced: return "MANUALLY_PLACED"
-                        case .unknown(let rawValue): return rawValue
-                        }
+                public struct Source: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                    public static var calculated: Self {
+                        .init(rawValue: "CALCULATED")
                     }
 
+                    public static var manuallyPlaced: Self {
+                        .init(rawValue: "MANUALLY_PLACED")
+                    }
+
+                    public var description: String {
+                        rawValue
+                    }
+
+                    public var rawValue: String
+
                     public init(rawValue: String) {
-                        switch rawValue {
-                        case "CALCULATED": self = .calculated
-                        case "MANUALLY_PLACED": self = .manuallyPlaced
-                        default: self = .unknown(rawValue)
-                        }
+                        self.rawValue = rawValue
                     }
                 }
             }
 
-            public struct MainAddress: Hashable, Codable {
+            public struct MainAddress: Hashable, Codable, Sendable {
                 public var fullAddress: String?
 
                 public var structuredAddress: StructuredAddress?
@@ -321,7 +342,7 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
                     case structuredAddress
                 }
 
-                public struct StructuredAddress: Hashable, Codable {
+                public struct StructuredAddress: Hashable, Codable, Sendable {
                     public var countryCode: String?
 
                     public var floor: String?
@@ -366,62 +387,179 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
                 }
             }
 
-            public enum MapAction: Hashable, Codable, RawRepresentable {
-                case buyTickets
-                case hotelBookRoom
-                case parkingReserveParking
-                case restaurantJoinWaitlist
-                case restaurantOrderDelivery
-                case restaurantOrderFood
-                case restaurantOrderTakeout
-                case restaurantReservation
-                case restaurantViewMenu
-                case scheduleAppointment
-                case theaterNowPlaying
-                case viewAvailability
-                case viewPricing
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .buyTickets: return "BUY_TICKETS"
-                    case .hotelBookRoom: return "HOTEL_BOOK_ROOM"
-                    case .parkingReserveParking: return "PARKING_RESERVE_PARKING"
-                    case .restaurantJoinWaitlist: return "RESTAURANT_JOIN_WAITLIST"
-                    case .restaurantOrderDelivery: return "RESTAURANT_ORDER_DELIVERY"
-                    case .restaurantOrderFood: return "RESTAURANT_ORDER_FOOD"
-                    case .restaurantOrderTakeout: return "RESTAURANT_ORDER_TAKEOUT"
-                    case .restaurantReservation: return "RESTAURANT_RESERVATION"
-                    case .restaurantViewMenu: return "RESTAURANT_VIEW_MENU"
-                    case .scheduleAppointment: return "SCHEDULE_APPOINTMENT"
-                    case .theaterNowPlaying: return "THEATER_NOW_PLAYING"
-                    case .viewAvailability: return "VIEW_AVAILABILITY"
-                    case .viewPricing: return "VIEW_PRICING"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct MapAction: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var airlineBookTravel: Self {
+                    .init(rawValue: "AIRLINE_BOOK_TRAVEL")
                 }
 
+                public static var airlineCheckIn: Self {
+                    .init(rawValue: "AIRLINE_CHECK_IN")
+                }
+
+                public static var airlineFlightStatus: Self {
+                    .init(rawValue: "AIRLINE_FLIGHT_STATUS")
+                }
+
+                public static var apply: Self {
+                    .init(rawValue: "APPLY")
+                }
+
+                public static var book: Self {
+                    .init(rawValue: "BOOK")
+                }
+
+                public static var bookActivities: Self {
+                    .init(rawValue: "BOOK_ACTIVITIES")
+                }
+
+                public static var bookRides: Self {
+                    .init(rawValue: "BOOK_RIDES")
+                }
+
+                public static var bookTeetimes: Self {
+                    .init(rawValue: "BOOK_TEETIMES")
+                }
+
+                public static var bookTours: Self {
+                    .init(rawValue: "BOOK_TOURS")
+                }
+
+                public static var buyTickets: Self {
+                    .init(rawValue: "BUY_TICKETS")
+                }
+
+                public static var careers: Self {
+                    .init(rawValue: "CAREERS")
+                }
+
+                public static var chargeEv: Self {
+                    .init(rawValue: "CHARGE_EV")
+                }
+
+                public static var coupons: Self {
+                    .init(rawValue: "COUPONS")
+                }
+
+                public static var donate: Self {
+                    .init(rawValue: "DONATE")
+                }
+
+                public static var events: Self {
+                    .init(rawValue: "EVENTS")
+                }
+
+                public static var eventsShows: Self {
+                    .init(rawValue: "EVENTS_SHOWS")
+                }
+
+                public static var eventsSports: Self {
+                    .init(rawValue: "EVENTS_SPORTS")
+                }
+
+                public static var giftCard: Self {
+                    .init(rawValue: "GIFT_CARD")
+                }
+
+                public static var hotelAmenities: Self {
+                    .init(rawValue: "HOTEL_AMENITIES")
+                }
+
+                public static var hotelBookRoom: Self {
+                    .init(rawValue: "HOTEL_BOOK_ROOM")
+                }
+
+                public static var join: Self {
+                    .init(rawValue: "JOIN")
+                }
+
+                public static var parkingAvailable: Self {
+                    .init(rawValue: "PARKING_AVAILABLE")
+                }
+
+                public static var parkingReserveParking: Self {
+                    .init(rawValue: "PARKING_RESERVE_PARKING")
+                }
+
+                public static var restaurantJoinWaitlist: Self {
+                    .init(rawValue: "RESTAURANT_JOIN_WAITLIST")
+                }
+
+                public static var restaurantOrderDelivery: Self {
+                    .init(rawValue: "RESTAURANT_ORDER_DELIVERY")
+                }
+
+                public static var restaurantOrderFood: Self {
+                    .init(rawValue: "RESTAURANT_ORDER_FOOD")
+                }
+
+                public static var restaurantOrderTakeout: Self {
+                    .init(rawValue: "RESTAURANT_ORDER_TAKEOUT")
+                }
+
+                public static var restaurantPickup: Self {
+                    .init(rawValue: "RESTAURANT_PICKUP")
+                }
+
+                public static var restaurantReservation: Self {
+                    .init(rawValue: "RESTAURANT_RESERVATION")
+                }
+
+                public static var restaurantViewMenu: Self {
+                    .init(rawValue: "RESTAURANT_VIEW_MENU")
+                }
+
+                public static var retailServiceQuote: Self {
+                    .init(rawValue: "RETAIL_SERVICE_QUOTE")
+                }
+
+                public static var retailStoreDelivery: Self {
+                    .init(rawValue: "RETAIL_STORE_DELIVERY")
+                }
+
+                public static var retailStorePickup: Self {
+                    .init(rawValue: "RETAIL_STORE_PICKUP")
+                }
+
+                public static var retailStoreShop: Self {
+                    .init(rawValue: "RETAIL_STORE_SHOP")
+                }
+
+                public static var scheduleAppointment: Self {
+                    .init(rawValue: "SCHEDULE_APPOINTMENT")
+                }
+
+                public static var services: Self {
+                    .init(rawValue: "SERVICES")
+                }
+
+                public static var support: Self {
+                    .init(rawValue: "SUPPORT")
+                }
+
+                public static var theaterNowPlaying: Self {
+                    .init(rawValue: "THEATER_NOW_PLAYING")
+                }
+
+                public static var viewAvailability: Self {
+                    .init(rawValue: "VIEW_AVAILABILITY")
+                }
+
+                public static var viewPricing: Self {
+                    .init(rawValue: "VIEW_PRICING")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "BUY_TICKETS": self = .buyTickets
-                    case "HOTEL_BOOK_ROOM": self = .hotelBookRoom
-                    case "PARKING_RESERVE_PARKING": self = .parkingReserveParking
-                    case "RESTAURANT_JOIN_WAITLIST": self = .restaurantJoinWaitlist
-                    case "RESTAURANT_ORDER_DELIVERY": self = .restaurantOrderDelivery
-                    case "RESTAURANT_ORDER_FOOD": self = .restaurantOrderFood
-                    case "RESTAURANT_ORDER_TAKEOUT": self = .restaurantOrderTakeout
-                    case "RESTAURANT_RESERVATION": self = .restaurantReservation
-                    case "RESTAURANT_VIEW_MENU": self = .restaurantViewMenu
-                    case "SCHEDULE_APPOINTMENT": self = .scheduleAppointment
-                    case "THEATER_NOW_PLAYING": self = .theaterNowPlaying
-                    case "VIEW_AVAILABILITY": self = .viewAvailability
-                    case "VIEW_PRICING": self = .viewPricing
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public struct PhoneNumber: Hashable, Codable {
+            public struct PhoneNumber: Hashable, Codable, Sendable {
                 public var type: `Type`?
 
                 public var intent: String?
@@ -444,113 +582,110 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
                     case number
                 }
 
-                public enum `Type`: Hashable, Codable, RawRepresentable {
-                    case fax
-                    case landline
-                    case mobile
-                    case tollfree
-                    case unknown(String)
-
-                    public var rawValue: String {
-                        switch self {
-                        case .fax: return "FAX"
-                        case .landline: return "LANDLINE"
-                        case .mobile: return "MOBILE"
-                        case .tollfree: return "TOLLFREE"
-                        case .unknown(let rawValue): return rawValue
-                        }
+                public struct `Type`: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                    public static var fax: Self {
+                        .init(rawValue: "FAX")
                     }
+
+                    public static var landline: Self {
+                        .init(rawValue: "LANDLINE")
+                    }
+
+                    public static var mobile: Self {
+                        .init(rawValue: "MOBILE")
+                    }
+
+                    public static var tollfree: Self {
+                        .init(rawValue: "TOLLFREE")
+                    }
+
+                    public var description: String {
+                        rawValue
+                    }
+
+                    public var rawValue: String
 
                     public init(rawValue: String) {
-                        switch rawValue {
-                        case "FAX": self = .fax
-                        case "LANDLINE": self = .landline
-                        case "MOBILE": self = .mobile
-                        case "TOLLFREE": self = .tollfree
-                        default: self = .unknown(rawValue)
-                        }
+                        self.rawValue = rawValue
                     }
                 }
             }
 
-            public enum Relationship: Hashable, Codable, RawRepresentable {
-                case authorized
-                case other
-                case owner
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .authorized: return "AUTHORIZED"
-                    case .other: return "OTHER"
-                    case .owner: return "OWNER"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Relationship: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var authorized: Self {
+                    .init(rawValue: "AUTHORIZED")
                 }
+
+                public static var other: Self {
+                    .init(rawValue: "OTHER")
+                }
+
+                public static var owner: Self {
+                    .init(rawValue: "OWNER")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
 
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "AUTHORIZED": self = .authorized
-                    case "OTHER": self = .other
-                    case "OWNER": self = .owner
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
         }
 
-        public enum PlaceStatus: Hashable, Codable, RawRepresentable {
-            case matched
-            case noMatch
-            case pending
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .matched: return "MATCHED"
-                case .noMatch: return "NO_MATCH"
-                case .pending: return "PENDING"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct PlaceStatus: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var matched: Self {
+                .init(rawValue: "MATCHED")
             }
 
+            public static var noMatch: Self {
+                .init(rawValue: "NO_MATCH")
+            }
+
+            public static var pending: Self {
+                .init(rawValue: "PENDING")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "MATCHED": self = .matched
-                case "NO_MATCH": self = .noMatch
-                case "PENDING": self = .pending
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum Status: Hashable, Codable, RawRepresentable {
-            case appTransferInProgress
-            case deactivated
-            case received
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appTransferInProgress: return "APP_TRANSFER_IN_PROGRESS"
-                case .deactivated: return "DEACTIVATED"
-                case .received: return "RECEIVED"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Status: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appTransferInProgress: Self {
+                .init(rawValue: "APP_TRANSFER_IN_PROGRESS")
             }
 
+            public static var deactivated: Self {
+                .init(rawValue: "DEACTIVATED")
+            }
+
+            public static var received: Self {
+                .init(rawValue: "RECEIVED")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "APP_TRANSFER_IN_PROGRESS": self = .appTransferInProgress
-                case "DEACTIVATED": self = .deactivated
-                case "RECEIVED": self = .received
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var appClip: AppClip?
 
         public var headerImage: HeaderImage?
@@ -573,25 +708,18 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
             case localizations
         }
 
-        public struct AppClip: Hashable, Codable {
+        public struct AppClip: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -609,50 +737,24 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appClips
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct HeaderImage: Hashable, Codable {
+        public struct HeaderImage: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -670,55 +772,31 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appClipAdvancedExperienceImages
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }
 
-        public struct Localizations: Hashable, Codable {
+        public struct Localizations: Hashable, Codable, Sendable {
             public var data: [Data]?
-
-            public var links: Links?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
-                self.links = links
                 self.meta = meta
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -736,27 +814,8 @@ public struct AppClipAdvancedExperience: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appClipAdvancedExperienceLocalizations
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

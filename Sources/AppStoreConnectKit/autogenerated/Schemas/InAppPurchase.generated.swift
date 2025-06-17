@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct InAppPurchase: Hashable, Codable {
+public struct InAppPurchase: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct InAppPurchase: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case inAppPurchases
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var inAppPurchaseType: InAppPurchaseType?
 
         public var productId: String?
@@ -68,112 +68,128 @@ public struct InAppPurchase: Hashable, Codable {
             case state
         }
 
-        public enum InAppPurchaseType: Hashable, Codable, RawRepresentable {
-            case automaticallyRenewableSubscription
-            case consumable
-            case freeSubscription
-            case nonConsumable
-            case nonRenewingSubscription
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .automaticallyRenewableSubscription: return "AUTOMATICALLY_RENEWABLE_SUBSCRIPTION"
-                case .consumable: return "CONSUMABLE"
-                case .freeSubscription: return "FREE_SUBSCRIPTION"
-                case .nonConsumable: return "NON_CONSUMABLE"
-                case .nonRenewingSubscription: return "NON_RENEWING_SUBSCRIPTION"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct InAppPurchaseType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var automaticallyRenewableSubscription: Self {
+                .init(rawValue: "AUTOMATICALLY_RENEWABLE_SUBSCRIPTION")
             }
 
+            public static var consumable: Self {
+                .init(rawValue: "CONSUMABLE")
+            }
+
+            public static var freeSubscription: Self {
+                .init(rawValue: "FREE_SUBSCRIPTION")
+            }
+
+            public static var nonConsumable: Self {
+                .init(rawValue: "NON_CONSUMABLE")
+            }
+
+            public static var nonRenewingSubscription: Self {
+                .init(rawValue: "NON_RENEWING_SUBSCRIPTION")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "AUTOMATICALLY_RENEWABLE_SUBSCRIPTION": self = .automaticallyRenewableSubscription
-                case "CONSUMABLE": self = .consumable
-                case "FREE_SUBSCRIPTION": self = .freeSubscription
-                case "NON_CONSUMABLE": self = .nonConsumable
-                case "NON_RENEWING_SUBSCRIPTION": self = .nonRenewingSubscription
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum State: Hashable, Codable, RawRepresentable {
-            case approved
-            case created
-            case deleted
-            case deletionInProgress
-            case developerActionNeeded
-            case developerRemovedFromSale
-            case developerSignedOff
-            case inReview
-            case missingMetadata
-            case pendingDeveloperRelease
-            case prepareForSubmission
-            case processingContent
-            case readyToSubmit
-            case rejected
-            case removedFromSale
-            case replaced
-            case waitingForReview
-            case waitingForScreenshot
-            case waitingForUpload
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .approved: return "APPROVED"
-                case .created: return "CREATED"
-                case .deleted: return "DELETED"
-                case .deletionInProgress: return "DELETION_IN_PROGRESS"
-                case .developerActionNeeded: return "DEVELOPER_ACTION_NEEDED"
-                case .developerRemovedFromSale: return "DEVELOPER_REMOVED_FROM_SALE"
-                case .developerSignedOff: return "DEVELOPER_SIGNED_OFF"
-                case .inReview: return "IN_REVIEW"
-                case .missingMetadata: return "MISSING_METADATA"
-                case .pendingDeveloperRelease: return "PENDING_DEVELOPER_RELEASE"
-                case .prepareForSubmission: return "PREPARE_FOR_SUBMISSION"
-                case .processingContent: return "PROCESSING_CONTENT"
-                case .readyToSubmit: return "READY_TO_SUBMIT"
-                case .rejected: return "REJECTED"
-                case .removedFromSale: return "REMOVED_FROM_SALE"
-                case .replaced: return "REPLACED"
-                case .waitingForReview: return "WAITING_FOR_REVIEW"
-                case .waitingForScreenshot: return "WAITING_FOR_SCREENSHOT"
-                case .waitingForUpload: return "WAITING_FOR_UPLOAD"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var approved: Self {
+                .init(rawValue: "APPROVED")
             }
 
+            public static var created: Self {
+                .init(rawValue: "CREATED")
+            }
+
+            public static var deleted: Self {
+                .init(rawValue: "DELETED")
+            }
+
+            public static var deletionInProgress: Self {
+                .init(rawValue: "DELETION_IN_PROGRESS")
+            }
+
+            public static var developerActionNeeded: Self {
+                .init(rawValue: "DEVELOPER_ACTION_NEEDED")
+            }
+
+            public static var developerRemovedFromSale: Self {
+                .init(rawValue: "DEVELOPER_REMOVED_FROM_SALE")
+            }
+
+            public static var developerSignedOff: Self {
+                .init(rawValue: "DEVELOPER_SIGNED_OFF")
+            }
+
+            public static var inReview: Self {
+                .init(rawValue: "IN_REVIEW")
+            }
+
+            public static var missingMetadata: Self {
+                .init(rawValue: "MISSING_METADATA")
+            }
+
+            public static var pendingDeveloperRelease: Self {
+                .init(rawValue: "PENDING_DEVELOPER_RELEASE")
+            }
+
+            public static var prepareForSubmission: Self {
+                .init(rawValue: "PREPARE_FOR_SUBMISSION")
+            }
+
+            public static var processingContent: Self {
+                .init(rawValue: "PROCESSING_CONTENT")
+            }
+
+            public static var readyToSubmit: Self {
+                .init(rawValue: "READY_TO_SUBMIT")
+            }
+
+            public static var rejected: Self {
+                .init(rawValue: "REJECTED")
+            }
+
+            public static var removedFromSale: Self {
+                .init(rawValue: "REMOVED_FROM_SALE")
+            }
+
+            public static var replaced: Self {
+                .init(rawValue: "REPLACED")
+            }
+
+            public static var waitingForReview: Self {
+                .init(rawValue: "WAITING_FOR_REVIEW")
+            }
+
+            public static var waitingForScreenshot: Self {
+                .init(rawValue: "WAITING_FOR_SCREENSHOT")
+            }
+
+            public static var waitingForUpload: Self {
+                .init(rawValue: "WAITING_FOR_UPLOAD")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "APPROVED": self = .approved
-                case "CREATED": self = .created
-                case "DELETED": self = .deleted
-                case "DELETION_IN_PROGRESS": self = .deletionInProgress
-                case "DEVELOPER_ACTION_NEEDED": self = .developerActionNeeded
-                case "DEVELOPER_REMOVED_FROM_SALE": self = .developerRemovedFromSale
-                case "DEVELOPER_SIGNED_OFF": self = .developerSignedOff
-                case "IN_REVIEW": self = .inReview
-                case "MISSING_METADATA": self = .missingMetadata
-                case "PENDING_DEVELOPER_RELEASE": self = .pendingDeveloperRelease
-                case "PREPARE_FOR_SUBMISSION": self = .prepareForSubmission
-                case "PROCESSING_CONTENT": self = .processingContent
-                case "READY_TO_SUBMIT": self = .readyToSubmit
-                case "REJECTED": self = .rejected
-                case "REMOVED_FROM_SALE": self = .removedFromSale
-                case "REPLACED": self = .replaced
-                case "WAITING_FOR_REVIEW": self = .waitingForReview
-                case "WAITING_FOR_SCREENSHOT": self = .waitingForScreenshot
-                case "WAITING_FOR_UPLOAD": self = .waitingForUpload
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var apps: Apps?
 
         public init(apps: Apps? = nil) {
@@ -184,30 +200,25 @@ public struct InAppPurchase: Hashable, Codable {
             case apps
         }
 
-        public struct Apps: Hashable, Codable {
+        public struct Apps: Hashable, Codable, Sendable {
             public var data: [Data]?
-
-            public var links: Links?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
-                self.links = links
                 self.meta = meta
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -225,27 +236,8 @@ public struct InAppPurchase: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case apps
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

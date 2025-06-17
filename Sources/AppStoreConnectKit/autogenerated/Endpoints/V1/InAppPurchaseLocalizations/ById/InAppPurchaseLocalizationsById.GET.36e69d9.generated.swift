@@ -44,8 +44,10 @@ extension V1.InAppPurchaseLocalizations.ById {
 
         /// - Returns: **200**, Single InAppPurchaseLocalization as `InAppPurchaseLocalizationResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.InAppPurchaseLocalizations.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,34 +95,35 @@ extension V1.InAppPurchaseLocalizations.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum InAppPurchaseLocalizations: Hashable, Codable, RawRepresentable {
-                case description
-                case inAppPurchaseV2
-                case locale
-                case name
-                case state
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .description: return "description"
-                    case .inAppPurchaseV2: return "inAppPurchaseV2"
-                    case .locale: return "locale"
-                    case .name: return "name"
-                    case .state: return "state"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchaseLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var description: Self {
+                    .init(rawValue: "description")
                 }
 
+                public static var inAppPurchaseV2: Self {
+                    .init(rawValue: "inAppPurchaseV2")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "description": self = .description
-                    case "inAppPurchaseV2": self = .inAppPurchaseV2
-                    case "locale": self = .locale
-                    case "name": self = .name
-                    case "state": self = .state
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -132,22 +141,19 @@ extension V1.InAppPurchaseLocalizations.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case inAppPurchaseV2
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .inAppPurchaseV2: return "inAppPurchaseV2"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var inAppPurchaseV2: Self {
+                .init(rawValue: "inAppPurchaseV2")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "inAppPurchaseV2": self = .inAppPurchaseV2
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

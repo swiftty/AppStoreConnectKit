@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppAvailabilityV2CreateRequest: Hashable, Codable {
+public struct AppAvailabilityV2CreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public var included: [TerritoryAvailabilityInlineCreate]?
@@ -21,7 +21,7 @@ public struct AppAvailabilityV2CreateRequest: Hashable, Codable {
         case included
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -44,11 +44,11 @@ public struct AppAvailabilityV2CreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appAvailabilities
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var availableInNewTerritories: Bool
 
             public init(availableInNewTerritories: Bool) {
@@ -60,7 +60,7 @@ public struct AppAvailabilityV2CreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var app: App
 
             public var territoryAvailabilities: TerritoryAvailabilities
@@ -78,7 +78,7 @@ public struct AppAvailabilityV2CreateRequest: Hashable, Codable {
                 case territoryAvailabilities
             }
 
-            public struct App: Hashable, Codable {
+            public struct App: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -89,7 +89,7 @@ public struct AppAvailabilityV2CreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -107,13 +107,13 @@ public struct AppAvailabilityV2CreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case apps
                     }
                 }
             }
 
-            public struct TerritoryAvailabilities: Hashable, Codable {
+            public struct TerritoryAvailabilities: Hashable, Codable, Sendable {
                 public var data: [Data]
 
                 public init(data: [Data]) {
@@ -124,7 +124,7 @@ public struct AppAvailabilityV2CreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -142,7 +142,7 @@ public struct AppAvailabilityV2CreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case territoryAvailabilities
                     }
                 }

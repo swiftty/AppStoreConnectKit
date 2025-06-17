@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterAchievementCreateRequest: Hashable, Codable {
+public struct GameCenterAchievementCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct GameCenterAchievementCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,13 @@ public struct GameCenterAchievementCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterAchievements
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
+            public var activityProperties: [String: String]?
+
             public var points: Int
 
             public var referenceName: String
@@ -53,12 +55,14 @@ public struct GameCenterAchievementCreateRequest: Hashable, Codable {
             public var vendorIdentifier: String
 
             public init(
+                activityProperties: [String: String]? = nil,
                 points: Int,
                 referenceName: String,
                 repeatable: Bool,
                 showBeforeEarned: Bool,
                 vendorIdentifier: String
             ) {
+                self.activityProperties = activityProperties
                 self.points = points
                 self.referenceName = referenceName
                 self.repeatable = repeatable
@@ -67,6 +71,7 @@ public struct GameCenterAchievementCreateRequest: Hashable, Codable {
             }
 
             private enum CodingKeys: String, CodingKey {
+                case activityProperties
                 case points
                 case referenceName
                 case repeatable
@@ -75,7 +80,7 @@ public struct GameCenterAchievementCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var gameCenterDetail: GameCenterDetail?
 
             public var gameCenterGroup: GameCenterGroup?
@@ -93,7 +98,7 @@ public struct GameCenterAchievementCreateRequest: Hashable, Codable {
                 case gameCenterGroup
             }
 
-            public struct GameCenterDetail: Hashable, Codable {
+            public struct GameCenterDetail: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -104,7 +109,7 @@ public struct GameCenterAchievementCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -122,13 +127,13 @@ public struct GameCenterAchievementCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterDetails
                     }
                 }
             }
 
-            public struct GameCenterGroup: Hashable, Codable {
+            public struct GameCenterGroup: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -139,7 +144,7 @@ public struct GameCenterAchievementCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -157,7 +162,7 @@ public struct GameCenterAchievementCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterGroups
                     }
                 }

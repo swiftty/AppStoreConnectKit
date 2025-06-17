@@ -3,25 +3,27 @@
 // swiftlint:disable all
 import Foundation
 
-public enum BundleIdPlatform: Hashable, Codable, RawRepresentable {
-    case iOS
-    case macOS
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .iOS: return "IOS"
-        case .macOS: return "MAC_OS"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct BundleIdPlatform: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var iOS: Self {
+        .init(rawValue: "IOS")
     }
 
+    public static var macOS: Self {
+        .init(rawValue: "MAC_OS")
+    }
+
+    public static var universal: Self {
+        .init(rawValue: "UNIVERSAL")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "IOS": self = .iOS
-        case "MAC_OS": self = .macOS
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

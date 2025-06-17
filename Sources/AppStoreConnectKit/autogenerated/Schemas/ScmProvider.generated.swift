@@ -3,12 +3,14 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ScmProvider: Hashable, Codable {
+public struct ScmProvider: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
 
     public var attributes: Attributes?
+
+    public var relationships: Relationships?
 
     public var links: ResourceLinks?
 
@@ -16,11 +18,13 @@ public struct ScmProvider: Hashable, Codable {
         id: String,
         type: `Type`,
         attributes: Attributes? = nil,
+        relationships: Relationships? = nil,
         links: ResourceLinks? = nil
     ) {
         self.id = id
         self.type = type
         self.attributes = attributes
+        self.relationships = relationships
         self.links = links
     }
 
@@ -28,14 +32,15 @@ public struct ScmProvider: Hashable, Codable {
         case id
         case type
         case attributes
+        case relationships
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case scmProviders
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var scmProviderType: ScmProviderType?
 
         public var url: URL?
@@ -51,6 +56,30 @@ public struct ScmProvider: Hashable, Codable {
         private enum CodingKeys: String, CodingKey {
             case scmProviderType
             case url
+        }
+    }
+
+    public struct Relationships: Hashable, Codable, Sendable {
+        public var repositories: Repositories?
+
+        public init(repositories: Repositories? = nil) {
+            self.repositories = repositories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositories
+        }
+
+        public struct Repositories: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
+            }
         }
     }
 }

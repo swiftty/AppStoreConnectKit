@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct InAppPurchaseV2CreateRequest: Hashable, Codable {
+public struct InAppPurchaseV2CreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct InAppPurchaseV2CreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,14 +37,11 @@ public struct InAppPurchaseV2CreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case inAppPurchases
         }
 
-        public struct Attributes: Hashable, Codable {
-            @available(*, deprecated)
-            public var availableInAllTerritories: Bool?
-
+        public struct Attributes: Hashable, Codable, Sendable {
             public var familySharable: Bool?
 
             public var inAppPurchaseType: InAppPurchaseType
@@ -56,14 +53,12 @@ public struct InAppPurchaseV2CreateRequest: Hashable, Codable {
             public var reviewNote: String?
 
             public init(
-                availableInAllTerritories: Bool? = nil,
                 familySharable: Bool? = nil,
                 inAppPurchaseType: InAppPurchaseType,
                 name: String,
                 productId: String,
                 reviewNote: String? = nil
             ) {
-                self.availableInAllTerritories = availableInAllTerritories
                 self.familySharable = familySharable
                 self.inAppPurchaseType = inAppPurchaseType
                 self.name = name
@@ -72,7 +67,6 @@ public struct InAppPurchaseV2CreateRequest: Hashable, Codable {
             }
 
             private enum CodingKeys: String, CodingKey {
-                case availableInAllTerritories
                 case familySharable
                 case inAppPurchaseType
                 case name
@@ -81,7 +75,7 @@ public struct InAppPurchaseV2CreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var app: App
 
             public init(app: App) {
@@ -92,7 +86,7 @@ public struct InAppPurchaseV2CreateRequest: Hashable, Codable {
                 case app
             }
 
-            public struct App: Hashable, Codable {
+            public struct App: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -103,7 +97,7 @@ public struct InAppPurchaseV2CreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -121,7 +115,7 @@ public struct InAppPurchaseV2CreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case apps
                     }
                 }

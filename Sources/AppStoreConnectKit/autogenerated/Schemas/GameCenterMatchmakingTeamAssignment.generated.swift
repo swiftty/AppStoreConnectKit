@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingTeamAssignment: Hashable, Codable {
+public struct GameCenterMatchmakingTeamAssignment: Hashable, Codable, Sendable {
     public var playerId: String?
 
     public var team: String?

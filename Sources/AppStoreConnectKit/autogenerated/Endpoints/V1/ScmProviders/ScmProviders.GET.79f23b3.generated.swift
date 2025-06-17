@@ -27,8 +27,6 @@ extension V1.ScmProviders {
             components?.queryItems = [
                 URLQueryItem(name: "fields[scmProviders]",
                              value: parameters.fields[.scmProviders]?.map { "\($0)" }.joined(separator: ",")),
-                URLQueryItem(name: "fields[scmRepositories]",
-                             value: parameters.fields[.scmRepositories]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" })
             ].filter { $0.value != nil }
@@ -43,7 +41,9 @@ extension V1.ScmProviders {
 
         /// - Returns: **200**, List of ScmProviders as `ScmProvidersResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -57,7 +57,13 @@ extension V1.ScmProviders {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -82,71 +88,27 @@ extension V1.ScmProviders.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ScmProviders: Hashable, Codable, RawRepresentable {
-                case repositories
-                case scmProviderType
-                case url
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .repositories: return "repositories"
-                    case .scmProviderType: return "scmProviderType"
-                    case .url: return "url"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ScmProviders: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var repositories: Self {
+                    .init(rawValue: "repositories")
                 }
+
+                public static var scmProviderType: Self {
+                    .init(rawValue: "scmProviderType")
+                }
+
+                public static var url: Self {
+                    .init(rawValue: "url")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
 
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "repositories": self = .repositories
-                    case "scmProviderType": self = .scmProviderType
-                    case "url": self = .url
-                    default: self = .unknown(rawValue)
-                    }
-                }
-            }
-
-            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
-                case defaultBranch
-                case gitReferences
-                case httpCloneUrl
-                case lastAccessedDate
-                case ownerName
-                case pullRequests
-                case repositoryName
-                case scmProvider
-                case sshCloneUrl
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .defaultBranch: return "defaultBranch"
-                    case .gitReferences: return "gitReferences"
-                    case .httpCloneUrl: return "httpCloneUrl"
-                    case .lastAccessedDate: return "lastAccessedDate"
-                    case .ownerName: return "ownerName"
-                    case .pullRequests: return "pullRequests"
-                    case .repositoryName: return "repositoryName"
-                    case .scmProvider: return "scmProvider"
-                    case .sshCloneUrl: return "sshCloneUrl"
-                    case .unknown(let rawValue): return rawValue
-                    }
-                }
-
-                public init(rawValue: String) {
-                    switch rawValue {
-                    case "defaultBranch": self = .defaultBranch
-                    case "gitReferences": self = .gitReferences
-                    case "httpCloneUrl": self = .httpCloneUrl
-                    case "lastAccessedDate": self = .lastAccessedDate
-                    case "ownerName": self = .ownerName
-                    case "pullRequests": self = .pullRequests
-                    case "repositoryName": self = .repositoryName
-                    case "scmProvider": self = .scmProvider
-                    case "sshCloneUrl": self = .sshCloneUrl
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -154,11 +116,6 @@ extension V1.ScmProviders.GET {
                 /// the fields to include for returned resources of type scmProviders
                 public static var scmProviders: Relation<[ScmProviders]?> {
                     .init(key: "fields[scmProviders]")
-                }
-
-                /// the fields to include for returned resources of type scmRepositories
-                public static var scmRepositories: Relation<[ScmRepositories]?> {
-                    .init(key: "fields[scmRepositories]")
                 }
 
                 internal let key: String

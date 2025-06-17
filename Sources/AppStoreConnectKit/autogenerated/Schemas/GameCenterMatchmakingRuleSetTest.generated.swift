@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingRuleSetTest: Hashable, Codable {
+public struct GameCenterMatchmakingRuleSetTest: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct GameCenterMatchmakingRuleSetTest: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case gameCenterMatchmakingRuleSetTests
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var matchmakingResults: [[MatchmakingResults]]?
 
         public init(matchmakingResults: [[MatchmakingResults]]? = nil) {
@@ -46,7 +46,7 @@ public struct GameCenterMatchmakingRuleSetTest: Hashable, Codable {
             case matchmakingResults
         }
 
-        public struct MatchmakingResults: Hashable, Codable {
+        public struct MatchmakingResults: Hashable, Codable, Sendable {
             public var requestName: String?
 
             public var teamAssignments: [GameCenterMatchmakingTeamAssignment]?

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct XcodeMetrics: Hashable, Codable {
+public struct XcodeMetrics: Hashable, Codable, Sendable {
     public var insights: Insights?
 
     public var productData: [ProductData]?
@@ -26,7 +26,7 @@ public struct XcodeMetrics: Hashable, Codable {
         case version
     }
 
-    public struct Insights: Hashable, Codable {
+    public struct Insights: Hashable, Codable, Sendable {
         public var regressions: [MetricsInsight]?
 
         public var trendingUp: [MetricsInsight]?
@@ -45,7 +45,7 @@ public struct XcodeMetrics: Hashable, Codable {
         }
     }
 
-    public struct ProductData: Hashable, Codable {
+    public struct ProductData: Hashable, Codable, Sendable {
         public var metricCategories: [MetricCategories]?
 
         public var platform: String?
@@ -63,7 +63,7 @@ public struct XcodeMetrics: Hashable, Codable {
             case platform
         }
 
-        public struct MetricCategories: Hashable, Codable {
+        public struct MetricCategories: Hashable, Codable, Sendable {
             public var identifier: MetricCategory?
 
             public var metrics: [Metrics]?
@@ -81,7 +81,7 @@ public struct XcodeMetrics: Hashable, Codable {
                 case metrics
             }
 
-            public struct Metrics: Hashable, Codable {
+            public struct Metrics: Hashable, Codable, Sendable {
                 public var datasets: [Datasets]?
 
                 public var goalKeys: [GoalKeys]?
@@ -109,25 +109,30 @@ public struct XcodeMetrics: Hashable, Codable {
                     case unit
                 }
 
-                public struct Datasets: Hashable, Codable {
+                public struct Datasets: Hashable, Codable, Sendable {
                     public var filterCriteria: FilterCriteria?
 
                     public var points: [Points]?
 
+                    public var recommendedMetricGoal: RecommendedMetricGoal?
+
                     public init(
                         filterCriteria: FilterCriteria? = nil,
-                        points: [Points]? = nil
+                        points: [Points]? = nil,
+                        recommendedMetricGoal: RecommendedMetricGoal? = nil
                     ) {
                         self.filterCriteria = filterCriteria
                         self.points = points
+                        self.recommendedMetricGoal = recommendedMetricGoal
                     }
 
                     private enum CodingKeys: String, CodingKey {
                         case filterCriteria
                         case points
+                        case recommendedMetricGoal
                     }
 
-                    public struct FilterCriteria: Hashable, Codable {
+                    public struct FilterCriteria: Hashable, Codable, Sendable {
                         public var device: String?
 
                         public var deviceMarketingName: String?
@@ -151,7 +156,7 @@ public struct XcodeMetrics: Hashable, Codable {
                         }
                     }
 
-                    public struct Points: Hashable, Codable {
+                    public struct Points: Hashable, Codable, Sendable {
                         public var errorMargin: Float?
 
                         public var goal: String?
@@ -184,7 +189,7 @@ public struct XcodeMetrics: Hashable, Codable {
                             case version
                         }
 
-                        public struct PercentageBreakdown: Hashable, Codable {
+                        public struct PercentageBreakdown: Hashable, Codable, Sendable {
                             public var subSystemLabel: String?
 
                             public var value: Float?
@@ -203,9 +208,28 @@ public struct XcodeMetrics: Hashable, Codable {
                             }
                         }
                     }
+
+                    public struct RecommendedMetricGoal: Hashable, Codable, Sendable {
+                        public var detail: String?
+
+                        public var value: Float?
+
+                        public init(
+                            detail: String? = nil,
+                            value: Float? = nil
+                        ) {
+                            self.detail = detail
+                            self.value = value
+                        }
+
+                        private enum CodingKeys: String, CodingKey {
+                            case detail
+                            case value
+                        }
+                    }
                 }
 
-                public struct GoalKeys: Hashable, Codable {
+                public struct GoalKeys: Hashable, Codable, Sendable {
                     public var goalKey: String?
 
                     public var lowerBound: Int?
@@ -229,7 +253,7 @@ public struct XcodeMetrics: Hashable, Codable {
                     }
                 }
 
-                public struct Unit: Hashable, Codable {
+                public struct Unit: Hashable, Codable, Sendable {
                     public var displayName: String?
 
                     public var identifier: String?

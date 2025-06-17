@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingAppRequestsV1MetricResponse: Hashable, Codable {
+public struct GameCenterMatchmakingAppRequestsV1MetricResponse: Hashable, Codable, Sendable {
     public var data: [Data]
 
     public var links: PagedDocumentLinks
@@ -26,7 +26,7 @@ public struct GameCenterMatchmakingAppRequestsV1MetricResponse: Hashable, Codabl
         case meta
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var dataPoints: DataPoints?
 
         public var dimensions: Dimensions?
@@ -49,7 +49,7 @@ public struct GameCenterMatchmakingAppRequestsV1MetricResponse: Hashable, Codabl
             case granularity
         }
 
-        public struct DataPoints: Hashable, Codable {
+        public struct DataPoints: Hashable, Codable, Sendable {
             public var end: String?
 
             public var start: String?
@@ -72,7 +72,7 @@ public struct GameCenterMatchmakingAppRequestsV1MetricResponse: Hashable, Codabl
                 case values
             }
 
-            public struct Values: Hashable, Codable {
+            public struct Values: Hashable, Codable, Sendable {
                 public var averageSecondsInQueue: Float?
 
                 public var count: Int?
@@ -102,7 +102,7 @@ public struct GameCenterMatchmakingAppRequestsV1MetricResponse: Hashable, Codabl
             }
         }
 
-        public struct Dimensions: Hashable, Codable {
+        public struct Dimensions: Hashable, Codable, Sendable {
             public var result: Result?
 
             public init(result: Result? = nil) {
@@ -113,18 +113,49 @@ public struct GameCenterMatchmakingAppRequestsV1MetricResponse: Hashable, Codabl
                 case result
             }
 
-            public struct Result: Hashable, Codable {
+            public struct Result: Hashable, Codable, Sendable {
+                public var data: Data?
+
                 public var links: Links?
 
-                public init(links: Links? = nil) {
+                public init(
+                    data: Data? = nil,
+                    links: Links? = nil
+                ) {
+                    self.data = data
                     self.links = links
                 }
 
                 private enum CodingKeys: String, CodingKey {
+                    case data
                     case links
                 }
 
-                public struct Links: Hashable, Codable {
+                public struct Data: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                    public static var canceled: Self {
+                        .init(rawValue: "CANCELED")
+                    }
+
+                    public static var expired: Self {
+                        .init(rawValue: "EXPIRED")
+                    }
+
+                    public static var matched: Self {
+                        .init(rawValue: "MATCHED")
+                    }
+
+                    public var description: String {
+                        rawValue
+                    }
+
+                    public var rawValue: String
+
+                    public init(rawValue: String) {
+                        self.rawValue = rawValue
+                    }
+                }
+
+                public struct Links: Hashable, Codable, Sendable {
                     public var groupBy: URL?
 
                     public init(groupBy: URL? = nil) {
@@ -138,28 +169,27 @@ public struct GameCenterMatchmakingAppRequestsV1MetricResponse: Hashable, Codabl
             }
         }
 
-        public enum Granularity: Hashable, Codable, RawRepresentable {
-            case p1D
-            case pT15M
-            case pT1H
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .p1D: return "P1D"
-                case .pT15M: return "PT15M"
-                case .pT1H: return "PT1H"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Granularity: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var p1D: Self {
+                .init(rawValue: "P1D")
             }
 
+            public static var pT15M: Self {
+                .init(rawValue: "PT15M")
+            }
+
+            public static var pT1H: Self {
+                .init(rawValue: "PT1H")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "P1D": self = .p1D
-                case "PT15M": self = .pT15M
-                case "PT1H": self = .pT1H
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

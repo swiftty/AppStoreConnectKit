@@ -51,7 +51,9 @@ extension V1.GameCenterLeaderboardSetMemberLocalizations {
 
         /// - Returns: **200**, List of GameCenterLeaderboardSetMemberLocalizations as `GameCenterLeaderboardSetMemberLocalizationsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -65,7 +67,13 @@ extension V1.GameCenterLeaderboardSetMemberLocalizations {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -95,138 +103,171 @@ extension V1.GameCenterLeaderboardSetMemberLocalizations.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum GameCenterLeaderboardSetMemberLocalizations: Hashable, Codable, RawRepresentable {
-                case gameCenterLeaderboard
-                case gameCenterLeaderboardSet
-                case locale
-                case name
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .gameCenterLeaderboard: return "gameCenterLeaderboard"
-                    case .gameCenterLeaderboardSet: return "gameCenterLeaderboardSet"
-                    case .locale: return "locale"
-                    case .name: return "name"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterLeaderboardSetMemberLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterLeaderboard: Self {
+                    .init(rawValue: "gameCenterLeaderboard")
                 }
 
+                public static var gameCenterLeaderboardSet: Self {
+                    .init(rawValue: "gameCenterLeaderboardSet")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "gameCenterLeaderboard": self = .gameCenterLeaderboard
-                    case "gameCenterLeaderboardSet": self = .gameCenterLeaderboardSet
-                    case "locale": self = .locale
-                    case "name": self = .name
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterLeaderboardSets: Hashable, Codable, RawRepresentable {
-                case gameCenterDetail
-                case gameCenterGroup
-                case gameCenterLeaderboards
-                case groupLeaderboardSet
-                case localizations
-                case referenceName
-                case releases
-                case vendorIdentifier
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterGroup: return "gameCenterGroup"
-                    case .gameCenterLeaderboards: return "gameCenterLeaderboards"
-                    case .groupLeaderboardSet: return "groupLeaderboardSet"
-                    case .localizations: return "localizations"
-                    case .referenceName: return "referenceName"
-                    case .releases: return "releases"
-                    case .vendorIdentifier: return "vendorIdentifier"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterLeaderboardSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
                 }
 
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var gameCenterLeaderboards: Self {
+                    .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var groupLeaderboardSet: Self {
+                    .init(rawValue: "groupLeaderboardSet")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterGroup": self = .gameCenterGroup
-                    case "gameCenterLeaderboards": self = .gameCenterLeaderboards
-                    case "groupLeaderboardSet": self = .groupLeaderboardSet
-                    case "localizations": self = .localizations
-                    case "referenceName": self = .referenceName
-                    case "releases": self = .releases
-                    case "vendorIdentifier": self = .vendorIdentifier
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterLeaderboards: Hashable, Codable, RawRepresentable {
-                case archived
-                case defaultFormatter
-                case gameCenterDetail
-                case gameCenterGroup
-                case gameCenterLeaderboardSets
-                case groupLeaderboard
-                case localizations
-                case recurrenceDuration
-                case recurrenceRule
-                case recurrenceStartDate
-                case referenceName
-                case releases
-                case scoreRangeEnd
-                case scoreRangeStart
-                case scoreSortType
-                case submissionType
-                case vendorIdentifier
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .archived: return "archived"
-                    case .defaultFormatter: return "defaultFormatter"
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterGroup: return "gameCenterGroup"
-                    case .gameCenterLeaderboardSets: return "gameCenterLeaderboardSets"
-                    case .groupLeaderboard: return "groupLeaderboard"
-                    case .localizations: return "localizations"
-                    case .recurrenceDuration: return "recurrenceDuration"
-                    case .recurrenceRule: return "recurrenceRule"
-                    case .recurrenceStartDate: return "recurrenceStartDate"
-                    case .referenceName: return "referenceName"
-                    case .releases: return "releases"
-                    case .scoreRangeEnd: return "scoreRangeEnd"
-                    case .scoreRangeStart: return "scoreRangeStart"
-                    case .scoreSortType: return "scoreSortType"
-                    case .submissionType: return "submissionType"
-                    case .vendorIdentifier: return "vendorIdentifier"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterLeaderboards: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activity: Self {
+                    .init(rawValue: "activity")
                 }
 
+                public static var activityProperties: Self {
+                    .init(rawValue: "activityProperties")
+                }
+
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
+                public static var challenge: Self {
+                    .init(rawValue: "challenge")
+                }
+
+                public static var defaultFormatter: Self {
+                    .init(rawValue: "defaultFormatter")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var gameCenterLeaderboardSets: Self {
+                    .init(rawValue: "gameCenterLeaderboardSets")
+                }
+
+                public static var groupLeaderboard: Self {
+                    .init(rawValue: "groupLeaderboard")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var recurrenceDuration: Self {
+                    .init(rawValue: "recurrenceDuration")
+                }
+
+                public static var recurrenceRule: Self {
+                    .init(rawValue: "recurrenceRule")
+                }
+
+                public static var recurrenceStartDate: Self {
+                    .init(rawValue: "recurrenceStartDate")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var scoreRangeEnd: Self {
+                    .init(rawValue: "scoreRangeEnd")
+                }
+
+                public static var scoreRangeStart: Self {
+                    .init(rawValue: "scoreRangeStart")
+                }
+
+                public static var scoreSortType: Self {
+                    .init(rawValue: "scoreSortType")
+                }
+
+                public static var submissionType: Self {
+                    .init(rawValue: "submissionType")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public static var visibility: Self {
+                    .init(rawValue: "visibility")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "archived": self = .archived
-                    case "defaultFormatter": self = .defaultFormatter
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterGroup": self = .gameCenterGroup
-                    case "gameCenterLeaderboardSets": self = .gameCenterLeaderboardSets
-                    case "groupLeaderboard": self = .groupLeaderboard
-                    case "localizations": self = .localizations
-                    case "recurrenceDuration": self = .recurrenceDuration
-                    case "recurrenceRule": self = .recurrenceRule
-                    case "recurrenceStartDate": self = .recurrenceStartDate
-                    case "referenceName": self = .referenceName
-                    case "releases": self = .releases
-                    case "scoreRangeEnd": self = .scoreRangeEnd
-                    case "scoreRangeStart": self = .scoreRangeStart
-                    case "scoreSortType": self = .scoreSortType
-                    case "submissionType": self = .submissionType
-                    case "vendorIdentifier": self = .vendorIdentifier
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -281,25 +322,23 @@ extension V1.GameCenterLeaderboardSetMemberLocalizations.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case gameCenterLeaderboard
-            case gameCenterLeaderboardSet
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .gameCenterLeaderboard: return "gameCenterLeaderboard"
-                case .gameCenterLeaderboardSet: return "gameCenterLeaderboardSet"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var gameCenterLeaderboard: Self {
+                .init(rawValue: "gameCenterLeaderboard")
             }
 
+            public static var gameCenterLeaderboardSet: Self {
+                .init(rawValue: "gameCenterLeaderboardSet")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "gameCenterLeaderboard": self = .gameCenterLeaderboard
-                case "gameCenterLeaderboardSet": self = .gameCenterLeaderboardSet
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

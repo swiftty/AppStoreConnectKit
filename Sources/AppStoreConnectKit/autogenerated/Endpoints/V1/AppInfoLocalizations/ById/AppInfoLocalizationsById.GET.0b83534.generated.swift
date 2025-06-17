@@ -44,8 +44,10 @@ extension V1.AppInfoLocalizations.ById {
 
         /// - Returns: **200**, Single AppInfoLocalization as `AppInfoLocalizationResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.AppInfoLocalizations.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,40 +95,43 @@ extension V1.AppInfoLocalizations.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppInfoLocalizations: Hashable, Codable, RawRepresentable {
-                case appInfo
-                case locale
-                case name
-                case privacyChoicesUrl
-                case privacyPolicyText
-                case privacyPolicyUrl
-                case subtitle
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appInfo: return "appInfo"
-                    case .locale: return "locale"
-                    case .name: return "name"
-                    case .privacyChoicesUrl: return "privacyChoicesUrl"
-                    case .privacyPolicyText: return "privacyPolicyText"
-                    case .privacyPolicyUrl: return "privacyPolicyUrl"
-                    case .subtitle: return "subtitle"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppInfoLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appInfo: Self {
+                    .init(rawValue: "appInfo")
                 }
 
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var privacyChoicesUrl: Self {
+                    .init(rawValue: "privacyChoicesUrl")
+                }
+
+                public static var privacyPolicyText: Self {
+                    .init(rawValue: "privacyPolicyText")
+                }
+
+                public static var privacyPolicyUrl: Self {
+                    .init(rawValue: "privacyPolicyUrl")
+                }
+
+                public static var subtitle: Self {
+                    .init(rawValue: "subtitle")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appInfo": self = .appInfo
-                    case "locale": self = .locale
-                    case "name": self = .name
-                    case "privacyChoicesUrl": self = .privacyChoicesUrl
-                    case "privacyPolicyText": self = .privacyPolicyText
-                    case "privacyPolicyUrl": self = .privacyPolicyUrl
-                    case "subtitle": self = .subtitle
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -138,22 +149,19 @@ extension V1.AppInfoLocalizations.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appInfo
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appInfo: return "appInfo"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appInfo: Self {
+                .init(rawValue: "appInfo")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appInfo": self = .appInfo
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiXcodeVersion: Hashable, Codable {
+public struct CiXcodeVersion: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct CiXcodeVersion: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case ciXcodeVersions
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var name: String?
 
         public var testDestinations: [TestDestinations]?
@@ -63,7 +63,7 @@ public struct CiXcodeVersion: Hashable, Codable {
             case version
         }
 
-        public struct TestDestinations: Hashable, Codable {
+        public struct TestDestinations: Hashable, Codable, Sendable {
             public var availableRuntimes: [AvailableRuntimes]?
 
             public var deviceTypeIdentifier: String?
@@ -91,7 +91,7 @@ public struct CiXcodeVersion: Hashable, Codable {
                 case kind
             }
 
-            public struct AvailableRuntimes: Hashable, Codable {
+            public struct AvailableRuntimes: Hashable, Codable, Sendable {
                 public var runtimeIdentifier: String?
 
                 public var runtimeName: String?
@@ -112,7 +112,7 @@ public struct CiXcodeVersion: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var macOsVersions: MacOsVersions?
 
         public init(macOsVersions: MacOsVersions? = nil) {
@@ -123,16 +123,16 @@ public struct CiXcodeVersion: Hashable, Codable {
             case macOsVersions
         }
 
-        public struct MacOsVersions: Hashable, Codable {
+        public struct MacOsVersions: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -146,7 +146,7 @@ public struct CiXcodeVersion: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -164,27 +164,8 @@ public struct CiXcodeVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case ciMacOsVersions
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

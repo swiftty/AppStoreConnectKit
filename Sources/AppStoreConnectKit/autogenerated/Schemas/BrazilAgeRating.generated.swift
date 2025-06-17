@@ -3,37 +3,39 @@
 // swiftlint:disable all
 import Foundation
 
-public enum BrazilAgeRating: Hashable, Codable, RawRepresentable {
-    case eighteen
-    case fourteen
-    case l
-    case sixteen
-    case ten
-    case twelve
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .eighteen: return "EIGHTEEN"
-        case .fourteen: return "FOURTEEN"
-        case .l: return "L"
-        case .sixteen: return "SIXTEEN"
-        case .ten: return "TEN"
-        case .twelve: return "TWELVE"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct BrazilAgeRating: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var eighteen: Self {
+        .init(rawValue: "EIGHTEEN")
     }
 
+    public static var fourteen: Self {
+        .init(rawValue: "FOURTEEN")
+    }
+
+    public static var l: Self {
+        .init(rawValue: "L")
+    }
+
+    public static var sixteen: Self {
+        .init(rawValue: "SIXTEEN")
+    }
+
+    public static var ten: Self {
+        .init(rawValue: "TEN")
+    }
+
+    public static var twelve: Self {
+        .init(rawValue: "TWELVE")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "EIGHTEEN": self = .eighteen
-        case "FOURTEEN": self = .fourteen
-        case "L": self = .l
-        case "SIXTEEN": self = .sixteen
-        case "TEN": self = .ten
-        case "TWELVE": self = .twelve
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppStoreVersionLocalizationCreateRequest: Hashable, Codable {
+public struct AppStoreVersionLocalizationCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppStoreVersionLocalizationCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct AppStoreVersionLocalizationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appStoreVersionLocalizations
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var description: String?
 
             public var keywords: String?
@@ -85,7 +85,7 @@ public struct AppStoreVersionLocalizationCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appStoreVersion: AppStoreVersion
 
             public init(appStoreVersion: AppStoreVersion) {
@@ -96,7 +96,7 @@ public struct AppStoreVersionLocalizationCreateRequest: Hashable, Codable {
                 case appStoreVersion
             }
 
-            public struct AppStoreVersion: Hashable, Codable {
+            public struct AppStoreVersion: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -107,7 +107,7 @@ public struct AppStoreVersionLocalizationCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -125,7 +125,7 @@ public struct AppStoreVersionLocalizationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersions
                     }
                 }

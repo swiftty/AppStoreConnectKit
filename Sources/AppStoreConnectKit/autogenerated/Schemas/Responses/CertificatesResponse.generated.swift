@@ -3,8 +3,10 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CertificatesResponse: Hashable, Codable {
+public struct CertificatesResponse: Hashable, Codable, Sendable {
     public var data: [Certificate]
+
+    public var included: [PassTypeId]?
 
     public var links: PagedDocumentLinks
 
@@ -12,16 +14,19 @@ public struct CertificatesResponse: Hashable, Codable {
 
     public init(
         data: [Certificate],
+        included: [PassTypeId]? = nil,
         links: PagedDocumentLinks,
         meta: PagingInformation? = nil
     ) {
         self.data = data
+        self.included = included
         self.links = links
         self.meta = meta
     }
 
     private enum CodingKeys: String, CodingKey {
         case data
+        case included
         case links
         case meta
     }

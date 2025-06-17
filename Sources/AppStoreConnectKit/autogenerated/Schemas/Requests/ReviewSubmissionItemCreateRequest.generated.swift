@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
+public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var relationships: Relationships
@@ -32,11 +32,11 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case reviewSubmissionItems
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appCustomProductPageVersion: AppCustomProductPageVersion?
 
             public var appEvent: AppEvent?
@@ -74,7 +74,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                 case reviewSubmission
             }
 
-            public struct AppCustomProductPageVersion: Hashable, Codable {
+            public struct AppCustomProductPageVersion: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -85,7 +85,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -103,13 +103,13 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appCustomProductPageVersions
                     }
                 }
             }
 
-            public struct AppEvent: Hashable, Codable {
+            public struct AppEvent: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -120,7 +120,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -138,13 +138,13 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appEvents
                     }
                 }
             }
 
-            public struct AppStoreVersion: Hashable, Codable {
+            public struct AppStoreVersion: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -155,7 +155,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -173,13 +173,13 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersions
                     }
                 }
             }
 
-            public struct AppStoreVersionExperiment: Hashable, Codable {
+            public struct AppStoreVersionExperiment: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -190,7 +190,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -208,13 +208,13 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersionExperiments
                     }
                 }
             }
 
-            public struct AppStoreVersionExperimentV2: Hashable, Codable {
+            public struct AppStoreVersionExperimentV2: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -225,7 +225,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -243,13 +243,13 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersionExperiments
                     }
                 }
             }
 
-            public struct ReviewSubmission: Hashable, Codable {
+            public struct ReviewSubmission: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -260,7 +260,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -278,7 +278,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case reviewSubmissions
                     }
                 }

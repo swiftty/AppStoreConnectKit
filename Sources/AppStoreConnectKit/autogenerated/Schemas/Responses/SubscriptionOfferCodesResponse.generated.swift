@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionOfferCodesResponse: Hashable, Codable {
+public struct SubscriptionOfferCodesResponse: Hashable, Codable, Sendable {
     public var data: [SubscriptionOfferCode]
 
     public var included: [Included]?
@@ -31,7 +31,7 @@ public struct SubscriptionOfferCodesResponse: Hashable, Codable {
         case meta
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case subscription(Subscription)
         case subscriptionOfferCodeOneTimeUseCode(SubscriptionOfferCodeOneTimeUseCode)
         case subscriptionOfferCodeCustomCode(SubscriptionOfferCodeCustomCode)

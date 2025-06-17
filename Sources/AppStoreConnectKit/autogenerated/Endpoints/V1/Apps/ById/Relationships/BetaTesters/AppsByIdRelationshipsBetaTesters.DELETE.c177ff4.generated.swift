@@ -31,11 +31,12 @@ extension V1.Apps.ById.Relationships.BetaTesters {
             return urlRequest
         }
 
-        /// - Returns: **202**, Accepted for future completion
-        /// - Returns: **204**, Success (no content)
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
         /// - Throws: **409**, Request entity error(s) as `ErrorResponse`
+        /// - Throws: **422**, Unprocessable request entity error(s) as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -43,11 +44,8 @@ extension V1.Apps.ById.Relationships.BetaTesters {
             }
 
             switch urlResponse.statusCode {
-            case 202:
-                return
-
-            case 204:
-                return
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
@@ -56,6 +54,12 @@ extension V1.Apps.ById.Relationships.BetaTesters {
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 409:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 422:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:

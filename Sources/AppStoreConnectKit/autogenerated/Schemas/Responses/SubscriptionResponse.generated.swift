@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionResponse: Hashable, Codable {
+public struct SubscriptionResponse: Hashable, Codable, Sendable {
     public var data: Subscription
 
     public var included: [Included]?
@@ -26,7 +26,7 @@ public struct SubscriptionResponse: Hashable, Codable {
         case links
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case subscriptionLocalization(SubscriptionLocalization)
         case subscriptionAppStoreReviewScreenshot(SubscriptionAppStoreReviewScreenshot)
         case subscriptionGroup(SubscriptionGroup)
@@ -36,6 +36,8 @@ public struct SubscriptionResponse: Hashable, Codable {
         case subscriptionPrice(SubscriptionPrice)
         case promotedPurchase(PromotedPurchase)
         case subscriptionAvailability(SubscriptionAvailability)
+        case winBackOffer(WinBackOffer)
+        case subscriptionImage(SubscriptionImage)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -85,6 +87,16 @@ public struct SubscriptionResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .winBackOffer(try WinBackOffer(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .subscriptionImage(try SubscriptionImage(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -116,6 +128,12 @@ public struct SubscriptionResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .subscriptionAvailability(let value):
+                try value.encode(to: encoder)
+
+            case .winBackOffer(let value):
+                try value.encode(to: encoder)
+
+            case .subscriptionImage(let value):
                 try value.encode(to: encoder)
             }
         }

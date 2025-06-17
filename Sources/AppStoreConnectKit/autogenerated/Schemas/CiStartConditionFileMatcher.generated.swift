@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiStartConditionFileMatcher: Hashable, Codable {
+public struct CiStartConditionFileMatcher: Hashable, Codable, Sendable {
     public var directory: String?
 
     public var fileExtension: String?

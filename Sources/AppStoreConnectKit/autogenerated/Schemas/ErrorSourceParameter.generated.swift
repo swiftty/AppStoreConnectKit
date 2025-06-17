@@ -4,10 +4,10 @@
 import Foundation
 
 extension ErrorResponse {
-    public struct Parameter: Hashable, Codable {
-        public var parameter: String?
+    public struct Parameter: Hashable, Codable, Sendable {
+        public var parameter: String
 
-        public init(parameter: String? = nil) {
+        public init(parameter: String) {
             self.parameter = parameter
         }
 

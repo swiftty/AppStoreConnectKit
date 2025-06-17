@@ -31,7 +31,7 @@ extension V1.GameCenterMatchmakingRules.ById.Metrics.MatchmakingNumberRuleResult
                 URLQueryItem(name: "filter[gameCenterMatchmakingQueue]",
                              value: parameters.filter[.gameCenterMatchmakingQueue].map { "\($0)" }),
                 URLQueryItem(name: "granularity",
-                             value: parameters.granularity.map { "\($0)" }.joined(separator: ",")),
+                             value: parameters.granularity.map { "\($0)" }),
                 URLQueryItem(name: "groupBy",
                              value: parameters.groupBy?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
@@ -50,8 +50,10 @@ extension V1.GameCenterMatchmakingRules.ById.Metrics.MatchmakingNumberRuleResult
 
         /// - Returns: **200**, Metrics data response as `GameCenterMatchmakingNumberRuleResultsV1MetricResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -65,10 +67,16 @@ extension V1.GameCenterMatchmakingRules.ById.Metrics.MatchmakingNumberRuleResult
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -83,7 +91,7 @@ extension V1.GameCenterMatchmakingRules.ById.Metrics.MatchmakingNumberRuleResult
         public var filter: Filter = Filter()
 
         /// the granularity of the per-group dataset
-        public var granularity: [Granularity] = []
+        public var granularity: Granularity?
 
         /// the dimension by which to group the results
         public var groupBy: [GroupBy]?
@@ -116,87 +124,87 @@ extension V1.GameCenterMatchmakingRules.ById.Metrics.MatchmakingNumberRuleResult
             }
         }
 
-        public enum Granularity: Hashable, Codable, RawRepresentable {
-            case p1D
-            case pT15M
-            case pT1H
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .p1D: return "P1D"
-                case .pT15M: return "PT15M"
-                case .pT1H: return "PT1H"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Granularity: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var p1D: Self {
+                .init(rawValue: "P1D")
             }
 
+            public static var pT15M: Self {
+                .init(rawValue: "PT15M")
+            }
+
+            public static var pT1H: Self {
+                .init(rawValue: "PT1H")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "P1D": self = .p1D
-                case "PT15M": self = .pT15M
-                case "PT1H": self = .pT1H
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum GroupBy: Hashable, Codable, RawRepresentable {
-            case gameCenterMatchmakingQueue
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .gameCenterMatchmakingQueue: return "gameCenterMatchmakingQueue"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct GroupBy: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var gameCenterMatchmakingQueue: Self {
+                .init(rawValue: "gameCenterMatchmakingQueue")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "gameCenterMatchmakingQueue": self = .gameCenterMatchmakingQueue
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum Sort: Hashable, Codable, RawRepresentable {
-            case averageResult
-            case averageResultDesc
-            case count
-            case countDesc
-            case p50Result
-            case p50ResultDesc
-            case p95Result
-            case p95ResultDesc
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .averageResult: return "averageResult"
-                case .averageResultDesc: return "-averageResult"
-                case .count: return "count"
-                case .countDesc: return "-count"
-                case .p50Result: return "p50Result"
-                case .p50ResultDesc: return "-p50Result"
-                case .p95Result: return "p95Result"
-                case .p95ResultDesc: return "-p95Result"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Sort: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var averageResult: Self {
+                .init(rawValue: "averageResult")
             }
 
+            public static var averageResultDesc: Self {
+                .init(rawValue: "-averageResult")
+            }
+
+            public static var count: Self {
+                .init(rawValue: "count")
+            }
+
+            public static var countDesc: Self {
+                .init(rawValue: "-count")
+            }
+
+            public static var p50Result: Self {
+                .init(rawValue: "p50Result")
+            }
+
+            public static var p50ResultDesc: Self {
+                .init(rawValue: "-p50Result")
+            }
+
+            public static var p95Result: Self {
+                .init(rawValue: "p95Result")
+            }
+
+            public static var p95ResultDesc: Self {
+                .init(rawValue: "-p95Result")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "averageResult": self = .averageResult
-                case "-averageResult": self = .averageResultDesc
-                case "count": self = .count
-                case "-count": self = .countDesc
-                case "p50Result": self = .p50Result
-                case "-p50Result": self = .p50ResultDesc
-                case "p95Result": self = .p95Result
-                case "-p95Result": self = .p95ResultDesc
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

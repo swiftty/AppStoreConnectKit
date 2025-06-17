@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct InAppPurchaseLocalizationCreateRequest: Hashable, Codable {
+public struct InAppPurchaseLocalizationCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct InAppPurchaseLocalizationCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct InAppPurchaseLocalizationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case inAppPurchaseLocalizations
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var description: String?
 
             public var locale: String
@@ -65,7 +65,7 @@ public struct InAppPurchaseLocalizationCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var inAppPurchaseV2: InAppPurchaseV2
 
             public init(inAppPurchaseV2: InAppPurchaseV2) {
@@ -76,7 +76,7 @@ public struct InAppPurchaseLocalizationCreateRequest: Hashable, Codable {
                 case inAppPurchaseV2
             }
 
-            public struct InAppPurchaseV2: Hashable, Codable {
+            public struct InAppPurchaseV2: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -87,7 +87,7 @@ public struct InAppPurchaseLocalizationCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -105,7 +105,7 @@ public struct InAppPurchaseLocalizationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case inAppPurchases
                     }
                 }

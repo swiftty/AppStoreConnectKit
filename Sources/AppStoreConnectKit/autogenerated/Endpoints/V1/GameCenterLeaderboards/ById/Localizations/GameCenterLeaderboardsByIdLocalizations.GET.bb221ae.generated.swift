@@ -50,8 +50,10 @@ extension V1.GameCenterLeaderboards.ById.Localizations {
 
         /// - Returns: **200**, List of GameCenterLeaderboardLocalizations as `GameCenterLeaderboardLocalizationsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -65,10 +67,16 @@ extension V1.GameCenterLeaderboards.ById.Localizations {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -96,144 +104,175 @@ extension V1.GameCenterLeaderboards.ById.Localizations.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum GameCenterLeaderboardImages: Hashable, Codable, RawRepresentable {
-                case assetDeliveryState
-                case fileName
-                case fileSize
-                case gameCenterLeaderboardLocalization
-                case imageAsset
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .gameCenterLeaderboardLocalization: return "gameCenterLeaderboardLocalization"
-                    case .imageAsset: return "imageAsset"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterLeaderboardImages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
                 }
 
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var gameCenterLeaderboardLocalization: Self {
+                    .init(rawValue: "gameCenterLeaderboardLocalization")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "gameCenterLeaderboardLocalization": self = .gameCenterLeaderboardLocalization
-                    case "imageAsset": self = .imageAsset
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterLeaderboardLocalizations: Hashable, Codable, RawRepresentable {
-                case formatterOverride
-                case formatterSuffix
-                case formatterSuffixSingular
-                case gameCenterLeaderboard
-                case gameCenterLeaderboardImage
-                case locale
-                case name
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .formatterOverride: return "formatterOverride"
-                    case .formatterSuffix: return "formatterSuffix"
-                    case .formatterSuffixSingular: return "formatterSuffixSingular"
-                    case .gameCenterLeaderboard: return "gameCenterLeaderboard"
-                    case .gameCenterLeaderboardImage: return "gameCenterLeaderboardImage"
-                    case .locale: return "locale"
-                    case .name: return "name"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterLeaderboardLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var formatterOverride: Self {
+                    .init(rawValue: "formatterOverride")
                 }
 
+                public static var formatterSuffix: Self {
+                    .init(rawValue: "formatterSuffix")
+                }
+
+                public static var formatterSuffixSingular: Self {
+                    .init(rawValue: "formatterSuffixSingular")
+                }
+
+                public static var gameCenterLeaderboard: Self {
+                    .init(rawValue: "gameCenterLeaderboard")
+                }
+
+                public static var gameCenterLeaderboardImage: Self {
+                    .init(rawValue: "gameCenterLeaderboardImage")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "formatterOverride": self = .formatterOverride
-                    case "formatterSuffix": self = .formatterSuffix
-                    case "formatterSuffixSingular": self = .formatterSuffixSingular
-                    case "gameCenterLeaderboard": self = .gameCenterLeaderboard
-                    case "gameCenterLeaderboardImage": self = .gameCenterLeaderboardImage
-                    case "locale": self = .locale
-                    case "name": self = .name
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterLeaderboards: Hashable, Codable, RawRepresentable {
-                case archived
-                case defaultFormatter
-                case gameCenterDetail
-                case gameCenterGroup
-                case gameCenterLeaderboardSets
-                case groupLeaderboard
-                case localizations
-                case recurrenceDuration
-                case recurrenceRule
-                case recurrenceStartDate
-                case referenceName
-                case releases
-                case scoreRangeEnd
-                case scoreRangeStart
-                case scoreSortType
-                case submissionType
-                case vendorIdentifier
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .archived: return "archived"
-                    case .defaultFormatter: return "defaultFormatter"
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterGroup: return "gameCenterGroup"
-                    case .gameCenterLeaderboardSets: return "gameCenterLeaderboardSets"
-                    case .groupLeaderboard: return "groupLeaderboard"
-                    case .localizations: return "localizations"
-                    case .recurrenceDuration: return "recurrenceDuration"
-                    case .recurrenceRule: return "recurrenceRule"
-                    case .recurrenceStartDate: return "recurrenceStartDate"
-                    case .referenceName: return "referenceName"
-                    case .releases: return "releases"
-                    case .scoreRangeEnd: return "scoreRangeEnd"
-                    case .scoreRangeStart: return "scoreRangeStart"
-                    case .scoreSortType: return "scoreSortType"
-                    case .submissionType: return "submissionType"
-                    case .vendorIdentifier: return "vendorIdentifier"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterLeaderboards: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activity: Self {
+                    .init(rawValue: "activity")
                 }
 
+                public static var activityProperties: Self {
+                    .init(rawValue: "activityProperties")
+                }
+
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
+                public static var challenge: Self {
+                    .init(rawValue: "challenge")
+                }
+
+                public static var defaultFormatter: Self {
+                    .init(rawValue: "defaultFormatter")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var gameCenterLeaderboardSets: Self {
+                    .init(rawValue: "gameCenterLeaderboardSets")
+                }
+
+                public static var groupLeaderboard: Self {
+                    .init(rawValue: "groupLeaderboard")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var recurrenceDuration: Self {
+                    .init(rawValue: "recurrenceDuration")
+                }
+
+                public static var recurrenceRule: Self {
+                    .init(rawValue: "recurrenceRule")
+                }
+
+                public static var recurrenceStartDate: Self {
+                    .init(rawValue: "recurrenceStartDate")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var scoreRangeEnd: Self {
+                    .init(rawValue: "scoreRangeEnd")
+                }
+
+                public static var scoreRangeStart: Self {
+                    .init(rawValue: "scoreRangeStart")
+                }
+
+                public static var scoreSortType: Self {
+                    .init(rawValue: "scoreSortType")
+                }
+
+                public static var submissionType: Self {
+                    .init(rawValue: "submissionType")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public static var visibility: Self {
+                    .init(rawValue: "visibility")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "archived": self = .archived
-                    case "defaultFormatter": self = .defaultFormatter
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterGroup": self = .gameCenterGroup
-                    case "gameCenterLeaderboardSets": self = .gameCenterLeaderboardSets
-                    case "groupLeaderboard": self = .groupLeaderboard
-                    case "localizations": self = .localizations
-                    case "recurrenceDuration": self = .recurrenceDuration
-                    case "recurrenceRule": self = .recurrenceRule
-                    case "recurrenceStartDate": self = .recurrenceStartDate
-                    case "referenceName": self = .referenceName
-                    case "releases": self = .releases
-                    case "scoreRangeEnd": self = .scoreRangeEnd
-                    case "scoreRangeStart": self = .scoreRangeStart
-                    case "scoreSortType": self = .scoreSortType
-                    case "submissionType": self = .submissionType
-                    case "vendorIdentifier": self = .vendorIdentifier
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -261,25 +300,23 @@ extension V1.GameCenterLeaderboards.ById.Localizations.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case gameCenterLeaderboard
-            case gameCenterLeaderboardImage
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .gameCenterLeaderboard: return "gameCenterLeaderboard"
-                case .gameCenterLeaderboardImage: return "gameCenterLeaderboardImage"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var gameCenterLeaderboard: Self {
+                .init(rawValue: "gameCenterLeaderboard")
             }
 
+            public static var gameCenterLeaderboardImage: Self {
+                .init(rawValue: "gameCenterLeaderboardImage")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "gameCenterLeaderboard": self = .gameCenterLeaderboard
-                case "gameCenterLeaderboardImage": self = .gameCenterLeaderboardImage
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

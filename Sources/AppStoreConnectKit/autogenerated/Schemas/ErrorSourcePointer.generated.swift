@@ -4,10 +4,10 @@
 import Foundation
 
 extension ErrorResponse {
-    public struct JsonPointer: Hashable, Codable {
-        public var pointer: String?
+    public struct JsonPointer: Hashable, Codable, Sendable {
+        public var pointer: String
 
-        public init(pointer: String? = nil) {
+        public init(pointer: String) {
             self.pointer = pointer
         }
 

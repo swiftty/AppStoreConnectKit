@@ -46,8 +46,10 @@ extension V1.AppInfos.ById.SecondarySubcategoryTwo {
 
         /// - Returns: **200**, Single AppCategory as `AppCategoryResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -61,10 +63,16 @@ extension V1.AppInfos.ById.SecondarySubcategoryTwo {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -91,28 +99,27 @@ extension V1.AppInfos.ById.SecondarySubcategoryTwo.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppCategories: Hashable, Codable, RawRepresentable {
-                case parent
-                case platforms
-                case subcategories
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .parent: return "parent"
-                    case .platforms: return "platforms"
-                    case .subcategories: return "subcategories"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppCategories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var parent: Self {
+                    .init(rawValue: "parent")
                 }
 
+                public static var platforms: Self {
+                    .init(rawValue: "platforms")
+                }
+
+                public static var subcategories: Self {
+                    .init(rawValue: "subcategories")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "parent": self = .parent
-                    case "platforms": self = .platforms
-                    case "subcategories": self = .subcategories
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -130,25 +137,23 @@ extension V1.AppInfos.ById.SecondarySubcategoryTwo.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case parent
-            case subcategories
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .parent: return "parent"
-                case .subcategories: return "subcategories"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var parent: Self {
+                .init(rawValue: "parent")
             }
 
+            public static var subcategories: Self {
+                .init(rawValue: "subcategories")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "parent": self = .parent
-                case "subcategories": self = .subcategories
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

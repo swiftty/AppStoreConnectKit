@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CertificateCreateRequest: Hashable, Codable {
+public struct CertificateCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,29 +14,34 @@ public struct CertificateCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
 
+        public var relationships: Relationships?
+
         public init(
             type: `Type`,
-            attributes: Attributes
+            attributes: Attributes,
+            relationships: Relationships? = nil
         ) {
             self.type = type
             self.attributes = attributes
+            self.relationships = relationships
         }
 
         private enum CodingKeys: String, CodingKey {
             case type
             case attributes
+            case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case certificates
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var certificateType: CertificateType
 
             public var csrContent: String
@@ -52,6 +57,95 @@ public struct CertificateCreateRequest: Hashable, Codable {
             private enum CodingKeys: String, CodingKey {
                 case certificateType
                 case csrContent
+            }
+        }
+
+        public struct Relationships: Hashable, Codable, Sendable {
+            public var merchantId: MerchantId?
+
+            public var passTypeId: PassTypeId?
+
+            public init(
+                merchantId: MerchantId? = nil,
+                passTypeId: PassTypeId? = nil
+            ) {
+                self.merchantId = merchantId
+                self.passTypeId = passTypeId
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case merchantId
+                case passTypeId
+            }
+
+            public struct MerchantId: Hashable, Codable, Sendable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case merchantIds
+                    }
+                }
+            }
+
+            public struct PassTypeId: Hashable, Codable, Sendable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case passTypeIds
+                    }
+                }
             }
         }
     }

@@ -3,25 +3,23 @@
 // swiftlint:disable all
 import Foundation
 
-public enum SubscriptionOfferEligibility: Hashable, Codable, RawRepresentable {
-    case replaceIntroOffers
-    case stackWithIntroOffers
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .replaceIntroOffers: return "REPLACE_INTRO_OFFERS"
-        case .stackWithIntroOffers: return "STACK_WITH_INTRO_OFFERS"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct SubscriptionOfferEligibility: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var replaceIntroOffers: Self {
+        .init(rawValue: "REPLACE_INTRO_OFFERS")
     }
 
+    public static var stackWithIntroOffers: Self {
+        .init(rawValue: "STACK_WITH_INTRO_OFFERS")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "REPLACE_INTRO_OFFERS": self = .replaceIntroOffers
-        case "STACK_WITH_INTRO_OFFERS": self = .stackWithIntroOffers
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

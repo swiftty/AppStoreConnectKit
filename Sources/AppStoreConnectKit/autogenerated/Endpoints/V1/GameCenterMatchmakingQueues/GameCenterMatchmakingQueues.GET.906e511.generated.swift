@@ -43,7 +43,9 @@ extension V1.GameCenterMatchmakingQueues {
 
         /// - Returns: **200**, List of GameCenterMatchmakingQueues as `GameCenterMatchmakingQueuesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -57,7 +59,13 @@ extension V1.GameCenterMatchmakingQueues {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -85,28 +93,31 @@ extension V1.GameCenterMatchmakingQueues.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum GameCenterMatchmakingQueues: Hashable, Codable, RawRepresentable {
-                case experimentRuleSet
-                case referenceName
-                case ruleSet
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .experimentRuleSet: return "experimentRuleSet"
-                    case .referenceName: return "referenceName"
-                    case .ruleSet: return "ruleSet"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterMatchmakingQueues: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var classicMatchmakingBundleIds: Self {
+                    .init(rawValue: "classicMatchmakingBundleIds")
                 }
 
+                public static var experimentRuleSet: Self {
+                    .init(rawValue: "experimentRuleSet")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var ruleSet: Self {
+                    .init(rawValue: "ruleSet")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "experimentRuleSet": self = .experimentRuleSet
-                    case "referenceName": self = .referenceName
-                    case "ruleSet": self = .ruleSet
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -124,25 +135,23 @@ extension V1.GameCenterMatchmakingQueues.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case experimentRuleSet
-            case ruleSet
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .experimentRuleSet: return "experimentRuleSet"
-                case .ruleSet: return "ruleSet"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var experimentRuleSet: Self {
+                .init(rawValue: "experimentRuleSet")
             }
 
+            public static var ruleSet: Self {
+                .init(rawValue: "ruleSet")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "experimentRuleSet": self = .experimentRuleSet
-                case "ruleSet": self = .ruleSet
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

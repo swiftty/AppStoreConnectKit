@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct Device: Hashable, Codable {
+public struct Device: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct Device: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case devices
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var addedDate: String?
 
         public var deviceClass: DeviceClass?
@@ -78,59 +78,63 @@ public struct Device: Hashable, Codable {
             case udid
         }
 
-        public enum DeviceClass: Hashable, Codable, RawRepresentable {
-            case appleTv
-            case appleWatch
-            case ipad
-            case iphone
-            case ipod
-            case mac
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appleTv: return "APPLE_TV"
-                case .appleWatch: return "APPLE_WATCH"
-                case .ipad: return "IPAD"
-                case .iphone: return "IPHONE"
-                case .ipod: return "IPOD"
-                case .mac: return "MAC"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct DeviceClass: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appleTv: Self {
+                .init(rawValue: "APPLE_TV")
             }
 
+            public static var appleVisionPro: Self {
+                .init(rawValue: "APPLE_VISION_PRO")
+            }
+
+            public static var appleWatch: Self {
+                .init(rawValue: "APPLE_WATCH")
+            }
+
+            public static var ipad: Self {
+                .init(rawValue: "IPAD")
+            }
+
+            public static var iphone: Self {
+                .init(rawValue: "IPHONE")
+            }
+
+            public static var ipod: Self {
+                .init(rawValue: "IPOD")
+            }
+
+            public static var mac: Self {
+                .init(rawValue: "MAC")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "APPLE_TV": self = .appleTv
-                case "APPLE_WATCH": self = .appleWatch
-                case "IPAD": self = .ipad
-                case "IPHONE": self = .iphone
-                case "IPOD": self = .ipod
-                case "MAC": self = .mac
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum Status: Hashable, Codable, RawRepresentable {
-            case disabled
-            case enabled
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .disabled: return "DISABLED"
-                case .enabled: return "ENABLED"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Status: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var disabled: Self {
+                .init(rawValue: "DISABLED")
             }
 
+            public static var enabled: Self {
+                .init(rawValue: "ENABLED")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "DISABLED": self = .disabled
-                case "ENABLED": self = .enabled
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

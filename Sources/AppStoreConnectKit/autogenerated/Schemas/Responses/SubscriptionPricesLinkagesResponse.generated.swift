@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionPricesLinkagesResponse: Hashable, Codable {
+public struct SubscriptionPricesLinkagesResponse: Hashable, Codable, Sendable {
     public var data: [Data]
 
     public var links: PagedDocumentLinks
@@ -26,7 +26,7 @@ public struct SubscriptionPricesLinkagesResponse: Hashable, Codable {
         case meta
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -44,7 +44,7 @@ public struct SubscriptionPricesLinkagesResponse: Hashable, Codable {
             case type
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case subscriptionPrices
         }
     }

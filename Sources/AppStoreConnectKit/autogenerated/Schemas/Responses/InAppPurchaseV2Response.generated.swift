@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct InAppPurchaseV2Response: Hashable, Codable {
+public struct InAppPurchaseV2Response: Hashable, Codable, Sendable {
     public var data: InAppPurchaseV2
 
     public var included: [Included]?
@@ -26,7 +26,7 @@ public struct InAppPurchaseV2Response: Hashable, Codable {
         case links
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case inAppPurchaseLocalization(InAppPurchaseLocalization)
         case inAppPurchasePricePoint(InAppPurchasePricePoint)
         case inAppPurchaseContent(InAppPurchaseContent)
@@ -34,6 +34,7 @@ public struct InAppPurchaseV2Response: Hashable, Codable {
         case promotedPurchase(PromotedPurchase)
         case inAppPurchasePriceSchedule(InAppPurchasePriceSchedule)
         case inAppPurchaseAvailability(InAppPurchaseAvailability)
+        case inAppPurchaseImage(InAppPurchaseImage)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -73,6 +74,11 @@ public struct InAppPurchaseV2Response: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .inAppPurchaseImage(try InAppPurchaseImage(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -98,6 +104,9 @@ public struct InAppPurchaseV2Response: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .inAppPurchaseAvailability(let value):
+                try value.encode(to: encoder)
+
+            case .inAppPurchaseImage(let value):
                 try value.encode(to: encoder)
             }
         }

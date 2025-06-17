@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct UserInvitationCreateRequest: Hashable, Codable {
+public struct UserInvitationCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct UserInvitationCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct UserInvitationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case userInvitations
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var allAppsVisible: Bool?
 
             public var email: String
@@ -80,7 +80,7 @@ public struct UserInvitationCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var visibleApps: VisibleApps?
 
             public init(visibleApps: VisibleApps? = nil) {
@@ -91,7 +91,7 @@ public struct UserInvitationCreateRequest: Hashable, Codable {
                 case visibleApps
             }
 
-            public struct VisibleApps: Hashable, Codable {
+            public struct VisibleApps: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -102,7 +102,7 @@ public struct UserInvitationCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -120,7 +120,7 @@ public struct UserInvitationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case apps
                     }
                 }

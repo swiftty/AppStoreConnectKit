@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct DiagnosticSignaturesResponse: Hashable, Codable {
+public struct DiagnosticSignaturesResponse: Hashable, Codable, Sendable {
     public var data: [DiagnosticSignature]
 
     public var links: PagedDocumentLinks

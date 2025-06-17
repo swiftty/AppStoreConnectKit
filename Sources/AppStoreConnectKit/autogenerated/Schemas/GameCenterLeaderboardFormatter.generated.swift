@@ -3,73 +3,87 @@
 // swiftlint:disable all
 import Foundation
 
-public enum GameCenterLeaderboardFormatter: Hashable, Codable, RawRepresentable {
-    case decimalPoint1Place
-    case decimalPoint2Place
-    case decimalPoint3Place
-    case elapsedTimeMillisecond
-    case elapsedTimeMinute
-    case elapsedTimeSecond
-    case integer
-    case moneyDollar
-    case moneyDollarDecimal
-    case moneyEuro
-    case moneyEuroDecimal
-    case moneyFranc
-    case moneyFrancDecimal
-    case moneyKroner
-    case moneyKronerDecimal
-    case moneyPound
-    case moneyPoundDecimal
-    case moneyYen
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .decimalPoint1Place: return "DECIMAL_POINT_1_PLACE"
-        case .decimalPoint2Place: return "DECIMAL_POINT_2_PLACE"
-        case .decimalPoint3Place: return "DECIMAL_POINT_3_PLACE"
-        case .elapsedTimeMillisecond: return "ELAPSED_TIME_MILLISECOND"
-        case .elapsedTimeMinute: return "ELAPSED_TIME_MINUTE"
-        case .elapsedTimeSecond: return "ELAPSED_TIME_SECOND"
-        case .integer: return "INTEGER"
-        case .moneyDollar: return "MONEY_DOLLAR"
-        case .moneyDollarDecimal: return "MONEY_DOLLAR_DECIMAL"
-        case .moneyEuro: return "MONEY_EURO"
-        case .moneyEuroDecimal: return "MONEY_EURO_DECIMAL"
-        case .moneyFranc: return "MONEY_FRANC"
-        case .moneyFrancDecimal: return "MONEY_FRANC_DECIMAL"
-        case .moneyKroner: return "MONEY_KRONER"
-        case .moneyKronerDecimal: return "MONEY_KRONER_DECIMAL"
-        case .moneyPound: return "MONEY_POUND"
-        case .moneyPoundDecimal: return "MONEY_POUND_DECIMAL"
-        case .moneyYen: return "MONEY_YEN"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct GameCenterLeaderboardFormatter: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var decimalPoint1Place: Self {
+        .init(rawValue: "DECIMAL_POINT_1_PLACE")
     }
 
+    public static var decimalPoint2Place: Self {
+        .init(rawValue: "DECIMAL_POINT_2_PLACE")
+    }
+
+    public static var decimalPoint3Place: Self {
+        .init(rawValue: "DECIMAL_POINT_3_PLACE")
+    }
+
+    public static var elapsedTimeCentisecond: Self {
+        .init(rawValue: "ELAPSED_TIME_CENTISECOND")
+    }
+
+    public static var elapsedTimeMinute: Self {
+        .init(rawValue: "ELAPSED_TIME_MINUTE")
+    }
+
+    public static var elapsedTimeSecond: Self {
+        .init(rawValue: "ELAPSED_TIME_SECOND")
+    }
+
+    public static var integer: Self {
+        .init(rawValue: "INTEGER")
+    }
+
+    public static var moneyDollar: Self {
+        .init(rawValue: "MONEY_DOLLAR")
+    }
+
+    public static var moneyDollarDecimal: Self {
+        .init(rawValue: "MONEY_DOLLAR_DECIMAL")
+    }
+
+    public static var moneyEuro: Self {
+        .init(rawValue: "MONEY_EURO")
+    }
+
+    public static var moneyEuroDecimal: Self {
+        .init(rawValue: "MONEY_EURO_DECIMAL")
+    }
+
+    public static var moneyFranc: Self {
+        .init(rawValue: "MONEY_FRANC")
+    }
+
+    public static var moneyFrancDecimal: Self {
+        .init(rawValue: "MONEY_FRANC_DECIMAL")
+    }
+
+    public static var moneyKroner: Self {
+        .init(rawValue: "MONEY_KRONER")
+    }
+
+    public static var moneyKronerDecimal: Self {
+        .init(rawValue: "MONEY_KRONER_DECIMAL")
+    }
+
+    public static var moneyPound: Self {
+        .init(rawValue: "MONEY_POUND")
+    }
+
+    public static var moneyPoundDecimal: Self {
+        .init(rawValue: "MONEY_POUND_DECIMAL")
+    }
+
+    public static var moneyYen: Self {
+        .init(rawValue: "MONEY_YEN")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "DECIMAL_POINT_1_PLACE": self = .decimalPoint1Place
-        case "DECIMAL_POINT_2_PLACE": self = .decimalPoint2Place
-        case "DECIMAL_POINT_3_PLACE": self = .decimalPoint3Place
-        case "ELAPSED_TIME_MILLISECOND": self = .elapsedTimeMillisecond
-        case "ELAPSED_TIME_MINUTE": self = .elapsedTimeMinute
-        case "ELAPSED_TIME_SECOND": self = .elapsedTimeSecond
-        case "INTEGER": self = .integer
-        case "MONEY_DOLLAR": self = .moneyDollar
-        case "MONEY_DOLLAR_DECIMAL": self = .moneyDollarDecimal
-        case "MONEY_EURO": self = .moneyEuro
-        case "MONEY_EURO_DECIMAL": self = .moneyEuroDecimal
-        case "MONEY_FRANC": self = .moneyFranc
-        case "MONEY_FRANC_DECIMAL": self = .moneyFrancDecimal
-        case "MONEY_KRONER": self = .moneyKroner
-        case "MONEY_KRONER_DECIMAL": self = .moneyKronerDecimal
-        case "MONEY_POUND": self = .moneyPound
-        case "MONEY_POUND_DECIMAL": self = .moneyPoundDecimal
-        case "MONEY_YEN": self = .moneyYen
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

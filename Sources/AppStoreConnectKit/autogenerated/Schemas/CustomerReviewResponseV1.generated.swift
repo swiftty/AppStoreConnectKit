@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CustomerReviewResponseV1: Hashable, Codable {
+public struct CustomerReviewResponseV1: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct CustomerReviewResponseV1: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case customerReviewResponses
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var lastModifiedDate: String?
 
         public var responseBody: String?
@@ -63,30 +63,28 @@ public struct CustomerReviewResponseV1: Hashable, Codable {
             case state
         }
 
-        public enum State: Hashable, Codable, RawRepresentable {
-            case pendingPublish
-            case published
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .pendingPublish: return "PENDING_PUBLISH"
-                case .published: return "PUBLISHED"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var pendingPublish: Self {
+                .init(rawValue: "PENDING_PUBLISH")
             }
 
+            public static var published: Self {
+                .init(rawValue: "PUBLISHED")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "PENDING_PUBLISH": self = .pendingPublish
-                case "PUBLISHED": self = .published
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var review: Review?
 
         public init(review: Review? = nil) {
@@ -97,25 +95,18 @@ public struct CustomerReviewResponseV1: Hashable, Codable {
             case review
         }
 
-        public struct Review: Hashable, Codable {
+        public struct Review: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -133,27 +124,8 @@ public struct CustomerReviewResponseV1: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case customerReviews
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

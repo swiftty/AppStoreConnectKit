@@ -44,8 +44,10 @@ extension V1.AppEventVideoClips.ById {
 
         /// - Returns: **200**, Single AppEventVideoClip as `AppEventVideoClipResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.AppEventVideoClips.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,49 +95,59 @@ extension V1.AppEventVideoClips.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppEventVideoClips: Hashable, Codable, RawRepresentable {
-                case appEventAssetType
-                case appEventLocalization
-                case assetDeliveryState
-                case fileName
-                case fileSize
-                case previewFrameTimeCode
-                case previewImage
-                case uploadOperations
-                case uploaded
-                case videoUrl
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appEventAssetType: return "appEventAssetType"
-                    case .appEventLocalization: return "appEventLocalization"
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .previewFrameTimeCode: return "previewFrameTimeCode"
-                    case .previewImage: return "previewImage"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .videoUrl: return "videoUrl"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppEventVideoClips: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appEventAssetType: Self {
+                    .init(rawValue: "appEventAssetType")
                 }
 
+                public static var appEventLocalization: Self {
+                    .init(rawValue: "appEventLocalization")
+                }
+
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var previewFrameImage: Self {
+                    .init(rawValue: "previewFrameImage")
+                }
+
+                public static var previewFrameTimeCode: Self {
+                    .init(rawValue: "previewFrameTimeCode")
+                }
+
+                public static var previewImage: Self {
+                    .init(rawValue: "previewImage")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public static var videoDeliveryState: Self {
+                    .init(rawValue: "videoDeliveryState")
+                }
+
+                public static var videoUrl: Self {
+                    .init(rawValue: "videoUrl")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appEventAssetType": self = .appEventAssetType
-                    case "appEventLocalization": self = .appEventLocalization
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "previewFrameTimeCode": self = .previewFrameTimeCode
-                    case "previewImage": self = .previewImage
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    case "videoUrl": self = .videoUrl
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -147,22 +165,19 @@ extension V1.AppEventVideoClips.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appEventLocalization
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appEventLocalization: return "appEventLocalization"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appEventLocalization: Self {
+                .init(rawValue: "appEventLocalization")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appEventLocalization": self = .appEventLocalization
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

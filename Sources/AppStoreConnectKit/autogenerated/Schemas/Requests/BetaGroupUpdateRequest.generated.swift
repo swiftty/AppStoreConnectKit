@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaGroupUpdateRequest: Hashable, Codable {
+public struct BetaGroupUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct BetaGroupUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -37,14 +37,16 @@ public struct BetaGroupUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case betaGroups
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var feedbackEnabled: Bool?
 
             public var iosBuildsAvailableForAppleSiliconMac: Bool?
+
+            public var iosBuildsAvailableForAppleVision: Bool?
 
             public var name: String?
 
@@ -57,6 +59,7 @@ public struct BetaGroupUpdateRequest: Hashable, Codable {
             public init(
                 feedbackEnabled: Bool? = nil,
                 iosBuildsAvailableForAppleSiliconMac: Bool? = nil,
+                iosBuildsAvailableForAppleVision: Bool? = nil,
                 name: String? = nil,
                 publicLinkEnabled: Bool? = nil,
                 publicLinkLimit: Int? = nil,
@@ -64,6 +67,7 @@ public struct BetaGroupUpdateRequest: Hashable, Codable {
             ) {
                 self.feedbackEnabled = feedbackEnabled
                 self.iosBuildsAvailableForAppleSiliconMac = iosBuildsAvailableForAppleSiliconMac
+                self.iosBuildsAvailableForAppleVision = iosBuildsAvailableForAppleVision
                 self.name = name
                 self.publicLinkEnabled = publicLinkEnabled
                 self.publicLinkLimit = publicLinkLimit
@@ -73,6 +77,7 @@ public struct BetaGroupUpdateRequest: Hashable, Codable {
             private enum CodingKeys: String, CodingKey {
                 case feedbackEnabled
                 case iosBuildsAvailableForAppleSiliconMac
+                case iosBuildsAvailableForAppleVision
                 case name
                 case publicLinkEnabled
                 case publicLinkLimit

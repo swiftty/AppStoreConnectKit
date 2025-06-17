@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiScheduledStartCondition: Hashable, Codable {
+public struct CiScheduledStartCondition: Hashable, Codable, Sendable {
     public var schedule: Schedule?
 
     public var source: CiBranchPatterns?
@@ -21,7 +21,7 @@ public struct CiScheduledStartCondition: Hashable, Codable {
         case source
     }
 
-    public struct Schedule: Hashable, Codable {
+    public struct Schedule: Hashable, Codable, Sendable {
         public var days: [Days]?
 
         public var frequency: Frequency?
@@ -54,65 +54,67 @@ public struct CiScheduledStartCondition: Hashable, Codable {
             case timezone
         }
 
-        public enum Days: Hashable, Codable, RawRepresentable {
-            case friday
-            case monday
-            case saturday
-            case sunday
-            case thursday
-            case tuesday
-            case wednesday
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .friday: return "FRIDAY"
-                case .monday: return "MONDAY"
-                case .saturday: return "SATURDAY"
-                case .sunday: return "SUNDAY"
-                case .thursday: return "THURSDAY"
-                case .tuesday: return "TUESDAY"
-                case .wednesday: return "WEDNESDAY"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Days: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var friday: Self {
+                .init(rawValue: "FRIDAY")
             }
 
+            public static var monday: Self {
+                .init(rawValue: "MONDAY")
+            }
+
+            public static var saturday: Self {
+                .init(rawValue: "SATURDAY")
+            }
+
+            public static var sunday: Self {
+                .init(rawValue: "SUNDAY")
+            }
+
+            public static var thursday: Self {
+                .init(rawValue: "THURSDAY")
+            }
+
+            public static var tuesday: Self {
+                .init(rawValue: "TUESDAY")
+            }
+
+            public static var wednesday: Self {
+                .init(rawValue: "WEDNESDAY")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FRIDAY": self = .friday
-                case "MONDAY": self = .monday
-                case "SATURDAY": self = .saturday
-                case "SUNDAY": self = .sunday
-                case "THURSDAY": self = .thursday
-                case "TUESDAY": self = .tuesday
-                case "WEDNESDAY": self = .wednesday
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum Frequency: Hashable, Codable, RawRepresentable {
-            case daily
-            case hourly
-            case weekly
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .daily: return "DAILY"
-                case .hourly: return "HOURLY"
-                case .weekly: return "WEEKLY"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Frequency: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var daily: Self {
+                .init(rawValue: "DAILY")
             }
 
+            public static var hourly: Self {
+                .init(rawValue: "HOURLY")
+            }
+
+            public static var weekly: Self {
+                .init(rawValue: "WEEKLY")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "DAILY": self = .daily
-                case "HOURLY": self = .hourly
-                case "WEEKLY": self = .weekly
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

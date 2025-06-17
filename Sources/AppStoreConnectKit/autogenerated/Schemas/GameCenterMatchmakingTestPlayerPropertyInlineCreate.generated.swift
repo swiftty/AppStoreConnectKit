@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingTestPlayerPropertyInlineCreate: Hashable, Codable {
+public struct GameCenterMatchmakingTestPlayerPropertyInlineCreate: Hashable, Codable, Sendable {
     public var id: String?
 
     public var type: `Type`
@@ -26,11 +26,11 @@ public struct GameCenterMatchmakingTestPlayerPropertyInlineCreate: Hashable, Cod
         case attributes
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case gameCenterMatchmakingTestPlayerProperties
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var playerId: String
 
         public var properties: [Property]?

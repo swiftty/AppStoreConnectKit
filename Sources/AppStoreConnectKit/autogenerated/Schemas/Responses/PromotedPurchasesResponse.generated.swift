@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct PromotedPurchasesResponse: Hashable, Codable {
+public struct PromotedPurchasesResponse: Hashable, Codable, Sendable {
     public var data: [PromotedPurchase]
 
     public var included: [Included]?
@@ -31,10 +31,9 @@ public struct PromotedPurchasesResponse: Hashable, Codable {
         case meta
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case inAppPurchaseV2(InAppPurchaseV2)
         case subscription(Subscription)
-        case promotedPurchaseImage(PromotedPurchaseImage)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -49,11 +48,6 @@ public struct PromotedPurchasesResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
-                do {
-                    return .promotedPurchaseImage(try PromotedPurchaseImage(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 throw lastError
             }()
         }
@@ -64,9 +58,6 @@ public struct PromotedPurchasesResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .subscription(let value):
-                try value.encode(to: encoder)
-
-            case .promotedPurchaseImage(let value):
                 try value.encode(to: encoder)
             }
         }

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppClipDomainStatus: Hashable, Codable {
+public struct AppClipDomainStatus: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct AppClipDomainStatus: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appClipDomainStatuses
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var domains: [Domains]?
 
         public var lastUpdatedDate: String?
@@ -53,7 +53,7 @@ public struct AppClipDomainStatus: Hashable, Codable {
             case lastUpdatedDate
         }
 
-        public struct Domains: Hashable, Codable {
+        public struct Domains: Hashable, Codable, Sendable {
             public var domain: String?
 
             public var errorCode: ErrorCode?
@@ -81,67 +81,87 @@ public struct AppClipDomainStatus: Hashable, Codable {
                 case lastUpdatedDate
             }
 
-            public enum ErrorCode: Hashable, Codable, RawRepresentable {
-                case badHttpResponse
-                case badJsonContent
-                case badPkcs7Signature
-                case cannotReachAasaFile
-                case dnsError
-                case insecureRedirectsForbidden
-                case invalidEntitlementMissingSection
-                case invalidEntitlementSyntaxError
-                case invalidEntitlementUnhandledSection
-                case invalidEntitlementUnknownId
-                case networkError
-                case networkErrorTemporary
-                case otherError
-                case timeout
-                case tlsError
-                case unexpectedError
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .badHttpResponse: return "BAD_HTTP_RESPONSE"
-                    case .badJsonContent: return "BAD_JSON_CONTENT"
-                    case .badPkcs7Signature: return "BAD_PKCS7_SIGNATURE"
-                    case .cannotReachAasaFile: return "CANNOT_REACH_AASA_FILE"
-                    case .dnsError: return "DNS_ERROR"
-                    case .insecureRedirectsForbidden: return "INSECURE_REDIRECTS_FORBIDDEN"
-                    case .invalidEntitlementMissingSection: return "INVALID_ENTITLEMENT_MISSING_SECTION"
-                    case .invalidEntitlementSyntaxError: return "INVALID_ENTITLEMENT_SYNTAX_ERROR"
-                    case .invalidEntitlementUnhandledSection: return "INVALID_ENTITLEMENT_UNHANDLED_SECTION"
-                    case .invalidEntitlementUnknownId: return "INVALID_ENTITLEMENT_UNKNOWN_ID"
-                    case .networkError: return "NETWORK_ERROR"
-                    case .networkErrorTemporary: return "NETWORK_ERROR_TEMPORARY"
-                    case .otherError: return "OTHER_ERROR"
-                    case .timeout: return "TIMEOUT"
-                    case .tlsError: return "TLS_ERROR"
-                    case .unexpectedError: return "UNEXPECTED_ERROR"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ErrorCode: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var badHttpResponse: Self {
+                    .init(rawValue: "BAD_HTTP_RESPONSE")
                 }
 
+                public static var badJsonContent: Self {
+                    .init(rawValue: "BAD_JSON_CONTENT")
+                }
+
+                public static var badPkcs7Signature: Self {
+                    .init(rawValue: "BAD_PKCS7_SIGNATURE")
+                }
+
+                public static var cannotReachAasaFile: Self {
+                    .init(rawValue: "CANNOT_REACH_AASA_FILE")
+                }
+
+                public static var crossSiteRedirectsForbidden: Self {
+                    .init(rawValue: "CROSS_SITE_REDIRECTS_FORBIDDEN")
+                }
+
+                public static var dnsError: Self {
+                    .init(rawValue: "DNS_ERROR")
+                }
+
+                public static var insecureRedirectsForbidden: Self {
+                    .init(rawValue: "INSECURE_REDIRECTS_FORBIDDEN")
+                }
+
+                public static var invalidEntitlementMissingSection: Self {
+                    .init(rawValue: "INVALID_ENTITLEMENT_MISSING_SECTION")
+                }
+
+                public static var invalidEntitlementSyntaxError: Self {
+                    .init(rawValue: "INVALID_ENTITLEMENT_SYNTAX_ERROR")
+                }
+
+                public static var invalidEntitlementUnhandledSection: Self {
+                    .init(rawValue: "INVALID_ENTITLEMENT_UNHANDLED_SECTION")
+                }
+
+                public static var invalidEntitlementUnknownId: Self {
+                    .init(rawValue: "INVALID_ENTITLEMENT_UNKNOWN_ID")
+                }
+
+                public static var networkError: Self {
+                    .init(rawValue: "NETWORK_ERROR")
+                }
+
+                public static var networkErrorTemporary: Self {
+                    .init(rawValue: "NETWORK_ERROR_TEMPORARY")
+                }
+
+                public static var otherError: Self {
+                    .init(rawValue: "OTHER_ERROR")
+                }
+
+                public static var timeout: Self {
+                    .init(rawValue: "TIMEOUT")
+                }
+
+                public static var tlsError: Self {
+                    .init(rawValue: "TLS_ERROR")
+                }
+
+                public static var tooManyRedirects: Self {
+                    .init(rawValue: "TOO_MANY_REDIRECTS")
+                }
+
+                public static var unexpectedError: Self {
+                    .init(rawValue: "UNEXPECTED_ERROR")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "BAD_HTTP_RESPONSE": self = .badHttpResponse
-                    case "BAD_JSON_CONTENT": self = .badJsonContent
-                    case "BAD_PKCS7_SIGNATURE": self = .badPkcs7Signature
-                    case "CANNOT_REACH_AASA_FILE": self = .cannotReachAasaFile
-                    case "DNS_ERROR": self = .dnsError
-                    case "INSECURE_REDIRECTS_FORBIDDEN": self = .insecureRedirectsForbidden
-                    case "INVALID_ENTITLEMENT_MISSING_SECTION": self = .invalidEntitlementMissingSection
-                    case "INVALID_ENTITLEMENT_SYNTAX_ERROR": self = .invalidEntitlementSyntaxError
-                    case "INVALID_ENTITLEMENT_UNHANDLED_SECTION": self = .invalidEntitlementUnhandledSection
-                    case "INVALID_ENTITLEMENT_UNKNOWN_ID": self = .invalidEntitlementUnknownId
-                    case "NETWORK_ERROR": self = .networkError
-                    case "NETWORK_ERROR_TEMPORARY": self = .networkErrorTemporary
-                    case "OTHER_ERROR": self = .otherError
-                    case "TIMEOUT": self = .timeout
-                    case "TLS_ERROR": self = .tlsError
-                    case "UNEXPECTED_ERROR": self = .unexpectedError
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
         }

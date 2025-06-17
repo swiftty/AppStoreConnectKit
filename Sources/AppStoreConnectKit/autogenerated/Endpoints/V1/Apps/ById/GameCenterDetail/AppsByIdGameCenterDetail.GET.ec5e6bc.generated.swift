@@ -28,14 +28,24 @@ extension V1.Apps.ById.GameCenterDetail {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appStoreVersions]",
+                             value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[apps]",
                              value: parameters.fields[.apps]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterAchievementReleases]",
                              value: parameters.fields[.gameCenterAchievementReleases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterAchievements]",
                              value: parameters.fields[.gameCenterAchievements]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterActivities]",
+                             value: parameters.fields[.gameCenterActivities]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterActivityVersionReleases]",
+                             value: parameters.fields[.gameCenterActivityVersionReleases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterAppVersions]",
                              value: parameters.fields[.gameCenterAppVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterChallengeVersionReleases]",
+                             value: parameters.fields[.gameCenterChallengeVersionReleases]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterChallenges]",
+                             value: parameters.fields[.gameCenterChallenges]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterDetails]",
                              value: parameters.fields[.gameCenterDetails]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterGroups]",
@@ -52,10 +62,20 @@ extension V1.Apps.ById.GameCenterDetail {
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[achievementReleases]",
                              value: parameters.limit[.achievementReleases].map { "\($0)" }),
+                URLQueryItem(name: "limit[activityReleases]",
+                             value: parameters.limit[.activityReleases].map { "\($0)" }),
+                URLQueryItem(name: "limit[challengeReleases]",
+                             value: parameters.limit[.challengeReleases].map { "\($0)" }),
+                URLQueryItem(name: "limit[challengesMinimumPlatformVersions]",
+                             value: parameters.limit[.challengesMinimumPlatformVersions].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterAchievements]",
                              value: parameters.limit[.gameCenterAchievements].map { "\($0)" }),
+                URLQueryItem(name: "limit[gameCenterActivities]",
+                             value: parameters.limit[.gameCenterActivities].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterAppVersions]",
                              value: parameters.limit[.gameCenterAppVersions].map { "\($0)" }),
+                URLQueryItem(name: "limit[gameCenterChallenges]",
+                             value: parameters.limit[.gameCenterChallenges].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterLeaderboardSets]",
                              value: parameters.limit[.gameCenterLeaderboardSets].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterLeaderboards]",
@@ -76,8 +96,10 @@ extension V1.Apps.ById.GameCenterDetail {
 
         /// - Returns: **200**, Single GameCenterDetail as `GameCenterDetailResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -91,10 +113,16 @@ extension V1.Apps.ById.GameCenterDetail {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -121,497 +149,908 @@ extension V1.Apps.ById.GameCenterDetail.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Apps: Hashable, Codable, RawRepresentable {
-                case appAvailability
-                case appClips
-                case appCustomProductPages
-                case appEncryptionDeclarations
-                case appEvents
-                case appInfos
-                case appPricePoints
-                case appPriceSchedule
-                case appStoreVersionExperimentsV2
-                case appStoreVersions
-                case availableInNewTerritories
-                case availableTerritories
-                case betaAppLocalizations
-                case betaAppReviewDetail
-                case betaGroups
-                case betaLicenseAgreement
-                case betaTesters
-                case builds
-                case bundleId
-                case ciProduct
-                case contentRightsDeclaration
-                case customerReviews
-                case endUserLicenseAgreement
-                case gameCenterDetail
-                case gameCenterEnabledVersions
-                case inAppPurchases
-                case inAppPurchasesV2
-                case isOrEverWasMadeForKids
-                case name
-                case perfPowerMetrics
-                case preOrder
-                case preReleaseVersions
-                case pricePoints
-                case prices
-                case primaryLocale
-                case promotedPurchases
-                case reviewSubmissions
-                case sku
-                case subscriptionGracePeriod
-                case subscriptionGroups
-                case subscriptionStatusUrl
-                case subscriptionStatusUrlForSandbox
-                case subscriptionStatusUrlVersion
-                case subscriptionStatusUrlVersionForSandbox
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appAvailability: return "appAvailability"
-                    case .appClips: return "appClips"
-                    case .appCustomProductPages: return "appCustomProductPages"
-                    case .appEncryptionDeclarations: return "appEncryptionDeclarations"
-                    case .appEvents: return "appEvents"
-                    case .appInfos: return "appInfos"
-                    case .appPricePoints: return "appPricePoints"
-                    case .appPriceSchedule: return "appPriceSchedule"
-                    case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
-                    case .appStoreVersions: return "appStoreVersions"
-                    case .availableInNewTerritories: return "availableInNewTerritories"
-                    case .availableTerritories: return "availableTerritories"
-                    case .betaAppLocalizations: return "betaAppLocalizations"
-                    case .betaAppReviewDetail: return "betaAppReviewDetail"
-                    case .betaGroups: return "betaGroups"
-                    case .betaLicenseAgreement: return "betaLicenseAgreement"
-                    case .betaTesters: return "betaTesters"
-                    case .builds: return "builds"
-                    case .bundleId: return "bundleId"
-                    case .ciProduct: return "ciProduct"
-                    case .contentRightsDeclaration: return "contentRightsDeclaration"
-                    case .customerReviews: return "customerReviews"
-                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
-                    case .inAppPurchases: return "inAppPurchases"
-                    case .inAppPurchasesV2: return "inAppPurchasesV2"
-                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
-                    case .name: return "name"
-                    case .perfPowerMetrics: return "perfPowerMetrics"
-                    case .preOrder: return "preOrder"
-                    case .preReleaseVersions: return "preReleaseVersions"
-                    case .pricePoints: return "pricePoints"
-                    case .prices: return "prices"
-                    case .primaryLocale: return "primaryLocale"
-                    case .promotedPurchases: return "promotedPurchases"
-                    case .reviewSubmissions: return "reviewSubmissions"
-                    case .sku: return "sku"
-                    case .subscriptionGracePeriod: return "subscriptionGracePeriod"
-                    case .subscriptionGroups: return "subscriptionGroups"
-                    case .subscriptionStatusUrl: return "subscriptionStatusUrl"
-                    case .subscriptionStatusUrlForSandbox: return "subscriptionStatusUrlForSandbox"
-                    case .subscriptionStatusUrlVersion: return "subscriptionStatusUrlVersion"
-                    case .subscriptionStatusUrlVersionForSandbox: return "subscriptionStatusUrlVersionForSandbox"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppStoreVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var ageRatingDeclaration: Self {
+                    .init(rawValue: "ageRatingDeclaration")
                 }
 
+                public static var alternativeDistributionPackage: Self {
+                    .init(rawValue: "alternativeDistributionPackage")
+                }
+
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appClipDefaultExperience: Self {
+                    .init(rawValue: "appClipDefaultExperience")
+                }
+
+                public static var appStoreReviewDetail: Self {
+                    .init(rawValue: "appStoreReviewDetail")
+                }
+
+                public static var appStoreState: Self {
+                    .init(rawValue: "appStoreState")
+                }
+
+                public static var appStoreVersionExperiments: Self {
+                    .init(rawValue: "appStoreVersionExperiments")
+                }
+
+                public static var appStoreVersionExperimentsV2: Self {
+                    .init(rawValue: "appStoreVersionExperimentsV2")
+                }
+
+                public static var appStoreVersionLocalizations: Self {
+                    .init(rawValue: "appStoreVersionLocalizations")
+                }
+
+                public static var appStoreVersionPhasedRelease: Self {
+                    .init(rawValue: "appStoreVersionPhasedRelease")
+                }
+
+                public static var appStoreVersionSubmission: Self {
+                    .init(rawValue: "appStoreVersionSubmission")
+                }
+
+                public static var appVersionState: Self {
+                    .init(rawValue: "appVersionState")
+                }
+
+                public static var build: Self {
+                    .init(rawValue: "build")
+                }
+
+                public static var copyright: Self {
+                    .init(rawValue: "copyright")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var customerReviews: Self {
+                    .init(rawValue: "customerReviews")
+                }
+
+                public static var downloadable: Self {
+                    .init(rawValue: "downloadable")
+                }
+
+                public static var earliestReleaseDate: Self {
+                    .init(rawValue: "earliestReleaseDate")
+                }
+
+                public static var gameCenterAppVersion: Self {
+                    .init(rawValue: "gameCenterAppVersion")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var releaseType: Self {
+                    .init(rawValue: "releaseType")
+                }
+
+                public static var reviewType: Self {
+                    .init(rawValue: "reviewType")
+                }
+
+                public static var routingAppCoverage: Self {
+                    .init(rawValue: "routingAppCoverage")
+                }
+
+                public static var usesIdfa: Self {
+                    .init(rawValue: "usesIdfa")
+                }
+
+                public static var versionString: Self {
+                    .init(rawValue: "versionString")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appAvailability": self = .appAvailability
-                    case "appClips": self = .appClips
-                    case "appCustomProductPages": self = .appCustomProductPages
-                    case "appEncryptionDeclarations": self = .appEncryptionDeclarations
-                    case "appEvents": self = .appEvents
-                    case "appInfos": self = .appInfos
-                    case "appPricePoints": self = .appPricePoints
-                    case "appPriceSchedule": self = .appPriceSchedule
-                    case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
-                    case "appStoreVersions": self = .appStoreVersions
-                    case "availableInNewTerritories": self = .availableInNewTerritories
-                    case "availableTerritories": self = .availableTerritories
-                    case "betaAppLocalizations": self = .betaAppLocalizations
-                    case "betaAppReviewDetail": self = .betaAppReviewDetail
-                    case "betaGroups": self = .betaGroups
-                    case "betaLicenseAgreement": self = .betaLicenseAgreement
-                    case "betaTesters": self = .betaTesters
-                    case "builds": self = .builds
-                    case "bundleId": self = .bundleId
-                    case "ciProduct": self = .ciProduct
-                    case "contentRightsDeclaration": self = .contentRightsDeclaration
-                    case "customerReviews": self = .customerReviews
-                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
-                    case "inAppPurchases": self = .inAppPurchases
-                    case "inAppPurchasesV2": self = .inAppPurchasesV2
-                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
-                    case "name": self = .name
-                    case "perfPowerMetrics": self = .perfPowerMetrics
-                    case "preOrder": self = .preOrder
-                    case "preReleaseVersions": self = .preReleaseVersions
-                    case "pricePoints": self = .pricePoints
-                    case "prices": self = .prices
-                    case "primaryLocale": self = .primaryLocale
-                    case "promotedPurchases": self = .promotedPurchases
-                    case "reviewSubmissions": self = .reviewSubmissions
-                    case "sku": self = .sku
-                    case "subscriptionGracePeriod": self = .subscriptionGracePeriod
-                    case "subscriptionGroups": self = .subscriptionGroups
-                    case "subscriptionStatusUrl": self = .subscriptionStatusUrl
-                    case "subscriptionStatusUrlForSandbox": self = .subscriptionStatusUrlForSandbox
-                    case "subscriptionStatusUrlVersion": self = .subscriptionStatusUrlVersion
-                    case "subscriptionStatusUrlVersionForSandbox": self = .subscriptionStatusUrlVersionForSandbox
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterAchievementReleases: Hashable, Codable, RawRepresentable {
-                case gameCenterAchievement
-                case gameCenterDetail
-                case live
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .gameCenterAchievement: return "gameCenterAchievement"
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .live: return "live"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Apps: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var accessibilityDeclarations: Self {
+                    .init(rawValue: "accessibilityDeclarations")
                 }
 
+                public static var accessibilityUrl: Self {
+                    .init(rawValue: "accessibilityUrl")
+                }
+
+                public static var alternativeDistributionKey: Self {
+                    .init(rawValue: "alternativeDistributionKey")
+                }
+
+                public static var analyticsReportRequests: Self {
+                    .init(rawValue: "analyticsReportRequests")
+                }
+
+                public static var appAvailabilityV2: Self {
+                    .init(rawValue: "appAvailabilityV2")
+                }
+
+                public static var appClips: Self {
+                    .init(rawValue: "appClips")
+                }
+
+                public static var appCustomProductPages: Self {
+                    .init(rawValue: "appCustomProductPages")
+                }
+
+                public static var appEncryptionDeclarations: Self {
+                    .init(rawValue: "appEncryptionDeclarations")
+                }
+
+                public static var appEvents: Self {
+                    .init(rawValue: "appEvents")
+                }
+
+                public static var appInfos: Self {
+                    .init(rawValue: "appInfos")
+                }
+
+                public static var appPricePoints: Self {
+                    .init(rawValue: "appPricePoints")
+                }
+
+                public static var appPriceSchedule: Self {
+                    .init(rawValue: "appPriceSchedule")
+                }
+
+                public static var appStoreVersionExperimentsV2: Self {
+                    .init(rawValue: "appStoreVersionExperimentsV2")
+                }
+
+                public static var appStoreVersions: Self {
+                    .init(rawValue: "appStoreVersions")
+                }
+
+                public static var backgroundAssets: Self {
+                    .init(rawValue: "backgroundAssets")
+                }
+
+                public static var betaAppLocalizations: Self {
+                    .init(rawValue: "betaAppLocalizations")
+                }
+
+                public static var betaAppReviewDetail: Self {
+                    .init(rawValue: "betaAppReviewDetail")
+                }
+
+                public static var betaFeedbackCrashSubmissions: Self {
+                    .init(rawValue: "betaFeedbackCrashSubmissions")
+                }
+
+                public static var betaFeedbackScreenshotSubmissions: Self {
+                    .init(rawValue: "betaFeedbackScreenshotSubmissions")
+                }
+
+                public static var betaGroups: Self {
+                    .init(rawValue: "betaGroups")
+                }
+
+                public static var betaLicenseAgreement: Self {
+                    .init(rawValue: "betaLicenseAgreement")
+                }
+
+                public static var betaTesters: Self {
+                    .init(rawValue: "betaTesters")
+                }
+
+                public static var builds: Self {
+                    .init(rawValue: "builds")
+                }
+
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
+                }
+
+                public static var ciProduct: Self {
+                    .init(rawValue: "ciProduct")
+                }
+
+                public static var contentRightsDeclaration: Self {
+                    .init(rawValue: "contentRightsDeclaration")
+                }
+
+                public static var customerReviewSummarizations: Self {
+                    .init(rawValue: "customerReviewSummarizations")
+                }
+
+                public static var customerReviews: Self {
+                    .init(rawValue: "customerReviews")
+                }
+
+                public static var endUserLicenseAgreement: Self {
+                    .init(rawValue: "endUserLicenseAgreement")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterEnabledVersions: Self {
+                    .init(rawValue: "gameCenterEnabledVersions")
+                }
+
+                public static var inAppPurchases: Self {
+                    .init(rawValue: "inAppPurchases")
+                }
+
+                public static var inAppPurchasesV2: Self {
+                    .init(rawValue: "inAppPurchasesV2")
+                }
+
+                public static var isOrEverWasMadeForKids: Self {
+                    .init(rawValue: "isOrEverWasMadeForKids")
+                }
+
+                public static var marketplaceSearchDetail: Self {
+                    .init(rawValue: "marketplaceSearchDetail")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var perfPowerMetrics: Self {
+                    .init(rawValue: "perfPowerMetrics")
+                }
+
+                public static var preReleaseVersions: Self {
+                    .init(rawValue: "preReleaseVersions")
+                }
+
+                public static var primaryLocale: Self {
+                    .init(rawValue: "primaryLocale")
+                }
+
+                public static var promotedPurchases: Self {
+                    .init(rawValue: "promotedPurchases")
+                }
+
+                public static var reviewSubmissions: Self {
+                    .init(rawValue: "reviewSubmissions")
+                }
+
+                public static var sku: Self {
+                    .init(rawValue: "sku")
+                }
+
+                public static var streamlinedPurchasingEnabled: Self {
+                    .init(rawValue: "streamlinedPurchasingEnabled")
+                }
+
+                public static var subscriptionGracePeriod: Self {
+                    .init(rawValue: "subscriptionGracePeriod")
+                }
+
+                public static var subscriptionGroups: Self {
+                    .init(rawValue: "subscriptionGroups")
+                }
+
+                public static var subscriptionStatusUrl: Self {
+                    .init(rawValue: "subscriptionStatusUrl")
+                }
+
+                public static var subscriptionStatusUrlForSandbox: Self {
+                    .init(rawValue: "subscriptionStatusUrlForSandbox")
+                }
+
+                public static var subscriptionStatusUrlVersion: Self {
+                    .init(rawValue: "subscriptionStatusUrlVersion")
+                }
+
+                public static var subscriptionStatusUrlVersionForSandbox: Self {
+                    .init(rawValue: "subscriptionStatusUrlVersionForSandbox")
+                }
+
+                public static var webhooks: Self {
+                    .init(rawValue: "webhooks")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "gameCenterAchievement": self = .gameCenterAchievement
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "live": self = .live
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterAchievements: Hashable, Codable, RawRepresentable {
-                case archived
-                case gameCenterDetail
-                case gameCenterGroup
-                case groupAchievement
-                case localizations
-                case points
-                case referenceName
-                case releases
-                case repeatable
-                case showBeforeEarned
-                case vendorIdentifier
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .archived: return "archived"
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterGroup: return "gameCenterGroup"
-                    case .groupAchievement: return "groupAchievement"
-                    case .localizations: return "localizations"
-                    case .points: return "points"
-                    case .referenceName: return "referenceName"
-                    case .releases: return "releases"
-                    case .repeatable: return "repeatable"
-                    case .showBeforeEarned: return "showBeforeEarned"
-                    case .vendorIdentifier: return "vendorIdentifier"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterAchievementReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterAchievement: Self {
+                    .init(rawValue: "gameCenterAchievement")
                 }
 
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var live: Self {
+                    .init(rawValue: "live")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "archived": self = .archived
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterGroup": self = .gameCenterGroup
-                    case "groupAchievement": self = .groupAchievement
-                    case "localizations": self = .localizations
-                    case "points": self = .points
-                    case "referenceName": self = .referenceName
-                    case "releases": self = .releases
-                    case "repeatable": self = .repeatable
-                    case "showBeforeEarned": self = .showBeforeEarned
-                    case "vendorIdentifier": self = .vendorIdentifier
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterAppVersions: Hashable, Codable, RawRepresentable {
-                case appStoreVersion
-                case compatibilityVersions
-                case enabled
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appStoreVersion: return "appStoreVersion"
-                    case .compatibilityVersions: return "compatibilityVersions"
-                    case .enabled: return "enabled"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterAchievements: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activity: Self {
+                    .init(rawValue: "activity")
                 }
 
+                public static var activityProperties: Self {
+                    .init(rawValue: "activityProperties")
+                }
+
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var groupAchievement: Self {
+                    .init(rawValue: "groupAchievement")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var points: Self {
+                    .init(rawValue: "points")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var repeatable: Self {
+                    .init(rawValue: "repeatable")
+                }
+
+                public static var showBeforeEarned: Self {
+                    .init(rawValue: "showBeforeEarned")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appStoreVersion": self = .appStoreVersion
-                    case "compatibilityVersions": self = .compatibilityVersions
-                    case "enabled": self = .enabled
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterDetails: Hashable, Codable, RawRepresentable {
-                case achievementReleases
-                case app
-                case arcadeEnabled
-                case challengeEnabled
-                case defaultGroupLeaderboard
-                case defaultLeaderboard
-                case gameCenterAchievements
-                case gameCenterAppVersions
-                case gameCenterGroup
-                case gameCenterLeaderboardSets
-                case gameCenterLeaderboards
-                case leaderboardReleases
-                case leaderboardSetReleases
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .achievementReleases: return "achievementReleases"
-                    case .app: return "app"
-                    case .arcadeEnabled: return "arcadeEnabled"
-                    case .challengeEnabled: return "challengeEnabled"
-                    case .defaultGroupLeaderboard: return "defaultGroupLeaderboard"
-                    case .defaultLeaderboard: return "defaultLeaderboard"
-                    case .gameCenterAchievements: return "gameCenterAchievements"
-                    case .gameCenterAppVersions: return "gameCenterAppVersions"
-                    case .gameCenterGroup: return "gameCenterGroup"
-                    case .gameCenterLeaderboardSets: return "gameCenterLeaderboardSets"
-                    case .gameCenterLeaderboards: return "gameCenterLeaderboards"
-                    case .leaderboardReleases: return "leaderboardReleases"
-                    case .leaderboardSetReleases: return "leaderboardSetReleases"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterActivities: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var achievements: Self {
+                    .init(rawValue: "achievements")
                 }
 
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var leaderboards: Self {
+                    .init(rawValue: "leaderboards")
+                }
+
+                public static var maximumPlayersCount: Self {
+                    .init(rawValue: "maximumPlayersCount")
+                }
+
+                public static var minimumPlayersCount: Self {
+                    .init(rawValue: "minimumPlayersCount")
+                }
+
+                public static var playStyle: Self {
+                    .init(rawValue: "playStyle")
+                }
+
+                public static var properties: Self {
+                    .init(rawValue: "properties")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var supportsPartyCode: Self {
+                    .init(rawValue: "supportsPartyCode")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "achievementReleases": self = .achievementReleases
-                    case "app": self = .app
-                    case "arcadeEnabled": self = .arcadeEnabled
-                    case "challengeEnabled": self = .challengeEnabled
-                    case "defaultGroupLeaderboard": self = .defaultGroupLeaderboard
-                    case "defaultLeaderboard": self = .defaultLeaderboard
-                    case "gameCenterAchievements": self = .gameCenterAchievements
-                    case "gameCenterAppVersions": self = .gameCenterAppVersions
-                    case "gameCenterGroup": self = .gameCenterGroup
-                    case "gameCenterLeaderboardSets": self = .gameCenterLeaderboardSets
-                    case "gameCenterLeaderboards": self = .gameCenterLeaderboards
-                    case "leaderboardReleases": self = .leaderboardReleases
-                    case "leaderboardSetReleases": self = .leaderboardSetReleases
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterGroups: Hashable, Codable, RawRepresentable {
-                case gameCenterAchievements
-                case gameCenterDetails
-                case gameCenterLeaderboardSets
-                case gameCenterLeaderboards
-                case referenceName
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .gameCenterAchievements: return "gameCenterAchievements"
-                    case .gameCenterDetails: return "gameCenterDetails"
-                    case .gameCenterLeaderboardSets: return "gameCenterLeaderboardSets"
-                    case .gameCenterLeaderboards: return "gameCenterLeaderboards"
-                    case .referenceName: return "referenceName"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterActivityVersionReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var version: Self {
+                    .init(rawValue: "version")
                 }
 
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "gameCenterAchievements": self = .gameCenterAchievements
-                    case "gameCenterDetails": self = .gameCenterDetails
-                    case "gameCenterLeaderboardSets": self = .gameCenterLeaderboardSets
-                    case "gameCenterLeaderboards": self = .gameCenterLeaderboards
-                    case "referenceName": self = .referenceName
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterLeaderboardReleases: Hashable, Codable, RawRepresentable {
-                case gameCenterDetail
-                case gameCenterLeaderboard
-                case live
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterLeaderboard: return "gameCenterLeaderboard"
-                    case .live: return "live"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterAppVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
                 }
 
+                public static var compatibilityVersions: Self {
+                    .init(rawValue: "compatibilityVersions")
+                }
+
+                public static var enabled: Self {
+                    .init(rawValue: "enabled")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterLeaderboard": self = .gameCenterLeaderboard
-                    case "live": self = .live
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterLeaderboardSetReleases: Hashable, Codable, RawRepresentable {
-                case gameCenterDetail
-                case gameCenterLeaderboardSet
-                case live
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterLeaderboardSet: return "gameCenterLeaderboardSet"
-                    case .live: return "live"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterChallengeVersionReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var version: Self {
+                    .init(rawValue: "version")
                 }
 
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterLeaderboardSet": self = .gameCenterLeaderboardSet
-                    case "live": self = .live
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterLeaderboardSets: Hashable, Codable, RawRepresentable {
-                case gameCenterDetail
-                case gameCenterGroup
-                case gameCenterLeaderboards
-                case groupLeaderboardSet
-                case localizations
-                case referenceName
-                case releases
-                case vendorIdentifier
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterGroup: return "gameCenterGroup"
-                    case .gameCenterLeaderboards: return "gameCenterLeaderboards"
-                    case .groupLeaderboardSet: return "groupLeaderboardSet"
-                    case .localizations: return "localizations"
-                    case .referenceName: return "referenceName"
-                    case .releases: return "releases"
-                    case .vendorIdentifier: return "vendorIdentifier"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterChallenges: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var allowedDurations: Self {
+                    .init(rawValue: "allowedDurations")
                 }
 
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
+                public static var challengeType: Self {
+                    .init(rawValue: "challengeType")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var leaderboard: Self {
+                    .init(rawValue: "leaderboard")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var repeatable: Self {
+                    .init(rawValue: "repeatable")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterGroup": self = .gameCenterGroup
-                    case "gameCenterLeaderboards": self = .gameCenterLeaderboards
-                    case "groupLeaderboardSet": self = .groupLeaderboardSet
-                    case "localizations": self = .localizations
-                    case "referenceName": self = .referenceName
-                    case "releases": self = .releases
-                    case "vendorIdentifier": self = .vendorIdentifier
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterLeaderboards: Hashable, Codable, RawRepresentable {
-                case archived
-                case defaultFormatter
-                case gameCenterDetail
-                case gameCenterGroup
-                case gameCenterLeaderboardSets
-                case groupLeaderboard
-                case localizations
-                case recurrenceDuration
-                case recurrenceRule
-                case recurrenceStartDate
-                case referenceName
-                case releases
-                case scoreRangeEnd
-                case scoreRangeStart
-                case scoreSortType
-                case submissionType
-                case vendorIdentifier
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .archived: return "archived"
-                    case .defaultFormatter: return "defaultFormatter"
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterGroup: return "gameCenterGroup"
-                    case .gameCenterLeaderboardSets: return "gameCenterLeaderboardSets"
-                    case .groupLeaderboard: return "groupLeaderboard"
-                    case .localizations: return "localizations"
-                    case .recurrenceDuration: return "recurrenceDuration"
-                    case .recurrenceRule: return "recurrenceRule"
-                    case .recurrenceStartDate: return "recurrenceStartDate"
-                    case .referenceName: return "referenceName"
-                    case .releases: return "releases"
-                    case .scoreRangeEnd: return "scoreRangeEnd"
-                    case .scoreRangeStart: return "scoreRangeStart"
-                    case .scoreSortType: return "scoreSortType"
-                    case .submissionType: return "submissionType"
-                    case .vendorIdentifier: return "vendorIdentifier"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterDetails: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var achievementReleases: Self {
+                    .init(rawValue: "achievementReleases")
                 }
 
+                public static var activityReleases: Self {
+                    .init(rawValue: "activityReleases")
+                }
+
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var arcadeEnabled: Self {
+                    .init(rawValue: "arcadeEnabled")
+                }
+
+                public static var challengeEnabled: Self {
+                    .init(rawValue: "challengeEnabled")
+                }
+
+                public static var challengeReleases: Self {
+                    .init(rawValue: "challengeReleases")
+                }
+
+                public static var challengesMinimumPlatformVersions: Self {
+                    .init(rawValue: "challengesMinimumPlatformVersions")
+                }
+
+                public static var defaultGroupLeaderboard: Self {
+                    .init(rawValue: "defaultGroupLeaderboard")
+                }
+
+                public static var defaultLeaderboard: Self {
+                    .init(rawValue: "defaultLeaderboard")
+                }
+
+                public static var gameCenterAchievements: Self {
+                    .init(rawValue: "gameCenterAchievements")
+                }
+
+                public static var gameCenterActivities: Self {
+                    .init(rawValue: "gameCenterActivities")
+                }
+
+                public static var gameCenterAppVersions: Self {
+                    .init(rawValue: "gameCenterAppVersions")
+                }
+
+                public static var gameCenterChallenges: Self {
+                    .init(rawValue: "gameCenterChallenges")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var gameCenterLeaderboardSets: Self {
+                    .init(rawValue: "gameCenterLeaderboardSets")
+                }
+
+                public static var gameCenterLeaderboards: Self {
+                    .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var leaderboardReleases: Self {
+                    .init(rawValue: "leaderboardReleases")
+                }
+
+                public static var leaderboardSetReleases: Self {
+                    .init(rawValue: "leaderboardSetReleases")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "archived": self = .archived
-                    case "defaultFormatter": self = .defaultFormatter
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterGroup": self = .gameCenterGroup
-                    case "gameCenterLeaderboardSets": self = .gameCenterLeaderboardSets
-                    case "groupLeaderboard": self = .groupLeaderboard
-                    case "localizations": self = .localizations
-                    case "recurrenceDuration": self = .recurrenceDuration
-                    case "recurrenceRule": self = .recurrenceRule
-                    case "recurrenceStartDate": self = .recurrenceStartDate
-                    case "referenceName": self = .referenceName
-                    case "releases": self = .releases
-                    case "scoreRangeEnd": self = .scoreRangeEnd
-                    case "scoreRangeStart": self = .scoreRangeStart
-                    case "scoreSortType": self = .scoreSortType
-                    case "submissionType": self = .submissionType
-                    case "vendorIdentifier": self = .vendorIdentifier
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterGroups: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterAchievements: Self {
+                    .init(rawValue: "gameCenterAchievements")
+                }
+
+                public static var gameCenterActivities: Self {
+                    .init(rawValue: "gameCenterActivities")
+                }
+
+                public static var gameCenterChallenges: Self {
+                    .init(rawValue: "gameCenterChallenges")
+                }
+
+                public static var gameCenterDetails: Self {
+                    .init(rawValue: "gameCenterDetails")
+                }
+
+                public static var gameCenterLeaderboardSets: Self {
+                    .init(rawValue: "gameCenterLeaderboardSets")
+                }
+
+                public static var gameCenterLeaderboards: Self {
+                    .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterLeaderboardReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterLeaderboard: Self {
+                    .init(rawValue: "gameCenterLeaderboard")
+                }
+
+                public static var live: Self {
+                    .init(rawValue: "live")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterLeaderboardSetReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterLeaderboardSet: Self {
+                    .init(rawValue: "gameCenterLeaderboardSet")
+                }
+
+                public static var live: Self {
+                    .init(rawValue: "live")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterLeaderboardSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var gameCenterLeaderboards: Self {
+                    .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var groupLeaderboardSet: Self {
+                    .init(rawValue: "groupLeaderboardSet")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterLeaderboards: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activity: Self {
+                    .init(rawValue: "activity")
+                }
+
+                public static var activityProperties: Self {
+                    .init(rawValue: "activityProperties")
+                }
+
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
+                public static var challenge: Self {
+                    .init(rawValue: "challenge")
+                }
+
+                public static var defaultFormatter: Self {
+                    .init(rawValue: "defaultFormatter")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var gameCenterLeaderboardSets: Self {
+                    .init(rawValue: "gameCenterLeaderboardSets")
+                }
+
+                public static var groupLeaderboard: Self {
+                    .init(rawValue: "groupLeaderboard")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var recurrenceDuration: Self {
+                    .init(rawValue: "recurrenceDuration")
+                }
+
+                public static var recurrenceRule: Self {
+                    .init(rawValue: "recurrenceRule")
+                }
+
+                public static var recurrenceStartDate: Self {
+                    .init(rawValue: "recurrenceStartDate")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var scoreRangeEnd: Self {
+                    .init(rawValue: "scoreRangeEnd")
+                }
+
+                public static var scoreRangeStart: Self {
+                    .init(rawValue: "scoreRangeStart")
+                }
+
+                public static var scoreSortType: Self {
+                    .init(rawValue: "scoreSortType")
+                }
+
+                public static var submissionType: Self {
+                    .init(rawValue: "submissionType")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public static var visibility: Self {
+                    .init(rawValue: "visibility")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
                 }
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appStoreVersions
+                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
+                    .init(key: "fields[appStoreVersions]")
+                }
+
                 /// the fields to include for returned resources of type apps
                 public static var apps: Relation<[Apps]?> {
                     .init(key: "fields[apps]")
@@ -627,9 +1066,29 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(key: "fields[gameCenterAchievements]")
                 }
 
+                /// the fields to include for returned resources of type gameCenterActivities
+                public static var gameCenterActivities: Relation<[GameCenterActivities]?> {
+                    .init(key: "fields[gameCenterActivities]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterActivityVersionReleases
+                public static var gameCenterActivityVersionReleases: Relation<[GameCenterActivityVersionReleases]?> {
+                    .init(key: "fields[gameCenterActivityVersionReleases]")
+                }
+
                 /// the fields to include for returned resources of type gameCenterAppVersions
                 public static var gameCenterAppVersions: Relation<[GameCenterAppVersions]?> {
                     .init(key: "fields[gameCenterAppVersions]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterChallengeVersionReleases
+                public static var gameCenterChallengeVersionReleases: Relation<[GameCenterChallengeVersionReleases]?> {
+                    .init(key: "fields[gameCenterChallengeVersionReleases]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterChallenges
+                public static var gameCenterChallenges: Relation<[GameCenterChallenges]?> {
+                    .init(key: "fields[gameCenterChallenges]")
                 }
 
                 /// the fields to include for returned resources of type gameCenterDetails
@@ -670,52 +1129,79 @@ extension V1.Apps.ById.GameCenterDetail.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case achievementReleases
-            case app
-            case defaultGroupLeaderboard
-            case defaultLeaderboard
-            case gameCenterAchievements
-            case gameCenterAppVersions
-            case gameCenterGroup
-            case gameCenterLeaderboardSets
-            case gameCenterLeaderboards
-            case leaderboardReleases
-            case leaderboardSetReleases
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .achievementReleases: return "achievementReleases"
-                case .app: return "app"
-                case .defaultGroupLeaderboard: return "defaultGroupLeaderboard"
-                case .defaultLeaderboard: return "defaultLeaderboard"
-                case .gameCenterAchievements: return "gameCenterAchievements"
-                case .gameCenterAppVersions: return "gameCenterAppVersions"
-                case .gameCenterGroup: return "gameCenterGroup"
-                case .gameCenterLeaderboardSets: return "gameCenterLeaderboardSets"
-                case .gameCenterLeaderboards: return "gameCenterLeaderboards"
-                case .leaderboardReleases: return "leaderboardReleases"
-                case .leaderboardSetReleases: return "leaderboardSetReleases"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var achievementReleases: Self {
+                .init(rawValue: "achievementReleases")
             }
 
+            public static var activityReleases: Self {
+                .init(rawValue: "activityReleases")
+            }
+
+            public static var app: Self {
+                .init(rawValue: "app")
+            }
+
+            public static var challengeReleases: Self {
+                .init(rawValue: "challengeReleases")
+            }
+
+            public static var challengesMinimumPlatformVersions: Self {
+                .init(rawValue: "challengesMinimumPlatformVersions")
+            }
+
+            public static var defaultGroupLeaderboard: Self {
+                .init(rawValue: "defaultGroupLeaderboard")
+            }
+
+            public static var defaultLeaderboard: Self {
+                .init(rawValue: "defaultLeaderboard")
+            }
+
+            public static var gameCenterAchievements: Self {
+                .init(rawValue: "gameCenterAchievements")
+            }
+
+            public static var gameCenterActivities: Self {
+                .init(rawValue: "gameCenterActivities")
+            }
+
+            public static var gameCenterAppVersions: Self {
+                .init(rawValue: "gameCenterAppVersions")
+            }
+
+            public static var gameCenterChallenges: Self {
+                .init(rawValue: "gameCenterChallenges")
+            }
+
+            public static var gameCenterGroup: Self {
+                .init(rawValue: "gameCenterGroup")
+            }
+
+            public static var gameCenterLeaderboardSets: Self {
+                .init(rawValue: "gameCenterLeaderboardSets")
+            }
+
+            public static var gameCenterLeaderboards: Self {
+                .init(rawValue: "gameCenterLeaderboards")
+            }
+
+            public static var leaderboardReleases: Self {
+                .init(rawValue: "leaderboardReleases")
+            }
+
+            public static var leaderboardSetReleases: Self {
+                .init(rawValue: "leaderboardSetReleases")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "achievementReleases": self = .achievementReleases
-                case "app": self = .app
-                case "defaultGroupLeaderboard": self = .defaultGroupLeaderboard
-                case "defaultLeaderboard": self = .defaultLeaderboard
-                case "gameCenterAchievements": self = .gameCenterAchievements
-                case "gameCenterAppVersions": self = .gameCenterAppVersions
-                case "gameCenterGroup": self = .gameCenterGroup
-                case "gameCenterLeaderboardSets": self = .gameCenterLeaderboardSets
-                case "gameCenterLeaderboards": self = .gameCenterLeaderboards
-                case "leaderboardReleases": self = .leaderboardReleases
-                case "leaderboardSetReleases": self = .leaderboardSetReleases
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
@@ -733,14 +1219,39 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(key: "limit[achievementReleases]")
                 }
 
+                /// maximum number of related activityReleases returned (when they are included)
+                public static var activityReleases: Relation<Int?> {
+                    .init(key: "limit[activityReleases]")
+                }
+
+                /// maximum number of related challengeReleases returned (when they are included)
+                public static var challengeReleases: Relation<Int?> {
+                    .init(key: "limit[challengeReleases]")
+                }
+
+                /// maximum number of related challengesMinimumPlatformVersions returned (when they are included)
+                public static var challengesMinimumPlatformVersions: Relation<Int?> {
+                    .init(key: "limit[challengesMinimumPlatformVersions]")
+                }
+
                 /// maximum number of related gameCenterAchievements returned (when they are included)
                 public static var gameCenterAchievements: Relation<Int?> {
                     .init(key: "limit[gameCenterAchievements]")
                 }
 
+                /// maximum number of related gameCenterActivities returned (when they are included)
+                public static var gameCenterActivities: Relation<Int?> {
+                    .init(key: "limit[gameCenterActivities]")
+                }
+
                 /// maximum number of related gameCenterAppVersions returned (when they are included)
                 public static var gameCenterAppVersions: Relation<Int?> {
                     .init(key: "limit[gameCenterAppVersions]")
+                }
+
+                /// maximum number of related gameCenterChallenges returned (when they are included)
+                public static var gameCenterChallenges: Relation<Int?> {
+                    .init(key: "limit[gameCenterChallenges]")
                 }
 
                 /// maximum number of related gameCenterLeaderboardSets returned (when they are included)

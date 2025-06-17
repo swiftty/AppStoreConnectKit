@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppStoreVersionSubmissionResponse: Hashable, Codable {
+public struct AppStoreVersionSubmissionResponse: Hashable, Codable, Sendable {
     public var data: AppStoreVersionSubmission
 
     public var included: [AppStoreVersion]?

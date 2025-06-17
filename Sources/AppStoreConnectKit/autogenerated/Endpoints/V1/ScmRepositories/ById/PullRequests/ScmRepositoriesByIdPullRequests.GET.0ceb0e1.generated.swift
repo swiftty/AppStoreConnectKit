@@ -48,8 +48,10 @@ extension V1.ScmRepositories.ById.PullRequests {
 
         /// - Returns: **200**, List of ScmPullRequests as `ScmPullRequestsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -63,10 +65,16 @@ extension V1.ScmRepositories.ById.PullRequests {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -94,98 +102,111 @@ extension V1.ScmRepositories.ById.PullRequests.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ScmPullRequests: Hashable, Codable, RawRepresentable {
-                case destinationBranchName
-                case destinationRepositoryName
-                case destinationRepositoryOwner
-                case isClosed
-                case isCrossRepository
-                case number
-                case repository
-                case sourceBranchName
-                case sourceRepositoryName
-                case sourceRepositoryOwner
-                case title
-                case webUrl
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .destinationBranchName: return "destinationBranchName"
-                    case .destinationRepositoryName: return "destinationRepositoryName"
-                    case .destinationRepositoryOwner: return "destinationRepositoryOwner"
-                    case .isClosed: return "isClosed"
-                    case .isCrossRepository: return "isCrossRepository"
-                    case .number: return "number"
-                    case .repository: return "repository"
-                    case .sourceBranchName: return "sourceBranchName"
-                    case .sourceRepositoryName: return "sourceRepositoryName"
-                    case .sourceRepositoryOwner: return "sourceRepositoryOwner"
-                    case .title: return "title"
-                    case .webUrl: return "webUrl"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ScmPullRequests: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var destinationBranchName: Self {
+                    .init(rawValue: "destinationBranchName")
                 }
 
+                public static var destinationRepositoryName: Self {
+                    .init(rawValue: "destinationRepositoryName")
+                }
+
+                public static var destinationRepositoryOwner: Self {
+                    .init(rawValue: "destinationRepositoryOwner")
+                }
+
+                public static var isClosed: Self {
+                    .init(rawValue: "isClosed")
+                }
+
+                public static var isCrossRepository: Self {
+                    .init(rawValue: "isCrossRepository")
+                }
+
+                public static var number: Self {
+                    .init(rawValue: "number")
+                }
+
+                public static var repository: Self {
+                    .init(rawValue: "repository")
+                }
+
+                public static var sourceBranchName: Self {
+                    .init(rawValue: "sourceBranchName")
+                }
+
+                public static var sourceRepositoryName: Self {
+                    .init(rawValue: "sourceRepositoryName")
+                }
+
+                public static var sourceRepositoryOwner: Self {
+                    .init(rawValue: "sourceRepositoryOwner")
+                }
+
+                public static var title: Self {
+                    .init(rawValue: "title")
+                }
+
+                public static var webUrl: Self {
+                    .init(rawValue: "webUrl")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "destinationBranchName": self = .destinationBranchName
-                    case "destinationRepositoryName": self = .destinationRepositoryName
-                    case "destinationRepositoryOwner": self = .destinationRepositoryOwner
-                    case "isClosed": self = .isClosed
-                    case "isCrossRepository": self = .isCrossRepository
-                    case "number": self = .number
-                    case "repository": self = .repository
-                    case "sourceBranchName": self = .sourceBranchName
-                    case "sourceRepositoryName": self = .sourceRepositoryName
-                    case "sourceRepositoryOwner": self = .sourceRepositoryOwner
-                    case "title": self = .title
-                    case "webUrl": self = .webUrl
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
-                case defaultBranch
-                case gitReferences
-                case httpCloneUrl
-                case lastAccessedDate
-                case ownerName
-                case pullRequests
-                case repositoryName
-                case scmProvider
-                case sshCloneUrl
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .defaultBranch: return "defaultBranch"
-                    case .gitReferences: return "gitReferences"
-                    case .httpCloneUrl: return "httpCloneUrl"
-                    case .lastAccessedDate: return "lastAccessedDate"
-                    case .ownerName: return "ownerName"
-                    case .pullRequests: return "pullRequests"
-                    case .repositoryName: return "repositoryName"
-                    case .scmProvider: return "scmProvider"
-                    case .sshCloneUrl: return "sshCloneUrl"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ScmRepositories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var defaultBranch: Self {
+                    .init(rawValue: "defaultBranch")
                 }
 
+                public static var gitReferences: Self {
+                    .init(rawValue: "gitReferences")
+                }
+
+                public static var httpCloneUrl: Self {
+                    .init(rawValue: "httpCloneUrl")
+                }
+
+                public static var lastAccessedDate: Self {
+                    .init(rawValue: "lastAccessedDate")
+                }
+
+                public static var ownerName: Self {
+                    .init(rawValue: "ownerName")
+                }
+
+                public static var pullRequests: Self {
+                    .init(rawValue: "pullRequests")
+                }
+
+                public static var repositoryName: Self {
+                    .init(rawValue: "repositoryName")
+                }
+
+                public static var scmProvider: Self {
+                    .init(rawValue: "scmProvider")
+                }
+
+                public static var sshCloneUrl: Self {
+                    .init(rawValue: "sshCloneUrl")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "defaultBranch": self = .defaultBranch
-                    case "gitReferences": self = .gitReferences
-                    case "httpCloneUrl": self = .httpCloneUrl
-                    case "lastAccessedDate": self = .lastAccessedDate
-                    case "ownerName": self = .ownerName
-                    case "pullRequests": self = .pullRequests
-                    case "repositoryName": self = .repositoryName
-                    case "scmProvider": self = .scmProvider
-                    case "sshCloneUrl": self = .sshCloneUrl
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -208,22 +229,19 @@ extension V1.ScmRepositories.ById.PullRequests.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case repository
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .repository: return "repository"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var repository: Self {
+                .init(rawValue: "repository")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "repository": self = .repository
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

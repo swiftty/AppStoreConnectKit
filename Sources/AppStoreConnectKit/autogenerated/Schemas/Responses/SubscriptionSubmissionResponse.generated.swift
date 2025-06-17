@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionSubmissionResponse: Hashable, Codable {
+public struct SubscriptionSubmissionResponse: Hashable, Codable, Sendable {
     public var data: SubscriptionSubmission
 
     public var included: [Subscription]?

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppEvent: Hashable, Codable {
+public struct AppEvent: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct AppEvent: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appEvents
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var archivedTerritorySchedules: [ArchivedTerritorySchedules]?
 
         public var badge: Badge?
@@ -53,7 +53,7 @@ public struct AppEvent: Hashable, Codable {
 
         public var priority: Priority?
 
-        public var purchaseRequirement: PurchaseRequirement?
+        public var purchaseRequirement: String?
 
         public var purpose: Purpose?
 
@@ -68,7 +68,7 @@ public struct AppEvent: Hashable, Codable {
             eventState: EventState? = nil,
             primaryLocale: String? = nil,
             priority: Priority? = nil,
-            purchaseRequirement: PurchaseRequirement? = nil,
+            purchaseRequirement: String? = nil,
             purpose: Purpose? = nil,
             referenceName: String? = nil,
             territorySchedules: [TerritorySchedules]? = nil
@@ -98,7 +98,7 @@ public struct AppEvent: Hashable, Codable {
             case territorySchedules
         }
 
-        public struct ArchivedTerritorySchedules: Hashable, Codable {
+        public struct ArchivedTerritorySchedules: Hashable, Codable, Sendable {
             public var eventEnd: String?
 
             public var eventStart: String?
@@ -127,171 +127,147 @@ public struct AppEvent: Hashable, Codable {
             }
         }
 
-        public enum Badge: Hashable, Codable, RawRepresentable {
-            case challenge
-            case competition
-            case liveEvent
-            case majorUpdate
-            case newSeason
-            case premiere
-            case specialEvent
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .challenge: return "CHALLENGE"
-                case .competition: return "COMPETITION"
-                case .liveEvent: return "LIVE_EVENT"
-                case .majorUpdate: return "MAJOR_UPDATE"
-                case .newSeason: return "NEW_SEASON"
-                case .premiere: return "PREMIERE"
-                case .specialEvent: return "SPECIAL_EVENT"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Badge: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var challenge: Self {
+                .init(rawValue: "CHALLENGE")
             }
 
+            public static var competition: Self {
+                .init(rawValue: "COMPETITION")
+            }
+
+            public static var liveEvent: Self {
+                .init(rawValue: "LIVE_EVENT")
+            }
+
+            public static var majorUpdate: Self {
+                .init(rawValue: "MAJOR_UPDATE")
+            }
+
+            public static var newSeason: Self {
+                .init(rawValue: "NEW_SEASON")
+            }
+
+            public static var premiere: Self {
+                .init(rawValue: "PREMIERE")
+            }
+
+            public static var specialEvent: Self {
+                .init(rawValue: "SPECIAL_EVENT")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "CHALLENGE": self = .challenge
-                case "COMPETITION": self = .competition
-                case "LIVE_EVENT": self = .liveEvent
-                case "MAJOR_UPDATE": self = .majorUpdate
-                case "NEW_SEASON": self = .newSeason
-                case "PREMIERE": self = .premiere
-                case "SPECIAL_EVENT": self = .specialEvent
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum EventState: Hashable, Codable, RawRepresentable {
-            case accepted
-            case approved
-            case archived
-            case draft
-            case inReview
-            case past
-            case published
-            case readyForReview
-            case rejected
-            case waitingForReview
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .accepted: return "ACCEPTED"
-                case .approved: return "APPROVED"
-                case .archived: return "ARCHIVED"
-                case .draft: return "DRAFT"
-                case .inReview: return "IN_REVIEW"
-                case .past: return "PAST"
-                case .published: return "PUBLISHED"
-                case .readyForReview: return "READY_FOR_REVIEW"
-                case .rejected: return "REJECTED"
-                case .waitingForReview: return "WAITING_FOR_REVIEW"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct EventState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var accepted: Self {
+                .init(rawValue: "ACCEPTED")
             }
 
+            public static var approved: Self {
+                .init(rawValue: "APPROVED")
+            }
+
+            public static var archived: Self {
+                .init(rawValue: "ARCHIVED")
+            }
+
+            public static var draft: Self {
+                .init(rawValue: "DRAFT")
+            }
+
+            public static var inReview: Self {
+                .init(rawValue: "IN_REVIEW")
+            }
+
+            public static var past: Self {
+                .init(rawValue: "PAST")
+            }
+
+            public static var published: Self {
+                .init(rawValue: "PUBLISHED")
+            }
+
+            public static var readyForReview: Self {
+                .init(rawValue: "READY_FOR_REVIEW")
+            }
+
+            public static var rejected: Self {
+                .init(rawValue: "REJECTED")
+            }
+
+            public static var waitingForReview: Self {
+                .init(rawValue: "WAITING_FOR_REVIEW")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "ACCEPTED": self = .accepted
-                case "APPROVED": self = .approved
-                case "ARCHIVED": self = .archived
-                case "DRAFT": self = .draft
-                case "IN_REVIEW": self = .inReview
-                case "PAST": self = .past
-                case "PUBLISHED": self = .published
-                case "READY_FOR_REVIEW": self = .readyForReview
-                case "REJECTED": self = .rejected
-                case "WAITING_FOR_REVIEW": self = .waitingForReview
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum Priority: Hashable, Codable, RawRepresentable {
-            case high
-            case normal
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .high: return "HIGH"
-                case .normal: return "NORMAL"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Priority: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var high: Self {
+                .init(rawValue: "HIGH")
             }
 
+            public static var normal: Self {
+                .init(rawValue: "NORMAL")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "HIGH": self = .high
-                case "NORMAL": self = .normal
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum PurchaseRequirement: Hashable, Codable, RawRepresentable {
-            case inAppPurchase
-            case inAppPurchaseAndSubscription
-            case inAppPurchaseOrSubscription
-            case noCostAssociated
-            case subscription
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .inAppPurchase: return "IN_APP_PURCHASE"
-                case .inAppPurchaseAndSubscription: return "IN_APP_PURCHASE_AND_SUBSCRIPTION"
-                case .inAppPurchaseOrSubscription: return "IN_APP_PURCHASE_OR_SUBSCRIPTION"
-                case .noCostAssociated: return "NO_COST_ASSOCIATED"
-                case .subscription: return "SUBSCRIPTION"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Purpose: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appropriateForAllUsers: Self {
+                .init(rawValue: "APPROPRIATE_FOR_ALL_USERS")
             }
 
+            public static var attractNewUsers: Self {
+                .init(rawValue: "ATTRACT_NEW_USERS")
+            }
+
+            public static var bringBackLapsedUsers: Self {
+                .init(rawValue: "BRING_BACK_LAPSED_USERS")
+            }
+
+            public static var keepActiveUsersInformed: Self {
+                .init(rawValue: "KEEP_ACTIVE_USERS_INFORMED")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "IN_APP_PURCHASE": self = .inAppPurchase
-                case "IN_APP_PURCHASE_AND_SUBSCRIPTION": self = .inAppPurchaseAndSubscription
-                case "IN_APP_PURCHASE_OR_SUBSCRIPTION": self = .inAppPurchaseOrSubscription
-                case "NO_COST_ASSOCIATED": self = .noCostAssociated
-                case "SUBSCRIPTION": self = .subscription
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum Purpose: Hashable, Codable, RawRepresentable {
-            case appropriateForAllUsers
-            case attractNewUsers
-            case bringBackLapsedUsers
-            case keepActiveUsersInformed
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appropriateForAllUsers: return "APPROPRIATE_FOR_ALL_USERS"
-                case .attractNewUsers: return "ATTRACT_NEW_USERS"
-                case .bringBackLapsedUsers: return "BRING_BACK_LAPSED_USERS"
-                case .keepActiveUsersInformed: return "KEEP_ACTIVE_USERS_INFORMED"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "APPROPRIATE_FOR_ALL_USERS": self = .appropriateForAllUsers
-                case "ATTRACT_NEW_USERS": self = .attractNewUsers
-                case "BRING_BACK_LAPSED_USERS": self = .bringBackLapsedUsers
-                case "KEEP_ACTIVE_USERS_INFORMED": self = .keepActiveUsersInformed
-                default: self = .unknown(rawValue)
-                }
-            }
-        }
-
-        public struct TerritorySchedules: Hashable, Codable {
+        public struct TerritorySchedules: Hashable, Codable, Sendable {
             public var eventEnd: String?
 
             public var eventStart: String?
@@ -321,7 +297,7 @@ public struct AppEvent: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var localizations: Localizations?
 
         public init(localizations: Localizations? = nil) {
@@ -332,16 +308,16 @@ public struct AppEvent: Hashable, Codable {
             case localizations
         }
 
-        public struct Localizations: Hashable, Codable {
+        public struct Localizations: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -355,7 +331,7 @@ public struct AppEvent: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -373,27 +349,8 @@ public struct AppEvent: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appEventLocalizations
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

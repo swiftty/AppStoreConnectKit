@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiBuildRunCreateRequest: Hashable, Codable {
+public struct CiBuildRunCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes?
@@ -37,11 +37,11 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case ciBuildRuns
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var clean: Bool?
 
             public init(clean: Bool? = nil) {
@@ -53,7 +53,7 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var buildRun: BuildRun?
 
             public var pullRequest: PullRequest?
@@ -81,7 +81,7 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                 case workflow
             }
 
-            public struct BuildRun: Hashable, Codable {
+            public struct BuildRun: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -92,7 +92,7 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -110,13 +110,13 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case ciBuildRuns
                     }
                 }
             }
 
-            public struct PullRequest: Hashable, Codable {
+            public struct PullRequest: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -127,7 +127,7 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -145,13 +145,13 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case scmPullRequests
                     }
                 }
             }
 
-            public struct SourceBranchOrTag: Hashable, Codable {
+            public struct SourceBranchOrTag: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -162,7 +162,7 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -180,13 +180,13 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case scmGitReferences
                     }
                 }
             }
 
-            public struct Workflow: Hashable, Codable {
+            public struct Workflow: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -197,7 +197,7 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -215,7 +215,7 @@ public struct CiBuildRunCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case ciWorkflows
                     }
                 }

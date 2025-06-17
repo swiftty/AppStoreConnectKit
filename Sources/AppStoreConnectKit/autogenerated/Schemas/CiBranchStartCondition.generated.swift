@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiBranchStartCondition: Hashable, Codable {
+public struct CiBranchStartCondition: Hashable, Codable, Sendable {
     public var autoCancel: Bool?
 
     public var filesAndFoldersRule: CiFilesAndFoldersRule?

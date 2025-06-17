@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ProfileResponse: Hashable, Codable {
+public struct ProfileResponse: Hashable, Codable, Sendable {
     public var data: Profile
 
     public var included: [Included]?
@@ -26,7 +26,7 @@ public struct ProfileResponse: Hashable, Codable {
         case links
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case bundleId(BundleId)
         case device(Device)
         case certificate(Certificate)

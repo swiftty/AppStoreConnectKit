@@ -46,8 +46,10 @@ extension V1.Builds.ById.DiagnosticSignatures {
 
         /// - Returns: **200**, List of DiagnosticSignatures as `DiagnosticSignaturesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -61,10 +63,16 @@ extension V1.Builds.ById.DiagnosticSignatures {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -91,31 +99,35 @@ extension V1.Builds.ById.DiagnosticSignatures.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum DiagnosticSignatures: Hashable, Codable, RawRepresentable {
-                case diagnosticType
-                case logs
-                case signature
-                case weight
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .diagnosticType: return "diagnosticType"
-                    case .logs: return "logs"
-                    case .signature: return "signature"
-                    case .weight: return "weight"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct DiagnosticSignatures: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var diagnosticType: Self {
+                    .init(rawValue: "diagnosticType")
                 }
 
+                public static var insight: Self {
+                    .init(rawValue: "insight")
+                }
+
+                public static var logs: Self {
+                    .init(rawValue: "logs")
+                }
+
+                public static var signature: Self {
+                    .init(rawValue: "signature")
+                }
+
+                public static var weight: Self {
+                    .init(rawValue: "weight")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "diagnosticType": self = .diagnosticType
-                    case "logs": self = .logs
-                    case "signature": self = .signature
-                    case "weight": self = .weight
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -141,25 +153,27 @@ extension V1.Builds.ById.DiagnosticSignatures.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum DiagnosticType: Hashable, Codable, RawRepresentable {
-                case diskWrites
-                case hangs
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .diskWrites: return "DISK_WRITES"
-                    case .hangs: return "HANGS"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct DiagnosticType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var diskWrites: Self {
+                    .init(rawValue: "DISK_WRITES")
                 }
 
+                public static var hangs: Self {
+                    .init(rawValue: "HANGS")
+                }
+
+                public static var launches: Self {
+                    .init(rawValue: "LAUNCHES")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "DISK_WRITES": self = .diskWrites
-                    case "HANGS": self = .hangs
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

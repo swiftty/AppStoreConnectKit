@@ -3,103 +3,127 @@
 // swiftlint:disable all
 import Foundation
 
-public enum CapabilityType: Hashable, Codable, RawRepresentable {
-    case accessWifiInformation
-    case appGroups
-    case appleIdAuth
-    case applePay
-    case associatedDomains
-    case autofillCredentialProvider
-    case classkit
-    case coremediaHlsLowLatency
-    case dataProtection
-    case gameCenter
-    case healthkit
-    case homekit
-    case hotSpot
-    case icloud
-    case inAppPurchase
-    case interAppAudio
-    case maps
-    case multipath
-    case networkCustomProtocol
-    case networkExtensions
-    case nfcTagReading
-    case personalVpn
-    case pushNotifications
-    case sirikit
-    case systemExtensionInstall
-    case userManagement
-    case wallet
-    case wirelessAccessoryConfiguration
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .accessWifiInformation: return "ACCESS_WIFI_INFORMATION"
-        case .appGroups: return "APP_GROUPS"
-        case .appleIdAuth: return "APPLE_ID_AUTH"
-        case .applePay: return "APPLE_PAY"
-        case .associatedDomains: return "ASSOCIATED_DOMAINS"
-        case .autofillCredentialProvider: return "AUTOFILL_CREDENTIAL_PROVIDER"
-        case .classkit: return "CLASSKIT"
-        case .coremediaHlsLowLatency: return "COREMEDIA_HLS_LOW_LATENCY"
-        case .dataProtection: return "DATA_PROTECTION"
-        case .gameCenter: return "GAME_CENTER"
-        case .healthkit: return "HEALTHKIT"
-        case .homekit: return "HOMEKIT"
-        case .hotSpot: return "HOT_SPOT"
-        case .icloud: return "ICLOUD"
-        case .inAppPurchase: return "IN_APP_PURCHASE"
-        case .interAppAudio: return "INTER_APP_AUDIO"
-        case .maps: return "MAPS"
-        case .multipath: return "MULTIPATH"
-        case .networkCustomProtocol: return "NETWORK_CUSTOM_PROTOCOL"
-        case .networkExtensions: return "NETWORK_EXTENSIONS"
-        case .nfcTagReading: return "NFC_TAG_READING"
-        case .personalVpn: return "PERSONAL_VPN"
-        case .pushNotifications: return "PUSH_NOTIFICATIONS"
-        case .sirikit: return "SIRIKIT"
-        case .systemExtensionInstall: return "SYSTEM_EXTENSION_INSTALL"
-        case .userManagement: return "USER_MANAGEMENT"
-        case .wallet: return "WALLET"
-        case .wirelessAccessoryConfiguration: return "WIRELESS_ACCESSORY_CONFIGURATION"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct CapabilityType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var accessWifiInformation: Self {
+        .init(rawValue: "ACCESS_WIFI_INFORMATION")
     }
 
+    public static var appGroups: Self {
+        .init(rawValue: "APP_GROUPS")
+    }
+
+    public static var appleIdAuth: Self {
+        .init(rawValue: "APPLE_ID_AUTH")
+    }
+
+    public static var applePay: Self {
+        .init(rawValue: "APPLE_PAY")
+    }
+
+    public static var associatedDomains: Self {
+        .init(rawValue: "ASSOCIATED_DOMAINS")
+    }
+
+    public static var autofillCredentialProvider: Self {
+        .init(rawValue: "AUTOFILL_CREDENTIAL_PROVIDER")
+    }
+
+    public static var classkit: Self {
+        .init(rawValue: "CLASSKIT")
+    }
+
+    public static var coremediaHlsLowLatency: Self {
+        .init(rawValue: "COREMEDIA_HLS_LOW_LATENCY")
+    }
+
+    public static var dataProtection: Self {
+        .init(rawValue: "DATA_PROTECTION")
+    }
+
+    public static var gameCenter: Self {
+        .init(rawValue: "GAME_CENTER")
+    }
+
+    public static var healthkit: Self {
+        .init(rawValue: "HEALTHKIT")
+    }
+
+    public static var homekit: Self {
+        .init(rawValue: "HOMEKIT")
+    }
+
+    public static var hotSpot: Self {
+        .init(rawValue: "HOT_SPOT")
+    }
+
+    public static var icloud: Self {
+        .init(rawValue: "ICLOUD")
+    }
+
+    public static var inAppPurchase: Self {
+        .init(rawValue: "IN_APP_PURCHASE")
+    }
+
+    public static var interAppAudio: Self {
+        .init(rawValue: "INTER_APP_AUDIO")
+    }
+
+    public static var maps: Self {
+        .init(rawValue: "MAPS")
+    }
+
+    public static var multipath: Self {
+        .init(rawValue: "MULTIPATH")
+    }
+
+    public static var networkCustomProtocol: Self {
+        .init(rawValue: "NETWORK_CUSTOM_PROTOCOL")
+    }
+
+    public static var networkExtensions: Self {
+        .init(rawValue: "NETWORK_EXTENSIONS")
+    }
+
+    public static var nfcTagReading: Self {
+        .init(rawValue: "NFC_TAG_READING")
+    }
+
+    public static var personalVpn: Self {
+        .init(rawValue: "PERSONAL_VPN")
+    }
+
+    public static var pushNotifications: Self {
+        .init(rawValue: "PUSH_NOTIFICATIONS")
+    }
+
+    public static var sirikit: Self {
+        .init(rawValue: "SIRIKIT")
+    }
+
+    public static var systemExtensionInstall: Self {
+        .init(rawValue: "SYSTEM_EXTENSION_INSTALL")
+    }
+
+    public static var userManagement: Self {
+        .init(rawValue: "USER_MANAGEMENT")
+    }
+
+    public static var wallet: Self {
+        .init(rawValue: "WALLET")
+    }
+
+    public static var wirelessAccessoryConfiguration: Self {
+        .init(rawValue: "WIRELESS_ACCESSORY_CONFIGURATION")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "ACCESS_WIFI_INFORMATION": self = .accessWifiInformation
-        case "APP_GROUPS": self = .appGroups
-        case "APPLE_ID_AUTH": self = .appleIdAuth
-        case "APPLE_PAY": self = .applePay
-        case "ASSOCIATED_DOMAINS": self = .associatedDomains
-        case "AUTOFILL_CREDENTIAL_PROVIDER": self = .autofillCredentialProvider
-        case "CLASSKIT": self = .classkit
-        case "COREMEDIA_HLS_LOW_LATENCY": self = .coremediaHlsLowLatency
-        case "DATA_PROTECTION": self = .dataProtection
-        case "GAME_CENTER": self = .gameCenter
-        case "HEALTHKIT": self = .healthkit
-        case "HOMEKIT": self = .homekit
-        case "HOT_SPOT": self = .hotSpot
-        case "ICLOUD": self = .icloud
-        case "IN_APP_PURCHASE": self = .inAppPurchase
-        case "INTER_APP_AUDIO": self = .interAppAudio
-        case "MAPS": self = .maps
-        case "MULTIPATH": self = .multipath
-        case "NETWORK_CUSTOM_PROTOCOL": self = .networkCustomProtocol
-        case "NETWORK_EXTENSIONS": self = .networkExtensions
-        case "NFC_TAG_READING": self = .nfcTagReading
-        case "PERSONAL_VPN": self = .personalVpn
-        case "PUSH_NOTIFICATIONS": self = .pushNotifications
-        case "SIRIKIT": self = .sirikit
-        case "SYSTEM_EXTENSION_INSTALL": self = .systemExtensionInstall
-        case "USER_MANAGEMENT": self = .userManagement
-        case "WALLET": self = .wallet
-        case "WIRELESS_ACCESSORY_CONFIGURATION": self = .wirelessAccessoryConfiguration
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppCustomProductPageLocalizationInlineCreate: Hashable, Codable {
+public struct AppCustomProductPageLocalizationInlineCreate: Hashable, Codable, Sendable {
     public var id: String?
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct AppCustomProductPageLocalizationInlineCreate: Hashable, Codable {
         case relationships
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appCustomProductPageLocalizations
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var locale: String
 
         public var promotionalText: String?
@@ -54,7 +54,7 @@ public struct AppCustomProductPageLocalizationInlineCreate: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var appCustomProductPageVersion: AppCustomProductPageVersion?
 
         public init(appCustomProductPageVersion: AppCustomProductPageVersion? = nil) {
@@ -65,7 +65,7 @@ public struct AppCustomProductPageLocalizationInlineCreate: Hashable, Codable {
             case appCustomProductPageVersion
         }
 
-        public struct AppCustomProductPageVersion: Hashable, Codable {
+        public struct AppCustomProductPageVersion: Hashable, Codable, Sendable {
             public var data: Data?
 
             public init(data: Data? = nil) {
@@ -76,7 +76,7 @@ public struct AppCustomProductPageLocalizationInlineCreate: Hashable, Codable {
                 case data
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -94,7 +94,7 @@ public struct AppCustomProductPageLocalizationInlineCreate: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appCustomProductPageVersions
                 }
             }

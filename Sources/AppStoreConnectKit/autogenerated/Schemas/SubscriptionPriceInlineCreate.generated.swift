@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionPriceInlineCreate: Hashable, Codable {
+public struct SubscriptionPriceInlineCreate: Hashable, Codable, Sendable {
     public var id: String?
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct SubscriptionPriceInlineCreate: Hashable, Codable {
         case relationships
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case subscriptionPrices
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var preserveCurrentPrice: Bool?
 
         public var startDate: String?
@@ -54,7 +54,7 @@ public struct SubscriptionPriceInlineCreate: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var subscription: Subscription?
 
         public var subscriptionPricePoint: SubscriptionPricePoint?
@@ -77,7 +77,7 @@ public struct SubscriptionPriceInlineCreate: Hashable, Codable {
             case territory
         }
 
-        public struct Subscription: Hashable, Codable {
+        public struct Subscription: Hashable, Codable, Sendable {
             public var data: Data?
 
             public init(data: Data? = nil) {
@@ -88,7 +88,7 @@ public struct SubscriptionPriceInlineCreate: Hashable, Codable {
                 case data
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -106,13 +106,13 @@ public struct SubscriptionPriceInlineCreate: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case subscriptions
                 }
             }
         }
 
-        public struct SubscriptionPricePoint: Hashable, Codable {
+        public struct SubscriptionPricePoint: Hashable, Codable, Sendable {
             public var data: Data?
 
             public init(data: Data? = nil) {
@@ -123,7 +123,7 @@ public struct SubscriptionPriceInlineCreate: Hashable, Codable {
                 case data
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -141,13 +141,13 @@ public struct SubscriptionPriceInlineCreate: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case subscriptionPricePoints
                 }
             }
         }
 
-        public struct Territory: Hashable, Codable {
+        public struct Territory: Hashable, Codable, Sendable {
             public var data: Data?
 
             public init(data: Data? = nil) {
@@ -158,7 +158,7 @@ public struct SubscriptionPriceInlineCreate: Hashable, Codable {
                 case data
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -176,7 +176,7 @@ public struct SubscriptionPriceInlineCreate: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case territories
                 }
             }

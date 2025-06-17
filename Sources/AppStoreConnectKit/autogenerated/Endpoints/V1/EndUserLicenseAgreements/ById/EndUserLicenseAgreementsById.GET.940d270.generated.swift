@@ -48,8 +48,10 @@ extension V1.EndUserLicenseAgreements.ById {
 
         /// - Returns: **200**, Single EndUserLicenseAgreement as `EndUserLicenseAgreementResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -63,10 +65,16 @@ extension V1.EndUserLicenseAgreements.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -93,47 +101,43 @@ extension V1.EndUserLicenseAgreements.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum EndUserLicenseAgreements: Hashable, Codable, RawRepresentable {
-                case agreementText
-                case app
-                case territories
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .agreementText: return "agreementText"
-                    case .app: return "app"
-                    case .territories: return "territories"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct EndUserLicenseAgreements: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var agreementText: Self {
+                    .init(rawValue: "agreementText")
                 }
 
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var territories: Self {
+                    .init(rawValue: "territories")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "agreementText": self = .agreementText
-                    case "app": self = .app
-                    case "territories": self = .territories
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Territories: Hashable, Codable, RawRepresentable {
-                case currency
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .currency: return "currency"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Territories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var currency: Self {
+                    .init(rawValue: "currency")
                 }
 
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "currency": self = .currency
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -156,25 +160,23 @@ extension V1.EndUserLicenseAgreements.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case app
-            case territories
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .app: return "app"
-                case .territories: return "territories"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var app: Self {
+                .init(rawValue: "app")
             }
 
+            public static var territories: Self {
+                .init(rawValue: "territories")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "app": self = .app
-                case "territories": self = .territories
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

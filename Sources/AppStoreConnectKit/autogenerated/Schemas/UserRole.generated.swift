@@ -3,58 +3,67 @@
 // swiftlint:disable all
 import Foundation
 
-public enum UserRole: Hashable, Codable, RawRepresentable {
-    case accessToReports
-    case accountHolder
-    case admin
-    case appManager
-    case cloudManagedAppDistribution
-    case cloudManagedDeveloperId
-    case createApps
-    case customerSupport
-    case developer
-    case finance
-    case imageManager
-    case marketing
-    case sales
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .accessToReports: return "ACCESS_TO_REPORTS"
-        case .accountHolder: return "ACCOUNT_HOLDER"
-        case .admin: return "ADMIN"
-        case .appManager: return "APP_MANAGER"
-        case .cloudManagedAppDistribution: return "CLOUD_MANAGED_APP_DISTRIBUTION"
-        case .cloudManagedDeveloperId: return "CLOUD_MANAGED_DEVELOPER_ID"
-        case .createApps: return "CREATE_APPS"
-        case .customerSupport: return "CUSTOMER_SUPPORT"
-        case .developer: return "DEVELOPER"
-        case .finance: return "FINANCE"
-        case .imageManager: return "IMAGE_MANAGER"
-        case .marketing: return "MARKETING"
-        case .sales: return "SALES"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct UserRole: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var accessToReports: Self {
+        .init(rawValue: "ACCESS_TO_REPORTS")
     }
 
+    public static var accountHolder: Self {
+        .init(rawValue: "ACCOUNT_HOLDER")
+    }
+
+    public static var admin: Self {
+        .init(rawValue: "ADMIN")
+    }
+
+    public static var appManager: Self {
+        .init(rawValue: "APP_MANAGER")
+    }
+
+    public static var cloudManagedAppDistribution: Self {
+        .init(rawValue: "CLOUD_MANAGED_APP_DISTRIBUTION")
+    }
+
+    public static var cloudManagedDeveloperId: Self {
+        .init(rawValue: "CLOUD_MANAGED_DEVELOPER_ID")
+    }
+
+    public static var createApps: Self {
+        .init(rawValue: "CREATE_APPS")
+    }
+
+    public static var customerSupport: Self {
+        .init(rawValue: "CUSTOMER_SUPPORT")
+    }
+
+    public static var developer: Self {
+        .init(rawValue: "DEVELOPER")
+    }
+
+    public static var finance: Self {
+        .init(rawValue: "FINANCE")
+    }
+
+    public static var generateIndividualKeys: Self {
+        .init(rawValue: "GENERATE_INDIVIDUAL_KEYS")
+    }
+
+    public static var marketing: Self {
+        .init(rawValue: "MARKETING")
+    }
+
+    public static var sales: Self {
+        .init(rawValue: "SALES")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "ACCESS_TO_REPORTS": self = .accessToReports
-        case "ACCOUNT_HOLDER": self = .accountHolder
-        case "ADMIN": self = .admin
-        case "APP_MANAGER": self = .appManager
-        case "CLOUD_MANAGED_APP_DISTRIBUTION": self = .cloudManagedAppDistribution
-        case "CLOUD_MANAGED_DEVELOPER_ID": self = .cloudManagedDeveloperId
-        case "CREATE_APPS": self = .createApps
-        case "CUSTOMER_SUPPORT": self = .customerSupport
-        case "DEVELOPER": self = .developer
-        case "FINANCE": self = .finance
-        case "IMAGE_MANAGER": self = .imageManager
-        case "MARKETING": self = .marketing
-        case "SALES": self = .sales
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

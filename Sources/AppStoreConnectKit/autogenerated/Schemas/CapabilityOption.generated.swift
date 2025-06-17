@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CapabilityOption: Hashable, Codable {
+public struct CapabilityOption: Hashable, Codable, Sendable {
     public var description: String?
 
     public var enabled: Bool?
@@ -41,37 +41,39 @@ public struct CapabilityOption: Hashable, Codable {
         case supportsWildcard
     }
 
-    public enum Key: Hashable, Codable, RawRepresentable {
-        case completeProtection
-        case primaryAppConsent
-        case protectedUnlessOpen
-        case protectedUntilFirstUserAuth
-        case xcode5
-        case xcode6
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .completeProtection: return "COMPLETE_PROTECTION"
-            case .primaryAppConsent: return "PRIMARY_APP_CONSENT"
-            case .protectedUnlessOpen: return "PROTECTED_UNLESS_OPEN"
-            case .protectedUntilFirstUserAuth: return "PROTECTED_UNTIL_FIRST_USER_AUTH"
-            case .xcode5: return "XCODE_5"
-            case .xcode6: return "XCODE_6"
-            case .unknown(let rawValue): return rawValue
-            }
+    public struct Key: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+        public static var completeProtection: Self {
+            .init(rawValue: "COMPLETE_PROTECTION")
         }
 
+        public static var primaryAppConsent: Self {
+            .init(rawValue: "PRIMARY_APP_CONSENT")
+        }
+
+        public static var protectedUnlessOpen: Self {
+            .init(rawValue: "PROTECTED_UNLESS_OPEN")
+        }
+
+        public static var protectedUntilFirstUserAuth: Self {
+            .init(rawValue: "PROTECTED_UNTIL_FIRST_USER_AUTH")
+        }
+
+        public static var xcode5: Self {
+            .init(rawValue: "XCODE_5")
+        }
+
+        public static var xcode6: Self {
+            .init(rawValue: "XCODE_6")
+        }
+
+        public var description: String {
+            rawValue
+        }
+
+        public var rawValue: String
+
         public init(rawValue: String) {
-            switch rawValue {
-            case "COMPLETE_PROTECTION": self = .completeProtection
-            case "PRIMARY_APP_CONSENT": self = .primaryAppConsent
-            case "PROTECTED_UNLESS_OPEN": self = .protectedUnlessOpen
-            case "PROTECTED_UNTIL_FIRST_USER_AUTH": self = .protectedUntilFirstUserAuth
-            case "XCODE_5": self = .xcode5
-            case "XCODE_6": self = .xcode6
-            default: self = .unknown(rawValue)
-            }
+            self.rawValue = rawValue
         }
     }
 }

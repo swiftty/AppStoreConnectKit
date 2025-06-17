@@ -45,7 +45,9 @@ extension V1.FinanceReports {
 
         /// - Returns: **200**, List of FinanceReports as `Data`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,7 +61,13 @@ extension V1.FinanceReports {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -81,25 +89,23 @@ extension V1.FinanceReports.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ReportType: Hashable, Codable, RawRepresentable {
-                case financeDetail
-                case financial
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .financeDetail: return "FINANCE_DETAIL"
-                    case .financial: return "FINANCIAL"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ReportType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var financeDetail: Self {
+                    .init(rawValue: "FINANCE_DETAIL")
                 }
 
+                public static var financial: Self {
+                    .init(rawValue: "FINANCIAL")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "FINANCE_DETAIL": self = .financeDetail
-                    case "FINANCIAL": self = .financial
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

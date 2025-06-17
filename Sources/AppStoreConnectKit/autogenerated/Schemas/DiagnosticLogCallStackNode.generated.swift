@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct DiagnosticLogCallStackNode: Hashable, Codable {
+public struct DiagnosticLogCallStackNode: Hashable, Codable, Sendable {
     public var address: String?
 
     public var binaryName: String?

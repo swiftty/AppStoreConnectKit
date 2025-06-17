@@ -44,8 +44,10 @@ extension V1.Profiles.ById.Certificates {
 
         /// - Returns: **200**, List of Certificates with get as `CertificatesWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.Profiles.ById.Certificates {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,43 +95,51 @@ extension V1.Profiles.ById.Certificates.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Certificates: Hashable, Codable, RawRepresentable {
-                case certificateContent
-                case certificateType
-                case csrContent
-                case displayName
-                case expirationDate
-                case name
-                case platform
-                case serialNumber
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .certificateContent: return "certificateContent"
-                    case .certificateType: return "certificateType"
-                    case .csrContent: return "csrContent"
-                    case .displayName: return "displayName"
-                    case .expirationDate: return "expirationDate"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .serialNumber: return "serialNumber"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Certificates: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activated: Self {
+                    .init(rawValue: "activated")
                 }
 
+                public static var certificateContent: Self {
+                    .init(rawValue: "certificateContent")
+                }
+
+                public static var certificateType: Self {
+                    .init(rawValue: "certificateType")
+                }
+
+                public static var displayName: Self {
+                    .init(rawValue: "displayName")
+                }
+
+                public static var expirationDate: Self {
+                    .init(rawValue: "expirationDate")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var passTypeId: Self {
+                    .init(rawValue: "passTypeId")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var serialNumber: Self {
+                    .init(rawValue: "serialNumber")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "certificateContent": self = .certificateContent
-                    case "certificateType": self = .certificateType
-                    case "csrContent": self = .csrContent
-                    case "displayName": self = .displayName
-                    case "expirationDate": self = .expirationDate
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "serialNumber": self = .serialNumber
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SandboxTesterV2UpdateRequest: Hashable, Codable {
+public struct SandboxTesterV2UpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct SandboxTesterV2UpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -37,11 +37,11 @@ public struct SandboxTesterV2UpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case sandboxTesters
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var interruptPurchases: Bool?
 
             public var subscriptionRenewalRate: SubscriptionRenewalRate?
@@ -64,34 +64,35 @@ public struct SandboxTesterV2UpdateRequest: Hashable, Codable {
                 case territory
             }
 
-            public enum SubscriptionRenewalRate: Hashable, Codable, RawRepresentable {
-                case monthlyRenewalEveryFifteenMinutes
-                case monthlyRenewalEveryFiveMinutes
-                case monthlyRenewalEveryOneHour
-                case monthlyRenewalEveryThirtyMinutes
-                case monthlyRenewalEveryThreeMinutes
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .monthlyRenewalEveryFifteenMinutes: return "MONTHLY_RENEWAL_EVERY_FIFTEEN_MINUTES"
-                    case .monthlyRenewalEveryFiveMinutes: return "MONTHLY_RENEWAL_EVERY_FIVE_MINUTES"
-                    case .monthlyRenewalEveryOneHour: return "MONTHLY_RENEWAL_EVERY_ONE_HOUR"
-                    case .monthlyRenewalEveryThirtyMinutes: return "MONTHLY_RENEWAL_EVERY_THIRTY_MINUTES"
-                    case .monthlyRenewalEveryThreeMinutes: return "MONTHLY_RENEWAL_EVERY_THREE_MINUTES"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionRenewalRate: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var monthlyRenewalEveryFifteenMinutes: Self {
+                    .init(rawValue: "MONTHLY_RENEWAL_EVERY_FIFTEEN_MINUTES")
                 }
 
+                public static var monthlyRenewalEveryFiveMinutes: Self {
+                    .init(rawValue: "MONTHLY_RENEWAL_EVERY_FIVE_MINUTES")
+                }
+
+                public static var monthlyRenewalEveryOneHour: Self {
+                    .init(rawValue: "MONTHLY_RENEWAL_EVERY_ONE_HOUR")
+                }
+
+                public static var monthlyRenewalEveryThirtyMinutes: Self {
+                    .init(rawValue: "MONTHLY_RENEWAL_EVERY_THIRTY_MINUTES")
+                }
+
+                public static var monthlyRenewalEveryThreeMinutes: Self {
+                    .init(rawValue: "MONTHLY_RENEWAL_EVERY_THREE_MINUTES")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "MONTHLY_RENEWAL_EVERY_FIFTEEN_MINUTES": self = .monthlyRenewalEveryFifteenMinutes
-                    case "MONTHLY_RENEWAL_EVERY_FIVE_MINUTES": self = .monthlyRenewalEveryFiveMinutes
-                    case "MONTHLY_RENEWAL_EVERY_ONE_HOUR": self = .monthlyRenewalEveryOneHour
-                    case "MONTHLY_RENEWAL_EVERY_THIRTY_MINUTES": self = .monthlyRenewalEveryThirtyMinutes
-                    case "MONTHLY_RENEWAL_EVERY_THREE_MINUTES": self = .monthlyRenewalEveryThreeMinutes
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
         }

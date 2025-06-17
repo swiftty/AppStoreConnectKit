@@ -48,8 +48,10 @@ extension V1.CiBuildRuns.ById.Actions {
 
         /// - Returns: **200**, List of CiBuildActions as `CiBuildActionsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -63,10 +65,16 @@ extension V1.CiBuildRuns.ById.Actions {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -94,134 +102,151 @@ extension V1.CiBuildRuns.ById.Actions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiBuildActions: Hashable, Codable, RawRepresentable {
-                case actionType
-                case artifacts
-                case buildRun
-                case completionStatus
-                case executionProgress
-                case finishedDate
-                case isRequiredToPass
-                case issueCounts
-                case issues
-                case name
-                case startedDate
-                case testResults
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .actionType: return "actionType"
-                    case .artifacts: return "artifacts"
-                    case .buildRun: return "buildRun"
-                    case .completionStatus: return "completionStatus"
-                    case .executionProgress: return "executionProgress"
-                    case .finishedDate: return "finishedDate"
-                    case .isRequiredToPass: return "isRequiredToPass"
-                    case .issueCounts: return "issueCounts"
-                    case .issues: return "issues"
-                    case .name: return "name"
-                    case .startedDate: return "startedDate"
-                    case .testResults: return "testResults"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiBuildActions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var actionType: Self {
+                    .init(rawValue: "actionType")
                 }
 
+                public static var artifacts: Self {
+                    .init(rawValue: "artifacts")
+                }
+
+                public static var buildRun: Self {
+                    .init(rawValue: "buildRun")
+                }
+
+                public static var completionStatus: Self {
+                    .init(rawValue: "completionStatus")
+                }
+
+                public static var executionProgress: Self {
+                    .init(rawValue: "executionProgress")
+                }
+
+                public static var finishedDate: Self {
+                    .init(rawValue: "finishedDate")
+                }
+
+                public static var isRequiredToPass: Self {
+                    .init(rawValue: "isRequiredToPass")
+                }
+
+                public static var issueCounts: Self {
+                    .init(rawValue: "issueCounts")
+                }
+
+                public static var issues: Self {
+                    .init(rawValue: "issues")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var startedDate: Self {
+                    .init(rawValue: "startedDate")
+                }
+
+                public static var testResults: Self {
+                    .init(rawValue: "testResults")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "actionType": self = .actionType
-                    case "artifacts": self = .artifacts
-                    case "buildRun": self = .buildRun
-                    case "completionStatus": self = .completionStatus
-                    case "executionProgress": self = .executionProgress
-                    case "finishedDate": self = .finishedDate
-                    case "isRequiredToPass": self = .isRequiredToPass
-                    case "issueCounts": self = .issueCounts
-                    case "issues": self = .issues
-                    case "name": self = .name
-                    case "startedDate": self = .startedDate
-                    case "testResults": self = .testResults
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum CiBuildRuns: Hashable, Codable, RawRepresentable {
-                case actions
-                case buildRun
-                case builds
-                case cancelReason
-                case clean
-                case completionStatus
-                case createdDate
-                case destinationBranch
-                case destinationCommit
-                case executionProgress
-                case finishedDate
-                case isPullRequestBuild
-                case issueCounts
-                case number
-                case product
-                case pullRequest
-                case sourceBranchOrTag
-                case sourceCommit
-                case startReason
-                case startedDate
-                case workflow
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .actions: return "actions"
-                    case .buildRun: return "buildRun"
-                    case .builds: return "builds"
-                    case .cancelReason: return "cancelReason"
-                    case .clean: return "clean"
-                    case .completionStatus: return "completionStatus"
-                    case .createdDate: return "createdDate"
-                    case .destinationBranch: return "destinationBranch"
-                    case .destinationCommit: return "destinationCommit"
-                    case .executionProgress: return "executionProgress"
-                    case .finishedDate: return "finishedDate"
-                    case .isPullRequestBuild: return "isPullRequestBuild"
-                    case .issueCounts: return "issueCounts"
-                    case .number: return "number"
-                    case .product: return "product"
-                    case .pullRequest: return "pullRequest"
-                    case .sourceBranchOrTag: return "sourceBranchOrTag"
-                    case .sourceCommit: return "sourceCommit"
-                    case .startReason: return "startReason"
-                    case .startedDate: return "startedDate"
-                    case .workflow: return "workflow"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiBuildRuns: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var actions: Self {
+                    .init(rawValue: "actions")
                 }
 
+                public static var builds: Self {
+                    .init(rawValue: "builds")
+                }
+
+                public static var cancelReason: Self {
+                    .init(rawValue: "cancelReason")
+                }
+
+                public static var completionStatus: Self {
+                    .init(rawValue: "completionStatus")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var destinationBranch: Self {
+                    .init(rawValue: "destinationBranch")
+                }
+
+                public static var destinationCommit: Self {
+                    .init(rawValue: "destinationCommit")
+                }
+
+                public static var executionProgress: Self {
+                    .init(rawValue: "executionProgress")
+                }
+
+                public static var finishedDate: Self {
+                    .init(rawValue: "finishedDate")
+                }
+
+                public static var isPullRequestBuild: Self {
+                    .init(rawValue: "isPullRequestBuild")
+                }
+
+                public static var issueCounts: Self {
+                    .init(rawValue: "issueCounts")
+                }
+
+                public static var number: Self {
+                    .init(rawValue: "number")
+                }
+
+                public static var product: Self {
+                    .init(rawValue: "product")
+                }
+
+                public static var pullRequest: Self {
+                    .init(rawValue: "pullRequest")
+                }
+
+                public static var sourceBranchOrTag: Self {
+                    .init(rawValue: "sourceBranchOrTag")
+                }
+
+                public static var sourceCommit: Self {
+                    .init(rawValue: "sourceCommit")
+                }
+
+                public static var startReason: Self {
+                    .init(rawValue: "startReason")
+                }
+
+                public static var startedDate: Self {
+                    .init(rawValue: "startedDate")
+                }
+
+                public static var workflow: Self {
+                    .init(rawValue: "workflow")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "actions": self = .actions
-                    case "buildRun": self = .buildRun
-                    case "builds": self = .builds
-                    case "cancelReason": self = .cancelReason
-                    case "clean": self = .clean
-                    case "completionStatus": self = .completionStatus
-                    case "createdDate": self = .createdDate
-                    case "destinationBranch": self = .destinationBranch
-                    case "destinationCommit": self = .destinationCommit
-                    case "executionProgress": self = .executionProgress
-                    case "finishedDate": self = .finishedDate
-                    case "isPullRequestBuild": self = .isPullRequestBuild
-                    case "issueCounts": self = .issueCounts
-                    case "number": self = .number
-                    case "product": self = .product
-                    case "pullRequest": self = .pullRequest
-                    case "sourceBranchOrTag": self = .sourceBranchOrTag
-                    case "sourceCommit": self = .sourceCommit
-                    case "startReason": self = .startReason
-                    case "startedDate": self = .startedDate
-                    case "workflow": self = .workflow
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -244,22 +269,19 @@ extension V1.CiBuildRuns.ById.Actions.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case buildRun
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .buildRun: return "buildRun"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var buildRun: Self {
+                .init(rawValue: "buildRun")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "buildRun": self = .buildRun
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

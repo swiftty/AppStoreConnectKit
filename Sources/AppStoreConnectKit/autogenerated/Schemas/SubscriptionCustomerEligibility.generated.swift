@@ -3,28 +3,27 @@
 // swiftlint:disable all
 import Foundation
 
-public enum SubscriptionCustomerEligibility: Hashable, Codable, RawRepresentable {
-    case existing
-    case expired
-    case new
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .existing: return "EXISTING"
-        case .expired: return "EXPIRED"
-        case .new: return "NEW"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct SubscriptionCustomerEligibility: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var existing: Self {
+        .init(rawValue: "EXISTING")
     }
 
+    public static var expired: Self {
+        .init(rawValue: "EXPIRED")
+    }
+
+    public static var new: Self {
+        .init(rawValue: "NEW")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "EXISTING": self = .existing
-        case "EXPIRED": self = .expired
-        case "NEW": self = .new
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

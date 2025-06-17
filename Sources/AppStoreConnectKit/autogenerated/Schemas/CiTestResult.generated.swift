@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiTestResult: Hashable, Codable {
+public struct CiTestResult: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct CiTestResult: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case ciTestResults
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var className: String?
 
         public var destinationTestResults: [DestinationTestResults]?
@@ -73,7 +73,7 @@ public struct CiTestResult: Hashable, Codable {
             case status
         }
 
-        public struct DestinationTestResults: Hashable, Codable {
+        public struct DestinationTestResults: Hashable, Codable, Sendable {
             public var deviceName: String?
 
             public var duration: Float?

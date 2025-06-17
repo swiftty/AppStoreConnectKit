@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
+public struct BetaAppClipInvocationCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public var included: [BetaAppClipInvocationLocalizationInlineCreate]?
@@ -21,7 +21,7 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
         case included
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -44,11 +44,11 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case betaAppClipInvocations
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var url: URL
 
             public init(url: URL) {
@@ -60,7 +60,7 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var betaAppClipInvocationLocalizations: BetaAppClipInvocationLocalizations
 
             public var buildBundle: BuildBundle
@@ -78,7 +78,7 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
                 case buildBundle
             }
 
-            public struct BetaAppClipInvocationLocalizations: Hashable, Codable {
+            public struct BetaAppClipInvocationLocalizations: Hashable, Codable, Sendable {
                 public var data: [Data]
 
                 public init(data: [Data]) {
@@ -89,7 +89,7 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -107,13 +107,13 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case betaAppClipInvocationLocalizations
                     }
                 }
             }
 
-            public struct BuildBundle: Hashable, Codable {
+            public struct BuildBundle: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -124,7 +124,7 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -142,7 +142,7 @@ public struct BetaAppClipInvocationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case buildBundles
                     }
                 }

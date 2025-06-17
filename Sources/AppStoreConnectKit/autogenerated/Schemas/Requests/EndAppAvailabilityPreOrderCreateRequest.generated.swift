@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct EndAppAvailabilityPreOrderCreateRequest: Hashable, Codable {
+public struct EndAppAvailabilityPreOrderCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct EndAppAvailabilityPreOrderCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var relationships: Relationships
@@ -32,11 +32,11 @@ public struct EndAppAvailabilityPreOrderCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case endAppAvailabilityPreOrders
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var territoryAvailabilities: TerritoryAvailabilities
 
             public init(territoryAvailabilities: TerritoryAvailabilities) {
@@ -47,7 +47,7 @@ public struct EndAppAvailabilityPreOrderCreateRequest: Hashable, Codable {
                 case territoryAvailabilities
             }
 
-            public struct TerritoryAvailabilities: Hashable, Codable {
+            public struct TerritoryAvailabilities: Hashable, Codable, Sendable {
                 public var data: [Data]
 
                 public init(data: [Data]) {
@@ -58,7 +58,7 @@ public struct EndAppAvailabilityPreOrderCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -76,7 +76,7 @@ public struct EndAppAvailabilityPreOrderCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case territoryAvailabilities
                     }
                 }

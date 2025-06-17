@@ -44,8 +44,10 @@ extension V1.SubscriptionGroupLocalizations.ById {
 
         /// - Returns: **200**, Single SubscriptionGroupLocalization as `SubscriptionGroupLocalizationResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.SubscriptionGroupLocalizations.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,34 +95,35 @@ extension V1.SubscriptionGroupLocalizations.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum SubscriptionGroupLocalizations: Hashable, Codable, RawRepresentable {
-                case customAppName
-                case locale
-                case name
-                case state
-                case subscriptionGroup
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .customAppName: return "customAppName"
-                    case .locale: return "locale"
-                    case .name: return "name"
-                    case .state: return "state"
-                    case .subscriptionGroup: return "subscriptionGroup"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionGroupLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var customAppName: Self {
+                    .init(rawValue: "customAppName")
                 }
 
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscriptionGroup: Self {
+                    .init(rawValue: "subscriptionGroup")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "customAppName": self = .customAppName
-                    case "locale": self = .locale
-                    case "name": self = .name
-                    case "state": self = .state
-                    case "subscriptionGroup": self = .subscriptionGroup
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -132,22 +141,19 @@ extension V1.SubscriptionGroupLocalizations.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case subscriptionGroup
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .subscriptionGroup: return "subscriptionGroup"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var subscriptionGroup: Self {
+                .init(rawValue: "subscriptionGroup")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "subscriptionGroup": self = .subscriptionGroup
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

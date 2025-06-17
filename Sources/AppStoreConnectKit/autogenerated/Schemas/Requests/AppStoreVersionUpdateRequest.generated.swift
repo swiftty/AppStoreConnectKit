@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppStoreVersionUpdateRequest: Hashable, Codable {
+public struct AppStoreVersionUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -42,11 +42,11 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appStoreVersions
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var copyright: String?
 
             public var downloadable: Bool?
@@ -55,6 +55,11 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
 
             public var releaseType: ReleaseType?
 
+            public var reviewType: ReviewType?
+
+            @available(*, deprecated)
+            public var usesIdfa: Bool?
+
             public var versionString: String?
 
             public init(
@@ -62,12 +67,16 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
                 downloadable: Bool? = nil,
                 earliestReleaseDate: String? = nil,
                 releaseType: ReleaseType? = nil,
+                reviewType: ReviewType? = nil,
+                usesIdfa: Bool? = nil,
                 versionString: String? = nil
             ) {
                 self.copyright = copyright
                 self.downloadable = downloadable
                 self.earliestReleaseDate = earliestReleaseDate
                 self.releaseType = releaseType
+                self.reviewType = reviewType
+                self.usesIdfa = usesIdfa
                 self.versionString = versionString
             }
 
@@ -76,36 +85,57 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
                 case downloadable
                 case earliestReleaseDate
                 case releaseType
+                case reviewType
+                case usesIdfa
                 case versionString
             }
 
-            public enum ReleaseType: Hashable, Codable, RawRepresentable {
-                case afterApproval
-                case manual
-                case scheduled
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .afterApproval: return "AFTER_APPROVAL"
-                    case .manual: return "MANUAL"
-                    case .scheduled: return "SCHEDULED"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ReleaseType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var afterApproval: Self {
+                    .init(rawValue: "AFTER_APPROVAL")
                 }
 
+                public static var manual: Self {
+                    .init(rawValue: "MANUAL")
+                }
+
+                public static var scheduled: Self {
+                    .init(rawValue: "SCHEDULED")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "AFTER_APPROVAL": self = .afterApproval
-                    case "MANUAL": self = .manual
-                    case "SCHEDULED": self = .scheduled
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct ReviewType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStore: Self {
+                    .init(rawValue: "APP_STORE")
+                }
+
+                public static var notarization: Self {
+                    .init(rawValue: "NOTARIZATION")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
                 }
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appClipDefaultExperience: AppClipDefaultExperience?
 
             public var build: Build?
@@ -123,7 +153,7 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
                 case build
             }
 
-            public struct AppClipDefaultExperience: Hashable, Codable {
+            public struct AppClipDefaultExperience: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -134,7 +164,7 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -152,13 +182,13 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appClipDefaultExperiences
                     }
                 }
             }
 
-            public struct Build: Hashable, Codable {
+            public struct Build: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -169,7 +199,7 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -187,7 +217,7 @@ public struct AppStoreVersionUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case builds
                     }
                 }

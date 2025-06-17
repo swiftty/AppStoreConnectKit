@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterAppVersionResponse: Hashable, Codable {
+public struct GameCenterAppVersionResponse: Hashable, Codable, Sendable {
     public var data: GameCenterAppVersion
 
     public var included: [Included]?
@@ -26,7 +26,7 @@ public struct GameCenterAppVersionResponse: Hashable, Codable {
         case links
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case gameCenterAppVersion(GameCenterAppVersion)
         case appStoreVersion(AppStoreVersion)
 

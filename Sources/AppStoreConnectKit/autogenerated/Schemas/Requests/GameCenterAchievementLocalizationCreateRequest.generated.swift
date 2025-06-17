@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterAchievementLocalizationCreateRequest: Hashable, Codable {
+public struct GameCenterAchievementLocalizationCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct GameCenterAchievementLocalizationCreateRequest: Hashable, Codable 
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct GameCenterAchievementLocalizationCreateRequest: Hashable, Codable 
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterAchievementLocalizations
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var afterEarnedDescription: String
 
             public var beforeEarnedDescription: String
@@ -70,7 +70,7 @@ public struct GameCenterAchievementLocalizationCreateRequest: Hashable, Codable 
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var gameCenterAchievement: GameCenterAchievement
 
             public init(gameCenterAchievement: GameCenterAchievement) {
@@ -81,7 +81,7 @@ public struct GameCenterAchievementLocalizationCreateRequest: Hashable, Codable 
                 case gameCenterAchievement
             }
 
-            public struct GameCenterAchievement: Hashable, Codable {
+            public struct GameCenterAchievement: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -92,7 +92,7 @@ public struct GameCenterAchievementLocalizationCreateRequest: Hashable, Codable 
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -110,7 +110,7 @@ public struct GameCenterAchievementLocalizationCreateRequest: Hashable, Codable 
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterAchievements
                     }
                 }

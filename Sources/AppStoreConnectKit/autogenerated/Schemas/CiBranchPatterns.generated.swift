@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiBranchPatterns: Hashable, Codable {
+public struct CiBranchPatterns: Hashable, Codable, Sendable {
     public var isAllMatch: Bool?
 
     public var patterns: [Patterns]?
@@ -21,7 +21,7 @@ public struct CiBranchPatterns: Hashable, Codable {
         case patterns
     }
 
-    public struct Patterns: Hashable, Codable {
+    public struct Patterns: Hashable, Codable, Sendable {
         public var isPrefix: Bool?
 
         public var pattern: String?

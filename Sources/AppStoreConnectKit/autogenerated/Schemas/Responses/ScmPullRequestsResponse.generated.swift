@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ScmPullRequestsResponse: Hashable, Codable {
+public struct ScmPullRequestsResponse: Hashable, Codable, Sendable {
     public var data: [ScmPullRequest]
 
     public var included: [ScmRepository]?

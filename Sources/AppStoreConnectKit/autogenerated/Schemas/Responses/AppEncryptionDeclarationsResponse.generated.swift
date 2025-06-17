@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppEncryptionDeclarationsResponse: Hashable, Codable {
+public struct AppEncryptionDeclarationsResponse: Hashable, Codable, Sendable {
     public var data: [AppEncryptionDeclaration]
 
     public var included: [Included]?
@@ -31,7 +31,7 @@ public struct AppEncryptionDeclarationsResponse: Hashable, Codable {
         case meta
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case app(App)
         case build(Build)
         case appEncryptionDeclarationDocument(AppEncryptionDeclarationDocument)

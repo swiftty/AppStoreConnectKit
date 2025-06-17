@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct Profile: Hashable, Codable {
+public struct Profile: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct Profile: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case profiles
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var createdDate: String?
 
         public var expirationDate: String?
@@ -88,88 +88,96 @@ public struct Profile: Hashable, Codable {
             case uuid
         }
 
-        public enum ProfileState: Hashable, Codable, RawRepresentable {
-            case active
-            case invalid
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .active: return "ACTIVE"
-                case .invalid: return "INVALID"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct ProfileState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var active: Self {
+                .init(rawValue: "ACTIVE")
             }
 
+            public static var invalid: Self {
+                .init(rawValue: "INVALID")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "ACTIVE": self = .active
-                case "INVALID": self = .invalid
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum ProfileType: Hashable, Codable, RawRepresentable {
-            case iOSAppAdhoc
-            case iOSAppDevelopment
-            case iOSAppInhouse
-            case iOSAppStore
-            case macAppDevelopment
-            case macAppDirect
-            case macAppStore
-            case macCatalystAppDevelopment
-            case macCatalystAppDirect
-            case macCatalystAppStore
-            case tvOSAppAdhoc
-            case tvOSAppDevelopment
-            case tvOSAppInhouse
-            case tvOSAppStore
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .iOSAppAdhoc: return "IOS_APP_ADHOC"
-                case .iOSAppDevelopment: return "IOS_APP_DEVELOPMENT"
-                case .iOSAppInhouse: return "IOS_APP_INHOUSE"
-                case .iOSAppStore: return "IOS_APP_STORE"
-                case .macAppDevelopment: return "MAC_APP_DEVELOPMENT"
-                case .macAppDirect: return "MAC_APP_DIRECT"
-                case .macAppStore: return "MAC_APP_STORE"
-                case .macCatalystAppDevelopment: return "MAC_CATALYST_APP_DEVELOPMENT"
-                case .macCatalystAppDirect: return "MAC_CATALYST_APP_DIRECT"
-                case .macCatalystAppStore: return "MAC_CATALYST_APP_STORE"
-                case .tvOSAppAdhoc: return "TVOS_APP_ADHOC"
-                case .tvOSAppDevelopment: return "TVOS_APP_DEVELOPMENT"
-                case .tvOSAppInhouse: return "TVOS_APP_INHOUSE"
-                case .tvOSAppStore: return "TVOS_APP_STORE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct ProfileType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var iOSAppAdhoc: Self {
+                .init(rawValue: "IOS_APP_ADHOC")
             }
 
+            public static var iOSAppDevelopment: Self {
+                .init(rawValue: "IOS_APP_DEVELOPMENT")
+            }
+
+            public static var iOSAppInhouse: Self {
+                .init(rawValue: "IOS_APP_INHOUSE")
+            }
+
+            public static var iOSAppStore: Self {
+                .init(rawValue: "IOS_APP_STORE")
+            }
+
+            public static var macAppDevelopment: Self {
+                .init(rawValue: "MAC_APP_DEVELOPMENT")
+            }
+
+            public static var macAppDirect: Self {
+                .init(rawValue: "MAC_APP_DIRECT")
+            }
+
+            public static var macAppStore: Self {
+                .init(rawValue: "MAC_APP_STORE")
+            }
+
+            public static var macCatalystAppDevelopment: Self {
+                .init(rawValue: "MAC_CATALYST_APP_DEVELOPMENT")
+            }
+
+            public static var macCatalystAppDirect: Self {
+                .init(rawValue: "MAC_CATALYST_APP_DIRECT")
+            }
+
+            public static var macCatalystAppStore: Self {
+                .init(rawValue: "MAC_CATALYST_APP_STORE")
+            }
+
+            public static var tvOSAppAdhoc: Self {
+                .init(rawValue: "TVOS_APP_ADHOC")
+            }
+
+            public static var tvOSAppDevelopment: Self {
+                .init(rawValue: "TVOS_APP_DEVELOPMENT")
+            }
+
+            public static var tvOSAppInhouse: Self {
+                .init(rawValue: "TVOS_APP_INHOUSE")
+            }
+
+            public static var tvOSAppStore: Self {
+                .init(rawValue: "TVOS_APP_STORE")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "IOS_APP_ADHOC": self = .iOSAppAdhoc
-                case "IOS_APP_DEVELOPMENT": self = .iOSAppDevelopment
-                case "IOS_APP_INHOUSE": self = .iOSAppInhouse
-                case "IOS_APP_STORE": self = .iOSAppStore
-                case "MAC_APP_DEVELOPMENT": self = .macAppDevelopment
-                case "MAC_APP_DIRECT": self = .macAppDirect
-                case "MAC_APP_STORE": self = .macAppStore
-                case "MAC_CATALYST_APP_DEVELOPMENT": self = .macCatalystAppDevelopment
-                case "MAC_CATALYST_APP_DIRECT": self = .macCatalystAppDirect
-                case "MAC_CATALYST_APP_STORE": self = .macCatalystAppStore
-                case "TVOS_APP_ADHOC": self = .tvOSAppAdhoc
-                case "TVOS_APP_DEVELOPMENT": self = .tvOSAppDevelopment
-                case "TVOS_APP_INHOUSE": self = .tvOSAppInhouse
-                case "TVOS_APP_STORE": self = .tvOSAppStore
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var bundleId: BundleId?
 
         public var certificates: Certificates?
@@ -192,14 +200,14 @@ public struct Profile: Hashable, Codable {
             case devices
         }
 
-        public struct BundleId: Hashable, Codable {
+        public struct BundleId: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -210,7 +218,7 @@ public struct Profile: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -228,41 +236,22 @@ public struct Profile: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case bundleIds
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct Certificates: Hashable, Codable {
+        public struct Certificates: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -276,7 +265,7 @@ public struct Profile: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -294,41 +283,22 @@ public struct Profile: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case certificates
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct Devices: Hashable, Codable {
+        public struct Devices: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -342,7 +312,7 @@ public struct Profile: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -360,27 +330,8 @@ public struct Profile: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case devices
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

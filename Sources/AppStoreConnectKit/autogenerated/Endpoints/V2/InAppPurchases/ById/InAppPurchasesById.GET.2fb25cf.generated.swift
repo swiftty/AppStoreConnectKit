@@ -34,6 +34,8 @@ extension V2.InAppPurchases.ById {
                              value: parameters.fields[.inAppPurchaseAvailabilities]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchaseContents]",
                              value: parameters.fields[.inAppPurchaseContents]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[inAppPurchaseImages]",
+                             value: parameters.fields[.inAppPurchaseImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchaseLocalizations]",
                              value: parameters.fields[.inAppPurchaseLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchasePricePoints]",
@@ -46,6 +48,8 @@ extension V2.InAppPurchases.ById {
                              value: parameters.fields[.promotedPurchases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit[images]",
+                             value: parameters.limit[.images].map { "\($0)" }),
                 URLQueryItem(name: "limit[inAppPurchaseLocalizations]",
                              value: parameters.limit[.inAppPurchaseLocalizations].map { "\($0)" }),
                 URLQueryItem(name: "limit[pricePoints]",
@@ -62,8 +66,10 @@ extension V2.InAppPurchases.ById {
 
         /// - Returns: **200**, Single InAppPurchase as `InAppPurchaseV2Response`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -77,10 +83,16 @@ extension V2.InAppPurchases.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -107,296 +119,335 @@ extension V2.InAppPurchases.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum InAppPurchaseAppStoreReviewScreenshots: Hashable, Codable, RawRepresentable {
-                case assetDeliveryState
-                case assetToken
-                case assetType
-                case fileName
-                case fileSize
-                case imageAsset
-                case inAppPurchaseV2
-                case sourceFileChecksum
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .assetToken: return "assetToken"
-                    case .assetType: return "assetType"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .imageAsset: return "imageAsset"
-                    case .inAppPurchaseV2: return "inAppPurchaseV2"
-                    case .sourceFileChecksum: return "sourceFileChecksum"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchaseAppStoreReviewScreenshots: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
                 }
 
+                public static var assetToken: Self {
+                    .init(rawValue: "assetToken")
+                }
+
+                public static var assetType: Self {
+                    .init(rawValue: "assetType")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var inAppPurchaseV2: Self {
+                    .init(rawValue: "inAppPurchaseV2")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "assetToken": self = .assetToken
-                    case "assetType": self = .assetType
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "imageAsset": self = .imageAsset
-                    case "inAppPurchaseV2": self = .inAppPurchaseV2
-                    case "sourceFileChecksum": self = .sourceFileChecksum
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum InAppPurchaseAvailabilities: Hashable, Codable, RawRepresentable {
-                case availableInNewTerritories
-                case availableTerritories
-                case inAppPurchase
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .availableInNewTerritories: return "availableInNewTerritories"
-                    case .availableTerritories: return "availableTerritories"
-                    case .inAppPurchase: return "inAppPurchase"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchaseAvailabilities: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var availableInNewTerritories: Self {
+                    .init(rawValue: "availableInNewTerritories")
                 }
 
+                public static var availableTerritories: Self {
+                    .init(rawValue: "availableTerritories")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "availableInNewTerritories": self = .availableInNewTerritories
-                    case "availableTerritories": self = .availableTerritories
-                    case "inAppPurchase": self = .inAppPurchase
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum InAppPurchaseContents: Hashable, Codable, RawRepresentable {
-                case fileName
-                case fileSize
-                case inAppPurchaseV2
-                case lastModifiedDate
-                case url
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .inAppPurchaseV2: return "inAppPurchaseV2"
-                    case .lastModifiedDate: return "lastModifiedDate"
-                    case .url: return "url"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchaseContents: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
                 }
 
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var inAppPurchaseV2: Self {
+                    .init(rawValue: "inAppPurchaseV2")
+                }
+
+                public static var lastModifiedDate: Self {
+                    .init(rawValue: "lastModifiedDate")
+                }
+
+                public static var url: Self {
+                    .init(rawValue: "url")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "inAppPurchaseV2": self = .inAppPurchaseV2
-                    case "lastModifiedDate": self = .lastModifiedDate
-                    case "url": self = .url
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum InAppPurchaseLocalizations: Hashable, Codable, RawRepresentable {
-                case description
-                case inAppPurchaseV2
-                case locale
-                case name
-                case state
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .description: return "description"
-                    case .inAppPurchaseV2: return "inAppPurchaseV2"
-                    case .locale: return "locale"
-                    case .name: return "name"
-                    case .state: return "state"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchaseImages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetToken: Self {
+                    .init(rawValue: "assetToken")
                 }
 
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var inAppPurchase: Self {
+                    .init(rawValue: "inAppPurchase")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "description": self = .description
-                    case "inAppPurchaseV2": self = .inAppPurchaseV2
-                    case "locale": self = .locale
-                    case "name": self = .name
-                    case "state": self = .state
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum InAppPurchasePricePoints: Hashable, Codable, RawRepresentable {
-                case customerPrice
-                case inAppPurchaseV2
-                case priceTier
-                case proceeds
-                case territory
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .customerPrice: return "customerPrice"
-                    case .inAppPurchaseV2: return "inAppPurchaseV2"
-                    case .priceTier: return "priceTier"
-                    case .proceeds: return "proceeds"
-                    case .territory: return "territory"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchaseLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var description: Self {
+                    .init(rawValue: "description")
                 }
 
+                public static var inAppPurchaseV2: Self {
+                    .init(rawValue: "inAppPurchaseV2")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "customerPrice": self = .customerPrice
-                    case "inAppPurchaseV2": self = .inAppPurchaseV2
-                    case "priceTier": self = .priceTier
-                    case "proceeds": self = .proceeds
-                    case "territory": self = .territory
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum InAppPurchasePriceSchedules: Hashable, Codable, RawRepresentable {
-                case automaticPrices
-                case baseTerritory
-                case inAppPurchase
-                case manualPrices
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .automaticPrices: return "automaticPrices"
-                    case .baseTerritory: return "baseTerritory"
-                    case .inAppPurchase: return "inAppPurchase"
-                    case .manualPrices: return "manualPrices"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchasePricePoints: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var customerPrice: Self {
+                    .init(rawValue: "customerPrice")
                 }
 
+                public static var equalizations: Self {
+                    .init(rawValue: "equalizations")
+                }
+
+                public static var proceeds: Self {
+                    .init(rawValue: "proceeds")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "automaticPrices": self = .automaticPrices
-                    case "baseTerritory": self = .baseTerritory
-                    case "inAppPurchase": self = .inAppPurchase
-                    case "manualPrices": self = .manualPrices
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum InAppPurchases: Hashable, Codable, RawRepresentable {
-                case app
-                case appStoreReviewScreenshot
-                case availableInAllTerritories
-                case content
-                case contentHosting
-                case familySharable
-                case iapPriceSchedule
-                case inAppPurchaseAvailability
-                case inAppPurchaseLocalizations
-                case inAppPurchaseType
-                case name
-                case pricePoints
-                case productId
-                case promotedPurchase
-                case reviewNote
-                case state
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .appStoreReviewScreenshot: return "appStoreReviewScreenshot"
-                    case .availableInAllTerritories: return "availableInAllTerritories"
-                    case .content: return "content"
-                    case .contentHosting: return "contentHosting"
-                    case .familySharable: return "familySharable"
-                    case .iapPriceSchedule: return "iapPriceSchedule"
-                    case .inAppPurchaseAvailability: return "inAppPurchaseAvailability"
-                    case .inAppPurchaseLocalizations: return "inAppPurchaseLocalizations"
-                    case .inAppPurchaseType: return "inAppPurchaseType"
-                    case .name: return "name"
-                    case .pricePoints: return "pricePoints"
-                    case .productId: return "productId"
-                    case .promotedPurchase: return "promotedPurchase"
-                    case .reviewNote: return "reviewNote"
-                    case .state: return "state"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchasePriceSchedules: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var automaticPrices: Self {
+                    .init(rawValue: "automaticPrices")
                 }
 
+                public static var baseTerritory: Self {
+                    .init(rawValue: "baseTerritory")
+                }
+
+                public static var manualPrices: Self {
+                    .init(rawValue: "manualPrices")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "appStoreReviewScreenshot": self = .appStoreReviewScreenshot
-                    case "availableInAllTerritories": self = .availableInAllTerritories
-                    case "content": self = .content
-                    case "contentHosting": self = .contentHosting
-                    case "familySharable": self = .familySharable
-                    case "iapPriceSchedule": self = .iapPriceSchedule
-                    case "inAppPurchaseAvailability": self = .inAppPurchaseAvailability
-                    case "inAppPurchaseLocalizations": self = .inAppPurchaseLocalizations
-                    case "inAppPurchaseType": self = .inAppPurchaseType
-                    case "name": self = .name
-                    case "pricePoints": self = .pricePoints
-                    case "productId": self = .productId
-                    case "promotedPurchase": self = .promotedPurchase
-                    case "reviewNote": self = .reviewNote
-                    case "state": self = .state
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum PromotedPurchases: Hashable, Codable, RawRepresentable {
-                case app
-                case enabled
-                case inAppPurchaseV2
-                case promotionImages
-                case state
-                case subscription
-                case visibleForAllUsers
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .enabled: return "enabled"
-                    case .inAppPurchaseV2: return "inAppPurchaseV2"
-                    case .promotionImages: return "promotionImages"
-                    case .state: return "state"
-                    case .subscription: return "subscription"
-                    case .visibleForAllUsers: return "visibleForAllUsers"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStoreReviewScreenshot: Self {
+                    .init(rawValue: "appStoreReviewScreenshot")
                 }
 
+                public static var content: Self {
+                    .init(rawValue: "content")
+                }
+
+                public static var contentHosting: Self {
+                    .init(rawValue: "contentHosting")
+                }
+
+                public static var familySharable: Self {
+                    .init(rawValue: "familySharable")
+                }
+
+                public static var iapPriceSchedule: Self {
+                    .init(rawValue: "iapPriceSchedule")
+                }
+
+                public static var images: Self {
+                    .init(rawValue: "images")
+                }
+
+                public static var inAppPurchaseAvailability: Self {
+                    .init(rawValue: "inAppPurchaseAvailability")
+                }
+
+                public static var inAppPurchaseLocalizations: Self {
+                    .init(rawValue: "inAppPurchaseLocalizations")
+                }
+
+                public static var inAppPurchaseType: Self {
+                    .init(rawValue: "inAppPurchaseType")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var pricePoints: Self {
+                    .init(rawValue: "pricePoints")
+                }
+
+                public static var productId: Self {
+                    .init(rawValue: "productId")
+                }
+
+                public static var promotedPurchase: Self {
+                    .init(rawValue: "promotedPurchase")
+                }
+
+                public static var reviewNote: Self {
+                    .init(rawValue: "reviewNote")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "enabled": self = .enabled
-                    case "inAppPurchaseV2": self = .inAppPurchaseV2
-                    case "promotionImages": self = .promotionImages
-                    case "state": self = .state
-                    case "subscription": self = .subscription
-                    case "visibleForAllUsers": self = .visibleForAllUsers
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct PromotedPurchases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var enabled: Self {
+                    .init(rawValue: "enabled")
+                }
+
+                public static var inAppPurchaseV2: Self {
+                    .init(rawValue: "inAppPurchaseV2")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public static var visibleForAllUsers: Self {
+                    .init(rawValue: "visibleForAllUsers")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
                 }
             }
 
@@ -414,6 +465,11 @@ extension V2.InAppPurchases.ById.GET {
                 /// the fields to include for returned resources of type inAppPurchaseContents
                 public static var inAppPurchaseContents: Relation<[InAppPurchaseContents]?> {
                     .init(key: "fields[inAppPurchaseContents]")
+                }
+
+                /// the fields to include for returned resources of type inAppPurchaseImages
+                public static var inAppPurchaseImages: Relation<[InAppPurchaseImages]?> {
+                    .init(key: "fields[inAppPurchaseImages]")
                 }
 
                 /// the fields to include for returned resources of type inAppPurchaseLocalizations
@@ -449,40 +505,47 @@ extension V2.InAppPurchases.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appStoreReviewScreenshot
-            case content
-            case iapPriceSchedule
-            case inAppPurchaseAvailability
-            case inAppPurchaseLocalizations
-            case pricePoints
-            case promotedPurchase
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appStoreReviewScreenshot: return "appStoreReviewScreenshot"
-                case .content: return "content"
-                case .iapPriceSchedule: return "iapPriceSchedule"
-                case .inAppPurchaseAvailability: return "inAppPurchaseAvailability"
-                case .inAppPurchaseLocalizations: return "inAppPurchaseLocalizations"
-                case .pricePoints: return "pricePoints"
-                case .promotedPurchase: return "promotedPurchase"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appStoreReviewScreenshot: Self {
+                .init(rawValue: "appStoreReviewScreenshot")
             }
 
+            public static var content: Self {
+                .init(rawValue: "content")
+            }
+
+            public static var iapPriceSchedule: Self {
+                .init(rawValue: "iapPriceSchedule")
+            }
+
+            public static var images: Self {
+                .init(rawValue: "images")
+            }
+
+            public static var inAppPurchaseAvailability: Self {
+                .init(rawValue: "inAppPurchaseAvailability")
+            }
+
+            public static var inAppPurchaseLocalizations: Self {
+                .init(rawValue: "inAppPurchaseLocalizations")
+            }
+
+            public static var pricePoints: Self {
+                .init(rawValue: "pricePoints")
+            }
+
+            public static var promotedPurchase: Self {
+                .init(rawValue: "promotedPurchase")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appStoreReviewScreenshot": self = .appStoreReviewScreenshot
-                case "content": self = .content
-                case "iapPriceSchedule": self = .iapPriceSchedule
-                case "inAppPurchaseAvailability": self = .inAppPurchaseAvailability
-                case "inAppPurchaseLocalizations": self = .inAppPurchaseLocalizations
-                case "pricePoints": self = .pricePoints
-                case "promotedPurchase": self = .promotedPurchase
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
@@ -495,6 +558,11 @@ extension V2.InAppPurchases.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
+                /// maximum number of related images returned (when they are included)
+                public static var images: Relation<Int?> {
+                    .init(key: "limit[images]")
+                }
+
                 /// maximum number of related inAppPurchaseLocalizations returned (when they are included)
                 public static var inAppPurchaseLocalizations: Relation<Int?> {
                     .init(key: "limit[inAppPurchaseLocalizations]")

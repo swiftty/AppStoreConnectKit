@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct TerritoryAvailability: Hashable, Codable {
+public struct TerritoryAvailability: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct TerritoryAvailability: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case territoryAvailabilities
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var available: Bool?
 
         public var contentStatuses: [ContentStatuses]?
@@ -73,123 +73,140 @@ public struct TerritoryAvailability: Hashable, Codable {
             case releaseDate
         }
 
-        public enum ContentStatuses: Hashable, Codable, RawRepresentable {
-            case available
-            case availableForPreorder
-            case availableForPreorderOnDate
-            case availableForSaleUnreleasedApp
-            case brazilRequiredTaxId
-            case cannotSell
-            case cannotSellAdultOnly
-            case cannotSellCasino
-            case cannotSellCasinoWithoutAgeVerification
-            case cannotSellCasinoWithoutGrac
-            case cannotSellContests
-            case cannotSellFrequentIntense
-            case cannotSellFrequentIntenseAlcoholTobaccoDrugs
-            case cannotSellFrequentIntenseGambling
-            case cannotSellFrequentIntenseSexualContentNudity
-            case cannotSellFrequentIntenseViolence
-            case cannotSellFrequentIntenseWithoutGrac
-            case cannotSellGambling
-            case cannotSellGamblingContests
-            case cannotSellInfrequentMildAlcoholTobaccoDrugs
-            case cannotSellInfrequentMildSexualContentNudity
-            case cannotSellNoniOSGames
-            case cannotSellRestrictedRating
-            case cannotSellSeventeenPlusApps
-            case cannotSellSeventeenPlusGames
-            case cannotSellSexuallyExplicit
-            case missingGrn
-            case missingRating
-            case preorderOnUnreleasedApp
-            case processingToAvailable
-            case processingToNotAvailable
-            case processingToPreOrder
-            case unverifiedGrn
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .available: return "AVAILABLE"
-                case .availableForPreorder: return "AVAILABLE_FOR_PREORDER"
-                case .availableForPreorderOnDate: return "AVAILABLE_FOR_PREORDER_ON_DATE"
-                case .availableForSaleUnreleasedApp: return "AVAILABLE_FOR_SALE_UNRELEASED_APP"
-                case .brazilRequiredTaxId: return "BRAZIL_REQUIRED_TAX_ID"
-                case .cannotSell: return "CANNOT_SELL"
-                case .cannotSellAdultOnly: return "CANNOT_SELL_ADULT_ONLY"
-                case .cannotSellCasino: return "CANNOT_SELL_CASINO"
-                case .cannotSellCasinoWithoutAgeVerification: return "CANNOT_SELL_CASINO_WITHOUT_AGE_VERIFICATION"
-                case .cannotSellCasinoWithoutGrac: return "CANNOT_SELL_CASINO_WITHOUT_GRAC"
-                case .cannotSellContests: return "CANNOT_SELL_CONTESTS"
-                case .cannotSellFrequentIntense: return "CANNOT_SELL_FREQUENT_INTENSE"
-                case .cannotSellFrequentIntenseAlcoholTobaccoDrugs: return "CANNOT_SELL_FREQUENT_INTENSE_ALCOHOL_TOBACCO_DRUGS"
-                case .cannotSellFrequentIntenseGambling: return "CANNOT_SELL_FREQUENT_INTENSE_GAMBLING"
-                case .cannotSellFrequentIntenseSexualContentNudity: return "CANNOT_SELL_FREQUENT_INTENSE_SEXUAL_CONTENT_NUDITY"
-                case .cannotSellFrequentIntenseViolence: return "CANNOT_SELL_FREQUENT_INTENSE_VIOLENCE"
-                case .cannotSellFrequentIntenseWithoutGrac: return "CANNOT_SELL_FREQUENT_INTENSE_WITHOUT_GRAC"
-                case .cannotSellGambling: return "CANNOT_SELL_GAMBLING"
-                case .cannotSellGamblingContests: return "CANNOT_SELL_GAMBLING_CONTESTS"
-                case .cannotSellInfrequentMildAlcoholTobaccoDrugs: return "CANNOT_SELL_INFREQUENT_MILD_ALCOHOL_TOBACCO_DRUGS"
-                case .cannotSellInfrequentMildSexualContentNudity: return "CANNOT_SELL_INFREQUENT_MILD_SEXUAL_CONTENT_NUDITY"
-                case .cannotSellNoniOSGames: return "CANNOT_SELL_NON_IOS_GAMES"
-                case .cannotSellRestrictedRating: return "CANNOT_SELL_RESTRICTED_RATING"
-                case .cannotSellSeventeenPlusApps: return "CANNOT_SELL_SEVENTEEN_PLUS_APPS"
-                case .cannotSellSeventeenPlusGames: return "CANNOT_SELL_SEVENTEEN_PLUS_GAMES"
-                case .cannotSellSexuallyExplicit: return "CANNOT_SELL_SEXUALLY_EXPLICIT"
-                case .missingGrn: return "MISSING_GRN"
-                case .missingRating: return "MISSING_RATING"
-                case .preorderOnUnreleasedApp: return "PREORDER_ON_UNRELEASED_APP"
-                case .processingToAvailable: return "PROCESSING_TO_AVAILABLE"
-                case .processingToNotAvailable: return "PROCESSING_TO_NOT_AVAILABLE"
-                case .processingToPreOrder: return "PROCESSING_TO_PRE_ORDER"
-                case .unverifiedGrn: return "UNVERIFIED_GRN"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct ContentStatuses: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var available: Self {
+                .init(rawValue: "AVAILABLE")
             }
 
+            public static var availableForPreorder: Self {
+                .init(rawValue: "AVAILABLE_FOR_PREORDER")
+            }
+
+            public static var availableForPreorderOnDate: Self {
+                .init(rawValue: "AVAILABLE_FOR_PREORDER_ON_DATE")
+            }
+
+            public static var availableForSaleUnreleasedApp: Self {
+                .init(rawValue: "AVAILABLE_FOR_SALE_UNRELEASED_APP")
+            }
+
+            public static var brazilRequiredTaxId: Self {
+                .init(rawValue: "BRAZIL_REQUIRED_TAX_ID")
+            }
+
+            public static var cannotSell: Self {
+                .init(rawValue: "CANNOT_SELL")
+            }
+
+            public static var cannotSellAdultOnly: Self {
+                .init(rawValue: "CANNOT_SELL_ADULT_ONLY")
+            }
+
+            public static var cannotSellCasino: Self {
+                .init(rawValue: "CANNOT_SELL_CASINO")
+            }
+
+            public static var cannotSellCasinoWithoutAgeVerification: Self {
+                .init(rawValue: "CANNOT_SELL_CASINO_WITHOUT_AGE_VERIFICATION")
+            }
+
+            public static var cannotSellCasinoWithoutGrac: Self {
+                .init(rawValue: "CANNOT_SELL_CASINO_WITHOUT_GRAC")
+            }
+
+            public static var cannotSellContests: Self {
+                .init(rawValue: "CANNOT_SELL_CONTESTS")
+            }
+
+            public static var cannotSellGambling: Self {
+                .init(rawValue: "CANNOT_SELL_GAMBLING")
+            }
+
+            public static var cannotSellGamblingContests: Self {
+                .init(rawValue: "CANNOT_SELL_GAMBLING_CONTESTS")
+            }
+
+            public static var cannotSellNoniOSGames: Self {
+                .init(rawValue: "CANNOT_SELL_NON_IOS_GAMES")
+            }
+
+            public static var cannotSellRestrictedRating: Self {
+                .init(rawValue: "CANNOT_SELL_RESTRICTED_RATING")
+            }
+
+            public static var cannotSellSeventeenPlusApps: Self {
+                .init(rawValue: "CANNOT_SELL_SEVENTEEN_PLUS_APPS")
+            }
+
+            public static var cannotSellSeventeenPlusGames: Self {
+                .init(rawValue: "CANNOT_SELL_SEVENTEEN_PLUS_GAMES")
+            }
+
+            public static var cannotSellSexuallyExplicit: Self {
+                .init(rawValue: "CANNOT_SELL_SEXUALLY_EXPLICIT")
+            }
+
+            public static var icpNumberInvalid: Self {
+                .init(rawValue: "ICP_NUMBER_INVALID")
+            }
+
+            public static var icpNumberMissing: Self {
+                .init(rawValue: "ICP_NUMBER_MISSING")
+            }
+
+            public static var missingGrn: Self {
+                .init(rawValue: "MISSING_GRN")
+            }
+
+            public static var missingRating: Self {
+                .init(rawValue: "MISSING_RATING")
+            }
+
+            public static var preorderOnUnreleasedApp: Self {
+                .init(rawValue: "PREORDER_ON_UNRELEASED_APP")
+            }
+
+            public static var processingToAvailable: Self {
+                .init(rawValue: "PROCESSING_TO_AVAILABLE")
+            }
+
+            public static var processingToNotAvailable: Self {
+                .init(rawValue: "PROCESSING_TO_NOT_AVAILABLE")
+            }
+
+            public static var processingToPreOrder: Self {
+                .init(rawValue: "PROCESSING_TO_PRE_ORDER")
+            }
+
+            public static var traderStatusNotProvided: Self {
+                .init(rawValue: "TRADER_STATUS_NOT_PROVIDED")
+            }
+
+            public static var traderStatusVerificationFailed: Self {
+                .init(rawValue: "TRADER_STATUS_VERIFICATION_FAILED")
+            }
+
+            public static var traderStatusVerificationStatusMissing: Self {
+                .init(rawValue: "TRADER_STATUS_VERIFICATION_STATUS_MISSING")
+            }
+
+            public static var unverifiedGrn: Self {
+                .init(rawValue: "UNVERIFIED_GRN")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "AVAILABLE": self = .available
-                case "AVAILABLE_FOR_PREORDER": self = .availableForPreorder
-                case "AVAILABLE_FOR_PREORDER_ON_DATE": self = .availableForPreorderOnDate
-                case "AVAILABLE_FOR_SALE_UNRELEASED_APP": self = .availableForSaleUnreleasedApp
-                case "BRAZIL_REQUIRED_TAX_ID": self = .brazilRequiredTaxId
-                case "CANNOT_SELL": self = .cannotSell
-                case "CANNOT_SELL_ADULT_ONLY": self = .cannotSellAdultOnly
-                case "CANNOT_SELL_CASINO": self = .cannotSellCasino
-                case "CANNOT_SELL_CASINO_WITHOUT_AGE_VERIFICATION": self = .cannotSellCasinoWithoutAgeVerification
-                case "CANNOT_SELL_CASINO_WITHOUT_GRAC": self = .cannotSellCasinoWithoutGrac
-                case "CANNOT_SELL_CONTESTS": self = .cannotSellContests
-                case "CANNOT_SELL_FREQUENT_INTENSE": self = .cannotSellFrequentIntense
-                case "CANNOT_SELL_FREQUENT_INTENSE_ALCOHOL_TOBACCO_DRUGS": self = .cannotSellFrequentIntenseAlcoholTobaccoDrugs
-                case "CANNOT_SELL_FREQUENT_INTENSE_GAMBLING": self = .cannotSellFrequentIntenseGambling
-                case "CANNOT_SELL_FREQUENT_INTENSE_SEXUAL_CONTENT_NUDITY": self = .cannotSellFrequentIntenseSexualContentNudity
-                case "CANNOT_SELL_FREQUENT_INTENSE_VIOLENCE": self = .cannotSellFrequentIntenseViolence
-                case "CANNOT_SELL_FREQUENT_INTENSE_WITHOUT_GRAC": self = .cannotSellFrequentIntenseWithoutGrac
-                case "CANNOT_SELL_GAMBLING": self = .cannotSellGambling
-                case "CANNOT_SELL_GAMBLING_CONTESTS": self = .cannotSellGamblingContests
-                case "CANNOT_SELL_INFREQUENT_MILD_ALCOHOL_TOBACCO_DRUGS": self = .cannotSellInfrequentMildAlcoholTobaccoDrugs
-                case "CANNOT_SELL_INFREQUENT_MILD_SEXUAL_CONTENT_NUDITY": self = .cannotSellInfrequentMildSexualContentNudity
-                case "CANNOT_SELL_NON_IOS_GAMES": self = .cannotSellNoniOSGames
-                case "CANNOT_SELL_RESTRICTED_RATING": self = .cannotSellRestrictedRating
-                case "CANNOT_SELL_SEVENTEEN_PLUS_APPS": self = .cannotSellSeventeenPlusApps
-                case "CANNOT_SELL_SEVENTEEN_PLUS_GAMES": self = .cannotSellSeventeenPlusGames
-                case "CANNOT_SELL_SEXUALLY_EXPLICIT": self = .cannotSellSexuallyExplicit
-                case "MISSING_GRN": self = .missingGrn
-                case "MISSING_RATING": self = .missingRating
-                case "PREORDER_ON_UNRELEASED_APP": self = .preorderOnUnreleasedApp
-                case "PROCESSING_TO_AVAILABLE": self = .processingToAvailable
-                case "PROCESSING_TO_NOT_AVAILABLE": self = .processingToNotAvailable
-                case "PROCESSING_TO_PRE_ORDER": self = .processingToPreOrder
-                case "UNVERIFIED_GRN": self = .unverifiedGrn
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var territory: Territory?
 
         public init(territory: Territory? = nil) {
@@ -200,25 +217,18 @@ public struct TerritoryAvailability: Hashable, Codable {
             case territory
         }
 
-        public struct Territory: Hashable, Codable {
+        public struct Territory: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -236,27 +246,8 @@ public struct TerritoryAvailability: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case territories
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

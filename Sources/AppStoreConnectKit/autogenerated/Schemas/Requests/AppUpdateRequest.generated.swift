@@ -3,65 +3,54 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppUpdateRequest: Hashable, Codable {
+public struct AppUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
-    public var included: [AppPriceInlineCreate]?
-
-    public init(
-        data: Data,
-        included: [AppPriceInlineCreate]? = nil
-    ) {
+    public init(data: Data) {
         self.data = data
-        self.included = included
     }
 
     private enum CodingKeys: String, CodingKey {
         case data
-        case included
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
 
         public var attributes: Attributes?
 
-        public var relationships: Relationships?
-
         public init(
             id: String,
             type: `Type`,
-            attributes: Attributes? = nil,
-            relationships: Relationships? = nil
+            attributes: Attributes? = nil
         ) {
             self.id = id
             self.type = type
             self.attributes = attributes
-            self.relationships = relationships
         }
 
         private enum CodingKeys: String, CodingKey {
             case id
             case type
             case attributes
-            case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case apps
         }
 
-        public struct Attributes: Hashable, Codable {
-            @available(*, deprecated)
-            public var availableInNewTerritories: Bool?
+        public struct Attributes: Hashable, Codable, Sendable {
+            public var accessibilityUrl: URL?
 
             public var bundleId: String?
 
             public var contentRightsDeclaration: ContentRightsDeclaration?
 
             public var primaryLocale: String?
+
+            public var streamlinedPurchasingEnabled: Bool?
 
             public var subscriptionStatusUrl: URL?
 
@@ -72,19 +61,21 @@ public struct AppUpdateRequest: Hashable, Codable {
             public var subscriptionStatusUrlVersionForSandbox: SubscriptionStatusUrlVersion?
 
             public init(
-                availableInNewTerritories: Bool? = nil,
+                accessibilityUrl: URL? = nil,
                 bundleId: String? = nil,
                 contentRightsDeclaration: ContentRightsDeclaration? = nil,
                 primaryLocale: String? = nil,
+                streamlinedPurchasingEnabled: Bool? = nil,
                 subscriptionStatusUrl: URL? = nil,
                 subscriptionStatusUrlForSandbox: URL? = nil,
                 subscriptionStatusUrlVersion: SubscriptionStatusUrlVersion? = nil,
                 subscriptionStatusUrlVersionForSandbox: SubscriptionStatusUrlVersion? = nil
             ) {
-                self.availableInNewTerritories = availableInNewTerritories
+                self.accessibilityUrl = accessibilityUrl
                 self.bundleId = bundleId
                 self.contentRightsDeclaration = contentRightsDeclaration
                 self.primaryLocale = primaryLocale
+                self.streamlinedPurchasingEnabled = streamlinedPurchasingEnabled
                 self.subscriptionStatusUrl = subscriptionStatusUrl
                 self.subscriptionStatusUrlForSandbox = subscriptionStatusUrlForSandbox
                 self.subscriptionStatusUrlVersion = subscriptionStatusUrlVersion
@@ -92,126 +83,34 @@ public struct AppUpdateRequest: Hashable, Codable {
             }
 
             private enum CodingKeys: String, CodingKey {
-                case availableInNewTerritories
+                case accessibilityUrl
                 case bundleId
                 case contentRightsDeclaration
                 case primaryLocale
+                case streamlinedPurchasingEnabled
                 case subscriptionStatusUrl
                 case subscriptionStatusUrlForSandbox
                 case subscriptionStatusUrlVersion
                 case subscriptionStatusUrlVersionForSandbox
             }
 
-            public enum ContentRightsDeclaration: Hashable, Codable, RawRepresentable {
-                case doesNotUseThirdPartyContent
-                case usesThirdPartyContent
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .doesNotUseThirdPartyContent: return "DOES_NOT_USE_THIRD_PARTY_CONTENT"
-                    case .usesThirdPartyContent: return "USES_THIRD_PARTY_CONTENT"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ContentRightsDeclaration: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var doesNotUseThirdPartyContent: Self {
+                    .init(rawValue: "DOES_NOT_USE_THIRD_PARTY_CONTENT")
                 }
+
+                public static var usesThirdPartyContent: Self {
+                    .init(rawValue: "USES_THIRD_PARTY_CONTENT")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
 
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "DOES_NOT_USE_THIRD_PARTY_CONTENT": self = .doesNotUseThirdPartyContent
-                    case "USES_THIRD_PARTY_CONTENT": self = .usesThirdPartyContent
-                    default: self = .unknown(rawValue)
-                    }
-                }
-            }
-        }
-
-        public struct Relationships: Hashable, Codable {
-            @available(*, deprecated)
-            public var availableTerritories: AvailableTerritories?
-
-            @available(*, deprecated)
-            public var prices: Prices?
-
-            public init(
-                availableTerritories: AvailableTerritories? = nil,
-                prices: Prices? = nil
-            ) {
-                self.availableTerritories = availableTerritories
-                self.prices = prices
-            }
-
-            private enum CodingKeys: String, CodingKey {
-                case availableTerritories
-                case prices
-            }
-
-            public struct AvailableTerritories: Hashable, Codable {
-                public var data: [Data]?
-
-                public init(data: [Data]? = nil) {
-                    self.data = data
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case data
-                }
-
-                public struct Data: Hashable, Codable {
-                    public var id: String
-
-                    public var type: `Type`
-
-                    public init(
-                        id: String,
-                        type: `Type`
-                    ) {
-                        self.id = id
-                        self.type = type
-                    }
-
-                    private enum CodingKeys: String, CodingKey {
-                        case id
-                        case type
-                    }
-
-                    public enum `Type`: String, Hashable, Codable {
-                        case territories
-                    }
-                }
-            }
-
-            public struct Prices: Hashable, Codable {
-                public var data: [Data]?
-
-                public init(data: [Data]? = nil) {
-                    self.data = data
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case data
-                }
-
-                public struct Data: Hashable, Codable {
-                    public var id: String
-
-                    public var type: `Type`
-
-                    public init(
-                        id: String,
-                        type: `Type`
-                    ) {
-                        self.id = id
-                        self.type = type
-                    }
-
-                    private enum CodingKeys: String, CodingKey {
-                        case id
-                        case type
-                    }
-
-                    public enum `Type`: String, Hashable, Codable {
-                        case appPrices
-                    }
+                    self.rawValue = rawValue
                 }
             }
         }

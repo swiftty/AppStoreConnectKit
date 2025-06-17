@@ -4,6 +4,10 @@
 import Foundation
 
 public enum V1 {
+    public enum AccessibilityDeclarations {
+        public enum ById {}
+    }
+
     public enum Actors {
         public enum ById {}
     }
@@ -12,15 +16,89 @@ public enum V1 {
         public enum ById {}
     }
 
-    public enum AppAvailabilities {
+    public enum AlternativeDistributionDomains {
+        public enum ById {}
+    }
+
+    public enum AlternativeDistributionKeys {
+        public enum ById {}
+    }
+
+    public enum AlternativeDistributionPackageDeltas {
+        public enum ById {}
+    }
+
+    public enum AlternativeDistributionPackageVariants {
+        public enum ById {}
+    }
+
+    public enum AlternativeDistributionPackageVersions {
         public enum ById {
-            public enum AvailableTerritories {}
+            public enum Deltas {}
+
+            public enum Relationships {
+                public enum Deltas {}
+
+                public enum Variants {}
+            }
+
+            public enum Variants {}
+        }
+    }
+
+    public enum AlternativeDistributionPackages {
+        public enum ById {
+            public enum Relationships {
+                public enum Versions {}
+            }
+
+            public enum Versions {}
+        }
+    }
+
+    public enum AnalyticsReportInstances {
+        public enum ById {
+            public enum Relationships {
+                public enum Segments {}
+            }
+
+            public enum Segments {}
+        }
+    }
+
+    public enum AnalyticsReportRequests {
+        public enum ById {
+            public enum Relationships {
+                public enum Reports {}
+            }
+
+            public enum Reports {}
+        }
+    }
+
+    public enum AnalyticsReportSegments {
+        public enum ById {}
+    }
+
+    public enum AnalyticsReports {
+        public enum ById {
+            public enum Instances {}
+
+            public enum Relationships {
+                public enum Instances {}
+            }
         }
     }
 
     public enum AppCategories {
         public enum ById {
             public enum Parent {}
+
+            public enum Relationships {
+                public enum Parent {}
+
+                public enum Subcategories {}
+            }
 
             public enum Subcategories {}
         }
@@ -41,6 +119,10 @@ public enum V1 {
     public enum AppClipDefaultExperienceLocalizations {
         public enum ById {
             public enum AppClipHeaderImage {}
+
+            public enum Relationships {
+                public enum AppClipHeaderImage {}
+            }
         }
     }
 
@@ -51,6 +133,10 @@ public enum V1 {
             public enum AppClipDefaultExperienceLocalizations {}
 
             public enum Relationships {
+                public enum AppClipAppStoreReviewDetail {}
+
+                public enum AppClipDefaultExperienceLocalizations {}
+
                 public enum ReleaseWithAppStoreVersion {}
             }
 
@@ -67,6 +153,12 @@ public enum V1 {
             public enum AppClipAdvancedExperiences {}
 
             public enum AppClipDefaultExperiences {}
+
+            public enum Relationships {
+                public enum AppClipAdvancedExperiences {}
+
+                public enum AppClipDefaultExperiences {}
+            }
         }
     }
 
@@ -75,18 +167,32 @@ public enum V1 {
             public enum AppPreviewSets {}
 
             public enum AppScreenshotSets {}
+
+            public enum Relationships {
+                public enum AppPreviewSets {}
+
+                public enum AppScreenshotSets {}
+            }
         }
     }
 
     public enum AppCustomProductPageVersions {
         public enum ById {
             public enum AppCustomProductPageLocalizations {}
+
+            public enum Relationships {
+                public enum AppCustomProductPageLocalizations {}
+            }
         }
     }
 
     public enum AppCustomProductPages {
         public enum ById {
             public enum AppCustomProductPageVersions {}
+
+            public enum Relationships {
+                public enum AppCustomProductPageVersions {}
+            }
         }
     }
 
@@ -101,6 +207,10 @@ public enum V1 {
             public enum AppEncryptionDeclarationDocument {}
 
             public enum Relationships {
+                public enum App {}
+
+                public enum AppEncryptionDeclarationDocument {}
+
                 public enum Builds {}
             }
         }
@@ -111,6 +221,12 @@ public enum V1 {
             public enum AppEventScreenshots {}
 
             public enum AppEventVideoClips {}
+
+            public enum Relationships {
+                public enum AppEventScreenshots {}
+
+                public enum AppEventVideoClips {}
+            }
         }
     }
 
@@ -125,6 +241,10 @@ public enum V1 {
     public enum AppEvents {
         public enum ById {
             public enum Localizations {}
+
+            public enum Relationships {
+                public enum Localizations {}
+            }
         }
     }
 
@@ -144,16 +264,30 @@ public enum V1 {
 
             public enum PrimarySubcategoryTwo {}
 
+            public enum Relationships {
+                public enum AgeRatingDeclaration {}
+
+                public enum AppInfoLocalizations {}
+
+                public enum PrimaryCategory {}
+
+                public enum PrimarySubcategoryOne {}
+
+                public enum PrimarySubcategoryTwo {}
+
+                public enum SecondaryCategory {}
+
+                public enum SecondarySubcategoryOne {}
+
+                public enum SecondarySubcategoryTwo {}
+            }
+
             public enum SecondaryCategory {}
 
             public enum SecondarySubcategoryOne {}
 
             public enum SecondarySubcategoryTwo {}
         }
-    }
-
-    public enum AppPreOrders {
-        public enum ById {}
     }
 
     public enum AppPreviewSets {
@@ -170,12 +304,6 @@ public enum V1 {
         public enum ById {}
     }
 
-    public enum AppPricePoints {
-        public enum ById {
-            public enum Territory {}
-        }
-    }
-
     public enum AppPriceSchedules {
         public enum ById {
             public enum AutomaticPrices {}
@@ -183,17 +311,15 @@ public enum V1 {
             public enum BaseTerritory {}
 
             public enum ManualPrices {}
-        }
-    }
 
-    public enum AppPriceTiers {
-        public enum ById {
-            public enum PricePoints {}
-        }
-    }
+            public enum Relationships {
+                public enum AutomaticPrices {}
 
-    public enum AppPrices {
-        public enum ById {}
+                public enum BaseTerritory {}
+
+                public enum ManualPrices {}
+            }
+        }
     }
 
     public enum AppScreenshotSets {
@@ -217,6 +343,10 @@ public enum V1 {
     public enum AppStoreReviewDetails {
         public enum ById {
             public enum AppStoreReviewAttachments {}
+
+            public enum Relationships {
+                public enum AppStoreReviewAttachments {}
+            }
         }
     }
 
@@ -225,18 +355,32 @@ public enum V1 {
             public enum AppPreviewSets {}
 
             public enum AppScreenshotSets {}
+
+            public enum Relationships {
+                public enum AppPreviewSets {}
+
+                public enum AppScreenshotSets {}
+            }
         }
     }
 
     public enum AppStoreVersionExperimentTreatments {
         public enum ById {
             public enum AppStoreVersionExperimentTreatmentLocalizations {}
+
+            public enum Relationships {
+                public enum AppStoreVersionExperimentTreatmentLocalizations {}
+            }
         }
     }
 
     public enum AppStoreVersionExperiments {
         public enum ById {
             public enum AppStoreVersionExperimentTreatments {}
+
+            public enum Relationships {
+                public enum AppStoreVersionExperimentTreatments {}
+            }
         }
     }
 
@@ -245,6 +389,12 @@ public enum V1 {
             public enum AppPreviewSets {}
 
             public enum AppScreenshotSets {}
+
+            public enum Relationships {
+                public enum AppPreviewSets {}
+
+                public enum AppScreenshotSets {}
+            }
         }
     }
 
@@ -264,6 +414,8 @@ public enum V1 {
         public enum ById {
             public enum AgeRatingDeclaration {}
 
+            public enum AlternativeDistributionPackage {}
+
             public enum AppClipDefaultExperience {}
 
             public enum AppStoreReviewDetail {}
@@ -282,10 +434,34 @@ public enum V1 {
 
             public enum CustomerReviews {}
 
+            public enum GameCenterAppVersion {}
+
             public enum Relationships {
+                public enum AgeRatingDeclaration {}
+
+                public enum AlternativeDistributionPackage {}
+
                 public enum AppClipDefaultExperience {}
 
+                public enum AppStoreReviewDetail {}
+
+                public enum AppStoreVersionExperiments {}
+
+                public enum AppStoreVersionExperimentsV2 {}
+
+                public enum AppStoreVersionLocalizations {}
+
+                public enum AppStoreVersionPhasedRelease {}
+
+                public enum AppStoreVersionSubmission {}
+
                 public enum Build {}
+
+                public enum CustomerReviews {}
+
+                public enum GameCenterAppVersion {}
+
+                public enum RoutingAppCoverage {}
             }
 
             public enum RoutingAppCoverage {}
@@ -294,7 +470,13 @@ public enum V1 {
 
     public enum Apps {
         public enum ById {
-            public enum AppAvailability {}
+            public enum AccessibilityDeclarations {}
+
+            public enum AlternativeDistributionKey {}
+
+            public enum AnalyticsReportRequests {}
+
+            public enum AppAvailabilityV2 {}
 
             public enum AppClips {}
 
@@ -314,11 +496,15 @@ public enum V1 {
 
             public enum AppStoreVersions {}
 
-            public enum AvailableTerritories {}
+            public enum BackgroundAssets {}
 
             public enum BetaAppLocalizations {}
 
             public enum BetaAppReviewDetail {}
+
+            public enum BetaFeedbackCrashSubmissions {}
+
+            public enum BetaFeedbackScreenshotSubmissions {}
 
             public enum BetaGroups {}
 
@@ -327,6 +513,8 @@ public enum V1 {
             public enum Builds {}
 
             public enum CiProduct {}
+
+            public enum CustomerReviewSummarizations {}
 
             public enum CustomerReviews {}
 
@@ -340,26 +528,90 @@ public enum V1 {
 
             public enum InAppPurchasesV2 {}
 
+            public enum MarketplaceSearchDetail {}
+
             public enum Metrics {
                 public enum BetaTesterUsages {}
             }
 
             public enum PerfPowerMetrics {}
 
-            public enum PreOrder {}
-
             public enum PreReleaseVersions {}
-
-            public enum PricePoints {}
-
-            public enum Prices {}
 
             public enum PromotedPurchases {}
 
             public enum Relationships {
+                public enum AccessibilityDeclarations {}
+
+                public enum AlternativeDistributionKey {}
+
+                public enum AnalyticsReportRequests {}
+
+                public enum AppAvailabilityV2 {}
+
+                public enum AppClips {}
+
+                public enum AppCustomProductPages {}
+
+                public enum AppEncryptionDeclarations {}
+
+                public enum AppEvents {}
+
+                public enum AppInfos {}
+
+                public enum AppPricePoints {}
+
+                public enum AppPriceSchedule {}
+
+                public enum AppStoreVersionExperimentsV2 {}
+
+                public enum AppStoreVersions {}
+
+                public enum BackgroundAssets {}
+
+                public enum BetaAppLocalizations {}
+
+                public enum BetaAppReviewDetail {}
+
+                public enum BetaFeedbackCrashSubmissions {}
+
+                public enum BetaFeedbackScreenshotSubmissions {}
+
+                public enum BetaGroups {}
+
+                public enum BetaLicenseAgreement {}
+
                 public enum BetaTesters {}
 
+                public enum Builds {}
+
+                public enum CiProduct {}
+
+                public enum CustomerReviews {}
+
+                public enum EndUserLicenseAgreement {}
+
+                public enum GameCenterDetail {}
+
+                public enum GameCenterEnabledVersions {}
+
+                public enum InAppPurchases {}
+
+                public enum InAppPurchasesV2 {}
+
+                public enum MarketplaceSearchDetail {}
+
+                public enum PreReleaseVersions {}
+
                 public enum PromotedPurchases {}
+
+                public enum ReviewSubmissions {}
+
+                public enum SubscriptionGracePeriod {}
+
+                public enum SubscriptionGroups {}
+
+                public enum Webhooks {}
             }
 
             public enum ReviewSubmissions {}
@@ -367,6 +619,36 @@ public enum V1 {
             public enum SubscriptionGracePeriod {}
 
             public enum SubscriptionGroups {}
+
+            public enum Webhooks {}
+        }
+    }
+
+    public enum BackgroundAssetUploadFiles {
+        public enum ById {}
+    }
+
+    public enum BackgroundAssetVersionInternalBetaReleases {
+        public enum ById {}
+    }
+
+    public enum BackgroundAssetVersions {
+        public enum ById {
+            public enum BackgroundAssetUploadFiles {}
+
+            public enum Relationships {
+                public enum BackgroundAssetUploadFiles {}
+            }
+        }
+    }
+
+    public enum BackgroundAssets {
+        public enum ById {
+            public enum Relationships {
+                public enum Versions {}
+            }
+
+            public enum Versions {}
         }
     }
 
@@ -381,30 +663,68 @@ public enum V1 {
     public enum BetaAppLocalizations {
         public enum ById {
             public enum App {}
+
+            public enum Relationships {
+                public enum App {}
+            }
         }
     }
 
     public enum BetaAppReviewDetails {
         public enum ById {
             public enum App {}
+
+            public enum Relationships {
+                public enum App {}
+            }
         }
     }
 
     public enum BetaAppReviewSubmissions {
         public enum ById {
             public enum Build {}
+
+            public enum Relationships {
+                public enum Build {}
+            }
         }
     }
 
     public enum BetaBuildLocalizations {
         public enum ById {
             public enum Build {}
+
+            public enum Relationships {
+                public enum Build {}
+            }
         }
+    }
+
+    public enum BetaCrashLogs {
+        public enum ById {}
+    }
+
+    public enum BetaFeedbackCrashSubmissions {
+        public enum ById {
+            public enum CrashLog {}
+
+            public enum Relationships {
+                public enum CrashLog {}
+            }
+        }
+    }
+
+    public enum BetaFeedbackScreenshotSubmissions {
+        public enum ById {}
     }
 
     public enum BetaGroups {
         public enum ById {
             public enum App {}
+
+            public enum BetaRecruitmentCriteria {}
+
+            public enum BetaRecruitmentCriterionCompatibleBuildCheck {}
 
             public enum BetaTesters {}
 
@@ -412,9 +732,17 @@ public enum V1 {
 
             public enum Metrics {
                 public enum BetaTesterUsages {}
+
+                public enum PublicLinkUsages {}
             }
 
             public enum Relationships {
+                public enum App {}
+
+                public enum BetaRecruitmentCriteria {}
+
+                public enum BetaRecruitmentCriterionCompatibleBuildCheck {}
+
                 public enum BetaTesters {}
 
                 public enum Builds {}
@@ -425,8 +753,18 @@ public enum V1 {
     public enum BetaLicenseAgreements {
         public enum ById {
             public enum App {}
+
+            public enum Relationships {
+                public enum App {}
+            }
         }
     }
+
+    public enum BetaRecruitmentCriteria {
+        public enum ById {}
+    }
+
+    public enum BetaRecruitmentCriterionOptions {}
 
     public enum BetaTesterInvitations {}
 
@@ -455,6 +793,10 @@ public enum V1 {
     public enum BuildBetaDetails {
         public enum ById {
             public enum Build {}
+
+            public enum Relationships {
+                public enum Build {}
+            }
         }
     }
 
@@ -469,6 +811,16 @@ public enum V1 {
             public enum BetaAppClipInvocations {}
 
             public enum BuildBundleFileSizes {}
+
+            public enum Relationships {
+                public enum AppClipDomainCacheStatus {}
+
+                public enum AppClipDomainDebugStatus {}
+
+                public enum BetaAppClipInvocations {}
+
+                public enum BuildBundleFileSizes {}
+            }
         }
     }
 
@@ -501,11 +853,27 @@ public enum V1 {
             public enum PreReleaseVersion {}
 
             public enum Relationships {
+                public enum App {}
+
                 public enum AppEncryptionDeclaration {}
+
+                public enum AppStoreVersion {}
+
+                public enum BetaAppReviewSubmission {}
+
+                public enum BetaBuildLocalizations {}
 
                 public enum BetaGroups {}
 
+                public enum BuildBetaDetail {}
+
+                public enum DiagnosticSignatures {}
+
+                public enum Icons {}
+
                 public enum IndividualTesters {}
+
+                public enum PreReleaseVersion {}
             }
         }
     }
@@ -521,11 +889,25 @@ public enum V1 {
             public enum BundleIdCapabilities {}
 
             public enum Profiles {}
+
+            public enum Relationships {
+                public enum App {}
+
+                public enum BundleIdCapabilities {}
+
+                public enum Profiles {}
+            }
         }
     }
 
     public enum Certificates {
-        public enum ById {}
+        public enum ById {
+            public enum PassTypeId {}
+
+            public enum Relationships {
+                public enum PassTypeId {}
+            }
+        }
     }
 
     public enum CiArtifacts {
@@ -540,6 +922,16 @@ public enum V1 {
 
             public enum Issues {}
 
+            public enum Relationships {
+                public enum Artifacts {}
+
+                public enum BuildRun {}
+
+                public enum Issues {}
+
+                public enum TestResults {}
+            }
+
             public enum TestResults {}
         }
     }
@@ -549,6 +941,12 @@ public enum V1 {
             public enum Actions {}
 
             public enum Builds {}
+
+            public enum Relationships {
+                public enum Actions {}
+
+                public enum Builds {}
+            }
         }
     }
 
@@ -558,6 +956,10 @@ public enum V1 {
 
     public enum CiMacOsVersions {
         public enum ById {
+            public enum Relationships {
+                public enum XcodeVersions {}
+            }
+
             public enum XcodeVersions {}
         }
     }
@@ -572,6 +974,18 @@ public enum V1 {
 
             public enum PrimaryRepositories {}
 
+            public enum Relationships {
+                public enum AdditionalRepositories {}
+
+                public enum App {}
+
+                public enum BuildRuns {}
+
+                public enum PrimaryRepositories {}
+
+                public enum Workflows {}
+            }
+
             public enum Workflows {}
         }
     }
@@ -584,6 +998,12 @@ public enum V1 {
         public enum ById {
             public enum BuildRuns {}
 
+            public enum Relationships {
+                public enum BuildRuns {}
+
+                public enum Repository {}
+            }
+
             public enum Repository {}
         }
     }
@@ -591,6 +1011,10 @@ public enum V1 {
     public enum CiXcodeVersions {
         public enum ById {
             public enum MacOsVersions {}
+
+            public enum Relationships {
+                public enum MacOsVersions {}
+            }
         }
     }
 
@@ -600,6 +1024,10 @@ public enum V1 {
 
     public enum CustomerReviews {
         public enum ById {
+            public enum Relationships {
+                public enum Response {}
+            }
+
             public enum Response {}
         }
     }
@@ -618,6 +1046,10 @@ public enum V1 {
 
     public enum EndUserLicenseAgreements {
         public enum ById {
+            public enum Relationships {
+                public enum Territories {}
+            }
+
             public enum Territories {}
         }
     }
@@ -633,6 +1065,12 @@ public enum V1 {
             public enum GameCenterAchievement {}
 
             public enum GameCenterAchievementImage {}
+
+            public enum Relationships {
+                public enum GameCenterAchievement {}
+
+                public enum GameCenterAchievementImage {}
+            }
         }
     }
 
@@ -647,10 +1085,62 @@ public enum V1 {
             public enum Localizations {}
 
             public enum Relationships {
+                public enum Activity {}
+
                 public enum GroupAchievement {}
+
+                public enum Localizations {}
+
+                public enum Releases {}
             }
 
             public enum Releases {}
+        }
+    }
+
+    public enum GameCenterActivities {
+        public enum ById {
+            public enum Relationships {
+                public enum Achievements {}
+
+                public enum Leaderboards {}
+
+                public enum Versions {}
+            }
+
+            public enum Versions {}
+        }
+    }
+
+    public enum GameCenterActivityImages {
+        public enum ById {}
+    }
+
+    public enum GameCenterActivityLocalizations {
+        public enum ById {
+            public enum Image {}
+
+            public enum Relationships {
+                public enum Image {}
+            }
+        }
+    }
+
+    public enum GameCenterActivityVersionReleases {
+        public enum ById {}
+    }
+
+    public enum GameCenterActivityVersions {
+        public enum ById {
+            public enum DefaultImage {}
+
+            public enum Localizations {}
+
+            public enum Relationships {
+                public enum DefaultImage {}
+
+                public enum Localizations {}
+            }
         }
     }
 
@@ -661,8 +1151,54 @@ public enum V1 {
             public enum CompatibilityVersions {}
 
             public enum Relationships {
+                public enum AppStoreVersion {}
+
                 public enum CompatibilityVersions {}
             }
+        }
+    }
+
+    public enum GameCenterChallengeImages {
+        public enum ById {}
+    }
+
+    public enum GameCenterChallengeLocalizations {
+        public enum ById {
+            public enum Image {}
+
+            public enum Relationships {
+                public enum Image {}
+            }
+        }
+    }
+
+    public enum GameCenterChallengeVersionReleases {
+        public enum ById {}
+    }
+
+    public enum GameCenterChallengeVersions {
+        public enum ById {
+            public enum DefaultImage {}
+
+            public enum Localizations {}
+
+            public enum Relationships {
+                public enum DefaultImage {}
+
+                public enum Localizations {}
+            }
+        }
+    }
+
+    public enum GameCenterChallenges {
+        public enum ById {
+            public enum Relationships {
+                public enum Leaderboard {}
+
+                public enum Versions {}
+            }
+
+            public enum Versions {}
         }
     }
 
@@ -670,9 +1206,17 @@ public enum V1 {
         public enum ById {
             public enum AchievementReleases {}
 
+            public enum ActivityReleases {}
+
+            public enum ChallengeReleases {}
+
             public enum GameCenterAchievements {}
 
+            public enum GameCenterActivities {}
+
             public enum GameCenterAppVersions {}
+
+            public enum GameCenterChallenges {}
 
             public enum GameCenterGroup {}
 
@@ -691,11 +1235,31 @@ public enum V1 {
             }
 
             public enum Relationships {
+                public enum AchievementReleases {}
+
+                public enum ActivityReleases {}
+
+                public enum ChallengeReleases {}
+
+                public enum ChallengesMinimumPlatformVersions {}
+
                 public enum GameCenterAchievements {}
+
+                public enum GameCenterActivities {}
+
+                public enum GameCenterAppVersions {}
+
+                public enum GameCenterChallenges {}
+
+                public enum GameCenterGroup {}
 
                 public enum GameCenterLeaderboardSets {}
 
                 public enum GameCenterLeaderboards {}
+
+                public enum LeaderboardReleases {}
+
+                public enum LeaderboardSetReleases {}
             }
         }
     }
@@ -714,6 +1278,10 @@ public enum V1 {
         public enum ById {
             public enum GameCenterAchievements {}
 
+            public enum GameCenterActivities {}
+
+            public enum GameCenterChallenges {}
+
             public enum GameCenterDetails {}
 
             public enum GameCenterLeaderboardSets {}
@@ -723,12 +1291,20 @@ public enum V1 {
             public enum Relationships {
                 public enum GameCenterAchievements {}
 
+                public enum GameCenterActivities {}
+
+                public enum GameCenterChallenges {}
+
+                public enum GameCenterDetails {}
+
                 public enum GameCenterLeaderboardSets {}
 
                 public enum GameCenterLeaderboards {}
             }
         }
     }
+
+    public enum GameCenterLeaderboardEntrySubmissions {}
 
     public enum GameCenterLeaderboardImages {
         public enum ById {}
@@ -737,6 +1313,10 @@ public enum V1 {
     public enum GameCenterLeaderboardLocalizations {
         public enum ById {
             public enum GameCenterLeaderboardImage {}
+
+            public enum Relationships {
+                public enum GameCenterLeaderboardImage {}
+            }
         }
     }
 
@@ -751,6 +1331,10 @@ public enum V1 {
     public enum GameCenterLeaderboardSetLocalizations {
         public enum ById {
             public enum GameCenterLeaderboardSetImage {}
+
+            public enum Relationships {
+                public enum GameCenterLeaderboardSetImage {}
+            }
         }
     }
 
@@ -759,6 +1343,12 @@ public enum V1 {
             public enum GameCenterLeaderboard {}
 
             public enum GameCenterLeaderboardSet {}
+
+            public enum Relationships {
+                public enum GameCenterLeaderboard {}
+
+                public enum GameCenterLeaderboardSet {}
+            }
         }
     }
 
@@ -778,6 +1368,10 @@ public enum V1 {
                 public enum GameCenterLeaderboards {}
 
                 public enum GroupLeaderboardSet {}
+
+                public enum Localizations {}
+
+                public enum Releases {}
             }
 
             public enum Releases {}
@@ -791,7 +1385,15 @@ public enum V1 {
             public enum Localizations {}
 
             public enum Relationships {
+                public enum Activity {}
+
+                public enum Challenge {}
+
                 public enum GroupLeaderboard {}
+
+                public enum Localizations {}
+
+                public enum Releases {}
             }
 
             public enum Releases {}
@@ -820,6 +1422,14 @@ public enum V1 {
         public enum ById {
             public enum MatchmakingQueues {}
 
+            public enum Relationships {
+                public enum MatchmakingQueues {}
+
+                public enum Rules {}
+
+                public enum Teams {}
+            }
+
             public enum Rules {}
 
             public enum Teams {}
@@ -842,6 +1452,8 @@ public enum V1 {
         public enum ById {}
     }
 
+    public enum GameCenterPlayerAchievementSubmissions {}
+
     public enum InAppPurchaseAppStoreReviewScreenshots {
         public enum ById {}
     }
@@ -849,6 +1461,10 @@ public enum V1 {
     public enum InAppPurchaseAvailabilities {
         public enum ById {
             public enum AvailableTerritories {}
+
+            public enum Relationships {
+                public enum AvailableTerritories {}
+            }
         }
     }
 
@@ -856,8 +1472,22 @@ public enum V1 {
         public enum ById {}
     }
 
+    public enum InAppPurchaseImages {
+        public enum ById {}
+    }
+
     public enum InAppPurchaseLocalizations {
         public enum ById {}
+    }
+
+    public enum InAppPurchasePricePoints {
+        public enum ById {
+            public enum Equalizations {}
+
+            public enum Relationships {
+                public enum Equalizations {}
+            }
+        }
     }
 
     public enum InAppPurchasePriceSchedules {
@@ -867,6 +1497,14 @@ public enum V1 {
             public enum BaseTerritory {}
 
             public enum ManualPrices {}
+
+            public enum Relationships {
+                public enum AutomaticPrices {}
+
+                public enum BaseTerritory {}
+
+                public enum ManualPrices {}
+            }
         }
     }
 
@@ -876,11 +1514,49 @@ public enum V1 {
         public enum ById {}
     }
 
+    public enum MarketplaceSearchDetails {
+        public enum ById {}
+    }
+
+    public enum MarketplaceWebhooks {
+        public enum ById {}
+    }
+
+    public enum MerchantIds {
+        public enum ById {
+            public enum Certificates {}
+
+            public enum Relationships {
+                public enum Certificates {}
+            }
+        }
+    }
+
+    public enum Nominations {
+        public enum ById {}
+    }
+
+    public enum PassTypeIds {
+        public enum ById {
+            public enum Certificates {}
+
+            public enum Relationships {
+                public enum Certificates {}
+            }
+        }
+    }
+
     public enum PreReleaseVersions {
         public enum ById {
             public enum App {}
 
             public enum Builds {}
+
+            public enum Relationships {
+                public enum App {}
+
+                public enum Builds {}
+            }
         }
     }
 
@@ -891,17 +1567,19 @@ public enum V1 {
             public enum Certificates {}
 
             public enum Devices {}
-        }
-    }
 
-    public enum PromotedPurchaseImages {
-        public enum ById {}
+            public enum Relationships {
+                public enum BundleId {}
+
+                public enum Certificates {}
+
+                public enum Devices {}
+            }
+        }
     }
 
     public enum PromotedPurchases {
-        public enum ById {
-            public enum PromotionImages {}
-        }
+        public enum ById {}
     }
 
     public enum ReviewSubmissionItems {
@@ -911,6 +1589,10 @@ public enum V1 {
     public enum ReviewSubmissions {
         public enum ById {
             public enum Items {}
+
+            public enum Relationships {
+                public enum Items {}
+            }
         }
     }
 
@@ -926,6 +1608,10 @@ public enum V1 {
 
     public enum ScmProviders {
         public enum ById {
+            public enum Relationships {
+                public enum Repositories {}
+            }
+
             public enum Repositories {}
         }
     }
@@ -939,6 +1625,12 @@ public enum V1 {
             public enum GitReferences {}
 
             public enum PullRequests {}
+
+            public enum Relationships {
+                public enum GitReferences {}
+
+                public enum PullRequests {}
+            }
         }
     }
 
@@ -949,6 +1641,10 @@ public enum V1 {
     public enum SubscriptionAvailabilities {
         public enum ById {
             public enum AvailableTerritories {}
+
+            public enum Relationships {
+                public enum AvailableTerritories {}
+            }
         }
     }
 
@@ -964,10 +1660,20 @@ public enum V1 {
 
     public enum SubscriptionGroups {
         public enum ById {
+            public enum Relationships {
+                public enum SubscriptionGroupLocalizations {}
+
+                public enum Subscriptions {}
+            }
+
             public enum SubscriptionGroupLocalizations {}
 
             public enum Subscriptions {}
         }
+    }
+
+    public enum SubscriptionImages {
+        public enum ById {}
     }
 
     public enum SubscriptionIntroductoryOffers {
@@ -995,12 +1701,24 @@ public enum V1 {
             public enum OneTimeUseCodes {}
 
             public enum Prices {}
+
+            public enum Relationships {
+                public enum CustomCodes {}
+
+                public enum OneTimeUseCodes {}
+
+                public enum Prices {}
+            }
         }
     }
 
     public enum SubscriptionPricePoints {
         public enum ById {
             public enum Equalizations {}
+
+            public enum Relationships {
+                public enum Equalizations {}
+            }
         }
     }
 
@@ -1011,6 +1729,10 @@ public enum V1 {
     public enum SubscriptionPromotionalOffers {
         public enum ById {
             public enum Prices {}
+
+            public enum Relationships {
+                public enum Prices {}
+            }
         }
     }
 
@@ -1019,6 +1741,8 @@ public enum V1 {
     public enum Subscriptions {
         public enum ById {
             public enum AppStoreReviewScreenshot {}
+
+            public enum Images {}
 
             public enum IntroductoryOffers {}
 
@@ -1033,14 +1757,34 @@ public enum V1 {
             public enum PromotionalOffers {}
 
             public enum Relationships {
+                public enum AppStoreReviewScreenshot {}
+
+                public enum Images {}
+
                 public enum IntroductoryOffers {}
 
+                public enum OfferCodes {}
+
+                public enum PricePoints {}
+
                 public enum Prices {}
+
+                public enum PromotedPurchase {}
+
+                public enum PromotionalOffers {}
+
+                public enum SubscriptionAvailability {}
+
+                public enum SubscriptionLocalizations {}
+
+                public enum WinBackOffers {}
             }
 
             public enum SubscriptionAvailability {}
 
             public enum SubscriptionLocalizations {}
+
+            public enum WinBackOffers {}
         }
     }
 
@@ -1052,6 +1796,10 @@ public enum V1 {
 
     public enum UserInvitations {
         public enum ById {
+            public enum Relationships {
+                public enum VisibleApps {}
+            }
+
             public enum VisibleApps {}
         }
     }
@@ -1065,10 +1813,38 @@ public enum V1 {
             public enum VisibleApps {}
         }
     }
+
+    public enum WebhookDeliveries {}
+
+    public enum WebhookPings {}
+
+    public enum Webhooks {
+        public enum ById {
+            public enum Deliveries {}
+
+            public enum Relationships {
+                public enum Deliveries {}
+            }
+        }
+    }
+
+    public enum WinBackOffers {
+        public enum ById {
+            public enum Prices {}
+
+            public enum Relationships {
+                public enum Prices {}
+            }
+        }
+    }
 }
 public enum V2 {
     public enum AppAvailabilities {
         public enum ById {
+            public enum Relationships {
+                public enum TerritoryAvailabilities {}
+            }
+
             public enum TerritoryAvailabilities {}
         }
     }
@@ -1076,6 +1852,10 @@ public enum V2 {
     public enum AppStoreVersionExperiments {
         public enum ById {
             public enum AppStoreVersionExperimentTreatments {}
+
+            public enum Relationships {
+                public enum AppStoreVersionExperimentTreatments {}
+            }
         }
     }
 
@@ -1087,6 +1867,8 @@ public enum V2 {
 
             public enum IapPriceSchedule {}
 
+            public enum Images {}
+
             public enum InAppPurchaseAvailability {}
 
             public enum InAppPurchaseLocalizations {}
@@ -1094,6 +1876,24 @@ public enum V2 {
             public enum PricePoints {}
 
             public enum PromotedPurchase {}
+
+            public enum Relationships {
+                public enum AppStoreReviewScreenshot {}
+
+                public enum Content {}
+
+                public enum IapPriceSchedule {}
+
+                public enum Images {}
+
+                public enum InAppPurchaseAvailability {}
+
+                public enum InAppPurchaseLocalizations {}
+
+                public enum PricePoints {}
+
+                public enum PromotedPurchase {}
+            }
         }
     }
 
@@ -1107,6 +1907,10 @@ public enum V3 {
     public enum AppPricePoints {
         public enum ById {
             public enum Equalizations {}
+
+            public enum Relationships {
+                public enum Equalizations {}
+            }
         }
     }
 }

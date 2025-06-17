@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterLeaderboardLocalizationResponse: Hashable, Codable {
+public struct GameCenterLeaderboardLocalizationResponse: Hashable, Codable, Sendable {
     public var data: GameCenterLeaderboardLocalization
 
     public var included: [Included]?
@@ -26,7 +26,7 @@ public struct GameCenterLeaderboardLocalizationResponse: Hashable, Codable {
         case links
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case gameCenterLeaderboard(GameCenterLeaderboard)
         case gameCenterLeaderboardImage(GameCenterLeaderboardImage)
 

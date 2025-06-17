@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterLeaderboard: Hashable, Codable {
+public struct GameCenterLeaderboard: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,13 @@ public struct GameCenterLeaderboard: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case gameCenterLeaderboards
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
+        public var activityProperties: [String: String]?
+
         public var archived: Bool?
 
         public var defaultFormatter: GameCenterLeaderboardFormatter?
@@ -63,7 +65,10 @@ public struct GameCenterLeaderboard: Hashable, Codable {
 
         public var vendorIdentifier: String?
 
+        public var visibility: Visibility?
+
         public init(
+            activityProperties: [String: String]? = nil,
             archived: Bool? = nil,
             defaultFormatter: GameCenterLeaderboardFormatter? = nil,
             recurrenceDuration: String? = nil,
@@ -74,8 +79,10 @@ public struct GameCenterLeaderboard: Hashable, Codable {
             scoreRangeStart: String? = nil,
             scoreSortType: ScoreSortType? = nil,
             submissionType: SubmissionType? = nil,
-            vendorIdentifier: String? = nil
+            vendorIdentifier: String? = nil,
+            visibility: Visibility? = nil
         ) {
+            self.activityProperties = activityProperties
             self.archived = archived
             self.defaultFormatter = defaultFormatter
             self.recurrenceDuration = recurrenceDuration
@@ -87,9 +94,11 @@ public struct GameCenterLeaderboard: Hashable, Codable {
             self.scoreSortType = scoreSortType
             self.submissionType = submissionType
             self.vendorIdentifier = vendorIdentifier
+            self.visibility = visibility
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activityProperties
             case archived
             case defaultFormatter
             case recurrenceDuration
@@ -101,60 +110,82 @@ public struct GameCenterLeaderboard: Hashable, Codable {
             case scoreSortType
             case submissionType
             case vendorIdentifier
+            case visibility
         }
 
-        public enum ScoreSortType: Hashable, Codable, RawRepresentable {
-            case asc
-            case desc
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .asc: return "ASC"
-                case .desc: return "DESC"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct ScoreSortType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var asc: Self {
+                .init(rawValue: "ASC")
             }
 
+            public static var desc: Self {
+                .init(rawValue: "DESC")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "ASC": self = .asc
-                case "DESC": self = .desc
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum SubmissionType: Hashable, Codable, RawRepresentable {
-            case bestScore
-            case mostRecentScore
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .bestScore: return "BEST_SCORE"
-                case .mostRecentScore: return "MOST_RECENT_SCORE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct SubmissionType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var bestScore: Self {
+                .init(rawValue: "BEST_SCORE")
             }
 
+            public static var mostRecentScore: Self {
+                .init(rawValue: "MOST_RECENT_SCORE")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "BEST_SCORE": self = .bestScore
-                case "MOST_RECENT_SCORE": self = .mostRecentScore
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
+            }
+        }
+
+        public struct Visibility: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var hideForAll: Self {
+                .init(rawValue: "HIDE_FOR_ALL")
+            }
+
+            public static var showForAll: Self {
+                .init(rawValue: "SHOW_FOR_ALL")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
+            public init(rawValue: String) {
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
+        public var activity: Activity?
+
+        public var challenge: Challenge?
+
         public var gameCenterDetail: GameCenterDetail?
 
         public var gameCenterGroup: GameCenterGroup?
 
         public var gameCenterLeaderboardSets: GameCenterLeaderboardSets?
 
+        @available(*, deprecated)
         public var groupLeaderboard: GroupLeaderboard?
 
         public var localizations: Localizations?
@@ -162,6 +193,8 @@ public struct GameCenterLeaderboard: Hashable, Codable {
         public var releases: Releases?
 
         public init(
+            activity: Activity? = nil,
+            challenge: Challenge? = nil,
             gameCenterDetail: GameCenterDetail? = nil,
             gameCenterGroup: GameCenterGroup? = nil,
             gameCenterLeaderboardSets: GameCenterLeaderboardSets? = nil,
@@ -169,6 +202,8 @@ public struct GameCenterLeaderboard: Hashable, Codable {
             localizations: Localizations? = nil,
             releases: Releases? = nil
         ) {
+            self.activity = activity
+            self.challenge = challenge
             self.gameCenterDetail = gameCenterDetail
             self.gameCenterGroup = gameCenterGroup
             self.gameCenterLeaderboardSets = gameCenterLeaderboardSets
@@ -178,6 +213,8 @@ public struct GameCenterLeaderboard: Hashable, Codable {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activity
+            case challenge
             case gameCenterDetail
             case gameCenterGroup
             case gameCenterLeaderboardSets
@@ -186,14 +223,14 @@ public struct GameCenterLeaderboard: Hashable, Codable {
             case releases
         }
 
-        public struct GameCenterDetail: Hashable, Codable {
+        public struct Activity: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -204,7 +241,7 @@ public struct GameCenterLeaderboard: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -222,50 +259,101 @@ public struct GameCenterLeaderboard: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterActivities
+                }
+            }
+        }
+
+        public struct Challenge: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public var links: RelationshipLinks?
+
+            public init(
+                data: Data? = nil,
+                links: RelationshipLinks? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterChallenges
+                }
+            }
+        }
+
+        public struct GameCenterDetail: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case gameCenterDetails
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct GameCenterGroup: Hashable, Codable {
+        public struct GameCenterGroup: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -283,55 +371,31 @@ public struct GameCenterLeaderboard: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case gameCenterGroups
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct GameCenterLeaderboardSets: Hashable, Codable {
+        public struct GameCenterLeaderboardSets: Hashable, Codable, Sendable {
             public var data: [Data]?
-
-            public var links: Links?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
-                self.links = links
                 self.meta = meta
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -349,39 +413,20 @@ public struct GameCenterLeaderboard: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case gameCenterLeaderboardSets
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct GroupLeaderboard: Hashable, Codable {
+        public struct GroupLeaderboard: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -392,7 +437,7 @@ public struct GameCenterLeaderboard: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -410,41 +455,22 @@ public struct GameCenterLeaderboard: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case gameCenterLeaderboards
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct Localizations: Hashable, Codable {
+        public struct Localizations: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -458,7 +484,7 @@ public struct GameCenterLeaderboard: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -476,41 +502,22 @@ public struct GameCenterLeaderboard: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case gameCenterLeaderboardLocalizations
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct Releases: Hashable, Codable {
+        public struct Releases: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -524,7 +531,7 @@ public struct GameCenterLeaderboard: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -542,27 +549,8 @@ public struct GameCenterLeaderboard: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case gameCenterLeaderboardReleases
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

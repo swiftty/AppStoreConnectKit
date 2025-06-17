@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppStoreReviewDetailCreateRequest: Hashable, Codable {
+public struct AppStoreReviewDetailCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppStoreReviewDetailCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes?
@@ -37,11 +37,11 @@ public struct AppStoreReviewDetailCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appStoreReviewDetails
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var contactEmail: String?
 
             public var contactFirstName: String?
@@ -90,7 +90,7 @@ public struct AppStoreReviewDetailCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appStoreVersion: AppStoreVersion
 
             public init(appStoreVersion: AppStoreVersion) {
@@ -101,7 +101,7 @@ public struct AppStoreReviewDetailCreateRequest: Hashable, Codable {
                 case appStoreVersion
             }
 
-            public struct AppStoreVersion: Hashable, Codable {
+            public struct AppStoreVersion: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -112,7 +112,7 @@ public struct AppStoreReviewDetailCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -130,7 +130,7 @@ public struct AppStoreReviewDetailCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersions
                     }
                 }

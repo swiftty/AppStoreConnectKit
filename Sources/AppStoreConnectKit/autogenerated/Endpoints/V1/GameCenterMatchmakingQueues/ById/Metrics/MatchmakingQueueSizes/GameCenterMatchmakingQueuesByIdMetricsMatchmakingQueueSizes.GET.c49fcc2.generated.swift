@@ -29,7 +29,7 @@ extension V1.GameCenterMatchmakingQueues.ById.Metrics.MatchmakingQueueSizes {
 
             components?.queryItems = [
                 URLQueryItem(name: "granularity",
-                             value: parameters.granularity.map { "\($0)" }.joined(separator: ",")),
+                             value: parameters.granularity.map { "\($0)" }),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" }),
                 URLQueryItem(name: "sort",
@@ -46,8 +46,10 @@ extension V1.GameCenterMatchmakingQueues.ById.Metrics.MatchmakingQueueSizes {
 
         /// - Returns: **200**, Metrics data response as `GameCenterMatchmakingQueueSizesV1MetricResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -61,10 +63,16 @@ extension V1.GameCenterMatchmakingQueues.ById.Metrics.MatchmakingQueueSizes {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -77,7 +85,7 @@ extension V1.GameCenterMatchmakingQueues.ById.Metrics.MatchmakingQueueSizes {
 extension V1.GameCenterMatchmakingQueues.ById.Metrics.MatchmakingQueueSizes.GET {
     public struct Parameters: Hashable {
         /// the granularity of the per-group dataset
-        public var granularity: [Granularity] = []
+        public var granularity: Granularity?
 
         /// maximum number of groups to return per page
         public var limit: Int?
@@ -85,68 +93,71 @@ extension V1.GameCenterMatchmakingQueues.ById.Metrics.MatchmakingQueueSizes.GET 
         /// comma-separated list of sort expressions; metrics will be sorted as specified
         public var sort: [Sort]?
 
-        public enum Granularity: Hashable, Codable, RawRepresentable {
-            case p1D
-            case pT15M
-            case pT1H
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .p1D: return "P1D"
-                case .pT15M: return "PT15M"
-                case .pT1H: return "PT1H"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Granularity: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var p1D: Self {
+                .init(rawValue: "P1D")
             }
 
+            public static var pT15M: Self {
+                .init(rawValue: "PT15M")
+            }
+
+            public static var pT1H: Self {
+                .init(rawValue: "PT1H")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "P1D": self = .p1D
-                case "PT15M": self = .pT15M
-                case "PT1H": self = .pT1H
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum Sort: Hashable, Codable, RawRepresentable {
-            case averageNumberOfRequests
-            case averageNumberOfRequestsDesc
-            case count
-            case countDesc
-            case p50NumberOfRequests
-            case p50NumberOfRequestsDesc
-            case p95NumberOfRequests
-            case p95NumberOfRequestsDesc
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .averageNumberOfRequests: return "averageNumberOfRequests"
-                case .averageNumberOfRequestsDesc: return "-averageNumberOfRequests"
-                case .count: return "count"
-                case .countDesc: return "-count"
-                case .p50NumberOfRequests: return "p50NumberOfRequests"
-                case .p50NumberOfRequestsDesc: return "-p50NumberOfRequests"
-                case .p95NumberOfRequests: return "p95NumberOfRequests"
-                case .p95NumberOfRequestsDesc: return "-p95NumberOfRequests"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Sort: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var averageNumberOfRequests: Self {
+                .init(rawValue: "averageNumberOfRequests")
             }
 
+            public static var averageNumberOfRequestsDesc: Self {
+                .init(rawValue: "-averageNumberOfRequests")
+            }
+
+            public static var count: Self {
+                .init(rawValue: "count")
+            }
+
+            public static var countDesc: Self {
+                .init(rawValue: "-count")
+            }
+
+            public static var p50NumberOfRequests: Self {
+                .init(rawValue: "p50NumberOfRequests")
+            }
+
+            public static var p50NumberOfRequestsDesc: Self {
+                .init(rawValue: "-p50NumberOfRequests")
+            }
+
+            public static var p95NumberOfRequests: Self {
+                .init(rawValue: "p95NumberOfRequests")
+            }
+
+            public static var p95NumberOfRequestsDesc: Self {
+                .init(rawValue: "-p95NumberOfRequests")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "averageNumberOfRequests": self = .averageNumberOfRequests
-                case "-averageNumberOfRequests": self = .averageNumberOfRequestsDesc
-                case "count": self = .count
-                case "-count": self = .countDesc
-                case "p50NumberOfRequests": self = .p50NumberOfRequests
-                case "-p50NumberOfRequests": self = .p50NumberOfRequestsDesc
-                case "p95NumberOfRequests": self = .p95NumberOfRequests
-                case "-p95NumberOfRequests": self = .p95NumberOfRequestsDesc
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

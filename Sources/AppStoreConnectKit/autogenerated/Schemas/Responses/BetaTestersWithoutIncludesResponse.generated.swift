@@ -3,15 +3,15 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaTestersWithoutIncludesResponse: Hashable, Codable {
-    public var data: [Build]
+public struct BetaTestersWithoutIncludesResponse: Hashable, Codable, Sendable {
+    public var data: [BetaTester]
 
     public var links: PagedDocumentLinks
 
     public var meta: PagingInformation?
 
     public init(
-        data: [Build],
+        data: [BetaTester],
         links: PagedDocumentLinks,
         meta: PagingInformation? = nil
     ) {

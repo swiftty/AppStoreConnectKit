@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
+public struct GameCenterLeaderboardCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,13 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterLeaderboards
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
+            public var activityProperties: [String: String]?
+
             public var defaultFormatter: GameCenterLeaderboardFormatter
 
             public var recurrenceDuration: String?
@@ -62,7 +64,10 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
 
             public var vendorIdentifier: String
 
+            public var visibility: Visibility?
+
             public init(
+                activityProperties: [String: String]? = nil,
                 defaultFormatter: GameCenterLeaderboardFormatter,
                 recurrenceDuration: String? = nil,
                 recurrenceRule: String? = nil,
@@ -72,8 +77,10 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
                 scoreRangeStart: String? = nil,
                 scoreSortType: ScoreSortType,
                 submissionType: SubmissionType,
-                vendorIdentifier: String
+                vendorIdentifier: String,
+                visibility: Visibility? = nil
             ) {
+                self.activityProperties = activityProperties
                 self.defaultFormatter = defaultFormatter
                 self.recurrenceDuration = recurrenceDuration
                 self.recurrenceRule = recurrenceRule
@@ -84,9 +91,11 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
                 self.scoreSortType = scoreSortType
                 self.submissionType = submissionType
                 self.vendorIdentifier = vendorIdentifier
+                self.visibility = visibility
             }
 
             private enum CodingKeys: String, CodingKey {
+                case activityProperties
                 case defaultFormatter
                 case recurrenceDuration
                 case recurrenceRule
@@ -97,54 +106,71 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
                 case scoreSortType
                 case submissionType
                 case vendorIdentifier
+                case visibility
             }
 
-            public enum ScoreSortType: Hashable, Codable, RawRepresentable {
-                case asc
-                case desc
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .asc: return "ASC"
-                    case .desc: return "DESC"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ScoreSortType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var asc: Self {
+                    .init(rawValue: "ASC")
                 }
 
+                public static var desc: Self {
+                    .init(rawValue: "DESC")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "ASC": self = .asc
-                    case "DESC": self = .desc
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubmissionType: Hashable, Codable, RawRepresentable {
-                case bestScore
-                case mostRecentScore
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .bestScore: return "BEST_SCORE"
-                    case .mostRecentScore: return "MOST_RECENT_SCORE"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubmissionType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var bestScore: Self {
+                    .init(rawValue: "BEST_SCORE")
                 }
 
+                public static var mostRecentScore: Self {
+                    .init(rawValue: "MOST_RECENT_SCORE")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "BEST_SCORE": self = .bestScore
-                    case "MOST_RECENT_SCORE": self = .mostRecentScore
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct Visibility: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var hideForAll: Self {
+                    .init(rawValue: "HIDE_FOR_ALL")
+                }
+
+                public static var showForAll: Self {
+                    .init(rawValue: "SHOW_FOR_ALL")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
                 }
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var gameCenterDetail: GameCenterDetail?
 
             public var gameCenterGroup: GameCenterGroup?
@@ -167,7 +193,7 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
                 case gameCenterLeaderboardSets
             }
 
-            public struct GameCenterDetail: Hashable, Codable {
+            public struct GameCenterDetail: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -178,7 +204,7 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -196,13 +222,13 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterDetails
                     }
                 }
             }
 
-            public struct GameCenterGroup: Hashable, Codable {
+            public struct GameCenterGroup: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -213,7 +239,7 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -231,13 +257,13 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterGroups
                     }
                 }
             }
 
-            public struct GameCenterLeaderboardSets: Hashable, Codable {
+            public struct GameCenterLeaderboardSets: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -248,7 +274,7 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -266,7 +292,7 @@ public struct GameCenterLeaderboardCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterLeaderboardSets
                     }
                 }

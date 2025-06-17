@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct InAppPurchasePriceInlineCreate: Hashable, Codable {
+public struct InAppPurchasePriceInlineCreate: Hashable, Codable, Sendable {
     public var id: String?
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct InAppPurchasePriceInlineCreate: Hashable, Codable {
         case relationships
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case inAppPurchasePrices
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var endDate: String?
 
         public var startDate: String?
@@ -54,7 +54,7 @@ public struct InAppPurchasePriceInlineCreate: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var inAppPurchasePricePoint: InAppPurchasePricePoint?
 
         public var inAppPurchaseV2: InAppPurchaseV2?
@@ -72,7 +72,7 @@ public struct InAppPurchasePriceInlineCreate: Hashable, Codable {
             case inAppPurchaseV2
         }
 
-        public struct InAppPurchasePricePoint: Hashable, Codable {
+        public struct InAppPurchasePricePoint: Hashable, Codable, Sendable {
             public var data: Data?
 
             public init(data: Data? = nil) {
@@ -83,7 +83,7 @@ public struct InAppPurchasePriceInlineCreate: Hashable, Codable {
                 case data
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -101,13 +101,13 @@ public struct InAppPurchasePriceInlineCreate: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchasePricePoints
                 }
             }
         }
 
-        public struct InAppPurchaseV2: Hashable, Codable {
+        public struct InAppPurchaseV2: Hashable, Codable, Sendable {
             public var data: Data?
 
             public init(data: Data? = nil) {
@@ -118,7 +118,7 @@ public struct InAppPurchasePriceInlineCreate: Hashable, Codable {
                 case data
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -136,7 +136,7 @@ public struct InAppPurchasePriceInlineCreate: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchases
                 }
             }

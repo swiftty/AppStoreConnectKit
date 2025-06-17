@@ -3,34 +3,35 @@
 // swiftlint:disable all
 import Foundation
 
-public enum CiCompletionStatus: Hashable, Codable, RawRepresentable {
-    case canceled
-    case errored
-    case failed
-    case skipped
-    case succeeded
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .canceled: return "CANCELED"
-        case .errored: return "ERRORED"
-        case .failed: return "FAILED"
-        case .skipped: return "SKIPPED"
-        case .succeeded: return "SUCCEEDED"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct CiCompletionStatus: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var canceled: Self {
+        .init(rawValue: "CANCELED")
     }
 
+    public static var errored: Self {
+        .init(rawValue: "ERRORED")
+    }
+
+    public static var failed: Self {
+        .init(rawValue: "FAILED")
+    }
+
+    public static var skipped: Self {
+        .init(rawValue: "SKIPPED")
+    }
+
+    public static var succeeded: Self {
+        .init(rawValue: "SUCCEEDED")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "CANCELED": self = .canceled
-        case "ERRORED": self = .errored
-        case "FAILED": self = .failed
-        case "SKIPPED": self = .skipped
-        case "SUCCEEDED": self = .succeeded
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ImageAsset: Hashable, Codable {
+public struct ImageAsset: Hashable, Codable, Sendable {
     public var width: Int?
 
     public var height: Int?

@@ -3,37 +3,39 @@
 // swiftlint:disable all
 import Foundation
 
-public enum IconAssetType: Hashable, Codable, RawRepresentable {
-    case alternateExperiment
-    case appStore
-    case messagesAppStore
-    case tvOSHomeScreen
-    case tvOSTopShelf
-    case watchAppStore
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .alternateExperiment: return "ALTERNATE_EXPERIMENT"
-        case .appStore: return "APP_STORE"
-        case .messagesAppStore: return "MESSAGES_APP_STORE"
-        case .tvOSHomeScreen: return "TV_OS_HOME_SCREEN"
-        case .tvOSTopShelf: return "TV_OS_TOP_SHELF"
-        case .watchAppStore: return "WATCH_APP_STORE"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct IconAssetType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var alternateExperiment: Self {
+        .init(rawValue: "ALTERNATE_EXPERIMENT")
     }
 
+    public static var appStore: Self {
+        .init(rawValue: "APP_STORE")
+    }
+
+    public static var messagesAppStore: Self {
+        .init(rawValue: "MESSAGES_APP_STORE")
+    }
+
+    public static var tvOSHomeScreen: Self {
+        .init(rawValue: "TV_OS_HOME_SCREEN")
+    }
+
+    public static var tvOSTopShelf: Self {
+        .init(rawValue: "TV_OS_TOP_SHELF")
+    }
+
+    public static var watchAppStore: Self {
+        .init(rawValue: "WATCH_APP_STORE")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "ALTERNATE_EXPERIMENT": self = .alternateExperiment
-        case "APP_STORE": self = .appStore
-        case "MESSAGES_APP_STORE": self = .messagesAppStore
-        case "TV_OS_HOME_SCREEN": self = .tvOSHomeScreen
-        case "TV_OS_TOP_SHELF": self = .tvOSTopShelf
-        case "WATCH_APP_STORE": self = .watchAppStore
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

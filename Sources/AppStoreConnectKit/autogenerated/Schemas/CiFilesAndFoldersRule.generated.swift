@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiFilesAndFoldersRule: Hashable, Codable {
+public struct CiFilesAndFoldersRule: Hashable, Codable, Sendable {
     public var matchers: [CiStartConditionFileMatcher]?
 
     public var mode: Mode?
@@ -21,25 +21,23 @@ public struct CiFilesAndFoldersRule: Hashable, Codable {
         case mode
     }
 
-    public enum Mode: Hashable, Codable, RawRepresentable {
-        case doNotStartIfAllFilesMatch
-        case startIfAnyFileMatches
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .doNotStartIfAllFilesMatch: return "DO_NOT_START_IF_ALL_FILES_MATCH"
-            case .startIfAnyFileMatches: return "START_IF_ANY_FILE_MATCHES"
-            case .unknown(let rawValue): return rawValue
-            }
+    public struct Mode: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+        public static var doNotStartIfAllFilesMatch: Self {
+            .init(rawValue: "DO_NOT_START_IF_ALL_FILES_MATCH")
         }
 
+        public static var startIfAnyFileMatches: Self {
+            .init(rawValue: "START_IF_ANY_FILE_MATCHES")
+        }
+
+        public var description: String {
+            rawValue
+        }
+
+        public var rawValue: String
+
         public init(rawValue: String) {
-            switch rawValue {
-            case "DO_NOT_START_IF_ALL_FILES_MATCH": self = .doNotStartIfAllFilesMatch
-            case "START_IF_ANY_FILE_MATCHES": self = .startIfAnyFileMatches
-            default: self = .unknown(rawValue)
-            }
+            self.rawValue = rawValue
         }
     }
 }

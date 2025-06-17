@@ -63,7 +63,9 @@ extension V1.Profiles {
 
         /// - Returns: **200**, List of Profiles as `ProfilesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -77,7 +79,13 @@ extension V1.Profiles {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -110,166 +118,187 @@ extension V1.Profiles.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BundleIds: Hashable, Codable, RawRepresentable {
-                case app
-                case bundleIdCapabilities
-                case identifier
-                case name
-                case platform
-                case profiles
-                case seedId
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .bundleIdCapabilities: return "bundleIdCapabilities"
-                    case .identifier: return "identifier"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .profiles: return "profiles"
-                    case .seedId: return "seedId"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BundleIds: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var bundleIdCapabilities: Self {
+                    .init(rawValue: "bundleIdCapabilities")
+                }
+
+                public static var identifier: Self {
+                    .init(rawValue: "identifier")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var profiles: Self {
+                    .init(rawValue: "profiles")
+                }
+
+                public static var seedId: Self {
+                    .init(rawValue: "seedId")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "bundleIdCapabilities": self = .bundleIdCapabilities
-                    case "identifier": self = .identifier
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "profiles": self = .profiles
-                    case "seedId": self = .seedId
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Certificates: Hashable, Codable, RawRepresentable {
-                case certificateContent
-                case certificateType
-                case csrContent
-                case displayName
-                case expirationDate
-                case name
-                case platform
-                case serialNumber
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .certificateContent: return "certificateContent"
-                    case .certificateType: return "certificateType"
-                    case .csrContent: return "csrContent"
-                    case .displayName: return "displayName"
-                    case .expirationDate: return "expirationDate"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .serialNumber: return "serialNumber"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Certificates: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activated: Self {
+                    .init(rawValue: "activated")
                 }
 
+                public static var certificateContent: Self {
+                    .init(rawValue: "certificateContent")
+                }
+
+                public static var certificateType: Self {
+                    .init(rawValue: "certificateType")
+                }
+
+                public static var displayName: Self {
+                    .init(rawValue: "displayName")
+                }
+
+                public static var expirationDate: Self {
+                    .init(rawValue: "expirationDate")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var passTypeId: Self {
+                    .init(rawValue: "passTypeId")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var serialNumber: Self {
+                    .init(rawValue: "serialNumber")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "certificateContent": self = .certificateContent
-                    case "certificateType": self = .certificateType
-                    case "csrContent": self = .csrContent
-                    case "displayName": self = .displayName
-                    case "expirationDate": self = .expirationDate
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "serialNumber": self = .serialNumber
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Devices: Hashable, Codable, RawRepresentable {
-                case addedDate
-                case deviceClass
-                case model
-                case name
-                case platform
-                case status
-                case udid
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .addedDate: return "addedDate"
-                    case .deviceClass: return "deviceClass"
-                    case .model: return "model"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .status: return "status"
-                    case .udid: return "udid"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Devices: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var addedDate: Self {
+                    .init(rawValue: "addedDate")
                 }
 
+                public static var deviceClass: Self {
+                    .init(rawValue: "deviceClass")
+                }
+
+                public static var model: Self {
+                    .init(rawValue: "model")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var status: Self {
+                    .init(rawValue: "status")
+                }
+
+                public static var udid: Self {
+                    .init(rawValue: "udid")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "addedDate": self = .addedDate
-                    case "deviceClass": self = .deviceClass
-                    case "model": self = .model
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "status": self = .status
-                    case "udid": self = .udid
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Profiles: Hashable, Codable, RawRepresentable {
-                case bundleId
-                case certificates
-                case createdDate
-                case devices
-                case expirationDate
-                case name
-                case platform
-                case profileContent
-                case profileState
-                case profileType
-                case uuid
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .bundleId: return "bundleId"
-                    case .certificates: return "certificates"
-                    case .createdDate: return "createdDate"
-                    case .devices: return "devices"
-                    case .expirationDate: return "expirationDate"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .profileContent: return "profileContent"
-                    case .profileState: return "profileState"
-                    case .profileType: return "profileType"
-                    case .uuid: return "uuid"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Profiles: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
                 }
 
+                public static var certificates: Self {
+                    .init(rawValue: "certificates")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var devices: Self {
+                    .init(rawValue: "devices")
+                }
+
+                public static var expirationDate: Self {
+                    .init(rawValue: "expirationDate")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var profileContent: Self {
+                    .init(rawValue: "profileContent")
+                }
+
+                public static var profileState: Self {
+                    .init(rawValue: "profileState")
+                }
+
+                public static var profileType: Self {
+                    .init(rawValue: "profileType")
+                }
+
+                public static var uuid: Self {
+                    .init(rawValue: "uuid")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "bundleId": self = .bundleId
-                    case "certificates": self = .certificates
-                    case "createdDate": self = .createdDate
-                    case "devices": self = .devices
-                    case "expirationDate": self = .expirationDate
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "profileContent": self = .profileContent
-                    case "profileState": self = .profileState
-                    case "profileType": self = .profileType
-                    case "uuid": self = .uuid
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -310,83 +339,91 @@ extension V1.Profiles.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ProfileState: Hashable, Codable, RawRepresentable {
-                case active
-                case invalid
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .active: return "ACTIVE"
-                    case .invalid: return "INVALID"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ProfileState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var active: Self {
+                    .init(rawValue: "ACTIVE")
                 }
 
+                public static var invalid: Self {
+                    .init(rawValue: "INVALID")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "ACTIVE": self = .active
-                    case "INVALID": self = .invalid
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum ProfileType: Hashable, Codable, RawRepresentable {
-                case iOSAppAdhoc
-                case iOSAppDevelopment
-                case iOSAppInhouse
-                case iOSAppStore
-                case macAppDevelopment
-                case macAppDirect
-                case macAppStore
-                case macCatalystAppDevelopment
-                case macCatalystAppDirect
-                case macCatalystAppStore
-                case tvOSAppAdhoc
-                case tvOSAppDevelopment
-                case tvOSAppInhouse
-                case tvOSAppStore
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .iOSAppAdhoc: return "IOS_APP_ADHOC"
-                    case .iOSAppDevelopment: return "IOS_APP_DEVELOPMENT"
-                    case .iOSAppInhouse: return "IOS_APP_INHOUSE"
-                    case .iOSAppStore: return "IOS_APP_STORE"
-                    case .macAppDevelopment: return "MAC_APP_DEVELOPMENT"
-                    case .macAppDirect: return "MAC_APP_DIRECT"
-                    case .macAppStore: return "MAC_APP_STORE"
-                    case .macCatalystAppDevelopment: return "MAC_CATALYST_APP_DEVELOPMENT"
-                    case .macCatalystAppDirect: return "MAC_CATALYST_APP_DIRECT"
-                    case .macCatalystAppStore: return "MAC_CATALYST_APP_STORE"
-                    case .tvOSAppAdhoc: return "TVOS_APP_ADHOC"
-                    case .tvOSAppDevelopment: return "TVOS_APP_DEVELOPMENT"
-                    case .tvOSAppInhouse: return "TVOS_APP_INHOUSE"
-                    case .tvOSAppStore: return "TVOS_APP_STORE"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ProfileType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var iOSAppAdhoc: Self {
+                    .init(rawValue: "IOS_APP_ADHOC")
                 }
 
+                public static var iOSAppDevelopment: Self {
+                    .init(rawValue: "IOS_APP_DEVELOPMENT")
+                }
+
+                public static var iOSAppInhouse: Self {
+                    .init(rawValue: "IOS_APP_INHOUSE")
+                }
+
+                public static var iOSAppStore: Self {
+                    .init(rawValue: "IOS_APP_STORE")
+                }
+
+                public static var macAppDevelopment: Self {
+                    .init(rawValue: "MAC_APP_DEVELOPMENT")
+                }
+
+                public static var macAppDirect: Self {
+                    .init(rawValue: "MAC_APP_DIRECT")
+                }
+
+                public static var macAppStore: Self {
+                    .init(rawValue: "MAC_APP_STORE")
+                }
+
+                public static var macCatalystAppDevelopment: Self {
+                    .init(rawValue: "MAC_CATALYST_APP_DEVELOPMENT")
+                }
+
+                public static var macCatalystAppDirect: Self {
+                    .init(rawValue: "MAC_CATALYST_APP_DIRECT")
+                }
+
+                public static var macCatalystAppStore: Self {
+                    .init(rawValue: "MAC_CATALYST_APP_STORE")
+                }
+
+                public static var tvOSAppAdhoc: Self {
+                    .init(rawValue: "TVOS_APP_ADHOC")
+                }
+
+                public static var tvOSAppDevelopment: Self {
+                    .init(rawValue: "TVOS_APP_DEVELOPMENT")
+                }
+
+                public static var tvOSAppInhouse: Self {
+                    .init(rawValue: "TVOS_APP_INHOUSE")
+                }
+
+                public static var tvOSAppStore: Self {
+                    .init(rawValue: "TVOS_APP_STORE")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "IOS_APP_ADHOC": self = .iOSAppAdhoc
-                    case "IOS_APP_DEVELOPMENT": self = .iOSAppDevelopment
-                    case "IOS_APP_INHOUSE": self = .iOSAppInhouse
-                    case "IOS_APP_STORE": self = .iOSAppStore
-                    case "MAC_APP_DEVELOPMENT": self = .macAppDevelopment
-                    case "MAC_APP_DIRECT": self = .macAppDirect
-                    case "MAC_APP_STORE": self = .macAppStore
-                    case "MAC_CATALYST_APP_DEVELOPMENT": self = .macCatalystAppDevelopment
-                    case "MAC_CATALYST_APP_DIRECT": self = .macCatalystAppDirect
-                    case "MAC_CATALYST_APP_STORE": self = .macCatalystAppStore
-                    case "TVOS_APP_ADHOC": self = .tvOSAppAdhoc
-                    case "TVOS_APP_DEVELOPMENT": self = .tvOSAppDevelopment
-                    case "TVOS_APP_INHOUSE": self = .tvOSAppInhouse
-                    case "TVOS_APP_STORE": self = .tvOSAppStore
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -419,28 +456,27 @@ extension V1.Profiles.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case bundleId
-            case certificates
-            case devices
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .bundleId: return "bundleId"
-                case .certificates: return "certificates"
-                case .devices: return "devices"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var bundleId: Self {
+                .init(rawValue: "bundleId")
             }
 
+            public static var certificates: Self {
+                .init(rawValue: "certificates")
+            }
+
+            public static var devices: Self {
+                .init(rawValue: "devices")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "bundleId": self = .bundleId
-                case "certificates": self = .certificates
-                case "devices": self = .devices
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
@@ -476,43 +512,47 @@ extension V1.Profiles.GET {
             }
         }
 
-        public enum Sort: Hashable, Codable, RawRepresentable {
-            case id
-            case idDesc
-            case name
-            case nameDesc
-            case profileState
-            case profileStateDesc
-            case profileType
-            case profileTypeDesc
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .id: return "id"
-                case .idDesc: return "-id"
-                case .name: return "name"
-                case .nameDesc: return "-name"
-                case .profileState: return "profileState"
-                case .profileStateDesc: return "-profileState"
-                case .profileType: return "profileType"
-                case .profileTypeDesc: return "-profileType"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Sort: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var id: Self {
+                .init(rawValue: "id")
             }
 
+            public static var idDesc: Self {
+                .init(rawValue: "-id")
+            }
+
+            public static var name: Self {
+                .init(rawValue: "name")
+            }
+
+            public static var nameDesc: Self {
+                .init(rawValue: "-name")
+            }
+
+            public static var profileState: Self {
+                .init(rawValue: "profileState")
+            }
+
+            public static var profileStateDesc: Self {
+                .init(rawValue: "-profileState")
+            }
+
+            public static var profileType: Self {
+                .init(rawValue: "profileType")
+            }
+
+            public static var profileTypeDesc: Self {
+                .init(rawValue: "-profileType")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "id": self = .id
-                case "-id": self = .idDesc
-                case "name": self = .name
-                case "-name": self = .nameDesc
-                case "profileState": self = .profileState
-                case "-profileState": self = .profileStateDesc
-                case "profileType": self = .profileType
-                case "-profileType": self = .profileTypeDesc
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

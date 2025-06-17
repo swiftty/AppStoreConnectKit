@@ -44,8 +44,10 @@ extension V1.BundleIds.ById.BundleIdCapabilities {
 
         /// - Returns: **200**, List of BundleIdCapabilities with get as `BundleIdCapabilitiesWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.BundleIds.ById.BundleIdCapabilities {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,28 +95,23 @@ extension V1.BundleIds.ById.BundleIdCapabilities.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BundleIdCapabilities: Hashable, Codable, RawRepresentable {
-                case bundleId
-                case capabilityType
-                case settings
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .bundleId: return "bundleId"
-                    case .capabilityType: return "capabilityType"
-                    case .settings: return "settings"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BundleIdCapabilities: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var capabilityType: Self {
+                    .init(rawValue: "capabilityType")
                 }
 
+                public static var settings: Self {
+                    .init(rawValue: "settings")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "bundleId": self = .bundleId
-                    case "capabilityType": self = .capabilityType
-                    case "settings": self = .settings
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
