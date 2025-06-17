@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterAchievementUpdateRequest: Hashable, Codable {
+public struct GameCenterAchievementUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct GameCenterAchievementUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -37,11 +37,13 @@ public struct GameCenterAchievementUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterAchievements
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
+            public var activityProperties: [String: String]?
+
             public var archived: Bool?
 
             public var points: Int?
@@ -53,12 +55,14 @@ public struct GameCenterAchievementUpdateRequest: Hashable, Codable {
             public var showBeforeEarned: Bool?
 
             public init(
+                activityProperties: [String: String]? = nil,
                 archived: Bool? = nil,
                 points: Int? = nil,
                 referenceName: String? = nil,
                 repeatable: Bool? = nil,
                 showBeforeEarned: Bool? = nil
             ) {
+                self.activityProperties = activityProperties
                 self.archived = archived
                 self.points = points
                 self.referenceName = referenceName
@@ -67,6 +71,7 @@ public struct GameCenterAchievementUpdateRequest: Hashable, Codable {
             }
 
             private enum CodingKeys: String, CodingKey {
+                case activityProperties
                 case archived
                 case points
                 case referenceName

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppScreenshotSetCreateRequest: Hashable, Codable {
+public struct AppScreenshotSetCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppScreenshotSetCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct AppScreenshotSetCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appScreenshotSets
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var screenshotDisplayType: ScreenshotDisplayType
 
             public init(screenshotDisplayType: ScreenshotDisplayType) {
@@ -53,7 +53,7 @@ public struct AppScreenshotSetCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appCustomProductPageLocalization: AppCustomProductPageLocalization?
 
             public var appStoreVersionExperimentTreatmentLocalization: AppStoreVersionExperimentTreatmentLocalization?
@@ -76,7 +76,7 @@ public struct AppScreenshotSetCreateRequest: Hashable, Codable {
                 case appStoreVersionLocalization
             }
 
-            public struct AppCustomProductPageLocalization: Hashable, Codable {
+            public struct AppCustomProductPageLocalization: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -87,7 +87,7 @@ public struct AppScreenshotSetCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -105,13 +105,13 @@ public struct AppScreenshotSetCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appCustomProductPageLocalizations
                     }
                 }
             }
 
-            public struct AppStoreVersionExperimentTreatmentLocalization: Hashable, Codable {
+            public struct AppStoreVersionExperimentTreatmentLocalization: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -122,7 +122,7 @@ public struct AppScreenshotSetCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -140,13 +140,13 @@ public struct AppScreenshotSetCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersionExperimentTreatmentLocalizations
                     }
                 }
             }
 
-            public struct AppStoreVersionLocalization: Hashable, Codable {
+            public struct AppStoreVersionLocalization: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -157,7 +157,7 @@ public struct AppScreenshotSetCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -175,7 +175,7 @@ public struct AppScreenshotSetCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersionLocalizations
                     }
                 }

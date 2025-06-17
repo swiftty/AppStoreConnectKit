@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterAchievementReleasesResponse: Hashable, Codable {
+public struct GameCenterAchievementReleasesResponse: Hashable, Codable, Sendable {
     public var data: [GameCenterAchievementRelease]
 
     public var included: [Included]?
@@ -31,7 +31,7 @@ public struct GameCenterAchievementReleasesResponse: Hashable, Codable {
         case meta
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case gameCenterDetail(GameCenterDetail)
         case gameCenterAchievement(GameCenterAchievement)
 

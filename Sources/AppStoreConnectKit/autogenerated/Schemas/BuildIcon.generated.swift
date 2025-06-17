@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BuildIcon: Hashable, Codable {
+public struct BuildIcon: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct BuildIcon: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case buildIcons
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var iconAsset: ImageAsset?
 
         public var iconType: IconAssetType?

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppClipDefaultExperienceReleaseWithAppStoreVersionLinkageRequest: Hashable, Codable {
+public struct AppClipDefaultExperienceReleaseWithAppStoreVersionLinkageRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppClipDefaultExperienceReleaseWithAppStoreVersionLinkageRequest: 
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -32,7 +32,7 @@ public struct AppClipDefaultExperienceReleaseWithAppStoreVersionLinkageRequest: 
             case type
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appStoreVersions
         }
     }

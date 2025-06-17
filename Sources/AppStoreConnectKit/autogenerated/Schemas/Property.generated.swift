@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct Property: Hashable, Codable {
+public struct Property: Hashable, Codable, Sendable {
     public var key: String?
 
     public var value: String?

@@ -3,55 +3,63 @@
 // swiftlint:disable all
 import Foundation
 
-public enum InAppPurchaseState: Hashable, Codable, RawRepresentable {
-    case approved
-    case developerActionNeeded
-    case developerRemovedFromSale
-    case inReview
-    case missingMetadata
-    case pendingBinaryApproval
-    case processingContent
-    case readyToSubmit
-    case rejected
-    case removedFromSale
-    case waitingForReview
-    case waitingForUpload
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .approved: return "APPROVED"
-        case .developerActionNeeded: return "DEVELOPER_ACTION_NEEDED"
-        case .developerRemovedFromSale: return "DEVELOPER_REMOVED_FROM_SALE"
-        case .inReview: return "IN_REVIEW"
-        case .missingMetadata: return "MISSING_METADATA"
-        case .pendingBinaryApproval: return "PENDING_BINARY_APPROVAL"
-        case .processingContent: return "PROCESSING_CONTENT"
-        case .readyToSubmit: return "READY_TO_SUBMIT"
-        case .rejected: return "REJECTED"
-        case .removedFromSale: return "REMOVED_FROM_SALE"
-        case .waitingForReview: return "WAITING_FOR_REVIEW"
-        case .waitingForUpload: return "WAITING_FOR_UPLOAD"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct InAppPurchaseState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var approved: Self {
+        .init(rawValue: "APPROVED")
     }
 
+    public static var developerActionNeeded: Self {
+        .init(rawValue: "DEVELOPER_ACTION_NEEDED")
+    }
+
+    public static var developerRemovedFromSale: Self {
+        .init(rawValue: "DEVELOPER_REMOVED_FROM_SALE")
+    }
+
+    public static var inReview: Self {
+        .init(rawValue: "IN_REVIEW")
+    }
+
+    public static var missingMetadata: Self {
+        .init(rawValue: "MISSING_METADATA")
+    }
+
+    public static var pendingBinaryApproval: Self {
+        .init(rawValue: "PENDING_BINARY_APPROVAL")
+    }
+
+    public static var processingContent: Self {
+        .init(rawValue: "PROCESSING_CONTENT")
+    }
+
+    public static var readyToSubmit: Self {
+        .init(rawValue: "READY_TO_SUBMIT")
+    }
+
+    public static var rejected: Self {
+        .init(rawValue: "REJECTED")
+    }
+
+    public static var removedFromSale: Self {
+        .init(rawValue: "REMOVED_FROM_SALE")
+    }
+
+    public static var waitingForReview: Self {
+        .init(rawValue: "WAITING_FOR_REVIEW")
+    }
+
+    public static var waitingForUpload: Self {
+        .init(rawValue: "WAITING_FOR_UPLOAD")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "APPROVED": self = .approved
-        case "DEVELOPER_ACTION_NEEDED": self = .developerActionNeeded
-        case "DEVELOPER_REMOVED_FROM_SALE": self = .developerRemovedFromSale
-        case "IN_REVIEW": self = .inReview
-        case "MISSING_METADATA": self = .missingMetadata
-        case "PENDING_BINARY_APPROVAL": self = .pendingBinaryApproval
-        case "PROCESSING_CONTENT": self = .processingContent
-        case "READY_TO_SUBMIT": self = .readyToSubmit
-        case "REJECTED": self = .rejected
-        case "REMOVED_FROM_SALE": self = .removedFromSale
-        case "WAITING_FOR_REVIEW": self = .waitingForReview
-        case "WAITING_FOR_UPLOAD": self = .waitingForUpload
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

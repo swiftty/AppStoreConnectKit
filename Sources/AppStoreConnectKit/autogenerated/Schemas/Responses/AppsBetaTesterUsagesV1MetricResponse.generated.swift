@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppsBetaTesterUsagesV1MetricResponse: Hashable, Codable {
+public struct AppsBetaTesterUsagesV1MetricResponse: Hashable, Codable, Sendable {
     public var data: [Data]
 
     public var included: [BetaTester]?
@@ -31,7 +31,7 @@ public struct AppsBetaTesterUsagesV1MetricResponse: Hashable, Codable {
         case meta
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var dataPoints: DataPoints?
 
         public var dimensions: Dimensions?
@@ -49,7 +49,7 @@ public struct AppsBetaTesterUsagesV1MetricResponse: Hashable, Codable {
             case dimensions
         }
 
-        public struct DataPoints: Hashable, Codable {
+        public struct DataPoints: Hashable, Codable, Sendable {
             public var end: String?
 
             public var start: String?
@@ -72,7 +72,7 @@ public struct AppsBetaTesterUsagesV1MetricResponse: Hashable, Codable {
                 case values
             }
 
-            public struct Values: Hashable, Codable {
+            public struct Values: Hashable, Codable, Sendable {
                 public var crashCount: Int?
 
                 public var feedbackCount: Int?
@@ -97,7 +97,7 @@ public struct AppsBetaTesterUsagesV1MetricResponse: Hashable, Codable {
             }
         }
 
-        public struct Dimensions: Hashable, Codable {
+        public struct Dimensions: Hashable, Codable, Sendable {
             public var betaTesters: BetaTesters?
 
             public init(betaTesters: BetaTesters? = nil) {
@@ -108,18 +108,25 @@ public struct AppsBetaTesterUsagesV1MetricResponse: Hashable, Codable {
                 case betaTesters
             }
 
-            public struct BetaTesters: Hashable, Codable {
+            public struct BetaTesters: Hashable, Codable, Sendable {
+                public var data: String?
+
                 public var links: Links?
 
-                public init(links: Links? = nil) {
+                public init(
+                    data: String? = nil,
+                    links: Links? = nil
+                ) {
+                    self.data = data
                     self.links = links
                 }
 
                 private enum CodingKeys: String, CodingKey {
+                    case data
                     case links
                 }
 
-                public struct Links: Hashable, Codable {
+                public struct Links: Hashable, Codable, Sendable {
                     public var groupBy: URL?
 
                     public var related: URL?

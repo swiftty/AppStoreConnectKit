@@ -3,40 +3,43 @@
 // swiftlint:disable all
 import Foundation
 
-public enum InternalBetaState: Hashable, Codable, RawRepresentable {
-    case expired
-    case inBetaTesting
-    case inExportComplianceReview
-    case missingExportCompliance
-    case processing
-    case processingException
-    case readyForBetaTesting
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .expired: return "EXPIRED"
-        case .inBetaTesting: return "IN_BETA_TESTING"
-        case .inExportComplianceReview: return "IN_EXPORT_COMPLIANCE_REVIEW"
-        case .missingExportCompliance: return "MISSING_EXPORT_COMPLIANCE"
-        case .processing: return "PROCESSING"
-        case .processingException: return "PROCESSING_EXCEPTION"
-        case .readyForBetaTesting: return "READY_FOR_BETA_TESTING"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct InternalBetaState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var expired: Self {
+        .init(rawValue: "EXPIRED")
     }
 
+    public static var inBetaTesting: Self {
+        .init(rawValue: "IN_BETA_TESTING")
+    }
+
+    public static var inExportComplianceReview: Self {
+        .init(rawValue: "IN_EXPORT_COMPLIANCE_REVIEW")
+    }
+
+    public static var missingExportCompliance: Self {
+        .init(rawValue: "MISSING_EXPORT_COMPLIANCE")
+    }
+
+    public static var processing: Self {
+        .init(rawValue: "PROCESSING")
+    }
+
+    public static var processingException: Self {
+        .init(rawValue: "PROCESSING_EXCEPTION")
+    }
+
+    public static var readyForBetaTesting: Self {
+        .init(rawValue: "READY_FOR_BETA_TESTING")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "EXPIRED": self = .expired
-        case "IN_BETA_TESTING": self = .inBetaTesting
-        case "IN_EXPORT_COMPLIANCE_REVIEW": self = .inExportComplianceReview
-        case "MISSING_EXPORT_COMPLIANCE": self = .missingExportCompliance
-        case "PROCESSING": self = .processing
-        case "PROCESSING_EXCEPTION": self = .processingException
-        case "READY_FOR_BETA_TESTING": self = .readyForBetaTesting
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

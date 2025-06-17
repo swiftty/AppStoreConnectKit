@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiArtifactResponse: Hashable, Codable {
+public struct CiArtifactResponse: Hashable, Codable, Sendable {
     public var data: CiArtifact
 
     public var links: DocumentLinks

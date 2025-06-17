@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BuildBundle: Hashable, Codable {
+public struct BuildBundle: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,14 +36,18 @@ public struct BuildBundle: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case buildBundles
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
+        public var baDownloadAllowance: Int?
+
+        public var baMaxInstallSize: Int?
+
         public var bundleId: String?
 
-        public var bundleType: BundleType?
+        public var bundleType: BuildBundleType?
 
         public var dSYMUrl: URL?
 
@@ -76,8 +80,10 @@ public struct BuildBundle: Hashable, Codable {
         public var usesLocationServices: Bool?
 
         public init(
+            baDownloadAllowance: Int? = nil,
+            baMaxInstallSize: Int? = nil,
             bundleId: String? = nil,
-            bundleType: BundleType? = nil,
+            bundleType: BuildBundleType? = nil,
             dSYMUrl: URL? = nil,
             deviceProtocols: [String]? = nil,
             entitlements: [String: [String: String]]? = nil,
@@ -94,6 +100,8 @@ public struct BuildBundle: Hashable, Codable {
             supportedArchitectures: [String]? = nil,
             usesLocationServices: Bool? = nil
         ) {
+            self.baDownloadAllowance = baDownloadAllowance
+            self.baMaxInstallSize = baMaxInstallSize
             self.bundleId = bundleId
             self.bundleType = bundleType
             self.dSYMUrl = dSYMUrl
@@ -114,6 +122,8 @@ public struct BuildBundle: Hashable, Codable {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case baDownloadAllowance
+            case baMaxInstallSize
             case bundleId
             case bundleType
             case dSYMUrl
@@ -132,31 +142,9 @@ public struct BuildBundle: Hashable, Codable {
             case supportedArchitectures
             case usesLocationServices
         }
-
-        public enum BundleType: Hashable, Codable, RawRepresentable {
-            case app
-            case appClip
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .app: return "APP"
-                case .appClip: return "APP_CLIP"
-                case .unknown(let rawValue): return rawValue
-                }
-            }
-
-            public init(rawValue: String) {
-                switch rawValue {
-                case "APP": self = .app
-                case "APP_CLIP": self = .appClip
-                default: self = .unknown(rawValue)
-                }
-            }
-        }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var appClipDomainCacheStatus: AppClipDomainCacheStatus?
 
         public var appClipDomainDebugStatus: AppClipDomainDebugStatus?
@@ -184,14 +172,14 @@ public struct BuildBundle: Hashable, Codable {
             case buildBundleFileSizes
         }
 
-        public struct AppClipDomainCacheStatus: Hashable, Codable {
+        public struct AppClipDomainCacheStatus: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -202,7 +190,7 @@ public struct BuildBundle: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -220,39 +208,20 @@ public struct BuildBundle: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appClipDomainStatuses
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }
 
-        public struct AppClipDomainDebugStatus: Hashable, Codable {
+        public struct AppClipDomainDebugStatus: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -263,7 +232,7 @@ public struct BuildBundle: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -281,41 +250,22 @@ public struct BuildBundle: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appClipDomainStatuses
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }
 
-        public struct BetaAppClipInvocations: Hashable, Codable {
+        public struct BetaAppClipInvocations: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -329,7 +279,7 @@ public struct BuildBundle: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -347,41 +297,22 @@ public struct BuildBundle: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case betaAppClipInvocations
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct BuildBundleFileSizes: Hashable, Codable {
+        public struct BuildBundleFileSizes: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -395,7 +326,7 @@ public struct BuildBundle: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -413,27 +344,8 @@ public struct BuildBundle: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case buildBundleFileSizes
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

@@ -44,8 +44,10 @@ extension V1.InAppPurchaseContents.ById {
 
         /// - Returns: **200**, Single InAppPurchaseContent as `InAppPurchaseContentResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.InAppPurchaseContents.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,34 +95,35 @@ extension V1.InAppPurchaseContents.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum InAppPurchaseContents: Hashable, Codable, RawRepresentable {
-                case fileName
-                case fileSize
-                case inAppPurchaseV2
-                case lastModifiedDate
-                case url
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .inAppPurchaseV2: return "inAppPurchaseV2"
-                    case .lastModifiedDate: return "lastModifiedDate"
-                    case .url: return "url"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchaseContents: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
                 }
 
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var inAppPurchaseV2: Self {
+                    .init(rawValue: "inAppPurchaseV2")
+                }
+
+                public static var lastModifiedDate: Self {
+                    .init(rawValue: "lastModifiedDate")
+                }
+
+                public static var url: Self {
+                    .init(rawValue: "url")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "inAppPurchaseV2": self = .inAppPurchaseV2
-                    case "lastModifiedDate": self = .lastModifiedDate
-                    case "url": self = .url
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -132,22 +141,19 @@ extension V1.InAppPurchaseContents.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case inAppPurchaseV2
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .inAppPurchaseV2: return "inAppPurchaseV2"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var inAppPurchaseV2: Self {
+                .init(rawValue: "inAppPurchaseV2")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "inAppPurchaseV2": self = .inAppPurchaseV2
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiGitUser: Hashable, Codable {
+public struct CiGitUser: Hashable, Codable, Sendable {
     public var avatarUrl: URL?
 
     public var displayName: String?

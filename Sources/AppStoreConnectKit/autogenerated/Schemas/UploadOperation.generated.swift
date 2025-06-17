@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct UploadOperation: Hashable, Codable {
+public struct UploadOperation: Hashable, Codable, Sendable {
     public var length: Int?
 
     public var method: String?

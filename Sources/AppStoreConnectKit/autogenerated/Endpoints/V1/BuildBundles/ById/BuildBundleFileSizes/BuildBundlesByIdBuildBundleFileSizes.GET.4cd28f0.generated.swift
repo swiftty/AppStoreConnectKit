@@ -44,8 +44,10 @@ extension V1.BuildBundles.ById.BuildBundleFileSizes {
 
         /// - Returns: **200**, List of BuildBundleFileSizes as `BuildBundleFileSizesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.BuildBundles.ById.BuildBundleFileSizes {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,31 +95,31 @@ extension V1.BuildBundles.ById.BuildBundleFileSizes.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BuildBundleFileSizes: Hashable, Codable, RawRepresentable {
-                case deviceModel
-                case downloadBytes
-                case installBytes
-                case osVersion
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .deviceModel: return "deviceModel"
-                    case .downloadBytes: return "downloadBytes"
-                    case .installBytes: return "installBytes"
-                    case .osVersion: return "osVersion"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BuildBundleFileSizes: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var deviceModel: Self {
+                    .init(rawValue: "deviceModel")
                 }
 
+                public static var downloadBytes: Self {
+                    .init(rawValue: "downloadBytes")
+                }
+
+                public static var installBytes: Self {
+                    .init(rawValue: "installBytes")
+                }
+
+                public static var osVersion: Self {
+                    .init(rawValue: "osVersion")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "deviceModel": self = .deviceModel
-                    case "downloadBytes": self = .downloadBytes
-                    case "installBytes": self = .installBytes
-                    case "osVersion": self = .osVersion
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

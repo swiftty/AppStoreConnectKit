@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaGroupsResponse: Hashable, Codable {
+public struct BetaGroupsResponse: Hashable, Codable, Sendable {
     public var data: [BetaGroup]
 
     public var included: [Included]?
@@ -31,10 +31,11 @@ public struct BetaGroupsResponse: Hashable, Codable {
         case meta
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case app(App)
         case build(Build)
         case betaTester(BetaTester)
+        case betaRecruitmentCriterion(BetaRecruitmentCriterion)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -54,6 +55,11 @@ public struct BetaGroupsResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .betaRecruitmentCriterion(try BetaRecruitmentCriterion(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -67,6 +73,9 @@ public struct BetaGroupsResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .betaTester(let value):
+                try value.encode(to: encoder)
+
+            case .betaRecruitmentCriterion(let value):
                 try value.encode(to: encoder)
             }
         }

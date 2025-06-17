@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct DiagnosticLogs: Hashable, Codable {
+public struct DiagnosticLogs: Hashable, Codable, Sendable {
     public var productData: [ProductData]?
 
     public var version: String?
@@ -21,7 +21,7 @@ public struct DiagnosticLogs: Hashable, Codable {
         case version
     }
 
-    public struct ProductData: Hashable, Codable {
+    public struct ProductData: Hashable, Codable, Sendable {
         public var diagnosticInsights: [DiagnosticInsights]?
 
         public var diagnosticLogs: [DiagnosticLogs]?
@@ -44,7 +44,7 @@ public struct DiagnosticLogs: Hashable, Codable {
             case signatureId
         }
 
-        public struct DiagnosticInsights: Hashable, Codable {
+        public struct DiagnosticInsights: Hashable, Codable, Sendable {
             public var insightsCategory: String?
 
             public var insightsString: String?
@@ -68,7 +68,7 @@ public struct DiagnosticLogs: Hashable, Codable {
             }
         }
 
-        public struct DiagnosticLogs: Hashable, Codable {
+        public struct DiagnosticLogs: Hashable, Codable, Sendable {
             public var callStackTree: [CallStackTree]?
 
             public var diagnosticMetaData: DiagnosticMetaData?
@@ -86,7 +86,7 @@ public struct DiagnosticLogs: Hashable, Codable {
                 case diagnosticMetaData
             }
 
-            public struct CallStackTree: Hashable, Codable {
+            public struct CallStackTree: Hashable, Codable, Sendable {
                 public var callStackPerThread: Bool?
 
                 public var callStacks: [CallStacks]?
@@ -104,7 +104,7 @@ public struct DiagnosticLogs: Hashable, Codable {
                     case callStacks
                 }
 
-                public struct CallStacks: Hashable, Codable {
+                public struct CallStacks: Hashable, Codable, Sendable {
                     public var callStackRootFrames: [DiagnosticLogCallStackNode]?
 
                     public init(callStackRootFrames: [DiagnosticLogCallStackNode]? = nil) {
@@ -117,7 +117,7 @@ public struct DiagnosticLogs: Hashable, Codable {
                 }
             }
 
-            public struct DiagnosticMetaData: Hashable, Codable {
+            public struct DiagnosticMetaData: Hashable, Codable, Sendable {
                 public var appVersion: String?
 
                 public var buildVersion: String?

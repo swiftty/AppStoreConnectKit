@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionLocalizationCreateRequest: Hashable, Codable {
+public struct SubscriptionLocalizationCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct SubscriptionLocalizationCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct SubscriptionLocalizationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case subscriptionLocalizations
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var description: String?
 
             public var locale: String
@@ -65,7 +65,7 @@ public struct SubscriptionLocalizationCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var subscription: Subscription
 
             public init(subscription: Subscription) {
@@ -76,7 +76,7 @@ public struct SubscriptionLocalizationCreateRequest: Hashable, Codable {
                 case subscription
             }
 
-            public struct Subscription: Hashable, Codable {
+            public struct Subscription: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -87,7 +87,7 @@ public struct SubscriptionLocalizationCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -105,7 +105,7 @@ public struct SubscriptionLocalizationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case subscriptions
                     }
                 }

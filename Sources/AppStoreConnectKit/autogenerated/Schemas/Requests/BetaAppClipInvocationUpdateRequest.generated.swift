@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaAppClipInvocationUpdateRequest: Hashable, Codable {
+public struct BetaAppClipInvocationUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct BetaAppClipInvocationUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -37,11 +37,11 @@ public struct BetaAppClipInvocationUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case betaAppClipInvocations
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var url: URL?
 
             public init(url: URL? = nil) {

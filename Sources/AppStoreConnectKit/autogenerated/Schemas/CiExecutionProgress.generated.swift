@@ -3,28 +3,27 @@
 // swiftlint:disable all
 import Foundation
 
-public enum CiExecutionProgress: Hashable, Codable, RawRepresentable {
-    case complete
-    case pending
-    case running
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .complete: return "COMPLETE"
-        case .pending: return "PENDING"
-        case .running: return "RUNNING"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct CiExecutionProgress: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var complete: Self {
+        .init(rawValue: "COMPLETE")
     }
 
+    public static var pending: Self {
+        .init(rawValue: "PENDING")
+    }
+
+    public static var running: Self {
+        .init(rawValue: "RUNNING")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "COMPLETE": self = .complete
-        case "PENDING": self = .pending
-        case "RUNNING": self = .running
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

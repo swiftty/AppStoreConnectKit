@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingRuleCreateRequest: Hashable, Codable {
+public struct GameCenterMatchmakingRuleCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct GameCenterMatchmakingRuleCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct GameCenterMatchmakingRuleCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterMatchmakingRules
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var type: `Type`
 
             public var description: String
@@ -74,36 +74,36 @@ public struct GameCenterMatchmakingRuleCreateRequest: Hashable, Codable {
                 case weight
             }
 
-            public enum `Type`: Hashable, Codable, RawRepresentable {
-                case compatible
-                case distance
-                case match
-                case team
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .compatible: return "COMPATIBLE"
-                    case .distance: return "DISTANCE"
-                    case .match: return "MATCH"
-                    case .team: return "TEAM"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct `Type`: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var compatible: Self {
+                    .init(rawValue: "COMPATIBLE")
                 }
 
+                public static var distance: Self {
+                    .init(rawValue: "DISTANCE")
+                }
+
+                public static var match: Self {
+                    .init(rawValue: "MATCH")
+                }
+
+                public static var team: Self {
+                    .init(rawValue: "TEAM")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "COMPATIBLE": self = .compatible
-                    case "DISTANCE": self = .distance
-                    case "MATCH": self = .match
-                    case "TEAM": self = .team
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var ruleSet: RuleSet
 
             public init(ruleSet: RuleSet) {
@@ -114,7 +114,7 @@ public struct GameCenterMatchmakingRuleCreateRequest: Hashable, Codable {
                 case ruleSet
             }
 
-            public struct RuleSet: Hashable, Codable {
+            public struct RuleSet: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -125,7 +125,7 @@ public struct GameCenterMatchmakingRuleCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -143,7 +143,7 @@ public struct GameCenterMatchmakingRuleCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterMatchmakingRuleSets
                     }
                 }

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppClipHeaderImageResponse: Hashable, Codable {
+public struct AppClipHeaderImageResponse: Hashable, Codable, Sendable {
     public var data: AppClipHeaderImage
 
     public var included: [AppClipDefaultExperienceLocalization]?

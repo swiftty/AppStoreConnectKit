@@ -44,8 +44,10 @@ extension V1.AppEventScreenshots.ById {
 
         /// - Returns: **200**, Single AppEventScreenshot as `AppEventScreenshotResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.AppEventScreenshots.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,46 +95,47 @@ extension V1.AppEventScreenshots.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppEventScreenshots: Hashable, Codable, RawRepresentable {
-                case appEventAssetType
-                case appEventLocalization
-                case assetDeliveryState
-                case assetToken
-                case fileName
-                case fileSize
-                case imageAsset
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appEventAssetType: return "appEventAssetType"
-                    case .appEventLocalization: return "appEventLocalization"
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .assetToken: return "assetToken"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .imageAsset: return "imageAsset"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppEventScreenshots: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appEventAssetType: Self {
+                    .init(rawValue: "appEventAssetType")
                 }
 
+                public static var appEventLocalization: Self {
+                    .init(rawValue: "appEventLocalization")
+                }
+
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
+                }
+
+                public static var assetToken: Self {
+                    .init(rawValue: "assetToken")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appEventAssetType": self = .appEventAssetType
-                    case "appEventLocalization": self = .appEventLocalization
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "assetToken": self = .assetToken
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "imageAsset": self = .imageAsset
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -144,22 +153,19 @@ extension V1.AppEventScreenshots.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appEventLocalization
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appEventLocalization: return "appEventLocalization"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appEventLocalization: Self {
+                .init(rawValue: "appEventLocalization")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appEventLocalization": self = .appEventLocalization
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

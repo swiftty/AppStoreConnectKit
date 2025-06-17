@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BuildBundleFileSize: Hashable, Codable {
+public struct BuildBundleFileSize: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct BuildBundleFileSize: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case buildBundleFileSizes
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var deviceModel: String?
 
         public var downloadBytes: Int?

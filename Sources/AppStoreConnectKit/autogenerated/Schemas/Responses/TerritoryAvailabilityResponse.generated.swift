@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct TerritoryAvailabilityResponse: Hashable, Codable {
+public struct TerritoryAvailabilityResponse: Hashable, Codable, Sendable {
     public var data: TerritoryAvailability
 
     public var included: [Territory]?

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiXcodeVersionsResponse: Hashable, Codable {
+public struct CiXcodeVersionsResponse: Hashable, Codable, Sendable {
     public var data: [CiXcodeVersion]
 
     public var included: [CiMacOsVersion]?

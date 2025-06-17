@@ -3,13 +3,13 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaAppReviewDetailWithoutIncludesResponse: Hashable, Codable {
-    public var data: App
+public struct BetaAppReviewDetailWithoutIncludesResponse: Hashable, Codable, Sendable {
+    public var data: BetaAppReviewDetail
 
     public var links: DocumentLinks
 
     public init(
-        data: App,
+        data: BetaAppReviewDetail,
         links: DocumentLinks
     ) {
         self.data = data

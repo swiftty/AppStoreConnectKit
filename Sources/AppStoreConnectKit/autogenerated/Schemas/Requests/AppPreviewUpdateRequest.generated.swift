@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppPreviewUpdateRequest: Hashable, Codable {
+public struct AppPreviewUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppPreviewUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -37,11 +37,11 @@ public struct AppPreviewUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appPreviews
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var previewFrameTimeCode: String?
 
             public var sourceFileChecksum: String?

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionOfferCodeOneTimeUseCodeCreateRequest: Hashable, Codable {
+public struct SubscriptionOfferCodeOneTimeUseCodeCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct SubscriptionOfferCodeOneTimeUseCodeCreateRequest: Hashable, Codabl
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct SubscriptionOfferCodeOneTimeUseCodeCreateRequest: Hashable, Codabl
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case subscriptionOfferCodeOneTimeUseCodes
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var expirationDate: String
 
             public var numberOfCodes: Int
@@ -60,7 +60,7 @@ public struct SubscriptionOfferCodeOneTimeUseCodeCreateRequest: Hashable, Codabl
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var offerCode: OfferCode
 
             public init(offerCode: OfferCode) {
@@ -71,7 +71,7 @@ public struct SubscriptionOfferCodeOneTimeUseCodeCreateRequest: Hashable, Codabl
                 case offerCode
             }
 
-            public struct OfferCode: Hashable, Codable {
+            public struct OfferCode: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -82,7 +82,7 @@ public struct SubscriptionOfferCodeOneTimeUseCodeCreateRequest: Hashable, Codabl
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -100,7 +100,7 @@ public struct SubscriptionOfferCodeOneTimeUseCodeCreateRequest: Hashable, Codabl
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case subscriptionOfferCodes
                     }
                 }

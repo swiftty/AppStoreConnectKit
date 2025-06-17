@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppCustomProductPageVersion: Hashable, Codable {
+public struct AppCustomProductPageVersion: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,70 +36,79 @@ public struct AppCustomProductPageVersion: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appCustomProductPageVersions
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
+        public var deepLink: URL?
+
         public var state: State?
 
         public var version: String?
 
         public init(
+            deepLink: URL? = nil,
             state: State? = nil,
             version: String? = nil
         ) {
+            self.deepLink = deepLink
             self.state = state
             self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deepLink
             case state
             case version
         }
 
-        public enum State: Hashable, Codable, RawRepresentable {
-            case accepted
-            case approved
-            case inReview
-            case prepareForSubmission
-            case readyForReview
-            case rejected
-            case replacedWithNewVersion
-            case waitingForReview
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .accepted: return "ACCEPTED"
-                case .approved: return "APPROVED"
-                case .inReview: return "IN_REVIEW"
-                case .prepareForSubmission: return "PREPARE_FOR_SUBMISSION"
-                case .readyForReview: return "READY_FOR_REVIEW"
-                case .rejected: return "REJECTED"
-                case .replacedWithNewVersion: return "REPLACED_WITH_NEW_VERSION"
-                case .waitingForReview: return "WAITING_FOR_REVIEW"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var accepted: Self {
+                .init(rawValue: "ACCEPTED")
             }
 
+            public static var approved: Self {
+                .init(rawValue: "APPROVED")
+            }
+
+            public static var inReview: Self {
+                .init(rawValue: "IN_REVIEW")
+            }
+
+            public static var prepareForSubmission: Self {
+                .init(rawValue: "PREPARE_FOR_SUBMISSION")
+            }
+
+            public static var readyForReview: Self {
+                .init(rawValue: "READY_FOR_REVIEW")
+            }
+
+            public static var rejected: Self {
+                .init(rawValue: "REJECTED")
+            }
+
+            public static var replacedWithNewVersion: Self {
+                .init(rawValue: "REPLACED_WITH_NEW_VERSION")
+            }
+
+            public static var waitingForReview: Self {
+                .init(rawValue: "WAITING_FOR_REVIEW")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "ACCEPTED": self = .accepted
-                case "APPROVED": self = .approved
-                case "IN_REVIEW": self = .inReview
-                case "PREPARE_FOR_SUBMISSION": self = .prepareForSubmission
-                case "READY_FOR_REVIEW": self = .readyForReview
-                case "REJECTED": self = .rejected
-                case "REPLACED_WITH_NEW_VERSION": self = .replacedWithNewVersion
-                case "WAITING_FOR_REVIEW": self = .waitingForReview
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var appCustomProductPage: AppCustomProductPage?
 
         public var appCustomProductPageLocalizations: AppCustomProductPageLocalizations?
@@ -117,25 +126,18 @@ public struct AppCustomProductPageVersion: Hashable, Codable {
             case appCustomProductPageLocalizations
         }
 
-        public struct AppCustomProductPage: Hashable, Codable {
+        public struct AppCustomProductPage: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -153,41 +155,22 @@ public struct AppCustomProductPageVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appCustomProductPages
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }
 
-        public struct AppCustomProductPageLocalizations: Hashable, Codable {
+        public struct AppCustomProductPageLocalizations: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -201,7 +184,7 @@ public struct AppCustomProductPageVersion: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -219,27 +202,8 @@ public struct AppCustomProductPageVersion: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appCustomProductPageLocalizations
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

@@ -46,8 +46,10 @@ extension V1.Builds.ById.PerfPowerMetrics {
 
         /// - Returns: **200**, List of PerfPowerMetrics as `XcodeMetrics`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -61,10 +63,16 @@ extension V1.Builds.ById.PerfPowerMetrics {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -86,59 +94,59 @@ extension V1.Builds.ById.PerfPowerMetrics.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum MetricType: Hashable, Codable, RawRepresentable {
-                case animation
-                case battery
-                case disk
-                case hang
-                case launch
-                case memory
-                case termination
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .animation: return "ANIMATION"
-                    case .battery: return "BATTERY"
-                    case .disk: return "DISK"
-                    case .hang: return "HANG"
-                    case .launch: return "LAUNCH"
-                    case .memory: return "MEMORY"
-                    case .termination: return "TERMINATION"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct MetricType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var animation: Self {
+                    .init(rawValue: "ANIMATION")
                 }
 
+                public static var battery: Self {
+                    .init(rawValue: "BATTERY")
+                }
+
+                public static var disk: Self {
+                    .init(rawValue: "DISK")
+                }
+
+                public static var hang: Self {
+                    .init(rawValue: "HANG")
+                }
+
+                public static var launch: Self {
+                    .init(rawValue: "LAUNCH")
+                }
+
+                public static var memory: Self {
+                    .init(rawValue: "MEMORY")
+                }
+
+                public static var termination: Self {
+                    .init(rawValue: "TERMINATION")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "ANIMATION": self = .animation
-                    case "BATTERY": self = .battery
-                    case "DISK": self = .disk
-                    case "HANG": self = .hang
-                    case "LAUNCH": self = .launch
-                    case "MEMORY": self = .memory
-                    case "TERMINATION": self = .termination
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Platform: Hashable, Codable, RawRepresentable {
-                case iOS
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .iOS: return "IOS"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Platform: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var iOS: Self {
+                    .init(rawValue: "IOS")
                 }
 
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "IOS": self = .iOS
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

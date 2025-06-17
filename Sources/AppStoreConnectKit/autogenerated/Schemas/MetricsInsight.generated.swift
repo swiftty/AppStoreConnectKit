@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct MetricsInsight: Hashable, Codable {
+public struct MetricsInsight: Hashable, Codable, Sendable {
     public var highImpact: Bool?
 
     public var latestVersion: String?
@@ -56,7 +56,7 @@ public struct MetricsInsight: Hashable, Codable {
         case summaryString
     }
 
-    public struct Populations: Hashable, Codable {
+    public struct Populations: Hashable, Codable, Sendable {
         public var deltaPercentage: Float?
 
         public var device: String?

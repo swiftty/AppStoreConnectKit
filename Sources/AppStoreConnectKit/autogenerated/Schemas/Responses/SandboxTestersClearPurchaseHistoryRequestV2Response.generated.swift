@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SandboxTestersClearPurchaseHistoryRequestV2Response: Hashable, Codable {
+public struct SandboxTestersClearPurchaseHistoryRequestV2Response: Hashable, Codable, Sendable {
     public var data: SandboxTestersClearPurchaseHistoryRequestV2
 
     public var links: DocumentLinks

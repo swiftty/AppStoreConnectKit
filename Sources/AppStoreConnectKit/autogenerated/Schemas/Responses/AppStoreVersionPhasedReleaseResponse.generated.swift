@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppStoreVersionPhasedReleaseResponse: Hashable, Codable {
+public struct AppStoreVersionPhasedReleaseResponse: Hashable, Codable, Sendable {
     public var data: AppStoreVersionPhasedRelease
 
     public var links: DocumentLinks

@@ -3,28 +3,27 @@
 // swiftlint:disable all
 import Foundation
 
-public enum SubscriptionGracePeriodDuration: Hashable, Codable, RawRepresentable {
-    case sixteenDays
-    case threeDays
-    case twentyEightDays
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .sixteenDays: return "SIXTEEN_DAYS"
-        case .threeDays: return "THREE_DAYS"
-        case .twentyEightDays: return "TWENTY_EIGHT_DAYS"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct SubscriptionGracePeriodDuration: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var sixteenDays: Self {
+        .init(rawValue: "SIXTEEN_DAYS")
     }
 
+    public static var threeDays: Self {
+        .init(rawValue: "THREE_DAYS")
+    }
+
+    public static var twentyEightDays: Self {
+        .init(rawValue: "TWENTY_EIGHT_DAYS")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "SIXTEEN_DAYS": self = .sixteenDays
-        case "THREE_DAYS": self = .threeDays
-        case "TWENTY_EIGHT_DAYS": self = .twentyEightDays
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

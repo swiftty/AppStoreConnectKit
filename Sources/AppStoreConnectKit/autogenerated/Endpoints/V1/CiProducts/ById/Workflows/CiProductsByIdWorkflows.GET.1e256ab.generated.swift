@@ -54,8 +54,10 @@ extension V1.CiProducts.ById.Workflows {
 
         /// - Returns: **200**, List of CiWorkflows as `CiWorkflowsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -69,10 +71,16 @@ extension V1.CiProducts.ById.Workflows {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -100,209 +108,243 @@ extension V1.CiProducts.ById.Workflows.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiMacOsVersions: Hashable, Codable, RawRepresentable {
-                case name
-                case version
-                case xcodeVersions
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .name: return "name"
-                    case .version: return "version"
-                    case .xcodeVersions: return "xcodeVersions"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiMacOsVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var name: Self {
+                    .init(rawValue: "name")
                 }
 
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public static var xcodeVersions: Self {
+                    .init(rawValue: "xcodeVersions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "name": self = .name
-                    case "version": self = .version
-                    case "xcodeVersions": self = .xcodeVersions
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum CiProducts: Hashable, Codable, RawRepresentable {
-                case additionalRepositories
-                case app
-                case buildRuns
-                case bundleId
-                case createdDate
-                case name
-                case primaryRepositories
-                case productType
-                case workflows
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .additionalRepositories: return "additionalRepositories"
-                    case .app: return "app"
-                    case .buildRuns: return "buildRuns"
-                    case .bundleId: return "bundleId"
-                    case .createdDate: return "createdDate"
-                    case .name: return "name"
-                    case .primaryRepositories: return "primaryRepositories"
-                    case .productType: return "productType"
-                    case .workflows: return "workflows"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiProducts: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var additionalRepositories: Self {
+                    .init(rawValue: "additionalRepositories")
                 }
 
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var buildRuns: Self {
+                    .init(rawValue: "buildRuns")
+                }
+
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var primaryRepositories: Self {
+                    .init(rawValue: "primaryRepositories")
+                }
+
+                public static var productType: Self {
+                    .init(rawValue: "productType")
+                }
+
+                public static var workflows: Self {
+                    .init(rawValue: "workflows")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "additionalRepositories": self = .additionalRepositories
-                    case "app": self = .app
-                    case "buildRuns": self = .buildRuns
-                    case "bundleId": self = .bundleId
-                    case "createdDate": self = .createdDate
-                    case "name": self = .name
-                    case "primaryRepositories": self = .primaryRepositories
-                    case "productType": self = .productType
-                    case "workflows": self = .workflows
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum CiWorkflows: Hashable, Codable, RawRepresentable {
-                case actions
-                case branchStartCondition
-                case buildRuns
-                case clean
-                case containerFilePath
-                case description
-                case isEnabled
-                case isLockedForEditing
-                case lastModifiedDate
-                case macOsVersion
-                case name
-                case product
-                case pullRequestStartCondition
-                case repository
-                case scheduledStartCondition
-                case tagStartCondition
-                case xcodeVersion
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .actions: return "actions"
-                    case .branchStartCondition: return "branchStartCondition"
-                    case .buildRuns: return "buildRuns"
-                    case .clean: return "clean"
-                    case .containerFilePath: return "containerFilePath"
-                    case .description: return "description"
-                    case .isEnabled: return "isEnabled"
-                    case .isLockedForEditing: return "isLockedForEditing"
-                    case .lastModifiedDate: return "lastModifiedDate"
-                    case .macOsVersion: return "macOsVersion"
-                    case .name: return "name"
-                    case .product: return "product"
-                    case .pullRequestStartCondition: return "pullRequestStartCondition"
-                    case .repository: return "repository"
-                    case .scheduledStartCondition: return "scheduledStartCondition"
-                    case .tagStartCondition: return "tagStartCondition"
-                    case .xcodeVersion: return "xcodeVersion"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiWorkflows: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var actions: Self {
+                    .init(rawValue: "actions")
                 }
 
+                public static var branchStartCondition: Self {
+                    .init(rawValue: "branchStartCondition")
+                }
+
+                public static var buildRuns: Self {
+                    .init(rawValue: "buildRuns")
+                }
+
+                public static var clean: Self {
+                    .init(rawValue: "clean")
+                }
+
+                public static var containerFilePath: Self {
+                    .init(rawValue: "containerFilePath")
+                }
+
+                public static var description: Self {
+                    .init(rawValue: "description")
+                }
+
+                public static var isEnabled: Self {
+                    .init(rawValue: "isEnabled")
+                }
+
+                public static var isLockedForEditing: Self {
+                    .init(rawValue: "isLockedForEditing")
+                }
+
+                public static var lastModifiedDate: Self {
+                    .init(rawValue: "lastModifiedDate")
+                }
+
+                public static var macOsVersion: Self {
+                    .init(rawValue: "macOsVersion")
+                }
+
+                public static var manualBranchStartCondition: Self {
+                    .init(rawValue: "manualBranchStartCondition")
+                }
+
+                public static var manualPullRequestStartCondition: Self {
+                    .init(rawValue: "manualPullRequestStartCondition")
+                }
+
+                public static var manualTagStartCondition: Self {
+                    .init(rawValue: "manualTagStartCondition")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var product: Self {
+                    .init(rawValue: "product")
+                }
+
+                public static var pullRequestStartCondition: Self {
+                    .init(rawValue: "pullRequestStartCondition")
+                }
+
+                public static var repository: Self {
+                    .init(rawValue: "repository")
+                }
+
+                public static var scheduledStartCondition: Self {
+                    .init(rawValue: "scheduledStartCondition")
+                }
+
+                public static var tagStartCondition: Self {
+                    .init(rawValue: "tagStartCondition")
+                }
+
+                public static var xcodeVersion: Self {
+                    .init(rawValue: "xcodeVersion")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "actions": self = .actions
-                    case "branchStartCondition": self = .branchStartCondition
-                    case "buildRuns": self = .buildRuns
-                    case "clean": self = .clean
-                    case "containerFilePath": self = .containerFilePath
-                    case "description": self = .description
-                    case "isEnabled": self = .isEnabled
-                    case "isLockedForEditing": self = .isLockedForEditing
-                    case "lastModifiedDate": self = .lastModifiedDate
-                    case "macOsVersion": self = .macOsVersion
-                    case "name": self = .name
-                    case "product": self = .product
-                    case "pullRequestStartCondition": self = .pullRequestStartCondition
-                    case "repository": self = .repository
-                    case "scheduledStartCondition": self = .scheduledStartCondition
-                    case "tagStartCondition": self = .tagStartCondition
-                    case "xcodeVersion": self = .xcodeVersion
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum CiXcodeVersions: Hashable, Codable, RawRepresentable {
-                case macOsVersions
-                case name
-                case testDestinations
-                case version
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .macOsVersions: return "macOsVersions"
-                    case .name: return "name"
-                    case .testDestinations: return "testDestinations"
-                    case .version: return "version"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiXcodeVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var macOsVersions: Self {
+                    .init(rawValue: "macOsVersions")
                 }
 
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var testDestinations: Self {
+                    .init(rawValue: "testDestinations")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "macOsVersions": self = .macOsVersions
-                    case "name": self = .name
-                    case "testDestinations": self = .testDestinations
-                    case "version": self = .version
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
-                case defaultBranch
-                case gitReferences
-                case httpCloneUrl
-                case lastAccessedDate
-                case ownerName
-                case pullRequests
-                case repositoryName
-                case scmProvider
-                case sshCloneUrl
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .defaultBranch: return "defaultBranch"
-                    case .gitReferences: return "gitReferences"
-                    case .httpCloneUrl: return "httpCloneUrl"
-                    case .lastAccessedDate: return "lastAccessedDate"
-                    case .ownerName: return "ownerName"
-                    case .pullRequests: return "pullRequests"
-                    case .repositoryName: return "repositoryName"
-                    case .scmProvider: return "scmProvider"
-                    case .sshCloneUrl: return "sshCloneUrl"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ScmRepositories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var defaultBranch: Self {
+                    .init(rawValue: "defaultBranch")
                 }
 
+                public static var gitReferences: Self {
+                    .init(rawValue: "gitReferences")
+                }
+
+                public static var httpCloneUrl: Self {
+                    .init(rawValue: "httpCloneUrl")
+                }
+
+                public static var lastAccessedDate: Self {
+                    .init(rawValue: "lastAccessedDate")
+                }
+
+                public static var ownerName: Self {
+                    .init(rawValue: "ownerName")
+                }
+
+                public static var pullRequests: Self {
+                    .init(rawValue: "pullRequests")
+                }
+
+                public static var repositoryName: Self {
+                    .init(rawValue: "repositoryName")
+                }
+
+                public static var scmProvider: Self {
+                    .init(rawValue: "scmProvider")
+                }
+
+                public static var sshCloneUrl: Self {
+                    .init(rawValue: "sshCloneUrl")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "defaultBranch": self = .defaultBranch
-                    case "gitReferences": self = .gitReferences
-                    case "httpCloneUrl": self = .httpCloneUrl
-                    case "lastAccessedDate": self = .lastAccessedDate
-                    case "ownerName": self = .ownerName
-                    case "pullRequests": self = .pullRequests
-                    case "repositoryName": self = .repositoryName
-                    case "scmProvider": self = .scmProvider
-                    case "sshCloneUrl": self = .sshCloneUrl
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -340,31 +382,31 @@ extension V1.CiProducts.ById.Workflows.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case macOsVersion
-            case product
-            case repository
-            case xcodeVersion
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .macOsVersion: return "macOsVersion"
-                case .product: return "product"
-                case .repository: return "repository"
-                case .xcodeVersion: return "xcodeVersion"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var macOsVersion: Self {
+                .init(rawValue: "macOsVersion")
             }
 
+            public static var product: Self {
+                .init(rawValue: "product")
+            }
+
+            public static var repository: Self {
+                .init(rawValue: "repository")
+            }
+
+            public static var xcodeVersion: Self {
+                .init(rawValue: "xcodeVersion")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "macOsVersion": self = .macOsVersion
-                case "product": self = .product
-                case "repository": self = .repository
-                case "xcodeVersion": self = .xcodeVersion
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

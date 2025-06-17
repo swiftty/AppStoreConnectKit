@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppPreview: Hashable, Codable {
+public struct AppPreview: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct AppPreview: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appPreviews
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var assetDeliveryState: AppMediaAssetState?
 
         public var fileName: String?
@@ -48,6 +48,8 @@ public struct AppPreview: Hashable, Codable {
         public var fileSize: Int?
 
         public var mimeType: String?
+
+        public var previewFrameImage: PreviewFrameImage?
 
         public var previewFrameTimeCode: String?
 
@@ -57,6 +59,8 @@ public struct AppPreview: Hashable, Codable {
 
         public var uploadOperations: [UploadOperation]?
 
+        public var videoDeliveryState: AppMediaVideoState?
+
         public var videoUrl: String?
 
         public init(
@@ -64,20 +68,24 @@ public struct AppPreview: Hashable, Codable {
             fileName: String? = nil,
             fileSize: Int? = nil,
             mimeType: String? = nil,
+            previewFrameImage: PreviewFrameImage? = nil,
             previewFrameTimeCode: String? = nil,
             previewImage: ImageAsset? = nil,
             sourceFileChecksum: String? = nil,
             uploadOperations: [UploadOperation]? = nil,
+            videoDeliveryState: AppMediaVideoState? = nil,
             videoUrl: String? = nil
         ) {
             self.assetDeliveryState = assetDeliveryState
             self.fileName = fileName
             self.fileSize = fileSize
             self.mimeType = mimeType
+            self.previewFrameImage = previewFrameImage
             self.previewFrameTimeCode = previewFrameTimeCode
             self.previewImage = previewImage
             self.sourceFileChecksum = sourceFileChecksum
             self.uploadOperations = uploadOperations
+            self.videoDeliveryState = videoDeliveryState
             self.videoUrl = videoUrl
         }
 
@@ -86,15 +94,17 @@ public struct AppPreview: Hashable, Codable {
             case fileName
             case fileSize
             case mimeType
+            case previewFrameImage
             case previewFrameTimeCode
             case previewImage
             case sourceFileChecksum
             case uploadOperations
+            case videoDeliveryState
             case videoUrl
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var appPreviewSet: AppPreviewSet?
 
         public init(appPreviewSet: AppPreviewSet? = nil) {
@@ -105,25 +115,18 @@ public struct AppPreview: Hashable, Codable {
             case appPreviewSet
         }
 
-        public struct AppPreviewSet: Hashable, Codable {
+        public struct AppPreviewSet: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -141,27 +144,8 @@ public struct AppPreview: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appPreviewSets
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

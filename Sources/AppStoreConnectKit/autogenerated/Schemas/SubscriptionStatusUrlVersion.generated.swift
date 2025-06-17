@@ -3,31 +3,23 @@
 // swiftlint:disable all
 import Foundation
 
-public enum SubscriptionStatusUrlVersion: Hashable, Codable, RawRepresentable {
-    case V1
-    case V2
-    case v1
-    case v2
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .V1: return "V1"
-        case .V2: return "V2"
-        case .v1: return "v1"
-        case .v2: return "v2"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct SubscriptionStatusUrlVersion: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var v1: Self {
+        .init(rawValue: "V1")
     }
 
+    public static var v2: Self {
+        .init(rawValue: "V2")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "V1": self = .V1
-        case "V2": self = .V2
-        case "v1": self = .v1
-        case "v2": self = .v2
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

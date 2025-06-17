@@ -42,8 +42,10 @@ extension V1.Builds.ById.AppEncryptionDeclaration {
 
         /// - Returns: **200**, Single AppEncryptionDeclaration with get as `AppEncryptionDeclarationWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -57,10 +59,16 @@ extension V1.Builds.ById.AppEncryptionDeclaration {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -82,70 +90,83 @@ extension V1.Builds.ById.AppEncryptionDeclaration.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppEncryptionDeclarations: Hashable, Codable, RawRepresentable {
-                case app
-                case appDescription
-                case appEncryptionDeclarationDocument
-                case appEncryptionDeclarationState
-                case availableOnFrenchStore
-                case builds
-                case codeValue
-                case containsProprietaryCryptography
-                case containsThirdPartyCryptography
-                case createdDate
-                case documentName
-                case documentType
-                case documentUrl
-                case exempt
-                case platform
-                case uploadedDate
-                case usesEncryption
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .appDescription: return "appDescription"
-                    case .appEncryptionDeclarationDocument: return "appEncryptionDeclarationDocument"
-                    case .appEncryptionDeclarationState: return "appEncryptionDeclarationState"
-                    case .availableOnFrenchStore: return "availableOnFrenchStore"
-                    case .builds: return "builds"
-                    case .codeValue: return "codeValue"
-                    case .containsProprietaryCryptography: return "containsProprietaryCryptography"
-                    case .containsThirdPartyCryptography: return "containsThirdPartyCryptography"
-                    case .createdDate: return "createdDate"
-                    case .documentName: return "documentName"
-                    case .documentType: return "documentType"
-                    case .documentUrl: return "documentUrl"
-                    case .exempt: return "exempt"
-                    case .platform: return "platform"
-                    case .uploadedDate: return "uploadedDate"
-                    case .usesEncryption: return "usesEncryption"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppEncryptionDeclarations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var appDescription: Self {
+                    .init(rawValue: "appDescription")
+                }
+
+                public static var appEncryptionDeclarationDocument: Self {
+                    .init(rawValue: "appEncryptionDeclarationDocument")
+                }
+
+                public static var appEncryptionDeclarationState: Self {
+                    .init(rawValue: "appEncryptionDeclarationState")
+                }
+
+                public static var availableOnFrenchStore: Self {
+                    .init(rawValue: "availableOnFrenchStore")
+                }
+
+                public static var builds: Self {
+                    .init(rawValue: "builds")
+                }
+
+                public static var codeValue: Self {
+                    .init(rawValue: "codeValue")
+                }
+
+                public static var containsProprietaryCryptography: Self {
+                    .init(rawValue: "containsProprietaryCryptography")
+                }
+
+                public static var containsThirdPartyCryptography: Self {
+                    .init(rawValue: "containsThirdPartyCryptography")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var documentName: Self {
+                    .init(rawValue: "documentName")
+                }
+
+                public static var documentType: Self {
+                    .init(rawValue: "documentType")
+                }
+
+                public static var documentUrl: Self {
+                    .init(rawValue: "documentUrl")
+                }
+
+                public static var exempt: Self {
+                    .init(rawValue: "exempt")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var uploadedDate: Self {
+                    .init(rawValue: "uploadedDate")
+                }
+
+                public static var usesEncryption: Self {
+                    .init(rawValue: "usesEncryption")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "appDescription": self = .appDescription
-                    case "appEncryptionDeclarationDocument": self = .appEncryptionDeclarationDocument
-                    case "appEncryptionDeclarationState": self = .appEncryptionDeclarationState
-                    case "availableOnFrenchStore": self = .availableOnFrenchStore
-                    case "builds": self = .builds
-                    case "codeValue": self = .codeValue
-                    case "containsProprietaryCryptography": self = .containsProprietaryCryptography
-                    case "containsThirdPartyCryptography": self = .containsThirdPartyCryptography
-                    case "createdDate": self = .createdDate
-                    case "documentName": self = .documentName
-                    case "documentType": self = .documentType
-                    case "documentUrl": self = .documentUrl
-                    case "exempt": self = .exempt
-                    case "platform": self = .platform
-                    case "uploadedDate": self = .uploadedDate
-                    case "usesEncryption": self = .usesEncryption
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

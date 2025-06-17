@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppClipAdvancedExperienceImage: Hashable, Codable {
+public struct AppClipAdvancedExperienceImage: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct AppClipAdvancedExperienceImage: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appClipAdvancedExperienceImages
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var assetDeliveryState: AppMediaAssetState?
 
         public var fileName: String?

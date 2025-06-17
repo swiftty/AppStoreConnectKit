@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct Territory: Hashable, Codable {
+public struct Territory: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct Territory: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case territories
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var currency: String?
 
         public init(currency: String? = nil) {

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppsResponse: Hashable, Codable {
+public struct AppsResponse: Hashable, Codable, Sendable {
     public var data: [App]
 
     public var included: [Included]?
@@ -31,7 +31,7 @@ public struct AppsResponse: Hashable, Codable {
         case meta
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case appEncryptionDeclaration(AppEncryptionDeclaration)
         case ciProduct(CiProduct)
         case betaGroup(BetaGroup)
@@ -44,9 +44,6 @@ public struct AppsResponse: Hashable, Codable {
         case appInfo(AppInfo)
         case appClip(AppClip)
         case endUserLicenseAgreement(EndUserLicenseAgreement)
-        case appPreOrder(AppPreOrder)
-        case appPrice(AppPrice)
-        case territory(Territory)
         case inAppPurchase(InAppPurchase)
         case subscriptionGroup(SubscriptionGroup)
         case gameCenterEnabledVersion(GameCenterEnabledVersion)
@@ -119,21 +116,6 @@ public struct AppsResponse: Hashable, Codable {
                 }
                 do {
                     return .endUserLicenseAgreement(try EndUserLicenseAgreement(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appPreOrder(try AppPreOrder(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appPrice(try AppPrice(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .territory(try Territory(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -232,15 +214,6 @@ public struct AppsResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .endUserLicenseAgreement(let value):
-                try value.encode(to: encoder)
-
-            case .appPreOrder(let value):
-                try value.encode(to: encoder)
-
-            case .appPrice(let value):
-                try value.encode(to: encoder)
-
-            case .territory(let value):
                 try value.encode(to: encoder)
 
             case .inAppPurchase(let value):

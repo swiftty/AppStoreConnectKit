@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppClipAdvancedExperienceResponse: Hashable, Codable {
+public struct AppClipAdvancedExperienceResponse: Hashable, Codable, Sendable {
     public var data: AppClipAdvancedExperience
 
     public var included: [Included]?
@@ -26,7 +26,7 @@ public struct AppClipAdvancedExperienceResponse: Hashable, Codable {
         case links
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case appClip(AppClip)
         case appClipAdvancedExperienceImage(AppClipAdvancedExperienceImage)
         case appClipAdvancedExperienceLocalization(AppClipAdvancedExperienceLocalization)

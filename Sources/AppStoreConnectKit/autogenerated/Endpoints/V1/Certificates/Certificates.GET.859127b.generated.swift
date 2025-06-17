@@ -27,6 +27,8 @@ extension V1.Certificates {
             components?.queryItems = [
                 URLQueryItem(name: "fields[certificates]",
                              value: parameters.fields[.certificates]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[passTypeIds]",
+                             value: parameters.fields[.passTypeIds]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[certificateType]",
                              value: parameters.filter[.certificateType]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[displayName]",
@@ -35,6 +37,8 @@ extension V1.Certificates {
                              value: parameters.filter[.id]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[serialNumber]",
                              value: parameters.filter[.serialNumber]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
                              value: parameters.limit.map { "\($0)" }),
                 URLQueryItem(name: "sort",
@@ -51,7 +55,9 @@ extension V1.Certificates {
 
         /// - Returns: **200**, List of Certificates as `CertificatesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -65,7 +71,13 @@ extension V1.Certificates {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -81,6 +93,9 @@ extension V1.Certificates.GET {
 
         public var filter: Filter = Filter()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
         /// maximum resources per page
         public var limit: Int?
 
@@ -95,43 +110,75 @@ extension V1.Certificates.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Certificates: Hashable, Codable, RawRepresentable {
-                case certificateContent
-                case certificateType
-                case csrContent
-                case displayName
-                case expirationDate
-                case name
-                case platform
-                case serialNumber
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .certificateContent: return "certificateContent"
-                    case .certificateType: return "certificateType"
-                    case .csrContent: return "csrContent"
-                    case .displayName: return "displayName"
-                    case .expirationDate: return "expirationDate"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .serialNumber: return "serialNumber"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Certificates: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activated: Self {
+                    .init(rawValue: "activated")
                 }
 
+                public static var certificateContent: Self {
+                    .init(rawValue: "certificateContent")
+                }
+
+                public static var certificateType: Self {
+                    .init(rawValue: "certificateType")
+                }
+
+                public static var displayName: Self {
+                    .init(rawValue: "displayName")
+                }
+
+                public static var expirationDate: Self {
+                    .init(rawValue: "expirationDate")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var passTypeId: Self {
+                    .init(rawValue: "passTypeId")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var serialNumber: Self {
+                    .init(rawValue: "serialNumber")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "certificateContent": self = .certificateContent
-                    case "certificateType": self = .certificateType
-                    case "csrContent": self = .csrContent
-                    case "displayName": self = .displayName
-                    case "expirationDate": self = .expirationDate
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "serialNumber": self = .serialNumber
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct PassTypeIds: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var certificates: Self {
+                    .init(rawValue: "certificates")
+                }
+
+                public static var identifier: Self {
+                    .init(rawValue: "identifier")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
                 }
             }
 
@@ -139,6 +186,11 @@ extension V1.Certificates.GET {
                 /// the fields to include for returned resources of type certificates
                 public static var certificates: Relation<[Certificates]?> {
                     .init(key: "fields[certificates]")
+                }
+
+                /// the fields to include for returned resources of type passTypeIds
+                public static var passTypeIds: Relation<[PassTypeIds]?> {
+                    .init(key: "fields[passTypeIds]")
                 }
 
                 internal let key: String
@@ -157,52 +209,87 @@ extension V1.Certificates.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CertificateType: Hashable, Codable, RawRepresentable {
-                case developerIdApplication
-                case developerIdKext
-                case development
-                case distribution
-                case iOSDevelopment
-                case iOSDistribution
-                case macAppDevelopment
-                case macAppDistribution
-                case macInstallerDistribution
-                case passTypeId
-                case passTypeIdWithNfc
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .developerIdApplication: return "DEVELOPER_ID_APPLICATION"
-                    case .developerIdKext: return "DEVELOPER_ID_KEXT"
-                    case .development: return "DEVELOPMENT"
-                    case .distribution: return "DISTRIBUTION"
-                    case .iOSDevelopment: return "IOS_DEVELOPMENT"
-                    case .iOSDistribution: return "IOS_DISTRIBUTION"
-                    case .macAppDevelopment: return "MAC_APP_DEVELOPMENT"
-                    case .macAppDistribution: return "MAC_APP_DISTRIBUTION"
-                    case .macInstallerDistribution: return "MAC_INSTALLER_DISTRIBUTION"
-                    case .passTypeId: return "PASS_TYPE_ID"
-                    case .passTypeIdWithNfc: return "PASS_TYPE_ID_WITH_NFC"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CertificateType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var applePay: Self {
+                    .init(rawValue: "APPLE_PAY")
                 }
 
+                public static var applePayMerchantIdentity: Self {
+                    .init(rawValue: "APPLE_PAY_MERCHANT_IDENTITY")
+                }
+
+                public static var applePayPspIdentity: Self {
+                    .init(rawValue: "APPLE_PAY_PSP_IDENTITY")
+                }
+
+                public static var applePayRsa: Self {
+                    .init(rawValue: "APPLE_PAY_RSA")
+                }
+
+                public static var developerIdApplication: Self {
+                    .init(rawValue: "DEVELOPER_ID_APPLICATION")
+                }
+
+                public static var developerIdApplicationG2: Self {
+                    .init(rawValue: "DEVELOPER_ID_APPLICATION_G2")
+                }
+
+                public static var developerIdKext: Self {
+                    .init(rawValue: "DEVELOPER_ID_KEXT")
+                }
+
+                public static var developerIdKextG2: Self {
+                    .init(rawValue: "DEVELOPER_ID_KEXT_G2")
+                }
+
+                public static var development: Self {
+                    .init(rawValue: "DEVELOPMENT")
+                }
+
+                public static var distribution: Self {
+                    .init(rawValue: "DISTRIBUTION")
+                }
+
+                public static var iOSDevelopment: Self {
+                    .init(rawValue: "IOS_DEVELOPMENT")
+                }
+
+                public static var iOSDistribution: Self {
+                    .init(rawValue: "IOS_DISTRIBUTION")
+                }
+
+                public static var identityAccess: Self {
+                    .init(rawValue: "IDENTITY_ACCESS")
+                }
+
+                public static var macAppDevelopment: Self {
+                    .init(rawValue: "MAC_APP_DEVELOPMENT")
+                }
+
+                public static var macAppDistribution: Self {
+                    .init(rawValue: "MAC_APP_DISTRIBUTION")
+                }
+
+                public static var macInstallerDistribution: Self {
+                    .init(rawValue: "MAC_INSTALLER_DISTRIBUTION")
+                }
+
+                public static var passTypeId: Self {
+                    .init(rawValue: "PASS_TYPE_ID")
+                }
+
+                public static var passTypeIdWithNfc: Self {
+                    .init(rawValue: "PASS_TYPE_ID_WITH_NFC")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "DEVELOPER_ID_APPLICATION": self = .developerIdApplication
-                    case "DEVELOPER_ID_KEXT": self = .developerIdKext
-                    case "DEVELOPMENT": self = .development
-                    case "DISTRIBUTION": self = .distribution
-                    case "IOS_DEVELOPMENT": self = .iOSDevelopment
-                    case "IOS_DISTRIBUTION": self = .iOSDistribution
-                    case "MAC_APP_DEVELOPMENT": self = .macAppDevelopment
-                    case "MAC_APP_DISTRIBUTION": self = .macAppDistribution
-                    case "MAC_INSTALLER_DISTRIBUTION": self = .macInstallerDistribution
-                    case "PASS_TYPE_ID": self = .passTypeId
-                    case "PASS_TYPE_ID_WITH_NFC": self = .passTypeIdWithNfc
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -235,43 +322,63 @@ extension V1.Certificates.GET {
             }
         }
 
-        public enum Sort: Hashable, Codable, RawRepresentable {
-            case certificateType
-            case certificateTypeDesc
-            case displayName
-            case displayNameDesc
-            case id
-            case idDesc
-            case serialNumber
-            case serialNumberDesc
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .certificateType: return "certificateType"
-                case .certificateTypeDesc: return "-certificateType"
-                case .displayName: return "displayName"
-                case .displayNameDesc: return "-displayName"
-                case .id: return "id"
-                case .idDesc: return "-id"
-                case .serialNumber: return "serialNumber"
-                case .serialNumberDesc: return "-serialNumber"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var passTypeId: Self {
+                .init(rawValue: "passTypeId")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "certificateType": self = .certificateType
-                case "-certificateType": self = .certificateTypeDesc
-                case "displayName": self = .displayName
-                case "-displayName": self = .displayNameDesc
-                case "id": self = .id
-                case "-id": self = .idDesc
-                case "serialNumber": self = .serialNumber
-                case "-serialNumber": self = .serialNumberDesc
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
+            }
+        }
+
+        public struct Sort: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var certificateType: Self {
+                .init(rawValue: "certificateType")
+            }
+
+            public static var certificateTypeDesc: Self {
+                .init(rawValue: "-certificateType")
+            }
+
+            public static var displayName: Self {
+                .init(rawValue: "displayName")
+            }
+
+            public static var displayNameDesc: Self {
+                .init(rawValue: "-displayName")
+            }
+
+            public static var id: Self {
+                .init(rawValue: "id")
+            }
+
+            public static var idDesc: Self {
+                .init(rawValue: "-id")
+            }
+
+            public static var serialNumber: Self {
+                .init(rawValue: "serialNumber")
+            }
+
+            public static var serialNumberDesc: Self {
+                .init(rawValue: "-serialNumber")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
+            public init(rawValue: String) {
+                self.rawValue = rawValue
             }
         }
     }

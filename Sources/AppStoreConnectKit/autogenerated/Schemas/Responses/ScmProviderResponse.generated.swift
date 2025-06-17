@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ScmProviderResponse: Hashable, Codable {
+public struct ScmProviderResponse: Hashable, Codable, Sendable {
     public var data: ScmProvider
 
     public var links: DocumentLinks

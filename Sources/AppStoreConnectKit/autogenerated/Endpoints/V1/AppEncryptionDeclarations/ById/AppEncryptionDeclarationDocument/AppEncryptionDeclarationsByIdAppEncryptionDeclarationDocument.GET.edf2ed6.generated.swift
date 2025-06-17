@@ -42,8 +42,10 @@ extension V1.AppEncryptionDeclarations.ById.AppEncryptionDeclarationDocument {
 
         /// - Returns: **200**, Single AppEncryptionDeclarationDocument as `AppEncryptionDeclarationDocumentResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -57,10 +59,16 @@ extension V1.AppEncryptionDeclarations.ById.AppEncryptionDeclarationDocument {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -82,46 +90,43 @@ extension V1.AppEncryptionDeclarations.ById.AppEncryptionDeclarationDocument.GET
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppEncryptionDeclarationDocuments: Hashable, Codable, RawRepresentable {
-                case appEncryptionDeclaration
-                case assetDeliveryState
-                case assetToken
-                case downloadUrl
-                case fileName
-                case fileSize
-                case sourceFileChecksum
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appEncryptionDeclaration: return "appEncryptionDeclaration"
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .assetToken: return "assetToken"
-                    case .downloadUrl: return "downloadUrl"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .sourceFileChecksum: return "sourceFileChecksum"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppEncryptionDeclarationDocuments: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
                 }
 
+                public static var assetToken: Self {
+                    .init(rawValue: "assetToken")
+                }
+
+                public static var downloadUrl: Self {
+                    .init(rawValue: "downloadUrl")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appEncryptionDeclaration": self = .appEncryptionDeclaration
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "assetToken": self = .assetToken
-                    case "downloadUrl": self = .downloadUrl
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "sourceFileChecksum": self = .sourceFileChecksum
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

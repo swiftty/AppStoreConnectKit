@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppStoreVersionPhasedRelease: Hashable, Codable {
+public struct AppStoreVersionPhasedRelease: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct AppStoreVersionPhasedRelease: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appStoreVersionPhasedReleases
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var currentDayNumber: Int?
 
         public var phasedReleaseState: PhasedReleaseState?

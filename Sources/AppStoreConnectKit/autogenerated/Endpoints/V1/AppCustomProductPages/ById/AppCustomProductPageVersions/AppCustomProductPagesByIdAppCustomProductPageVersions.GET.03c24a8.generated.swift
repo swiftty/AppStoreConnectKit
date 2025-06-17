@@ -54,8 +54,10 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions {
 
         /// - Returns: **200**, List of AppCustomProductPageVersions as `AppCustomProductPageVersionsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -69,10 +71,16 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -102,99 +110,99 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppCustomProductPageLocalizations: Hashable, Codable, RawRepresentable {
-                case appCustomProductPageVersion
-                case appPreviewSets
-                case appScreenshotSets
-                case locale
-                case promotionalText
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appCustomProductPageVersion: return "appCustomProductPageVersion"
-                    case .appPreviewSets: return "appPreviewSets"
-                    case .appScreenshotSets: return "appScreenshotSets"
-                    case .locale: return "locale"
-                    case .promotionalText: return "promotionalText"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppCustomProductPageLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPageVersion: Self {
+                    .init(rawValue: "appCustomProductPageVersion")
                 }
 
+                public static var appPreviewSets: Self {
+                    .init(rawValue: "appPreviewSets")
+                }
+
+                public static var appScreenshotSets: Self {
+                    .init(rawValue: "appScreenshotSets")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var promotionalText: Self {
+                    .init(rawValue: "promotionalText")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appCustomProductPageVersion": self = .appCustomProductPageVersion
-                    case "appPreviewSets": self = .appPreviewSets
-                    case "appScreenshotSets": self = .appScreenshotSets
-                    case "locale": self = .locale
-                    case "promotionalText": self = .promotionalText
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppCustomProductPageVersions: Hashable, Codable, RawRepresentable {
-                case appCustomProductPage
-                case appCustomProductPageLocalizations
-                case state
-                case version
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appCustomProductPage: return "appCustomProductPage"
-                    case .appCustomProductPageLocalizations: return "appCustomProductPageLocalizations"
-                    case .state: return "state"
-                    case .version: return "version"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppCustomProductPageVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPage: Self {
+                    .init(rawValue: "appCustomProductPage")
                 }
 
+                public static var appCustomProductPageLocalizations: Self {
+                    .init(rawValue: "appCustomProductPageLocalizations")
+                }
+
+                public static var deepLink: Self {
+                    .init(rawValue: "deepLink")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appCustomProductPage": self = .appCustomProductPage
-                    case "appCustomProductPageLocalizations": self = .appCustomProductPageLocalizations
-                    case "state": self = .state
-                    case "version": self = .version
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppCustomProductPages: Hashable, Codable, RawRepresentable {
-                case app
-                case appCustomProductPageVersions
-                case appStoreVersionTemplate
-                case customProductPageTemplate
-                case name
-                case url
-                case visible
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .appCustomProductPageVersions: return "appCustomProductPageVersions"
-                    case .appStoreVersionTemplate: return "appStoreVersionTemplate"
-                    case .customProductPageTemplate: return "customProductPageTemplate"
-                    case .name: return "name"
-                    case .url: return "url"
-                    case .visible: return "visible"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppCustomProductPages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var appCustomProductPageVersions: Self {
+                    .init(rawValue: "appCustomProductPageVersions")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var url: Self {
+                    .init(rawValue: "url")
+                }
+
+                public static var visible: Self {
+                    .init(rawValue: "visible")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "appCustomProductPageVersions": self = .appCustomProductPageVersions
-                    case "appStoreVersionTemplate": self = .appStoreVersionTemplate
-                    case "customProductPageTemplate": self = .customProductPageTemplate
-                    case "name": self = .name
-                    case "url": self = .url
-                    case "visible": self = .visible
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -230,43 +238,47 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum State: Hashable, Codable, RawRepresentable {
-                case accepted
-                case approved
-                case inReview
-                case prepareForSubmission
-                case readyForReview
-                case rejected
-                case replacedWithNewVersion
-                case waitingForReview
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .accepted: return "ACCEPTED"
-                    case .approved: return "APPROVED"
-                    case .inReview: return "IN_REVIEW"
-                    case .prepareForSubmission: return "PREPARE_FOR_SUBMISSION"
-                    case .readyForReview: return "READY_FOR_REVIEW"
-                    case .rejected: return "REJECTED"
-                    case .replacedWithNewVersion: return "REPLACED_WITH_NEW_VERSION"
-                    case .waitingForReview: return "WAITING_FOR_REVIEW"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var accepted: Self {
+                    .init(rawValue: "ACCEPTED")
                 }
 
+                public static var approved: Self {
+                    .init(rawValue: "APPROVED")
+                }
+
+                public static var inReview: Self {
+                    .init(rawValue: "IN_REVIEW")
+                }
+
+                public static var prepareForSubmission: Self {
+                    .init(rawValue: "PREPARE_FOR_SUBMISSION")
+                }
+
+                public static var readyForReview: Self {
+                    .init(rawValue: "READY_FOR_REVIEW")
+                }
+
+                public static var rejected: Self {
+                    .init(rawValue: "REJECTED")
+                }
+
+                public static var replacedWithNewVersion: Self {
+                    .init(rawValue: "REPLACED_WITH_NEW_VERSION")
+                }
+
+                public static var waitingForReview: Self {
+                    .init(rawValue: "WAITING_FOR_REVIEW")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "ACCEPTED": self = .accepted
-                    case "APPROVED": self = .approved
-                    case "IN_REVIEW": self = .inReview
-                    case "PREPARE_FOR_SUBMISSION": self = .prepareForSubmission
-                    case "READY_FOR_REVIEW": self = .readyForReview
-                    case "REJECTED": self = .rejected
-                    case "REPLACED_WITH_NEW_VERSION": self = .replacedWithNewVersion
-                    case "WAITING_FOR_REVIEW": self = .waitingForReview
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -284,25 +296,23 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appCustomProductPage
-            case appCustomProductPageLocalizations
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appCustomProductPage: return "appCustomProductPage"
-                case .appCustomProductPageLocalizations: return "appCustomProductPageLocalizations"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appCustomProductPage: Self {
+                .init(rawValue: "appCustomProductPage")
             }
 
+            public static var appCustomProductPageLocalizations: Self {
+                .init(rawValue: "appCustomProductPageLocalizations")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appCustomProductPage": self = .appCustomProductPage
-                case "appCustomProductPageLocalizations": self = .appCustomProductPageLocalizations
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

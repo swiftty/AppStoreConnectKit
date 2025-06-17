@@ -44,8 +44,10 @@ extension V1.GameCenterAchievementReleases.ById {
 
         /// - Returns: **200**, Single GameCenterAchievementRelease as `GameCenterAchievementReleaseResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.GameCenterAchievementReleases.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,28 +95,27 @@ extension V1.GameCenterAchievementReleases.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum GameCenterAchievementReleases: Hashable, Codable, RawRepresentable {
-                case gameCenterAchievement
-                case gameCenterDetail
-                case live
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .gameCenterAchievement: return "gameCenterAchievement"
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .live: return "live"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterAchievementReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterAchievement: Self {
+                    .init(rawValue: "gameCenterAchievement")
                 }
 
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var live: Self {
+                    .init(rawValue: "live")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "gameCenterAchievement": self = .gameCenterAchievement
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "live": self = .live
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -126,25 +133,23 @@ extension V1.GameCenterAchievementReleases.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case gameCenterAchievement
-            case gameCenterDetail
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .gameCenterAchievement: return "gameCenterAchievement"
-                case .gameCenterDetail: return "gameCenterDetail"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var gameCenterAchievement: Self {
+                .init(rawValue: "gameCenterAchievement")
             }
 
+            public static var gameCenterDetail: Self {
+                .init(rawValue: "gameCenterDetail")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "gameCenterAchievement": self = .gameCenterAchievement
-                case "gameCenterDetail": self = .gameCenterDetail
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

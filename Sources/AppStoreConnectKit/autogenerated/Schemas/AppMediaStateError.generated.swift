@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppMediaStateError: Hashable, Codable {
+public struct AppMediaStateError: Hashable, Codable, Sendable {
     public var code: String?
 
     public var description: String?

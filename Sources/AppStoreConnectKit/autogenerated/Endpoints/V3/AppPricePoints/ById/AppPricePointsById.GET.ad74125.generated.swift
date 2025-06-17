@@ -44,8 +44,10 @@ extension V3.AppPricePoints.ById {
 
         /// - Returns: **200**, Single AppPricePoint as `AppPricePointV3Response`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V3.AppPricePoints.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,34 +95,35 @@ extension V3.AppPricePoints.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppPricePoints: Hashable, Codable, RawRepresentable {
-                case app
-                case customerPrice
-                case equalizations
-                case proceeds
-                case territory
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .customerPrice: return "customerPrice"
-                    case .equalizations: return "equalizations"
-                    case .proceeds: return "proceeds"
-                    case .territory: return "territory"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppPricePoints: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var customerPrice: Self {
+                    .init(rawValue: "customerPrice")
+                }
+
+                public static var equalizations: Self {
+                    .init(rawValue: "equalizations")
+                }
+
+                public static var proceeds: Self {
+                    .init(rawValue: "proceeds")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "customerPrice": self = .customerPrice
-                    case "equalizations": self = .equalizations
-                    case "proceeds": self = .proceeds
-                    case "territory": self = .territory
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -132,25 +141,23 @@ extension V3.AppPricePoints.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case app
-            case territory
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .app: return "app"
-                case .territory: return "territory"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var app: Self {
+                .init(rawValue: "app")
             }
 
+            public static var territory: Self {
+                .init(rawValue: "territory")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "app": self = .app
-                case "territory": self = .territory
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

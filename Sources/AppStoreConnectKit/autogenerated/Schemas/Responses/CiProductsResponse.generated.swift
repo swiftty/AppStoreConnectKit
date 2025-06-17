@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiProductsResponse: Hashable, Codable {
+public struct CiProductsResponse: Hashable, Codable, Sendable {
     public var data: [CiProduct]
 
     public var included: [Included]?
@@ -31,7 +31,7 @@ public struct CiProductsResponse: Hashable, Codable {
         case meta
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case app(App)
         case bundleId(BundleId)
         case scmRepository(ScmRepository)

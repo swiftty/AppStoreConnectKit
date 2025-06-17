@@ -53,7 +53,9 @@ extension V1.Devices {
 
         /// - Returns: **200**, List of Devices as `DevicesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -67,7 +69,13 @@ extension V1.Devices {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -97,40 +105,43 @@ extension V1.Devices.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Devices: Hashable, Codable, RawRepresentable {
-                case addedDate
-                case deviceClass
-                case model
-                case name
-                case platform
-                case status
-                case udid
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .addedDate: return "addedDate"
-                    case .deviceClass: return "deviceClass"
-                    case .model: return "model"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .status: return "status"
-                    case .udid: return "udid"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Devices: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var addedDate: Self {
+                    .init(rawValue: "addedDate")
                 }
 
+                public static var deviceClass: Self {
+                    .init(rawValue: "deviceClass")
+                }
+
+                public static var model: Self {
+                    .init(rawValue: "model")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var status: Self {
+                    .init(rawValue: "status")
+                }
+
+                public static var udid: Self {
+                    .init(rawValue: "udid")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "addedDate": self = .addedDate
-                    case "deviceClass": self = .deviceClass
-                    case "model": self = .model
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "status": self = .status
-                    case "udid": self = .udid
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -156,47 +167,47 @@ extension V1.Devices.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Platform: Hashable, Codable, RawRepresentable {
-                case iOS
-                case macOS
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .iOS: return "IOS"
-                    case .macOS: return "MAC_OS"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Platform: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var iOS: Self {
+                    .init(rawValue: "IOS")
                 }
 
+                public static var macOS: Self {
+                    .init(rawValue: "MAC_OS")
+                }
+
+                public static var universal: Self {
+                    .init(rawValue: "UNIVERSAL")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "IOS": self = .iOS
-                    case "MAC_OS": self = .macOS
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Status: Hashable, Codable, RawRepresentable {
-                case disabled
-                case enabled
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .disabled: return "DISABLED"
-                    case .enabled: return "ENABLED"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Status: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var disabled: Self {
+                    .init(rawValue: "DISABLED")
                 }
 
+                public static var enabled: Self {
+                    .init(rawValue: "ENABLED")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "DISABLED": self = .disabled
-                    case "ENABLED": self = .enabled
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -234,49 +245,55 @@ extension V1.Devices.GET {
             }
         }
 
-        public enum Sort: Hashable, Codable, RawRepresentable {
-            case id
-            case idDesc
-            case name
-            case nameDesc
-            case platform
-            case platformDesc
-            case status
-            case statusDesc
-            case udid
-            case udidDesc
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .id: return "id"
-                case .idDesc: return "-id"
-                case .name: return "name"
-                case .nameDesc: return "-name"
-                case .platform: return "platform"
-                case .platformDesc: return "-platform"
-                case .status: return "status"
-                case .statusDesc: return "-status"
-                case .udid: return "udid"
-                case .udidDesc: return "-udid"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Sort: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var id: Self {
+                .init(rawValue: "id")
             }
 
+            public static var idDesc: Self {
+                .init(rawValue: "-id")
+            }
+
+            public static var name: Self {
+                .init(rawValue: "name")
+            }
+
+            public static var nameDesc: Self {
+                .init(rawValue: "-name")
+            }
+
+            public static var platform: Self {
+                .init(rawValue: "platform")
+            }
+
+            public static var platformDesc: Self {
+                .init(rawValue: "-platform")
+            }
+
+            public static var status: Self {
+                .init(rawValue: "status")
+            }
+
+            public static var statusDesc: Self {
+                .init(rawValue: "-status")
+            }
+
+            public static var udid: Self {
+                .init(rawValue: "udid")
+            }
+
+            public static var udidDesc: Self {
+                .init(rawValue: "-udid")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "id": self = .id
-                case "-id": self = .idDesc
-                case "name": self = .name
-                case "-name": self = .nameDesc
-                case "platform": self = .platform
-                case "-platform": self = .platformDesc
-                case "status": self = .status
-                case "-status": self = .statusDesc
-                case "udid": self = .udid
-                case "-udid": self = .udidDesc
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

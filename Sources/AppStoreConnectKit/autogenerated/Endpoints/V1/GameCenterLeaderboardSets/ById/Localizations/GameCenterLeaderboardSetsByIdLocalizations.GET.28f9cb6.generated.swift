@@ -50,8 +50,10 @@ extension V1.GameCenterLeaderboardSets.ById.Localizations {
 
         /// - Returns: **200**, List of GameCenterLeaderboardSetLocalizations as `GameCenterLeaderboardSetLocalizationsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -65,10 +67,16 @@ extension V1.GameCenterLeaderboardSets.ById.Localizations {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -96,108 +104,111 @@ extension V1.GameCenterLeaderboardSets.ById.Localizations.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum GameCenterLeaderboardSetImages: Hashable, Codable, RawRepresentable {
-                case assetDeliveryState
-                case fileName
-                case fileSize
-                case gameCenterLeaderboardSetLocalization
-                case imageAsset
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .gameCenterLeaderboardSetLocalization: return "gameCenterLeaderboardSetLocalization"
-                    case .imageAsset: return "imageAsset"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterLeaderboardSetImages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
                 }
 
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var gameCenterLeaderboardSetLocalization: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetLocalization")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "gameCenterLeaderboardSetLocalization": self = .gameCenterLeaderboardSetLocalization
-                    case "imageAsset": self = .imageAsset
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterLeaderboardSetLocalizations: Hashable, Codable, RawRepresentable {
-                case gameCenterLeaderboardSet
-                case gameCenterLeaderboardSetImage
-                case locale
-                case name
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .gameCenterLeaderboardSet: return "gameCenterLeaderboardSet"
-                    case .gameCenterLeaderboardSetImage: return "gameCenterLeaderboardSetImage"
-                    case .locale: return "locale"
-                    case .name: return "name"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterLeaderboardSetLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterLeaderboardSet: Self {
+                    .init(rawValue: "gameCenterLeaderboardSet")
                 }
 
+                public static var gameCenterLeaderboardSetImage: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetImage")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "gameCenterLeaderboardSet": self = .gameCenterLeaderboardSet
-                    case "gameCenterLeaderboardSetImage": self = .gameCenterLeaderboardSetImage
-                    case "locale": self = .locale
-                    case "name": self = .name
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum GameCenterLeaderboardSets: Hashable, Codable, RawRepresentable {
-                case gameCenterDetail
-                case gameCenterGroup
-                case gameCenterLeaderboards
-                case groupLeaderboardSet
-                case localizations
-                case referenceName
-                case releases
-                case vendorIdentifier
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterGroup: return "gameCenterGroup"
-                    case .gameCenterLeaderboards: return "gameCenterLeaderboards"
-                    case .groupLeaderboardSet: return "groupLeaderboardSet"
-                    case .localizations: return "localizations"
-                    case .referenceName: return "referenceName"
-                    case .releases: return "releases"
-                    case .vendorIdentifier: return "vendorIdentifier"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterLeaderboardSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
                 }
 
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var gameCenterLeaderboards: Self {
+                    .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var groupLeaderboardSet: Self {
+                    .init(rawValue: "groupLeaderboardSet")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterGroup": self = .gameCenterGroup
-                    case "gameCenterLeaderboards": self = .gameCenterLeaderboards
-                    case "groupLeaderboardSet": self = .groupLeaderboardSet
-                    case "localizations": self = .localizations
-                    case "referenceName": self = .referenceName
-                    case "releases": self = .releases
-                    case "vendorIdentifier": self = .vendorIdentifier
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -225,25 +236,23 @@ extension V1.GameCenterLeaderboardSets.ById.Localizations.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case gameCenterLeaderboardSet
-            case gameCenterLeaderboardSetImage
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .gameCenterLeaderboardSet: return "gameCenterLeaderboardSet"
-                case .gameCenterLeaderboardSetImage: return "gameCenterLeaderboardSetImage"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var gameCenterLeaderboardSet: Self {
+                .init(rawValue: "gameCenterLeaderboardSet")
             }
 
+            public static var gameCenterLeaderboardSetImage: Self {
+                .init(rawValue: "gameCenterLeaderboardSetImage")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "gameCenterLeaderboardSet": self = .gameCenterLeaderboardSet
-                case "gameCenterLeaderboardSetImage": self = .gameCenterLeaderboardSetImage
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterLeaderboardsResponse: Hashable, Codable {
+public struct GameCenterLeaderboardsResponse: Hashable, Codable, Sendable {
     public var data: [GameCenterLeaderboard]
 
     public var included: [Included]?
@@ -31,13 +31,15 @@ public struct GameCenterLeaderboardsResponse: Hashable, Codable {
         case meta
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case gameCenterDetail(GameCenterDetail)
         case gameCenterGroup(GameCenterGroup)
         case gameCenterLeaderboard(GameCenterLeaderboard)
         case gameCenterLeaderboardSet(GameCenterLeaderboardSet)
         case gameCenterLeaderboardLocalization(GameCenterLeaderboardLocalization)
         case gameCenterLeaderboardRelease(GameCenterLeaderboardRelease)
+        case gameCenterActivity(GameCenterActivity)
+        case gameCenterChallenge(GameCenterChallenge)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -72,6 +74,16 @@ public struct GameCenterLeaderboardsResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .gameCenterActivity(try GameCenterActivity(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterChallenge(try GameCenterChallenge(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -94,6 +106,12 @@ public struct GameCenterLeaderboardsResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .gameCenterLeaderboardRelease(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterActivity(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterChallenge(let value):
                 try value.encode(to: encoder)
             }
         }

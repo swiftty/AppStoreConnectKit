@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiTestDestination: Hashable, Codable {
+public struct CiTestDestination: Hashable, Codable, Sendable {
     public var deviceTypeIdentifier: String?
 
     public var deviceTypeName: String?

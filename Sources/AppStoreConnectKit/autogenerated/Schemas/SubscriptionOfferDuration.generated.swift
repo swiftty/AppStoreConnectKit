@@ -3,46 +3,47 @@
 // swiftlint:disable all
 import Foundation
 
-public enum SubscriptionOfferDuration: Hashable, Codable, RawRepresentable {
-    case oneDay
-    case oneMonth
-    case oneWeek
-    case oneYear
-    case sixMonths
-    case threeDays
-    case threeMonths
-    case twoMonths
-    case twoWeeks
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .oneDay: return "ONE_DAY"
-        case .oneMonth: return "ONE_MONTH"
-        case .oneWeek: return "ONE_WEEK"
-        case .oneYear: return "ONE_YEAR"
-        case .sixMonths: return "SIX_MONTHS"
-        case .threeDays: return "THREE_DAYS"
-        case .threeMonths: return "THREE_MONTHS"
-        case .twoMonths: return "TWO_MONTHS"
-        case .twoWeeks: return "TWO_WEEKS"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct SubscriptionOfferDuration: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var oneMonth: Self {
+        .init(rawValue: "ONE_MONTH")
     }
 
+    public static var oneWeek: Self {
+        .init(rawValue: "ONE_WEEK")
+    }
+
+    public static var oneYear: Self {
+        .init(rawValue: "ONE_YEAR")
+    }
+
+    public static var sixMonths: Self {
+        .init(rawValue: "SIX_MONTHS")
+    }
+
+    public static var threeDays: Self {
+        .init(rawValue: "THREE_DAYS")
+    }
+
+    public static var threeMonths: Self {
+        .init(rawValue: "THREE_MONTHS")
+    }
+
+    public static var twoMonths: Self {
+        .init(rawValue: "TWO_MONTHS")
+    }
+
+    public static var twoWeeks: Self {
+        .init(rawValue: "TWO_WEEKS")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "ONE_DAY": self = .oneDay
-        case "ONE_MONTH": self = .oneMonth
-        case "ONE_WEEK": self = .oneWeek
-        case "ONE_YEAR": self = .oneYear
-        case "SIX_MONTHS": self = .sixMonths
-        case "THREE_DAYS": self = .threeDays
-        case "THREE_MONTHS": self = .threeMonths
-        case "TWO_MONTHS": self = .twoMonths
-        case "TWO_WEEKS": self = .twoWeeks
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

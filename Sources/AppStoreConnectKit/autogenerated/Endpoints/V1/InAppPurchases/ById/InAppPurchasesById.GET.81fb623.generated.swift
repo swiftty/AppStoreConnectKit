@@ -47,8 +47,10 @@ extension V1.InAppPurchases.ById {
 
         /// - Returns: **200**, Single InAppPurchase as `InAppPurchaseResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -62,10 +64,16 @@ extension V1.InAppPurchases.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -92,34 +100,35 @@ extension V1.InAppPurchases.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum InAppPurchases: Hashable, Codable, RawRepresentable {
-                case apps
-                case inAppPurchaseType
-                case productId
-                case referenceName
-                case state
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .apps: return "apps"
-                    case .inAppPurchaseType: return "inAppPurchaseType"
-                    case .productId: return "productId"
-                    case .referenceName: return "referenceName"
-                    case .state: return "state"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct InAppPurchases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var apps: Self {
+                    .init(rawValue: "apps")
                 }
 
+                public static var inAppPurchaseType: Self {
+                    .init(rawValue: "inAppPurchaseType")
+                }
+
+                public static var productId: Self {
+                    .init(rawValue: "productId")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "apps": self = .apps
-                    case "inAppPurchaseType": self = .inAppPurchaseType
-                    case "productId": self = .productId
-                    case "referenceName": self = .referenceName
-                    case "state": self = .state
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -137,22 +146,19 @@ extension V1.InAppPurchases.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case apps
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .apps: return "apps"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var apps: Self {
+                .init(rawValue: "apps")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "apps": self = .apps
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

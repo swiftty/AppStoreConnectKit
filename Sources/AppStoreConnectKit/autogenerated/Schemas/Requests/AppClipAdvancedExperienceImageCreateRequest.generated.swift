@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppClipAdvancedExperienceImageCreateRequest: Hashable, Codable {
+public struct AppClipAdvancedExperienceImageCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppClipAdvancedExperienceImageCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -32,11 +32,11 @@ public struct AppClipAdvancedExperienceImageCreateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appClipAdvancedExperienceImages
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var fileName: String
 
             public var fileSize: Int

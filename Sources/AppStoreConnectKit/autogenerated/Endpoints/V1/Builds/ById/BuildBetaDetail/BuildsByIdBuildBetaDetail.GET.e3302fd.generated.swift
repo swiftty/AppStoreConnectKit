@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.Builds.ById.BuildBetaDetail {
     public struct GET: Endpoint {
-        public typealias Response = BuildBetaDetailWithoutIncludesResponse
+        public typealias Response = BuildBetaDetailResponse
 
         public var path: String {
             "/v1/builds/\(id)/buildBetaDetail"
@@ -29,7 +29,11 @@ extension V1.Builds.ById.BuildBetaDetail {
 
             components?.queryItems = [
                 URLQueryItem(name: "fields[buildBetaDetails]",
-                             value: parameters.fields[.buildBetaDetails]?.map { "\($0)" }.joined(separator: ","))
+                             value: parameters.fields[.buildBetaDetails]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[builds]",
+                             value: parameters.fields[.builds]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -40,10 +44,12 @@ extension V1.Builds.ById.BuildBetaDetail {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single BuildBetaDetail with get as `BuildBetaDetailWithoutIncludesResponse`
+        /// - Returns: **200**, Single BuildBetaDetail as `BuildBetaDetailResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -52,15 +58,21 @@ extension V1.Builds.ById.BuildBetaDetail {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(BuildBetaDetailWithoutIncludesResponse.self, from: data)
+                return try jsonDecoder.decode(BuildBetaDetailResponse.self, from: data)
 
             case 400:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 401:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -74,6 +86,9 @@ extension V1.Builds.ById.BuildBetaDetail.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
         public struct Fields: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
                 get { values[relation]?.base as! T }
@@ -82,31 +97,143 @@ extension V1.Builds.ById.BuildBetaDetail.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BuildBetaDetails: Hashable, Codable, RawRepresentable {
-                case autoNotifyEnabled
-                case build
-                case externalBuildState
-                case internalBuildState
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .autoNotifyEnabled: return "autoNotifyEnabled"
-                    case .build: return "build"
-                    case .externalBuildState: return "externalBuildState"
-                    case .internalBuildState: return "internalBuildState"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BuildBetaDetails: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var autoNotifyEnabled: Self {
+                    .init(rawValue: "autoNotifyEnabled")
                 }
 
+                public static var build: Self {
+                    .init(rawValue: "build")
+                }
+
+                public static var externalBuildState: Self {
+                    .init(rawValue: "externalBuildState")
+                }
+
+                public static var internalBuildState: Self {
+                    .init(rawValue: "internalBuildState")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "autoNotifyEnabled": self = .autoNotifyEnabled
-                    case "build": self = .build
-                    case "externalBuildState": self = .externalBuildState
-                    case "internalBuildState": self = .internalBuildState
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct Builds: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appEncryptionDeclaration: Self {
+                    .init(rawValue: "appEncryptionDeclaration")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var betaAppReviewSubmission: Self {
+                    .init(rawValue: "betaAppReviewSubmission")
+                }
+
+                public static var betaBuildLocalizations: Self {
+                    .init(rawValue: "betaBuildLocalizations")
+                }
+
+                public static var betaGroups: Self {
+                    .init(rawValue: "betaGroups")
+                }
+
+                public static var buildAudienceType: Self {
+                    .init(rawValue: "buildAudienceType")
+                }
+
+                public static var buildBetaDetail: Self {
+                    .init(rawValue: "buildBetaDetail")
+                }
+
+                public static var buildBundles: Self {
+                    .init(rawValue: "buildBundles")
+                }
+
+                public static var computedMinMacOsVersion: Self {
+                    .init(rawValue: "computedMinMacOsVersion")
+                }
+
+                public static var computedMinVisionOsVersion: Self {
+                    .init(rawValue: "computedMinVisionOsVersion")
+                }
+
+                public static var diagnosticSignatures: Self {
+                    .init(rawValue: "diagnosticSignatures")
+                }
+
+                public static var expirationDate: Self {
+                    .init(rawValue: "expirationDate")
+                }
+
+                public static var expired: Self {
+                    .init(rawValue: "expired")
+                }
+
+                public static var iconAssetToken: Self {
+                    .init(rawValue: "iconAssetToken")
+                }
+
+                public static var icons: Self {
+                    .init(rawValue: "icons")
+                }
+
+                public static var individualTesters: Self {
+                    .init(rawValue: "individualTesters")
+                }
+
+                public static var lsMinimumSystemVersion: Self {
+                    .init(rawValue: "lsMinimumSystemVersion")
+                }
+
+                public static var minOsVersion: Self {
+                    .init(rawValue: "minOsVersion")
+                }
+
+                public static var perfPowerMetrics: Self {
+                    .init(rawValue: "perfPowerMetrics")
+                }
+
+                public static var preReleaseVersion: Self {
+                    .init(rawValue: "preReleaseVersion")
+                }
+
+                public static var processingState: Self {
+                    .init(rawValue: "processingState")
+                }
+
+                public static var uploadedDate: Self {
+                    .init(rawValue: "uploadedDate")
+                }
+
+                public static var usesNonExemptEncryption: Self {
+                    .init(rawValue: "usesNonExemptEncryption")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
                 }
             }
 
@@ -116,11 +243,32 @@ extension V1.Builds.ById.BuildBetaDetail.GET {
                     .init(key: "fields[buildBetaDetails]")
                 }
 
+                /// the fields to include for returned resources of type builds
+                public static var builds: Relation<[Builds]?> {
+                    .init(key: "fields[builds]")
+                }
+
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
                 }
+            }
+        }
+
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var build: Self {
+                .init(rawValue: "build")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
+            public init(rawValue: String) {
+                self.rawValue = rawValue
             }
         }
     }

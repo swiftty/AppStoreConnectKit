@@ -3,28 +3,31 @@
 // swiftlint:disable all
 import Foundation
 
-public enum Platform: Hashable, Codable, RawRepresentable {
-    case iOS
-    case macOS
-    case tvOS
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .iOS: return "IOS"
-        case .macOS: return "MAC_OS"
-        case .tvOS: return "TV_OS"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct Platform: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var iOS: Self {
+        .init(rawValue: "IOS")
     }
 
+    public static var macOS: Self {
+        .init(rawValue: "MAC_OS")
+    }
+
+    public static var tvOS: Self {
+        .init(rawValue: "TV_OS")
+    }
+
+    public static var visionOS: Self {
+        .init(rawValue: "VISION_OS")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "IOS": self = .iOS
-        case "MAC_OS": self = .macOS
-        case "TV_OS": self = .tvOS
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

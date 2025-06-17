@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppStoreVersionExperimentTreatmentLocalizationCreateRequest: Hashable, Codable {
+public struct AppStoreVersionExperimentTreatmentLocalizationCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppStoreVersionExperimentTreatmentLocalizationCreateRequest: Hasha
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct AppStoreVersionExperimentTreatmentLocalizationCreateRequest: Hasha
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appStoreVersionExperimentTreatmentLocalizations
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var locale: String
 
             public init(locale: String) {
@@ -53,7 +53,7 @@ public struct AppStoreVersionExperimentTreatmentLocalizationCreateRequest: Hasha
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appStoreVersionExperimentTreatment: AppStoreVersionExperimentTreatment
 
             public init(appStoreVersionExperimentTreatment: AppStoreVersionExperimentTreatment) {
@@ -64,7 +64,7 @@ public struct AppStoreVersionExperimentTreatmentLocalizationCreateRequest: Hasha
                 case appStoreVersionExperimentTreatment
             }
 
-            public struct AppStoreVersionExperimentTreatment: Hashable, Codable {
+            public struct AppStoreVersionExperimentTreatment: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -75,7 +75,7 @@ public struct AppStoreVersionExperimentTreatmentLocalizationCreateRequest: Hasha
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -93,7 +93,7 @@ public struct AppStoreVersionExperimentTreatmentLocalizationCreateRequest: Hasha
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersionExperimentTreatments
                     }
                 }

@@ -46,8 +46,10 @@ extension V1.BetaBuildLocalizations.ById {
 
         /// - Returns: **200**, Single BetaBuildLocalization as `BetaBuildLocalizationResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -61,10 +63,16 @@ extension V1.BetaBuildLocalizations.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -89,116 +97,139 @@ extension V1.BetaBuildLocalizations.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaBuildLocalizations: Hashable, Codable, RawRepresentable {
-                case build
-                case locale
-                case whatsNew
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .build: return "build"
-                    case .locale: return "locale"
-                    case .whatsNew: return "whatsNew"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BetaBuildLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var build: Self {
+                    .init(rawValue: "build")
                 }
 
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var whatsNew: Self {
+                    .init(rawValue: "whatsNew")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "build": self = .build
-                    case "locale": self = .locale
-                    case "whatsNew": self = .whatsNew
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Builds: Hashable, Codable, RawRepresentable {
-                case app
-                case appEncryptionDeclaration
-                case appStoreVersion
-                case betaAppReviewSubmission
-                case betaBuildLocalizations
-                case betaGroups
-                case buildAudienceType
-                case buildBetaDetail
-                case buildBundles
-                case computedMinMacOsVersion
-                case diagnosticSignatures
-                case expirationDate
-                case expired
-                case iconAssetToken
-                case icons
-                case individualTesters
-                case lsMinimumSystemVersion
-                case minOsVersion
-                case perfPowerMetrics
-                case preReleaseVersion
-                case processingState
-                case uploadedDate
-                case usesNonExemptEncryption
-                case version
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .appEncryptionDeclaration: return "appEncryptionDeclaration"
-                    case .appStoreVersion: return "appStoreVersion"
-                    case .betaAppReviewSubmission: return "betaAppReviewSubmission"
-                    case .betaBuildLocalizations: return "betaBuildLocalizations"
-                    case .betaGroups: return "betaGroups"
-                    case .buildAudienceType: return "buildAudienceType"
-                    case .buildBetaDetail: return "buildBetaDetail"
-                    case .buildBundles: return "buildBundles"
-                    case .computedMinMacOsVersion: return "computedMinMacOsVersion"
-                    case .diagnosticSignatures: return "diagnosticSignatures"
-                    case .expirationDate: return "expirationDate"
-                    case .expired: return "expired"
-                    case .iconAssetToken: return "iconAssetToken"
-                    case .icons: return "icons"
-                    case .individualTesters: return "individualTesters"
-                    case .lsMinimumSystemVersion: return "lsMinimumSystemVersion"
-                    case .minOsVersion: return "minOsVersion"
-                    case .perfPowerMetrics: return "perfPowerMetrics"
-                    case .preReleaseVersion: return "preReleaseVersion"
-                    case .processingState: return "processingState"
-                    case .uploadedDate: return "uploadedDate"
-                    case .usesNonExemptEncryption: return "usesNonExemptEncryption"
-                    case .version: return "version"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Builds: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var appEncryptionDeclaration: Self {
+                    .init(rawValue: "appEncryptionDeclaration")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var betaAppReviewSubmission: Self {
+                    .init(rawValue: "betaAppReviewSubmission")
+                }
+
+                public static var betaBuildLocalizations: Self {
+                    .init(rawValue: "betaBuildLocalizations")
+                }
+
+                public static var betaGroups: Self {
+                    .init(rawValue: "betaGroups")
+                }
+
+                public static var buildAudienceType: Self {
+                    .init(rawValue: "buildAudienceType")
+                }
+
+                public static var buildBetaDetail: Self {
+                    .init(rawValue: "buildBetaDetail")
+                }
+
+                public static var buildBundles: Self {
+                    .init(rawValue: "buildBundles")
+                }
+
+                public static var computedMinMacOsVersion: Self {
+                    .init(rawValue: "computedMinMacOsVersion")
+                }
+
+                public static var computedMinVisionOsVersion: Self {
+                    .init(rawValue: "computedMinVisionOsVersion")
+                }
+
+                public static var diagnosticSignatures: Self {
+                    .init(rawValue: "diagnosticSignatures")
+                }
+
+                public static var expirationDate: Self {
+                    .init(rawValue: "expirationDate")
+                }
+
+                public static var expired: Self {
+                    .init(rawValue: "expired")
+                }
+
+                public static var iconAssetToken: Self {
+                    .init(rawValue: "iconAssetToken")
+                }
+
+                public static var icons: Self {
+                    .init(rawValue: "icons")
+                }
+
+                public static var individualTesters: Self {
+                    .init(rawValue: "individualTesters")
+                }
+
+                public static var lsMinimumSystemVersion: Self {
+                    .init(rawValue: "lsMinimumSystemVersion")
+                }
+
+                public static var minOsVersion: Self {
+                    .init(rawValue: "minOsVersion")
+                }
+
+                public static var perfPowerMetrics: Self {
+                    .init(rawValue: "perfPowerMetrics")
+                }
+
+                public static var preReleaseVersion: Self {
+                    .init(rawValue: "preReleaseVersion")
+                }
+
+                public static var processingState: Self {
+                    .init(rawValue: "processingState")
+                }
+
+                public static var uploadedDate: Self {
+                    .init(rawValue: "uploadedDate")
+                }
+
+                public static var usesNonExemptEncryption: Self {
+                    .init(rawValue: "usesNonExemptEncryption")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "appEncryptionDeclaration": self = .appEncryptionDeclaration
-                    case "appStoreVersion": self = .appStoreVersion
-                    case "betaAppReviewSubmission": self = .betaAppReviewSubmission
-                    case "betaBuildLocalizations": self = .betaBuildLocalizations
-                    case "betaGroups": self = .betaGroups
-                    case "buildAudienceType": self = .buildAudienceType
-                    case "buildBetaDetail": self = .buildBetaDetail
-                    case "buildBundles": self = .buildBundles
-                    case "computedMinMacOsVersion": self = .computedMinMacOsVersion
-                    case "diagnosticSignatures": self = .diagnosticSignatures
-                    case "expirationDate": self = .expirationDate
-                    case "expired": self = .expired
-                    case "iconAssetToken": self = .iconAssetToken
-                    case "icons": self = .icons
-                    case "individualTesters": self = .individualTesters
-                    case "lsMinimumSystemVersion": self = .lsMinimumSystemVersion
-                    case "minOsVersion": self = .minOsVersion
-                    case "perfPowerMetrics": self = .perfPowerMetrics
-                    case "preReleaseVersion": self = .preReleaseVersion
-                    case "processingState": self = .processingState
-                    case "uploadedDate": self = .uploadedDate
-                    case "usesNonExemptEncryption": self = .usesNonExemptEncryption
-                    case "version": self = .version
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -221,22 +252,19 @@ extension V1.BetaBuildLocalizations.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case build
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .build: return "build"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var build: Self {
+                .init(rawValue: "build")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "build": self = .build
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

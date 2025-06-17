@@ -42,8 +42,10 @@ extension V1.CiIssues.ById {
 
         /// - Returns: **200**, Single CiIssue as `CiIssueResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -57,10 +59,16 @@ extension V1.CiIssues.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -82,31 +90,31 @@ extension V1.CiIssues.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiIssues: Hashable, Codable, RawRepresentable {
-                case category
-                case fileSource
-                case issueType
-                case message
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .category: return "category"
-                    case .fileSource: return "fileSource"
-                    case .issueType: return "issueType"
-                    case .message: return "message"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiIssues: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var category: Self {
+                    .init(rawValue: "category")
                 }
 
+                public static var fileSource: Self {
+                    .init(rawValue: "fileSource")
+                }
+
+                public static var issueType: Self {
+                    .init(rawValue: "issueType")
+                }
+
+                public static var message: Self {
+                    .init(rawValue: "message")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "category": self = .category
-                    case "fileSource": self = .fileSource
-                    case "issueType": self = .issueType
-                    case "message": self = .message
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterLeaderboardUpdateRequest: Hashable, Codable {
+public struct GameCenterLeaderboardUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct GameCenterLeaderboardUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -37,11 +37,13 @@ public struct GameCenterLeaderboardUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterLeaderboards
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
+            public var activityProperties: [String: String]?
+
             public var archived: Bool?
 
             public var defaultFormatter: GameCenterLeaderboardFormatter?
@@ -62,7 +64,10 @@ public struct GameCenterLeaderboardUpdateRequest: Hashable, Codable {
 
             public var submissionType: SubmissionType?
 
+            public var visibility: Visibility?
+
             public init(
+                activityProperties: [String: String]? = nil,
                 archived: Bool? = nil,
                 defaultFormatter: GameCenterLeaderboardFormatter? = nil,
                 recurrenceDuration: String? = nil,
@@ -72,8 +77,10 @@ public struct GameCenterLeaderboardUpdateRequest: Hashable, Codable {
                 scoreRangeEnd: String? = nil,
                 scoreRangeStart: String? = nil,
                 scoreSortType: ScoreSortType? = nil,
-                submissionType: SubmissionType? = nil
+                submissionType: SubmissionType? = nil,
+                visibility: Visibility? = nil
             ) {
+                self.activityProperties = activityProperties
                 self.archived = archived
                 self.defaultFormatter = defaultFormatter
                 self.recurrenceDuration = recurrenceDuration
@@ -84,9 +91,11 @@ public struct GameCenterLeaderboardUpdateRequest: Hashable, Codable {
                 self.scoreRangeStart = scoreRangeStart
                 self.scoreSortType = scoreSortType
                 self.submissionType = submissionType
+                self.visibility = visibility
             }
 
             private enum CodingKeys: String, CodingKey {
+                case activityProperties
                 case archived
                 case defaultFormatter
                 case recurrenceDuration
@@ -97,49 +106,66 @@ public struct GameCenterLeaderboardUpdateRequest: Hashable, Codable {
                 case scoreRangeStart
                 case scoreSortType
                 case submissionType
+                case visibility
             }
 
-            public enum ScoreSortType: Hashable, Codable, RawRepresentable {
-                case asc
-                case desc
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .asc: return "ASC"
-                    case .desc: return "DESC"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ScoreSortType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var asc: Self {
+                    .init(rawValue: "ASC")
                 }
 
+                public static var desc: Self {
+                    .init(rawValue: "DESC")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "ASC": self = .asc
-                    case "DESC": self = .desc
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubmissionType: Hashable, Codable, RawRepresentable {
-                case bestScore
-                case mostRecentScore
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .bestScore: return "BEST_SCORE"
-                    case .mostRecentScore: return "MOST_RECENT_SCORE"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubmissionType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var bestScore: Self {
+                    .init(rawValue: "BEST_SCORE")
                 }
 
+                public static var mostRecentScore: Self {
+                    .init(rawValue: "MOST_RECENT_SCORE")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "BEST_SCORE": self = .bestScore
-                    case "MOST_RECENT_SCORE": self = .mostRecentScore
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct Visibility: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var hideForAll: Self {
+                    .init(rawValue: "HIDE_FOR_ALL")
+                }
+
+                public static var showForAll: Self {
+                    .init(rawValue: "SHOW_FOR_ALL")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
                 }
             }
         }

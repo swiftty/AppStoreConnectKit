@@ -47,7 +47,9 @@ extension V1.CiMacOsVersions {
 
         /// - Returns: **200**, List of CiMacOsVersions as `CiMacOsVersionsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -61,7 +63,13 @@ extension V1.CiMacOsVersions {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -89,56 +97,55 @@ extension V1.CiMacOsVersions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiMacOsVersions: Hashable, Codable, RawRepresentable {
-                case name
-                case version
-                case xcodeVersions
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .name: return "name"
-                    case .version: return "version"
-                    case .xcodeVersions: return "xcodeVersions"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiMacOsVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var name: Self {
+                    .init(rawValue: "name")
                 }
 
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public static var xcodeVersions: Self {
+                    .init(rawValue: "xcodeVersions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "name": self = .name
-                    case "version": self = .version
-                    case "xcodeVersions": self = .xcodeVersions
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum CiXcodeVersions: Hashable, Codable, RawRepresentable {
-                case macOsVersions
-                case name
-                case testDestinations
-                case version
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .macOsVersions: return "macOsVersions"
-                    case .name: return "name"
-                    case .testDestinations: return "testDestinations"
-                    case .version: return "version"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiXcodeVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var macOsVersions: Self {
+                    .init(rawValue: "macOsVersions")
                 }
 
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var testDestinations: Self {
+                    .init(rawValue: "testDestinations")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "macOsVersions": self = .macOsVersions
-                    case "name": self = .name
-                    case "testDestinations": self = .testDestinations
-                    case "version": self = .version
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -161,22 +168,19 @@ extension V1.CiMacOsVersions.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case xcodeVersions
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .xcodeVersions: return "xcodeVersions"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var xcodeVersions: Self {
+                .init(rawValue: "xcodeVersions")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "xcodeVersions": self = .xcodeVersions
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

@@ -3,12 +3,14 @@
 // swiftlint:disable all
 import Foundation
 
-public struct DiagnosticSignature: Hashable, Codable {
+public struct DiagnosticSignature: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
 
     public var attributes: Attributes?
+
+    public var relationships: Relationships?
 
     public var links: ResourceLinks?
 
@@ -16,11 +18,13 @@ public struct DiagnosticSignature: Hashable, Codable {
         id: String,
         type: `Type`,
         attributes: Attributes? = nil,
+        relationships: Relationships? = nil,
         links: ResourceLinks? = nil
     ) {
         self.id = id
         self.type = type
         self.attributes = attributes
+        self.relationships = relationships
         self.links = links
     }
 
@@ -28,15 +32,18 @@ public struct DiagnosticSignature: Hashable, Codable {
         case id
         case type
         case attributes
+        case relationships
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case diagnosticSignatures
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var diagnosticType: DiagnosticType?
+
+        public var insight: DiagnosticInsight?
 
         public var signature: String?
 
@@ -44,39 +51,68 @@ public struct DiagnosticSignature: Hashable, Codable {
 
         public init(
             diagnosticType: DiagnosticType? = nil,
+            insight: DiagnosticInsight? = nil,
             signature: String? = nil,
             weight: Float? = nil
         ) {
             self.diagnosticType = diagnosticType
+            self.insight = insight
             self.signature = signature
             self.weight = weight
         }
 
         private enum CodingKeys: String, CodingKey {
             case diagnosticType
+            case insight
             case signature
             case weight
         }
 
-        public enum DiagnosticType: Hashable, Codable, RawRepresentable {
-            case diskWrites
-            case hangs
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .diskWrites: return "DISK_WRITES"
-                case .hangs: return "HANGS"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct DiagnosticType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var diskWrites: Self {
+                .init(rawValue: "DISK_WRITES")
             }
 
+            public static var hangs: Self {
+                .init(rawValue: "HANGS")
+            }
+
+            public static var launches: Self {
+                .init(rawValue: "LAUNCHES")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "DISK_WRITES": self = .diskWrites
-                case "HANGS": self = .hangs
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
+            }
+        }
+    }
+
+    public struct Relationships: Hashable, Codable, Sendable {
+        public var logs: Logs?
+
+        public init(logs: Logs? = nil) {
+            self.logs = logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logs
+        }
+
+        public struct Logs: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
             }
         }
     }

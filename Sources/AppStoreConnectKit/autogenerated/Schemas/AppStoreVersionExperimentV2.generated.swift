@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppStoreVersionExperimentV2: Hashable, Codable {
+public struct AppStoreVersionExperimentV2: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct AppStoreVersionExperimentV2: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appStoreVersionExperiments
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var endDate: String?
 
         public var name: String?
@@ -83,51 +83,56 @@ public struct AppStoreVersionExperimentV2: Hashable, Codable {
             case trafficProportion
         }
 
-        public enum State: Hashable, Codable, RawRepresentable {
-            case accepted
-            case approved
-            case completed
-            case inReview
-            case prepareForSubmission
-            case readyForReview
-            case rejected
-            case stopped
-            case waitingForReview
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .accepted: return "ACCEPTED"
-                case .approved: return "APPROVED"
-                case .completed: return "COMPLETED"
-                case .inReview: return "IN_REVIEW"
-                case .prepareForSubmission: return "PREPARE_FOR_SUBMISSION"
-                case .readyForReview: return "READY_FOR_REVIEW"
-                case .rejected: return "REJECTED"
-                case .stopped: return "STOPPED"
-                case .waitingForReview: return "WAITING_FOR_REVIEW"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var accepted: Self {
+                .init(rawValue: "ACCEPTED")
             }
 
+            public static var approved: Self {
+                .init(rawValue: "APPROVED")
+            }
+
+            public static var completed: Self {
+                .init(rawValue: "COMPLETED")
+            }
+
+            public static var inReview: Self {
+                .init(rawValue: "IN_REVIEW")
+            }
+
+            public static var prepareForSubmission: Self {
+                .init(rawValue: "PREPARE_FOR_SUBMISSION")
+            }
+
+            public static var readyForReview: Self {
+                .init(rawValue: "READY_FOR_REVIEW")
+            }
+
+            public static var rejected: Self {
+                .init(rawValue: "REJECTED")
+            }
+
+            public static var stopped: Self {
+                .init(rawValue: "STOPPED")
+            }
+
+            public static var waitingForReview: Self {
+                .init(rawValue: "WAITING_FOR_REVIEW")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "ACCEPTED": self = .accepted
-                case "APPROVED": self = .approved
-                case "COMPLETED": self = .completed
-                case "IN_REVIEW": self = .inReview
-                case "PREPARE_FOR_SUBMISSION": self = .prepareForSubmission
-                case "READY_FOR_REVIEW": self = .readyForReview
-                case "REJECTED": self = .rejected
-                case "STOPPED": self = .stopped
-                case "WAITING_FOR_REVIEW": self = .waitingForReview
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var app: App?
 
         public var appStoreVersionExperimentTreatments: AppStoreVersionExperimentTreatments?
@@ -155,25 +160,18 @@ public struct AppStoreVersionExperimentV2: Hashable, Codable {
             case latestControlVersion
         }
 
-        public struct App: Hashable, Codable {
+        public struct App: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -191,41 +189,22 @@ public struct AppStoreVersionExperimentV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case apps
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct AppStoreVersionExperimentTreatments: Hashable, Codable {
+        public struct AppStoreVersionExperimentTreatments: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -239,7 +218,7 @@ public struct AppStoreVersionExperimentV2: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -257,55 +236,31 @@ public struct AppStoreVersionExperimentV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appStoreVersionExperimentTreatments
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct ControlVersions: Hashable, Codable {
+        public struct ControlVersions: Hashable, Codable, Sendable {
             public var data: [Data]?
-
-            public var links: Links?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
-                self.links = links
                 self.meta = meta
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -323,50 +278,24 @@ public struct AppStoreVersionExperimentV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appStoreVersions
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }
 
-        public struct LatestControlVersion: Hashable, Codable {
+        public struct LatestControlVersion: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -384,27 +313,8 @@ public struct AppStoreVersionExperimentV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appStoreVersions
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

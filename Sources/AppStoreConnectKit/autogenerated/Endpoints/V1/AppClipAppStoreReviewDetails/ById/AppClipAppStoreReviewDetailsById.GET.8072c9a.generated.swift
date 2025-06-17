@@ -44,8 +44,10 @@ extension V1.AppClipAppStoreReviewDetails.ById {
 
         /// - Returns: **200**, Single AppClipAppStoreReviewDetail as `AppClipAppStoreReviewDetailResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.AppClipAppStoreReviewDetails.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,25 +95,23 @@ extension V1.AppClipAppStoreReviewDetails.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipAppStoreReviewDetails: Hashable, Codable, RawRepresentable {
-                case appClipDefaultExperience
-                case invocationUrls
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appClipDefaultExperience: return "appClipDefaultExperience"
-                    case .invocationUrls: return "invocationUrls"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppClipAppStoreReviewDetails: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appClipDefaultExperience: Self {
+                    .init(rawValue: "appClipDefaultExperience")
                 }
 
+                public static var invocationUrls: Self {
+                    .init(rawValue: "invocationUrls")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appClipDefaultExperience": self = .appClipDefaultExperience
-                    case "invocationUrls": self = .invocationUrls
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -123,22 +129,19 @@ extension V1.AppClipAppStoreReviewDetails.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appClipDefaultExperience
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appClipDefaultExperience: return "appClipDefaultExperience"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appClipDefaultExperience: Self {
+                .init(rawValue: "appClipDefaultExperience")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appClipDefaultExperience": self = .appClipDefaultExperience
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

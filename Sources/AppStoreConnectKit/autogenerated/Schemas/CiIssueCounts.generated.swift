@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiIssueCounts: Hashable, Codable {
+public struct CiIssueCounts: Hashable, Codable, Sendable {
     public var analyzerWarnings: Int?
 
     public var errors: Int?

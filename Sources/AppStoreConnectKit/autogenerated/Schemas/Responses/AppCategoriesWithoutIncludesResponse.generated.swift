@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppCategoriesWithoutIncludesResponse: Hashable, Codable {
+public struct AppCategoriesWithoutIncludesResponse: Hashable, Codable, Sendable {
     public var data: [AppCategory]
 
     public var links: PagedDocumentLinks

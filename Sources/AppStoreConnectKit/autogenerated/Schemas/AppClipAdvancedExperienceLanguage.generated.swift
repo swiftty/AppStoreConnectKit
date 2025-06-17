@@ -3,115 +3,143 @@
 // swiftlint:disable all
 import Foundation
 
-public enum AppClipAdvancedExperienceLanguage: Hashable, Codable, RawRepresentable {
-    case ar
-    case ca
-    case cs
-    case da
-    case de
-    case el
-    case en
-    case es
-    case fi
-    case fr
-    case he
-    case hi
-    case hr
-    case hu
-    case id
-    case it
-    case ja
-    case ko
-    case ms
-    case nl
-    case no
-    case pl
-    case pt
-    case ro
-    case ru
-    case sk
-    case sv
-    case th
-    case tr
-    case uk
-    case vi
-    case zh
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .ar: return "AR"
-        case .ca: return "CA"
-        case .cs: return "CS"
-        case .da: return "DA"
-        case .de: return "DE"
-        case .el: return "EL"
-        case .en: return "EN"
-        case .es: return "ES"
-        case .fi: return "FI"
-        case .fr: return "FR"
-        case .he: return "HE"
-        case .hi: return "HI"
-        case .hr: return "HR"
-        case .hu: return "HU"
-        case .id: return "ID"
-        case .it: return "IT"
-        case .ja: return "JA"
-        case .ko: return "KO"
-        case .ms: return "MS"
-        case .nl: return "NL"
-        case .no: return "NO"
-        case .pl: return "PL"
-        case .pt: return "PT"
-        case .ro: return "RO"
-        case .ru: return "RU"
-        case .sk: return "SK"
-        case .sv: return "SV"
-        case .th: return "TH"
-        case .tr: return "TR"
-        case .uk: return "UK"
-        case .vi: return "VI"
-        case .zh: return "ZH"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct AppClipAdvancedExperienceLanguage: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var ar: Self {
+        .init(rawValue: "AR")
     }
 
+    public static var ca: Self {
+        .init(rawValue: "CA")
+    }
+
+    public static var cs: Self {
+        .init(rawValue: "CS")
+    }
+
+    public static var da: Self {
+        .init(rawValue: "DA")
+    }
+
+    public static var de: Self {
+        .init(rawValue: "DE")
+    }
+
+    public static var el: Self {
+        .init(rawValue: "EL")
+    }
+
+    public static var en: Self {
+        .init(rawValue: "EN")
+    }
+
+    public static var es: Self {
+        .init(rawValue: "ES")
+    }
+
+    public static var fi: Self {
+        .init(rawValue: "FI")
+    }
+
+    public static var fr: Self {
+        .init(rawValue: "FR")
+    }
+
+    public static var he: Self {
+        .init(rawValue: "HE")
+    }
+
+    public static var hi: Self {
+        .init(rawValue: "HI")
+    }
+
+    public static var hr: Self {
+        .init(rawValue: "HR")
+    }
+
+    public static var hu: Self {
+        .init(rawValue: "HU")
+    }
+
+    public static var id: Self {
+        .init(rawValue: "ID")
+    }
+
+    public static var it: Self {
+        .init(rawValue: "IT")
+    }
+
+    public static var ja: Self {
+        .init(rawValue: "JA")
+    }
+
+    public static var ko: Self {
+        .init(rawValue: "KO")
+    }
+
+    public static var ms: Self {
+        .init(rawValue: "MS")
+    }
+
+    public static var nl: Self {
+        .init(rawValue: "NL")
+    }
+
+    public static var no: Self {
+        .init(rawValue: "NO")
+    }
+
+    public static var pl: Self {
+        .init(rawValue: "PL")
+    }
+
+    public static var pt: Self {
+        .init(rawValue: "PT")
+    }
+
+    public static var ro: Self {
+        .init(rawValue: "RO")
+    }
+
+    public static var ru: Self {
+        .init(rawValue: "RU")
+    }
+
+    public static var sk: Self {
+        .init(rawValue: "SK")
+    }
+
+    public static var sv: Self {
+        .init(rawValue: "SV")
+    }
+
+    public static var th: Self {
+        .init(rawValue: "TH")
+    }
+
+    public static var tr: Self {
+        .init(rawValue: "TR")
+    }
+
+    public static var uk: Self {
+        .init(rawValue: "UK")
+    }
+
+    public static var vi: Self {
+        .init(rawValue: "VI")
+    }
+
+    public static var zh: Self {
+        .init(rawValue: "ZH")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "AR": self = .ar
-        case "CA": self = .ca
-        case "CS": self = .cs
-        case "DA": self = .da
-        case "DE": self = .de
-        case "EL": self = .el
-        case "EN": self = .en
-        case "ES": self = .es
-        case "FI": self = .fi
-        case "FR": self = .fr
-        case "HE": self = .he
-        case "HI": self = .hi
-        case "HR": self = .hr
-        case "HU": self = .hu
-        case "ID": self = .id
-        case "IT": self = .it
-        case "JA": self = .ja
-        case "KO": self = .ko
-        case "MS": self = .ms
-        case "NL": self = .nl
-        case "NO": self = .no
-        case "PL": self = .pl
-        case "PT": self = .pt
-        case "RO": self = .ro
-        case "RU": self = .ru
-        case "SK": self = .sk
-        case "SV": self = .sv
-        case "TH": self = .th
-        case "TR": self = .tr
-        case "UK": self = .uk
-        case "VI": self = .vi
-        case "ZH": self = .zh
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

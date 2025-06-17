@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppScreenshot: Hashable, Codable {
+public struct AppScreenshot: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct AppScreenshot: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appScreenshots
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var assetDeliveryState: AppMediaAssetState?
 
         public var assetToken: String?
@@ -89,7 +89,7 @@ public struct AppScreenshot: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var appScreenshotSet: AppScreenshotSet?
 
         public init(appScreenshotSet: AppScreenshotSet? = nil) {
@@ -100,25 +100,18 @@ public struct AppScreenshot: Hashable, Codable {
             case appScreenshotSet
         }
 
-        public struct AppScreenshotSet: Hashable, Codable {
+        public struct AppScreenshotSet: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -136,27 +129,8 @@ public struct AppScreenshot: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case appScreenshotSets
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

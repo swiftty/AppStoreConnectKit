@@ -46,8 +46,10 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage {
 
         /// - Returns: **200**, Single AppClipHeaderImage as `AppClipHeaderImageResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -61,10 +63,16 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -89,71 +97,71 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppClipDefaultExperienceLocalizations: Hashable, Codable, RawRepresentable {
-                case appClipDefaultExperience
-                case appClipHeaderImage
-                case locale
-                case subtitle
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appClipDefaultExperience: return "appClipDefaultExperience"
-                    case .appClipHeaderImage: return "appClipHeaderImage"
-                    case .locale: return "locale"
-                    case .subtitle: return "subtitle"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppClipDefaultExperienceLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appClipDefaultExperience: Self {
+                    .init(rawValue: "appClipDefaultExperience")
                 }
 
+                public static var appClipHeaderImage: Self {
+                    .init(rawValue: "appClipHeaderImage")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var subtitle: Self {
+                    .init(rawValue: "subtitle")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appClipDefaultExperience": self = .appClipDefaultExperience
-                    case "appClipHeaderImage": self = .appClipHeaderImage
-                    case "locale": self = .locale
-                    case "subtitle": self = .subtitle
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppClipHeaderImages: Hashable, Codable, RawRepresentable {
-                case appClipDefaultExperienceLocalization
-                case assetDeliveryState
-                case fileName
-                case fileSize
-                case imageAsset
-                case sourceFileChecksum
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appClipDefaultExperienceLocalization: return "appClipDefaultExperienceLocalization"
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .imageAsset: return "imageAsset"
-                    case .sourceFileChecksum: return "sourceFileChecksum"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppClipHeaderImages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appClipDefaultExperienceLocalization: Self {
+                    .init(rawValue: "appClipDefaultExperienceLocalization")
                 }
 
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appClipDefaultExperienceLocalization": self = .appClipDefaultExperienceLocalization
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "imageAsset": self = .imageAsset
-                    case "sourceFileChecksum": self = .sourceFileChecksum
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -176,22 +184,19 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.AppClipHeaderImage.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appClipDefaultExperienceLocalization
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appClipDefaultExperienceLocalization: return "appClipDefaultExperienceLocalization"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appClipDefaultExperienceLocalization: Self {
+                .init(rawValue: "appClipDefaultExperienceLocalization")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appClipDefaultExperienceLocalization": self = .appClipDefaultExperienceLocalization
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

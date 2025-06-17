@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AgeRatingDeclaration: Hashable, Codable {
+public struct AgeRatingDeclaration: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,19 +31,16 @@ public struct AgeRatingDeclaration: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case ageRatingDeclarations
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var alcoholTobaccoOrDrugUseOrReferences: AlcoholTobaccoOrDrugUseOrReferences?
 
         public var contests: Contests?
 
         public var gambling: Bool?
-
-        @available(*, deprecated)
-        public var gamblingAndContests: Bool?
 
         public var gamblingSimulated: GamblingSimulated?
 
@@ -51,13 +48,15 @@ public struct AgeRatingDeclaration: Hashable, Codable {
 
         public var kidsAgeBand: KidsAgeBand?
 
+        public var koreaAgeRatingOverride: KoreaAgeRatingOverride?
+
+        public var lootBox: Bool?
+
         public var matureOrSuggestiveThemes: MatureOrSuggestiveThemes?
 
         public var medicalOrTreatmentInformation: MedicalOrTreatmentInformation?
 
         public var profanityOrCrudeHumor: ProfanityOrCrudeHumor?
-
-        public var seventeenPlus: Bool?
 
         public var sexualContentGraphicAndNudity: SexualContentGraphicAndNudity?
 
@@ -75,14 +74,14 @@ public struct AgeRatingDeclaration: Hashable, Codable {
             alcoholTobaccoOrDrugUseOrReferences: AlcoholTobaccoOrDrugUseOrReferences? = nil,
             contests: Contests? = nil,
             gambling: Bool? = nil,
-            gamblingAndContests: Bool? = nil,
             gamblingSimulated: GamblingSimulated? = nil,
             horrorOrFearThemes: HorrorOrFearThemes? = nil,
             kidsAgeBand: KidsAgeBand? = nil,
+            koreaAgeRatingOverride: KoreaAgeRatingOverride? = nil,
+            lootBox: Bool? = nil,
             matureOrSuggestiveThemes: MatureOrSuggestiveThemes? = nil,
             medicalOrTreatmentInformation: MedicalOrTreatmentInformation? = nil,
             profanityOrCrudeHumor: ProfanityOrCrudeHumor? = nil,
-            seventeenPlus: Bool? = nil,
             sexualContentGraphicAndNudity: SexualContentGraphicAndNudity? = nil,
             sexualContentOrNudity: SexualContentOrNudity? = nil,
             unrestrictedWebAccess: Bool? = nil,
@@ -93,14 +92,14 @@ public struct AgeRatingDeclaration: Hashable, Codable {
             self.alcoholTobaccoOrDrugUseOrReferences = alcoholTobaccoOrDrugUseOrReferences
             self.contests = contests
             self.gambling = gambling
-            self.gamblingAndContests = gamblingAndContests
             self.gamblingSimulated = gamblingSimulated
             self.horrorOrFearThemes = horrorOrFearThemes
             self.kidsAgeBand = kidsAgeBand
+            self.koreaAgeRatingOverride = koreaAgeRatingOverride
+            self.lootBox = lootBox
             self.matureOrSuggestiveThemes = matureOrSuggestiveThemes
             self.medicalOrTreatmentInformation = medicalOrTreatmentInformation
             self.profanityOrCrudeHumor = profanityOrCrudeHumor
-            self.seventeenPlus = seventeenPlus
             self.sexualContentGraphicAndNudity = sexualContentGraphicAndNudity
             self.sexualContentOrNudity = sexualContentOrNudity
             self.unrestrictedWebAccess = unrestrictedWebAccess
@@ -113,14 +112,14 @@ public struct AgeRatingDeclaration: Hashable, Codable {
             case alcoholTobaccoOrDrugUseOrReferences
             case contests
             case gambling
-            case gamblingAndContests
             case gamblingSimulated
             case horrorOrFearThemes
             case kidsAgeBand
+            case koreaAgeRatingOverride
+            case lootBox
             case matureOrSuggestiveThemes
             case medicalOrTreatmentInformation
             case profanityOrCrudeHumor
-            case seventeenPlus
             case sexualContentGraphicAndNudity
             case sexualContentOrNudity
             case unrestrictedWebAccess
@@ -129,303 +128,219 @@ public struct AgeRatingDeclaration: Hashable, Codable {
             case violenceRealisticProlongedGraphicOrSadistic
         }
 
-        public enum AlcoholTobaccoOrDrugUseOrReferences: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct AlcoholTobaccoOrDrugUseOrReferences: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum Contests: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Contests: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum GamblingSimulated: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct GamblingSimulated: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum HorrorOrFearThemes: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct HorrorOrFearThemes: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum MatureOrSuggestiveThemes: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct KoreaAgeRatingOverride: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var fifteenPlus: Self {
+                .init(rawValue: "FIFTEEN_PLUS")
             }
 
+            public static var nineteenPlus: Self {
+                .init(rawValue: "NINETEEN_PLUS")
+            }
+
+            public static var none: Self {
+                .init(rawValue: "NONE")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum MedicalOrTreatmentInformation: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct MatureOrSuggestiveThemes: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum ProfanityOrCrudeHumor: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct MedicalOrTreatmentInformation: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum SexualContentGraphicAndNudity: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct ProfanityOrCrudeHumor: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum SexualContentOrNudity: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct SexualContentGraphicAndNudity: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum ViolenceCartoonOrFantasy: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct SexualContentOrNudity: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum ViolenceRealistic: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct ViolenceCartoonOrFantasy: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
-        public enum ViolenceRealisticProlongedGraphicOrSadistic: Hashable, Codable, RawRepresentable {
-            case frequentOrIntense
-            case infrequentOrMild
-            case none
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .frequentOrIntense: return "FREQUENT_OR_INTENSE"
-                case .infrequentOrMild: return "INFREQUENT_OR_MILD"
-                case .none: return "NONE"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct ViolenceRealistic: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "FREQUENT_OR_INTENSE": self = .frequentOrIntense
-                case "INFREQUENT_OR_MILD": self = .infrequentOrMild
-                case "NONE": self = .none
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
+            }
+        }
+
+        public struct ViolenceRealisticProlongedGraphicOrSadistic: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var none: Self {
+                .init(rawValue: "NONE")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
+            public init(rawValue: String) {
+                self.rawValue = rawValue
             }
         }
     }

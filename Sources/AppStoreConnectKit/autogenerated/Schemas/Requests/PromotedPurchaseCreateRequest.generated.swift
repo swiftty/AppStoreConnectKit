@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct PromotedPurchaseCreateRequest: Hashable, Codable {
+public struct PromotedPurchaseCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct PromotedPurchaseCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct PromotedPurchaseCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case promotedPurchases
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var enabled: Bool?
 
             public var visibleForAllUsers: Bool
@@ -60,7 +60,7 @@ public struct PromotedPurchaseCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var app: App
 
             public var inAppPurchaseV2: InAppPurchaseV2?
@@ -83,7 +83,7 @@ public struct PromotedPurchaseCreateRequest: Hashable, Codable {
                 case subscription
             }
 
-            public struct App: Hashable, Codable {
+            public struct App: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -94,7 +94,7 @@ public struct PromotedPurchaseCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -112,13 +112,13 @@ public struct PromotedPurchaseCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case apps
                     }
                 }
             }
 
-            public struct InAppPurchaseV2: Hashable, Codable {
+            public struct InAppPurchaseV2: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -129,7 +129,7 @@ public struct PromotedPurchaseCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -147,13 +147,13 @@ public struct PromotedPurchaseCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case inAppPurchases
                     }
                 }
             }
 
-            public struct Subscription: Hashable, Codable {
+            public struct Subscription: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -164,7 +164,7 @@ public struct PromotedPurchaseCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -182,7 +182,7 @@ public struct PromotedPurchaseCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case subscriptions
                     }
                 }

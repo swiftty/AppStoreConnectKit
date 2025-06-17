@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct TerritoriesResponse: Hashable, Codable {
+public struct TerritoriesResponse: Hashable, Codable, Sendable {
     public var data: [Territory]
 
     public var links: PagedDocumentLinks

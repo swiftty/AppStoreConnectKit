@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppInfoUpdateRequest: Hashable, Codable {
+public struct AppInfoUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -37,11 +37,11 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appInfos
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var primaryCategory: PrimaryCategory?
 
             public var primarySubcategoryOne: PrimarySubcategoryOne?
@@ -79,7 +79,7 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                 case secondarySubcategoryTwo
             }
 
-            public struct PrimaryCategory: Hashable, Codable {
+            public struct PrimaryCategory: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -90,7 +90,7 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -108,13 +108,13 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appCategories
                     }
                 }
             }
 
-            public struct PrimarySubcategoryOne: Hashable, Codable {
+            public struct PrimarySubcategoryOne: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -125,7 +125,7 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -143,13 +143,13 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appCategories
                     }
                 }
             }
 
-            public struct PrimarySubcategoryTwo: Hashable, Codable {
+            public struct PrimarySubcategoryTwo: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -160,7 +160,7 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -178,13 +178,13 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appCategories
                     }
                 }
             }
 
-            public struct SecondaryCategory: Hashable, Codable {
+            public struct SecondaryCategory: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -195,7 +195,7 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -213,13 +213,13 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appCategories
                     }
                 }
             }
 
-            public struct SecondarySubcategoryOne: Hashable, Codable {
+            public struct SecondarySubcategoryOne: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -230,7 +230,7 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -248,13 +248,13 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appCategories
                     }
                 }
             }
 
-            public struct SecondarySubcategoryTwo: Hashable, Codable {
+            public struct SecondarySubcategoryTwo: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -265,7 +265,7 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -283,7 +283,7 @@ public struct AppInfoUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appCategories
                     }
                 }

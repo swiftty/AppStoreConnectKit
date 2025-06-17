@@ -41,7 +41,9 @@ extension V2.SandboxTesters {
 
         /// - Returns: **200**, List of SandboxTesters as `SandboxTestersV2Response`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -55,7 +57,13 @@ extension V2.SandboxTesters {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -80,40 +88,43 @@ extension V2.SandboxTesters.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum SandboxTesters: Hashable, Codable, RawRepresentable {
-                case acAccountName
-                case applePayCompatible
-                case firstName
-                case interruptPurchases
-                case lastName
-                case subscriptionRenewalRate
-                case territory
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .acAccountName: return "acAccountName"
-                    case .applePayCompatible: return "applePayCompatible"
-                    case .firstName: return "firstName"
-                    case .interruptPurchases: return "interruptPurchases"
-                    case .lastName: return "lastName"
-                    case .subscriptionRenewalRate: return "subscriptionRenewalRate"
-                    case .territory: return "territory"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SandboxTesters: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var acAccountName: Self {
+                    .init(rawValue: "acAccountName")
                 }
 
+                public static var applePayCompatible: Self {
+                    .init(rawValue: "applePayCompatible")
+                }
+
+                public static var firstName: Self {
+                    .init(rawValue: "firstName")
+                }
+
+                public static var interruptPurchases: Self {
+                    .init(rawValue: "interruptPurchases")
+                }
+
+                public static var lastName: Self {
+                    .init(rawValue: "lastName")
+                }
+
+                public static var subscriptionRenewalRate: Self {
+                    .init(rawValue: "subscriptionRenewalRate")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "acAccountName": self = .acAccountName
-                    case "applePayCompatible": self = .applePayCompatible
-                    case "firstName": self = .firstName
-                    case "interruptPurchases": self = .interruptPurchases
-                    case "lastName": self = .lastName
-                    case "subscriptionRenewalRate": self = .subscriptionRenewalRate
-                    case "territory": self = .territory
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

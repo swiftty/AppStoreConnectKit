@@ -44,8 +44,10 @@ extension V1.Apps.ById.BetaGroups {
 
         /// - Returns: **200**, List of BetaGroups with get as `BetaGroupsWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.Apps.ById.BetaGroups {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,61 +95,83 @@ extension V1.Apps.ById.BetaGroups.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaGroups: Hashable, Codable, RawRepresentable {
-                case app
-                case betaTesters
-                case builds
-                case createdDate
-                case feedbackEnabled
-                case hasAccessToAllBuilds
-                case iosBuildsAvailableForAppleSiliconMac
-                case isInternalGroup
-                case name
-                case publicLink
-                case publicLinkEnabled
-                case publicLinkId
-                case publicLinkLimit
-                case publicLinkLimitEnabled
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .betaTesters: return "betaTesters"
-                    case .builds: return "builds"
-                    case .createdDate: return "createdDate"
-                    case .feedbackEnabled: return "feedbackEnabled"
-                    case .hasAccessToAllBuilds: return "hasAccessToAllBuilds"
-                    case .iosBuildsAvailableForAppleSiliconMac: return "iosBuildsAvailableForAppleSiliconMac"
-                    case .isInternalGroup: return "isInternalGroup"
-                    case .name: return "name"
-                    case .publicLink: return "publicLink"
-                    case .publicLinkEnabled: return "publicLinkEnabled"
-                    case .publicLinkId: return "publicLinkId"
-                    case .publicLinkLimit: return "publicLinkLimit"
-                    case .publicLinkLimitEnabled: return "publicLinkLimitEnabled"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BetaGroups: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var betaRecruitmentCriteria: Self {
+                    .init(rawValue: "betaRecruitmentCriteria")
+                }
+
+                public static var betaRecruitmentCriterionCompatibleBuildCheck: Self {
+                    .init(rawValue: "betaRecruitmentCriterionCompatibleBuildCheck")
+                }
+
+                public static var betaTesters: Self {
+                    .init(rawValue: "betaTesters")
+                }
+
+                public static var builds: Self {
+                    .init(rawValue: "builds")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var feedbackEnabled: Self {
+                    .init(rawValue: "feedbackEnabled")
+                }
+
+                public static var hasAccessToAllBuilds: Self {
+                    .init(rawValue: "hasAccessToAllBuilds")
+                }
+
+                public static var iosBuildsAvailableForAppleSiliconMac: Self {
+                    .init(rawValue: "iosBuildsAvailableForAppleSiliconMac")
+                }
+
+                public static var iosBuildsAvailableForAppleVision: Self {
+                    .init(rawValue: "iosBuildsAvailableForAppleVision")
+                }
+
+                public static var isInternalGroup: Self {
+                    .init(rawValue: "isInternalGroup")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var publicLink: Self {
+                    .init(rawValue: "publicLink")
+                }
+
+                public static var publicLinkEnabled: Self {
+                    .init(rawValue: "publicLinkEnabled")
+                }
+
+                public static var publicLinkId: Self {
+                    .init(rawValue: "publicLinkId")
+                }
+
+                public static var publicLinkLimit: Self {
+                    .init(rawValue: "publicLinkLimit")
+                }
+
+                public static var publicLinkLimitEnabled: Self {
+                    .init(rawValue: "publicLinkLimitEnabled")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "betaTesters": self = .betaTesters
-                    case "builds": self = .builds
-                    case "createdDate": self = .createdDate
-                    case "feedbackEnabled": self = .feedbackEnabled
-                    case "hasAccessToAllBuilds": self = .hasAccessToAllBuilds
-                    case "iosBuildsAvailableForAppleSiliconMac": self = .iosBuildsAvailableForAppleSiliconMac
-                    case "isInternalGroup": self = .isInternalGroup
-                    case "name": self = .name
-                    case "publicLink": self = .publicLink
-                    case "publicLinkEnabled": self = .publicLinkEnabled
-                    case "publicLinkId": self = .publicLinkId
-                    case "publicLinkLimit": self = .publicLinkLimit
-                    case "publicLinkLimitEnabled": self = .publicLinkLimitEnabled
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

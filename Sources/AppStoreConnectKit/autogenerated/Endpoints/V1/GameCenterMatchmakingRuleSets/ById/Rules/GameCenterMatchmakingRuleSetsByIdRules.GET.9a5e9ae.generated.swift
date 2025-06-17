@@ -44,8 +44,10 @@ extension V1.GameCenterMatchmakingRuleSets.ById.Rules {
 
         /// - Returns: **200**, List of GameCenterMatchmakingRules as `GameCenterMatchmakingRulesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.GameCenterMatchmakingRuleSets.ById.Rules {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,37 +95,35 @@ extension V1.GameCenterMatchmakingRuleSets.ById.Rules.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum GameCenterMatchmakingRules: Hashable, Codable, RawRepresentable {
-                case description
-                case expression
-                case referenceName
-                case ruleSet
-                case type
-                case weight
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .description: return "description"
-                    case .expression: return "expression"
-                    case .referenceName: return "referenceName"
-                    case .ruleSet: return "ruleSet"
-                    case .type: return "type"
-                    case .weight: return "weight"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct GameCenterMatchmakingRules: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var description: Self {
+                    .init(rawValue: "description")
                 }
 
+                public static var expression: Self {
+                    .init(rawValue: "expression")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var type: Self {
+                    .init(rawValue: "type")
+                }
+
+                public static var weight: Self {
+                    .init(rawValue: "weight")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "description": self = .description
-                    case "expression": self = .expression
-                    case "referenceName": self = .referenceName
-                    case "ruleSet": self = .ruleSet
-                    case "type": self = .type
-                    case "weight": self = .weight
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

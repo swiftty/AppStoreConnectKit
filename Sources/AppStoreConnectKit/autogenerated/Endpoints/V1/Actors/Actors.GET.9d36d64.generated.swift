@@ -43,7 +43,9 @@ extension V1.Actors {
 
         /// - Returns: **200**, List of Actors as `ActorsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -57,7 +59,13 @@ extension V1.Actors {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -84,34 +92,35 @@ extension V1.Actors.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Actors: Hashable, Codable, RawRepresentable {
-                case actorType
-                case apiKeyId
-                case userEmail
-                case userFirstName
-                case userLastName
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .actorType: return "actorType"
-                    case .apiKeyId: return "apiKeyId"
-                    case .userEmail: return "userEmail"
-                    case .userFirstName: return "userFirstName"
-                    case .userLastName: return "userLastName"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Actors: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var actorType: Self {
+                    .init(rawValue: "actorType")
                 }
 
+                public static var apiKeyId: Self {
+                    .init(rawValue: "apiKeyId")
+                }
+
+                public static var userEmail: Self {
+                    .init(rawValue: "userEmail")
+                }
+
+                public static var userFirstName: Self {
+                    .init(rawValue: "userFirstName")
+                }
+
+                public static var userLastName: Self {
+                    .init(rawValue: "userLastName")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "actorType": self = .actorType
-                    case "apiKeyId": self = .apiKeyId
-                    case "userEmail": self = .userEmail
-                    case "userFirstName": self = .userFirstName
-                    case "userLastName": self = .userLastName
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

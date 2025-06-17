@@ -28,14 +28,10 @@ extension V1.PromotedPurchases.ById {
             components?.path = path
 
             components?.queryItems = [
-                URLQueryItem(name: "fields[promotedPurchaseImages]",
-                             value: parameters.fields[.promotedPurchaseImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[promotedPurchases]",
                              value: parameters.fields[.promotedPurchases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
-                             value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
-                URLQueryItem(name: "limit[promotionImages]",
-                             value: parameters.limit[.promotionImages].map { "\($0)" })
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -48,8 +44,10 @@ extension V1.PromotedPurchases.ById {
 
         /// - Returns: **200**, Single PromotedPurchase as `PromotedPurchaseResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -63,10 +61,16 @@ extension V1.PromotedPurchases.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -83,8 +87,6 @@ extension V1.PromotedPurchases.ById.GET {
         /// comma-separated list of relationships to include
         public var include: [Include]?
 
-        public var limit: Limit = Limit()
-
         public struct Fields: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
                 get { values[relation]?.base as! T }
@@ -93,95 +95,39 @@ extension V1.PromotedPurchases.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum PromotedPurchaseImages: Hashable, Codable, RawRepresentable {
-                case assetToken
-                case assetType
-                case fileName
-                case fileSize
-                case imageAsset
-                case promotedPurchase
-                case sourceFileChecksum
-                case state
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .assetToken: return "assetToken"
-                    case .assetType: return "assetType"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .imageAsset: return "imageAsset"
-                    case .promotedPurchase: return "promotedPurchase"
-                    case .sourceFileChecksum: return "sourceFileChecksum"
-                    case .state: return "state"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct PromotedPurchases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var enabled: Self {
+                    .init(rawValue: "enabled")
                 }
+
+                public static var inAppPurchaseV2: Self {
+                    .init(rawValue: "inAppPurchaseV2")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public static var visibleForAllUsers: Self {
+                    .init(rawValue: "visibleForAllUsers")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
 
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "assetToken": self = .assetToken
-                    case "assetType": self = .assetType
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "imageAsset": self = .imageAsset
-                    case "promotedPurchase": self = .promotedPurchase
-                    case "sourceFileChecksum": self = .sourceFileChecksum
-                    case "state": self = .state
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
-                }
-            }
-
-            public enum PromotedPurchases: Hashable, Codable, RawRepresentable {
-                case app
-                case enabled
-                case inAppPurchaseV2
-                case promotionImages
-                case state
-                case subscription
-                case visibleForAllUsers
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .enabled: return "enabled"
-                    case .inAppPurchaseV2: return "inAppPurchaseV2"
-                    case .promotionImages: return "promotionImages"
-                    case .state: return "state"
-                    case .subscription: return "subscription"
-                    case .visibleForAllUsers: return "visibleForAllUsers"
-                    case .unknown(let rawValue): return rawValue
-                    }
-                }
-
-                public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "enabled": self = .enabled
-                    case "inAppPurchaseV2": self = .inAppPurchaseV2
-                    case "promotionImages": self = .promotionImages
-                    case "state": self = .state
-                    case "subscription": self = .subscription
-                    case "visibleForAllUsers": self = .visibleForAllUsers
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
             public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type promotedPurchaseImages
-                public static var promotedPurchaseImages: Relation<[PromotedPurchaseImages]?> {
-                    .init(key: "fields[promotedPurchaseImages]")
-                }
-
                 /// the fields to include for returned resources of type promotedPurchases
                 public static var promotedPurchases: Relation<[PromotedPurchases]?> {
                     .init(key: "fields[promotedPurchases]")
@@ -195,50 +141,23 @@ extension V1.PromotedPurchases.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case inAppPurchaseV2
-            case promotionImages
-            case subscription
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .inAppPurchaseV2: return "inAppPurchaseV2"
-                case .promotionImages: return "promotionImages"
-                case .subscription: return "subscription"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var inAppPurchaseV2: Self {
+                .init(rawValue: "inAppPurchaseV2")
             }
+
+            public static var subscription: Self {
+                .init(rawValue: "subscription")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
 
             public init(rawValue: String) {
-                switch rawValue {
-                case "inAppPurchaseV2": self = .inAppPurchaseV2
-                case "promotionImages": self = .promotionImages
-                case "subscription": self = .subscription
-                default: self = .unknown(rawValue)
-                }
-            }
-        }
-
-        public struct Limit: Hashable {
-            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
-                get { values[relation]?.base as! T }
-                set { values[relation] = AnyHashable(newValue) }
-            }
-
-            private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct Relation<T>: Hashable {
-                /// maximum number of related promotionImages returned (when they are included)
-                public static var promotionImages: Relation<Int?> {
-                    .init(key: "limit[promotionImages]")
-                }
-
-                internal let key: String
-
-                public func hash(into hasher: inout Hasher) {
-                    hasher.combine(key)
-                }
+                self.rawValue = rawValue
             }
         }
     }

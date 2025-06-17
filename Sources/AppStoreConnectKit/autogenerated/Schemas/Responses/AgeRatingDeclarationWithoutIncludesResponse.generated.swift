@@ -3,13 +3,13 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AgeRatingDeclarationWithoutIncludesResponse: Hashable, Codable {
-    public var data: AppStoreVersion
+public struct AgeRatingDeclarationWithoutIncludesResponse: Hashable, Codable, Sendable {
+    public var data: AgeRatingDeclaration
 
     public var links: DocumentLinks
 
     public init(
-        data: AppStoreVersion,
+        data: AgeRatingDeclaration,
         links: DocumentLinks
     ) {
         self.data = data

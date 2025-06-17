@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct Actor: Hashable, Codable {
+public struct Actor: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct Actor: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case actors
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var actorType: ActorType?
 
         public var apiKeyId: String?
@@ -68,31 +68,31 @@ public struct Actor: Hashable, Codable {
             case userLastName
         }
 
-        public enum ActorType: Hashable, Codable, RawRepresentable {
-            case apiKey
-            case apple
-            case user
-            case xcodeCloud
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .apiKey: return "API_KEY"
-                case .apple: return "APPLE"
-                case .user: return "USER"
-                case .xcodeCloud: return "XCODE_CLOUD"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct ActorType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var apiKey: Self {
+                .init(rawValue: "API_KEY")
             }
 
+            public static var apple: Self {
+                .init(rawValue: "APPLE")
+            }
+
+            public static var user: Self {
+                .init(rawValue: "USER")
+            }
+
+            public static var xcodeCloud: Self {
+                .init(rawValue: "XCODE_CLOUD")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "API_KEY": self = .apiKey
-                case "APPLE": self = .apple
-                case "USER": self = .user
-                case "XCODE_CLOUD": self = .xcodeCloud
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

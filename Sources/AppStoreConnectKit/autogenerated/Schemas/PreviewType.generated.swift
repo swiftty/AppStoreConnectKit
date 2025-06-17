@@ -3,64 +3,79 @@
 // swiftlint:disable all
 import Foundation
 
-public enum PreviewType: Hashable, Codable, RawRepresentable {
-    case appleTv
-    case desktop
-    case ipad105
-    case ipad97
-    case ipadPro129
-    case ipadPro3Gen11
-    case ipadPro3Gen129
-    case iphone35
-    case iphone40
-    case iphone47
-    case iphone55
-    case iphone58
-    case iphone61
-    case iphone65
-    case iphone67
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .appleTv: return "APPLE_TV"
-        case .desktop: return "DESKTOP"
-        case .ipad105: return "IPAD_105"
-        case .ipad97: return "IPAD_97"
-        case .ipadPro129: return "IPAD_PRO_129"
-        case .ipadPro3Gen11: return "IPAD_PRO_3GEN_11"
-        case .ipadPro3Gen129: return "IPAD_PRO_3GEN_129"
-        case .iphone35: return "IPHONE_35"
-        case .iphone40: return "IPHONE_40"
-        case .iphone47: return "IPHONE_47"
-        case .iphone55: return "IPHONE_55"
-        case .iphone58: return "IPHONE_58"
-        case .iphone61: return "IPHONE_61"
-        case .iphone65: return "IPHONE_65"
-        case .iphone67: return "IPHONE_67"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct PreviewType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var appleTv: Self {
+        .init(rawValue: "APPLE_TV")
     }
 
+    public static var appleVisionPro: Self {
+        .init(rawValue: "APPLE_VISION_PRO")
+    }
+
+    public static var desktop: Self {
+        .init(rawValue: "DESKTOP")
+    }
+
+    public static var ipad105: Self {
+        .init(rawValue: "IPAD_105")
+    }
+
+    public static var ipad97: Self {
+        .init(rawValue: "IPAD_97")
+    }
+
+    public static var ipadPro129: Self {
+        .init(rawValue: "IPAD_PRO_129")
+    }
+
+    public static var ipadPro3Gen11: Self {
+        .init(rawValue: "IPAD_PRO_3GEN_11")
+    }
+
+    public static var ipadPro3Gen129: Self {
+        .init(rawValue: "IPAD_PRO_3GEN_129")
+    }
+
+    public static var iphone35: Self {
+        .init(rawValue: "IPHONE_35")
+    }
+
+    public static var iphone40: Self {
+        .init(rawValue: "IPHONE_40")
+    }
+
+    public static var iphone47: Self {
+        .init(rawValue: "IPHONE_47")
+    }
+
+    public static var iphone55: Self {
+        .init(rawValue: "IPHONE_55")
+    }
+
+    public static var iphone58: Self {
+        .init(rawValue: "IPHONE_58")
+    }
+
+    public static var iphone61: Self {
+        .init(rawValue: "IPHONE_61")
+    }
+
+    public static var iphone65: Self {
+        .init(rawValue: "IPHONE_65")
+    }
+
+    public static var iphone67: Self {
+        .init(rawValue: "IPHONE_67")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "APPLE_TV": self = .appleTv
-        case "DESKTOP": self = .desktop
-        case "IPAD_105": self = .ipad105
-        case "IPAD_97": self = .ipad97
-        case "IPAD_PRO_129": self = .ipadPro129
-        case "IPAD_PRO_3GEN_11": self = .ipadPro3Gen11
-        case "IPAD_PRO_3GEN_129": self = .ipadPro3Gen129
-        case "IPHONE_35": self = .iphone35
-        case "IPHONE_40": self = .iphone40
-        case "IPHONE_47": self = .iphone47
-        case "IPHONE_55": self = .iphone55
-        case "IPHONE_58": self = .iphone58
-        case "IPHONE_61": self = .iphone61
-        case "IPHONE_65": self = .iphone65
-        case "IPHONE_67": self = .iphone67
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

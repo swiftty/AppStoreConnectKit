@@ -44,8 +44,10 @@ extension V1.Builds.ById.IndividualTesters {
 
         /// - Returns: **200**, List of BetaTesters with get as `BetaTestersWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.Builds.ById.IndividualTesters {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,40 +95,47 @@ extension V1.Builds.ById.IndividualTesters.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaTesters: Hashable, Codable, RawRepresentable {
-                case apps
-                case betaGroups
-                case builds
-                case email
-                case firstName
-                case inviteType
-                case lastName
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .apps: return "apps"
-                    case .betaGroups: return "betaGroups"
-                    case .builds: return "builds"
-                    case .email: return "email"
-                    case .firstName: return "firstName"
-                    case .inviteType: return "inviteType"
-                    case .lastName: return "lastName"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BetaTesters: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var apps: Self {
+                    .init(rawValue: "apps")
                 }
 
+                public static var betaGroups: Self {
+                    .init(rawValue: "betaGroups")
+                }
+
+                public static var builds: Self {
+                    .init(rawValue: "builds")
+                }
+
+                public static var email: Self {
+                    .init(rawValue: "email")
+                }
+
+                public static var firstName: Self {
+                    .init(rawValue: "firstName")
+                }
+
+                public static var inviteType: Self {
+                    .init(rawValue: "inviteType")
+                }
+
+                public static var lastName: Self {
+                    .init(rawValue: "lastName")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "apps": self = .apps
-                    case "betaGroups": self = .betaGroups
-                    case "builds": self = .builds
-                    case "email": self = .email
-                    case "firstName": self = .firstName
-                    case "inviteType": self = .inviteType
-                    case "lastName": self = .lastName
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

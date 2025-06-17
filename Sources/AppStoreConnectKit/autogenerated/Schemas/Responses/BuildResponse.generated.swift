@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BuildResponse: Hashable, Codable {
+public struct BuildResponse: Hashable, Codable, Sendable {
     public var data: Build
 
     public var included: [Included]?
@@ -26,7 +26,7 @@ public struct BuildResponse: Hashable, Codable {
         case links
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case prereleaseVersion(PrereleaseVersion)
         case betaTester(BetaTester)
         case betaGroup(BetaGroup)

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct EndUserLicenseAgreementCreateRequest: Hashable, Codable {
+public struct EndUserLicenseAgreementCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct EndUserLicenseAgreementCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct EndUserLicenseAgreementCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case endUserLicenseAgreements
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var agreementText: String
 
             public init(agreementText: String) {
@@ -53,7 +53,7 @@ public struct EndUserLicenseAgreementCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var app: App
 
             public var territories: Territories
@@ -71,7 +71,7 @@ public struct EndUserLicenseAgreementCreateRequest: Hashable, Codable {
                 case territories
             }
 
-            public struct App: Hashable, Codable {
+            public struct App: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -82,7 +82,7 @@ public struct EndUserLicenseAgreementCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -100,13 +100,13 @@ public struct EndUserLicenseAgreementCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case apps
                     }
                 }
             }
 
-            public struct Territories: Hashable, Codable {
+            public struct Territories: Hashable, Codable, Sendable {
                 public var data: [Data]
 
                 public init(data: [Data]) {
@@ -117,7 +117,7 @@ public struct EndUserLicenseAgreementCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -135,7 +135,7 @@ public struct EndUserLicenseAgreementCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case territories
                     }
                 }

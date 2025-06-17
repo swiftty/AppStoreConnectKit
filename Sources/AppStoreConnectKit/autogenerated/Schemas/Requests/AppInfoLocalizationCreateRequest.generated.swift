@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppInfoLocalizationCreateRequest: Hashable, Codable {
+public struct AppInfoLocalizationCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppInfoLocalizationCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,14 +37,14 @@ public struct AppInfoLocalizationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appInfoLocalizations
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var locale: String
 
-            public var name: String?
+            public var name: String
 
             public var privacyChoicesUrl: String?
 
@@ -56,7 +56,7 @@ public struct AppInfoLocalizationCreateRequest: Hashable, Codable {
 
             public init(
                 locale: String,
-                name: String? = nil,
+                name: String,
                 privacyChoicesUrl: String? = nil,
                 privacyPolicyText: String? = nil,
                 privacyPolicyUrl: String? = nil,
@@ -80,7 +80,7 @@ public struct AppInfoLocalizationCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appInfo: AppInfo
 
             public init(appInfo: AppInfo) {
@@ -91,7 +91,7 @@ public struct AppInfoLocalizationCreateRequest: Hashable, Codable {
                 case appInfo
             }
 
-            public struct AppInfo: Hashable, Codable {
+            public struct AppInfo: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -102,7 +102,7 @@ public struct AppInfoLocalizationCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -120,7 +120,7 @@ public struct AppInfoLocalizationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appInfos
                     }
                 }

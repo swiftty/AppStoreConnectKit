@@ -50,8 +50,10 @@ extension V1.AppInfos.ById.AppInfoLocalizations {
 
         /// - Returns: **200**, List of AppInfoLocalizations as `AppInfoLocalizationsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -65,10 +67,16 @@ extension V1.AppInfos.ById.AppInfoLocalizations {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -98,98 +106,127 @@ extension V1.AppInfos.ById.AppInfoLocalizations.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppInfoLocalizations: Hashable, Codable, RawRepresentable {
-                case appInfo
-                case locale
-                case name
-                case privacyChoicesUrl
-                case privacyPolicyText
-                case privacyPolicyUrl
-                case subtitle
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appInfo: return "appInfo"
-                    case .locale: return "locale"
-                    case .name: return "name"
-                    case .privacyChoicesUrl: return "privacyChoicesUrl"
-                    case .privacyPolicyText: return "privacyPolicyText"
-                    case .privacyPolicyUrl: return "privacyPolicyUrl"
-                    case .subtitle: return "subtitle"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppInfoLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appInfo: Self {
+                    .init(rawValue: "appInfo")
                 }
 
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var privacyChoicesUrl: Self {
+                    .init(rawValue: "privacyChoicesUrl")
+                }
+
+                public static var privacyPolicyText: Self {
+                    .init(rawValue: "privacyPolicyText")
+                }
+
+                public static var privacyPolicyUrl: Self {
+                    .init(rawValue: "privacyPolicyUrl")
+                }
+
+                public static var subtitle: Self {
+                    .init(rawValue: "subtitle")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appInfo": self = .appInfo
-                    case "locale": self = .locale
-                    case "name": self = .name
-                    case "privacyChoicesUrl": self = .privacyChoicesUrl
-                    case "privacyPolicyText": self = .privacyPolicyText
-                    case "privacyPolicyUrl": self = .privacyPolicyUrl
-                    case "subtitle": self = .subtitle
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppInfos: Hashable, Codable, RawRepresentable {
-                case ageRatingDeclaration
-                case app
-                case appInfoLocalizations
-                case appStoreAgeRating
-                case appStoreState
-                case brazilAgeRating
-                case brazilAgeRatingV2
-                case kidsAgeBand
-                case primaryCategory
-                case primarySubcategoryOne
-                case primarySubcategoryTwo
-                case secondaryCategory
-                case secondarySubcategoryOne
-                case secondarySubcategoryTwo
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .ageRatingDeclaration: return "ageRatingDeclaration"
-                    case .app: return "app"
-                    case .appInfoLocalizations: return "appInfoLocalizations"
-                    case .appStoreAgeRating: return "appStoreAgeRating"
-                    case .appStoreState: return "appStoreState"
-                    case .brazilAgeRating: return "brazilAgeRating"
-                    case .brazilAgeRatingV2: return "brazilAgeRatingV2"
-                    case .kidsAgeBand: return "kidsAgeBand"
-                    case .primaryCategory: return "primaryCategory"
-                    case .primarySubcategoryOne: return "primarySubcategoryOne"
-                    case .primarySubcategoryTwo: return "primarySubcategoryTwo"
-                    case .secondaryCategory: return "secondaryCategory"
-                    case .secondarySubcategoryOne: return "secondarySubcategoryOne"
-                    case .secondarySubcategoryTwo: return "secondarySubcategoryTwo"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppInfos: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var ageRatingDeclaration: Self {
+                    .init(rawValue: "ageRatingDeclaration")
                 }
 
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appInfoLocalizations: Self {
+                    .init(rawValue: "appInfoLocalizations")
+                }
+
+                public static var appStoreAgeRating: Self {
+                    .init(rawValue: "appStoreAgeRating")
+                }
+
+                public static var appStoreState: Self {
+                    .init(rawValue: "appStoreState")
+                }
+
+                public static var australiaAgeRating: Self {
+                    .init(rawValue: "australiaAgeRating")
+                }
+
+                public static var brazilAgeRating: Self {
+                    .init(rawValue: "brazilAgeRating")
+                }
+
+                public static var brazilAgeRatingV2: Self {
+                    .init(rawValue: "brazilAgeRatingV2")
+                }
+
+                public static var franceAgeRating: Self {
+                    .init(rawValue: "franceAgeRating")
+                }
+
+                public static var kidsAgeBand: Self {
+                    .init(rawValue: "kidsAgeBand")
+                }
+
+                public static var koreaAgeRating: Self {
+                    .init(rawValue: "koreaAgeRating")
+                }
+
+                public static var primaryCategory: Self {
+                    .init(rawValue: "primaryCategory")
+                }
+
+                public static var primarySubcategoryOne: Self {
+                    .init(rawValue: "primarySubcategoryOne")
+                }
+
+                public static var primarySubcategoryTwo: Self {
+                    .init(rawValue: "primarySubcategoryTwo")
+                }
+
+                public static var secondaryCategory: Self {
+                    .init(rawValue: "secondaryCategory")
+                }
+
+                public static var secondarySubcategoryOne: Self {
+                    .init(rawValue: "secondarySubcategoryOne")
+                }
+
+                public static var secondarySubcategoryTwo: Self {
+                    .init(rawValue: "secondarySubcategoryTwo")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "ageRatingDeclaration": self = .ageRatingDeclaration
-                    case "app": self = .app
-                    case "appInfoLocalizations": self = .appInfoLocalizations
-                    case "appStoreAgeRating": self = .appStoreAgeRating
-                    case "appStoreState": self = .appStoreState
-                    case "brazilAgeRating": self = .brazilAgeRating
-                    case "brazilAgeRatingV2": self = .brazilAgeRatingV2
-                    case "kidsAgeBand": self = .kidsAgeBand
-                    case "primaryCategory": self = .primaryCategory
-                    case "primarySubcategoryOne": self = .primarySubcategoryOne
-                    case "primarySubcategoryTwo": self = .primarySubcategoryTwo
-                    case "secondaryCategory": self = .secondaryCategory
-                    case "secondarySubcategoryOne": self = .secondarySubcategoryOne
-                    case "secondarySubcategoryTwo": self = .secondarySubcategoryTwo
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -234,22 +271,19 @@ extension V1.AppInfos.ById.AppInfoLocalizations.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appInfo
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appInfo: return "appInfo"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appInfo: Self {
+                .init(rawValue: "appInfo")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appInfo": self = .appInfo
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

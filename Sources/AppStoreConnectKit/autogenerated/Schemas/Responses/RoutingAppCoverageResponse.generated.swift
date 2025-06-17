@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct RoutingAppCoverageResponse: Hashable, Codable {
+public struct RoutingAppCoverageResponse: Hashable, Codable, Sendable {
     public var data: RoutingAppCoverage
 
     public var included: [AppStoreVersion]?

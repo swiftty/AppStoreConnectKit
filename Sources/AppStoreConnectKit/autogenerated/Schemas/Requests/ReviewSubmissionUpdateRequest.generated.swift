@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ReviewSubmissionUpdateRequest: Hashable, Codable {
+public struct ReviewSubmissionUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct ReviewSubmissionUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -37,25 +37,30 @@ public struct ReviewSubmissionUpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case reviewSubmissions
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var canceled: Bool?
+
+            public var platform: Platform?
 
             public var submitted: Bool?
 
             public init(
                 canceled: Bool? = nil,
+                platform: Platform? = nil,
                 submitted: Bool? = nil
             ) {
                 self.canceled = canceled
+                self.platform = platform
                 self.submitted = submitted
             }
 
             private enum CodingKeys: String, CodingKey {
                 case canceled
+                case platform
                 case submitted
             }
         }

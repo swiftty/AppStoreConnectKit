@@ -36,6 +36,8 @@ extension V1.SubscriptionGroups.ById.Subscriptions {
                              value: parameters.fields[.subscriptionAvailabilities]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionGroups]",
                              value: parameters.fields[.subscriptionGroups]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptionImages]",
+                             value: parameters.fields[.subscriptionImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionIntroductoryOffers]",
                              value: parameters.fields[.subscriptionIntroductoryOffers]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionLocalizations]",
@@ -48,6 +50,8 @@ extension V1.SubscriptionGroups.ById.Subscriptions {
                              value: parameters.fields[.subscriptionPromotionalOffers]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptions]",
                              value: parameters.fields[.subscriptions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[winBackOffers]",
+                             value: parameters.fields[.winBackOffers]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[name]",
                              value: parameters.filter[.name]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[productId]",
@@ -56,6 +60,8 @@ extension V1.SubscriptionGroups.ById.Subscriptions {
                              value: parameters.filter[.state]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit[images]",
+                             value: parameters.limit[.images].map { "\($0)" }),
                 URLQueryItem(name: "limit[introductoryOffers]",
                              value: parameters.limit[.introductoryOffers].map { "\($0)" }),
                 URLQueryItem(name: "limit[offerCodes]",
@@ -66,6 +72,8 @@ extension V1.SubscriptionGroups.ById.Subscriptions {
                              value: parameters.limit[.promotionalOffers].map { "\($0)" }),
                 URLQueryItem(name: "limit[subscriptionLocalizations]",
                              value: parameters.limit[.subscriptionLocalizations].map { "\($0)" }),
+                URLQueryItem(name: "limit[winBackOffers]",
+                             value: parameters.limit[.winBackOffers].map { "\($0)" }),
                 URLQueryItem(name: "limit",
                              value: parameters.limit[].map { "\($0)" }),
                 URLQueryItem(name: "sort",
@@ -82,8 +90,10 @@ extension V1.SubscriptionGroups.ById.Subscriptions {
 
         /// - Returns: **200**, List of Subscriptions as `SubscriptionsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -97,10 +107,16 @@ extension V1.SubscriptionGroups.ById.Subscriptions {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -133,403 +149,523 @@ extension V1.SubscriptionGroups.ById.Subscriptions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum PromotedPurchases: Hashable, Codable, RawRepresentable {
-                case app
-                case enabled
-                case inAppPurchaseV2
-                case promotionImages
-                case state
-                case subscription
-                case visibleForAllUsers
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .enabled: return "enabled"
-                    case .inAppPurchaseV2: return "inAppPurchaseV2"
-                    case .promotionImages: return "promotionImages"
-                    case .state: return "state"
-                    case .subscription: return "subscription"
-                    case .visibleForAllUsers: return "visibleForAllUsers"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct PromotedPurchases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var enabled: Self {
+                    .init(rawValue: "enabled")
                 }
 
+                public static var inAppPurchaseV2: Self {
+                    .init(rawValue: "inAppPurchaseV2")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public static var visibleForAllUsers: Self {
+                    .init(rawValue: "visibleForAllUsers")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "enabled": self = .enabled
-                    case "inAppPurchaseV2": self = .inAppPurchaseV2
-                    case "promotionImages": self = .promotionImages
-                    case "state": self = .state
-                    case "subscription": self = .subscription
-                    case "visibleForAllUsers": self = .visibleForAllUsers
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubscriptionAppStoreReviewScreenshots: Hashable, Codable, RawRepresentable {
-                case assetDeliveryState
-                case assetToken
-                case assetType
-                case fileName
-                case fileSize
-                case imageAsset
-                case sourceFileChecksum
-                case subscription
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .assetToken: return "assetToken"
-                    case .assetType: return "assetType"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .imageAsset: return "imageAsset"
-                    case .sourceFileChecksum: return "sourceFileChecksum"
-                    case .subscription: return "subscription"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionAppStoreReviewScreenshots: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
                 }
 
+                public static var assetToken: Self {
+                    .init(rawValue: "assetToken")
+                }
+
+                public static var assetType: Self {
+                    .init(rawValue: "assetType")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "assetToken": self = .assetToken
-                    case "assetType": self = .assetType
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "imageAsset": self = .imageAsset
-                    case "sourceFileChecksum": self = .sourceFileChecksum
-                    case "subscription": self = .subscription
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubscriptionAvailabilities: Hashable, Codable, RawRepresentable {
-                case availableInNewTerritories
-                case availableTerritories
-                case subscription
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .availableInNewTerritories: return "availableInNewTerritories"
-                    case .availableTerritories: return "availableTerritories"
-                    case .subscription: return "subscription"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionAvailabilities: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var availableInNewTerritories: Self {
+                    .init(rawValue: "availableInNewTerritories")
                 }
 
+                public static var availableTerritories: Self {
+                    .init(rawValue: "availableTerritories")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "availableInNewTerritories": self = .availableInNewTerritories
-                    case "availableTerritories": self = .availableTerritories
-                    case "subscription": self = .subscription
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubscriptionGroups: Hashable, Codable, RawRepresentable {
-                case app
-                case referenceName
-                case subscriptionGroupLocalizations
-                case subscriptions
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .referenceName: return "referenceName"
-                    case .subscriptionGroupLocalizations: return "subscriptionGroupLocalizations"
-                    case .subscriptions: return "subscriptions"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionGroups: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
                 }
 
+                public static var subscriptionGroupLocalizations: Self {
+                    .init(rawValue: "subscriptionGroupLocalizations")
+                }
+
+                public static var subscriptions: Self {
+                    .init(rawValue: "subscriptions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "referenceName": self = .referenceName
-                    case "subscriptionGroupLocalizations": self = .subscriptionGroupLocalizations
-                    case "subscriptions": self = .subscriptions
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubscriptionIntroductoryOffers: Hashable, Codable, RawRepresentable {
-                case duration
-                case endDate
-                case numberOfPeriods
-                case offerMode
-                case startDate
-                case subscription
-                case subscriptionPricePoint
-                case territory
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .duration: return "duration"
-                    case .endDate: return "endDate"
-                    case .numberOfPeriods: return "numberOfPeriods"
-                    case .offerMode: return "offerMode"
-                    case .startDate: return "startDate"
-                    case .subscription: return "subscription"
-                    case .subscriptionPricePoint: return "subscriptionPricePoint"
-                    case .territory: return "territory"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionImages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetToken: Self {
+                    .init(rawValue: "assetToken")
                 }
 
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "duration": self = .duration
-                    case "endDate": self = .endDate
-                    case "numberOfPeriods": self = .numberOfPeriods
-                    case "offerMode": self = .offerMode
-                    case "startDate": self = .startDate
-                    case "subscription": self = .subscription
-                    case "subscriptionPricePoint": self = .subscriptionPricePoint
-                    case "territory": self = .territory
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubscriptionLocalizations: Hashable, Codable, RawRepresentable {
-                case description
-                case locale
-                case name
-                case state
-                case subscription
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .description: return "description"
-                    case .locale: return "locale"
-                    case .name: return "name"
-                    case .state: return "state"
-                    case .subscription: return "subscription"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionIntroductoryOffers: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var duration: Self {
+                    .init(rawValue: "duration")
                 }
 
+                public static var endDate: Self {
+                    .init(rawValue: "endDate")
+                }
+
+                public static var numberOfPeriods: Self {
+                    .init(rawValue: "numberOfPeriods")
+                }
+
+                public static var offerMode: Self {
+                    .init(rawValue: "offerMode")
+                }
+
+                public static var startDate: Self {
+                    .init(rawValue: "startDate")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public static var subscriptionPricePoint: Self {
+                    .init(rawValue: "subscriptionPricePoint")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "description": self = .description
-                    case "locale": self = .locale
-                    case "name": self = .name
-                    case "state": self = .state
-                    case "subscription": self = .subscription
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubscriptionOfferCodes: Hashable, Codable, RawRepresentable {
-                case active
-                case customCodes
-                case customerEligibilities
-                case duration
-                case name
-                case numberOfPeriods
-                case offerEligibility
-                case offerMode
-                case oneTimeUseCodes
-                case prices
-                case subscription
-                case totalNumberOfCodes
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .active: return "active"
-                    case .customCodes: return "customCodes"
-                    case .customerEligibilities: return "customerEligibilities"
-                    case .duration: return "duration"
-                    case .name: return "name"
-                    case .numberOfPeriods: return "numberOfPeriods"
-                    case .offerEligibility: return "offerEligibility"
-                    case .offerMode: return "offerMode"
-                    case .oneTimeUseCodes: return "oneTimeUseCodes"
-                    case .prices: return "prices"
-                    case .subscription: return "subscription"
-                    case .totalNumberOfCodes: return "totalNumberOfCodes"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var description: Self {
+                    .init(rawValue: "description")
                 }
 
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "active": self = .active
-                    case "customCodes": self = .customCodes
-                    case "customerEligibilities": self = .customerEligibilities
-                    case "duration": self = .duration
-                    case "name": self = .name
-                    case "numberOfPeriods": self = .numberOfPeriods
-                    case "offerEligibility": self = .offerEligibility
-                    case "offerMode": self = .offerMode
-                    case "oneTimeUseCodes": self = .oneTimeUseCodes
-                    case "prices": self = .prices
-                    case "subscription": self = .subscription
-                    case "totalNumberOfCodes": self = .totalNumberOfCodes
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubscriptionPrices: Hashable, Codable, RawRepresentable {
-                case preserveCurrentPrice
-                case preserved
-                case startDate
-                case subscription
-                case subscriptionPricePoint
-                case territory
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .preserveCurrentPrice: return "preserveCurrentPrice"
-                    case .preserved: return "preserved"
-                    case .startDate: return "startDate"
-                    case .subscription: return "subscription"
-                    case .subscriptionPricePoint: return "subscriptionPricePoint"
-                    case .territory: return "territory"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionOfferCodes: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var active: Self {
+                    .init(rawValue: "active")
                 }
 
+                public static var customCodes: Self {
+                    .init(rawValue: "customCodes")
+                }
+
+                public static var customerEligibilities: Self {
+                    .init(rawValue: "customerEligibilities")
+                }
+
+                public static var duration: Self {
+                    .init(rawValue: "duration")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var numberOfPeriods: Self {
+                    .init(rawValue: "numberOfPeriods")
+                }
+
+                public static var offerEligibility: Self {
+                    .init(rawValue: "offerEligibility")
+                }
+
+                public static var offerMode: Self {
+                    .init(rawValue: "offerMode")
+                }
+
+                public static var oneTimeUseCodes: Self {
+                    .init(rawValue: "oneTimeUseCodes")
+                }
+
+                public static var prices: Self {
+                    .init(rawValue: "prices")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "preserveCurrentPrice": self = .preserveCurrentPrice
-                    case "preserved": self = .preserved
-                    case "startDate": self = .startDate
-                    case "subscription": self = .subscription
-                    case "subscriptionPricePoint": self = .subscriptionPricePoint
-                    case "territory": self = .territory
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubscriptionPromotionalOffers: Hashable, Codable, RawRepresentable {
-                case duration
-                case name
-                case numberOfPeriods
-                case offerCode
-                case offerMode
-                case prices
-                case subscription
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .duration: return "duration"
-                    case .name: return "name"
-                    case .numberOfPeriods: return "numberOfPeriods"
-                    case .offerCode: return "offerCode"
-                    case .offerMode: return "offerMode"
-                    case .prices: return "prices"
-                    case .subscription: return "subscription"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionPrices: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var preserved: Self {
+                    .init(rawValue: "preserved")
                 }
 
+                public static var startDate: Self {
+                    .init(rawValue: "startDate")
+                }
+
+                public static var subscriptionPricePoint: Self {
+                    .init(rawValue: "subscriptionPricePoint")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "duration": self = .duration
-                    case "name": self = .name
-                    case "numberOfPeriods": self = .numberOfPeriods
-                    case "offerCode": self = .offerCode
-                    case "offerMode": self = .offerMode
-                    case "prices": self = .prices
-                    case "subscription": self = .subscription
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Subscriptions: Hashable, Codable, RawRepresentable {
-                case appStoreReviewScreenshot
-                case availableInAllTerritories
-                case familySharable
-                case group
-                case groupLevel
-                case introductoryOffers
-                case name
-                case offerCodes
-                case pricePoints
-                case prices
-                case productId
-                case promotedPurchase
-                case promotionalOffers
-                case reviewNote
-                case state
-                case subscriptionAvailability
-                case subscriptionLocalizations
-                case subscriptionPeriod
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appStoreReviewScreenshot: return "appStoreReviewScreenshot"
-                    case .availableInAllTerritories: return "availableInAllTerritories"
-                    case .familySharable: return "familySharable"
-                    case .group: return "group"
-                    case .groupLevel: return "groupLevel"
-                    case .introductoryOffers: return "introductoryOffers"
-                    case .name: return "name"
-                    case .offerCodes: return "offerCodes"
-                    case .pricePoints: return "pricePoints"
-                    case .prices: return "prices"
-                    case .productId: return "productId"
-                    case .promotedPurchase: return "promotedPurchase"
-                    case .promotionalOffers: return "promotionalOffers"
-                    case .reviewNote: return "reviewNote"
-                    case .state: return "state"
-                    case .subscriptionAvailability: return "subscriptionAvailability"
-                    case .subscriptionLocalizations: return "subscriptionLocalizations"
-                    case .subscriptionPeriod: return "subscriptionPeriod"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionPromotionalOffers: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var duration: Self {
+                    .init(rawValue: "duration")
                 }
 
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var numberOfPeriods: Self {
+                    .init(rawValue: "numberOfPeriods")
+                }
+
+                public static var offerCode: Self {
+                    .init(rawValue: "offerCode")
+                }
+
+                public static var offerMode: Self {
+                    .init(rawValue: "offerMode")
+                }
+
+                public static var prices: Self {
+                    .init(rawValue: "prices")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appStoreReviewScreenshot": self = .appStoreReviewScreenshot
-                    case "availableInAllTerritories": self = .availableInAllTerritories
-                    case "familySharable": self = .familySharable
-                    case "group": self = .group
-                    case "groupLevel": self = .groupLevel
-                    case "introductoryOffers": self = .introductoryOffers
-                    case "name": self = .name
-                    case "offerCodes": self = .offerCodes
-                    case "pricePoints": self = .pricePoints
-                    case "prices": self = .prices
-                    case "productId": self = .productId
-                    case "promotedPurchase": self = .promotedPurchase
-                    case "promotionalOffers": self = .promotionalOffers
-                    case "reviewNote": self = .reviewNote
-                    case "state": self = .state
-                    case "subscriptionAvailability": self = .subscriptionAvailability
-                    case "subscriptionLocalizations": self = .subscriptionLocalizations
-                    case "subscriptionPeriod": self = .subscriptionPeriod
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct Subscriptions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStoreReviewScreenshot: Self {
+                    .init(rawValue: "appStoreReviewScreenshot")
+                }
+
+                public static var familySharable: Self {
+                    .init(rawValue: "familySharable")
+                }
+
+                public static var group: Self {
+                    .init(rawValue: "group")
+                }
+
+                public static var groupLevel: Self {
+                    .init(rawValue: "groupLevel")
+                }
+
+                public static var images: Self {
+                    .init(rawValue: "images")
+                }
+
+                public static var introductoryOffers: Self {
+                    .init(rawValue: "introductoryOffers")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var offerCodes: Self {
+                    .init(rawValue: "offerCodes")
+                }
+
+                public static var pricePoints: Self {
+                    .init(rawValue: "pricePoints")
+                }
+
+                public static var prices: Self {
+                    .init(rawValue: "prices")
+                }
+
+                public static var productId: Self {
+                    .init(rawValue: "productId")
+                }
+
+                public static var promotedPurchase: Self {
+                    .init(rawValue: "promotedPurchase")
+                }
+
+                public static var promotionalOffers: Self {
+                    .init(rawValue: "promotionalOffers")
+                }
+
+                public static var reviewNote: Self {
+                    .init(rawValue: "reviewNote")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscriptionAvailability: Self {
+                    .init(rawValue: "subscriptionAvailability")
+                }
+
+                public static var subscriptionLocalizations: Self {
+                    .init(rawValue: "subscriptionLocalizations")
+                }
+
+                public static var subscriptionPeriod: Self {
+                    .init(rawValue: "subscriptionPeriod")
+                }
+
+                public static var winBackOffers: Self {
+                    .init(rawValue: "winBackOffers")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct WinBackOffers: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var customerEligibilityPaidSubscriptionDurationInMonths: Self {
+                    .init(rawValue: "customerEligibilityPaidSubscriptionDurationInMonths")
+                }
+
+                public static var customerEligibilityTimeSinceLastSubscribedInMonths: Self {
+                    .init(rawValue: "customerEligibilityTimeSinceLastSubscribedInMonths")
+                }
+
+                public static var customerEligibilityWaitBetweenOffersInMonths: Self {
+                    .init(rawValue: "customerEligibilityWaitBetweenOffersInMonths")
+                }
+
+                public static var duration: Self {
+                    .init(rawValue: "duration")
+                }
+
+                public static var endDate: Self {
+                    .init(rawValue: "endDate")
+                }
+
+                public static var offerId: Self {
+                    .init(rawValue: "offerId")
+                }
+
+                public static var offerMode: Self {
+                    .init(rawValue: "offerMode")
+                }
+
+                public static var periodCount: Self {
+                    .init(rawValue: "periodCount")
+                }
+
+                public static var prices: Self {
+                    .init(rawValue: "prices")
+                }
+
+                public static var priority: Self {
+                    .init(rawValue: "priority")
+                }
+
+                public static var promotionIntent: Self {
+                    .init(rawValue: "promotionIntent")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var startDate: Self {
+                    .init(rawValue: "startDate")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
                 }
             }
 
@@ -552,6 +688,11 @@ extension V1.SubscriptionGroups.ById.Subscriptions.GET {
                 /// the fields to include for returned resources of type subscriptionGroups
                 public static var subscriptionGroups: Relation<[SubscriptionGroups]?> {
                     .init(key: "fields[subscriptionGroups]")
+                }
+
+                /// the fields to include for returned resources of type subscriptionImages
+                public static var subscriptionImages: Relation<[SubscriptionImages]?> {
+                    .init(key: "fields[subscriptionImages]")
                 }
 
                 /// the fields to include for returned resources of type subscriptionIntroductoryOffers
@@ -584,6 +725,11 @@ extension V1.SubscriptionGroups.ById.Subscriptions.GET {
                     .init(key: "fields[subscriptions]")
                 }
 
+                /// the fields to include for returned resources of type winBackOffers
+                public static var winBackOffers: Relation<[WinBackOffers]?> {
+                    .init(key: "fields[winBackOffers]")
+                }
+
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
@@ -600,49 +746,55 @@ extension V1.SubscriptionGroups.ById.Subscriptions.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum State: Hashable, Codable, RawRepresentable {
-                case approved
-                case developerActionNeeded
-                case developerRemovedFromSale
-                case inReview
-                case missingMetadata
-                case pendingBinaryApproval
-                case readyToSubmit
-                case rejected
-                case removedFromSale
-                case waitingForReview
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .approved: return "APPROVED"
-                    case .developerActionNeeded: return "DEVELOPER_ACTION_NEEDED"
-                    case .developerRemovedFromSale: return "DEVELOPER_REMOVED_FROM_SALE"
-                    case .inReview: return "IN_REVIEW"
-                    case .missingMetadata: return "MISSING_METADATA"
-                    case .pendingBinaryApproval: return "PENDING_BINARY_APPROVAL"
-                    case .readyToSubmit: return "READY_TO_SUBMIT"
-                    case .rejected: return "REJECTED"
-                    case .removedFromSale: return "REMOVED_FROM_SALE"
-                    case .waitingForReview: return "WAITING_FOR_REVIEW"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var approved: Self {
+                    .init(rawValue: "APPROVED")
                 }
 
+                public static var developerActionNeeded: Self {
+                    .init(rawValue: "DEVELOPER_ACTION_NEEDED")
+                }
+
+                public static var developerRemovedFromSale: Self {
+                    .init(rawValue: "DEVELOPER_REMOVED_FROM_SALE")
+                }
+
+                public static var inReview: Self {
+                    .init(rawValue: "IN_REVIEW")
+                }
+
+                public static var missingMetadata: Self {
+                    .init(rawValue: "MISSING_METADATA")
+                }
+
+                public static var pendingBinaryApproval: Self {
+                    .init(rawValue: "PENDING_BINARY_APPROVAL")
+                }
+
+                public static var readyToSubmit: Self {
+                    .init(rawValue: "READY_TO_SUBMIT")
+                }
+
+                public static var rejected: Self {
+                    .init(rawValue: "REJECTED")
+                }
+
+                public static var removedFromSale: Self {
+                    .init(rawValue: "REMOVED_FROM_SALE")
+                }
+
+                public static var waitingForReview: Self {
+                    .init(rawValue: "WAITING_FOR_REVIEW")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "APPROVED": self = .approved
-                    case "DEVELOPER_ACTION_NEEDED": self = .developerActionNeeded
-                    case "DEVELOPER_REMOVED_FROM_SALE": self = .developerRemovedFromSale
-                    case "IN_REVIEW": self = .inReview
-                    case "MISSING_METADATA": self = .missingMetadata
-                    case "PENDING_BINARY_APPROVAL": self = .pendingBinaryApproval
-                    case "READY_TO_SUBMIT": self = .readyToSubmit
-                    case "REJECTED": self = .rejected
-                    case "REMOVED_FROM_SALE": self = .removedFromSale
-                    case "WAITING_FOR_REVIEW": self = .waitingForReview
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -670,46 +822,59 @@ extension V1.SubscriptionGroups.ById.Subscriptions.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appStoreReviewScreenshot
-            case group
-            case introductoryOffers
-            case offerCodes
-            case prices
-            case promotedPurchase
-            case promotionalOffers
-            case subscriptionAvailability
-            case subscriptionLocalizations
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appStoreReviewScreenshot: return "appStoreReviewScreenshot"
-                case .group: return "group"
-                case .introductoryOffers: return "introductoryOffers"
-                case .offerCodes: return "offerCodes"
-                case .prices: return "prices"
-                case .promotedPurchase: return "promotedPurchase"
-                case .promotionalOffers: return "promotionalOffers"
-                case .subscriptionAvailability: return "subscriptionAvailability"
-                case .subscriptionLocalizations: return "subscriptionLocalizations"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appStoreReviewScreenshot: Self {
+                .init(rawValue: "appStoreReviewScreenshot")
             }
 
+            public static var group: Self {
+                .init(rawValue: "group")
+            }
+
+            public static var images: Self {
+                .init(rawValue: "images")
+            }
+
+            public static var introductoryOffers: Self {
+                .init(rawValue: "introductoryOffers")
+            }
+
+            public static var offerCodes: Self {
+                .init(rawValue: "offerCodes")
+            }
+
+            public static var prices: Self {
+                .init(rawValue: "prices")
+            }
+
+            public static var promotedPurchase: Self {
+                .init(rawValue: "promotedPurchase")
+            }
+
+            public static var promotionalOffers: Self {
+                .init(rawValue: "promotionalOffers")
+            }
+
+            public static var subscriptionAvailability: Self {
+                .init(rawValue: "subscriptionAvailability")
+            }
+
+            public static var subscriptionLocalizations: Self {
+                .init(rawValue: "subscriptionLocalizations")
+            }
+
+            public static var winBackOffers: Self {
+                .init(rawValue: "winBackOffers")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appStoreReviewScreenshot": self = .appStoreReviewScreenshot
-                case "group": self = .group
-                case "introductoryOffers": self = .introductoryOffers
-                case "offerCodes": self = .offerCodes
-                case "prices": self = .prices
-                case "promotedPurchase": self = .promotedPurchase
-                case "promotionalOffers": self = .promotionalOffers
-                case "subscriptionAvailability": self = .subscriptionAvailability
-                case "subscriptionLocalizations": self = .subscriptionLocalizations
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 
@@ -727,6 +892,11 @@ extension V1.SubscriptionGroups.ById.Subscriptions.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
+                /// maximum number of related images returned (when they are included)
+                public static var images: Relation<Int?> {
+                    .init(key: "limit[images]")
+                }
+
                 /// maximum number of related introductoryOffers returned (when they are included)
                 public static var introductoryOffers: Relation<Int?> {
                     .init(key: "limit[introductoryOffers]")
@@ -752,6 +922,11 @@ extension V1.SubscriptionGroups.ById.Subscriptions.GET {
                     .init(key: "limit[subscriptionLocalizations]")
                 }
 
+                /// maximum number of related winBackOffers returned (when they are included)
+                public static var winBackOffers: Relation<Int?> {
+                    .init(key: "limit[winBackOffers]")
+                }
+
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
@@ -760,25 +935,23 @@ extension V1.SubscriptionGroups.ById.Subscriptions.GET {
             }
         }
 
-        public enum Sort: Hashable, Codable, RawRepresentable {
-            case name
-            case nameDesc
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .name: return "name"
-                case .nameDesc: return "-name"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Sort: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var name: Self {
+                .init(rawValue: "name")
             }
 
+            public static var nameDesc: Self {
+                .init(rawValue: "-name")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "name": self = .name
-                case "-name": self = .nameDesc
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

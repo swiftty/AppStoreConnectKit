@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppStoreVersionExperimentTreatmentCreateRequest: Hashable, Codable {
+public struct AppStoreVersionExperimentTreatmentCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,17 +14,17 @@ public struct AppStoreVersionExperimentTreatmentCreateRequest: Hashable, Codable
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
 
-        public var relationships: Relationships
+        public var relationships: Relationships?
 
         public init(
             type: `Type`,
             attributes: Attributes,
-            relationships: Relationships
+            relationships: Relationships? = nil
         ) {
             self.type = type
             self.attributes = attributes
@@ -37,11 +37,11 @@ public struct AppStoreVersionExperimentTreatmentCreateRequest: Hashable, Codable
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appStoreVersionExperimentTreatments
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var appIconName: String?
 
             public var name: String
@@ -60,13 +60,13 @@ public struct AppStoreVersionExperimentTreatmentCreateRequest: Hashable, Codable
             }
         }
 
-        public struct Relationships: Hashable, Codable {
-            public var appStoreVersionExperiment: AppStoreVersionExperiment
+        public struct Relationships: Hashable, Codable, Sendable {
+            public var appStoreVersionExperiment: AppStoreVersionExperiment?
 
             public var appStoreVersionExperimentV2: AppStoreVersionExperimentV2?
 
             public init(
-                appStoreVersionExperiment: AppStoreVersionExperiment,
+                appStoreVersionExperiment: AppStoreVersionExperiment? = nil,
                 appStoreVersionExperimentV2: AppStoreVersionExperimentV2? = nil
             ) {
                 self.appStoreVersionExperiment = appStoreVersionExperiment
@@ -78,42 +78,7 @@ public struct AppStoreVersionExperimentTreatmentCreateRequest: Hashable, Codable
                 case appStoreVersionExperimentV2
             }
 
-            public struct AppStoreVersionExperiment: Hashable, Codable {
-                public var data: Data
-
-                public init(data: Data) {
-                    self.data = data
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case data
-                }
-
-                public struct Data: Hashable, Codable {
-                    public var id: String
-
-                    public var type: `Type`
-
-                    public init(
-                        id: String,
-                        type: `Type`
-                    ) {
-                        self.id = id
-                        self.type = type
-                    }
-
-                    private enum CodingKeys: String, CodingKey {
-                        case id
-                        case type
-                    }
-
-                    public enum `Type`: String, Hashable, Codable {
-                        case appStoreVersionExperiments
-                    }
-                }
-            }
-
-            public struct AppStoreVersionExperimentV2: Hashable, Codable {
+            public struct AppStoreVersionExperiment: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -124,7 +89,7 @@ public struct AppStoreVersionExperimentTreatmentCreateRequest: Hashable, Codable
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -142,7 +107,42 @@ public struct AppStoreVersionExperimentTreatmentCreateRequest: Hashable, Codable
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case appStoreVersionExperiments
+                    }
+                }
+            }
+
+            public struct AppStoreVersionExperimentV2: Hashable, Codable, Sendable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersionExperiments
                     }
                 }

@@ -49,7 +49,9 @@ extension V1.SalesReports {
 
         /// - Returns: **200**, List of SalesReports as `Data`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -63,7 +65,13 @@ extension V1.SalesReports {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -85,90 +93,115 @@ extension V1.SalesReports.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Frequency: Hashable, Codable, RawRepresentable {
-                case daily
-                case monthly
-                case weekly
-                case yearly
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .daily: return "DAILY"
-                    case .monthly: return "MONTHLY"
-                    case .weekly: return "WEEKLY"
-                    case .yearly: return "YEARLY"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Frequency: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var daily: Self {
+                    .init(rawValue: "DAILY")
                 }
 
+                public static var monthly: Self {
+                    .init(rawValue: "MONTHLY")
+                }
+
+                public static var weekly: Self {
+                    .init(rawValue: "WEEKLY")
+                }
+
+                public static var yearly: Self {
+                    .init(rawValue: "YEARLY")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "DAILY": self = .daily
-                    case "MONTHLY": self = .monthly
-                    case "WEEKLY": self = .weekly
-                    case "YEARLY": self = .yearly
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum ReportSubType: Hashable, Codable, RawRepresentable {
-                case detailed
-                case summary
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .detailed: return "DETAILED"
-                    case .summary: return "SUMMARY"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ReportSubType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var detailed: Self {
+                    .init(rawValue: "DETAILED")
                 }
 
+                public static var summary: Self {
+                    .init(rawValue: "SUMMARY")
+                }
+
+                public static var summaryChannel: Self {
+                    .init(rawValue: "SUMMARY_CHANNEL")
+                }
+
+                public static var summaryInstallType: Self {
+                    .init(rawValue: "SUMMARY_INSTALL_TYPE")
+                }
+
+                public static var summaryTerritory: Self {
+                    .init(rawValue: "SUMMARY_TERRITORY")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "DETAILED": self = .detailed
-                    case "SUMMARY": self = .summary
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum ReportType: Hashable, Codable, RawRepresentable {
-                case newsstand
-                case preOrder
-                case sales
-                case subscriber
-                case subscription
-                case subscriptionEvent
-                case subscriptionOfferCodeRedemption
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .newsstand: return "NEWSSTAND"
-                    case .preOrder: return "PRE_ORDER"
-                    case .sales: return "SALES"
-                    case .subscriber: return "SUBSCRIBER"
-                    case .subscription: return "SUBSCRIPTION"
-                    case .subscriptionEvent: return "SUBSCRIPTION_EVENT"
-                    case .subscriptionOfferCodeRedemption: return "SUBSCRIPTION_OFFER_CODE_REDEMPTION"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ReportType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var firstAnnual: Self {
+                    .init(rawValue: "FIRST_ANNUAL")
                 }
 
+                public static var installs: Self {
+                    .init(rawValue: "INSTALLS")
+                }
+
+                public static var newsstand: Self {
+                    .init(rawValue: "NEWSSTAND")
+                }
+
+                public static var preOrder: Self {
+                    .init(rawValue: "PRE_ORDER")
+                }
+
+                public static var sales: Self {
+                    .init(rawValue: "SALES")
+                }
+
+                public static var subscriber: Self {
+                    .init(rawValue: "SUBSCRIBER")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "SUBSCRIPTION")
+                }
+
+                public static var subscriptionEvent: Self {
+                    .init(rawValue: "SUBSCRIPTION_EVENT")
+                }
+
+                public static var subscriptionOfferCodeRedemption: Self {
+                    .init(rawValue: "SUBSCRIPTION_OFFER_CODE_REDEMPTION")
+                }
+
+                public static var winBackEligibility: Self {
+                    .init(rawValue: "WIN_BACK_ELIGIBILITY")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "NEWSSTAND": self = .newsstand
-                    case "PRE_ORDER": self = .preOrder
-                    case "SALES": self = .sales
-                    case "SUBSCRIBER": self = .subscriber
-                    case "SUBSCRIPTION": self = .subscription
-                    case "SUBSCRIPTION_EVENT": self = .subscriptionEvent
-                    case "SUBSCRIPTION_OFFER_CODE_REDEMPTION": self = .subscriptionOfferCodeRedemption
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

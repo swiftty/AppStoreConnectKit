@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaGroupCreateRequest: Hashable, Codable {
+public struct BetaGroupCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct BetaGroupCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct BetaGroupCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case betaGroups
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var feedbackEnabled: Bool?
 
             public var hasAccessToAllBuilds: Bool?
@@ -85,7 +85,7 @@ public struct BetaGroupCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var app: App
 
             public var betaTesters: BetaTesters?
@@ -108,7 +108,7 @@ public struct BetaGroupCreateRequest: Hashable, Codable {
                 case builds
             }
 
-            public struct App: Hashable, Codable {
+            public struct App: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -119,7 +119,7 @@ public struct BetaGroupCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -137,13 +137,13 @@ public struct BetaGroupCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case apps
                     }
                 }
             }
 
-            public struct BetaTesters: Hashable, Codable {
+            public struct BetaTesters: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -154,7 +154,7 @@ public struct BetaGroupCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -172,13 +172,13 @@ public struct BetaGroupCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case betaTesters
                     }
                 }
             }
 
-            public struct Builds: Hashable, Codable {
+            public struct Builds: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -189,7 +189,7 @@ public struct BetaGroupCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -207,7 +207,7 @@ public struct BetaGroupCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case builds
                     }
                 }

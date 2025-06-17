@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct FileLocation: Hashable, Codable {
+public struct FileLocation: Hashable, Codable, Sendable {
     public var lineNumber: Int?
 
     public var path: String?

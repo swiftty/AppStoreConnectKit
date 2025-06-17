@@ -48,8 +48,10 @@ extension V2.AppAvailabilities.ById {
 
         /// - Returns: **200**, Single AppAvailability as `AppAvailabilityV2Response`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -63,10 +65,16 @@ extension V2.AppAvailabilities.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -93,62 +101,59 @@ extension V2.AppAvailabilities.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppAvailabilities: Hashable, Codable, RawRepresentable {
-                case app
-                case availableInNewTerritories
-                case territoryAvailabilities
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .availableInNewTerritories: return "availableInNewTerritories"
-                    case .territoryAvailabilities: return "territoryAvailabilities"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppAvailabilities: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var availableInNewTerritories: Self {
+                    .init(rawValue: "availableInNewTerritories")
                 }
 
+                public static var territoryAvailabilities: Self {
+                    .init(rawValue: "territoryAvailabilities")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "availableInNewTerritories": self = .availableInNewTerritories
-                    case "territoryAvailabilities": self = .territoryAvailabilities
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum TerritoryAvailabilities: Hashable, Codable, RawRepresentable {
-                case available
-                case contentStatuses
-                case preOrderEnabled
-                case preOrderPublishDate
-                case releaseDate
-                case territory
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .available: return "available"
-                    case .contentStatuses: return "contentStatuses"
-                    case .preOrderEnabled: return "preOrderEnabled"
-                    case .preOrderPublishDate: return "preOrderPublishDate"
-                    case .releaseDate: return "releaseDate"
-                    case .territory: return "territory"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct TerritoryAvailabilities: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var available: Self {
+                    .init(rawValue: "available")
                 }
 
+                public static var contentStatuses: Self {
+                    .init(rawValue: "contentStatuses")
+                }
+
+                public static var preOrderEnabled: Self {
+                    .init(rawValue: "preOrderEnabled")
+                }
+
+                public static var preOrderPublishDate: Self {
+                    .init(rawValue: "preOrderPublishDate")
+                }
+
+                public static var releaseDate: Self {
+                    .init(rawValue: "releaseDate")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "available": self = .available
-                    case "contentStatuses": self = .contentStatuses
-                    case "preOrderEnabled": self = .preOrderEnabled
-                    case "preOrderPublishDate": self = .preOrderPublishDate
-                    case "releaseDate": self = .releaseDate
-                    case "territory": self = .territory
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -171,22 +176,19 @@ extension V2.AppAvailabilities.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case territoryAvailabilities
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .territoryAvailabilities: return "territoryAvailabilities"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var territoryAvailabilities: Self {
+                .init(rawValue: "territoryAvailabilities")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "territoryAvailabilities": self = .territoryAvailabilities
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

@@ -52,8 +52,10 @@ extension V1.Apps.ById.CiProduct {
 
         /// - Returns: **200**, Single CiProduct as `CiProductResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -67,10 +69,16 @@ extension V1.Apps.ById.CiProduct {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -97,274 +105,351 @@ extension V1.Apps.ById.CiProduct.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Apps: Hashable, Codable, RawRepresentable {
-                case appAvailability
-                case appClips
-                case appCustomProductPages
-                case appEncryptionDeclarations
-                case appEvents
-                case appInfos
-                case appPricePoints
-                case appPriceSchedule
-                case appStoreVersionExperimentsV2
-                case appStoreVersions
-                case availableInNewTerritories
-                case availableTerritories
-                case betaAppLocalizations
-                case betaAppReviewDetail
-                case betaGroups
-                case betaLicenseAgreement
-                case betaTesters
-                case builds
-                case bundleId
-                case ciProduct
-                case contentRightsDeclaration
-                case customerReviews
-                case endUserLicenseAgreement
-                case gameCenterDetail
-                case gameCenterEnabledVersions
-                case inAppPurchases
-                case inAppPurchasesV2
-                case isOrEverWasMadeForKids
-                case name
-                case perfPowerMetrics
-                case preOrder
-                case preReleaseVersions
-                case pricePoints
-                case prices
-                case primaryLocale
-                case promotedPurchases
-                case reviewSubmissions
-                case sku
-                case subscriptionGracePeriod
-                case subscriptionGroups
-                case subscriptionStatusUrl
-                case subscriptionStatusUrlForSandbox
-                case subscriptionStatusUrlVersion
-                case subscriptionStatusUrlVersionForSandbox
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appAvailability: return "appAvailability"
-                    case .appClips: return "appClips"
-                    case .appCustomProductPages: return "appCustomProductPages"
-                    case .appEncryptionDeclarations: return "appEncryptionDeclarations"
-                    case .appEvents: return "appEvents"
-                    case .appInfos: return "appInfos"
-                    case .appPricePoints: return "appPricePoints"
-                    case .appPriceSchedule: return "appPriceSchedule"
-                    case .appStoreVersionExperimentsV2: return "appStoreVersionExperimentsV2"
-                    case .appStoreVersions: return "appStoreVersions"
-                    case .availableInNewTerritories: return "availableInNewTerritories"
-                    case .availableTerritories: return "availableTerritories"
-                    case .betaAppLocalizations: return "betaAppLocalizations"
-                    case .betaAppReviewDetail: return "betaAppReviewDetail"
-                    case .betaGroups: return "betaGroups"
-                    case .betaLicenseAgreement: return "betaLicenseAgreement"
-                    case .betaTesters: return "betaTesters"
-                    case .builds: return "builds"
-                    case .bundleId: return "bundleId"
-                    case .ciProduct: return "ciProduct"
-                    case .contentRightsDeclaration: return "contentRightsDeclaration"
-                    case .customerReviews: return "customerReviews"
-                    case .endUserLicenseAgreement: return "endUserLicenseAgreement"
-                    case .gameCenterDetail: return "gameCenterDetail"
-                    case .gameCenterEnabledVersions: return "gameCenterEnabledVersions"
-                    case .inAppPurchases: return "inAppPurchases"
-                    case .inAppPurchasesV2: return "inAppPurchasesV2"
-                    case .isOrEverWasMadeForKids: return "isOrEverWasMadeForKids"
-                    case .name: return "name"
-                    case .perfPowerMetrics: return "perfPowerMetrics"
-                    case .preOrder: return "preOrder"
-                    case .preReleaseVersions: return "preReleaseVersions"
-                    case .pricePoints: return "pricePoints"
-                    case .prices: return "prices"
-                    case .primaryLocale: return "primaryLocale"
-                    case .promotedPurchases: return "promotedPurchases"
-                    case .reviewSubmissions: return "reviewSubmissions"
-                    case .sku: return "sku"
-                    case .subscriptionGracePeriod: return "subscriptionGracePeriod"
-                    case .subscriptionGroups: return "subscriptionGroups"
-                    case .subscriptionStatusUrl: return "subscriptionStatusUrl"
-                    case .subscriptionStatusUrlForSandbox: return "subscriptionStatusUrlForSandbox"
-                    case .subscriptionStatusUrlVersion: return "subscriptionStatusUrlVersion"
-                    case .subscriptionStatusUrlVersionForSandbox: return "subscriptionStatusUrlVersionForSandbox"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Apps: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var accessibilityDeclarations: Self {
+                    .init(rawValue: "accessibilityDeclarations")
                 }
 
+                public static var accessibilityUrl: Self {
+                    .init(rawValue: "accessibilityUrl")
+                }
+
+                public static var alternativeDistributionKey: Self {
+                    .init(rawValue: "alternativeDistributionKey")
+                }
+
+                public static var analyticsReportRequests: Self {
+                    .init(rawValue: "analyticsReportRequests")
+                }
+
+                public static var appAvailabilityV2: Self {
+                    .init(rawValue: "appAvailabilityV2")
+                }
+
+                public static var appClips: Self {
+                    .init(rawValue: "appClips")
+                }
+
+                public static var appCustomProductPages: Self {
+                    .init(rawValue: "appCustomProductPages")
+                }
+
+                public static var appEncryptionDeclarations: Self {
+                    .init(rawValue: "appEncryptionDeclarations")
+                }
+
+                public static var appEvents: Self {
+                    .init(rawValue: "appEvents")
+                }
+
+                public static var appInfos: Self {
+                    .init(rawValue: "appInfos")
+                }
+
+                public static var appPricePoints: Self {
+                    .init(rawValue: "appPricePoints")
+                }
+
+                public static var appPriceSchedule: Self {
+                    .init(rawValue: "appPriceSchedule")
+                }
+
+                public static var appStoreVersionExperimentsV2: Self {
+                    .init(rawValue: "appStoreVersionExperimentsV2")
+                }
+
+                public static var appStoreVersions: Self {
+                    .init(rawValue: "appStoreVersions")
+                }
+
+                public static var backgroundAssets: Self {
+                    .init(rawValue: "backgroundAssets")
+                }
+
+                public static var betaAppLocalizations: Self {
+                    .init(rawValue: "betaAppLocalizations")
+                }
+
+                public static var betaAppReviewDetail: Self {
+                    .init(rawValue: "betaAppReviewDetail")
+                }
+
+                public static var betaFeedbackCrashSubmissions: Self {
+                    .init(rawValue: "betaFeedbackCrashSubmissions")
+                }
+
+                public static var betaFeedbackScreenshotSubmissions: Self {
+                    .init(rawValue: "betaFeedbackScreenshotSubmissions")
+                }
+
+                public static var betaGroups: Self {
+                    .init(rawValue: "betaGroups")
+                }
+
+                public static var betaLicenseAgreement: Self {
+                    .init(rawValue: "betaLicenseAgreement")
+                }
+
+                public static var betaTesters: Self {
+                    .init(rawValue: "betaTesters")
+                }
+
+                public static var builds: Self {
+                    .init(rawValue: "builds")
+                }
+
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
+                }
+
+                public static var ciProduct: Self {
+                    .init(rawValue: "ciProduct")
+                }
+
+                public static var contentRightsDeclaration: Self {
+                    .init(rawValue: "contentRightsDeclaration")
+                }
+
+                public static var customerReviewSummarizations: Self {
+                    .init(rawValue: "customerReviewSummarizations")
+                }
+
+                public static var customerReviews: Self {
+                    .init(rawValue: "customerReviews")
+                }
+
+                public static var endUserLicenseAgreement: Self {
+                    .init(rawValue: "endUserLicenseAgreement")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterEnabledVersions: Self {
+                    .init(rawValue: "gameCenterEnabledVersions")
+                }
+
+                public static var inAppPurchases: Self {
+                    .init(rawValue: "inAppPurchases")
+                }
+
+                public static var inAppPurchasesV2: Self {
+                    .init(rawValue: "inAppPurchasesV2")
+                }
+
+                public static var isOrEverWasMadeForKids: Self {
+                    .init(rawValue: "isOrEverWasMadeForKids")
+                }
+
+                public static var marketplaceSearchDetail: Self {
+                    .init(rawValue: "marketplaceSearchDetail")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var perfPowerMetrics: Self {
+                    .init(rawValue: "perfPowerMetrics")
+                }
+
+                public static var preReleaseVersions: Self {
+                    .init(rawValue: "preReleaseVersions")
+                }
+
+                public static var primaryLocale: Self {
+                    .init(rawValue: "primaryLocale")
+                }
+
+                public static var promotedPurchases: Self {
+                    .init(rawValue: "promotedPurchases")
+                }
+
+                public static var reviewSubmissions: Self {
+                    .init(rawValue: "reviewSubmissions")
+                }
+
+                public static var sku: Self {
+                    .init(rawValue: "sku")
+                }
+
+                public static var streamlinedPurchasingEnabled: Self {
+                    .init(rawValue: "streamlinedPurchasingEnabled")
+                }
+
+                public static var subscriptionGracePeriod: Self {
+                    .init(rawValue: "subscriptionGracePeriod")
+                }
+
+                public static var subscriptionGroups: Self {
+                    .init(rawValue: "subscriptionGroups")
+                }
+
+                public static var subscriptionStatusUrl: Self {
+                    .init(rawValue: "subscriptionStatusUrl")
+                }
+
+                public static var subscriptionStatusUrlForSandbox: Self {
+                    .init(rawValue: "subscriptionStatusUrlForSandbox")
+                }
+
+                public static var subscriptionStatusUrlVersion: Self {
+                    .init(rawValue: "subscriptionStatusUrlVersion")
+                }
+
+                public static var subscriptionStatusUrlVersionForSandbox: Self {
+                    .init(rawValue: "subscriptionStatusUrlVersionForSandbox")
+                }
+
+                public static var webhooks: Self {
+                    .init(rawValue: "webhooks")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appAvailability": self = .appAvailability
-                    case "appClips": self = .appClips
-                    case "appCustomProductPages": self = .appCustomProductPages
-                    case "appEncryptionDeclarations": self = .appEncryptionDeclarations
-                    case "appEvents": self = .appEvents
-                    case "appInfos": self = .appInfos
-                    case "appPricePoints": self = .appPricePoints
-                    case "appPriceSchedule": self = .appPriceSchedule
-                    case "appStoreVersionExperimentsV2": self = .appStoreVersionExperimentsV2
-                    case "appStoreVersions": self = .appStoreVersions
-                    case "availableInNewTerritories": self = .availableInNewTerritories
-                    case "availableTerritories": self = .availableTerritories
-                    case "betaAppLocalizations": self = .betaAppLocalizations
-                    case "betaAppReviewDetail": self = .betaAppReviewDetail
-                    case "betaGroups": self = .betaGroups
-                    case "betaLicenseAgreement": self = .betaLicenseAgreement
-                    case "betaTesters": self = .betaTesters
-                    case "builds": self = .builds
-                    case "bundleId": self = .bundleId
-                    case "ciProduct": self = .ciProduct
-                    case "contentRightsDeclaration": self = .contentRightsDeclaration
-                    case "customerReviews": self = .customerReviews
-                    case "endUserLicenseAgreement": self = .endUserLicenseAgreement
-                    case "gameCenterDetail": self = .gameCenterDetail
-                    case "gameCenterEnabledVersions": self = .gameCenterEnabledVersions
-                    case "inAppPurchases": self = .inAppPurchases
-                    case "inAppPurchasesV2": self = .inAppPurchasesV2
-                    case "isOrEverWasMadeForKids": self = .isOrEverWasMadeForKids
-                    case "name": self = .name
-                    case "perfPowerMetrics": self = .perfPowerMetrics
-                    case "preOrder": self = .preOrder
-                    case "preReleaseVersions": self = .preReleaseVersions
-                    case "pricePoints": self = .pricePoints
-                    case "prices": self = .prices
-                    case "primaryLocale": self = .primaryLocale
-                    case "promotedPurchases": self = .promotedPurchases
-                    case "reviewSubmissions": self = .reviewSubmissions
-                    case "sku": self = .sku
-                    case "subscriptionGracePeriod": self = .subscriptionGracePeriod
-                    case "subscriptionGroups": self = .subscriptionGroups
-                    case "subscriptionStatusUrl": self = .subscriptionStatusUrl
-                    case "subscriptionStatusUrlForSandbox": self = .subscriptionStatusUrlForSandbox
-                    case "subscriptionStatusUrlVersion": self = .subscriptionStatusUrlVersion
-                    case "subscriptionStatusUrlVersionForSandbox": self = .subscriptionStatusUrlVersionForSandbox
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum BundleIds: Hashable, Codable, RawRepresentable {
-                case app
-                case bundleIdCapabilities
-                case identifier
-                case name
-                case platform
-                case profiles
-                case seedId
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .bundleIdCapabilities: return "bundleIdCapabilities"
-                    case .identifier: return "identifier"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .profiles: return "profiles"
-                    case .seedId: return "seedId"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BundleIds: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var bundleIdCapabilities: Self {
+                    .init(rawValue: "bundleIdCapabilities")
+                }
+
+                public static var identifier: Self {
+                    .init(rawValue: "identifier")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var profiles: Self {
+                    .init(rawValue: "profiles")
+                }
+
+                public static var seedId: Self {
+                    .init(rawValue: "seedId")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "bundleIdCapabilities": self = .bundleIdCapabilities
-                    case "identifier": self = .identifier
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "profiles": self = .profiles
-                    case "seedId": self = .seedId
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum CiProducts: Hashable, Codable, RawRepresentable {
-                case additionalRepositories
-                case app
-                case buildRuns
-                case bundleId
-                case createdDate
-                case name
-                case primaryRepositories
-                case productType
-                case workflows
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .additionalRepositories: return "additionalRepositories"
-                    case .app: return "app"
-                    case .buildRuns: return "buildRuns"
-                    case .bundleId: return "bundleId"
-                    case .createdDate: return "createdDate"
-                    case .name: return "name"
-                    case .primaryRepositories: return "primaryRepositories"
-                    case .productType: return "productType"
-                    case .workflows: return "workflows"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiProducts: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var additionalRepositories: Self {
+                    .init(rawValue: "additionalRepositories")
                 }
 
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var buildRuns: Self {
+                    .init(rawValue: "buildRuns")
+                }
+
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var primaryRepositories: Self {
+                    .init(rawValue: "primaryRepositories")
+                }
+
+                public static var productType: Self {
+                    .init(rawValue: "productType")
+                }
+
+                public static var workflows: Self {
+                    .init(rawValue: "workflows")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "additionalRepositories": self = .additionalRepositories
-                    case "app": self = .app
-                    case "buildRuns": self = .buildRuns
-                    case "bundleId": self = .bundleId
-                    case "createdDate": self = .createdDate
-                    case "name": self = .name
-                    case "primaryRepositories": self = .primaryRepositories
-                    case "productType": self = .productType
-                    case "workflows": self = .workflows
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
-                case defaultBranch
-                case gitReferences
-                case httpCloneUrl
-                case lastAccessedDate
-                case ownerName
-                case pullRequests
-                case repositoryName
-                case scmProvider
-                case sshCloneUrl
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .defaultBranch: return "defaultBranch"
-                    case .gitReferences: return "gitReferences"
-                    case .httpCloneUrl: return "httpCloneUrl"
-                    case .lastAccessedDate: return "lastAccessedDate"
-                    case .ownerName: return "ownerName"
-                    case .pullRequests: return "pullRequests"
-                    case .repositoryName: return "repositoryName"
-                    case .scmProvider: return "scmProvider"
-                    case .sshCloneUrl: return "sshCloneUrl"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ScmRepositories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var defaultBranch: Self {
+                    .init(rawValue: "defaultBranch")
                 }
 
+                public static var gitReferences: Self {
+                    .init(rawValue: "gitReferences")
+                }
+
+                public static var httpCloneUrl: Self {
+                    .init(rawValue: "httpCloneUrl")
+                }
+
+                public static var lastAccessedDate: Self {
+                    .init(rawValue: "lastAccessedDate")
+                }
+
+                public static var ownerName: Self {
+                    .init(rawValue: "ownerName")
+                }
+
+                public static var pullRequests: Self {
+                    .init(rawValue: "pullRequests")
+                }
+
+                public static var repositoryName: Self {
+                    .init(rawValue: "repositoryName")
+                }
+
+                public static var scmProvider: Self {
+                    .init(rawValue: "scmProvider")
+                }
+
+                public static var sshCloneUrl: Self {
+                    .init(rawValue: "sshCloneUrl")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "defaultBranch": self = .defaultBranch
-                    case "gitReferences": self = .gitReferences
-                    case "httpCloneUrl": self = .httpCloneUrl
-                    case "lastAccessedDate": self = .lastAccessedDate
-                    case "ownerName": self = .ownerName
-                    case "pullRequests": self = .pullRequests
-                    case "repositoryName": self = .repositoryName
-                    case "scmProvider": self = .scmProvider
-                    case "sshCloneUrl": self = .sshCloneUrl
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -397,28 +482,27 @@ extension V1.Apps.ById.CiProduct.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case app
-            case bundleId
-            case primaryRepositories
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .app: return "app"
-                case .bundleId: return "bundleId"
-                case .primaryRepositories: return "primaryRepositories"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var app: Self {
+                .init(rawValue: "app")
             }
 
+            public static var bundleId: Self {
+                .init(rawValue: "bundleId")
+            }
+
+            public static var primaryRepositories: Self {
+                .init(rawValue: "primaryRepositories")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "app": self = .app
-                case "bundleId": self = .bundleId
-                case "primaryRepositories": self = .primaryRepositories
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

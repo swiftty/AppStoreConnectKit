@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiWorkflow: Hashable, Codable {
+public struct CiWorkflow: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct CiWorkflow: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case ciWorkflows
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var actions: [CiAction]?
 
         public var branchStartCondition: CiBranchStartCondition?
@@ -56,6 +56,12 @@ public struct CiWorkflow: Hashable, Codable {
         public var isLockedForEditing: Bool?
 
         public var lastModifiedDate: String?
+
+        public var manualBranchStartCondition: CiManualBranchStartCondition?
+
+        public var manualPullRequestStartCondition: CiManualPullRequestStartCondition?
+
+        public var manualTagStartCondition: CiManualTagStartCondition?
 
         public var name: String?
 
@@ -74,6 +80,9 @@ public struct CiWorkflow: Hashable, Codable {
             isEnabled: Bool? = nil,
             isLockedForEditing: Bool? = nil,
             lastModifiedDate: String? = nil,
+            manualBranchStartCondition: CiManualBranchStartCondition? = nil,
+            manualPullRequestStartCondition: CiManualPullRequestStartCondition? = nil,
+            manualTagStartCondition: CiManualTagStartCondition? = nil,
             name: String? = nil,
             pullRequestStartCondition: CiPullRequestStartCondition? = nil,
             scheduledStartCondition: CiScheduledStartCondition? = nil,
@@ -87,6 +96,9 @@ public struct CiWorkflow: Hashable, Codable {
             self.isEnabled = isEnabled
             self.isLockedForEditing = isLockedForEditing
             self.lastModifiedDate = lastModifiedDate
+            self.manualBranchStartCondition = manualBranchStartCondition
+            self.manualPullRequestStartCondition = manualPullRequestStartCondition
+            self.manualTagStartCondition = manualTagStartCondition
             self.name = name
             self.pullRequestStartCondition = pullRequestStartCondition
             self.scheduledStartCondition = scheduledStartCondition
@@ -102,6 +114,9 @@ public struct CiWorkflow: Hashable, Codable {
             case isEnabled
             case isLockedForEditing
             case lastModifiedDate
+            case manualBranchStartCondition
+            case manualPullRequestStartCondition
+            case manualTagStartCondition
             case name
             case pullRequestStartCondition
             case scheduledStartCondition
@@ -109,7 +124,9 @@ public struct CiWorkflow: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
+        public var buildRuns: BuildRuns?
+
         public var macOsVersion: MacOsVersion?
 
         public var product: Product?
@@ -119,11 +136,13 @@ public struct CiWorkflow: Hashable, Codable {
         public var xcodeVersion: XcodeVersion?
 
         public init(
+            buildRuns: BuildRuns? = nil,
             macOsVersion: MacOsVersion? = nil,
             product: Product? = nil,
             repository: Repository? = nil,
             xcodeVersion: XcodeVersion? = nil
         ) {
+            self.buildRuns = buildRuns
             self.macOsVersion = macOsVersion
             self.product = product
             self.repository = repository
@@ -131,31 +150,37 @@ public struct CiWorkflow: Hashable, Codable {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case buildRuns
             case macOsVersion
             case product
             case repository
             case xcodeVersion
         }
 
-        public struct MacOsVersion: Hashable, Codable {
-            public var data: Data?
+        public struct BuildRuns: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
-                self.data = data
+            public init(links: RelationshipLinks? = nil) {
                 self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
-                case data
                 case links
             }
+        }
 
-            public struct Data: Hashable, Codable {
+        public struct MacOsVersion: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -173,50 +198,24 @@ public struct CiWorkflow: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case ciMacOsVersions
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct Product: Hashable, Codable {
+        public struct Product: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -234,39 +233,20 @@ public struct CiWorkflow: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case ciProducts
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct Repository: Hashable, Codable {
+        public struct Repository: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -277,7 +257,7 @@ public struct CiWorkflow: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -295,50 +275,24 @@ public struct CiWorkflow: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case scmRepositories
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct XcodeVersion: Hashable, Codable {
+        public struct XcodeVersion: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -356,27 +310,8 @@ public struct CiWorkflow: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case ciXcodeVersions
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ScmGitReferenceResponse: Hashable, Codable {
+public struct ScmGitReferenceResponse: Hashable, Codable, Sendable {
     public var data: ScmGitReference
 
     public var included: [ScmRepository]?

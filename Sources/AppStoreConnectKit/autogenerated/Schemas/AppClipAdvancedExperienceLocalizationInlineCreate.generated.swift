@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppClipAdvancedExperienceLocalizationInlineCreate: Hashable, Codable {
+public struct AppClipAdvancedExperienceLocalizationInlineCreate: Hashable, Codable, Sendable {
     public var id: String?
 
     public var type: `Type`
@@ -26,11 +26,11 @@ public struct AppClipAdvancedExperienceLocalizationInlineCreate: Hashable, Codab
         case attributes
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appClipAdvancedExperienceLocalizations
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var language: AppClipAdvancedExperienceLanguage?
 
         public var subtitle: String?

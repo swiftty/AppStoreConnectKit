@@ -58,8 +58,10 @@ extension V1.AppStoreVersionExperimentTreatments.ById.AppStoreVersionExperimentT
 
         /// - Returns: **200**, List of AppStoreVersionExperimentTreatmentLocalizations as `AppStoreVersionExperimentTreatmentLocalizationsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -73,10 +75,16 @@ extension V1.AppStoreVersionExperimentTreatments.ById.AppStoreVersionExperimentT
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -106,130 +114,135 @@ extension V1.AppStoreVersionExperimentTreatments.ById.AppStoreVersionExperimentT
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppPreviewSets: Hashable, Codable, RawRepresentable {
-                case appCustomProductPageLocalization
-                case appPreviews
-                case appStoreVersionExperimentTreatmentLocalization
-                case appStoreVersionLocalization
-                case previewType
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
-                    case .appPreviews: return "appPreviews"
-                    case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
-                    case .appStoreVersionLocalization: return "appStoreVersionLocalization"
-                    case .previewType: return "previewType"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppPreviewSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPageLocalization: Self {
+                    .init(rawValue: "appCustomProductPageLocalization")
                 }
 
+                public static var appPreviews: Self {
+                    .init(rawValue: "appPreviews")
+                }
+
+                public static var appStoreVersionExperimentTreatmentLocalization: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatmentLocalization")
+                }
+
+                public static var appStoreVersionLocalization: Self {
+                    .init(rawValue: "appStoreVersionLocalization")
+                }
+
+                public static var previewType: Self {
+                    .init(rawValue: "previewType")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
-                    case "appPreviews": self = .appPreviews
-                    case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
-                    case "appStoreVersionLocalization": self = .appStoreVersionLocalization
-                    case "previewType": self = .previewType
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppScreenshotSets: Hashable, Codable, RawRepresentable {
-                case appCustomProductPageLocalization
-                case appScreenshots
-                case appStoreVersionExperimentTreatmentLocalization
-                case appStoreVersionLocalization
-                case screenshotDisplayType
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appCustomProductPageLocalization: return "appCustomProductPageLocalization"
-                    case .appScreenshots: return "appScreenshots"
-                    case .appStoreVersionExperimentTreatmentLocalization: return "appStoreVersionExperimentTreatmentLocalization"
-                    case .appStoreVersionLocalization: return "appStoreVersionLocalization"
-                    case .screenshotDisplayType: return "screenshotDisplayType"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppScreenshotSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPageLocalization: Self {
+                    .init(rawValue: "appCustomProductPageLocalization")
                 }
 
+                public static var appScreenshots: Self {
+                    .init(rawValue: "appScreenshots")
+                }
+
+                public static var appStoreVersionExperimentTreatmentLocalization: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatmentLocalization")
+                }
+
+                public static var appStoreVersionLocalization: Self {
+                    .init(rawValue: "appStoreVersionLocalization")
+                }
+
+                public static var screenshotDisplayType: Self {
+                    .init(rawValue: "screenshotDisplayType")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appCustomProductPageLocalization": self = .appCustomProductPageLocalization
-                    case "appScreenshots": self = .appScreenshots
-                    case "appStoreVersionExperimentTreatmentLocalization": self = .appStoreVersionExperimentTreatmentLocalization
-                    case "appStoreVersionLocalization": self = .appStoreVersionLocalization
-                    case "screenshotDisplayType": self = .screenshotDisplayType
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppStoreVersionExperimentTreatmentLocalizations: Hashable, Codable, RawRepresentable {
-                case appPreviewSets
-                case appScreenshotSets
-                case appStoreVersionExperimentTreatment
-                case locale
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appPreviewSets: return "appPreviewSets"
-                    case .appScreenshotSets: return "appScreenshotSets"
-                    case .appStoreVersionExperimentTreatment: return "appStoreVersionExperimentTreatment"
-                    case .locale: return "locale"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppStoreVersionExperimentTreatmentLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appPreviewSets: Self {
+                    .init(rawValue: "appPreviewSets")
                 }
 
+                public static var appScreenshotSets: Self {
+                    .init(rawValue: "appScreenshotSets")
+                }
+
+                public static var appStoreVersionExperimentTreatment: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatment")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appPreviewSets": self = .appPreviewSets
-                    case "appScreenshotSets": self = .appScreenshotSets
-                    case "appStoreVersionExperimentTreatment": self = .appStoreVersionExperimentTreatment
-                    case "locale": self = .locale
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppStoreVersionExperimentTreatments: Hashable, Codable, RawRepresentable {
-                case appIcon
-                case appIconName
-                case appStoreVersionExperiment
-                case appStoreVersionExperimentTreatmentLocalizations
-                case appStoreVersionExperimentV2
-                case name
-                case promotedDate
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appIcon: return "appIcon"
-                    case .appIconName: return "appIconName"
-                    case .appStoreVersionExperiment: return "appStoreVersionExperiment"
-                    case .appStoreVersionExperimentTreatmentLocalizations: return "appStoreVersionExperimentTreatmentLocalizations"
-                    case .appStoreVersionExperimentV2: return "appStoreVersionExperimentV2"
-                    case .name: return "name"
-                    case .promotedDate: return "promotedDate"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppStoreVersionExperimentTreatments: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appIcon: Self {
+                    .init(rawValue: "appIcon")
                 }
 
+                public static var appIconName: Self {
+                    .init(rawValue: "appIconName")
+                }
+
+                public static var appStoreVersionExperiment: Self {
+                    .init(rawValue: "appStoreVersionExperiment")
+                }
+
+                public static var appStoreVersionExperimentTreatmentLocalizations: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatmentLocalizations")
+                }
+
+                public static var appStoreVersionExperimentV2: Self {
+                    .init(rawValue: "appStoreVersionExperimentV2")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var promotedDate: Self {
+                    .init(rawValue: "promotedDate")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appIcon": self = .appIcon
-                    case "appIconName": self = .appIconName
-                    case "appStoreVersionExperiment": self = .appStoreVersionExperiment
-                    case "appStoreVersionExperimentTreatmentLocalizations": self = .appStoreVersionExperimentTreatmentLocalizations
-                    case "appStoreVersionExperimentV2": self = .appStoreVersionExperimentV2
-                    case "name": self = .name
-                    case "promotedDate": self = .promotedDate
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -284,28 +297,27 @@ extension V1.AppStoreVersionExperimentTreatments.ById.AppStoreVersionExperimentT
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appPreviewSets
-            case appScreenshotSets
-            case appStoreVersionExperimentTreatment
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appPreviewSets: return "appPreviewSets"
-                case .appScreenshotSets: return "appScreenshotSets"
-                case .appStoreVersionExperimentTreatment: return "appStoreVersionExperimentTreatment"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appPreviewSets: Self {
+                .init(rawValue: "appPreviewSets")
             }
 
+            public static var appScreenshotSets: Self {
+                .init(rawValue: "appScreenshotSets")
+            }
+
+            public static var appStoreVersionExperimentTreatment: Self {
+                .init(rawValue: "appStoreVersionExperimentTreatment")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appPreviewSets": self = .appPreviewSets
-                case "appScreenshotSets": self = .appScreenshotSets
-                case "appStoreVersionExperimentTreatment": self = .appStoreVersionExperimentTreatment
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

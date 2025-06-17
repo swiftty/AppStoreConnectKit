@@ -44,8 +44,10 @@ extension V1.CiBuildActions.ById.Artifacts {
 
         /// - Returns: **200**, List of CiArtifacts as `CiArtifactsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.CiBuildActions.ById.Artifacts {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,31 +95,31 @@ extension V1.CiBuildActions.ById.Artifacts.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiArtifacts: Hashable, Codable, RawRepresentable {
-                case downloadUrl
-                case fileName
-                case fileSize
-                case fileType
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .downloadUrl: return "downloadUrl"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .fileType: return "fileType"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiArtifacts: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var downloadUrl: Self {
+                    .init(rawValue: "downloadUrl")
                 }
 
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var fileType: Self {
+                    .init(rawValue: "fileType")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "downloadUrl": self = .downloadUrl
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "fileType": self = .fileType
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

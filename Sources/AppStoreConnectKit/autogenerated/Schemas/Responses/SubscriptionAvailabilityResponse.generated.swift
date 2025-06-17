@@ -3,16 +3,16 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionAvailabilityResponse: Hashable, Codable {
+public struct SubscriptionAvailabilityResponse: Hashable, Codable, Sendable {
     public var data: SubscriptionAvailability
 
-    public var included: [Included]?
+    public var included: [Territory]?
 
     public var links: DocumentLinks
 
     public init(
         data: SubscriptionAvailability,
-        included: [Included]? = nil,
+        included: [Territory]? = nil,
         links: DocumentLinks
     ) {
         self.data = data
@@ -24,38 +24,6 @@ public struct SubscriptionAvailabilityResponse: Hashable, Codable {
         case data
         case included
         case links
-    }
-
-    public enum Included: Hashable, Codable {
-        case subscription(Subscription)
-        case territory(Territory)
-
-        public init(from decoder: Decoder) throws {
-            self = try {
-                var lastError: Error!
-                do {
-                    return .subscription(try Subscription(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .territory(try Territory(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                throw lastError
-            }()
-        }
-
-        public func encode(to encoder: Encoder) throws {
-            switch self {
-            case .subscription(let value):
-                try value.encode(to: encoder)
-
-            case .territory(let value):
-                try value.encode(to: encoder)
-            }
-        }
     }
 }
 

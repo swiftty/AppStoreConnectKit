@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionGracePeriod: Hashable, Codable {
+public struct SubscriptionGracePeriod: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct SubscriptionGracePeriod: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case subscriptionGracePeriods
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var duration: SubscriptionGracePeriodDuration?
 
         public var optIn: Bool?
@@ -63,25 +63,23 @@ public struct SubscriptionGracePeriod: Hashable, Codable {
             case sandboxOptIn
         }
 
-        public enum RenewalType: Hashable, Codable, RawRepresentable {
-            case allRenewals
-            case paidToPaidOnly
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .allRenewals: return "ALL_RENEWALS"
-                case .paidToPaidOnly: return "PAID_TO_PAID_ONLY"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct RenewalType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var allRenewals: Self {
+                .init(rawValue: "ALL_RENEWALS")
             }
 
+            public static var paidToPaidOnly: Self {
+                .init(rawValue: "PAID_TO_PAID_ONLY")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "ALL_RENEWALS": self = .allRenewals
-                case "PAID_TO_PAID_ONLY": self = .paidToPaidOnly
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

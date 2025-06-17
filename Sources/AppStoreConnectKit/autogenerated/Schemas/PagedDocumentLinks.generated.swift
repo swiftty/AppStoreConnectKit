@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct PagedDocumentLinks: Hashable, Codable {
+public struct PagedDocumentLinks: Hashable, Codable, Sendable {
     public var first: URL?
 
     public var next: URL?

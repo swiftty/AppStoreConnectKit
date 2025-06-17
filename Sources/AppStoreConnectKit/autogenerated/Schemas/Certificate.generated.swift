@@ -3,12 +3,14 @@
 // swiftlint:disable all
 import Foundation
 
-public struct Certificate: Hashable, Codable {
+public struct Certificate: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
 
     public var attributes: Attributes?
+
+    public var relationships: Relationships?
 
     public var links: ResourceLinks?
 
@@ -16,11 +18,13 @@ public struct Certificate: Hashable, Codable {
         id: String,
         type: `Type`,
         attributes: Attributes? = nil,
+        relationships: Relationships? = nil,
         links: ResourceLinks? = nil
     ) {
         self.id = id
         self.type = type
         self.attributes = attributes
+        self.relationships = relationships
         self.links = links
     }
 
@@ -28,14 +32,17 @@ public struct Certificate: Hashable, Codable {
         case id
         case type
         case attributes
+        case relationships
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case certificates
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
+        public var activated: Bool?
+
         public var certificateContent: String?
 
         public var certificateType: CertificateType?
@@ -51,6 +58,7 @@ public struct Certificate: Hashable, Codable {
         public var serialNumber: String?
 
         public init(
+            activated: Bool? = nil,
             certificateContent: String? = nil,
             certificateType: CertificateType? = nil,
             displayName: String? = nil,
@@ -59,6 +67,7 @@ public struct Certificate: Hashable, Codable {
             platform: BundleIdPlatform? = nil,
             serialNumber: String? = nil
         ) {
+            self.activated = activated
             self.certificateContent = certificateContent
             self.certificateType = certificateType
             self.displayName = displayName
@@ -69,6 +78,7 @@ public struct Certificate: Hashable, Codable {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activated
             case certificateContent
             case certificateType
             case displayName
@@ -76,6 +86,60 @@ public struct Certificate: Hashable, Codable {
             case name
             case platform
             case serialNumber
+        }
+    }
+
+    public struct Relationships: Hashable, Codable, Sendable {
+        public var passTypeId: PassTypeId?
+
+        public init(passTypeId: PassTypeId? = nil) {
+            self.passTypeId = passTypeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case passTypeId
+        }
+
+        public struct PassTypeId: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public var links: RelationshipLinks?
+
+            public init(
+                data: Data? = nil,
+                links: RelationshipLinks? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case passTypeIds
+                }
+            }
         }
     }
 }

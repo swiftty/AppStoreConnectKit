@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiIssue: Hashable, Codable {
+public struct CiIssue: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct CiIssue: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case ciIssues
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var category: String?
 
         public var fileSource: FileLocation?
@@ -63,31 +63,31 @@ public struct CiIssue: Hashable, Codable {
             case message
         }
 
-        public enum IssueType: Hashable, Codable, RawRepresentable {
-            case analyzerWarning
-            case error
-            case testFailure
-            case warning
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .analyzerWarning: return "ANALYZER_WARNING"
-                case .error: return "ERROR"
-                case .testFailure: return "TEST_FAILURE"
-                case .warning: return "WARNING"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct IssueType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var analyzerWarning: Self {
+                .init(rawValue: "ANALYZER_WARNING")
             }
 
+            public static var error: Self {
+                .init(rawValue: "ERROR")
+            }
+
+            public static var testFailure: Self {
+                .init(rawValue: "TEST_FAILURE")
+            }
+
+            public static var warning: Self {
+                .init(rawValue: "WARNING")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "ANALYZER_WARNING": self = .analyzerWarning
-                case "ERROR": self = .error
-                case "TEST_FAILURE": self = .testFailure
-                case "WARNING": self = .warning
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

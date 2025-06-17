@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionUpdateRequest: Hashable, Codable {
+public struct SubscriptionUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public var included: [Included]?
@@ -21,7 +21,7 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
         case included
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -49,14 +49,11 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case subscriptions
         }
 
-        public struct Attributes: Hashable, Codable {
-            @available(*, deprecated)
-            public var availableInAllTerritories: Bool?
-
+        public struct Attributes: Hashable, Codable, Sendable {
             public var familySharable: Bool?
 
             public var groupLevel: Int?
@@ -68,14 +65,12 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
             public var subscriptionPeriod: SubscriptionPeriod?
 
             public init(
-                availableInAllTerritories: Bool? = nil,
                 familySharable: Bool? = nil,
                 groupLevel: Int? = nil,
                 name: String? = nil,
                 reviewNote: String? = nil,
                 subscriptionPeriod: SubscriptionPeriod? = nil
             ) {
-                self.availableInAllTerritories = availableInAllTerritories
                 self.familySharable = familySharable
                 self.groupLevel = groupLevel
                 self.name = name
@@ -84,7 +79,6 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
             }
 
             private enum CodingKeys: String, CodingKey {
-                case availableInAllTerritories
                 case familySharable
                 case groupLevel
                 case name
@@ -92,42 +86,44 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
                 case subscriptionPeriod
             }
 
-            public enum SubscriptionPeriod: Hashable, Codable, RawRepresentable {
-                case oneMonth
-                case oneWeek
-                case oneYear
-                case sixMonths
-                case threeMonths
-                case twoMonths
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .oneMonth: return "ONE_MONTH"
-                    case .oneWeek: return "ONE_WEEK"
-                    case .oneYear: return "ONE_YEAR"
-                    case .sixMonths: return "SIX_MONTHS"
-                    case .threeMonths: return "THREE_MONTHS"
-                    case .twoMonths: return "TWO_MONTHS"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionPeriod: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var oneMonth: Self {
+                    .init(rawValue: "ONE_MONTH")
                 }
 
+                public static var oneWeek: Self {
+                    .init(rawValue: "ONE_WEEK")
+                }
+
+                public static var oneYear: Self {
+                    .init(rawValue: "ONE_YEAR")
+                }
+
+                public static var sixMonths: Self {
+                    .init(rawValue: "SIX_MONTHS")
+                }
+
+                public static var threeMonths: Self {
+                    .init(rawValue: "THREE_MONTHS")
+                }
+
+                public static var twoMonths: Self {
+                    .init(rawValue: "TWO_MONTHS")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "ONE_MONTH": self = .oneMonth
-                    case "ONE_WEEK": self = .oneWeek
-                    case "ONE_YEAR": self = .oneYear
-                    case "SIX_MONTHS": self = .sixMonths
-                    case "THREE_MONTHS": self = .threeMonths
-                    case "TWO_MONTHS": self = .twoMonths
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var introductoryOffers: IntroductoryOffers?
 
             public var prices: Prices?
@@ -150,7 +146,7 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
                 case promotionalOffers
             }
 
-            public struct IntroductoryOffers: Hashable, Codable {
+            public struct IntroductoryOffers: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -161,7 +157,7 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -179,13 +175,13 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case subscriptionIntroductoryOffers
                     }
                 }
             }
 
-            public struct Prices: Hashable, Codable {
+            public struct Prices: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -196,7 +192,7 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -214,13 +210,13 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case subscriptionPrices
                     }
                 }
             }
 
-            public struct PromotionalOffers: Hashable, Codable {
+            public struct PromotionalOffers: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -231,7 +227,7 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -249,7 +245,7 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case subscriptionPromotionalOffers
                     }
                 }
@@ -257,7 +253,7 @@ public struct SubscriptionUpdateRequest: Hashable, Codable {
         }
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case subscriptionPromotionalOfferInlineCreate(SubscriptionPromotionalOfferInlineCreate)
         case subscriptionPriceInlineCreate(SubscriptionPriceInlineCreate)
         case subscriptionIntroductoryOfferInlineCreate(SubscriptionIntroductoryOfferInlineCreate)

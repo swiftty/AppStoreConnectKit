@@ -3,40 +3,43 @@
 // swiftlint:disable all
 import Foundation
 
-public enum MetricCategory: Hashable, Codable, RawRepresentable {
-    case animation
-    case battery
-    case disk
-    case hang
-    case launch
-    case memory
-    case termination
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .animation: return "ANIMATION"
-        case .battery: return "BATTERY"
-        case .disk: return "DISK"
-        case .hang: return "HANG"
-        case .launch: return "LAUNCH"
-        case .memory: return "MEMORY"
-        case .termination: return "TERMINATION"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct MetricCategory: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var animation: Self {
+        .init(rawValue: "ANIMATION")
     }
 
+    public static var battery: Self {
+        .init(rawValue: "BATTERY")
+    }
+
+    public static var disk: Self {
+        .init(rawValue: "DISK")
+    }
+
+    public static var hang: Self {
+        .init(rawValue: "HANG")
+    }
+
+    public static var launch: Self {
+        .init(rawValue: "LAUNCH")
+    }
+
+    public static var memory: Self {
+        .init(rawValue: "MEMORY")
+    }
+
+    public static var termination: Self {
+        .init(rawValue: "TERMINATION")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "ANIMATION": self = .animation
-        case "BATTERY": self = .battery
-        case "DISK": self = .disk
-        case "HANG": self = .hang
-        case "LAUNCH": self = .launch
-        case "MEMORY": self = .memory
-        case "TERMINATION": self = .termination
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

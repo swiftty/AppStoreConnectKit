@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SandboxTestersClearPurchaseHistoryRequestV2: Hashable, Codable {
+public struct SandboxTestersClearPurchaseHistoryRequestV2: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -26,7 +26,7 @@ public struct SandboxTestersClearPurchaseHistoryRequestV2: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case sandboxTestersClearPurchaseHistoryRequest
     }
 }

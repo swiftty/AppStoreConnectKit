@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppEventLocalizationCreateRequest: Hashable, Codable {
+public struct AppEventLocalizationCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppEventLocalizationCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct AppEventLocalizationCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appEventLocalizations
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var locale: String
 
             public var longDescription: String?
@@ -70,7 +70,7 @@ public struct AppEventLocalizationCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var appEvent: AppEvent
 
             public init(appEvent: AppEvent) {
@@ -81,7 +81,7 @@ public struct AppEventLocalizationCreateRequest: Hashable, Codable {
                 case appEvent
             }
 
-            public struct AppEvent: Hashable, Codable {
+            public struct AppEvent: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -92,7 +92,7 @@ public struct AppEventLocalizationCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -110,7 +110,7 @@ public struct AppEventLocalizationCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appEvents
                     }
                 }

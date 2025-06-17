@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterDetailResponse: Hashable, Codable {
+public struct GameCenterDetailResponse: Hashable, Codable, Sendable {
     public var data: GameCenterDetail
 
     public var included: [Included]?
@@ -26,16 +26,21 @@ public struct GameCenterDetailResponse: Hashable, Codable {
         case links
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case app(App)
         case gameCenterAppVersion(GameCenterAppVersion)
         case gameCenterGroup(GameCenterGroup)
         case gameCenterLeaderboard(GameCenterLeaderboard)
         case gameCenterLeaderboardSet(GameCenterLeaderboardSet)
         case gameCenterAchievement(GameCenterAchievement)
+        case gameCenterActivity(GameCenterActivity)
+        case gameCenterChallenge(GameCenterChallenge)
         case gameCenterAchievementRelease(GameCenterAchievementRelease)
+        case gameCenterActivityVersionRelease(GameCenterActivityVersionRelease)
+        case gameCenterChallengeVersionRelease(GameCenterChallengeVersionRelease)
         case gameCenterLeaderboardRelease(GameCenterLeaderboardRelease)
         case gameCenterLeaderboardSetRelease(GameCenterLeaderboardSetRelease)
+        case appStoreVersion(AppStoreVersion)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -71,7 +76,27 @@ public struct GameCenterDetailResponse: Hashable, Codable {
                     lastError = error
                 }
                 do {
+                    return .gameCenterActivity(try GameCenterActivity(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterChallenge(try GameCenterChallenge(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
                     return .gameCenterAchievementRelease(try GameCenterAchievementRelease(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterActivityVersionRelease(try GameCenterActivityVersionRelease(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterChallengeVersionRelease(try GameCenterChallengeVersionRelease(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -82,6 +107,11 @@ public struct GameCenterDetailResponse: Hashable, Codable {
                 }
                 do {
                     return .gameCenterLeaderboardSetRelease(try GameCenterLeaderboardSetRelease(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appStoreVersion(try AppStoreVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -109,13 +139,28 @@ public struct GameCenterDetailResponse: Hashable, Codable {
             case .gameCenterAchievement(let value):
                 try value.encode(to: encoder)
 
+            case .gameCenterActivity(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterChallenge(let value):
+                try value.encode(to: encoder)
+
             case .gameCenterAchievementRelease(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterActivityVersionRelease(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterChallengeVersionRelease(let value):
                 try value.encode(to: encoder)
 
             case .gameCenterLeaderboardRelease(let value):
                 try value.encode(to: encoder)
 
             case .gameCenterLeaderboardSetRelease(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersion(let value):
                 try value.encode(to: encoder)
             }
         }

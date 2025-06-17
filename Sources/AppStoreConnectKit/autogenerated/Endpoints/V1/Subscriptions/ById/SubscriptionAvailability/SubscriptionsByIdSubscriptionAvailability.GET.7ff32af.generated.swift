@@ -30,8 +30,6 @@ extension V1.Subscriptions.ById.SubscriptionAvailability {
             components?.queryItems = [
                 URLQueryItem(name: "fields[subscriptionAvailabilities]",
                              value: parameters.fields[.subscriptionAvailabilities]?.map { "\($0)" }.joined(separator: ",")),
-                URLQueryItem(name: "fields[subscriptions]",
-                             value: parameters.fields[.subscriptions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[territories]",
                              value: parameters.fields[.territories]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -50,8 +48,10 @@ extension V1.Subscriptions.ById.SubscriptionAvailability {
 
         /// - Returns: **200**, Single SubscriptionAvailability as `SubscriptionAvailabilityResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -65,10 +65,16 @@ extension V1.Subscriptions.ById.SubscriptionAvailability {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -95,117 +101,39 @@ extension V1.Subscriptions.ById.SubscriptionAvailability.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum SubscriptionAvailabilities: Hashable, Codable, RawRepresentable {
-                case availableInNewTerritories
-                case availableTerritories
-                case subscription
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .availableInNewTerritories: return "availableInNewTerritories"
-                    case .availableTerritories: return "availableTerritories"
-                    case .subscription: return "subscription"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionAvailabilities: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var availableInNewTerritories: Self {
+                    .init(rawValue: "availableInNewTerritories")
                 }
 
+                public static var availableTerritories: Self {
+                    .init(rawValue: "availableTerritories")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "availableInNewTerritories": self = .availableInNewTerritories
-                    case "availableTerritories": self = .availableTerritories
-                    case "subscription": self = .subscription
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Subscriptions: Hashable, Codable, RawRepresentable {
-                case appStoreReviewScreenshot
-                case availableInAllTerritories
-                case familySharable
-                case group
-                case groupLevel
-                case introductoryOffers
-                case name
-                case offerCodes
-                case pricePoints
-                case prices
-                case productId
-                case promotedPurchase
-                case promotionalOffers
-                case reviewNote
-                case state
-                case subscriptionAvailability
-                case subscriptionLocalizations
-                case subscriptionPeriod
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appStoreReviewScreenshot: return "appStoreReviewScreenshot"
-                    case .availableInAllTerritories: return "availableInAllTerritories"
-                    case .familySharable: return "familySharable"
-                    case .group: return "group"
-                    case .groupLevel: return "groupLevel"
-                    case .introductoryOffers: return "introductoryOffers"
-                    case .name: return "name"
-                    case .offerCodes: return "offerCodes"
-                    case .pricePoints: return "pricePoints"
-                    case .prices: return "prices"
-                    case .productId: return "productId"
-                    case .promotedPurchase: return "promotedPurchase"
-                    case .promotionalOffers: return "promotionalOffers"
-                    case .reviewNote: return "reviewNote"
-                    case .state: return "state"
-                    case .subscriptionAvailability: return "subscriptionAvailability"
-                    case .subscriptionLocalizations: return "subscriptionLocalizations"
-                    case .subscriptionPeriod: return "subscriptionPeriod"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Territories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var currency: Self {
+                    .init(rawValue: "currency")
                 }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
 
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appStoreReviewScreenshot": self = .appStoreReviewScreenshot
-                    case "availableInAllTerritories": self = .availableInAllTerritories
-                    case "familySharable": self = .familySharable
-                    case "group": self = .group
-                    case "groupLevel": self = .groupLevel
-                    case "introductoryOffers": self = .introductoryOffers
-                    case "name": self = .name
-                    case "offerCodes": self = .offerCodes
-                    case "pricePoints": self = .pricePoints
-                    case "prices": self = .prices
-                    case "productId": self = .productId
-                    case "promotedPurchase": self = .promotedPurchase
-                    case "promotionalOffers": self = .promotionalOffers
-                    case "reviewNote": self = .reviewNote
-                    case "state": self = .state
-                    case "subscriptionAvailability": self = .subscriptionAvailability
-                    case "subscriptionLocalizations": self = .subscriptionLocalizations
-                    case "subscriptionPeriod": self = .subscriptionPeriod
-                    default: self = .unknown(rawValue)
-                    }
-                }
-            }
-
-            public enum Territories: Hashable, Codable, RawRepresentable {
-                case currency
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .currency: return "currency"
-                    case .unknown(let rawValue): return rawValue
-                    }
-                }
-
-                public init(rawValue: String) {
-                    switch rawValue {
-                    case "currency": self = .currency
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -213,11 +141,6 @@ extension V1.Subscriptions.ById.SubscriptionAvailability.GET {
                 /// the fields to include for returned resources of type subscriptionAvailabilities
                 public static var subscriptionAvailabilities: Relation<[SubscriptionAvailabilities]?> {
                     .init(key: "fields[subscriptionAvailabilities]")
-                }
-
-                /// the fields to include for returned resources of type subscriptions
-                public static var subscriptions: Relation<[Subscriptions]?> {
-                    .init(key: "fields[subscriptions]")
                 }
 
                 /// the fields to include for returned resources of type territories
@@ -233,25 +156,19 @@ extension V1.Subscriptions.ById.SubscriptionAvailability.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case availableTerritories
-            case subscription
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .availableTerritories: return "availableTerritories"
-                case .subscription: return "subscription"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var availableTerritories: Self {
+                .init(rawValue: "availableTerritories")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "availableTerritories": self = .availableTerritories
-                case "subscription": self = .subscription
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

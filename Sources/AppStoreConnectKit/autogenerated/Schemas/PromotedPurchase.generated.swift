@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct PromotedPurchase: Hashable, Codable {
+public struct PromotedPurchase: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct PromotedPurchase: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case promotedPurchases
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var enabled: Bool?
 
         public var state: State?
@@ -63,77 +63,65 @@ public struct PromotedPurchase: Hashable, Codable {
             case visibleForAllUsers
         }
 
-        public enum State: Hashable, Codable, RawRepresentable {
-            case approved
-            case inReview
-            case prepareForSubmission
-            case rejected
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .approved: return "APPROVED"
-                case .inReview: return "IN_REVIEW"
-                case .prepareForSubmission: return "PREPARE_FOR_SUBMISSION"
-                case .rejected: return "REJECTED"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var approved: Self {
+                .init(rawValue: "APPROVED")
             }
 
+            public static var inReview: Self {
+                .init(rawValue: "IN_REVIEW")
+            }
+
+            public static var prepareForSubmission: Self {
+                .init(rawValue: "PREPARE_FOR_SUBMISSION")
+            }
+
+            public static var rejected: Self {
+                .init(rawValue: "REJECTED")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "APPROVED": self = .approved
-                case "IN_REVIEW": self = .inReview
-                case "PREPARE_FOR_SUBMISSION": self = .prepareForSubmission
-                case "REJECTED": self = .rejected
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var inAppPurchaseV2: InAppPurchaseV2?
-
-        public var promotionImages: PromotionImages?
 
         public var subscription: Subscription?
 
         public init(
             inAppPurchaseV2: InAppPurchaseV2? = nil,
-            promotionImages: PromotionImages? = nil,
             subscription: Subscription? = nil
         ) {
             self.inAppPurchaseV2 = inAppPurchaseV2
-            self.promotionImages = promotionImages
             self.subscription = subscription
         }
 
         private enum CodingKeys: String, CodingKey {
             case inAppPurchaseV2
-            case promotionImages
             case subscription
         }
 
-        public struct InAppPurchaseV2: Hashable, Codable {
+        public struct InAppPurchaseV2: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -151,116 +139,24 @@ public struct PromotedPurchase: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchases
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct PromotionImages: Hashable, Codable {
-            public var data: [Data]?
-
-            public var links: Links?
-
-            public var meta: PagingInformation?
-
-            public init(
-                data: [Data]? = nil,
-                links: Links? = nil,
-                meta: PagingInformation? = nil
-            ) {
-                self.data = data
-                self.links = links
-                self.meta = meta
-            }
-
-            private enum CodingKeys: String, CodingKey {
-                case data
-                case links
-                case meta
-            }
-
-            public struct Data: Hashable, Codable {
-                public var id: String
-
-                public var type: `Type`
-
-                public init(
-                    id: String,
-                    type: `Type`
-                ) {
-                    self.id = id
-                    self.type = type
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case id
-                    case type
-                }
-
-                public enum `Type`: String, Hashable, Codable {
-                    case promotedPurchaseImages
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
-        }
-
-        public struct Subscription: Hashable, Codable {
+        public struct Subscription: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -278,27 +174,8 @@ public struct PromotedPurchase: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case subscriptions
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

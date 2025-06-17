@@ -44,8 +44,10 @@ extension V1.Apps.ById.BetaAppLocalizations {
 
         /// - Returns: **200**, List of BetaAppLocalizations with get as `BetaAppLocalizationsWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.Apps.ById.BetaAppLocalizations {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,40 +95,43 @@ extension V1.Apps.ById.BetaAppLocalizations.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaAppLocalizations: Hashable, Codable, RawRepresentable {
-                case app
-                case description
-                case feedbackEmail
-                case locale
-                case marketingUrl
-                case privacyPolicyUrl
-                case tvOsPrivacyPolicy
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .description: return "description"
-                    case .feedbackEmail: return "feedbackEmail"
-                    case .locale: return "locale"
-                    case .marketingUrl: return "marketingUrl"
-                    case .privacyPolicyUrl: return "privacyPolicyUrl"
-                    case .tvOsPrivacyPolicy: return "tvOsPrivacyPolicy"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BetaAppLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var description: Self {
+                    .init(rawValue: "description")
+                }
+
+                public static var feedbackEmail: Self {
+                    .init(rawValue: "feedbackEmail")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var marketingUrl: Self {
+                    .init(rawValue: "marketingUrl")
+                }
+
+                public static var privacyPolicyUrl: Self {
+                    .init(rawValue: "privacyPolicyUrl")
+                }
+
+                public static var tvOsPrivacyPolicy: Self {
+                    .init(rawValue: "tvOsPrivacyPolicy")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "description": self = .description
-                    case "feedbackEmail": self = .feedbackEmail
-                    case "locale": self = .locale
-                    case "marketingUrl": self = .marketingUrl
-                    case "privacyPolicyUrl": self = .privacyPolicyUrl
-                    case "tvOsPrivacyPolicy": self = .tvOsPrivacyPolicy
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

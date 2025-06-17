@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AgeRatingDeclarationResponse: Hashable, Codable {
+public struct AgeRatingDeclarationResponse: Hashable, Codable, Sendable {
     public var data: AgeRatingDeclaration
 
     public var links: DocumentLinks

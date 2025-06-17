@@ -3,37 +3,39 @@
 // swiftlint:disable all
 import Foundation
 
-public enum AppEncryptionDeclarationState: Hashable, Codable, RawRepresentable {
-    case approved
-    case created
-    case expired
-    case inReview
-    case invalid
-    case rejected
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .approved: return "APPROVED"
-        case .created: return "CREATED"
-        case .expired: return "EXPIRED"
-        case .inReview: return "IN_REVIEW"
-        case .invalid: return "INVALID"
-        case .rejected: return "REJECTED"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct AppEncryptionDeclarationState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var approved: Self {
+        .init(rawValue: "APPROVED")
     }
 
+    public static var created: Self {
+        .init(rawValue: "CREATED")
+    }
+
+    public static var expired: Self {
+        .init(rawValue: "EXPIRED")
+    }
+
+    public static var inReview: Self {
+        .init(rawValue: "IN_REVIEW")
+    }
+
+    public static var invalid: Self {
+        .init(rawValue: "INVALID")
+    }
+
+    public static var rejected: Self {
+        .init(rawValue: "REJECTED")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "APPROVED": self = .approved
-        case "CREATED": self = .created
-        case "EXPIRED": self = .expired
-        case "IN_REVIEW": self = .inReview
-        case "INVALID": self = .invalid
-        case "REJECTED": self = .rejected
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

@@ -30,8 +30,6 @@ extension V1.CiBuildRuns.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[builds]",
                              value: parameters.fields[.builds]?.map { "\($0)" }.joined(separator: ",")),
-                URLQueryItem(name: "fields[ciBuildActions]",
-                             value: parameters.fields[.ciBuildActions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[ciBuildRuns]",
                              value: parameters.fields[.ciBuildRuns]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -50,8 +48,10 @@ extension V1.CiBuildRuns.ById {
 
         /// - Returns: **200**, Single CiBuildRun as `CiBuildRunResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -65,10 +65,16 @@ extension V1.CiBuildRuns.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -95,222 +101,203 @@ extension V1.CiBuildRuns.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Builds: Hashable, Codable, RawRepresentable {
-                case app
-                case appEncryptionDeclaration
-                case appStoreVersion
-                case betaAppReviewSubmission
-                case betaBuildLocalizations
-                case betaGroups
-                case buildAudienceType
-                case buildBetaDetail
-                case buildBundles
-                case computedMinMacOsVersion
-                case diagnosticSignatures
-                case expirationDate
-                case expired
-                case iconAssetToken
-                case icons
-                case individualTesters
-                case lsMinimumSystemVersion
-                case minOsVersion
-                case perfPowerMetrics
-                case preReleaseVersion
-                case processingState
-                case uploadedDate
-                case usesNonExemptEncryption
-                case version
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .appEncryptionDeclaration: return "appEncryptionDeclaration"
-                    case .appStoreVersion: return "appStoreVersion"
-                    case .betaAppReviewSubmission: return "betaAppReviewSubmission"
-                    case .betaBuildLocalizations: return "betaBuildLocalizations"
-                    case .betaGroups: return "betaGroups"
-                    case .buildAudienceType: return "buildAudienceType"
-                    case .buildBetaDetail: return "buildBetaDetail"
-                    case .buildBundles: return "buildBundles"
-                    case .computedMinMacOsVersion: return "computedMinMacOsVersion"
-                    case .diagnosticSignatures: return "diagnosticSignatures"
-                    case .expirationDate: return "expirationDate"
-                    case .expired: return "expired"
-                    case .iconAssetToken: return "iconAssetToken"
-                    case .icons: return "icons"
-                    case .individualTesters: return "individualTesters"
-                    case .lsMinimumSystemVersion: return "lsMinimumSystemVersion"
-                    case .minOsVersion: return "minOsVersion"
-                    case .perfPowerMetrics: return "perfPowerMetrics"
-                    case .preReleaseVersion: return "preReleaseVersion"
-                    case .processingState: return "processingState"
-                    case .uploadedDate: return "uploadedDate"
-                    case .usesNonExemptEncryption: return "usesNonExemptEncryption"
-                    case .version: return "version"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Builds: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var appEncryptionDeclaration: Self {
+                    .init(rawValue: "appEncryptionDeclaration")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var betaAppReviewSubmission: Self {
+                    .init(rawValue: "betaAppReviewSubmission")
+                }
+
+                public static var betaBuildLocalizations: Self {
+                    .init(rawValue: "betaBuildLocalizations")
+                }
+
+                public static var betaGroups: Self {
+                    .init(rawValue: "betaGroups")
+                }
+
+                public static var buildAudienceType: Self {
+                    .init(rawValue: "buildAudienceType")
+                }
+
+                public static var buildBetaDetail: Self {
+                    .init(rawValue: "buildBetaDetail")
+                }
+
+                public static var buildBundles: Self {
+                    .init(rawValue: "buildBundles")
+                }
+
+                public static var computedMinMacOsVersion: Self {
+                    .init(rawValue: "computedMinMacOsVersion")
+                }
+
+                public static var computedMinVisionOsVersion: Self {
+                    .init(rawValue: "computedMinVisionOsVersion")
+                }
+
+                public static var diagnosticSignatures: Self {
+                    .init(rawValue: "diagnosticSignatures")
+                }
+
+                public static var expirationDate: Self {
+                    .init(rawValue: "expirationDate")
+                }
+
+                public static var expired: Self {
+                    .init(rawValue: "expired")
+                }
+
+                public static var iconAssetToken: Self {
+                    .init(rawValue: "iconAssetToken")
+                }
+
+                public static var icons: Self {
+                    .init(rawValue: "icons")
+                }
+
+                public static var individualTesters: Self {
+                    .init(rawValue: "individualTesters")
+                }
+
+                public static var lsMinimumSystemVersion: Self {
+                    .init(rawValue: "lsMinimumSystemVersion")
+                }
+
+                public static var minOsVersion: Self {
+                    .init(rawValue: "minOsVersion")
+                }
+
+                public static var perfPowerMetrics: Self {
+                    .init(rawValue: "perfPowerMetrics")
+                }
+
+                public static var preReleaseVersion: Self {
+                    .init(rawValue: "preReleaseVersion")
+                }
+
+                public static var processingState: Self {
+                    .init(rawValue: "processingState")
+                }
+
+                public static var uploadedDate: Self {
+                    .init(rawValue: "uploadedDate")
+                }
+
+                public static var usesNonExemptEncryption: Self {
+                    .init(rawValue: "usesNonExemptEncryption")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "appEncryptionDeclaration": self = .appEncryptionDeclaration
-                    case "appStoreVersion": self = .appStoreVersion
-                    case "betaAppReviewSubmission": self = .betaAppReviewSubmission
-                    case "betaBuildLocalizations": self = .betaBuildLocalizations
-                    case "betaGroups": self = .betaGroups
-                    case "buildAudienceType": self = .buildAudienceType
-                    case "buildBetaDetail": self = .buildBetaDetail
-                    case "buildBundles": self = .buildBundles
-                    case "computedMinMacOsVersion": self = .computedMinMacOsVersion
-                    case "diagnosticSignatures": self = .diagnosticSignatures
-                    case "expirationDate": self = .expirationDate
-                    case "expired": self = .expired
-                    case "iconAssetToken": self = .iconAssetToken
-                    case "icons": self = .icons
-                    case "individualTesters": self = .individualTesters
-                    case "lsMinimumSystemVersion": self = .lsMinimumSystemVersion
-                    case "minOsVersion": self = .minOsVersion
-                    case "perfPowerMetrics": self = .perfPowerMetrics
-                    case "preReleaseVersion": self = .preReleaseVersion
-                    case "processingState": self = .processingState
-                    case "uploadedDate": self = .uploadedDate
-                    case "usesNonExemptEncryption": self = .usesNonExemptEncryption
-                    case "version": self = .version
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum CiBuildActions: Hashable, Codable, RawRepresentable {
-                case actionType
-                case artifacts
-                case buildRun
-                case completionStatus
-                case executionProgress
-                case finishedDate
-                case isRequiredToPass
-                case issueCounts
-                case issues
-                case name
-                case startedDate
-                case testResults
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .actionType: return "actionType"
-                    case .artifacts: return "artifacts"
-                    case .buildRun: return "buildRun"
-                    case .completionStatus: return "completionStatus"
-                    case .executionProgress: return "executionProgress"
-                    case .finishedDate: return "finishedDate"
-                    case .isRequiredToPass: return "isRequiredToPass"
-                    case .issueCounts: return "issueCounts"
-                    case .issues: return "issues"
-                    case .name: return "name"
-                    case .startedDate: return "startedDate"
-                    case .testResults: return "testResults"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiBuildRuns: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var actions: Self {
+                    .init(rawValue: "actions")
                 }
+
+                public static var builds: Self {
+                    .init(rawValue: "builds")
+                }
+
+                public static var cancelReason: Self {
+                    .init(rawValue: "cancelReason")
+                }
+
+                public static var completionStatus: Self {
+                    .init(rawValue: "completionStatus")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var destinationBranch: Self {
+                    .init(rawValue: "destinationBranch")
+                }
+
+                public static var destinationCommit: Self {
+                    .init(rawValue: "destinationCommit")
+                }
+
+                public static var executionProgress: Self {
+                    .init(rawValue: "executionProgress")
+                }
+
+                public static var finishedDate: Self {
+                    .init(rawValue: "finishedDate")
+                }
+
+                public static var isPullRequestBuild: Self {
+                    .init(rawValue: "isPullRequestBuild")
+                }
+
+                public static var issueCounts: Self {
+                    .init(rawValue: "issueCounts")
+                }
+
+                public static var number: Self {
+                    .init(rawValue: "number")
+                }
+
+                public static var product: Self {
+                    .init(rawValue: "product")
+                }
+
+                public static var pullRequest: Self {
+                    .init(rawValue: "pullRequest")
+                }
+
+                public static var sourceBranchOrTag: Self {
+                    .init(rawValue: "sourceBranchOrTag")
+                }
+
+                public static var sourceCommit: Self {
+                    .init(rawValue: "sourceCommit")
+                }
+
+                public static var startReason: Self {
+                    .init(rawValue: "startReason")
+                }
+
+                public static var startedDate: Self {
+                    .init(rawValue: "startedDate")
+                }
+
+                public static var workflow: Self {
+                    .init(rawValue: "workflow")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
 
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "actionType": self = .actionType
-                    case "artifacts": self = .artifacts
-                    case "buildRun": self = .buildRun
-                    case "completionStatus": self = .completionStatus
-                    case "executionProgress": self = .executionProgress
-                    case "finishedDate": self = .finishedDate
-                    case "isRequiredToPass": self = .isRequiredToPass
-                    case "issueCounts": self = .issueCounts
-                    case "issues": self = .issues
-                    case "name": self = .name
-                    case "startedDate": self = .startedDate
-                    case "testResults": self = .testResults
-                    default: self = .unknown(rawValue)
-                    }
-                }
-            }
-
-            public enum CiBuildRuns: Hashable, Codable, RawRepresentable {
-                case actions
-                case buildRun
-                case builds
-                case cancelReason
-                case clean
-                case completionStatus
-                case createdDate
-                case destinationBranch
-                case destinationCommit
-                case executionProgress
-                case finishedDate
-                case isPullRequestBuild
-                case issueCounts
-                case number
-                case product
-                case pullRequest
-                case sourceBranchOrTag
-                case sourceCommit
-                case startReason
-                case startedDate
-                case workflow
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .actions: return "actions"
-                    case .buildRun: return "buildRun"
-                    case .builds: return "builds"
-                    case .cancelReason: return "cancelReason"
-                    case .clean: return "clean"
-                    case .completionStatus: return "completionStatus"
-                    case .createdDate: return "createdDate"
-                    case .destinationBranch: return "destinationBranch"
-                    case .destinationCommit: return "destinationCommit"
-                    case .executionProgress: return "executionProgress"
-                    case .finishedDate: return "finishedDate"
-                    case .isPullRequestBuild: return "isPullRequestBuild"
-                    case .issueCounts: return "issueCounts"
-                    case .number: return "number"
-                    case .product: return "product"
-                    case .pullRequest: return "pullRequest"
-                    case .sourceBranchOrTag: return "sourceBranchOrTag"
-                    case .sourceCommit: return "sourceCommit"
-                    case .startReason: return "startReason"
-                    case .startedDate: return "startedDate"
-                    case .workflow: return "workflow"
-                    case .unknown(let rawValue): return rawValue
-                    }
-                }
-
-                public init(rawValue: String) {
-                    switch rawValue {
-                    case "actions": self = .actions
-                    case "buildRun": self = .buildRun
-                    case "builds": self = .builds
-                    case "cancelReason": self = .cancelReason
-                    case "clean": self = .clean
-                    case "completionStatus": self = .completionStatus
-                    case "createdDate": self = .createdDate
-                    case "destinationBranch": self = .destinationBranch
-                    case "destinationCommit": self = .destinationCommit
-                    case "executionProgress": self = .executionProgress
-                    case "finishedDate": self = .finishedDate
-                    case "isPullRequestBuild": self = .isPullRequestBuild
-                    case "issueCounts": self = .issueCounts
-                    case "number": self = .number
-                    case "product": self = .product
-                    case "pullRequest": self = .pullRequest
-                    case "sourceBranchOrTag": self = .sourceBranchOrTag
-                    case "sourceCommit": self = .sourceCommit
-                    case "startReason": self = .startReason
-                    case "startedDate": self = .startedDate
-                    case "workflow": self = .workflow
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -318,11 +305,6 @@ extension V1.CiBuildRuns.ById.GET {
                 /// the fields to include for returned resources of type builds
                 public static var builds: Relation<[Builds]?> {
                     .init(key: "fields[builds]")
-                }
-
-                /// the fields to include for returned resources of type ciBuildActions
-                public static var ciBuildActions: Relation<[CiBuildActions]?> {
-                    .init(key: "fields[ciBuildActions]")
                 }
 
                 /// the fields to include for returned resources of type ciBuildRuns
@@ -338,37 +320,39 @@ extension V1.CiBuildRuns.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case builds
-            case destinationBranch
-            case product
-            case pullRequest
-            case sourceBranchOrTag
-            case workflow
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .builds: return "builds"
-                case .destinationBranch: return "destinationBranch"
-                case .product: return "product"
-                case .pullRequest: return "pullRequest"
-                case .sourceBranchOrTag: return "sourceBranchOrTag"
-                case .workflow: return "workflow"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var builds: Self {
+                .init(rawValue: "builds")
             }
 
+            public static var destinationBranch: Self {
+                .init(rawValue: "destinationBranch")
+            }
+
+            public static var product: Self {
+                .init(rawValue: "product")
+            }
+
+            public static var pullRequest: Self {
+                .init(rawValue: "pullRequest")
+            }
+
+            public static var sourceBranchOrTag: Self {
+                .init(rawValue: "sourceBranchOrTag")
+            }
+
+            public static var workflow: Self {
+                .init(rawValue: "workflow")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "builds": self = .builds
-                case "destinationBranch": self = .destinationBranch
-                case "product": self = .product
-                case "pullRequest": self = .pullRequest
-                case "sourceBranchOrTag": self = .sourceBranchOrTag
-                case "workflow": self = .workflow
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

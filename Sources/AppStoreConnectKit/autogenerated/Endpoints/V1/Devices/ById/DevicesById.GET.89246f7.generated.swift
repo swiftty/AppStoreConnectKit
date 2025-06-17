@@ -42,8 +42,10 @@ extension V1.Devices.ById {
 
         /// - Returns: **200**, Single Device as `DeviceResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -57,10 +59,16 @@ extension V1.Devices.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -82,40 +90,43 @@ extension V1.Devices.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum Devices: Hashable, Codable, RawRepresentable {
-                case addedDate
-                case deviceClass
-                case model
-                case name
-                case platform
-                case status
-                case udid
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .addedDate: return "addedDate"
-                    case .deviceClass: return "deviceClass"
-                    case .model: return "model"
-                    case .name: return "name"
-                    case .platform: return "platform"
-                    case .status: return "status"
-                    case .udid: return "udid"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Devices: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var addedDate: Self {
+                    .init(rawValue: "addedDate")
                 }
 
+                public static var deviceClass: Self {
+                    .init(rawValue: "deviceClass")
+                }
+
+                public static var model: Self {
+                    .init(rawValue: "model")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var status: Self {
+                    .init(rawValue: "status")
+                }
+
+                public static var udid: Self {
+                    .init(rawValue: "udid")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "addedDate": self = .addedDate
-                    case "deviceClass": self = .deviceClass
-                    case "model": self = .model
-                    case "name": self = .name
-                    case "platform": self = .platform
-                    case "status": self = .status
-                    case "udid": self = .udid
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

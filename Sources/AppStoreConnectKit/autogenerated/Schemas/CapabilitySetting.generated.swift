@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CapabilitySetting: Hashable, Codable {
+public struct CapabilitySetting: Hashable, Codable, Sendable {
     public var allowedInstances: AllowedInstances?
 
     public var description: String?
@@ -51,53 +51,51 @@ public struct CapabilitySetting: Hashable, Codable {
         case visible
     }
 
-    public enum AllowedInstances: Hashable, Codable, RawRepresentable {
-        case entry
-        case multiple
-        case single
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .entry: return "ENTRY"
-            case .multiple: return "MULTIPLE"
-            case .single: return "SINGLE"
-            case .unknown(let rawValue): return rawValue
-            }
+    public struct AllowedInstances: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+        public static var entry: Self {
+            .init(rawValue: "ENTRY")
         }
 
+        public static var multiple: Self {
+            .init(rawValue: "MULTIPLE")
+        }
+
+        public static var single: Self {
+            .init(rawValue: "SINGLE")
+        }
+
+        public var description: String {
+            rawValue
+        }
+
+        public var rawValue: String
+
         public init(rawValue: String) {
-            switch rawValue {
-            case "ENTRY": self = .entry
-            case "MULTIPLE": self = .multiple
-            case "SINGLE": self = .single
-            default: self = .unknown(rawValue)
-            }
+            self.rawValue = rawValue
         }
     }
 
-    public enum Key: Hashable, Codable, RawRepresentable {
-        case appleIdAuthAppConsent
-        case dataProtectionPermissionLevel
-        case icloudVersion
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .appleIdAuthAppConsent: return "APPLE_ID_AUTH_APP_CONSENT"
-            case .dataProtectionPermissionLevel: return "DATA_PROTECTION_PERMISSION_LEVEL"
-            case .icloudVersion: return "ICLOUD_VERSION"
-            case .unknown(let rawValue): return rawValue
-            }
+    public struct Key: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+        public static var appleIdAuthAppConsent: Self {
+            .init(rawValue: "APPLE_ID_AUTH_APP_CONSENT")
         }
 
+        public static var dataProtectionPermissionLevel: Self {
+            .init(rawValue: "DATA_PROTECTION_PERMISSION_LEVEL")
+        }
+
+        public static var icloudVersion: Self {
+            .init(rawValue: "ICLOUD_VERSION")
+        }
+
+        public var description: String {
+            rawValue
+        }
+
+        public var rawValue: String
+
         public init(rawValue: String) {
-            switch rawValue {
-            case "APPLE_ID_AUTH_APP_CONSENT": self = .appleIdAuthAppConsent
-            case "DATA_PROTECTION_PERMISSION_LEVEL": self = .dataProtectionPermissionLevel
-            case "ICLOUD_VERSION": self = .icloudVersion
-            default: self = .unknown(rawValue)
-            }
+            self.rawValue = rawValue
         }
     }
 }

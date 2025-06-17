@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct PagingInformation: Hashable, Codable {
+public struct PagingInformation: Hashable, Codable, Sendable {
     public var paging: Paging
 
     public init(paging: Paging) {
@@ -14,21 +14,26 @@ public struct PagingInformation: Hashable, Codable {
         case paging
     }
 
-    public struct Paging: Hashable, Codable {
+    public struct Paging: Hashable, Codable, Sendable {
         public var limit: Int
+
+        public var nextCursor: String?
 
         public var total: Int?
 
         public init(
             limit: Int,
+            nextCursor: String? = nil,
             total: Int? = nil
         ) {
             self.limit = limit
+            self.nextCursor = nextCursor
             self.total = total
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit
+            case nextCursor
             case total
         }
     }

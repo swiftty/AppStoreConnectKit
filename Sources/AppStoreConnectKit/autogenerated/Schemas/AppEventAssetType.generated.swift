@@ -3,25 +3,23 @@
 // swiftlint:disable all
 import Foundation
 
-public enum AppEventAssetType: Hashable, Codable, RawRepresentable {
-    case eventCard
-    case eventDetailsPage
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .eventCard: return "EVENT_CARD"
-        case .eventDetailsPage: return "EVENT_DETAILS_PAGE"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct AppEventAssetType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var eventCard: Self {
+        .init(rawValue: "EVENT_CARD")
     }
 
+    public static var eventDetailsPage: Self {
+        .init(rawValue: "EVENT_DETAILS_PAGE")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "EVENT_CARD": self = .eventCard
-        case "EVENT_DETAILS_PAGE": self = .eventDetailsPage
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

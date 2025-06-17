@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppEncryptionDeclarationDocumentResponse: Hashable, Codable {
+public struct AppEncryptionDeclarationDocumentResponse: Hashable, Codable, Sendable {
     public var data: AppEncryptionDeclarationDocument
 
     public var links: DocumentLinks

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct SubscriptionOfferCodeOneTimeUseCode: Hashable, Codable {
+public struct SubscriptionOfferCodeOneTimeUseCode: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct SubscriptionOfferCodeOneTimeUseCode: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case subscriptionOfferCodeOneTimeUseCodes
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var active: Bool?
 
         public var createdDate: String?
@@ -69,36 +69,36 @@ public struct SubscriptionOfferCodeOneTimeUseCode: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var offerCode: OfferCode?
 
-        public init(offerCode: OfferCode? = nil) {
+        public var values: Values?
+
+        public init(
+            offerCode: OfferCode? = nil,
+            values: Values? = nil
+        ) {
             self.offerCode = offerCode
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
             case offerCode
+            case values
         }
 
-        public struct OfferCode: Hashable, Codable {
+        public struct OfferCode: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -116,28 +116,21 @@ public struct SubscriptionOfferCodeOneTimeUseCode: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case subscriptionOfferCodes
                 }
             }
+        }
 
-            public struct Links: Hashable, Codable {
-                public var related: URL?
+        public struct Values: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
 
-                public var `self`: URL?
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
 
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
+            private enum CodingKeys: String, CodingKey {
+                case links
             }
         }
     }

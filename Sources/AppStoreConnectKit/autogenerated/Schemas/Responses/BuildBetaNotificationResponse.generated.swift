@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BuildBetaNotificationResponse: Hashable, Codable {
+public struct BuildBetaNotificationResponse: Hashable, Codable, Sendable {
     public var data: BuildBetaNotification
 
     public var links: DocumentLinks

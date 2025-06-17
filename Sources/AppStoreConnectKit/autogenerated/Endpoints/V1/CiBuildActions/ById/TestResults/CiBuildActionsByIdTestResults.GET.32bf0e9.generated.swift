@@ -44,8 +44,10 @@ extension V1.CiBuildActions.ById.TestResults {
 
         /// - Returns: **200**, List of CiTestResults as `CiTestResultsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.CiBuildActions.ById.TestResults {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,37 +95,39 @@ extension V1.CiBuildActions.ById.TestResults.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum CiTestResults: Hashable, Codable, RawRepresentable {
-                case className
-                case destinationTestResults
-                case fileSource
-                case message
-                case name
-                case status
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .className: return "className"
-                    case .destinationTestResults: return "destinationTestResults"
-                    case .fileSource: return "fileSource"
-                    case .message: return "message"
-                    case .name: return "name"
-                    case .status: return "status"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct CiTestResults: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var className: Self {
+                    .init(rawValue: "className")
                 }
 
+                public static var destinationTestResults: Self {
+                    .init(rawValue: "destinationTestResults")
+                }
+
+                public static var fileSource: Self {
+                    .init(rawValue: "fileSource")
+                }
+
+                public static var message: Self {
+                    .init(rawValue: "message")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var status: Self {
+                    .init(rawValue: "status")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "className": self = .className
-                    case "destinationTestResults": self = .destinationTestResults
-                    case "fileSource": self = .fileSource
-                    case "message": self = .message
-                    case "name": self = .name
-                    case "status": self = .status
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

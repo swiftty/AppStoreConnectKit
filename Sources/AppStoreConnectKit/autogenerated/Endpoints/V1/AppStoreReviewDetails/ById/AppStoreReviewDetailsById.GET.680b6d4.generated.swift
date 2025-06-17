@@ -48,8 +48,10 @@ extension V1.AppStoreReviewDetails.ById {
 
         /// - Returns: **200**, Single AppStoreReviewDetail as `AppStoreReviewDetailResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -63,10 +65,16 @@ extension V1.AppStoreReviewDetails.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -93,86 +101,91 @@ extension V1.AppStoreReviewDetails.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppStoreReviewAttachments: Hashable, Codable, RawRepresentable {
-                case appStoreReviewDetail
-                case assetDeliveryState
-                case fileName
-                case fileSize
-                case sourceFileChecksum
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appStoreReviewDetail: return "appStoreReviewDetail"
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .sourceFileChecksum: return "sourceFileChecksum"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppStoreReviewAttachments: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStoreReviewDetail: Self {
+                    .init(rawValue: "appStoreReviewDetail")
                 }
 
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appStoreReviewDetail": self = .appStoreReviewDetail
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "sourceFileChecksum": self = .sourceFileChecksum
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppStoreReviewDetails: Hashable, Codable, RawRepresentable {
-                case appStoreReviewAttachments
-                case appStoreVersion
-                case contactEmail
-                case contactFirstName
-                case contactLastName
-                case contactPhone
-                case demoAccountName
-                case demoAccountPassword
-                case demoAccountRequired
-                case notes
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appStoreReviewAttachments: return "appStoreReviewAttachments"
-                    case .appStoreVersion: return "appStoreVersion"
-                    case .contactEmail: return "contactEmail"
-                    case .contactFirstName: return "contactFirstName"
-                    case .contactLastName: return "contactLastName"
-                    case .contactPhone: return "contactPhone"
-                    case .demoAccountName: return "demoAccountName"
-                    case .demoAccountPassword: return "demoAccountPassword"
-                    case .demoAccountRequired: return "demoAccountRequired"
-                    case .notes: return "notes"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppStoreReviewDetails: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStoreReviewAttachments: Self {
+                    .init(rawValue: "appStoreReviewAttachments")
                 }
 
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var contactEmail: Self {
+                    .init(rawValue: "contactEmail")
+                }
+
+                public static var contactFirstName: Self {
+                    .init(rawValue: "contactFirstName")
+                }
+
+                public static var contactLastName: Self {
+                    .init(rawValue: "contactLastName")
+                }
+
+                public static var contactPhone: Self {
+                    .init(rawValue: "contactPhone")
+                }
+
+                public static var demoAccountName: Self {
+                    .init(rawValue: "demoAccountName")
+                }
+
+                public static var demoAccountPassword: Self {
+                    .init(rawValue: "demoAccountPassword")
+                }
+
+                public static var demoAccountRequired: Self {
+                    .init(rawValue: "demoAccountRequired")
+                }
+
+                public static var notes: Self {
+                    .init(rawValue: "notes")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appStoreReviewAttachments": self = .appStoreReviewAttachments
-                    case "appStoreVersion": self = .appStoreVersion
-                    case "contactEmail": self = .contactEmail
-                    case "contactFirstName": self = .contactFirstName
-                    case "contactLastName": self = .contactLastName
-                    case "contactPhone": self = .contactPhone
-                    case "demoAccountName": self = .demoAccountName
-                    case "demoAccountPassword": self = .demoAccountPassword
-                    case "demoAccountRequired": self = .demoAccountRequired
-                    case "notes": self = .notes
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -195,25 +208,23 @@ extension V1.AppStoreReviewDetails.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appStoreReviewAttachments
-            case appStoreVersion
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appStoreReviewAttachments: return "appStoreReviewAttachments"
-                case .appStoreVersion: return "appStoreVersion"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appStoreReviewAttachments: Self {
+                .init(rawValue: "appStoreReviewAttachments")
             }
 
+            public static var appStoreVersion: Self {
+                .init(rawValue: "appStoreVersion")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appStoreReviewAttachments": self = .appStoreReviewAttachments
-                case "appStoreVersion": self = .appStoreVersion
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

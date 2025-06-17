@@ -3,31 +3,31 @@
 // swiftlint:disable all
 import Foundation
 
-public enum BetaReviewState: Hashable, Codable, RawRepresentable {
-    case approved
-    case inReview
-    case rejected
-    case waitingForReview
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .approved: return "APPROVED"
-        case .inReview: return "IN_REVIEW"
-        case .rejected: return "REJECTED"
-        case .waitingForReview: return "WAITING_FOR_REVIEW"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct BetaReviewState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var approved: Self {
+        .init(rawValue: "APPROVED")
     }
 
+    public static var inReview: Self {
+        .init(rawValue: "IN_REVIEW")
+    }
+
+    public static var rejected: Self {
+        .init(rawValue: "REJECTED")
+    }
+
+    public static var waitingForReview: Self {
+        .init(rawValue: "WAITING_FOR_REVIEW")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "APPROVED": self = .approved
-        case "IN_REVIEW": self = .inReview
-        case "REJECTED": self = .rejected
-        case "WAITING_FOR_REVIEW": self = .waitingForReview
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

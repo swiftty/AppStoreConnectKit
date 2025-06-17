@@ -44,8 +44,10 @@ extension V1.SubscriptionAppStoreReviewScreenshots.ById {
 
         /// - Returns: **200**, Single SubscriptionAppStoreReviewScreenshot as `SubscriptionAppStoreReviewScreenshotResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -59,10 +61,16 @@ extension V1.SubscriptionAppStoreReviewScreenshots.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -87,49 +95,51 @@ extension V1.SubscriptionAppStoreReviewScreenshots.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum SubscriptionAppStoreReviewScreenshots: Hashable, Codable, RawRepresentable {
-                case assetDeliveryState
-                case assetToken
-                case assetType
-                case fileName
-                case fileSize
-                case imageAsset
-                case sourceFileChecksum
-                case subscription
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .assetToken: return "assetToken"
-                    case .assetType: return "assetType"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .imageAsset: return "imageAsset"
-                    case .sourceFileChecksum: return "sourceFileChecksum"
-                    case .subscription: return "subscription"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionAppStoreReviewScreenshots: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
                 }
 
+                public static var assetToken: Self {
+                    .init(rawValue: "assetToken")
+                }
+
+                public static var assetType: Self {
+                    .init(rawValue: "assetType")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "assetToken": self = .assetToken
-                    case "assetType": self = .assetType
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "imageAsset": self = .imageAsset
-                    case "sourceFileChecksum": self = .sourceFileChecksum
-                    case "subscription": self = .subscription
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -147,22 +157,19 @@ extension V1.SubscriptionAppStoreReviewScreenshots.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case subscription
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .subscription: return "subscription"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var subscription: Self {
+                .init(rawValue: "subscription")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "subscription": self = .subscription
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

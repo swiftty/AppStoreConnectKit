@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaAppClipInvocationLocalizationInlineCreate: Hashable, Codable {
+public struct BetaAppClipInvocationLocalizationInlineCreate: Hashable, Codable, Sendable {
     public var id: String?
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct BetaAppClipInvocationLocalizationInlineCreate: Hashable, Codable {
         case relationships
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case betaAppClipInvocationLocalizations
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var locale: String
 
         public var title: String
@@ -54,7 +54,7 @@ public struct BetaAppClipInvocationLocalizationInlineCreate: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var betaAppClipInvocation: BetaAppClipInvocation?
 
         public init(betaAppClipInvocation: BetaAppClipInvocation? = nil) {
@@ -65,7 +65,7 @@ public struct BetaAppClipInvocationLocalizationInlineCreate: Hashable, Codable {
             case betaAppClipInvocation
         }
 
-        public struct BetaAppClipInvocation: Hashable, Codable {
+        public struct BetaAppClipInvocation: Hashable, Codable, Sendable {
             public var data: Data?
 
             public init(data: Data? = nil) {
@@ -76,7 +76,7 @@ public struct BetaAppClipInvocationLocalizationInlineCreate: Hashable, Codable {
                 case data
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -94,7 +94,7 @@ public struct BetaAppClipInvocationLocalizationInlineCreate: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case betaAppClipInvocations
                 }
             }

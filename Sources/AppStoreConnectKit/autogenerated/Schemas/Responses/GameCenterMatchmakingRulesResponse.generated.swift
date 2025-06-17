@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingRulesResponse: Hashable, Codable {
+public struct GameCenterMatchmakingRulesResponse: Hashable, Codable, Sendable {
     public var data: [GameCenterMatchmakingRule]
 
     public var links: PagedDocumentLinks

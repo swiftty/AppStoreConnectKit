@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct InAppPurchaseV2: Hashable, Codable {
+public struct InAppPurchaseV2: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,14 +36,11 @@ public struct InAppPurchaseV2: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case inAppPurchases
     }
 
-    public struct Attributes: Hashable, Codable {
-        @available(*, deprecated)
-        public var availableInAllTerritories: Bool?
-
+    public struct Attributes: Hashable, Codable, Sendable {
         public var contentHosting: Bool?
 
         public var familySharable: Bool?
@@ -59,7 +56,6 @@ public struct InAppPurchaseV2: Hashable, Codable {
         public var state: InAppPurchaseState?
 
         public init(
-            availableInAllTerritories: Bool? = nil,
             contentHosting: Bool? = nil,
             familySharable: Bool? = nil,
             inAppPurchaseType: InAppPurchaseType? = nil,
@@ -68,7 +64,6 @@ public struct InAppPurchaseV2: Hashable, Codable {
             reviewNote: String? = nil,
             state: InAppPurchaseState? = nil
         ) {
-            self.availableInAllTerritories = availableInAllTerritories
             self.contentHosting = contentHosting
             self.familySharable = familySharable
             self.inAppPurchaseType = inAppPurchaseType
@@ -79,7 +74,6 @@ public struct InAppPurchaseV2: Hashable, Codable {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availableInAllTerritories
             case contentHosting
             case familySharable
             case inAppPurchaseType
@@ -90,12 +84,14 @@ public struct InAppPurchaseV2: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var appStoreReviewScreenshot: AppStoreReviewScreenshot?
 
         public var content: Content?
 
         public var iapPriceSchedule: IapPriceSchedule?
+
+        public var images: Images?
 
         public var inAppPurchaseAvailability: InAppPurchaseAvailability?
 
@@ -109,6 +105,7 @@ public struct InAppPurchaseV2: Hashable, Codable {
             appStoreReviewScreenshot: AppStoreReviewScreenshot? = nil,
             content: Content? = nil,
             iapPriceSchedule: IapPriceSchedule? = nil,
+            images: Images? = nil,
             inAppPurchaseAvailability: InAppPurchaseAvailability? = nil,
             inAppPurchaseLocalizations: InAppPurchaseLocalizations? = nil,
             pricePoints: PricePoints? = nil,
@@ -117,6 +114,7 @@ public struct InAppPurchaseV2: Hashable, Codable {
             self.appStoreReviewScreenshot = appStoreReviewScreenshot
             self.content = content
             self.iapPriceSchedule = iapPriceSchedule
+            self.images = images
             self.inAppPurchaseAvailability = inAppPurchaseAvailability
             self.inAppPurchaseLocalizations = inAppPurchaseLocalizations
             self.pricePoints = pricePoints
@@ -127,20 +125,21 @@ public struct InAppPurchaseV2: Hashable, Codable {
             case appStoreReviewScreenshot
             case content
             case iapPriceSchedule
+            case images
             case inAppPurchaseAvailability
             case inAppPurchaseLocalizations
             case pricePoints
             case promotedPurchase
         }
 
-        public struct AppStoreReviewScreenshot: Hashable, Codable {
+        public struct AppStoreReviewScreenshot: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -151,7 +150,7 @@ public struct InAppPurchaseV2: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -169,39 +168,20 @@ public struct InAppPurchaseV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchaseAppStoreReviewScreenshots
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct Content: Hashable, Codable {
+        public struct Content: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -212,7 +192,7 @@ public struct InAppPurchaseV2: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -230,39 +210,20 @@ public struct InAppPurchaseV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchaseContents
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct IapPriceSchedule: Hashable, Codable {
+        public struct IapPriceSchedule: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -273,7 +234,7 @@ public struct InAppPurchaseV2: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -291,50 +252,36 @@ public struct InAppPurchaseV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchasePriceSchedules
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct InAppPurchaseAvailability: Hashable, Codable {
-            public var data: Data?
+        public struct Images: Hashable, Codable, Sendable {
+            public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
+
+            public var meta: PagingInformation?
 
             public init(
-                data: Data? = nil,
-                links: Links? = nil
+                data: [Data]? = nil,
+                links: RelationshipLinks? = nil,
+                meta: PagingInformation? = nil
             ) {
                 self.data = data
                 self.links = links
+                self.meta = meta
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
                 case links
+                case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -352,41 +299,64 @@ public struct InAppPurchaseV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case inAppPurchaseImages
+                }
+            }
+        }
+
+        public struct InAppPurchaseAvailability: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public var links: RelationshipLinks?
+
+            public init(
+                data: Data? = nil,
+                links: RelationshipLinks? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchaseAvailabilities
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct InAppPurchaseLocalizations: Hashable, Codable {
+        public struct InAppPurchaseLocalizations: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -400,7 +370,7 @@ public struct InAppPurchaseV2: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -418,41 +388,22 @@ public struct InAppPurchaseV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchaseLocalizations
                 }
             }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
-                }
-            }
         }
 
-        public struct PricePoints: Hashable, Codable {
+        public struct PricePoints: Hashable, Codable, Sendable {
             public var data: [Data]?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
+                links: RelationshipLinks? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
@@ -466,7 +417,7 @@ public struct InAppPurchaseV2: Hashable, Codable {
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -484,39 +435,20 @@ public struct InAppPurchaseV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchasePricePoints
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }
 
-        public struct PromotedPurchase: Hashable, Codable {
+        public struct PromotedPurchase: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
+            public var links: RelationshipLinks?
 
             public init(
                 data: Data? = nil,
-                links: Links? = nil
+                links: RelationshipLinks? = nil
             ) {
                 self.data = data
                 self.links = links
@@ -527,7 +459,7 @@ public struct InAppPurchaseV2: Hashable, Codable {
                 case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -545,27 +477,8 @@ public struct InAppPurchaseV2: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case promotedPurchases
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

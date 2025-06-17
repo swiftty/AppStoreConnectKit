@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct HttpHeader: Hashable, Codable {
+public struct HttpHeader: Hashable, Codable, Sendable {
     public var name: String?
 
     public var value: String?

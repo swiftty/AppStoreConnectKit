@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterDetailCreateRequest: Hashable, Codable {
+public struct GameCenterDetailCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct GameCenterDetailCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes?
@@ -37,11 +37,12 @@ public struct GameCenterDetailCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterDetails
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
+            @available(*, deprecated)
             public var challengeEnabled: Bool?
 
             public init(challengeEnabled: Bool? = nil) {
@@ -53,7 +54,7 @@ public struct GameCenterDetailCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var app: App
 
             public init(app: App) {
@@ -64,7 +65,7 @@ public struct GameCenterDetailCreateRequest: Hashable, Codable {
                 case app
             }
 
-            public struct App: Hashable, Codable {
+            public struct App: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -75,7 +76,7 @@ public struct GameCenterDetailCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -93,7 +94,7 @@ public struct GameCenterDetailCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case apps
                     }
                 }

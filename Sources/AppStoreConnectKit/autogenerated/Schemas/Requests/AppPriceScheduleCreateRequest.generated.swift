@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppPriceScheduleCreateRequest: Hashable, Codable {
+public struct AppPriceScheduleCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public var included: [Included]?
@@ -21,7 +21,7 @@ public struct AppPriceScheduleCreateRequest: Hashable, Codable {
         case included
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var relationships: Relationships
@@ -39,11 +39,11 @@ public struct AppPriceScheduleCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appPriceSchedules
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var app: App
 
             public var baseTerritory: BaseTerritory
@@ -66,7 +66,7 @@ public struct AppPriceScheduleCreateRequest: Hashable, Codable {
                 case manualPrices
             }
 
-            public struct App: Hashable, Codable {
+            public struct App: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -77,7 +77,7 @@ public struct AppPriceScheduleCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -95,13 +95,13 @@ public struct AppPriceScheduleCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case apps
                     }
                 }
             }
 
-            public struct BaseTerritory: Hashable, Codable {
+            public struct BaseTerritory: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -112,7 +112,7 @@ public struct AppPriceScheduleCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -130,13 +130,13 @@ public struct AppPriceScheduleCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case territories
                     }
                 }
             }
 
-            public struct ManualPrices: Hashable, Codable {
+            public struct ManualPrices: Hashable, Codable, Sendable {
                 public var data: [Data]
 
                 public init(data: [Data]) {
@@ -147,7 +147,7 @@ public struct AppPriceScheduleCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -165,7 +165,7 @@ public struct AppPriceScheduleCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appPrices
                     }
                 }
@@ -173,7 +173,7 @@ public struct AppPriceScheduleCreateRequest: Hashable, Codable {
         }
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case appPriceV2InlineCreate(AppPriceV2InlineCreate)
         case territoryInlineCreate(TerritoryInlineCreate)
 

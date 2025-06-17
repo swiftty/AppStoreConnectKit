@@ -48,9 +48,12 @@ extension V1.GameCenterLeaderboardSetImages.ById {
 
         /// - Returns: **200**, Single GameCenterLeaderboardSetImage as `GameCenterLeaderboardSetImageResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
         /// - Throws: **409**, Request entity error(s) as `ErrorResponse`
+        /// - Throws: **422**, Unprocessable request entity error(s) as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -64,6 +67,9 @@ extension V1.GameCenterLeaderboardSetImages.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
@@ -71,6 +77,12 @@ extension V1.GameCenterLeaderboardSetImages.ById {
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 409:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 422:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct Location: Hashable, Codable {
+public struct Location: Hashable, Codable, Sendable {
     public var latitude: Float?
 
     public var longitude: Float?

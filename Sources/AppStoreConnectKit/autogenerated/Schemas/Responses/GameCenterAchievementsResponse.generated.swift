@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterAchievementsResponse: Hashable, Codable {
+public struct GameCenterAchievementsResponse: Hashable, Codable, Sendable {
     public var data: [GameCenterAchievement]
 
     public var included: [Included]?
@@ -31,12 +31,13 @@ public struct GameCenterAchievementsResponse: Hashable, Codable {
         case meta
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case gameCenterDetail(GameCenterDetail)
         case gameCenterGroup(GameCenterGroup)
         case gameCenterAchievement(GameCenterAchievement)
         case gameCenterAchievementLocalization(GameCenterAchievementLocalization)
         case gameCenterAchievementRelease(GameCenterAchievementRelease)
+        case gameCenterActivity(GameCenterActivity)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -66,6 +67,11 @@ public struct GameCenterAchievementsResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .gameCenterActivity(try GameCenterActivity(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -85,6 +91,9 @@ public struct GameCenterAchievementsResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .gameCenterAchievementRelease(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterActivity(let value):
                 try value.encode(to: encoder)
             }
         }

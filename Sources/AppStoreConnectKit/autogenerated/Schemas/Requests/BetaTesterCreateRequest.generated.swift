@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaTesterCreateRequest: Hashable, Codable {
+public struct BetaTesterCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct BetaTesterCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
         public var attributes: Attributes
@@ -37,11 +37,11 @@ public struct BetaTesterCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case betaTesters
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var email: String
 
             public var firstName: String?
@@ -65,7 +65,7 @@ public struct BetaTesterCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var betaGroups: BetaGroups?
 
             public var builds: Builds?
@@ -83,7 +83,7 @@ public struct BetaTesterCreateRequest: Hashable, Codable {
                 case builds
             }
 
-            public struct BetaGroups: Hashable, Codable {
+            public struct BetaGroups: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -94,7 +94,7 @@ public struct BetaTesterCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -112,13 +112,13 @@ public struct BetaTesterCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case betaGroups
                     }
                 }
             }
 
-            public struct Builds: Hashable, Codable {
+            public struct Builds: Hashable, Codable, Sendable {
                 public var data: [Data]?
 
                 public init(data: [Data]? = nil) {
@@ -129,7 +129,7 @@ public struct BetaTesterCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -147,7 +147,7 @@ public struct BetaTesterCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case builds
                     }
                 }

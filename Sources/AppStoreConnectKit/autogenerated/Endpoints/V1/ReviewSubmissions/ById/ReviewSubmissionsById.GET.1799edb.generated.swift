@@ -48,8 +48,10 @@ extension V1.ReviewSubmissions.ById {
 
         /// - Returns: **200**, Single ReviewSubmission as `ReviewSubmissionResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -63,10 +65,16 @@ extension V1.ReviewSubmissions.ById {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -93,92 +101,83 @@ extension V1.ReviewSubmissions.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ReviewSubmissionItems: Hashable, Codable, RawRepresentable {
-                case appCustomProductPageVersion
-                case appEvent
-                case appStoreVersion
-                case appStoreVersionExperiment
-                case appStoreVersionExperimentV2
-                case removed
-                case resolved
-                case reviewSubmission
-                case state
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appCustomProductPageVersion: return "appCustomProductPageVersion"
-                    case .appEvent: return "appEvent"
-                    case .appStoreVersion: return "appStoreVersion"
-                    case .appStoreVersionExperiment: return "appStoreVersionExperiment"
-                    case .appStoreVersionExperimentV2: return "appStoreVersionExperimentV2"
-                    case .removed: return "removed"
-                    case .resolved: return "resolved"
-                    case .reviewSubmission: return "reviewSubmission"
-                    case .state: return "state"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ReviewSubmissionItems: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPageVersion: Self {
+                    .init(rawValue: "appCustomProductPageVersion")
                 }
 
+                public static var appEvent: Self {
+                    .init(rawValue: "appEvent")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var appStoreVersionExperiment: Self {
+                    .init(rawValue: "appStoreVersionExperiment")
+                }
+
+                public static var appStoreVersionExperimentV2: Self {
+                    .init(rawValue: "appStoreVersionExperimentV2")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appCustomProductPageVersion": self = .appCustomProductPageVersion
-                    case "appEvent": self = .appEvent
-                    case "appStoreVersion": self = .appStoreVersion
-                    case "appStoreVersionExperiment": self = .appStoreVersionExperiment
-                    case "appStoreVersionExperimentV2": self = .appStoreVersionExperimentV2
-                    case "removed": self = .removed
-                    case "resolved": self = .resolved
-                    case "reviewSubmission": self = .reviewSubmission
-                    case "state": self = .state
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum ReviewSubmissions: Hashable, Codable, RawRepresentable {
-                case app
-                case appStoreVersionForReview
-                case canceled
-                case items
-                case lastUpdatedByActor
-                case platform
-                case state
-                case submitted
-                case submittedByActor
-                case submittedDate
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .appStoreVersionForReview: return "appStoreVersionForReview"
-                    case .canceled: return "canceled"
-                    case .items: return "items"
-                    case .lastUpdatedByActor: return "lastUpdatedByActor"
-                    case .platform: return "platform"
-                    case .state: return "state"
-                    case .submitted: return "submitted"
-                    case .submittedByActor: return "submittedByActor"
-                    case .submittedDate: return "submittedDate"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ReviewSubmissions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var appStoreVersionForReview: Self {
+                    .init(rawValue: "appStoreVersionForReview")
+                }
+
+                public static var items: Self {
+                    .init(rawValue: "items")
+                }
+
+                public static var lastUpdatedByActor: Self {
+                    .init(rawValue: "lastUpdatedByActor")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var submittedByActor: Self {
+                    .init(rawValue: "submittedByActor")
+                }
+
+                public static var submittedDate: Self {
+                    .init(rawValue: "submittedDate")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "appStoreVersionForReview": self = .appStoreVersionForReview
-                    case "canceled": self = .canceled
-                    case "items": self = .items
-                    case "lastUpdatedByActor": self = .lastUpdatedByActor
-                    case "platform": self = .platform
-                    case "state": self = .state
-                    case "submitted": self = .submitted
-                    case "submittedByActor": self = .submittedByActor
-                    case "submittedDate": self = .submittedDate
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -201,34 +200,35 @@ extension V1.ReviewSubmissions.ById.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case app
-            case appStoreVersionForReview
-            case items
-            case lastUpdatedByActor
-            case submittedByActor
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .app: return "app"
-                case .appStoreVersionForReview: return "appStoreVersionForReview"
-                case .items: return "items"
-                case .lastUpdatedByActor: return "lastUpdatedByActor"
-                case .submittedByActor: return "submittedByActor"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var app: Self {
+                .init(rawValue: "app")
             }
 
+            public static var appStoreVersionForReview: Self {
+                .init(rawValue: "appStoreVersionForReview")
+            }
+
+            public static var items: Self {
+                .init(rawValue: "items")
+            }
+
+            public static var lastUpdatedByActor: Self {
+                .init(rawValue: "lastUpdatedByActor")
+            }
+
+            public static var submittedByActor: Self {
+                .init(rawValue: "submittedByActor")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "app": self = .app
-                case "appStoreVersionForReview": self = .appStoreVersionForReview
-                case "items": self = .items
-                case "lastUpdatedByActor": self = .lastUpdatedByActor
-                case "submittedByActor": self = .submittedByActor
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

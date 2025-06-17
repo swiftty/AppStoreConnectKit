@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppClipDefaultExperienceUpdateRequest: Hashable, Codable {
+public struct AppClipDefaultExperienceUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct AppClipDefaultExperienceUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -42,11 +42,11 @@ public struct AppClipDefaultExperienceUpdateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case appClipDefaultExperiences
         }
 
-        public struct Attributes: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
             public var action: AppClipAction?
 
             public init(action: AppClipAction? = nil) {
@@ -58,7 +58,7 @@ public struct AppClipDefaultExperienceUpdateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var releaseWithAppStoreVersion: ReleaseWithAppStoreVersion?
 
             public init(releaseWithAppStoreVersion: ReleaseWithAppStoreVersion? = nil) {
@@ -69,7 +69,7 @@ public struct AppClipDefaultExperienceUpdateRequest: Hashable, Codable {
                 case releaseWithAppStoreVersion
             }
 
-            public struct ReleaseWithAppStoreVersion: Hashable, Codable {
+            public struct ReleaseWithAppStoreVersion: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -80,7 +80,7 @@ public struct AppClipDefaultExperienceUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -98,7 +98,7 @@ public struct AppClipDefaultExperienceUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersions
                     }
                 }

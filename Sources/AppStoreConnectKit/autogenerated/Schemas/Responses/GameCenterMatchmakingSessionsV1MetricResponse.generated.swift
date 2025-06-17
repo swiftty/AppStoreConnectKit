@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingSessionsV1MetricResponse: Hashable, Codable {
+public struct GameCenterMatchmakingSessionsV1MetricResponse: Hashable, Codable, Sendable {
     public var data: [Data]
 
     public var links: PagedDocumentLinks
@@ -26,7 +26,7 @@ public struct GameCenterMatchmakingSessionsV1MetricResponse: Hashable, Codable {
         case meta
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var dataPoints: DataPoints?
 
         public var granularity: Granularity?
@@ -44,7 +44,7 @@ public struct GameCenterMatchmakingSessionsV1MetricResponse: Hashable, Codable {
             case granularity
         }
 
-        public struct DataPoints: Hashable, Codable {
+        public struct DataPoints: Hashable, Codable, Sendable {
             public var end: String?
 
             public var start: String?
@@ -67,7 +67,7 @@ public struct GameCenterMatchmakingSessionsV1MetricResponse: Hashable, Codable {
                 case values
             }
 
-            public struct Values: Hashable, Codable {
+            public struct Values: Hashable, Codable, Sendable {
                 public var averagePlayerCount: Float?
 
                 public var count: Int?
@@ -97,28 +97,27 @@ public struct GameCenterMatchmakingSessionsV1MetricResponse: Hashable, Codable {
             }
         }
 
-        public enum Granularity: Hashable, Codable, RawRepresentable {
-            case p1D
-            case pT15M
-            case pT1H
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .p1D: return "P1D"
-                case .pT15M: return "PT15M"
-                case .pT1H: return "PT1H"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Granularity: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var p1D: Self {
+                .init(rawValue: "P1D")
             }
 
+            public static var pT15M: Self {
+                .init(rawValue: "PT15M")
+            }
+
+            public static var pT1H: Self {
+                .init(rawValue: "PT1H")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "P1D": self = .p1D
-                case "PT15M": self = .pT15M
-                case "PT1H": self = .pT1H
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

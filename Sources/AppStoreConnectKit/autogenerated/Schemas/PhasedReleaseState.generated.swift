@@ -3,31 +3,31 @@
 // swiftlint:disable all
 import Foundation
 
-public enum PhasedReleaseState: Hashable, Codable, RawRepresentable {
-    case active
-    case complete
-    case inactive
-    case paused
-    case unknown(String)
-
-    public var rawValue: String {
-        switch self {
-        case .active: return "ACTIVE"
-        case .complete: return "COMPLETE"
-        case .inactive: return "INACTIVE"
-        case .paused: return "PAUSED"
-        case .unknown(let rawValue): return rawValue
-        }
+public struct PhasedReleaseState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var active: Self {
+        .init(rawValue: "ACTIVE")
     }
 
+    public static var complete: Self {
+        .init(rawValue: "COMPLETE")
+    }
+
+    public static var inactive: Self {
+        .init(rawValue: "INACTIVE")
+    }
+
+    public static var paused: Self {
+        .init(rawValue: "PAUSED")
+    }
+
+    public var description: String {
+        rawValue
+    }
+
+    public var rawValue: String
+
     public init(rawValue: String) {
-        switch rawValue {
-        case "ACTIVE": self = .active
-        case "COMPLETE": self = .complete
-        case "INACTIVE": self = .inactive
-        case "PAUSED": self = .paused
-        default: self = .unknown(rawValue)
-        }
+        self.rawValue = rawValue
     }
 }
 

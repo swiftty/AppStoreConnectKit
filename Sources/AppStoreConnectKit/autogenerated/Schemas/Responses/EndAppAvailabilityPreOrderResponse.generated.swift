@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct EndAppAvailabilityPreOrderResponse: Hashable, Codable {
+public struct EndAppAvailabilityPreOrderResponse: Hashable, Codable, Sendable {
     public var data: EndAppAvailabilityPreOrder
 
     public var links: DocumentLinks

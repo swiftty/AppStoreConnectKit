@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ResourceLinks: Hashable, Codable {
+public struct ResourceLinks: Hashable, Codable, Sendable {
     public var `self`: URL?
 
     public init(self _self: URL? = nil) {

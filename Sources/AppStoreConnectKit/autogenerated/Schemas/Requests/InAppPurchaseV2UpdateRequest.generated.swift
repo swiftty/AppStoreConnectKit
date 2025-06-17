@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct InAppPurchaseV2UpdateRequest: Hashable, Codable {
+public struct InAppPurchaseV2UpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,7 +14,7 @@ public struct InAppPurchaseV2UpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -37,14 +37,11 @@ public struct InAppPurchaseV2UpdateRequest: Hashable, Codable {
             case attributes
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case inAppPurchases
         }
 
-        public struct Attributes: Hashable, Codable {
-            @available(*, deprecated)
-            public var availableInAllTerritories: Bool?
-
+        public struct Attributes: Hashable, Codable, Sendable {
             public var familySharable: Bool?
 
             public var name: String?
@@ -52,19 +49,16 @@ public struct InAppPurchaseV2UpdateRequest: Hashable, Codable {
             public var reviewNote: String?
 
             public init(
-                availableInAllTerritories: Bool? = nil,
                 familySharable: Bool? = nil,
                 name: String? = nil,
                 reviewNote: String? = nil
             ) {
-                self.availableInAllTerritories = availableInAllTerritories
                 self.familySharable = familySharable
                 self.name = name
                 self.reviewNote = reviewNote
             }
 
             private enum CodingKeys: String, CodingKey {
-                case availableInAllTerritories
                 case familySharable
                 case name
                 case reviewNote

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingQueue: Hashable, Codable {
+public struct GameCenterMatchmakingQueue: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,23 +36,30 @@ public struct GameCenterMatchmakingQueue: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case gameCenterMatchmakingQueues
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
+        public var classicMatchmakingBundleIds: [String]?
+
         public var referenceName: String?
 
-        public init(referenceName: String? = nil) {
+        public init(
+            classicMatchmakingBundleIds: [String]? = nil,
+            referenceName: String? = nil
+        ) {
+            self.classicMatchmakingBundleIds = classicMatchmakingBundleIds
             self.referenceName = referenceName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case classicMatchmakingBundleIds
             case referenceName
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var experimentRuleSet: ExperimentRuleSet?
 
         public var ruleSet: RuleSet?
@@ -70,25 +77,18 @@ public struct GameCenterMatchmakingQueue: Hashable, Codable {
             case ruleSet
         }
 
-        public struct ExperimentRuleSet: Hashable, Codable {
+        public struct ExperimentRuleSet: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -106,50 +106,24 @@ public struct GameCenterMatchmakingQueue: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case gameCenterMatchmakingRuleSets
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }
 
-        public struct RuleSet: Hashable, Codable {
+        public struct RuleSet: Hashable, Codable, Sendable {
             public var data: Data?
 
-            public var links: Links?
-
-            public init(
-                data: Data? = nil,
-                links: Links? = nil
-            ) {
+            public init(data: Data? = nil) {
                 self.data = data
-                self.links = links
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -167,27 +141,8 @@ public struct GameCenterMatchmakingQueue: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case gameCenterMatchmakingRuleSets
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

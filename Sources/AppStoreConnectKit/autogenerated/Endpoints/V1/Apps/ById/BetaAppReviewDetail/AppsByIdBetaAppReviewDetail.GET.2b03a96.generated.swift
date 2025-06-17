@@ -42,8 +42,10 @@ extension V1.Apps.ById.BetaAppReviewDetail {
 
         /// - Returns: **200**, Single BetaAppReviewDetail with get as `BetaAppReviewDetailWithoutIncludesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -57,10 +59,16 @@ extension V1.Apps.ById.BetaAppReviewDetail {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -82,46 +90,51 @@ extension V1.Apps.ById.BetaAppReviewDetail.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum BetaAppReviewDetails: Hashable, Codable, RawRepresentable {
-                case app
-                case contactEmail
-                case contactFirstName
-                case contactLastName
-                case contactPhone
-                case demoAccountName
-                case demoAccountPassword
-                case demoAccountRequired
-                case notes
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .contactEmail: return "contactEmail"
-                    case .contactFirstName: return "contactFirstName"
-                    case .contactLastName: return "contactLastName"
-                    case .contactPhone: return "contactPhone"
-                    case .demoAccountName: return "demoAccountName"
-                    case .demoAccountPassword: return "demoAccountPassword"
-                    case .demoAccountRequired: return "demoAccountRequired"
-                    case .notes: return "notes"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct BetaAppReviewDetails: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
                 }
 
+                public static var contactEmail: Self {
+                    .init(rawValue: "contactEmail")
+                }
+
+                public static var contactFirstName: Self {
+                    .init(rawValue: "contactFirstName")
+                }
+
+                public static var contactLastName: Self {
+                    .init(rawValue: "contactLastName")
+                }
+
+                public static var contactPhone: Self {
+                    .init(rawValue: "contactPhone")
+                }
+
+                public static var demoAccountName: Self {
+                    .init(rawValue: "demoAccountName")
+                }
+
+                public static var demoAccountPassword: Self {
+                    .init(rawValue: "demoAccountPassword")
+                }
+
+                public static var demoAccountRequired: Self {
+                    .init(rawValue: "demoAccountRequired")
+                }
+
+                public static var notes: Self {
+                    .init(rawValue: "notes")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "contactEmail": self = .contactEmail
-                    case "contactFirstName": self = .contactFirstName
-                    case "contactLastName": self = .contactLastName
-                    case "contactPhone": self = .contactPhone
-                    case "demoAccountName": self = .demoAccountName
-                    case "demoAccountPassword": self = .demoAccountPassword
-                    case "demoAccountRequired": self = .demoAccountRequired
-                    case "notes": self = .notes
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

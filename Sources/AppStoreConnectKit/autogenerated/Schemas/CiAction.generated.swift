@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct CiAction: Hashable, Codable {
+public struct CiAction: Hashable, Codable, Sendable {
     public var actionType: CiActionType?
 
     public var buildDistributionAudience: BuildAudienceType?
@@ -51,75 +51,91 @@ public struct CiAction: Hashable, Codable {
         case testConfiguration
     }
 
-    public enum Destination: Hashable, Codable, RawRepresentable {
-        case anyMac
-        case anyMacCatalyst
-        case anyTvOSDevice
-        case anyTvOSSimulator
-        case anyWatchOSDevice
-        case anyWatchOSSimulator
-        case anyiOSDevice
-        case anyiOSSimulator
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .anyMac: return "ANY_MAC"
-            case .anyMacCatalyst: return "ANY_MAC_CATALYST"
-            case .anyTvOSDevice: return "ANY_TVOS_DEVICE"
-            case .anyTvOSSimulator: return "ANY_TVOS_SIMULATOR"
-            case .anyWatchOSDevice: return "ANY_WATCHOS_DEVICE"
-            case .anyWatchOSSimulator: return "ANY_WATCHOS_SIMULATOR"
-            case .anyiOSDevice: return "ANY_IOS_DEVICE"
-            case .anyiOSSimulator: return "ANY_IOS_SIMULATOR"
-            case .unknown(let rawValue): return rawValue
-            }
+    public struct Destination: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+        public static var anyMac: Self {
+            .init(rawValue: "ANY_MAC")
         }
 
+        public static var anyMacCatalyst: Self {
+            .init(rawValue: "ANY_MAC_CATALYST")
+        }
+
+        public static var anyTvOSDevice: Self {
+            .init(rawValue: "ANY_TVOS_DEVICE")
+        }
+
+        public static var anyTvOSSimulator: Self {
+            .init(rawValue: "ANY_TVOS_SIMULATOR")
+        }
+
+        public static var anyVisionosDevice: Self {
+            .init(rawValue: "ANY_VISIONOS_DEVICE")
+        }
+
+        public static var anyVisionosSimulator: Self {
+            .init(rawValue: "ANY_VISIONOS_SIMULATOR")
+        }
+
+        public static var anyWatchOSDevice: Self {
+            .init(rawValue: "ANY_WATCHOS_DEVICE")
+        }
+
+        public static var anyWatchOSSimulator: Self {
+            .init(rawValue: "ANY_WATCHOS_SIMULATOR")
+        }
+
+        public static var anyiOSDevice: Self {
+            .init(rawValue: "ANY_IOS_DEVICE")
+        }
+
+        public static var anyiOSSimulator: Self {
+            .init(rawValue: "ANY_IOS_SIMULATOR")
+        }
+
+        public var description: String {
+            rawValue
+        }
+
+        public var rawValue: String
+
         public init(rawValue: String) {
-            switch rawValue {
-            case "ANY_MAC": self = .anyMac
-            case "ANY_MAC_CATALYST": self = .anyMacCatalyst
-            case "ANY_TVOS_DEVICE": self = .anyTvOSDevice
-            case "ANY_TVOS_SIMULATOR": self = .anyTvOSSimulator
-            case "ANY_WATCHOS_DEVICE": self = .anyWatchOSDevice
-            case "ANY_WATCHOS_SIMULATOR": self = .anyWatchOSSimulator
-            case "ANY_IOS_DEVICE": self = .anyiOSDevice
-            case "ANY_IOS_SIMULATOR": self = .anyiOSSimulator
-            default: self = .unknown(rawValue)
-            }
+            self.rawValue = rawValue
         }
     }
 
-    public enum Platform: Hashable, Codable, RawRepresentable {
-        case iOS
-        case macOS
-        case tvOS
-        case watchOS
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .iOS: return "IOS"
-            case .macOS: return "MACOS"
-            case .tvOS: return "TVOS"
-            case .watchOS: return "WATCHOS"
-            case .unknown(let rawValue): return rawValue
-            }
+    public struct Platform: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+        public static var iOS: Self {
+            .init(rawValue: "IOS")
         }
 
+        public static var macOS: Self {
+            .init(rawValue: "MACOS")
+        }
+
+        public static var tvOS: Self {
+            .init(rawValue: "TVOS")
+        }
+
+        public static var visionos: Self {
+            .init(rawValue: "VISIONOS")
+        }
+
+        public static var watchOS: Self {
+            .init(rawValue: "WATCHOS")
+        }
+
+        public var description: String {
+            rawValue
+        }
+
+        public var rawValue: String
+
         public init(rawValue: String) {
-            switch rawValue {
-            case "IOS": self = .iOS
-            case "MACOS": self = .macOS
-            case "TVOS": self = .tvOS
-            case "WATCHOS": self = .watchOS
-            default: self = .unknown(rawValue)
-            }
+            self.rawValue = rawValue
         }
     }
 
-    public struct TestConfiguration: Hashable, Codable {
+    public struct TestConfiguration: Hashable, Codable, Sendable {
         public var kind: Kind?
 
         public var testDestinations: [CiTestDestination]?
@@ -142,25 +158,23 @@ public struct CiAction: Hashable, Codable {
             case testPlanName
         }
 
-        public enum Kind: Hashable, Codable, RawRepresentable {
-            case specificTestPlans
-            case useSchemeSettings
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .specificTestPlans: return "SPECIFIC_TEST_PLANS"
-                case .useSchemeSettings: return "USE_SCHEME_SETTINGS"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Kind: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var specificTestPlans: Self {
+                .init(rawValue: "SPECIFIC_TEST_PLANS")
             }
 
+            public static var useSchemeSettings: Self {
+                .init(rawValue: "USE_SCHEME_SETTINGS")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "SPECIFIC_TEST_PLANS": self = .specificTestPlans
-                case "USE_SCHEME_SETTINGS": self = .useSchemeSettings
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

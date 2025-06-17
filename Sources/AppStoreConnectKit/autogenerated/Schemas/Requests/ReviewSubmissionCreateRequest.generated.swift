@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ReviewSubmissionCreateRequest: Hashable, Codable {
+public struct ReviewSubmissionCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,16 +14,16 @@ public struct ReviewSubmissionCreateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var type: `Type`
 
-        public var attributes: Attributes
+        public var attributes: Attributes?
 
         public var relationships: Relationships
 
         public init(
             type: `Type`,
-            attributes: Attributes,
+            attributes: Attributes? = nil,
             relationships: Relationships
         ) {
             self.type = type
@@ -37,14 +37,14 @@ public struct ReviewSubmissionCreateRequest: Hashable, Codable {
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case reviewSubmissions
         }
 
-        public struct Attributes: Hashable, Codable {
-            public var platform: Platform
+        public struct Attributes: Hashable, Codable, Sendable {
+            public var platform: Platform?
 
-            public init(platform: Platform) {
+            public init(platform: Platform? = nil) {
                 self.platform = platform
             }
 
@@ -53,7 +53,7 @@ public struct ReviewSubmissionCreateRequest: Hashable, Codable {
             }
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Relationships: Hashable, Codable, Sendable {
             public var app: App
 
             public init(app: App) {
@@ -64,7 +64,7 @@ public struct ReviewSubmissionCreateRequest: Hashable, Codable {
                 case app
             }
 
-            public struct App: Hashable, Codable {
+            public struct App: Hashable, Codable, Sendable {
                 public var data: Data
 
                 public init(data: Data) {
@@ -75,7 +75,7 @@ public struct ReviewSubmissionCreateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -93,7 +93,7 @@ public struct ReviewSubmissionCreateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case apps
                     }
                 }

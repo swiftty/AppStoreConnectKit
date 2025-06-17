@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppEncryptionDeclarationDocument: Hashable, Codable {
+public struct AppEncryptionDeclarationDocument: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -31,11 +31,11 @@ public struct AppEncryptionDeclarationDocument: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case appEncryptionDeclarationDocuments
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var assetDeliveryState: AppMediaAssetState?
 
         public var assetToken: String?

@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BuildBetaGroupsLinkagesRequest: Hashable, Codable {
+public struct BuildBetaGroupsLinkagesRequest: Hashable, Codable, Sendable {
     public var data: [Data]
 
     public init(data: [Data]) {
@@ -14,7 +14,7 @@ public struct BuildBetaGroupsLinkagesRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
@@ -32,7 +32,7 @@ public struct BuildBetaGroupsLinkagesRequest: Hashable, Codable {
             case type
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case betaGroups
         }
     }

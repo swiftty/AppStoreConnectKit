@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ScmProviderType: Hashable, Codable {
+public struct ScmProviderType: Hashable, Codable, Sendable {
     public var displayName: String?
 
     public var isOnPremise: Bool?
@@ -26,37 +26,39 @@ public struct ScmProviderType: Hashable, Codable {
         case kind
     }
 
-    public enum Kind: Hashable, Codable, RawRepresentable {
-        case bitbucketCloud
-        case bitbucketServer
-        case githubCloud
-        case githubEnterprise
-        case gitlabCloud
-        case gitlabSelfManaged
-        case unknown(String)
-
-        public var rawValue: String {
-            switch self {
-            case .bitbucketCloud: return "BITBUCKET_CLOUD"
-            case .bitbucketServer: return "BITBUCKET_SERVER"
-            case .githubCloud: return "GITHUB_CLOUD"
-            case .githubEnterprise: return "GITHUB_ENTERPRISE"
-            case .gitlabCloud: return "GITLAB_CLOUD"
-            case .gitlabSelfManaged: return "GITLAB_SELF_MANAGED"
-            case .unknown(let rawValue): return rawValue
-            }
+    public struct Kind: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+        public static var bitbucketCloud: Self {
+            .init(rawValue: "BITBUCKET_CLOUD")
         }
 
+        public static var bitbucketServer: Self {
+            .init(rawValue: "BITBUCKET_SERVER")
+        }
+
+        public static var githubCloud: Self {
+            .init(rawValue: "GITHUB_CLOUD")
+        }
+
+        public static var githubEnterprise: Self {
+            .init(rawValue: "GITHUB_ENTERPRISE")
+        }
+
+        public static var gitlabCloud: Self {
+            .init(rawValue: "GITLAB_CLOUD")
+        }
+
+        public static var gitlabSelfManaged: Self {
+            .init(rawValue: "GITLAB_SELF_MANAGED")
+        }
+
+        public var description: String {
+            rawValue
+        }
+
+        public var rawValue: String
+
         public init(rawValue: String) {
-            switch rawValue {
-            case "BITBUCKET_CLOUD": self = .bitbucketCloud
-            case "BITBUCKET_SERVER": self = .bitbucketServer
-            case "GITHUB_CLOUD": self = .githubCloud
-            case "GITHUB_ENTERPRISE": self = .githubEnterprise
-            case "GITLAB_CLOUD": self = .gitlabCloud
-            case "GITLAB_SELF_MANAGED": self = .gitlabSelfManaged
-            default: self = .unknown(rawValue)
-            }
+            self.rawValue = rawValue
         }
     }
 }

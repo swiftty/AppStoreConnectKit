@@ -42,8 +42,10 @@ extension V1.AppInfos.ById.AgeRatingDeclaration {
 
         /// - Returns: **200**, Single AgeRatingDeclaration as `AgeRatingDeclarationResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -57,10 +59,16 @@ extension V1.AppInfos.ById.AgeRatingDeclaration {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -82,70 +90,83 @@ extension V1.AppInfos.ById.AgeRatingDeclaration.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AgeRatingDeclarations: Hashable, Codable, RawRepresentable {
-                case alcoholTobaccoOrDrugUseOrReferences
-                case contests
-                case gambling
-                case gamblingAndContests
-                case gamblingSimulated
-                case horrorOrFearThemes
-                case kidsAgeBand
-                case matureOrSuggestiveThemes
-                case medicalOrTreatmentInformation
-                case profanityOrCrudeHumor
-                case seventeenPlus
-                case sexualContentGraphicAndNudity
-                case sexualContentOrNudity
-                case unrestrictedWebAccess
-                case violenceCartoonOrFantasy
-                case violenceRealistic
-                case violenceRealisticProlongedGraphicOrSadistic
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .alcoholTobaccoOrDrugUseOrReferences: return "alcoholTobaccoOrDrugUseOrReferences"
-                    case .contests: return "contests"
-                    case .gambling: return "gambling"
-                    case .gamblingAndContests: return "gamblingAndContests"
-                    case .gamblingSimulated: return "gamblingSimulated"
-                    case .horrorOrFearThemes: return "horrorOrFearThemes"
-                    case .kidsAgeBand: return "kidsAgeBand"
-                    case .matureOrSuggestiveThemes: return "matureOrSuggestiveThemes"
-                    case .medicalOrTreatmentInformation: return "medicalOrTreatmentInformation"
-                    case .profanityOrCrudeHumor: return "profanityOrCrudeHumor"
-                    case .seventeenPlus: return "seventeenPlus"
-                    case .sexualContentGraphicAndNudity: return "sexualContentGraphicAndNudity"
-                    case .sexualContentOrNudity: return "sexualContentOrNudity"
-                    case .unrestrictedWebAccess: return "unrestrictedWebAccess"
-                    case .violenceCartoonOrFantasy: return "violenceCartoonOrFantasy"
-                    case .violenceRealistic: return "violenceRealistic"
-                    case .violenceRealisticProlongedGraphicOrSadistic: return "violenceRealisticProlongedGraphicOrSadistic"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AgeRatingDeclarations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var alcoholTobaccoOrDrugUseOrReferences: Self {
+                    .init(rawValue: "alcoholTobaccoOrDrugUseOrReferences")
                 }
 
+                public static var contests: Self {
+                    .init(rawValue: "contests")
+                }
+
+                public static var gambling: Self {
+                    .init(rawValue: "gambling")
+                }
+
+                public static var gamblingSimulated: Self {
+                    .init(rawValue: "gamblingSimulated")
+                }
+
+                public static var horrorOrFearThemes: Self {
+                    .init(rawValue: "horrorOrFearThemes")
+                }
+
+                public static var kidsAgeBand: Self {
+                    .init(rawValue: "kidsAgeBand")
+                }
+
+                public static var koreaAgeRatingOverride: Self {
+                    .init(rawValue: "koreaAgeRatingOverride")
+                }
+
+                public static var lootBox: Self {
+                    .init(rawValue: "lootBox")
+                }
+
+                public static var matureOrSuggestiveThemes: Self {
+                    .init(rawValue: "matureOrSuggestiveThemes")
+                }
+
+                public static var medicalOrTreatmentInformation: Self {
+                    .init(rawValue: "medicalOrTreatmentInformation")
+                }
+
+                public static var profanityOrCrudeHumor: Self {
+                    .init(rawValue: "profanityOrCrudeHumor")
+                }
+
+                public static var sexualContentGraphicAndNudity: Self {
+                    .init(rawValue: "sexualContentGraphicAndNudity")
+                }
+
+                public static var sexualContentOrNudity: Self {
+                    .init(rawValue: "sexualContentOrNudity")
+                }
+
+                public static var unrestrictedWebAccess: Self {
+                    .init(rawValue: "unrestrictedWebAccess")
+                }
+
+                public static var violenceCartoonOrFantasy: Self {
+                    .init(rawValue: "violenceCartoonOrFantasy")
+                }
+
+                public static var violenceRealistic: Self {
+                    .init(rawValue: "violenceRealistic")
+                }
+
+                public static var violenceRealisticProlongedGraphicOrSadistic: Self {
+                    .init(rawValue: "violenceRealisticProlongedGraphicOrSadistic")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "alcoholTobaccoOrDrugUseOrReferences": self = .alcoholTobaccoOrDrugUseOrReferences
-                    case "contests": self = .contests
-                    case "gambling": self = .gambling
-                    case "gamblingAndContests": self = .gamblingAndContests
-                    case "gamblingSimulated": self = .gamblingSimulated
-                    case "horrorOrFearThemes": self = .horrorOrFearThemes
-                    case "kidsAgeBand": self = .kidsAgeBand
-                    case "matureOrSuggestiveThemes": self = .matureOrSuggestiveThemes
-                    case "medicalOrTreatmentInformation": self = .medicalOrTreatmentInformation
-                    case "profanityOrCrudeHumor": self = .profanityOrCrudeHumor
-                    case "seventeenPlus": self = .seventeenPlus
-                    case "sexualContentGraphicAndNudity": self = .sexualContentGraphicAndNudity
-                    case "sexualContentOrNudity": self = .sexualContentOrNudity
-                    case "unrestrictedWebAccess": self = .unrestrictedWebAccess
-                    case "violenceCartoonOrFantasy": self = .violenceCartoonOrFantasy
-                    case "violenceRealistic": self = .violenceRealistic
-                    case "violenceRealisticProlongedGraphicOrSadistic": self = .violenceRealisticProlongedGraphicOrSadistic
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 

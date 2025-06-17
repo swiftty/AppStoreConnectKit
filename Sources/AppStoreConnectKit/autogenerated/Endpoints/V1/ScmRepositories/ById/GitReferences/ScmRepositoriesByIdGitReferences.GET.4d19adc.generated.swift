@@ -48,8 +48,10 @@ extension V1.ScmRepositories.ById.GitReferences {
 
         /// - Returns: **200**, List of ScmGitReferences as `ScmGitReferencesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -63,10 +65,16 @@ extension V1.ScmRepositories.ById.GitReferences {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -94,77 +102,83 @@ extension V1.ScmRepositories.ById.GitReferences.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum ScmGitReferences: Hashable, Codable, RawRepresentable {
-                case canonicalName
-                case isDeleted
-                case kind
-                case name
-                case repository
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .canonicalName: return "canonicalName"
-                    case .isDeleted: return "isDeleted"
-                    case .kind: return "kind"
-                    case .name: return "name"
-                    case .repository: return "repository"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ScmGitReferences: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var canonicalName: Self {
+                    .init(rawValue: "canonicalName")
                 }
 
+                public static var isDeleted: Self {
+                    .init(rawValue: "isDeleted")
+                }
+
+                public static var kind: Self {
+                    .init(rawValue: "kind")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var repository: Self {
+                    .init(rawValue: "repository")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "canonicalName": self = .canonicalName
-                    case "isDeleted": self = .isDeleted
-                    case "kind": self = .kind
-                    case "name": self = .name
-                    case "repository": self = .repository
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum ScmRepositories: Hashable, Codable, RawRepresentable {
-                case defaultBranch
-                case gitReferences
-                case httpCloneUrl
-                case lastAccessedDate
-                case ownerName
-                case pullRequests
-                case repositoryName
-                case scmProvider
-                case sshCloneUrl
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .defaultBranch: return "defaultBranch"
-                    case .gitReferences: return "gitReferences"
-                    case .httpCloneUrl: return "httpCloneUrl"
-                    case .lastAccessedDate: return "lastAccessedDate"
-                    case .ownerName: return "ownerName"
-                    case .pullRequests: return "pullRequests"
-                    case .repositoryName: return "repositoryName"
-                    case .scmProvider: return "scmProvider"
-                    case .sshCloneUrl: return "sshCloneUrl"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct ScmRepositories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var defaultBranch: Self {
+                    .init(rawValue: "defaultBranch")
                 }
 
+                public static var gitReferences: Self {
+                    .init(rawValue: "gitReferences")
+                }
+
+                public static var httpCloneUrl: Self {
+                    .init(rawValue: "httpCloneUrl")
+                }
+
+                public static var lastAccessedDate: Self {
+                    .init(rawValue: "lastAccessedDate")
+                }
+
+                public static var ownerName: Self {
+                    .init(rawValue: "ownerName")
+                }
+
+                public static var pullRequests: Self {
+                    .init(rawValue: "pullRequests")
+                }
+
+                public static var repositoryName: Self {
+                    .init(rawValue: "repositoryName")
+                }
+
+                public static var scmProvider: Self {
+                    .init(rawValue: "scmProvider")
+                }
+
+                public static var sshCloneUrl: Self {
+                    .init(rawValue: "sshCloneUrl")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "defaultBranch": self = .defaultBranch
-                    case "gitReferences": self = .gitReferences
-                    case "httpCloneUrl": self = .httpCloneUrl
-                    case "lastAccessedDate": self = .lastAccessedDate
-                    case "ownerName": self = .ownerName
-                    case "pullRequests": self = .pullRequests
-                    case "repositoryName": self = .repositoryName
-                    case "scmProvider": self = .scmProvider
-                    case "sshCloneUrl": self = .sshCloneUrl
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -187,22 +201,19 @@ extension V1.ScmRepositories.ById.GitReferences.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case repository
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .repository: return "repository"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var repository: Self {
+                .init(rawValue: "repository")
             }
 
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "repository": self = .repository
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }

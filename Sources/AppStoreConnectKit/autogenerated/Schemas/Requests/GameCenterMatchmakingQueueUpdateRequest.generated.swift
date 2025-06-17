@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct GameCenterMatchmakingQueueUpdateRequest: Hashable, Codable {
+public struct GameCenterMatchmakingQueueUpdateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
     public init(data: Data) {
@@ -14,34 +14,51 @@ public struct GameCenterMatchmakingQueueUpdateRequest: Hashable, Codable {
         case data
     }
 
-    public struct Data: Hashable, Codable {
+    public struct Data: Hashable, Codable, Sendable {
         public var id: String
 
         public var type: `Type`
+
+        public var attributes: Attributes?
 
         public var relationships: Relationships?
 
         public init(
             id: String,
             type: `Type`,
+            attributes: Attributes? = nil,
             relationships: Relationships? = nil
         ) {
             self.id = id
             self.type = type
+            self.attributes = attributes
             self.relationships = relationships
         }
 
         private enum CodingKeys: String, CodingKey {
             case id
             case type
+            case attributes
             case relationships
         }
 
-        public enum `Type`: String, Hashable, Codable {
+        public enum `Type`: String, Hashable, Codable, Sendable {
             case gameCenterMatchmakingQueues
         }
 
-        public struct Relationships: Hashable, Codable {
+        public struct Attributes: Hashable, Codable, Sendable {
+            public var classicMatchmakingBundleIds: [String]?
+
+            public init(classicMatchmakingBundleIds: [String]? = nil) {
+                self.classicMatchmakingBundleIds = classicMatchmakingBundleIds
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case classicMatchmakingBundleIds
+            }
+        }
+
+        public struct Relationships: Hashable, Codable, Sendable {
             public var experimentRuleSet: ExperimentRuleSet?
 
             public var ruleSet: RuleSet?
@@ -59,7 +76,7 @@ public struct GameCenterMatchmakingQueueUpdateRequest: Hashable, Codable {
                 case ruleSet
             }
 
-            public struct ExperimentRuleSet: Hashable, Codable {
+            public struct ExperimentRuleSet: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -70,7 +87,7 @@ public struct GameCenterMatchmakingQueueUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -88,13 +105,13 @@ public struct GameCenterMatchmakingQueueUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterMatchmakingRuleSets
                     }
                 }
             }
 
-            public struct RuleSet: Hashable, Codable {
+            public struct RuleSet: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {
@@ -105,7 +122,7 @@ public struct GameCenterMatchmakingQueueUpdateRequest: Hashable, Codable {
                     case data
                 }
 
-                public struct Data: Hashable, Codable {
+                public struct Data: Hashable, Codable, Sendable {
                     public var id: String
 
                     public var type: `Type`
@@ -123,7 +140,7 @@ public struct GameCenterMatchmakingQueueUpdateRequest: Hashable, Codable {
                         case type
                     }
 
-                    public enum `Type`: String, Hashable, Codable {
+                    public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterMatchmakingRuleSets
                     }
                 }

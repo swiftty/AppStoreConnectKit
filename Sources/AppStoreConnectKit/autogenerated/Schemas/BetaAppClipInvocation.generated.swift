@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct BetaAppClipInvocation: Hashable, Codable {
+public struct BetaAppClipInvocation: Hashable, Codable, Sendable {
     public var id: String
 
     public var type: `Type`
@@ -36,11 +36,11 @@ public struct BetaAppClipInvocation: Hashable, Codable {
         case links
     }
 
-    public enum `Type`: String, Hashable, Codable {
+    public enum `Type`: String, Hashable, Codable, Sendable {
         case betaAppClipInvocations
     }
 
-    public struct Attributes: Hashable, Codable {
+    public struct Attributes: Hashable, Codable, Sendable {
         public var url: URL?
 
         public init(url: URL? = nil) {
@@ -52,7 +52,7 @@ public struct BetaAppClipInvocation: Hashable, Codable {
         }
     }
 
-    public struct Relationships: Hashable, Codable {
+    public struct Relationships: Hashable, Codable, Sendable {
         public var betaAppClipInvocationLocalizations: BetaAppClipInvocationLocalizations?
 
         public init(betaAppClipInvocationLocalizations: BetaAppClipInvocationLocalizations? = nil) {
@@ -63,30 +63,25 @@ public struct BetaAppClipInvocation: Hashable, Codable {
             case betaAppClipInvocationLocalizations
         }
 
-        public struct BetaAppClipInvocationLocalizations: Hashable, Codable {
+        public struct BetaAppClipInvocationLocalizations: Hashable, Codable, Sendable {
             public var data: [Data]?
-
-            public var links: Links?
 
             public var meta: PagingInformation?
 
             public init(
                 data: [Data]? = nil,
-                links: Links? = nil,
                 meta: PagingInformation? = nil
             ) {
                 self.data = data
-                self.links = links
                 self.meta = meta
             }
 
             private enum CodingKeys: String, CodingKey {
                 case data
-                case links
                 case meta
             }
 
-            public struct Data: Hashable, Codable {
+            public struct Data: Hashable, Codable, Sendable {
                 public var id: String
 
                 public var type: `Type`
@@ -104,27 +99,8 @@ public struct BetaAppClipInvocation: Hashable, Codable {
                     case type
                 }
 
-                public enum `Type`: String, Hashable, Codable {
+                public enum `Type`: String, Hashable, Codable, Sendable {
                     case betaAppClipInvocationLocalizations
-                }
-            }
-
-            public struct Links: Hashable, Codable {
-                public var related: URL?
-
-                public var `self`: URL?
-
-                public init(
-                    related: URL? = nil,
-                    self _self: URL? = nil
-                ) {
-                    self.related = related
-                    self.`self` = _self
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case related
-                    case `self` = "self"
                 }
             }
         }

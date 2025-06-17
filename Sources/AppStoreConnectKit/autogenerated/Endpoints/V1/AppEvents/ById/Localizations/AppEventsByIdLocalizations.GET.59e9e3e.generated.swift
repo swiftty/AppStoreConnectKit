@@ -56,8 +56,10 @@ extension V1.AppEvents.ById.Localizations {
 
         /// - Returns: **200**, List of AppEventLocalizations as `AppEventLocalizationsResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -71,10 +73,16 @@ extension V1.AppEvents.ById.Localizations {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -102,181 +110,199 @@ extension V1.AppEvents.ById.Localizations.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum AppEventLocalizations: Hashable, Codable, RawRepresentable {
-                case appEvent
-                case appEventScreenshots
-                case appEventVideoClips
-                case locale
-                case longDescription
-                case name
-                case shortDescription
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appEvent: return "appEvent"
-                    case .appEventScreenshots: return "appEventScreenshots"
-                    case .appEventVideoClips: return "appEventVideoClips"
-                    case .locale: return "locale"
-                    case .longDescription: return "longDescription"
-                    case .name: return "name"
-                    case .shortDescription: return "shortDescription"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppEventLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appEvent: Self {
+                    .init(rawValue: "appEvent")
                 }
 
+                public static var appEventScreenshots: Self {
+                    .init(rawValue: "appEventScreenshots")
+                }
+
+                public static var appEventVideoClips: Self {
+                    .init(rawValue: "appEventVideoClips")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var longDescription: Self {
+                    .init(rawValue: "longDescription")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var shortDescription: Self {
+                    .init(rawValue: "shortDescription")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appEvent": self = .appEvent
-                    case "appEventScreenshots": self = .appEventScreenshots
-                    case "appEventVideoClips": self = .appEventVideoClips
-                    case "locale": self = .locale
-                    case "longDescription": self = .longDescription
-                    case "name": self = .name
-                    case "shortDescription": self = .shortDescription
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppEventScreenshots: Hashable, Codable, RawRepresentable {
-                case appEventAssetType
-                case appEventLocalization
-                case assetDeliveryState
-                case assetToken
-                case fileName
-                case fileSize
-                case imageAsset
-                case uploadOperations
-                case uploaded
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appEventAssetType: return "appEventAssetType"
-                    case .appEventLocalization: return "appEventLocalization"
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .assetToken: return "assetToken"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .imageAsset: return "imageAsset"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppEventScreenshots: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appEventAssetType: Self {
+                    .init(rawValue: "appEventAssetType")
                 }
 
+                public static var appEventLocalization: Self {
+                    .init(rawValue: "appEventLocalization")
+                }
+
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
+                }
+
+                public static var assetToken: Self {
+                    .init(rawValue: "assetToken")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appEventAssetType": self = .appEventAssetType
-                    case "appEventLocalization": self = .appEventLocalization
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "assetToken": self = .assetToken
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "imageAsset": self = .imageAsset
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppEventVideoClips: Hashable, Codable, RawRepresentable {
-                case appEventAssetType
-                case appEventLocalization
-                case assetDeliveryState
-                case fileName
-                case fileSize
-                case previewFrameTimeCode
-                case previewImage
-                case uploadOperations
-                case uploaded
-                case videoUrl
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .appEventAssetType: return "appEventAssetType"
-                    case .appEventLocalization: return "appEventLocalization"
-                    case .assetDeliveryState: return "assetDeliveryState"
-                    case .fileName: return "fileName"
-                    case .fileSize: return "fileSize"
-                    case .previewFrameTimeCode: return "previewFrameTimeCode"
-                    case .previewImage: return "previewImage"
-                    case .uploadOperations: return "uploadOperations"
-                    case .uploaded: return "uploaded"
-                    case .videoUrl: return "videoUrl"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppEventVideoClips: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appEventAssetType: Self {
+                    .init(rawValue: "appEventAssetType")
                 }
 
+                public static var appEventLocalization: Self {
+                    .init(rawValue: "appEventLocalization")
+                }
+
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var previewFrameImage: Self {
+                    .init(rawValue: "previewFrameImage")
+                }
+
+                public static var previewFrameTimeCode: Self {
+                    .init(rawValue: "previewFrameTimeCode")
+                }
+
+                public static var previewImage: Self {
+                    .init(rawValue: "previewImage")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public static var videoDeliveryState: Self {
+                    .init(rawValue: "videoDeliveryState")
+                }
+
+                public static var videoUrl: Self {
+                    .init(rawValue: "videoUrl")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "appEventAssetType": self = .appEventAssetType
-                    case "appEventLocalization": self = .appEventLocalization
-                    case "assetDeliveryState": self = .assetDeliveryState
-                    case "fileName": self = .fileName
-                    case "fileSize": self = .fileSize
-                    case "previewFrameTimeCode": self = .previewFrameTimeCode
-                    case "previewImage": self = .previewImage
-                    case "uploadOperations": self = .uploadOperations
-                    case "uploaded": self = .uploaded
-                    case "videoUrl": self = .videoUrl
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum AppEvents: Hashable, Codable, RawRepresentable {
-                case app
-                case archivedTerritorySchedules
-                case badge
-                case deepLink
-                case eventState
-                case localizations
-                case primaryLocale
-                case priority
-                case purchaseRequirement
-                case purpose
-                case referenceName
-                case territorySchedules
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .app: return "app"
-                    case .archivedTerritorySchedules: return "archivedTerritorySchedules"
-                    case .badge: return "badge"
-                    case .deepLink: return "deepLink"
-                    case .eventState: return "eventState"
-                    case .localizations: return "localizations"
-                    case .primaryLocale: return "primaryLocale"
-                    case .priority: return "priority"
-                    case .purchaseRequirement: return "purchaseRequirement"
-                    case .purpose: return "purpose"
-                    case .referenceName: return "referenceName"
-                    case .territorySchedules: return "territorySchedules"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct AppEvents: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var archivedTerritorySchedules: Self {
+                    .init(rawValue: "archivedTerritorySchedules")
                 }
 
+                public static var badge: Self {
+                    .init(rawValue: "badge")
+                }
+
+                public static var deepLink: Self {
+                    .init(rawValue: "deepLink")
+                }
+
+                public static var eventState: Self {
+                    .init(rawValue: "eventState")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var primaryLocale: Self {
+                    .init(rawValue: "primaryLocale")
+                }
+
+                public static var priority: Self {
+                    .init(rawValue: "priority")
+                }
+
+                public static var purchaseRequirement: Self {
+                    .init(rawValue: "purchaseRequirement")
+                }
+
+                public static var purpose: Self {
+                    .init(rawValue: "purpose")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var territorySchedules: Self {
+                    .init(rawValue: "territorySchedules")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "app": self = .app
-                    case "archivedTerritorySchedules": self = .archivedTerritorySchedules
-                    case "badge": self = .badge
-                    case "deepLink": self = .deepLink
-                    case "eventState": self = .eventState
-                    case "localizations": self = .localizations
-                    case "primaryLocale": self = .primaryLocale
-                    case "priority": self = .priority
-                    case "purchaseRequirement": self = .purchaseRequirement
-                    case "purpose": self = .purpose
-                    case "referenceName": self = .referenceName
-                    case "territorySchedules": self = .territorySchedules
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -309,28 +335,27 @@ extension V1.AppEvents.ById.Localizations.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case appEvent
-            case appEventScreenshots
-            case appEventVideoClips
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .appEvent: return "appEvent"
-                case .appEventScreenshots: return "appEventScreenshots"
-                case .appEventVideoClips: return "appEventVideoClips"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appEvent: Self {
+                .init(rawValue: "appEvent")
             }
 
+            public static var appEventScreenshots: Self {
+                .init(rawValue: "appEventScreenshots")
+            }
+
+            public static var appEventVideoClips: Self {
+                .init(rawValue: "appEventVideoClips")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "appEvent": self = .appEvent
-                case "appEventScreenshots": self = .appEventScreenshots
-                case "appEventVideoClips": self = .appEventVideoClips
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
 

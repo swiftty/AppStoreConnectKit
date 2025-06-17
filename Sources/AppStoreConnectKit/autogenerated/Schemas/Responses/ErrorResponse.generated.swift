@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct ErrorResponse: Error, Hashable, Codable {
+public struct ErrorResponse: Error, Hashable, Codable, Sendable {
     public var errors: [Errors]?
 
     public init(errors: [Errors]? = nil) {
@@ -14,12 +14,16 @@ public struct ErrorResponse: Error, Hashable, Codable {
         case errors
     }
 
-    public struct Errors: Hashable, Codable {
+    public struct Errors: Hashable, Codable, Sendable {
         public var id: String?
 
         public var code: String
 
         public var detail: String
+
+        public var links: ErrorLinks?
+
+        public var meta: [String: Data]?
 
         public var source: Source?
 
@@ -31,6 +35,8 @@ public struct ErrorResponse: Error, Hashable, Codable {
             id: String? = nil,
             code: String,
             detail: String,
+            links: ErrorLinks? = nil,
+            meta: [String: Data]? = nil,
             source: Source? = nil,
             status: String,
             title: String
@@ -38,6 +44,8 @@ public struct ErrorResponse: Error, Hashable, Codable {
             self.id = id
             self.code = code
             self.detail = detail
+            self.links = links
+            self.meta = meta
             self.source = source
             self.status = status
             self.title = title
@@ -47,12 +55,14 @@ public struct ErrorResponse: Error, Hashable, Codable {
             case id
             case code
             case detail
+            case links
+            case meta
             case source
             case status
             case title
         }
 
-        public enum Source: Hashable, Codable {
+        public enum Source: Hashable, Codable, Sendable {
             case jsonPointer(JsonPointer)
             case parameter(Parameter)
 

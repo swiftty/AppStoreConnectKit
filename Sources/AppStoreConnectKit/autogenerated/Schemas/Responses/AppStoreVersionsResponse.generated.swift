@@ -3,7 +3,7 @@
 // swiftlint:disable all
 import Foundation
 
-public struct AppStoreVersionsResponse: Hashable, Codable {
+public struct AppStoreVersionsResponse: Hashable, Codable, Sendable {
     public var data: [AppStoreVersion]
 
     public var included: [Included]?
@@ -31,18 +31,20 @@ public struct AppStoreVersionsResponse: Hashable, Codable {
         case meta
     }
 
-    public enum Included: Hashable, Codable {
+    public enum Included: Hashable, Codable, Sendable {
         case app(App)
         case ageRatingDeclaration(AgeRatingDeclaration)
         case appStoreVersionLocalization(AppStoreVersionLocalization)
         case build(Build)
         case appStoreVersionPhasedRelease(AppStoreVersionPhasedRelease)
+        case gameCenterAppVersion(GameCenterAppVersion)
         case routingAppCoverage(RoutingAppCoverage)
         case appStoreReviewDetail(AppStoreReviewDetail)
         case appStoreVersionSubmission(AppStoreVersionSubmission)
         case appClipDefaultExperience(AppClipDefaultExperience)
         case appStoreVersionExperiment(AppStoreVersionExperiment)
         case appStoreVersionExperimentV2(AppStoreVersionExperimentV2)
+        case alternativeDistributionPackage(AlternativeDistributionPackage)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -69,6 +71,11 @@ public struct AppStoreVersionsResponse: Hashable, Codable {
                 }
                 do {
                     return .appStoreVersionPhasedRelease(try AppStoreVersionPhasedRelease(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterAppVersion(try GameCenterAppVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -102,6 +109,11 @@ public struct AppStoreVersionsResponse: Hashable, Codable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .alternativeDistributionPackage(try AlternativeDistributionPackage(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -123,6 +135,9 @@ public struct AppStoreVersionsResponse: Hashable, Codable {
             case .appStoreVersionPhasedRelease(let value):
                 try value.encode(to: encoder)
 
+            case .gameCenterAppVersion(let value):
+                try value.encode(to: encoder)
+
             case .routingAppCoverage(let value):
                 try value.encode(to: encoder)
 
@@ -139,6 +154,9 @@ public struct AppStoreVersionsResponse: Hashable, Codable {
                 try value.encode(to: encoder)
 
             case .appStoreVersionExperimentV2(let value):
+                try value.encode(to: encoder)
+
+            case .alternativeDistributionPackage(let value):
                 try value.encode(to: encoder)
             }
         }

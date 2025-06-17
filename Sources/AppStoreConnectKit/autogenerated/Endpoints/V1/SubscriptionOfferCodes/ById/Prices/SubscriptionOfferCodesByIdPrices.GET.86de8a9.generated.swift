@@ -52,8 +52,10 @@ extension V1.SubscriptionOfferCodes.ById.Prices {
 
         /// - Returns: **200**, List of SubscriptionOfferCodePrices as `SubscriptionOfferCodePricesResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
+        /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
+        /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
                 let decoder = JSONDecoder()
@@ -67,10 +69,16 @@ extension V1.SubscriptionOfferCodes.ById.Prices {
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
+            case 401:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 403:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
+            case 429:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             default:
@@ -100,78 +108,71 @@ extension V1.SubscriptionOfferCodes.ById.Prices.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
-            public enum SubscriptionOfferCodePrices: Hashable, Codable, RawRepresentable {
-                case subscriptionPricePoint
-                case territory
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .subscriptionPricePoint: return "subscriptionPricePoint"
-                    case .territory: return "territory"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionOfferCodePrices: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var subscriptionPricePoint: Self {
+                    .init(rawValue: "subscriptionPricePoint")
                 }
 
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "subscriptionPricePoint": self = .subscriptionPricePoint
-                    case "territory": self = .territory
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum SubscriptionPricePoints: Hashable, Codable, RawRepresentable {
-                case customerPrice
-                case equalizations
-                case proceeds
-                case proceedsYear2
-                case subscription
-                case territory
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .customerPrice: return "customerPrice"
-                    case .equalizations: return "equalizations"
-                    case .proceeds: return "proceeds"
-                    case .proceedsYear2: return "proceedsYear2"
-                    case .subscription: return "subscription"
-                    case .territory: return "territory"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct SubscriptionPricePoints: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var customerPrice: Self {
+                    .init(rawValue: "customerPrice")
                 }
 
+                public static var equalizations: Self {
+                    .init(rawValue: "equalizations")
+                }
+
+                public static var proceeds: Self {
+                    .init(rawValue: "proceeds")
+                }
+
+                public static var proceedsYear2: Self {
+                    .init(rawValue: "proceedsYear2")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "customerPrice": self = .customerPrice
-                    case "equalizations": self = .equalizations
-                    case "proceeds": self = .proceeds
-                    case "proceedsYear2": self = .proceedsYear2
-                    case "subscription": self = .subscription
-                    case "territory": self = .territory
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
-            public enum Territories: Hashable, Codable, RawRepresentable {
-                case currency
-                case unknown(String)
-
-                public var rawValue: String {
-                    switch self {
-                    case .currency: return "currency"
-                    case .unknown(let rawValue): return rawValue
-                    }
+            public struct Territories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var currency: Self {
+                    .init(rawValue: "currency")
                 }
 
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
                 public init(rawValue: String) {
-                    switch rawValue {
-                    case "currency": self = .currency
-                    default: self = .unknown(rawValue)
-                    }
+                    self.rawValue = rawValue
                 }
             }
 
@@ -221,25 +222,23 @@ extension V1.SubscriptionOfferCodes.ById.Prices.GET {
             }
         }
 
-        public enum Include: Hashable, Codable, RawRepresentable {
-            case subscriptionPricePoint
-            case territory
-            case unknown(String)
-
-            public var rawValue: String {
-                switch self {
-                case .subscriptionPricePoint: return "subscriptionPricePoint"
-                case .territory: return "territory"
-                case .unknown(let rawValue): return rawValue
-                }
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var subscriptionPricePoint: Self {
+                .init(rawValue: "subscriptionPricePoint")
             }
 
+            public static var territory: Self {
+                .init(rawValue: "territory")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
             public init(rawValue: String) {
-                switch rawValue {
-                case "subscriptionPricePoint": self = .subscriptionPricePoint
-                case "territory": self = .territory
-                default: self = .unknown(rawValue)
-                }
+                self.rawValue = rawValue
             }
         }
     }
