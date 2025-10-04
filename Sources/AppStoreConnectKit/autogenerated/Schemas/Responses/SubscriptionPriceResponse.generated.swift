@@ -27,19 +27,19 @@ public struct SubscriptionPriceResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case territory(Territory)
         case subscriptionPricePoint(SubscriptionPricePoint)
+        case territory(Territory)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .territory(try Territory(from: decoder))
+                    return .subscriptionPricePoint(try SubscriptionPricePoint(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .subscriptionPricePoint(try SubscriptionPricePoint(from: decoder))
+                    return .territory(try Territory(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -49,10 +49,10 @@ public struct SubscriptionPriceResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .territory(let value):
+            case .subscriptionPricePoint(let value):
                 try value.encode(to: encoder)
 
-            case .subscriptionPricePoint(let value):
+            case .territory(let value):
                 try value.encode(to: encoder)
             }
         }

@@ -42,8 +42,6 @@ public struct GameCenterChallengeCreateRequest: Hashable, Codable, Sendable {
         }
 
         public struct Attributes: Hashable, Codable, Sendable {
-            public var allowedDurations: [AllowedDurations]?
-
             public var challengeType: ChallengeType
 
             public var referenceName: String
@@ -53,13 +51,11 @@ public struct GameCenterChallengeCreateRequest: Hashable, Codable, Sendable {
             public var vendorIdentifier: String
 
             public init(
-                allowedDurations: [AllowedDurations]? = nil,
                 challengeType: ChallengeType,
                 referenceName: String,
                 repeatable: Bool? = nil,
                 vendorIdentifier: String
             ) {
-                self.allowedDurations = allowedDurations
                 self.challengeType = challengeType
                 self.referenceName = referenceName
                 self.repeatable = repeatable
@@ -67,35 +63,10 @@ public struct GameCenterChallengeCreateRequest: Hashable, Codable, Sendable {
             }
 
             private enum CodingKeys: String, CodingKey {
-                case allowedDurations
                 case challengeType
                 case referenceName
                 case repeatable
                 case vendorIdentifier
-            }
-
-            public struct AllowedDurations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-                public static var oneDay: Self {
-                    .init(rawValue: "ONE_DAY")
-                }
-
-                public static var oneWeek: Self {
-                    .init(rawValue: "ONE_WEEK")
-                }
-
-                public static var threeDays: Self {
-                    .init(rawValue: "THREE_DAYS")
-                }
-
-                public var description: String {
-                    rawValue
-                }
-
-                public var rawValue: String
-
-                public init(rawValue: String) {
-                    self.rawValue = rawValue
-                }
             }
 
             public struct ChallengeType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {

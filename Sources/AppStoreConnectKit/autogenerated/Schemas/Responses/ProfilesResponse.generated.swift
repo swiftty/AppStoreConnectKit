@@ -33,8 +33,8 @@ public struct ProfilesResponse: Hashable, Codable, Sendable {
 
     public enum Included: Hashable, Codable, Sendable {
         case bundleId(BundleId)
-        case device(Device)
         case certificate(Certificate)
+        case device(Device)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -45,12 +45,12 @@ public struct ProfilesResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .device(try Device(from: decoder))
+                    return .certificate(try Certificate(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .certificate(try Certificate(from: decoder))
+                    return .device(try Device(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -63,10 +63,10 @@ public struct ProfilesResponse: Hashable, Codable, Sendable {
             case .bundleId(let value):
                 try value.encode(to: encoder)
 
-            case .device(let value):
+            case .certificate(let value):
                 try value.encode(to: encoder)
 
-            case .certificate(let value):
+            case .device(let value):
                 try value.encode(to: encoder)
             }
         }

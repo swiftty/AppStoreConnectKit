@@ -4,20 +4,96 @@
 import Foundation
 
 public struct AppStoreAgeRating: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var all: Self {
+        .init(rawValue: "ALL")
+    }
+
+    public static var eightPlus: Self {
+        .init(rawValue: "EIGHT_PLUS")
+    }
+
+    public static var eighteenPlus: Self {
+        .init(rawValue: "EIGHTEEN_PLUS")
+    }
+
+    public static var elevenPlus: Self {
+        .init(rawValue: "ELEVEN_PLUS")
+    }
+
+    public static var fifteenPlus: Self {
+        .init(rawValue: "FIFTEEN_PLUS")
+    }
+
+    public static var fivePlus: Self {
+        .init(rawValue: "FIVE_PLUS")
+    }
+
     public static var fourPlus: Self {
         .init(rawValue: "FOUR_PLUS")
+    }
+
+    public static var fourteenPlus: Self {
+        .init(rawValue: "FOURTEEN_PLUS")
+    }
+
+    public static var l: Self {
+        .init(rawValue: "L")
     }
 
     public static var ninePlus: Self {
         .init(rawValue: "NINE_PLUS")
     }
 
+    public static var nineteenPlus: Self {
+        .init(rawValue: "NINETEEN_PLUS")
+    }
+
+    public static var onePlus: Self {
+        .init(rawValue: "ONE_PLUS")
+    }
+
+    public static var sevenPlus: Self {
+        .init(rawValue: "SEVEN_PLUS")
+    }
+
     public static var seventeenPlus: Self {
         .init(rawValue: "SEVENTEEN_PLUS")
     }
 
+    public static var sixPlus: Self {
+        .init(rawValue: "SIX_PLUS")
+    }
+
+    public static var sixteenPlus: Self {
+        .init(rawValue: "SIXTEEN_PLUS")
+    }
+
+    public static var tenPlus: Self {
+        .init(rawValue: "TEN_PLUS")
+    }
+
+    public static var thirteenPlus: Self {
+        .init(rawValue: "THIRTEEN_PLUS")
+    }
+
+    public static var threePlus: Self {
+        .init(rawValue: "THREE_PLUS")
+    }
+
     public static var twelvePlus: Self {
         .init(rawValue: "TWELVE_PLUS")
+    }
+
+    public static var twentyOnePlus: Self {
+        .init(rawValue: "TWENTY_ONE_PLUS")
+    }
+
+    public static var twentyPlus: Self {
+        .init(rawValue: "TWENTY_PLUS")
+    }
+
+    public static var twoPlus: Self {
+        .init(rawValue: "TWO_PLUS")
     }
 
     public static var unrated: Self {

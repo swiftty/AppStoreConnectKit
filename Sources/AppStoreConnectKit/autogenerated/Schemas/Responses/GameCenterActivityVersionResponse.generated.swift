@@ -28,8 +28,8 @@ public struct GameCenterActivityVersionResponse: Hashable, Codable, Sendable {
 
     public enum Included: Hashable, Codable, Sendable {
         case gameCenterActivity(GameCenterActivity)
-        case gameCenterActivityLocalization(GameCenterActivityLocalization)
         case gameCenterActivityImage(GameCenterActivityImage)
+        case gameCenterActivityLocalization(GameCenterActivityLocalization)
         case gameCenterActivityVersionRelease(GameCenterActivityVersionRelease)
 
         public init(from decoder: Decoder) throws {
@@ -41,12 +41,12 @@ public struct GameCenterActivityVersionResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .gameCenterActivityLocalization(try GameCenterActivityLocalization(from: decoder))
+                    return .gameCenterActivityImage(try GameCenterActivityImage(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .gameCenterActivityImage(try GameCenterActivityImage(from: decoder))
+                    return .gameCenterActivityLocalization(try GameCenterActivityLocalization(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -64,10 +64,10 @@ public struct GameCenterActivityVersionResponse: Hashable, Codable, Sendable {
             case .gameCenterActivity(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterActivityLocalization(let value):
+            case .gameCenterActivityImage(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterActivityImage(let value):
+            case .gameCenterActivityLocalization(let value):
                 try value.encode(to: encoder)
 
             case .gameCenterActivityVersionRelease(let value):

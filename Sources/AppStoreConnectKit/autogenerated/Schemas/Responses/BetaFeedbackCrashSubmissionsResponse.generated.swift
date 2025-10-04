@@ -32,19 +32,19 @@ public struct BetaFeedbackCrashSubmissionsResponse: Hashable, Codable, Sendable 
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case build(Build)
         case betaTester(BetaTester)
+        case build(Build)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .build(try Build(from: decoder))
+                    return .betaTester(try BetaTester(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .betaTester(try BetaTester(from: decoder))
+                    return .build(try Build(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -54,10 +54,10 @@ public struct BetaFeedbackCrashSubmissionsResponse: Hashable, Codable, Sendable 
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .build(let value):
+            case .betaTester(let value):
                 try value.encode(to: encoder)
 
-            case .betaTester(let value):
+            case .build(let value):
                 try value.encode(to: encoder)
             }
         }

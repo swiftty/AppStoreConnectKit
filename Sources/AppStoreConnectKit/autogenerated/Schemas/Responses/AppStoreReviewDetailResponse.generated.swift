@@ -27,19 +27,19 @@ public struct AppStoreReviewDetailResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case appStoreVersion(AppStoreVersion)
         case appStoreReviewAttachment(AppStoreReviewAttachment)
+        case appStoreVersion(AppStoreVersion)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .appStoreVersion(try AppStoreVersion(from: decoder))
+                    return .appStoreReviewAttachment(try AppStoreReviewAttachment(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .appStoreReviewAttachment(try AppStoreReviewAttachment(from: decoder))
+                    return .appStoreVersion(try AppStoreVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -49,10 +49,10 @@ public struct AppStoreReviewDetailResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .appStoreVersion(let value):
+            case .appStoreReviewAttachment(let value):
                 try value.encode(to: encoder)
 
-            case .appStoreReviewAttachment(let value):
+            case .appStoreVersion(let value):
                 try value.encode(to: encoder)
             }
         }

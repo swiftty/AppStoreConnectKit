@@ -493,6 +493,10 @@ extension V1.Apps.GET {
                     .init(rawValue: "state")
                 }
 
+                public static var territoryAgeRatings: Self {
+                    .init(rawValue: "territoryAgeRatings")
+                }
+
                 public var description: String {
                     rawValue
                 }
@@ -729,6 +733,10 @@ extension V1.Apps.GET {
                     .init(rawValue: "appStoreVersions")
                 }
 
+                public static var appTags: Self {
+                    .init(rawValue: "appTags")
+                }
+
                 public static var backgroundAssets: Self {
                     .init(rawValue: "backgroundAssets")
                 }
@@ -759,6 +767,10 @@ extension V1.Apps.GET {
 
                 public static var betaTesters: Self {
                     .init(rawValue: "betaTesters")
+                }
+
+                public static var buildUploads: Self {
+                    .init(rawValue: "buildUploads")
                 }
 
                 public static var builds: Self {
@@ -835,6 +847,10 @@ extension V1.Apps.GET {
 
                 public static var reviewSubmissions: Self {
                     .init(rawValue: "reviewSubmissions")
+                }
+
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
                 }
 
                 public static var sku: Self {
@@ -1107,6 +1123,10 @@ extension V1.Apps.GET {
 
                 public static var buildBundles: Self {
                     .init(rawValue: "buildBundles")
+                }
+
+                public static var buildUpload: Self {
+                    .init(rawValue: "buildUpload")
                 }
 
                 public static var computedMinMacOsVersion: Self {

@@ -70,31 +70,81 @@ public struct BackgroundAssetVersion: Hashable, Codable, Sendable {
     }
 
     public struct Relationships: Hashable, Codable, Sendable {
+        public var appStoreRelease: AppStoreRelease?
+
         public var assetFile: AssetFile?
 
+        public var backgroundAsset: BackgroundAsset?
+
         public var backgroundAssetUploadFiles: BackgroundAssetUploadFiles?
+
+        public var externalBetaRelease: ExternalBetaRelease?
 
         public var internalBetaRelease: InternalBetaRelease?
 
         public var manifestFile: ManifestFile?
 
         public init(
+            appStoreRelease: AppStoreRelease? = nil,
             assetFile: AssetFile? = nil,
+            backgroundAsset: BackgroundAsset? = nil,
             backgroundAssetUploadFiles: BackgroundAssetUploadFiles? = nil,
+            externalBetaRelease: ExternalBetaRelease? = nil,
             internalBetaRelease: InternalBetaRelease? = nil,
             manifestFile: ManifestFile? = nil
         ) {
+            self.appStoreRelease = appStoreRelease
             self.assetFile = assetFile
+            self.backgroundAsset = backgroundAsset
             self.backgroundAssetUploadFiles = backgroundAssetUploadFiles
+            self.externalBetaRelease = externalBetaRelease
             self.internalBetaRelease = internalBetaRelease
             self.manifestFile = manifestFile
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appStoreRelease
             case assetFile
+            case backgroundAsset
             case backgroundAssetUploadFiles
+            case externalBetaRelease
             case internalBetaRelease
             case manifestFile
+        }
+
+        public struct AppStoreRelease: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case backgroundAssetVersionAppStoreReleases
+                }
+            }
         }
 
         public struct AssetFile: Hashable, Codable, Sendable {
@@ -132,6 +182,41 @@ public struct BackgroundAssetVersion: Hashable, Codable, Sendable {
             }
         }
 
+        public struct BackgroundAsset: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case backgroundAssets
+                }
+            }
+        }
+
         public struct BackgroundAssetUploadFiles: Hashable, Codable, Sendable {
             public var links: RelationshipLinks?
 
@@ -141,6 +226,41 @@ public struct BackgroundAssetVersion: Hashable, Codable, Sendable {
 
             private enum CodingKeys: String, CodingKey {
                 case links
+            }
+        }
+
+        public struct ExternalBetaRelease: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case backgroundAssetVersionExternalBetaReleases
+                }
             }
         }
 

@@ -219,6 +219,10 @@ extension V1.AppInfos.ById.AppInfoLocalizations.GET {
                     .init(rawValue: "state")
                 }
 
+                public static var territoryAgeRatings: Self {
+                    .init(rawValue: "territoryAgeRatings")
+                }
+
                 public var description: String {
                     rawValue
                 }

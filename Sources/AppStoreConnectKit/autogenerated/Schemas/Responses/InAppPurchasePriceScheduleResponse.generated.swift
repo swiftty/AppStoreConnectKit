@@ -27,19 +27,19 @@ public struct InAppPurchasePriceScheduleResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case territory(Territory)
         case inAppPurchasePrice(InAppPurchasePrice)
+        case territory(Territory)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .territory(try Territory(from: decoder))
+                    return .inAppPurchasePrice(try InAppPurchasePrice(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .inAppPurchasePrice(try InAppPurchasePrice(from: decoder))
+                    return .territory(try Territory(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -49,10 +49,10 @@ public struct InAppPurchasePriceScheduleResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .territory(let value):
+            case .inAppPurchasePrice(let value):
                 try value.encode(to: encoder)
 
-            case .inAppPurchasePrice(let value):
+            case .territory(let value):
                 try value.encode(to: encoder)
             }
         }

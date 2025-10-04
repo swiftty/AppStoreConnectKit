@@ -55,6 +55,8 @@ public struct SubscriptionOfferCode: Hashable, Codable, Sendable {
 
         public var offerMode: SubscriptionOfferMode?
 
+        public var totalNumberOfCodes: Int?
+
         public init(
             active: Bool? = nil,
             customerEligibilities: [SubscriptionCustomerEligibility]? = nil,
@@ -62,7 +64,8 @@ public struct SubscriptionOfferCode: Hashable, Codable, Sendable {
             name: String? = nil,
             numberOfPeriods: Int? = nil,
             offerEligibility: SubscriptionOfferEligibility? = nil,
-            offerMode: SubscriptionOfferMode? = nil
+            offerMode: SubscriptionOfferMode? = nil,
+            totalNumberOfCodes: Int? = nil
         ) {
             self.active = active
             self.customerEligibilities = customerEligibilities
@@ -71,6 +74,7 @@ public struct SubscriptionOfferCode: Hashable, Codable, Sendable {
             self.numberOfPeriods = numberOfPeriods
             self.offerEligibility = offerEligibility
             self.offerMode = offerMode
+            self.totalNumberOfCodes = totalNumberOfCodes
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -81,6 +85,7 @@ public struct SubscriptionOfferCode: Hashable, Codable, Sendable {
             case numberOfPeriods
             case offerEligibility
             case offerMode
+            case totalNumberOfCodes
         }
     }
 

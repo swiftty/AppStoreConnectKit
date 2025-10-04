@@ -182,10 +182,6 @@ extension V1.GameCenterLeaderboardSetMemberLocalizations.ById.GameCenterLeaderbo
             }
 
             public struct GameCenterChallenges: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-                public static var allowedDurations: Self {
-                    .init(rawValue: "allowedDurations")
-                }
-
                 public static var archived: Self {
                     .init(rawValue: "archived")
                 }
@@ -358,6 +354,10 @@ extension V1.GameCenterLeaderboardSetMemberLocalizations.ById.GameCenterLeaderbo
             }
 
             public struct GameCenterLeaderboardLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var description: Self {
+                    .init(rawValue: "description")
+                }
+
                 public static var formatterOverride: Self {
                     .init(rawValue: "formatterOverride")
                 }

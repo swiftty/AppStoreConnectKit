@@ -32,19 +32,19 @@ public struct PreReleaseVersionsResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case build(Build)
         case app(App)
+        case build(Build)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .build(try Build(from: decoder))
+                    return .app(try App(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .app(try App(from: decoder))
+                    return .build(try Build(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -54,10 +54,10 @@ public struct PreReleaseVersionsResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .build(let value):
+            case .app(let value):
                 try value.encode(to: encoder)
 
-            case .app(let value):
+            case .build(let value):
                 try value.encode(to: encoder)
             }
         }

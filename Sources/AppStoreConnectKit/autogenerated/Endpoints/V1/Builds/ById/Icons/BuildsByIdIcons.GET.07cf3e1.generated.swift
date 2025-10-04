@@ -104,6 +104,10 @@ extension V1.Builds.ById.Icons.GET {
                     .init(rawValue: "iconType")
                 }
 
+                public static var masked: Self {
+                    .init(rawValue: "masked")
+                }
+
                 public static var name: Self {
                     .init(rawValue: "name")
                 }

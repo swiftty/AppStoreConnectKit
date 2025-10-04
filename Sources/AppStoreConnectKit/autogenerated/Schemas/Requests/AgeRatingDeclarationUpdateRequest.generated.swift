@@ -42,13 +42,28 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
         }
 
         public struct Attributes: Hashable, Codable, Sendable {
+            public var advertising: Bool?
+
+            public var ageAssurance: Bool?
+
+            @available(*, deprecated)
+            public var ageRatingOverride: AgeRatingOverride?
+
+            public var ageRatingOverrideV2: AgeRatingOverrideV2?
+
             public var alcoholTobaccoOrDrugUseOrReferences: AlcoholTobaccoOrDrugUseOrReferences?
 
             public var contests: Contests?
 
+            public var developerAgeRatingInfoUrl: URL?
+
             public var gambling: Bool?
 
             public var gamblingSimulated: GamblingSimulated?
+
+            public var gunsOrOtherWeapons: GunsOrOtherWeapons?
+
+            public var healthOrWellnessTopics: Bool?
 
             public var horrorOrFearThemes: HorrorOrFearThemes?
 
@@ -62,6 +77,10 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
 
             public var medicalOrTreatmentInformation: MedicalOrTreatmentInformation?
 
+            public var messagingAndChat: Bool?
+
+            public var parentalControls: Bool?
+
             public var profanityOrCrudeHumor: ProfanityOrCrudeHumor?
 
             public var sexualContentGraphicAndNudity: SexualContentGraphicAndNudity?
@@ -70,6 +89,8 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
 
             public var unrestrictedWebAccess: Bool?
 
+            public var userGeneratedContent: Bool?
+
             public var violenceCartoonOrFantasy: ViolenceCartoonOrFantasy?
 
             public var violenceRealistic: ViolenceRealistic?
@@ -77,64 +98,182 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             public var violenceRealisticProlongedGraphicOrSadistic: ViolenceRealisticProlongedGraphicOrSadistic?
 
             public init(
+                advertising: Bool? = nil,
+                ageAssurance: Bool? = nil,
+                ageRatingOverride: AgeRatingOverride? = nil,
+                ageRatingOverrideV2: AgeRatingOverrideV2? = nil,
                 alcoholTobaccoOrDrugUseOrReferences: AlcoholTobaccoOrDrugUseOrReferences? = nil,
                 contests: Contests? = nil,
+                developerAgeRatingInfoUrl: URL? = nil,
                 gambling: Bool? = nil,
                 gamblingSimulated: GamblingSimulated? = nil,
+                gunsOrOtherWeapons: GunsOrOtherWeapons? = nil,
+                healthOrWellnessTopics: Bool? = nil,
                 horrorOrFearThemes: HorrorOrFearThemes? = nil,
                 kidsAgeBand: KidsAgeBand? = nil,
                 koreaAgeRatingOverride: KoreaAgeRatingOverride? = nil,
                 lootBox: Bool? = nil,
                 matureOrSuggestiveThemes: MatureOrSuggestiveThemes? = nil,
                 medicalOrTreatmentInformation: MedicalOrTreatmentInformation? = nil,
+                messagingAndChat: Bool? = nil,
+                parentalControls: Bool? = nil,
                 profanityOrCrudeHumor: ProfanityOrCrudeHumor? = nil,
                 sexualContentGraphicAndNudity: SexualContentGraphicAndNudity? = nil,
                 sexualContentOrNudity: SexualContentOrNudity? = nil,
                 unrestrictedWebAccess: Bool? = nil,
+                userGeneratedContent: Bool? = nil,
                 violenceCartoonOrFantasy: ViolenceCartoonOrFantasy? = nil,
                 violenceRealistic: ViolenceRealistic? = nil,
                 violenceRealisticProlongedGraphicOrSadistic: ViolenceRealisticProlongedGraphicOrSadistic? = nil
             ) {
+                self.advertising = advertising
+                self.ageAssurance = ageAssurance
+                self.ageRatingOverride = ageRatingOverride
+                self.ageRatingOverrideV2 = ageRatingOverrideV2
                 self.alcoholTobaccoOrDrugUseOrReferences = alcoholTobaccoOrDrugUseOrReferences
                 self.contests = contests
+                self.developerAgeRatingInfoUrl = developerAgeRatingInfoUrl
                 self.gambling = gambling
                 self.gamblingSimulated = gamblingSimulated
+                self.gunsOrOtherWeapons = gunsOrOtherWeapons
+                self.healthOrWellnessTopics = healthOrWellnessTopics
                 self.horrorOrFearThemes = horrorOrFearThemes
                 self.kidsAgeBand = kidsAgeBand
                 self.koreaAgeRatingOverride = koreaAgeRatingOverride
                 self.lootBox = lootBox
                 self.matureOrSuggestiveThemes = matureOrSuggestiveThemes
                 self.medicalOrTreatmentInformation = medicalOrTreatmentInformation
+                self.messagingAndChat = messagingAndChat
+                self.parentalControls = parentalControls
                 self.profanityOrCrudeHumor = profanityOrCrudeHumor
                 self.sexualContentGraphicAndNudity = sexualContentGraphicAndNudity
                 self.sexualContentOrNudity = sexualContentOrNudity
                 self.unrestrictedWebAccess = unrestrictedWebAccess
+                self.userGeneratedContent = userGeneratedContent
                 self.violenceCartoonOrFantasy = violenceCartoonOrFantasy
                 self.violenceRealistic = violenceRealistic
                 self.violenceRealisticProlongedGraphicOrSadistic = violenceRealisticProlongedGraphicOrSadistic
             }
 
             private enum CodingKeys: String, CodingKey {
+                case advertising
+                case ageAssurance
+                case ageRatingOverride
+                case ageRatingOverrideV2
                 case alcoholTobaccoOrDrugUseOrReferences
                 case contests
+                case developerAgeRatingInfoUrl
                 case gambling
                 case gamblingSimulated
+                case gunsOrOtherWeapons
+                case healthOrWellnessTopics
                 case horrorOrFearThemes
                 case kidsAgeBand
                 case koreaAgeRatingOverride
                 case lootBox
                 case matureOrSuggestiveThemes
                 case medicalOrTreatmentInformation
+                case messagingAndChat
+                case parentalControls
                 case profanityOrCrudeHumor
                 case sexualContentGraphicAndNudity
                 case sexualContentOrNudity
                 case unrestrictedWebAccess
+                case userGeneratedContent
                 case violenceCartoonOrFantasy
                 case violenceRealistic
                 case violenceRealisticProlongedGraphicOrSadistic
             }
 
+            public struct AgeRatingOverride: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var ninePlus: Self {
+                    .init(rawValue: "NINE_PLUS")
+                }
+
+                public static var none: Self {
+                    .init(rawValue: "NONE")
+                }
+
+                public static var seventeenPlus: Self {
+                    .init(rawValue: "SEVENTEEN_PLUS")
+                }
+
+                public static var sixteenPlus: Self {
+                    .init(rawValue: "SIXTEEN_PLUS")
+                }
+
+                public static var thirteenPlus: Self {
+                    .init(rawValue: "THIRTEEN_PLUS")
+                }
+
+                public static var unrated: Self {
+                    .init(rawValue: "UNRATED")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct AgeRatingOverrideV2: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var eighteenPlus: Self {
+                    .init(rawValue: "EIGHTEEN_PLUS")
+                }
+
+                public static var ninePlus: Self {
+                    .init(rawValue: "NINE_PLUS")
+                }
+
+                public static var none: Self {
+                    .init(rawValue: "NONE")
+                }
+
+                public static var sixteenPlus: Self {
+                    .init(rawValue: "SIXTEEN_PLUS")
+                }
+
+                public static var thirteenPlus: Self {
+                    .init(rawValue: "THIRTEEN_PLUS")
+                }
+
+                public static var unrated: Self {
+                    .init(rawValue: "UNRATED")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct AlcoholTobaccoOrDrugUseOrReferences: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -151,6 +290,22 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct Contests: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -167,6 +322,54 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct GamblingSimulated: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
+                public static var none: Self {
+                    .init(rawValue: "NONE")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GunsOrOtherWeapons: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -183,6 +386,22 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct HorrorOrFearThemes: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -223,6 +442,22 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct MatureOrSuggestiveThemes: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -239,6 +474,22 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct MedicalOrTreatmentInformation: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -255,6 +506,22 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct ProfanityOrCrudeHumor: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -271,6 +538,22 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct SexualContentGraphicAndNudity: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -287,6 +570,22 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct SexualContentOrNudity: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -303,6 +602,22 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct ViolenceCartoonOrFantasy: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -319,6 +634,22 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct ViolenceRealistic: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }
@@ -335,6 +666,22 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct ViolenceRealisticProlongedGraphicOrSadistic: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var frequent: Self {
+                    .init(rawValue: "FREQUENT")
+                }
+
+                public static var frequentOrIntense: Self {
+                    .init(rawValue: "FREQUENT_OR_INTENSE")
+                }
+
+                public static var infrequent: Self {
+                    .init(rawValue: "INFREQUENT")
+                }
+
+                public static var infrequentOrMild: Self {
+                    .init(rawValue: "INFREQUENT_OR_MILD")
+                }
+
                 public static var none: Self {
                     .init(rawValue: "NONE")
                 }

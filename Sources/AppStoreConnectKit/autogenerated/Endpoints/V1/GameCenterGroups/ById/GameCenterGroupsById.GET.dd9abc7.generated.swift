@@ -250,10 +250,6 @@ extension V1.GameCenterGroups.ById.GET {
             }
 
             public struct GameCenterChallenges: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-                public static var allowedDurations: Self {
-                    .init(rawValue: "allowedDurations")
-                }
-
                 public static var archived: Self {
                     .init(rawValue: "archived")
                 }

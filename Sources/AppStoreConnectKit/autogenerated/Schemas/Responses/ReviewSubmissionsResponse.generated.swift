@@ -32,14 +32,24 @@ public struct ReviewSubmissionsResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
+        case actor(Actor)
+        case appStoreVersion(AppStoreVersion)
         case app(App)
         case reviewSubmissionItem(ReviewSubmissionItem)
-        case appStoreVersion(AppStoreVersion)
-        case actor(Actor)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
+                do {
+                    return .actor(try Actor(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appStoreVersion(try AppStoreVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 do {
                     return .app(try App(from: decoder))
                 } catch {
@@ -50,32 +60,22 @@ public struct ReviewSubmissionsResponse: Hashable, Codable, Sendable {
                 } catch {
                     lastError = error
                 }
-                do {
-                    return .appStoreVersion(try AppStoreVersion(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .actor(try Actor(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 throw lastError
             }()
         }
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .app(let value):
-                try value.encode(to: encoder)
-
-            case .reviewSubmissionItem(let value):
+            case .actor(let value):
                 try value.encode(to: encoder)
 
             case .appStoreVersion(let value):
                 try value.encode(to: encoder)
 
-            case .actor(let value):
+            case .app(let value):
+                try value.encode(to: encoder)
+
+            case .reviewSubmissionItem(let value):
                 try value.encode(to: encoder)
             }
         }

@@ -36,6 +36,8 @@ extension V1.ReviewSubmissions.ById.Items {
                              value: parameters.fields[.appStoreVersionExperiments]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersions]",
                              value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[backgroundAssetVersions]",
+                             value: parameters.fields[.backgroundAssetVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[reviewSubmissionItems]",
                              value: parameters.fields[.reviewSubmissionItems]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -368,6 +370,62 @@ extension V1.ReviewSubmissions.ById.Items.GET {
                 }
             }
 
+            public struct BackgroundAssetVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStoreRelease: Self {
+                    .init(rawValue: "appStoreRelease")
+                }
+
+                public static var assetFile: Self {
+                    .init(rawValue: "assetFile")
+                }
+
+                public static var backgroundAsset: Self {
+                    .init(rawValue: "backgroundAsset")
+                }
+
+                public static var backgroundAssetUploadFiles: Self {
+                    .init(rawValue: "backgroundAssetUploadFiles")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var externalBetaRelease: Self {
+                    .init(rawValue: "externalBetaRelease")
+                }
+
+                public static var internalBetaRelease: Self {
+                    .init(rawValue: "internalBetaRelease")
+                }
+
+                public static var manifestFile: Self {
+                    .init(rawValue: "manifestFile")
+                }
+
+                public static var platforms: Self {
+                    .init(rawValue: "platforms")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct ReviewSubmissionItems: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appCustomProductPageVersion: Self {
                     .init(rawValue: "appCustomProductPageVersion")
@@ -387,6 +445,10 @@ extension V1.ReviewSubmissions.ById.Items.GET {
 
                 public static var appStoreVersionExperimentV2: Self {
                     .init(rawValue: "appStoreVersionExperimentV2")
+                }
+
+                public static var backgroundAssetVersion: Self {
+                    .init(rawValue: "backgroundAssetVersion")
                 }
 
                 public static var state: Self {
@@ -425,6 +487,11 @@ extension V1.ReviewSubmissions.ById.Items.GET {
                     .init(key: "fields[appStoreVersions]")
                 }
 
+                /// the fields to include for returned resources of type backgroundAssetVersions
+                public static var backgroundAssetVersions: Relation<[BackgroundAssetVersions]?> {
+                    .init(key: "fields[backgroundAssetVersions]")
+                }
+
                 /// the fields to include for returned resources of type reviewSubmissionItems
                 public static var reviewSubmissionItems: Relation<[ReviewSubmissionItems]?> {
                     .init(key: "fields[reviewSubmissionItems]")
@@ -457,6 +524,10 @@ extension V1.ReviewSubmissions.ById.Items.GET {
 
             public static var appStoreVersionExperimentV2: Self {
                 .init(rawValue: "appStoreVersionExperimentV2")
+            }
+
+            public static var backgroundAssetVersion: Self {
+                .init(rawValue: "backgroundAssetVersion")
             }
 
             public var description: String {

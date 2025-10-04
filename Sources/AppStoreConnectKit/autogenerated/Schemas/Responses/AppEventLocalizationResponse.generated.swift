@@ -27,18 +27,13 @@ public struct AppEventLocalizationResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case appEvent(AppEvent)
         case appEventScreenshot(AppEventScreenshot)
         case appEventVideoClip(AppEventVideoClip)
+        case appEvent(AppEvent)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
-                do {
-                    return .appEvent(try AppEvent(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 do {
                     return .appEventScreenshot(try AppEventScreenshot(from: decoder))
                 } catch {
@@ -49,19 +44,24 @@ public struct AppEventLocalizationResponse: Hashable, Codable, Sendable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .appEvent(try AppEvent(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .appEvent(let value):
-                try value.encode(to: encoder)
-
             case .appEventScreenshot(let value):
                 try value.encode(to: encoder)
 
             case .appEventVideoClip(let value):
+                try value.encode(to: encoder)
+
+            case .appEvent(let value):
                 try value.encode(to: encoder)
             }
         }

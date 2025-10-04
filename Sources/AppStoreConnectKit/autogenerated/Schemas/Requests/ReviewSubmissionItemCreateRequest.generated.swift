@@ -47,6 +47,8 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
 
             public var appStoreVersionExperimentV2: AppStoreVersionExperimentV2?
 
+            public var backgroundAssetVersion: BackgroundAssetVersion?
+
             public var reviewSubmission: ReviewSubmission
 
             public init(
@@ -55,6 +57,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
                 appStoreVersion: AppStoreVersion? = nil,
                 appStoreVersionExperiment: AppStoreVersionExperiment? = nil,
                 appStoreVersionExperimentV2: AppStoreVersionExperimentV2? = nil,
+                backgroundAssetVersion: BackgroundAssetVersion? = nil,
                 reviewSubmission: ReviewSubmission
             ) {
                 self.appCustomProductPageVersion = appCustomProductPageVersion
@@ -62,6 +65,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
                 self.appStoreVersion = appStoreVersion
                 self.appStoreVersionExperiment = appStoreVersionExperiment
                 self.appStoreVersionExperimentV2 = appStoreVersionExperimentV2
+                self.backgroundAssetVersion = backgroundAssetVersion
                 self.reviewSubmission = reviewSubmission
             }
 
@@ -71,6 +75,7 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
                 case appStoreVersion
                 case appStoreVersionExperiment
                 case appStoreVersionExperimentV2
+                case backgroundAssetVersion
                 case reviewSubmission
             }
 
@@ -245,6 +250,41 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
 
                     public enum `Type`: String, Hashable, Codable, Sendable {
                         case appStoreVersionExperiments
+                    }
+                }
+            }
+
+            public struct BackgroundAssetVersion: Hashable, Codable, Sendable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case backgroundAssetVersions
                     }
                 }
             }

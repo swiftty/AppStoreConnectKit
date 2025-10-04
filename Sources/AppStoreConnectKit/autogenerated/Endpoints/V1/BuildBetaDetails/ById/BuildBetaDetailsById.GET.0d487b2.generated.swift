@@ -162,6 +162,10 @@ extension V1.BuildBetaDetails.ById.GET {
                     .init(rawValue: "buildBundles")
                 }
 
+                public static var buildUpload: Self {
+                    .init(rawValue: "buildUpload")
+                }
+
                 public static var computedMinMacOsVersion: Self {
                     .init(rawValue: "computedMinMacOsVersion")
                 }

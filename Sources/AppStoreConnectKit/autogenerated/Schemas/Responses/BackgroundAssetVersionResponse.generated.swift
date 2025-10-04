@@ -27,19 +27,37 @@ public struct BackgroundAssetVersionResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case backgroundAssetVersionInternalBetaRelease(BackgroundAssetVersionInternalBetaRelease)
         case backgroundAssetUploadFile(BackgroundAssetUploadFile)
+        case backgroundAssetVersionAppStoreRelease(BackgroundAssetVersionAppStoreRelease)
+        case backgroundAssetVersionExternalBetaRelease(BackgroundAssetVersionExternalBetaRelease)
+        case backgroundAssetVersionInternalBetaRelease(BackgroundAssetVersionInternalBetaRelease)
+        case backgroundAsset(BackgroundAsset)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
+                do {
+                    return .backgroundAssetUploadFile(try BackgroundAssetUploadFile(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .backgroundAssetVersionAppStoreRelease(try BackgroundAssetVersionAppStoreRelease(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .backgroundAssetVersionExternalBetaRelease(try BackgroundAssetVersionExternalBetaRelease(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 do {
                     return .backgroundAssetVersionInternalBetaRelease(try BackgroundAssetVersionInternalBetaRelease(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .backgroundAssetUploadFile(try BackgroundAssetUploadFile(from: decoder))
+                    return .backgroundAsset(try BackgroundAsset(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -49,10 +67,19 @@ public struct BackgroundAssetVersionResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
+            case .backgroundAssetUploadFile(let value):
+                try value.encode(to: encoder)
+
+            case .backgroundAssetVersionAppStoreRelease(let value):
+                try value.encode(to: encoder)
+
+            case .backgroundAssetVersionExternalBetaRelease(let value):
+                try value.encode(to: encoder)
+
             case .backgroundAssetVersionInternalBetaRelease(let value):
                 try value.encode(to: encoder)
 
-            case .backgroundAssetUploadFile(let value):
+            case .backgroundAsset(let value):
                 try value.encode(to: encoder)
             }
         }

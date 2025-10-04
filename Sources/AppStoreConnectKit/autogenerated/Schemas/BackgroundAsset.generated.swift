@@ -60,21 +60,141 @@ public struct BackgroundAsset: Hashable, Codable, Sendable {
     }
 
     public struct Relationships: Hashable, Codable, Sendable {
+        public var app: App?
+
+        public var appStoreVersion: AppStoreVersion?
+
+        public var externalBetaVersion: ExternalBetaVersion?
+
         public var internalBetaVersion: InternalBetaVersion?
 
         public var versions: Versions?
 
         public init(
+            app: App? = nil,
+            appStoreVersion: AppStoreVersion? = nil,
+            externalBetaVersion: ExternalBetaVersion? = nil,
             internalBetaVersion: InternalBetaVersion? = nil,
             versions: Versions? = nil
         ) {
+            self.app = app
+            self.appStoreVersion = appStoreVersion
+            self.externalBetaVersion = externalBetaVersion
             self.internalBetaVersion = internalBetaVersion
             self.versions = versions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case app
+            case appStoreVersion
+            case externalBetaVersion
             case internalBetaVersion
             case versions
+        }
+
+        public struct App: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case apps
+                }
+            }
+        }
+
+        public struct AppStoreVersion: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case backgroundAssetVersions
+                }
+            }
+        }
+
+        public struct ExternalBetaVersion: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case backgroundAssetVersions
+                }
+            }
         }
 
         public struct InternalBetaVersion: Hashable, Codable, Sendable {

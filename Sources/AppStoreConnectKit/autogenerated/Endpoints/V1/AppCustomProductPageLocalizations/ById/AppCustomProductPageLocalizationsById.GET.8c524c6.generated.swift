@@ -39,7 +39,9 @@ extension V1.AppCustomProductPageLocalizations.ById {
                 URLQueryItem(name: "limit[appPreviewSets]",
                              value: parameters.limit[.appPreviewSets].map { "\($0)" }),
                 URLQueryItem(name: "limit[appScreenshotSets]",
-                             value: parameters.limit[.appScreenshotSets].map { "\($0)" })
+                             value: parameters.limit[.appScreenshotSets].map { "\($0)" }),
+                URLQueryItem(name: "limit[searchKeywords]",
+                             value: parameters.limit[.searchKeywords].map { "\($0)" })
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -124,6 +126,10 @@ extension V1.AppCustomProductPageLocalizations.ById.GET {
 
                 public static var promotionalText: Self {
                     .init(rawValue: "promotionalText")
+                }
+
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
                 }
 
                 public var description: String {
@@ -238,6 +244,10 @@ extension V1.AppCustomProductPageLocalizations.ById.GET {
                 .init(rawValue: "appScreenshotSets")
             }
 
+            public static var searchKeywords: Self {
+                .init(rawValue: "searchKeywords")
+            }
+
             public var description: String {
                 rawValue
             }
@@ -266,6 +276,11 @@ extension V1.AppCustomProductPageLocalizations.ById.GET {
                 /// maximum number of related appScreenshotSets returned (when they are included)
                 public static var appScreenshotSets: Relation<Int?> {
                     .init(key: "limit[appScreenshotSets]")
+                }
+
+                /// maximum number of related searchKeywords returned (when they are included)
+                public static var searchKeywords: Relation<Int?> {
+                    .init(key: "limit[searchKeywords]")
                 }
 
                 internal let key: String

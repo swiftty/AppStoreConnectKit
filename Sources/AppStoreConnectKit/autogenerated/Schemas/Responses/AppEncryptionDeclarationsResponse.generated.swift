@@ -32,13 +32,18 @@ public struct AppEncryptionDeclarationsResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
+        case appEncryptionDeclarationDocument(AppEncryptionDeclarationDocument)
         case app(App)
         case build(Build)
-        case appEncryptionDeclarationDocument(AppEncryptionDeclarationDocument)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
+                do {
+                    return .appEncryptionDeclarationDocument(try AppEncryptionDeclarationDocument(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 do {
                     return .app(try App(from: decoder))
                 } catch {
@@ -49,24 +54,19 @@ public struct AppEncryptionDeclarationsResponse: Hashable, Codable, Sendable {
                 } catch {
                     lastError = error
                 }
-                do {
-                    return .appEncryptionDeclarationDocument(try AppEncryptionDeclarationDocument(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 throw lastError
             }()
         }
 
         public func encode(to encoder: Encoder) throws {
             switch self {
+            case .appEncryptionDeclarationDocument(let value):
+                try value.encode(to: encoder)
+
             case .app(let value):
                 try value.encode(to: encoder)
 
             case .build(let value):
-                try value.encode(to: encoder)
-
-            case .appEncryptionDeclarationDocument(let value):
                 try value.encode(to: encoder)
             }
         }

@@ -297,6 +297,8 @@ public struct AppInfo: Hashable, Codable, Sendable {
 
         public var secondarySubcategoryTwo: SecondarySubcategoryTwo?
 
+        public var territoryAgeRatings: TerritoryAgeRatings?
+
         public init(
             ageRatingDeclaration: AgeRatingDeclaration? = nil,
             app: App? = nil,
@@ -306,7 +308,8 @@ public struct AppInfo: Hashable, Codable, Sendable {
             primarySubcategoryTwo: PrimarySubcategoryTwo? = nil,
             secondaryCategory: SecondaryCategory? = nil,
             secondarySubcategoryOne: SecondarySubcategoryOne? = nil,
-            secondarySubcategoryTwo: SecondarySubcategoryTwo? = nil
+            secondarySubcategoryTwo: SecondarySubcategoryTwo? = nil,
+            territoryAgeRatings: TerritoryAgeRatings? = nil
         ) {
             self.ageRatingDeclaration = ageRatingDeclaration
             self.app = app
@@ -317,6 +320,7 @@ public struct AppInfo: Hashable, Codable, Sendable {
             self.secondaryCategory = secondaryCategory
             self.secondarySubcategoryOne = secondarySubcategoryOne
             self.secondarySubcategoryTwo = secondarySubcategoryTwo
+            self.territoryAgeRatings = territoryAgeRatings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -329,6 +333,7 @@ public struct AppInfo: Hashable, Codable, Sendable {
             case secondaryCategory
             case secondarySubcategoryOne
             case secondarySubcategoryTwo
+            case territoryAgeRatings
         }
 
         public struct AgeRatingDeclaration: Hashable, Codable, Sendable {
@@ -704,6 +709,18 @@ public struct AppInfo: Hashable, Codable, Sendable {
                 public enum `Type`: String, Hashable, Codable, Sendable {
                     case appCategories
                 }
+            }
+        }
+
+        public struct TerritoryAgeRatings: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
             }
         }
     }

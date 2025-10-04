@@ -47,8 +47,6 @@ public struct GameCenterChallengeUpdateRequest: Hashable, Codable, Sendable {
         }
 
         public struct Attributes: Hashable, Codable, Sendable {
-            public var allowedDurations: [AllowedDurations]?
-
             public var archived: Bool?
 
             public var referenceName: String?
@@ -56,46 +54,19 @@ public struct GameCenterChallengeUpdateRequest: Hashable, Codable, Sendable {
             public var repeatable: Bool?
 
             public init(
-                allowedDurations: [AllowedDurations]? = nil,
                 archived: Bool? = nil,
                 referenceName: String? = nil,
                 repeatable: Bool? = nil
             ) {
-                self.allowedDurations = allowedDurations
                 self.archived = archived
                 self.referenceName = referenceName
                 self.repeatable = repeatable
             }
 
             private enum CodingKeys: String, CodingKey {
-                case allowedDurations
                 case archived
                 case referenceName
                 case repeatable
-            }
-
-            public struct AllowedDurations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-                public static var oneDay: Self {
-                    .init(rawValue: "ONE_DAY")
-                }
-
-                public static var oneWeek: Self {
-                    .init(rawValue: "ONE_WEEK")
-                }
-
-                public static var threeDays: Self {
-                    .init(rawValue: "THREE_DAYS")
-                }
-
-                public var description: String {
-                    rawValue
-                }
-
-                public var rawValue: String
-
-                public init(rawValue: String) {
-                    self.rawValue = rawValue
-                }
             }
         }
 

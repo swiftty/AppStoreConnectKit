@@ -27,23 +27,23 @@ public struct SubscriptionResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case subscriptionLocalization(SubscriptionLocalization)
+        case promotedPurchase(PromotedPurchase)
         case subscriptionAppStoreReviewScreenshot(SubscriptionAppStoreReviewScreenshot)
+        case subscriptionAvailability(SubscriptionAvailability)
         case subscriptionGroup(SubscriptionGroup)
+        case subscriptionImage(SubscriptionImage)
         case subscriptionIntroductoryOffer(SubscriptionIntroductoryOffer)
-        case subscriptionPromotionalOffer(SubscriptionPromotionalOffer)
+        case subscriptionLocalization(SubscriptionLocalization)
         case subscriptionOfferCode(SubscriptionOfferCode)
         case subscriptionPrice(SubscriptionPrice)
-        case promotedPurchase(PromotedPurchase)
-        case subscriptionAvailability(SubscriptionAvailability)
+        case subscriptionPromotionalOffer(SubscriptionPromotionalOffer)
         case winBackOffer(WinBackOffer)
-        case subscriptionImage(SubscriptionImage)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .subscriptionLocalization(try SubscriptionLocalization(from: decoder))
+                    return .promotedPurchase(try PromotedPurchase(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -53,7 +53,17 @@ public struct SubscriptionResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
+                    return .subscriptionAvailability(try SubscriptionAvailability(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
                     return .subscriptionGroup(try SubscriptionGroup(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .subscriptionImage(try SubscriptionImage(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -63,7 +73,7 @@ public struct SubscriptionResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .subscriptionPromotionalOffer(try SubscriptionPromotionalOffer(from: decoder))
+                    return .subscriptionLocalization(try SubscriptionLocalization(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -78,22 +88,12 @@ public struct SubscriptionResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .promotedPurchase(try PromotedPurchase(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .subscriptionAvailability(try SubscriptionAvailability(from: decoder))
+                    return .subscriptionPromotionalOffer(try SubscriptionPromotionalOffer(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
                     return .winBackOffer(try WinBackOffer(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .subscriptionImage(try SubscriptionImage(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -103,19 +103,25 @@ public struct SubscriptionResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .subscriptionLocalization(let value):
+            case .promotedPurchase(let value):
                 try value.encode(to: encoder)
 
             case .subscriptionAppStoreReviewScreenshot(let value):
                 try value.encode(to: encoder)
 
+            case .subscriptionAvailability(let value):
+                try value.encode(to: encoder)
+
             case .subscriptionGroup(let value):
+                try value.encode(to: encoder)
+
+            case .subscriptionImage(let value):
                 try value.encode(to: encoder)
 
             case .subscriptionIntroductoryOffer(let value):
                 try value.encode(to: encoder)
 
-            case .subscriptionPromotionalOffer(let value):
+            case .subscriptionLocalization(let value):
                 try value.encode(to: encoder)
 
             case .subscriptionOfferCode(let value):
@@ -124,16 +130,10 @@ public struct SubscriptionResponse: Hashable, Codable, Sendable {
             case .subscriptionPrice(let value):
                 try value.encode(to: encoder)
 
-            case .promotedPurchase(let value):
-                try value.encode(to: encoder)
-
-            case .subscriptionAvailability(let value):
+            case .subscriptionPromotionalOffer(let value):
                 try value.encode(to: encoder)
 
             case .winBackOffer(let value):
-                try value.encode(to: encoder)
-
-            case .subscriptionImage(let value):
                 try value.encode(to: encoder)
             }
         }

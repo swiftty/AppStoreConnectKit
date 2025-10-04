@@ -6,7 +6,7 @@ import Foundation
 public struct BackgroundAssetsResponse: Hashable, Codable, Sendable {
     public var data: [BackgroundAsset]
 
-    public var included: [BackgroundAssetVersion]?
+    public var included: [Included]?
 
     public var links: PagedDocumentLinks
 
@@ -14,7 +14,7 @@ public struct BackgroundAssetsResponse: Hashable, Codable, Sendable {
 
     public init(
         data: [BackgroundAsset],
-        included: [BackgroundAssetVersion]? = nil,
+        included: [Included]? = nil,
         links: PagedDocumentLinks,
         meta: PagingInformation? = nil
     ) {
@@ -29,6 +29,38 @@ public struct BackgroundAssetsResponse: Hashable, Codable, Sendable {
         case included
         case links
         case meta
+    }
+
+    public enum Included: Hashable, Codable, Sendable {
+        case app(App)
+        case backgroundAssetVersion(BackgroundAssetVersion)
+
+        public init(from decoder: Decoder) throws {
+            self = try {
+                var lastError: Error!
+                do {
+                    return .app(try App(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .backgroundAssetVersion(try BackgroundAssetVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                throw lastError
+            }()
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            switch self {
+            case .app(let value):
+                try value.encode(to: encoder)
+
+            case .backgroundAssetVersion(let value):
+                try value.encode(to: encoder)
+            }
+        }
     }
 }
 

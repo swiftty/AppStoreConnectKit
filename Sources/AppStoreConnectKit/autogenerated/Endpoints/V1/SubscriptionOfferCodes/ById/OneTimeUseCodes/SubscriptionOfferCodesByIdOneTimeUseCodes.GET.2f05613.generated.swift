@@ -183,6 +183,10 @@ extension V1.SubscriptionOfferCodes.ById.OneTimeUseCodes.GET {
                     .init(rawValue: "subscription")
                 }
 
+                public static var totalNumberOfCodes: Self {
+                    .init(rawValue: "totalNumberOfCodes")
+                }
+
                 public var description: String {
                     rawValue
                 }

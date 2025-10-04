@@ -8,12 +8,36 @@ public struct WebhookEventType: Hashable, Codable, RawRepresentable, CustomStrin
         .init(rawValue: "APP_STORE_VERSION_APP_VERSION_STATE_UPDATED")
     }
 
+    public static var backgroundAssetVersionAppStoreReleaseStateUpdated: Self {
+        .init(rawValue: "BACKGROUND_ASSET_VERSION_APP_STORE_RELEASE_STATE_UPDATED")
+    }
+
+    public static var backgroundAssetVersionExternalBetaReleaseStateUpdated: Self {
+        .init(rawValue: "BACKGROUND_ASSET_VERSION_EXTERNAL_BETA_RELEASE_STATE_UPDATED")
+    }
+
+    public static var backgroundAssetVersionInternalBetaReleaseCreated: Self {
+        .init(rawValue: "BACKGROUND_ASSET_VERSION_INTERNAL_BETA_RELEASE_CREATED")
+    }
+
+    public static var backgroundAssetVersionStateUpdated: Self {
+        .init(rawValue: "BACKGROUND_ASSET_VERSION_STATE_UPDATED")
+    }
+
     public static var betaFeedbackCrashSubmissionCreated: Self {
         .init(rawValue: "BETA_FEEDBACK_CRASH_SUBMISSION_CREATED")
     }
 
     public static var betaFeedbackScreenshotSubmissionCreated: Self {
         .init(rawValue: "BETA_FEEDBACK_SCREENSHOT_SUBMISSION_CREATED")
+    }
+
+    public static var buildBetaDetailExternalBuildStateUpdated: Self {
+        .init(rawValue: "BUILD_BETA_DETAIL_EXTERNAL_BUILD_STATE_UPDATED")
+    }
+
+    public static var buildUploadStateUpdated: Self {
+        .init(rawValue: "BUILD_UPLOAD_STATE_UPDATED")
     }
 
     public var description: String {

@@ -139,6 +139,10 @@ extension V1.AppStoreVersionLocalizations.ById.AppScreenshotSets.GET {
                     .init(rawValue: "promotionalText")
                 }
 
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
+                }
+
                 public var description: String {
                     rawValue
                 }
@@ -289,6 +293,10 @@ extension V1.AppStoreVersionLocalizations.ById.AppScreenshotSets.GET {
 
                 public static var promotionalText: Self {
                     .init(rawValue: "promotionalText")
+                }
+
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
                 }
 
                 public static var supportUrl: Self {

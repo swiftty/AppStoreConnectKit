@@ -32,6 +32,8 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
                              value: parameters.fields[.appCustomProductPageLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appCustomProductPageVersions]",
                              value: parameters.fields[.appCustomProductPageVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appKeywords]",
+                             value: parameters.fields[.appKeywords]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPreviewSets]",
                              value: parameters.fields[.appPreviewSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appScreenshotSets]",
@@ -44,6 +46,8 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
                              value: parameters.limit[.appPreviewSets].map { "\($0)" }),
                 URLQueryItem(name: "limit[appScreenshotSets]",
                              value: parameters.limit[.appScreenshotSets].map { "\($0)" }),
+                URLQueryItem(name: "limit[searchKeywords]",
+                             value: parameters.limit[.searchKeywords].map { "\($0)" }),
                 URLQueryItem(name: "limit",
                              value: parameters.limit[].map { "\($0)" })
             ].filter { $0.value != nil }
@@ -133,6 +137,10 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
 
                 public static var promotionalText: Self {
                     .init(rawValue: "promotionalText")
+                }
+
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
                 }
 
                 public var description: String {
@@ -253,6 +261,11 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
                     .init(key: "fields[appCustomProductPageVersions]")
                 }
 
+                /// the fields to include for returned resources of type appKeywords
+                public static var appKeywords: Relation<[String]?> {
+                    .init(key: "fields[appKeywords]")
+                }
+
                 /// the fields to include for returned resources of type appPreviewSets
                 public static var appPreviewSets: Relation<[AppPreviewSets]?> {
                     .init(key: "fields[appPreviewSets]")
@@ -306,6 +319,10 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
                 .init(rawValue: "appScreenshotSets")
             }
 
+            public static var searchKeywords: Self {
+                .init(rawValue: "searchKeywords")
+            }
+
             public var description: String {
                 rawValue
             }
@@ -339,6 +356,11 @@ extension V1.AppCustomProductPageVersions.ById.AppCustomProductPageLocalizations
                 /// maximum number of related appScreenshotSets returned (when they are included)
                 public static var appScreenshotSets: Relation<Int?> {
                     .init(key: "limit[appScreenshotSets]")
+                }
+
+                /// maximum number of related searchKeywords returned (when they are included)
+                public static var searchKeywords: Relation<Int?> {
+                    .init(key: "limit[searchKeywords]")
                 }
 
                 internal let key: String

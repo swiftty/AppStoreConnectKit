@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.MarketplaceWebhooks {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = MarketplaceWebhookCreateRequest
         public typealias Response = MarketplaceWebhookResponse

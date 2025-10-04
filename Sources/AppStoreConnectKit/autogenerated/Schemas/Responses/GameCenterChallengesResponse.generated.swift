@@ -32,14 +32,19 @@ public struct GameCenterChallengesResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
+        case gameCenterChallengeVersion(GameCenterChallengeVersion)
         case gameCenterDetail(GameCenterDetail)
         case gameCenterGroup(GameCenterGroup)
-        case gameCenterChallengeVersion(GameCenterChallengeVersion)
         case gameCenterLeaderboard(GameCenterLeaderboard)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
+                do {
+                    return .gameCenterChallengeVersion(try GameCenterChallengeVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 do {
                     return .gameCenterDetail(try GameCenterDetail(from: decoder))
                 } catch {
@@ -47,11 +52,6 @@ public struct GameCenterChallengesResponse: Hashable, Codable, Sendable {
                 }
                 do {
                     return .gameCenterGroup(try GameCenterGroup(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .gameCenterChallengeVersion(try GameCenterChallengeVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -66,13 +66,13 @@ public struct GameCenterChallengesResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
+            case .gameCenterChallengeVersion(let value):
+                try value.encode(to: encoder)
+
             case .gameCenterDetail(let value):
                 try value.encode(to: encoder)
 
             case .gameCenterGroup(let value):
-                try value.encode(to: encoder)
-
-            case .gameCenterChallengeVersion(let value):
                 try value.encode(to: encoder)
 
             case .gameCenterLeaderboard(let value):

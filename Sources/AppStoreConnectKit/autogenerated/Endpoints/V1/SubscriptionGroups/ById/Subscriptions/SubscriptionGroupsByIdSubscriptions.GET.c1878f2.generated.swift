@@ -438,6 +438,10 @@ extension V1.SubscriptionGroups.ById.Subscriptions.GET {
                     .init(rawValue: "subscription")
                 }
 
+                public static var totalNumberOfCodes: Self {
+                    .init(rawValue: "totalNumberOfCodes")
+                }
+
                 public var description: String {
                     rawValue
                 }

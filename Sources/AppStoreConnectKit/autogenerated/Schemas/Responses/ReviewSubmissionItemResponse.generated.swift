@@ -27,22 +27,22 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case appStoreVersion(AppStoreVersion)
         case appCustomProductPageVersion(AppCustomProductPageVersion)
-        case appStoreVersionExperiment(AppStoreVersionExperiment)
-        case appStoreVersionExperimentV2(AppStoreVersionExperimentV2)
         case appEvent(AppEvent)
+        case appStoreVersionExperiment(AppStoreVersionExperiment)
+        case appStoreVersion(AppStoreVersion)
+        case backgroundAssetVersion(BackgroundAssetVersion)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .appStoreVersion(try AppStoreVersion(from: decoder))
+                    return .appCustomProductPageVersion(try AppCustomProductPageVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .appCustomProductPageVersion(try AppCustomProductPageVersion(from: decoder))
+                    return .appEvent(try AppEvent(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -52,12 +52,12 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .appStoreVersionExperimentV2(try AppStoreVersionExperimentV2(from: decoder))
+                    return .appStoreVersion(try AppStoreVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .appEvent(try AppEvent(from: decoder))
+                    return .backgroundAssetVersion(try BackgroundAssetVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -67,19 +67,19 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .appStoreVersion(let value):
+            case .appCustomProductPageVersion(let value):
                 try value.encode(to: encoder)
 
-            case .appCustomProductPageVersion(let value):
+            case .appEvent(let value):
                 try value.encode(to: encoder)
 
             case .appStoreVersionExperiment(let value):
                 try value.encode(to: encoder)
 
-            case .appStoreVersionExperimentV2(let value):
+            case .appStoreVersion(let value):
                 try value.encode(to: encoder)
 
-            case .appEvent(let value):
+            case .backgroundAssetVersion(let value):
                 try value.encode(to: encoder)
             }
         }

@@ -32,15 +32,15 @@ public struct BundleIdsResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case profile(Profile)
-        case bundleIdCapability(BundleIdCapability)
         case app(App)
+        case bundleIdCapability(BundleIdCapability)
+        case profile(Profile)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .profile(try Profile(from: decoder))
+                    return .app(try App(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -50,7 +50,7 @@ public struct BundleIdsResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .app(try App(from: decoder))
+                    return .profile(try Profile(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -60,13 +60,13 @@ public struct BundleIdsResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .profile(let value):
+            case .app(let value):
                 try value.encode(to: encoder)
 
             case .bundleIdCapability(let value):
                 try value.encode(to: encoder)
 
-            case .app(let value):
+            case .profile(let value):
                 try value.encode(to: encoder)
             }
         }

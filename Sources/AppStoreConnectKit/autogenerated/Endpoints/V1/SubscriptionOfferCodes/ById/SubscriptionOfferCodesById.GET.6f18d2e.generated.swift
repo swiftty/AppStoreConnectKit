@@ -246,6 +246,10 @@ extension V1.SubscriptionOfferCodes.ById.GET {
                     .init(rawValue: "subscription")
                 }
 
+                public static var totalNumberOfCodes: Self {
+                    .init(rawValue: "totalNumberOfCodes")
+                }
+
                 public var description: String {
                     rawValue
                 }

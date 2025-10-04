@@ -33,8 +33,9 @@ public struct AppCustomProductPageLocalizationsResponse: Hashable, Codable, Send
 
     public enum Included: Hashable, Codable, Sendable {
         case appCustomProductPageVersion(AppCustomProductPageVersion)
-        case appScreenshotSet(AppScreenshotSet)
+        case appKeyword(AppKeyword)
         case appPreviewSet(AppPreviewSet)
+        case appScreenshotSet(AppScreenshotSet)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -45,12 +46,17 @@ public struct AppCustomProductPageLocalizationsResponse: Hashable, Codable, Send
                     lastError = error
                 }
                 do {
-                    return .appScreenshotSet(try AppScreenshotSet(from: decoder))
+                    return .appKeyword(try AppKeyword(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
                     return .appPreviewSet(try AppPreviewSet(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appScreenshotSet(try AppScreenshotSet(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -63,10 +69,13 @@ public struct AppCustomProductPageLocalizationsResponse: Hashable, Codable, Send
             case .appCustomProductPageVersion(let value):
                 try value.encode(to: encoder)
 
-            case .appScreenshotSet(let value):
+            case .appKeyword(let value):
                 try value.encode(to: encoder)
 
             case .appPreviewSet(let value):
+                try value.encode(to: encoder)
+
+            case .appScreenshotSet(let value):
                 try value.encode(to: encoder)
             }
         }

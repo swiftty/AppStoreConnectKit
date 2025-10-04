@@ -141,6 +141,10 @@ extension V1.GameCenterLeaderboards.ById.Localizations.GET {
             }
 
             public struct GameCenterLeaderboardLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var description: Self {
+                    .init(rawValue: "description")
+                }
+
                 public static var formatterOverride: Self {
                     .init(rawValue: "formatterOverride")
                 }

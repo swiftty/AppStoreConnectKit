@@ -27,19 +27,19 @@ public struct GameCenterAchievementReleaseResponse: Hashable, Codable, Sendable 
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case gameCenterDetail(GameCenterDetail)
         case gameCenterAchievement(GameCenterAchievement)
+        case gameCenterDetail(GameCenterDetail)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .gameCenterDetail(try GameCenterDetail(from: decoder))
+                    return .gameCenterAchievement(try GameCenterAchievement(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .gameCenterAchievement(try GameCenterAchievement(from: decoder))
+                    return .gameCenterDetail(try GameCenterDetail(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -49,10 +49,10 @@ public struct GameCenterAchievementReleaseResponse: Hashable, Codable, Sendable 
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .gameCenterDetail(let value):
+            case .gameCenterAchievement(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterAchievement(let value):
+            case .gameCenterDetail(let value):
                 try value.encode(to: encoder)
             }
         }
