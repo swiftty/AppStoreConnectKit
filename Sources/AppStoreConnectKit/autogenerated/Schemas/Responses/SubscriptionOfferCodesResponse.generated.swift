@@ -32,16 +32,16 @@ public struct SubscriptionOfferCodesResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case subscription(Subscription)
-        case subscriptionOfferCodeOneTimeUseCode(SubscriptionOfferCodeOneTimeUseCode)
         case subscriptionOfferCodeCustomCode(SubscriptionOfferCodeCustomCode)
+        case subscriptionOfferCodeOneTimeUseCode(SubscriptionOfferCodeOneTimeUseCode)
         case subscriptionOfferCodePrice(SubscriptionOfferCodePrice)
+        case subscription(Subscription)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .subscription(try Subscription(from: decoder))
+                    return .subscriptionOfferCodeCustomCode(try SubscriptionOfferCodeCustomCode(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -51,12 +51,12 @@ public struct SubscriptionOfferCodesResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .subscriptionOfferCodeCustomCode(try SubscriptionOfferCodeCustomCode(from: decoder))
+                    return .subscriptionOfferCodePrice(try SubscriptionOfferCodePrice(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .subscriptionOfferCodePrice(try SubscriptionOfferCodePrice(from: decoder))
+                    return .subscription(try Subscription(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -66,16 +66,16 @@ public struct SubscriptionOfferCodesResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .subscription(let value):
+            case .subscriptionOfferCodeCustomCode(let value):
                 try value.encode(to: encoder)
 
             case .subscriptionOfferCodeOneTimeUseCode(let value):
                 try value.encode(to: encoder)
 
-            case .subscriptionOfferCodeCustomCode(let value):
+            case .subscriptionOfferCodePrice(let value):
                 try value.encode(to: encoder)
 
-            case .subscriptionOfferCodePrice(let value):
+            case .subscription(let value):
                 try value.encode(to: encoder)
             }
         }

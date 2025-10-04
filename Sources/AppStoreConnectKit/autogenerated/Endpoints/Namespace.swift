@@ -172,7 +172,11 @@ public enum V1 {
                 public enum AppPreviewSets {}
 
                 public enum AppScreenshotSets {}
+
+                public enum SearchKeywords {}
             }
+
+            public enum SearchKeywords {}
         }
     }
 
@@ -280,6 +284,8 @@ public enum V1 {
                 public enum SecondarySubcategoryOne {}
 
                 public enum SecondarySubcategoryTwo {}
+
+                public enum TerritoryAgeRatings {}
             }
 
             public enum SecondaryCategory {}
@@ -287,6 +293,8 @@ public enum V1 {
             public enum SecondarySubcategoryOne {}
 
             public enum SecondarySubcategoryTwo {}
+
+            public enum TerritoryAgeRatings {}
         }
     }
 
@@ -394,7 +402,11 @@ public enum V1 {
                 public enum AppPreviewSets {}
 
                 public enum AppScreenshotSets {}
+
+                public enum SearchKeywords {}
             }
+
+            public enum SearchKeywords {}
         }
     }
 
@@ -468,6 +480,16 @@ public enum V1 {
         }
     }
 
+    public enum AppTags {
+        public enum ById {
+            public enum Relationships {
+                public enum Territories {}
+            }
+
+            public enum Territories {}
+        }
+    }
+
     public enum Apps {
         public enum ById {
             public enum AccessibilityDeclarations {}
@@ -496,6 +518,8 @@ public enum V1 {
 
             public enum AppStoreVersions {}
 
+            public enum AppTags {}
+
             public enum BackgroundAssets {}
 
             public enum BetaAppLocalizations {}
@@ -509,6 +533,8 @@ public enum V1 {
             public enum BetaGroups {}
 
             public enum BetaLicenseAgreement {}
+
+            public enum BuildUploads {}
 
             public enum Builds {}
 
@@ -567,6 +593,8 @@ public enum V1 {
 
                 public enum AppStoreVersions {}
 
+                public enum AppTags {}
+
                 public enum BackgroundAssets {}
 
                 public enum BetaAppLocalizations {}
@@ -582,6 +610,8 @@ public enum V1 {
                 public enum BetaLicenseAgreement {}
 
                 public enum BetaTesters {}
+
+                public enum BuildUploads {}
 
                 public enum Builds {}
 
@@ -607,6 +637,8 @@ public enum V1 {
 
                 public enum ReviewSubmissions {}
 
+                public enum SearchKeywords {}
+
                 public enum SubscriptionGracePeriod {}
 
                 public enum SubscriptionGroups {}
@@ -615,6 +647,8 @@ public enum V1 {
             }
 
             public enum ReviewSubmissions {}
+
+            public enum SearchKeywords {}
 
             public enum SubscriptionGracePeriod {}
 
@@ -625,6 +659,14 @@ public enum V1 {
     }
 
     public enum BackgroundAssetUploadFiles {
+        public enum ById {}
+    }
+
+    public enum BackgroundAssetVersionAppStoreReleases {
+        public enum ById {}
+    }
+
+    public enum BackgroundAssetVersionExternalBetaReleases {
         public enum ById {}
     }
 
@@ -820,6 +862,20 @@ public enum V1 {
                 public enum BetaAppClipInvocations {}
 
                 public enum BuildBundleFileSizes {}
+            }
+        }
+    }
+
+    public enum BuildUploadFiles {
+        public enum ById {}
+    }
+
+    public enum BuildUploads {
+        public enum ById {
+            public enum BuildUploadFiles {}
+
+            public enum Relationships {
+                public enum BuildUploadFiles {}
             }
         }
     }

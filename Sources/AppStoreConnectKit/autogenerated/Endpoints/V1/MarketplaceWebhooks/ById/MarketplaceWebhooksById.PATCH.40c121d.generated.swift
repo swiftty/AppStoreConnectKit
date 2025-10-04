@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.MarketplaceWebhooks.ById {
+    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = MarketplaceWebhookUpdateRequest
         public typealias Response = MarketplaceWebhookResponse

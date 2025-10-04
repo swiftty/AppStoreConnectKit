@@ -27,19 +27,19 @@ public struct GameCenterAppVersionResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case gameCenterAppVersion(GameCenterAppVersion)
         case appStoreVersion(AppStoreVersion)
+        case gameCenterAppVersion(GameCenterAppVersion)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .gameCenterAppVersion(try GameCenterAppVersion(from: decoder))
+                    return .appStoreVersion(try AppStoreVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .appStoreVersion(try AppStoreVersion(from: decoder))
+                    return .gameCenterAppVersion(try GameCenterAppVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -49,10 +49,10 @@ public struct GameCenterAppVersionResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .gameCenterAppVersion(let value):
+            case .appStoreVersion(let value):
                 try value.encode(to: encoder)
 
-            case .appStoreVersion(let value):
+            case .gameCenterAppVersion(let value):
                 try value.encode(to: encoder)
             }
         }

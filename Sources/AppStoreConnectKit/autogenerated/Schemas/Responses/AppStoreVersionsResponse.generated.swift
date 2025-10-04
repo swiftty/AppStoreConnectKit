@@ -32,30 +32,44 @@ public struct AppStoreVersionsResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case app(App)
         case ageRatingDeclaration(AgeRatingDeclaration)
+        case alternativeDistributionPackage(AlternativeDistributionPackage)
+        case appClipDefaultExperience(AppClipDefaultExperience)
+        case appStoreReviewDetail(AppStoreReviewDetail)
+        case appStoreVersionExperiment(AppStoreVersionExperiment)
         case appStoreVersionLocalization(AppStoreVersionLocalization)
-        case build(Build)
         case appStoreVersionPhasedRelease(AppStoreVersionPhasedRelease)
+        case appStoreVersionSubmission(AppStoreVersionSubmission)
+        case app(App)
+        case build(Build)
         case gameCenterAppVersion(GameCenterAppVersion)
         case routingAppCoverage(RoutingAppCoverage)
-        case appStoreReviewDetail(AppStoreReviewDetail)
-        case appStoreVersionSubmission(AppStoreVersionSubmission)
-        case appClipDefaultExperience(AppClipDefaultExperience)
-        case appStoreVersionExperiment(AppStoreVersionExperiment)
-        case appStoreVersionExperimentV2(AppStoreVersionExperimentV2)
-        case alternativeDistributionPackage(AlternativeDistributionPackage)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .app(try App(from: decoder))
+                    return .ageRatingDeclaration(try AgeRatingDeclaration(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .ageRatingDeclaration(try AgeRatingDeclaration(from: decoder))
+                    return .alternativeDistributionPackage(try AlternativeDistributionPackage(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appClipDefaultExperience(try AppClipDefaultExperience(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appStoreReviewDetail(try AppStoreReviewDetail(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appStoreVersionExperiment(try AppStoreVersionExperiment(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -65,12 +79,22 @@ public struct AppStoreVersionsResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .build(try Build(from: decoder))
+                    return .appStoreVersionPhasedRelease(try AppStoreVersionPhasedRelease(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .appStoreVersionPhasedRelease(try AppStoreVersionPhasedRelease(from: decoder))
+                    return .appStoreVersionSubmission(try AppStoreVersionSubmission(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .app(try App(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .build(try Build(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -84,79 +108,46 @@ public struct AppStoreVersionsResponse: Hashable, Codable, Sendable {
                 } catch {
                     lastError = error
                 }
-                do {
-                    return .appStoreReviewDetail(try AppStoreReviewDetail(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appStoreVersionSubmission(try AppStoreVersionSubmission(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appClipDefaultExperience(try AppClipDefaultExperience(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appStoreVersionExperiment(try AppStoreVersionExperiment(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appStoreVersionExperimentV2(try AppStoreVersionExperimentV2(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .alternativeDistributionPackage(try AlternativeDistributionPackage(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 throw lastError
             }()
         }
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .app(let value):
+            case .ageRatingDeclaration(let value):
                 try value.encode(to: encoder)
 
-            case .ageRatingDeclaration(let value):
+            case .alternativeDistributionPackage(let value):
+                try value.encode(to: encoder)
+
+            case .appClipDefaultExperience(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreReviewDetail(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersionExperiment(let value):
                 try value.encode(to: encoder)
 
             case .appStoreVersionLocalization(let value):
                 try value.encode(to: encoder)
 
-            case .build(let value):
+            case .appStoreVersionPhasedRelease(let value):
                 try value.encode(to: encoder)
 
-            case .appStoreVersionPhasedRelease(let value):
+            case .appStoreVersionSubmission(let value):
+                try value.encode(to: encoder)
+
+            case .app(let value):
+                try value.encode(to: encoder)
+
+            case .build(let value):
                 try value.encode(to: encoder)
 
             case .gameCenterAppVersion(let value):
                 try value.encode(to: encoder)
 
             case .routingAppCoverage(let value):
-                try value.encode(to: encoder)
-
-            case .appStoreReviewDetail(let value):
-                try value.encode(to: encoder)
-
-            case .appStoreVersionSubmission(let value):
-                try value.encode(to: encoder)
-
-            case .appClipDefaultExperience(let value):
-                try value.encode(to: encoder)
-
-            case .appStoreVersionExperiment(let value):
-                try value.encode(to: encoder)
-
-            case .appStoreVersionExperimentV2(let value):
-                try value.encode(to: encoder)
-
-            case .alternativeDistributionPackage(let value):
                 try value.encode(to: encoder)
             }
         }

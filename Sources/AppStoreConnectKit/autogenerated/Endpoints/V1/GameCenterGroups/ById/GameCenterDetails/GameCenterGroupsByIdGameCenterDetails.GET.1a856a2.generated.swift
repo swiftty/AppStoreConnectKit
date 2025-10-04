@@ -325,6 +325,10 @@ extension V1.GameCenterGroups.ById.GameCenterDetails.GET {
                     .init(rawValue: "appStoreVersions")
                 }
 
+                public static var appTags: Self {
+                    .init(rawValue: "appTags")
+                }
+
                 public static var backgroundAssets: Self {
                     .init(rawValue: "backgroundAssets")
                 }
@@ -355,6 +359,10 @@ extension V1.GameCenterGroups.ById.GameCenterDetails.GET {
 
                 public static var betaTesters: Self {
                     .init(rawValue: "betaTesters")
+                }
+
+                public static var buildUploads: Self {
+                    .init(rawValue: "buildUploads")
                 }
 
                 public static var builds: Self {
@@ -431,6 +439,10 @@ extension V1.GameCenterGroups.ById.GameCenterDetails.GET {
 
                 public static var reviewSubmissions: Self {
                     .init(rawValue: "reviewSubmissions")
+                }
+
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
                 }
 
                 public static var sku: Self {
@@ -689,10 +701,6 @@ extension V1.GameCenterGroups.ById.GameCenterDetails.GET {
             }
 
             public struct GameCenterChallenges: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-                public static var allowedDurations: Self {
-                    .init(rawValue: "allowedDurations")
-                }
-
                 public static var archived: Self {
                     .init(rawValue: "archived")
                 }

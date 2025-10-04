@@ -156,6 +156,8 @@ public struct App: Hashable, Codable, Sendable {
 
         public var appStoreVersions: AppStoreVersions?
 
+        public var appTags: AppTags?
+
         public var backgroundAssets: BackgroundAssets?
 
         public var betaAppLocalizations: BetaAppLocalizations?
@@ -171,6 +173,8 @@ public struct App: Hashable, Codable, Sendable {
         public var betaLicenseAgreement: BetaLicenseAgreement?
 
         public var betaTesters: BetaTesters?
+
+        public var buildUploads: BuildUploads?
 
         public var builds: Builds?
 
@@ -201,6 +205,8 @@ public struct App: Hashable, Codable, Sendable {
 
         public var reviewSubmissions: ReviewSubmissions?
 
+        public var searchKeywords: SearchKeywords?
+
         public var subscriptionGracePeriod: SubscriptionGracePeriod?
 
         public var subscriptionGroups: SubscriptionGroups?
@@ -221,6 +227,7 @@ public struct App: Hashable, Codable, Sendable {
             appPriceSchedule: AppPriceSchedule? = nil,
             appStoreVersionExperimentsV2: AppStoreVersionExperimentsV2? = nil,
             appStoreVersions: AppStoreVersions? = nil,
+            appTags: AppTags? = nil,
             backgroundAssets: BackgroundAssets? = nil,
             betaAppLocalizations: BetaAppLocalizations? = nil,
             betaAppReviewDetail: BetaAppReviewDetail? = nil,
@@ -229,6 +236,7 @@ public struct App: Hashable, Codable, Sendable {
             betaGroups: BetaGroups? = nil,
             betaLicenseAgreement: BetaLicenseAgreement? = nil,
             betaTesters: BetaTesters? = nil,
+            buildUploads: BuildUploads? = nil,
             builds: Builds? = nil,
             ciProduct: CiProduct? = nil,
             customerReviewSummarizations: CustomerReviewSummarizations? = nil,
@@ -243,6 +251,7 @@ public struct App: Hashable, Codable, Sendable {
             preReleaseVersions: PreReleaseVersions? = nil,
             promotedPurchases: PromotedPurchases? = nil,
             reviewSubmissions: ReviewSubmissions? = nil,
+            searchKeywords: SearchKeywords? = nil,
             subscriptionGracePeriod: SubscriptionGracePeriod? = nil,
             subscriptionGroups: SubscriptionGroups? = nil,
             webhooks: Webhooks? = nil
@@ -260,6 +269,7 @@ public struct App: Hashable, Codable, Sendable {
             self.appPriceSchedule = appPriceSchedule
             self.appStoreVersionExperimentsV2 = appStoreVersionExperimentsV2
             self.appStoreVersions = appStoreVersions
+            self.appTags = appTags
             self.backgroundAssets = backgroundAssets
             self.betaAppLocalizations = betaAppLocalizations
             self.betaAppReviewDetail = betaAppReviewDetail
@@ -268,6 +278,7 @@ public struct App: Hashable, Codable, Sendable {
             self.betaGroups = betaGroups
             self.betaLicenseAgreement = betaLicenseAgreement
             self.betaTesters = betaTesters
+            self.buildUploads = buildUploads
             self.builds = builds
             self.ciProduct = ciProduct
             self.customerReviewSummarizations = customerReviewSummarizations
@@ -282,6 +293,7 @@ public struct App: Hashable, Codable, Sendable {
             self.preReleaseVersions = preReleaseVersions
             self.promotedPurchases = promotedPurchases
             self.reviewSubmissions = reviewSubmissions
+            self.searchKeywords = searchKeywords
             self.subscriptionGracePeriod = subscriptionGracePeriod
             self.subscriptionGroups = subscriptionGroups
             self.webhooks = webhooks
@@ -301,6 +313,7 @@ public struct App: Hashable, Codable, Sendable {
             case appPriceSchedule
             case appStoreVersionExperimentsV2
             case appStoreVersions
+            case appTags
             case backgroundAssets
             case betaAppLocalizations
             case betaAppReviewDetail
@@ -309,6 +322,7 @@ public struct App: Hashable, Codable, Sendable {
             case betaGroups
             case betaLicenseAgreement
             case betaTesters
+            case buildUploads
             case builds
             case ciProduct
             case customerReviewSummarizations
@@ -323,6 +337,7 @@ public struct App: Hashable, Codable, Sendable {
             case preReleaseVersions
             case promotedPurchases
             case reviewSubmissions
+            case searchKeywords
             case subscriptionGracePeriod
             case subscriptionGroups
             case webhooks
@@ -729,6 +744,18 @@ public struct App: Hashable, Codable, Sendable {
             }
         }
 
+        public struct AppTags: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
+            }
+        }
+
         public struct BackgroundAssets: Hashable, Codable, Sendable {
             public var links: RelationshipLinks?
 
@@ -944,6 +971,18 @@ public struct App: Hashable, Codable, Sendable {
         }
 
         public struct BetaTesters: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
+            }
+        }
+
+        public struct BuildUploads: Hashable, Codable, Sendable {
             public var links: RelationshipLinks?
 
             public init(links: RelationshipLinks? = nil) {
@@ -1455,6 +1494,18 @@ public struct App: Hashable, Codable, Sendable {
                 public enum `Type`: String, Hashable, Codable, Sendable {
                     case reviewSubmissions
                 }
+            }
+        }
+
+        public struct SearchKeywords: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
             }
         }
 

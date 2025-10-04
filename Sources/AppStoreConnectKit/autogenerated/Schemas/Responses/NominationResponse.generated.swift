@@ -27,19 +27,14 @@ public struct NominationResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case app(App)
         case actor(Actor)
         case appEvent(AppEvent)
+        case app(App)
         case territory(Territory)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
-                do {
-                    return .app(try App(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 do {
                     return .actor(try Actor(from: decoder))
                 } catch {
@@ -47,6 +42,11 @@ public struct NominationResponse: Hashable, Codable, Sendable {
                 }
                 do {
                     return .appEvent(try AppEvent(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .app(try App(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -61,13 +61,13 @@ public struct NominationResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .app(let value):
-                try value.encode(to: encoder)
-
             case .actor(let value):
                 try value.encode(to: encoder)
 
             case .appEvent(let value):
+                try value.encode(to: encoder)
+
+            case .app(let value):
                 try value.encode(to: encoder)
 
             case .territory(let value):

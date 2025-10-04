@@ -106,6 +106,22 @@ extension V1.AppInfos.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct AgeRatingDeclarations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var advertising: Self {
+                    .init(rawValue: "advertising")
+                }
+
+                public static var ageAssurance: Self {
+                    .init(rawValue: "ageAssurance")
+                }
+
+                public static var ageRatingOverride: Self {
+                    .init(rawValue: "ageRatingOverride")
+                }
+
+                public static var ageRatingOverrideV2: Self {
+                    .init(rawValue: "ageRatingOverrideV2")
+                }
+
                 public static var alcoholTobaccoOrDrugUseOrReferences: Self {
                     .init(rawValue: "alcoholTobaccoOrDrugUseOrReferences")
                 }
@@ -114,12 +130,24 @@ extension V1.AppInfos.ById.GET {
                     .init(rawValue: "contests")
                 }
 
+                public static var developerAgeRatingInfoUrl: Self {
+                    .init(rawValue: "developerAgeRatingInfoUrl")
+                }
+
                 public static var gambling: Self {
                     .init(rawValue: "gambling")
                 }
 
                 public static var gamblingSimulated: Self {
                     .init(rawValue: "gamblingSimulated")
+                }
+
+                public static var gunsOrOtherWeapons: Self {
+                    .init(rawValue: "gunsOrOtherWeapons")
+                }
+
+                public static var healthOrWellnessTopics: Self {
+                    .init(rawValue: "healthOrWellnessTopics")
                 }
 
                 public static var horrorOrFearThemes: Self {
@@ -146,6 +174,14 @@ extension V1.AppInfos.ById.GET {
                     .init(rawValue: "medicalOrTreatmentInformation")
                 }
 
+                public static var messagingAndChat: Self {
+                    .init(rawValue: "messagingAndChat")
+                }
+
+                public static var parentalControls: Self {
+                    .init(rawValue: "parentalControls")
+                }
+
                 public static var profanityOrCrudeHumor: Self {
                     .init(rawValue: "profanityOrCrudeHumor")
                 }
@@ -160,6 +196,10 @@ extension V1.AppInfos.ById.GET {
 
                 public static var unrestrictedWebAccess: Self {
                     .init(rawValue: "unrestrictedWebAccess")
+                }
+
+                public static var userGeneratedContent: Self {
+                    .init(rawValue: "userGeneratedContent")
                 }
 
                 public static var violenceCartoonOrFantasy: Self {
@@ -320,6 +360,10 @@ extension V1.AppInfos.ById.GET {
 
                 public static var state: Self {
                     .init(rawValue: "state")
+                }
+
+                public static var territoryAgeRatings: Self {
+                    .init(rawValue: "territoryAgeRatings")
                 }
 
                 public var description: String {

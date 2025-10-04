@@ -28,9 +28,9 @@ public struct BetaGroupResponse: Hashable, Codable, Sendable {
 
     public enum Included: Hashable, Codable, Sendable {
         case app(App)
-        case build(Build)
-        case betaTester(BetaTester)
         case betaRecruitmentCriterion(BetaRecruitmentCriterion)
+        case betaTester(BetaTester)
+        case build(Build)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -41,7 +41,7 @@ public struct BetaGroupResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .build(try Build(from: decoder))
+                    return .betaRecruitmentCriterion(try BetaRecruitmentCriterion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -51,7 +51,7 @@ public struct BetaGroupResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .betaRecruitmentCriterion(try BetaRecruitmentCriterion(from: decoder))
+                    return .build(try Build(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -64,13 +64,13 @@ public struct BetaGroupResponse: Hashable, Codable, Sendable {
             case .app(let value):
                 try value.encode(to: encoder)
 
-            case .build(let value):
+            case .betaRecruitmentCriterion(let value):
                 try value.encode(to: encoder)
 
             case .betaTester(let value):
                 try value.encode(to: encoder)
 
-            case .betaRecruitmentCriterion(let value):
+            case .build(let value):
                 try value.encode(to: encoder)
             }
         }

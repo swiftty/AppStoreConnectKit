@@ -27,21 +27,21 @@ public struct CiWorkflowResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case ciProduct(CiProduct)
-        case scmRepository(ScmRepository)
-        case ciXcodeVersion(CiXcodeVersion)
         case ciMacOsVersion(CiMacOsVersion)
+        case ciProduct(CiProduct)
+        case ciXcodeVersion(CiXcodeVersion)
+        case scmRepository(ScmRepository)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .ciProduct(try CiProduct(from: decoder))
+                    return .ciMacOsVersion(try CiMacOsVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .scmRepository(try ScmRepository(from: decoder))
+                    return .ciProduct(try CiProduct(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -51,7 +51,7 @@ public struct CiWorkflowResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .ciMacOsVersion(try CiMacOsVersion(from: decoder))
+                    return .scmRepository(try ScmRepository(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -61,16 +61,16 @@ public struct CiWorkflowResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .ciProduct(let value):
+            case .ciMacOsVersion(let value):
                 try value.encode(to: encoder)
 
-            case .scmRepository(let value):
+            case .ciProduct(let value):
                 try value.encode(to: encoder)
 
             case .ciXcodeVersion(let value):
                 try value.encode(to: encoder)
 
-            case .ciMacOsVersion(let value):
+            case .scmRepository(let value):
                 try value.encode(to: encoder)
             }
         }

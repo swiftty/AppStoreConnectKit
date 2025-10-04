@@ -27,18 +27,38 @@ public struct InAppPurchaseV2Response: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
+        case inAppPurchaseAppStoreReviewScreenshot(InAppPurchaseAppStoreReviewScreenshot)
+        case inAppPurchaseAvailability(InAppPurchaseAvailability)
+        case inAppPurchaseContent(InAppPurchaseContent)
+        case inAppPurchaseImage(InAppPurchaseImage)
         case inAppPurchaseLocalization(InAppPurchaseLocalization)
         case inAppPurchasePricePoint(InAppPurchasePricePoint)
-        case inAppPurchaseContent(InAppPurchaseContent)
-        case inAppPurchaseAppStoreReviewScreenshot(InAppPurchaseAppStoreReviewScreenshot)
-        case promotedPurchase(PromotedPurchase)
         case inAppPurchasePriceSchedule(InAppPurchasePriceSchedule)
-        case inAppPurchaseAvailability(InAppPurchaseAvailability)
-        case inAppPurchaseImage(InAppPurchaseImage)
+        case promotedPurchase(PromotedPurchase)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
+                do {
+                    return .inAppPurchaseAppStoreReviewScreenshot(try InAppPurchaseAppStoreReviewScreenshot(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .inAppPurchaseAvailability(try InAppPurchaseAvailability(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .inAppPurchaseContent(try InAppPurchaseContent(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .inAppPurchaseImage(try InAppPurchaseImage(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 do {
                     return .inAppPurchaseLocalization(try InAppPurchaseLocalization(from: decoder))
                 } catch {
@@ -50,32 +70,12 @@ public struct InAppPurchaseV2Response: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .inAppPurchaseContent(try InAppPurchaseContent(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .inAppPurchaseAppStoreReviewScreenshot(try InAppPurchaseAppStoreReviewScreenshot(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .promotedPurchase(try PromotedPurchase(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
                     return .inAppPurchasePriceSchedule(try InAppPurchasePriceSchedule(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .inAppPurchaseAvailability(try InAppPurchaseAvailability(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .inAppPurchaseImage(try InAppPurchaseImage(from: decoder))
+                    return .promotedPurchase(try PromotedPurchase(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -85,28 +85,28 @@ public struct InAppPurchaseV2Response: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
+            case .inAppPurchaseAppStoreReviewScreenshot(let value):
+                try value.encode(to: encoder)
+
+            case .inAppPurchaseAvailability(let value):
+                try value.encode(to: encoder)
+
+            case .inAppPurchaseContent(let value):
+                try value.encode(to: encoder)
+
+            case .inAppPurchaseImage(let value):
+                try value.encode(to: encoder)
+
             case .inAppPurchaseLocalization(let value):
                 try value.encode(to: encoder)
 
             case .inAppPurchasePricePoint(let value):
                 try value.encode(to: encoder)
 
-            case .inAppPurchaseContent(let value):
-                try value.encode(to: encoder)
-
-            case .inAppPurchaseAppStoreReviewScreenshot(let value):
-                try value.encode(to: encoder)
-
-            case .promotedPurchase(let value):
-                try value.encode(to: encoder)
-
             case .inAppPurchasePriceSchedule(let value):
                 try value.encode(to: encoder)
 
-            case .inAppPurchaseAvailability(let value):
-                try value.encode(to: encoder)
-
-            case .inAppPurchaseImage(let value):
+            case .promotedPurchase(let value):
                 try value.encode(to: encoder)
             }
         }

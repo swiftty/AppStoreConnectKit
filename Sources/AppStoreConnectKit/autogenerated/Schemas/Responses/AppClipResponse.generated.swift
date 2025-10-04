@@ -27,19 +27,19 @@ public struct AppClipResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case app(App)
         case appClipDefaultExperience(AppClipDefaultExperience)
+        case app(App)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .app(try App(from: decoder))
+                    return .appClipDefaultExperience(try AppClipDefaultExperience(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .appClipDefaultExperience(try AppClipDefaultExperience(from: decoder))
+                    return .app(try App(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -49,10 +49,10 @@ public struct AppClipResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .app(let value):
+            case .appClipDefaultExperience(let value):
                 try value.encode(to: encoder)
 
-            case .appClipDefaultExperience(let value):
+            case .app(let value):
                 try value.encode(to: encoder)
             }
         }

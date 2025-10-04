@@ -32,19 +32,25 @@ public struct AppCustomProductPagesResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case app(App)
+        case appCustomProductPageLocalization(AppCustomProductPageLocalization)
         case appCustomProductPageVersion(AppCustomProductPageVersion)
+        case app(App)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .app(try App(from: decoder))
+                    return .appCustomProductPageLocalization(try AppCustomProductPageLocalization(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
                     return .appCustomProductPageVersion(try AppCustomProductPageVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .app(try App(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -54,10 +60,13 @@ public struct AppCustomProductPagesResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .app(let value):
+            case .appCustomProductPageLocalization(let value):
                 try value.encode(to: encoder)
 
             case .appCustomProductPageVersion(let value):
+                try value.encode(to: encoder)
+
+            case .app(let value):
                 try value.encode(to: encoder)
             }
         }

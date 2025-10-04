@@ -32,31 +32,16 @@ public struct GameCenterAchievementsResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case gameCenterDetail(GameCenterDetail)
-        case gameCenterGroup(GameCenterGroup)
-        case gameCenterAchievement(GameCenterAchievement)
         case gameCenterAchievementLocalization(GameCenterAchievementLocalization)
         case gameCenterAchievementRelease(GameCenterAchievementRelease)
+        case gameCenterAchievement(GameCenterAchievement)
         case gameCenterActivity(GameCenterActivity)
+        case gameCenterDetail(GameCenterDetail)
+        case gameCenterGroup(GameCenterGroup)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
-                do {
-                    return .gameCenterDetail(try GameCenterDetail(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .gameCenterGroup(try GameCenterGroup(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .gameCenterAchievement(try GameCenterAchievement(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 do {
                     return .gameCenterAchievementLocalization(try GameCenterAchievementLocalization(from: decoder))
                 } catch {
@@ -68,7 +53,22 @@ public struct GameCenterAchievementsResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
+                    return .gameCenterAchievement(try GameCenterAchievement(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
                     return .gameCenterActivity(try GameCenterActivity(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterDetail(try GameCenterDetail(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterGroup(try GameCenterGroup(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -78,22 +78,22 @@ public struct GameCenterAchievementsResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .gameCenterDetail(let value):
-                try value.encode(to: encoder)
-
-            case .gameCenterGroup(let value):
-                try value.encode(to: encoder)
-
-            case .gameCenterAchievement(let value):
-                try value.encode(to: encoder)
-
             case .gameCenterAchievementLocalization(let value):
                 try value.encode(to: encoder)
 
             case .gameCenterAchievementRelease(let value):
                 try value.encode(to: encoder)
 
+            case .gameCenterAchievement(let value):
+                try value.encode(to: encoder)
+
             case .gameCenterActivity(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterDetail(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterGroup(let value):
                 try value.encode(to: encoder)
             }
         }

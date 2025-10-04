@@ -6,19 +6,56 @@ import Foundation
 public struct GameCenterMatchmakingRuleSetTestResponse: Hashable, Codable, Sendable {
     public var data: GameCenterMatchmakingRuleSetTest
 
+    public var included: [Included]?
+
     public var links: DocumentLinks
 
     public init(
         data: GameCenterMatchmakingRuleSetTest,
+        included: [Included]? = nil,
         links: DocumentLinks
     ) {
         self.data = data
+        self.included = included
         self.links = links
     }
 
     private enum CodingKeys: String, CodingKey {
         case data
+        case included
         case links
+    }
+
+    public enum Included: Hashable, Codable, Sendable {
+        case gameCenterMatchmakingTestPlayerProperty(GameCenterMatchmakingTestPlayerProperty)
+        case gameCenterMatchmakingTestRequest(GameCenterMatchmakingTestRequest)
+
+        public init(from decoder: Decoder) throws {
+            self = try {
+                var lastError: Error!
+                do {
+                    return .gameCenterMatchmakingTestPlayerProperty(try GameCenterMatchmakingTestPlayerProperty(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterMatchmakingTestRequest(try GameCenterMatchmakingTestRequest(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                throw lastError
+            }()
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            switch self {
+            case .gameCenterMatchmakingTestPlayerProperty(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterMatchmakingTestRequest(let value):
+                try value.encode(to: encoder)
+            }
+        }
     }
 }
 

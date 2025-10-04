@@ -42,20 +42,26 @@ public struct BackgroundAssetUploadFileUpdateRequest: Hashable, Codable, Sendabl
         }
 
         public struct Attributes: Hashable, Codable, Sendable {
+            @available(*, deprecated)
             public var sourceFileChecksum: String?
+
+            public var sourceFileChecksums: Checksums?
 
             public var uploaded: Bool?
 
             public init(
                 sourceFileChecksum: String? = nil,
+                sourceFileChecksums: Checksums? = nil,
                 uploaded: Bool? = nil
             ) {
                 self.sourceFileChecksum = sourceFileChecksum
+                self.sourceFileChecksums = sourceFileChecksums
                 self.uploaded = uploaded
             }
 
             private enum CodingKeys: String, CodingKey {
                 case sourceFileChecksum
+                case sourceFileChecksums
                 case uploaded
             }
         }

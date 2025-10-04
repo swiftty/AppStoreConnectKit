@@ -32,14 +32,24 @@ public struct AppClipDefaultExperiencesResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
+        case appClipAppStoreReviewDetail(AppClipAppStoreReviewDetail)
+        case appClipDefaultExperienceLocalization(AppClipDefaultExperienceLocalization)
         case appClip(AppClip)
         case appStoreVersion(AppStoreVersion)
-        case appClipDefaultExperienceLocalization(AppClipDefaultExperienceLocalization)
-        case appClipAppStoreReviewDetail(AppClipAppStoreReviewDetail)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
+                do {
+                    return .appClipAppStoreReviewDetail(try AppClipAppStoreReviewDetail(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appClipDefaultExperienceLocalization(try AppClipDefaultExperienceLocalization(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 do {
                     return .appClip(try AppClip(from: decoder))
                 } catch {
@@ -50,32 +60,22 @@ public struct AppClipDefaultExperiencesResponse: Hashable, Codable, Sendable {
                 } catch {
                     lastError = error
                 }
-                do {
-                    return .appClipDefaultExperienceLocalization(try AppClipDefaultExperienceLocalization(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appClipAppStoreReviewDetail(try AppClipAppStoreReviewDetail(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 throw lastError
             }()
         }
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .appClip(let value):
-                try value.encode(to: encoder)
-
-            case .appStoreVersion(let value):
+            case .appClipAppStoreReviewDetail(let value):
                 try value.encode(to: encoder)
 
             case .appClipDefaultExperienceLocalization(let value):
                 try value.encode(to: encoder)
 
-            case .appClipAppStoreReviewDetail(let value):
+            case .appClip(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersion(let value):
                 try value.encode(to: encoder)
             }
         }

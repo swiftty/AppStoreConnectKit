@@ -118,12 +118,80 @@ public struct TerritoryAvailability: Hashable, Codable, Sendable {
                 .init(rawValue: "CANNOT_SELL_CONTESTS")
             }
 
+            public static var cannotSellFrequent: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT")
+            }
+
+            public static var cannotSellFrequentAlcoholTobaccoDrugs: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_ALCOHOL_TOBACCO_DRUGS")
+            }
+
+            public static var cannotSellFrequentGambling: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_GAMBLING")
+            }
+
+            public static var cannotSellFrequentIntense: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_INTENSE")
+            }
+
+            public static var cannotSellFrequentIntenseAlcoholTobaccoDrugs: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_INTENSE_ALCOHOL_TOBACCO_DRUGS")
+            }
+
+            public static var cannotSellFrequentIntenseGambling: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_INTENSE_GAMBLING")
+            }
+
+            public static var cannotSellFrequentIntenseSexualContentNudity: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_INTENSE_SEXUAL_CONTENT_NUDITY")
+            }
+
+            public static var cannotSellFrequentIntenseViolence: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_INTENSE_VIOLENCE")
+            }
+
+            public static var cannotSellFrequentIntenseWithoutGrac: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_INTENSE_WITHOUT_GRAC")
+            }
+
+            public static var cannotSellFrequentSexualContentNudity: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_SEXUAL_CONTENT_NUDITY")
+            }
+
+            public static var cannotSellFrequentViolence: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_VIOLENCE")
+            }
+
+            public static var cannotSellFrequentWithoutGrac: Self {
+                .init(rawValue: "CANNOT_SELL_FREQUENT_WITHOUT_GRAC")
+            }
+
             public static var cannotSellGambling: Self {
                 .init(rawValue: "CANNOT_SELL_GAMBLING")
             }
 
             public static var cannotSellGamblingContests: Self {
                 .init(rawValue: "CANNOT_SELL_GAMBLING_CONTESTS")
+            }
+
+            public static var cannotSellInfrequentAlcoholTobaccoDrugs: Self {
+                .init(rawValue: "CANNOT_SELL_INFREQUENT_ALCOHOL_TOBACCO_DRUGS")
+            }
+
+            public static var cannotSellInfrequentMildAlcoholTobaccoDrugs: Self {
+                .init(rawValue: "CANNOT_SELL_INFREQUENT_MILD_ALCOHOL_TOBACCO_DRUGS")
+            }
+
+            public static var cannotSellInfrequentMildSexualContentNudity: Self {
+                .init(rawValue: "CANNOT_SELL_INFREQUENT_MILD_SEXUAL_CONTENT_NUDITY")
+            }
+
+            public static var cannotSellInfrequentSexualContentNudity: Self {
+                .init(rawValue: "CANNOT_SELL_INFREQUENT_SEXUAL_CONTENT_NUDITY")
+            }
+
+            public static var cannotSellNineteenPlusWithoutGrac: Self {
+                .init(rawValue: "CANNOT_SELL_NINETEEN_PLUS_WITHOUT_GRAC")
             }
 
             public static var cannotSellNoniOSGames: Self {

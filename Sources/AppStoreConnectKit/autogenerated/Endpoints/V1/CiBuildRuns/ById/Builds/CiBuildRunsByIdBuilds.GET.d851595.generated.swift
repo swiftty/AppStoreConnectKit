@@ -50,6 +50,8 @@ extension V1.CiBuildRuns.ById.Builds {
                              value: parameters.fields[.buildBundles]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[buildIcons]",
                              value: parameters.fields[.buildIcons]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[buildUploads]",
+                             value: parameters.fields[.buildUploads]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[builds]",
                              value: parameters.fields[.builds]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[preReleaseVersions]",
@@ -440,6 +442,10 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                     .init(rawValue: "appStoreVersions")
                 }
 
+                public static var appTags: Self {
+                    .init(rawValue: "appTags")
+                }
+
                 public static var backgroundAssets: Self {
                     .init(rawValue: "backgroundAssets")
                 }
@@ -470,6 +476,10 @@ extension V1.CiBuildRuns.ById.Builds.GET {
 
                 public static var betaTesters: Self {
                     .init(rawValue: "betaTesters")
+                }
+
+                public static var buildUploads: Self {
+                    .init(rawValue: "buildUploads")
                 }
 
                 public static var builds: Self {
@@ -546,6 +556,10 @@ extension V1.CiBuildRuns.ById.Builds.GET {
 
                 public static var reviewSubmissions: Self {
                     .init(rawValue: "reviewSubmissions")
+                }
+
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
                 }
 
                 public static var sku: Self {
@@ -908,8 +922,68 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                     .init(rawValue: "iconType")
                 }
 
+                public static var masked: Self {
+                    .init(rawValue: "masked")
+                }
+
                 public static var name: Self {
                     .init(rawValue: "name")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct BuildUploads: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetDescriptionFile: Self {
+                    .init(rawValue: "assetDescriptionFile")
+                }
+
+                public static var assetFile: Self {
+                    .init(rawValue: "assetFile")
+                }
+
+                public static var assetSpiFile: Self {
+                    .init(rawValue: "assetSpiFile")
+                }
+
+                public static var build: Self {
+                    .init(rawValue: "build")
+                }
+
+                public static var buildUploadFiles: Self {
+                    .init(rawValue: "buildUploadFiles")
+                }
+
+                public static var cfBundleShortVersionString: Self {
+                    .init(rawValue: "cfBundleShortVersionString")
+                }
+
+                public static var cfBundleVersion: Self {
+                    .init(rawValue: "cfBundleVersion")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var uploadedDate: Self {
+                    .init(rawValue: "uploadedDate")
                 }
 
                 public var description: String {
@@ -958,6 +1032,10 @@ extension V1.CiBuildRuns.ById.Builds.GET {
 
                 public static var buildBundles: Self {
                     .init(rawValue: "buildBundles")
+                }
+
+                public static var buildUpload: Self {
+                    .init(rawValue: "buildUpload")
                 }
 
                 public static var computedMinMacOsVersion: Self {
@@ -1112,6 +1190,11 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                 /// the fields to include for returned resources of type buildIcons
                 public static var buildIcons: Relation<[BuildIcons]?> {
                     .init(key: "fields[buildIcons]")
+                }
+
+                /// the fields to include for returned resources of type buildUploads
+                public static var buildUploads: Relation<[BuildUploads]?> {
+                    .init(key: "fields[buildUploads]")
                 }
 
                 /// the fields to include for returned resources of type builds
@@ -1349,6 +1432,10 @@ extension V1.CiBuildRuns.ById.Builds.GET {
 
             public static var buildBundles: Self {
                 .init(rawValue: "buildBundles")
+            }
+
+            public static var buildUpload: Self {
+                .init(rawValue: "buildUpload")
             }
 
             public static var icons: Self {

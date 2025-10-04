@@ -27,15 +27,15 @@ public struct AppStoreVersionExperimentTreatmentLocalizationResponse: Hashable, 
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case appStoreVersionExperimentTreatment(AppStoreVersionExperimentTreatment)
-        case appScreenshotSet(AppScreenshotSet)
         case appPreviewSet(AppPreviewSet)
+        case appScreenshotSet(AppScreenshotSet)
+        case appStoreVersionExperimentTreatment(AppStoreVersionExperimentTreatment)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .appStoreVersionExperimentTreatment(try AppStoreVersionExperimentTreatment(from: decoder))
+                    return .appPreviewSet(try AppPreviewSet(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -45,7 +45,7 @@ public struct AppStoreVersionExperimentTreatmentLocalizationResponse: Hashable, 
                     lastError = error
                 }
                 do {
-                    return .appPreviewSet(try AppPreviewSet(from: decoder))
+                    return .appStoreVersionExperimentTreatment(try AppStoreVersionExperimentTreatment(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -55,13 +55,13 @@ public struct AppStoreVersionExperimentTreatmentLocalizationResponse: Hashable, 
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .appStoreVersionExperimentTreatment(let value):
+            case .appPreviewSet(let value):
                 try value.encode(to: encoder)
 
             case .appScreenshotSet(let value):
                 try value.encode(to: encoder)
 
-            case .appPreviewSet(let value):
+            case .appStoreVersionExperimentTreatment(let value):
                 try value.encode(to: encoder)
             }
         }

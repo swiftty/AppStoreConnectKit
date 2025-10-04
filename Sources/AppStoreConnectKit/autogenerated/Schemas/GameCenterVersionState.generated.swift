@@ -8,6 +8,10 @@ public struct GameCenterVersionState: Hashable, Codable, RawRepresentable, Custo
         .init(rawValue: "ACCEPTED")
     }
 
+    public static var developerRejected: Self {
+        .init(rawValue: "DEVELOPER_REJECTED")
+    }
+
     public static var inReview: Self {
         .init(rawValue: "IN_REVIEW")
     }

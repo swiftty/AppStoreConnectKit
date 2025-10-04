@@ -120,6 +120,10 @@ extension V1.BackgroundAssetVersions.ById.BackgroundAssetUploadFiles.GET {
                     .init(rawValue: "sourceFileChecksum")
                 }
 
+                public static var sourceFileChecksums: Self {
+                    .init(rawValue: "sourceFileChecksums")
+                }
+
                 public static var uploadOperations: Self {
                     .init(rawValue: "uploadOperations")
                 }

@@ -27,20 +27,20 @@ public struct AlternativeDistributionPackageVersionResponse: Hashable, Codable, 
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case alternativeDistributionPackageVariant(AlternativeDistributionPackageVariant)
         case alternativeDistributionPackageDelta(AlternativeDistributionPackageDelta)
+        case alternativeDistributionPackageVariant(AlternativeDistributionPackageVariant)
         case alternativeDistributionPackage(AlternativeDistributionPackage)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .alternativeDistributionPackageVariant(try AlternativeDistributionPackageVariant(from: decoder))
+                    return .alternativeDistributionPackageDelta(try AlternativeDistributionPackageDelta(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .alternativeDistributionPackageDelta(try AlternativeDistributionPackageDelta(from: decoder))
+                    return .alternativeDistributionPackageVariant(try AlternativeDistributionPackageVariant(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -55,10 +55,10 @@ public struct AlternativeDistributionPackageVersionResponse: Hashable, Codable, 
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .alternativeDistributionPackageVariant(let value):
+            case .alternativeDistributionPackageDelta(let value):
                 try value.encode(to: encoder)
 
-            case .alternativeDistributionPackageDelta(let value):
+            case .alternativeDistributionPackageVariant(let value):
                 try value.encode(to: encoder)
 
             case .alternativeDistributionPackage(let value):

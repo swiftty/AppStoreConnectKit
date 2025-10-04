@@ -91,20 +91,25 @@ public struct AppStoreVersionLocalization: Hashable, Codable, Sendable {
 
         public var appStoreVersion: AppStoreVersion?
 
+        public var searchKeywords: SearchKeywords?
+
         public init(
             appPreviewSets: AppPreviewSets? = nil,
             appScreenshotSets: AppScreenshotSets? = nil,
-            appStoreVersion: AppStoreVersion? = nil
+            appStoreVersion: AppStoreVersion? = nil,
+            searchKeywords: SearchKeywords? = nil
         ) {
             self.appPreviewSets = appPreviewSets
             self.appScreenshotSets = appScreenshotSets
             self.appStoreVersion = appStoreVersion
+            self.searchKeywords = searchKeywords
         }
 
         private enum CodingKeys: String, CodingKey {
             case appPreviewSets
             case appScreenshotSets
             case appStoreVersion
+            case searchKeywords
         }
 
         public struct AppPreviewSets: Hashable, Codable, Sendable {
@@ -232,6 +237,53 @@ public struct AppStoreVersionLocalization: Hashable, Codable, Sendable {
 
                 public enum `Type`: String, Hashable, Codable, Sendable {
                     case appStoreVersions
+                }
+            }
+        }
+
+        public struct SearchKeywords: Hashable, Codable, Sendable {
+            public var data: [Data]?
+
+            public var links: RelationshipLinks?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: RelationshipLinks? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case appKeywords
                 }
             }
         }

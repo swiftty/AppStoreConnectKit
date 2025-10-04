@@ -28,6 +28,8 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appKeywords]",
+                             value: parameters.fields[.appKeywords]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPreviewSets]",
                              value: parameters.fields[.appPreviewSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appScreenshotSets]",
@@ -44,6 +46,8 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations {
                              value: parameters.limit[.appPreviewSets].map { "\($0)" }),
                 URLQueryItem(name: "limit[appScreenshotSets]",
                              value: parameters.limit[.appScreenshotSets].map { "\($0)" }),
+                URLQueryItem(name: "limit[searchKeywords]",
+                             value: parameters.limit[.searchKeywords].map { "\($0)" }),
                 URLQueryItem(name: "limit",
                              value: parameters.limit[].map { "\($0)" })
             ].filter { $0.value != nil }
@@ -211,6 +215,10 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations.GET {
                     .init(rawValue: "promotionalText")
                 }
 
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
+                }
+
                 public static var supportUrl: Self {
                     .init(rawValue: "supportUrl")
                 }
@@ -343,6 +351,11 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appKeywords
+                public static var appKeywords: Relation<[String]?> {
+                    .init(key: "fields[appKeywords]")
+                }
+
                 /// the fields to include for returned resources of type appPreviewSets
                 public static var appPreviewSets: Relation<[AppPreviewSets]?> {
                     .init(key: "fields[appPreviewSets]")
@@ -406,6 +419,10 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations.GET {
                 .init(rawValue: "appStoreVersion")
             }
 
+            public static var searchKeywords: Self {
+                .init(rawValue: "searchKeywords")
+            }
+
             public var description: String {
                 rawValue
             }
@@ -439,6 +456,11 @@ extension V1.AppStoreVersions.ById.AppStoreVersionLocalizations.GET {
                 /// maximum number of related appScreenshotSets returned (when they are included)
                 public static var appScreenshotSets: Relation<Int?> {
                     .init(key: "limit[appScreenshotSets]")
+                }
+
+                /// maximum number of related searchKeywords returned (when they are included)
+                public static var searchKeywords: Relation<Int?> {
+                    .init(key: "limit[searchKeywords]")
                 }
 
                 internal let key: String

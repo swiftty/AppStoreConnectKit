@@ -32,105 +32,34 @@ public struct AppsResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case appEncryptionDeclaration(AppEncryptionDeclaration)
-        case ciProduct(CiProduct)
-        case betaGroup(BetaGroup)
-        case appStoreVersion(AppStoreVersion)
-        case prereleaseVersion(PrereleaseVersion)
-        case betaAppLocalization(BetaAppLocalization)
-        case build(Build)
-        case betaLicenseAgreement(BetaLicenseAgreement)
-        case betaAppReviewDetail(BetaAppReviewDetail)
-        case appInfo(AppInfo)
         case appClip(AppClip)
-        case endUserLicenseAgreement(EndUserLicenseAgreement)
-        case inAppPurchase(InAppPurchase)
-        case subscriptionGroup(SubscriptionGroup)
-        case gameCenterEnabledVersion(GameCenterEnabledVersion)
         case appCustomProductPage(AppCustomProductPage)
-        case inAppPurchaseV2(InAppPurchaseV2)
-        case promotedPurchase(PromotedPurchase)
+        case appEncryptionDeclaration(AppEncryptionDeclaration)
         case appEvent(AppEvent)
+        case appInfo(AppInfo)
+        case appStoreVersionExperimentV2(AppStoreVersionExperimentV2)
+        case appStoreVersion(AppStoreVersion)
+        case betaAppLocalization(BetaAppLocalization)
+        case betaAppReviewDetail(BetaAppReviewDetail)
+        case betaGroup(BetaGroup)
+        case betaLicenseAgreement(BetaLicenseAgreement)
+        case build(Build)
+        case ciProduct(CiProduct)
+        case endUserLicenseAgreement(EndUserLicenseAgreement)
+        case gameCenterDetail(GameCenterDetail)
+        case gameCenterEnabledVersion(GameCenterEnabledVersion)
+        case inAppPurchase(InAppPurchase)
+        case prereleaseVersion(PrereleaseVersion)
+        case promotedPurchase(PromotedPurchase)
         case reviewSubmission(ReviewSubmission)
         case subscriptionGracePeriod(SubscriptionGracePeriod)
-        case gameCenterDetail(GameCenterDetail)
-        case appStoreVersionExperimentV2(AppStoreVersionExperimentV2)
+        case subscriptionGroup(SubscriptionGroup)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .appEncryptionDeclaration(try AppEncryptionDeclaration(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .ciProduct(try CiProduct(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .betaGroup(try BetaGroup(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appStoreVersion(try AppStoreVersion(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .prereleaseVersion(try PrereleaseVersion(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .betaAppLocalization(try BetaAppLocalization(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .build(try Build(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .betaLicenseAgreement(try BetaLicenseAgreement(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .betaAppReviewDetail(try BetaAppReviewDetail(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appInfo(try AppInfo(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
                     return .appClip(try AppClip(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .endUserLicenseAgreement(try EndUserLicenseAgreement(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .inAppPurchase(try InAppPurchase(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .subscriptionGroup(try SubscriptionGroup(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .gameCenterEnabledVersion(try GameCenterEnabledVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -140,17 +69,87 @@ public struct AppsResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .inAppPurchaseV2(try InAppPurchaseV2(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .promotedPurchase(try PromotedPurchase(from: decoder))
+                    return .appEncryptionDeclaration(try AppEncryptionDeclaration(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
                     return .appEvent(try AppEvent(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appInfo(try AppInfo(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appStoreVersionExperimentV2(try AppStoreVersionExperimentV2(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appStoreVersion(try AppStoreVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .betaAppLocalization(try BetaAppLocalization(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .betaAppReviewDetail(try BetaAppReviewDetail(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .betaGroup(try BetaGroup(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .betaLicenseAgreement(try BetaLicenseAgreement(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .build(try Build(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .ciProduct(try CiProduct(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .endUserLicenseAgreement(try EndUserLicenseAgreement(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterDetail(try GameCenterDetail(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterEnabledVersion(try GameCenterEnabledVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .inAppPurchase(try InAppPurchase(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .prereleaseVersion(try PrereleaseVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .promotedPurchase(try PromotedPurchase(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -165,12 +164,7 @@ public struct AppsResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .gameCenterDetail(try GameCenterDetail(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appStoreVersionExperimentV2(try AppStoreVersionExperimentV2(from: decoder))
+                    return .subscriptionGroup(try SubscriptionGroup(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -180,61 +174,61 @@ public struct AppsResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .appEncryptionDeclaration(let value):
-                try value.encode(to: encoder)
-
-            case .ciProduct(let value):
-                try value.encode(to: encoder)
-
-            case .betaGroup(let value):
-                try value.encode(to: encoder)
-
-            case .appStoreVersion(let value):
-                try value.encode(to: encoder)
-
-            case .prereleaseVersion(let value):
-                try value.encode(to: encoder)
-
-            case .betaAppLocalization(let value):
-                try value.encode(to: encoder)
-
-            case .build(let value):
-                try value.encode(to: encoder)
-
-            case .betaLicenseAgreement(let value):
-                try value.encode(to: encoder)
-
-            case .betaAppReviewDetail(let value):
-                try value.encode(to: encoder)
-
-            case .appInfo(let value):
-                try value.encode(to: encoder)
-
             case .appClip(let value):
-                try value.encode(to: encoder)
-
-            case .endUserLicenseAgreement(let value):
-                try value.encode(to: encoder)
-
-            case .inAppPurchase(let value):
-                try value.encode(to: encoder)
-
-            case .subscriptionGroup(let value):
-                try value.encode(to: encoder)
-
-            case .gameCenterEnabledVersion(let value):
                 try value.encode(to: encoder)
 
             case .appCustomProductPage(let value):
                 try value.encode(to: encoder)
 
-            case .inAppPurchaseV2(let value):
-                try value.encode(to: encoder)
-
-            case .promotedPurchase(let value):
+            case .appEncryptionDeclaration(let value):
                 try value.encode(to: encoder)
 
             case .appEvent(let value):
+                try value.encode(to: encoder)
+
+            case .appInfo(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersionExperimentV2(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersion(let value):
+                try value.encode(to: encoder)
+
+            case .betaAppLocalization(let value):
+                try value.encode(to: encoder)
+
+            case .betaAppReviewDetail(let value):
+                try value.encode(to: encoder)
+
+            case .betaGroup(let value):
+                try value.encode(to: encoder)
+
+            case .betaLicenseAgreement(let value):
+                try value.encode(to: encoder)
+
+            case .build(let value):
+                try value.encode(to: encoder)
+
+            case .ciProduct(let value):
+                try value.encode(to: encoder)
+
+            case .endUserLicenseAgreement(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterDetail(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterEnabledVersion(let value):
+                try value.encode(to: encoder)
+
+            case .inAppPurchase(let value):
+                try value.encode(to: encoder)
+
+            case .prereleaseVersion(let value):
+                try value.encode(to: encoder)
+
+            case .promotedPurchase(let value):
                 try value.encode(to: encoder)
 
             case .reviewSubmission(let value):
@@ -243,10 +237,7 @@ public struct AppsResponse: Hashable, Codable, Sendable {
             case .subscriptionGracePeriod(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterDetail(let value):
-                try value.encode(to: encoder)
-
-            case .appStoreVersionExperimentV2(let value):
+            case .subscriptionGroup(let value):
                 try value.encode(to: encoder)
             }
         }

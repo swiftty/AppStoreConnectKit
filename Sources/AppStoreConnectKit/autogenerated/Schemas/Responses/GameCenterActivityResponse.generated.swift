@@ -27,15 +27,25 @@ public struct GameCenterActivityResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
+        case gameCenterAchievement(GameCenterAchievement)
+        case gameCenterActivityVersion(GameCenterActivityVersion)
         case gameCenterDetail(GameCenterDetail)
         case gameCenterGroup(GameCenterGroup)
-        case gameCenterAchievement(GameCenterAchievement)
         case gameCenterLeaderboard(GameCenterLeaderboard)
-        case gameCenterActivityVersion(GameCenterActivityVersion)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
+                do {
+                    return .gameCenterAchievement(try GameCenterAchievement(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterActivityVersion(try GameCenterActivityVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 do {
                     return .gameCenterDetail(try GameCenterDetail(from: decoder))
                 } catch {
@@ -47,17 +57,7 @@ public struct GameCenterActivityResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .gameCenterAchievement(try GameCenterAchievement(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
                     return .gameCenterLeaderboard(try GameCenterLeaderboard(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .gameCenterActivityVersion(try GameCenterActivityVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -67,19 +67,19 @@ public struct GameCenterActivityResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
+            case .gameCenterAchievement(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterActivityVersion(let value):
+                try value.encode(to: encoder)
+
             case .gameCenterDetail(let value):
                 try value.encode(to: encoder)
 
             case .gameCenterGroup(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterAchievement(let value):
-                try value.encode(to: encoder)
-
             case .gameCenterLeaderboard(let value):
-                try value.encode(to: encoder)
-
-            case .gameCenterActivityVersion(let value):
                 try value.encode(to: encoder)
             }
         }

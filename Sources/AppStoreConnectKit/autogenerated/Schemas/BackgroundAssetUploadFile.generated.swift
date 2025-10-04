@@ -46,7 +46,10 @@ public struct BackgroundAssetUploadFile: Hashable, Codable, Sendable {
 
         public var fileSize: Int?
 
+        @available(*, deprecated)
         public var sourceFileChecksum: String?
+
+        public var sourceFileChecksums: Checksums?
 
         public var uploadOperations: [DeliveryFileUploadOperation]?
 
@@ -57,6 +60,7 @@ public struct BackgroundAssetUploadFile: Hashable, Codable, Sendable {
             fileName: String? = nil,
             fileSize: Int? = nil,
             sourceFileChecksum: String? = nil,
+            sourceFileChecksums: Checksums? = nil,
             uploadOperations: [DeliveryFileUploadOperation]? = nil
         ) {
             self.assetDeliveryState = assetDeliveryState
@@ -65,6 +69,7 @@ public struct BackgroundAssetUploadFile: Hashable, Codable, Sendable {
             self.fileName = fileName
             self.fileSize = fileSize
             self.sourceFileChecksum = sourceFileChecksum
+            self.sourceFileChecksums = sourceFileChecksums
             self.uploadOperations = uploadOperations
         }
 
@@ -75,6 +80,7 @@ public struct BackgroundAssetUploadFile: Hashable, Codable, Sendable {
             case fileName
             case fileSize
             case sourceFileChecksum
+            case sourceFileChecksums
             case uploadOperations
         }
 

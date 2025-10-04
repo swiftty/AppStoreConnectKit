@@ -32,21 +32,21 @@ public struct AppPreviewSetsResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case appStoreVersionLocalization(AppStoreVersionLocalization)
         case appCustomProductPageLocalization(AppCustomProductPageLocalization)
-        case appStoreVersionExperimentTreatmentLocalization(AppStoreVersionExperimentTreatmentLocalization)
         case appPreview(AppPreview)
+        case appStoreVersionExperimentTreatmentLocalization(AppStoreVersionExperimentTreatmentLocalization)
+        case appStoreVersionLocalization(AppStoreVersionLocalization)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .appStoreVersionLocalization(try AppStoreVersionLocalization(from: decoder))
+                    return .appCustomProductPageLocalization(try AppCustomProductPageLocalization(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .appCustomProductPageLocalization(try AppCustomProductPageLocalization(from: decoder))
+                    return .appPreview(try AppPreview(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -56,7 +56,7 @@ public struct AppPreviewSetsResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .appPreview(try AppPreview(from: decoder))
+                    return .appStoreVersionLocalization(try AppStoreVersionLocalization(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -66,16 +66,16 @@ public struct AppPreviewSetsResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .appStoreVersionLocalization(let value):
+            case .appCustomProductPageLocalization(let value):
                 try value.encode(to: encoder)
 
-            case .appCustomProductPageLocalization(let value):
+            case .appPreview(let value):
                 try value.encode(to: encoder)
 
             case .appStoreVersionExperimentTreatmentLocalization(let value):
                 try value.encode(to: encoder)
 
-            case .appPreview(let value):
+            case .appStoreVersionLocalization(let value):
                 try value.encode(to: encoder)
             }
         }

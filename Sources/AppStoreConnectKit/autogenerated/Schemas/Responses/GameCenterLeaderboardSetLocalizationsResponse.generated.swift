@@ -32,19 +32,19 @@ public struct GameCenterLeaderboardSetLocalizationsResponse: Hashable, Codable, 
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case gameCenterLeaderboardSet(GameCenterLeaderboardSet)
         case gameCenterLeaderboardSetImage(GameCenterLeaderboardSetImage)
+        case gameCenterLeaderboardSet(GameCenterLeaderboardSet)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .gameCenterLeaderboardSet(try GameCenterLeaderboardSet(from: decoder))
+                    return .gameCenterLeaderboardSetImage(try GameCenterLeaderboardSetImage(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .gameCenterLeaderboardSetImage(try GameCenterLeaderboardSetImage(from: decoder))
+                    return .gameCenterLeaderboardSet(try GameCenterLeaderboardSet(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -54,10 +54,10 @@ public struct GameCenterLeaderboardSetLocalizationsResponse: Hashable, Codable, 
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .gameCenterLeaderboardSet(let value):
+            case .gameCenterLeaderboardSetImage(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterLeaderboardSetImage(let value):
+            case .gameCenterLeaderboardSet(let value):
                 try value.encode(to: encoder)
             }
         }

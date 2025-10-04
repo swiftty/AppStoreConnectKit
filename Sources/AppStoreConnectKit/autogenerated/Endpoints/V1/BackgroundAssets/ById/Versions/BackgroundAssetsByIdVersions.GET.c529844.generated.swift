@@ -30,10 +30,20 @@ extension V1.BackgroundAssets.ById.Versions {
             components?.queryItems = [
                 URLQueryItem(name: "fields[backgroundAssetUploadFiles]",
                              value: parameters.fields[.backgroundAssetUploadFiles]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[backgroundAssetVersionAppStoreReleases]",
+                             value: parameters.fields[.backgroundAssetVersionAppStoreReleases]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[backgroundAssetVersionExternalBetaReleases]",
+                             value: parameters.fields[.backgroundAssetVersionExternalBetaReleases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[backgroundAssetVersionInternalBetaReleases]",
                              value: parameters.fields[.backgroundAssetVersionInternalBetaReleases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[backgroundAssetVersions]",
                              value: parameters.fields[.backgroundAssetVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[backgroundAssets]",
+                             value: parameters.fields[.backgroundAssets]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[appStoreRelease.state]",
+                             value: parameters.filter[.appStoreReleaseState]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[externalBetaRelease.state]",
+                             value: parameters.filter[.externalBetaReleaseState]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[internalBetaRelease.state]",
                              value: parameters.filter[.internalBetaReleaseState]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[state]",
@@ -142,8 +152,52 @@ extension V1.BackgroundAssets.ById.Versions.GET {
                     .init(rawValue: "sourceFileChecksum")
                 }
 
+                public static var sourceFileChecksums: Self {
+                    .init(rawValue: "sourceFileChecksums")
+                }
+
                 public static var uploadOperations: Self {
                     .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct BackgroundAssetVersionAppStoreReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var backgroundAssetVersion: Self {
+                    .init(rawValue: "backgroundAssetVersion")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct BackgroundAssetVersionExternalBetaReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var backgroundAssetVersion: Self {
+                    .init(rawValue: "backgroundAssetVersion")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
                 }
 
                 public var description: String {
@@ -178,8 +232,16 @@ extension V1.BackgroundAssets.ById.Versions.GET {
             }
 
             public struct BackgroundAssetVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStoreRelease: Self {
+                    .init(rawValue: "appStoreRelease")
+                }
+
                 public static var assetFile: Self {
                     .init(rawValue: "assetFile")
+                }
+
+                public static var backgroundAsset: Self {
+                    .init(rawValue: "backgroundAsset")
                 }
 
                 public static var backgroundAssetUploadFiles: Self {
@@ -188,6 +250,10 @@ extension V1.BackgroundAssets.ById.Versions.GET {
 
                 public static var createdDate: Self {
                     .init(rawValue: "createdDate")
+                }
+
+                public static var externalBetaRelease: Self {
+                    .init(rawValue: "externalBetaRelease")
                 }
 
                 public static var internalBetaRelease: Self {
@@ -221,10 +287,60 @@ extension V1.BackgroundAssets.ById.Versions.GET {
                 }
             }
 
+            public struct BackgroundAssets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var assetPackIdentifier: Self {
+                    .init(rawValue: "assetPackIdentifier")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var externalBetaVersion: Self {
+                    .init(rawValue: "externalBetaVersion")
+                }
+
+                public static var internalBetaVersion: Self {
+                    .init(rawValue: "internalBetaVersion")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type backgroundAssetUploadFiles
                 public static var backgroundAssetUploadFiles: Relation<[BackgroundAssetUploadFiles]?> {
                     .init(key: "fields[backgroundAssetUploadFiles]")
+                }
+
+                /// the fields to include for returned resources of type backgroundAssetVersionAppStoreReleases
+                public static var backgroundAssetVersionAppStoreReleases: Relation<[BackgroundAssetVersionAppStoreReleases]?> {
+                    .init(key: "fields[backgroundAssetVersionAppStoreReleases]")
+                }
+
+                /// the fields to include for returned resources of type backgroundAssetVersionExternalBetaReleases
+                public static var backgroundAssetVersionExternalBetaReleases: Relation<[BackgroundAssetVersionExternalBetaReleases]?> {
+                    .init(key: "fields[backgroundAssetVersionExternalBetaReleases]")
                 }
 
                 /// the fields to include for returned resources of type backgroundAssetVersionInternalBetaReleases
@@ -235,6 +351,11 @@ extension V1.BackgroundAssets.ById.Versions.GET {
                 /// the fields to include for returned resources of type backgroundAssetVersions
                 public static var backgroundAssetVersions: Relation<[BackgroundAssetVersions]?> {
                     .init(key: "fields[backgroundAssetVersions]")
+                }
+
+                /// the fields to include for returned resources of type backgroundAssets
+                public static var backgroundAssets: Relation<[BackgroundAssets]?> {
+                    .init(key: "fields[backgroundAssets]")
                 }
 
                 internal let key: String
@@ -252,6 +373,94 @@ extension V1.BackgroundAssets.ById.Versions.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public struct AppStoreReleaseState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var accepted: Self {
+                    .init(rawValue: "ACCEPTED")
+                }
+
+                public static var inReview: Self {
+                    .init(rawValue: "IN_REVIEW")
+                }
+
+                public static var prepareForSubmission: Self {
+                    .init(rawValue: "PREPARE_FOR_SUBMISSION")
+                }
+
+                public static var processingForDistribution: Self {
+                    .init(rawValue: "PROCESSING_FOR_DISTRIBUTION")
+                }
+
+                public static var readyForDistribution: Self {
+                    .init(rawValue: "READY_FOR_DISTRIBUTION")
+                }
+
+                public static var readyForReview: Self {
+                    .init(rawValue: "READY_FOR_REVIEW")
+                }
+
+                public static var rejected: Self {
+                    .init(rawValue: "REJECTED")
+                }
+
+                public static var superseded: Self {
+                    .init(rawValue: "SUPERSEDED")
+                }
+
+                public static var waitingForReview: Self {
+                    .init(rawValue: "WAITING_FOR_REVIEW")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct ExternalBetaReleaseState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var inReview: Self {
+                    .init(rawValue: "IN_REVIEW")
+                }
+
+                public static var processingForTesting: Self {
+                    .init(rawValue: "PROCESSING_FOR_TESTING")
+                }
+
+                public static var readyForBetaSubmission: Self {
+                    .init(rawValue: "READY_FOR_BETA_SUBMISSION")
+                }
+
+                public static var readyForTesting: Self {
+                    .init(rawValue: "READY_FOR_TESTING")
+                }
+
+                public static var rejected: Self {
+                    .init(rawValue: "REJECTED")
+                }
+
+                public static var superseded: Self {
+                    .init(rawValue: "SUPERSEDED")
+                }
+
+                public static var waitingForReview: Self {
+                    .init(rawValue: "WAITING_FOR_REVIEW")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
 
             public struct InternalBetaReleaseState: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var readyForTesting: Self {
@@ -302,6 +511,16 @@ extension V1.BackgroundAssets.ById.Versions.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// filter by attribute 'appStoreRelease.state'
+                public static var appStoreReleaseState: Relation<[AppStoreReleaseState]?> {
+                    .init(key: "filter[appStoreRelease.state]")
+                }
+
+                /// filter by attribute 'externalBetaRelease.state'
+                public static var externalBetaReleaseState: Relation<[ExternalBetaReleaseState]?> {
+                    .init(key: "filter[externalBetaRelease.state]")
+                }
+
                 /// filter by attribute 'internalBetaRelease.state'
                 public static var internalBetaReleaseState: Relation<[InternalBetaReleaseState]?> {
                     .init(key: "filter[internalBetaRelease.state]")
@@ -326,8 +545,20 @@ extension V1.BackgroundAssets.ById.Versions.GET {
         }
 
         public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appStoreRelease: Self {
+                .init(rawValue: "appStoreRelease")
+            }
+
             public static var assetFile: Self {
                 .init(rawValue: "assetFile")
+            }
+
+            public static var backgroundAsset: Self {
+                .init(rawValue: "backgroundAsset")
+            }
+
+            public static var externalBetaRelease: Self {
+                .init(rawValue: "externalBetaRelease")
             }
 
             public static var internalBetaRelease: Self {

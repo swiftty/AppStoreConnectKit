@@ -34,10 +34,10 @@ public struct GameCenterLeaderboardSetsResponse: Hashable, Codable, Sendable {
     public enum Included: Hashable, Codable, Sendable {
         case gameCenterDetail(GameCenterDetail)
         case gameCenterGroup(GameCenterGroup)
-        case gameCenterLeaderboardSet(GameCenterLeaderboardSet)
         case gameCenterLeaderboardSetLocalization(GameCenterLeaderboardSetLocalization)
-        case gameCenterLeaderboard(GameCenterLeaderboard)
         case gameCenterLeaderboardSetRelease(GameCenterLeaderboardSetRelease)
+        case gameCenterLeaderboardSet(GameCenterLeaderboardSet)
+        case gameCenterLeaderboard(GameCenterLeaderboard)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -53,22 +53,22 @@ public struct GameCenterLeaderboardSetsResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .gameCenterLeaderboardSet(try GameCenterLeaderboardSet(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
                     return .gameCenterLeaderboardSetLocalization(try GameCenterLeaderboardSetLocalization(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .gameCenterLeaderboard(try GameCenterLeaderboard(from: decoder))
+                    return .gameCenterLeaderboardSetRelease(try GameCenterLeaderboardSetRelease(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .gameCenterLeaderboardSetRelease(try GameCenterLeaderboardSetRelease(from: decoder))
+                    return .gameCenterLeaderboardSet(try GameCenterLeaderboardSet(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterLeaderboard(try GameCenterLeaderboard(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -84,16 +84,16 @@ public struct GameCenterLeaderboardSetsResponse: Hashable, Codable, Sendable {
             case .gameCenterGroup(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterLeaderboardSet(let value):
-                try value.encode(to: encoder)
-
             case .gameCenterLeaderboardSetLocalization(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterLeaderboard(let value):
+            case .gameCenterLeaderboardSetRelease(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterLeaderboardSetRelease(let value):
+            case .gameCenterLeaderboardSet(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterLeaderboard(let value):
                 try value.encode(to: encoder)
             }
         }

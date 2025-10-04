@@ -27,13 +27,18 @@ public struct AppPriceScheduleResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
+        case appPriceV2(AppPriceV2)
         case app(App)
         case territory(Territory)
-        case appPriceV2(AppPriceV2)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
+                do {
+                    return .appPriceV2(try AppPriceV2(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 do {
                     return .app(try App(from: decoder))
                 } catch {
@@ -44,24 +49,19 @@ public struct AppPriceScheduleResponse: Hashable, Codable, Sendable {
                 } catch {
                     lastError = error
                 }
-                do {
-                    return .appPriceV2(try AppPriceV2(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 throw lastError
             }()
         }
 
         public func encode(to encoder: Encoder) throws {
             switch self {
+            case .appPriceV2(let value):
+                try value.encode(to: encoder)
+
             case .app(let value):
                 try value.encode(to: encoder)
 
             case .territory(let value):
-                try value.encode(to: encoder)
-
-            case .appPriceV2(let value):
                 try value.encode(to: encoder)
             }
         }

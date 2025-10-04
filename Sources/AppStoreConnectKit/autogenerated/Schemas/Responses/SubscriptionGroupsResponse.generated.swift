@@ -32,19 +32,19 @@ public struct SubscriptionGroupsResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case subscription(Subscription)
         case subscriptionGroupLocalization(SubscriptionGroupLocalization)
+        case subscription(Subscription)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .subscription(try Subscription(from: decoder))
+                    return .subscriptionGroupLocalization(try SubscriptionGroupLocalization(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .subscriptionGroupLocalization(try SubscriptionGroupLocalization(from: decoder))
+                    return .subscription(try Subscription(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -54,10 +54,10 @@ public struct SubscriptionGroupsResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .subscription(let value):
+            case .subscriptionGroupLocalization(let value):
                 try value.encode(to: encoder)
 
-            case .subscriptionGroupLocalization(let value):
+            case .subscription(let value):
                 try value.encode(to: encoder)
             }
         }

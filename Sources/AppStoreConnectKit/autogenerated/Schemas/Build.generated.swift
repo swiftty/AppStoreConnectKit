@@ -154,6 +154,8 @@ public struct Build: Hashable, Codable, Sendable {
 
         public var buildBundles: BuildBundles?
 
+        public var buildUpload: BuildUpload?
+
         public var diagnosticSignatures: DiagnosticSignatures?
 
         public var icons: Icons?
@@ -173,6 +175,7 @@ public struct Build: Hashable, Codable, Sendable {
             betaGroups: BetaGroups? = nil,
             buildBetaDetail: BuildBetaDetail? = nil,
             buildBundles: BuildBundles? = nil,
+            buildUpload: BuildUpload? = nil,
             diagnosticSignatures: DiagnosticSignatures? = nil,
             icons: Icons? = nil,
             individualTesters: IndividualTesters? = nil,
@@ -187,6 +190,7 @@ public struct Build: Hashable, Codable, Sendable {
             self.betaGroups = betaGroups
             self.buildBetaDetail = buildBetaDetail
             self.buildBundles = buildBundles
+            self.buildUpload = buildUpload
             self.diagnosticSignatures = diagnosticSignatures
             self.icons = icons
             self.individualTesters = individualTesters
@@ -203,6 +207,7 @@ public struct Build: Hashable, Codable, Sendable {
             case betaGroups
             case buildBetaDetail
             case buildBundles
+            case buildUpload
             case diagnosticSignatures
             case icons
             case individualTesters
@@ -552,6 +557,41 @@ public struct Build: Hashable, Codable, Sendable {
 
                 public enum `Type`: String, Hashable, Codable, Sendable {
                     case buildBundles
+                }
+            }
+        }
+
+        public struct BuildUpload: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case buildUploads
                 }
             }
         }

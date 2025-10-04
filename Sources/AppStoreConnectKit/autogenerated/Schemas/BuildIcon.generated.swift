@@ -40,21 +40,26 @@ public struct BuildIcon: Hashable, Codable, Sendable {
 
         public var iconType: IconAssetType?
 
+        public var masked: Bool?
+
         public var name: String?
 
         public init(
             iconAsset: ImageAsset? = nil,
             iconType: IconAssetType? = nil,
+            masked: Bool? = nil,
             name: String? = nil
         ) {
             self.iconAsset = iconAsset
             self.iconType = iconType
+            self.masked = masked
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case iconAsset
             case iconType
+            case masked
             case name
         }
     }

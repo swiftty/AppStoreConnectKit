@@ -379,6 +379,10 @@ extension V1.AppStoreVersions.ById.AppStoreVersionExperimentsV2.GET {
                     .init(rawValue: "appStoreVersions")
                 }
 
+                public static var appTags: Self {
+                    .init(rawValue: "appTags")
+                }
+
                 public static var backgroundAssets: Self {
                     .init(rawValue: "backgroundAssets")
                 }
@@ -409,6 +413,10 @@ extension V1.AppStoreVersions.ById.AppStoreVersionExperimentsV2.GET {
 
                 public static var betaTesters: Self {
                     .init(rawValue: "betaTesters")
+                }
+
+                public static var buildUploads: Self {
+                    .init(rawValue: "buildUploads")
                 }
 
                 public static var builds: Self {
@@ -485,6 +493,10 @@ extension V1.AppStoreVersions.ById.AppStoreVersionExperimentsV2.GET {
 
                 public static var reviewSubmissions: Self {
                     .init(rawValue: "reviewSubmissions")
+                }
+
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
                 }
 
                 public static var sku: Self {

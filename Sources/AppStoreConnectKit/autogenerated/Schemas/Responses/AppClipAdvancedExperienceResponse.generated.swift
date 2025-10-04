@@ -27,18 +27,13 @@ public struct AppClipAdvancedExperienceResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case appClip(AppClip)
         case appClipAdvancedExperienceImage(AppClipAdvancedExperienceImage)
         case appClipAdvancedExperienceLocalization(AppClipAdvancedExperienceLocalization)
+        case appClip(AppClip)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
-                do {
-                    return .appClip(try AppClip(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 do {
                     return .appClipAdvancedExperienceImage(try AppClipAdvancedExperienceImage(from: decoder))
                 } catch {
@@ -49,19 +44,24 @@ public struct AppClipAdvancedExperienceResponse: Hashable, Codable, Sendable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .appClip(try AppClip(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .appClip(let value):
-                try value.encode(to: encoder)
-
             case .appClipAdvancedExperienceImage(let value):
                 try value.encode(to: encoder)
 
             case .appClipAdvancedExperienceLocalization(let value):
+                try value.encode(to: encoder)
+
+            case .appClip(let value):
                 try value.encode(to: encoder)
             }
         }

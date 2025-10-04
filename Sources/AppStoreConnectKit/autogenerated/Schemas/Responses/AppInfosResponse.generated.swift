@@ -32,21 +32,21 @@ public struct AppInfosResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case app(App)
         case ageRatingDeclaration(AgeRatingDeclaration)
-        case appInfoLocalization(AppInfoLocalization)
         case appCategory(AppCategory)
+        case appInfoLocalization(AppInfoLocalization)
+        case app(App)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .app(try App(from: decoder))
+                    return .ageRatingDeclaration(try AgeRatingDeclaration(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .ageRatingDeclaration(try AgeRatingDeclaration(from: decoder))
+                    return .appCategory(try AppCategory(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -56,7 +56,7 @@ public struct AppInfosResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .appCategory(try AppCategory(from: decoder))
+                    return .app(try App(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -66,16 +66,16 @@ public struct AppInfosResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .app(let value):
+            case .ageRatingDeclaration(let value):
                 try value.encode(to: encoder)
 
-            case .ageRatingDeclaration(let value):
+            case .appCategory(let value):
                 try value.encode(to: encoder)
 
             case .appInfoLocalization(let value):
                 try value.encode(to: encoder)
 
-            case .appCategory(let value):
+            case .app(let value):
                 try value.encode(to: encoder)
             }
         }

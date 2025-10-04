@@ -32,15 +32,15 @@ public struct GameCenterMatchmakingRuleSetsResponse: Hashable, Codable, Sendable
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case gameCenterMatchmakingTeam(GameCenterMatchmakingTeam)
-        case gameCenterMatchmakingRule(GameCenterMatchmakingRule)
         case gameCenterMatchmakingQueue(GameCenterMatchmakingQueue)
+        case gameCenterMatchmakingRule(GameCenterMatchmakingRule)
+        case gameCenterMatchmakingTeam(GameCenterMatchmakingTeam)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .gameCenterMatchmakingTeam(try GameCenterMatchmakingTeam(from: decoder))
+                    return .gameCenterMatchmakingQueue(try GameCenterMatchmakingQueue(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -50,7 +50,7 @@ public struct GameCenterMatchmakingRuleSetsResponse: Hashable, Codable, Sendable
                     lastError = error
                 }
                 do {
-                    return .gameCenterMatchmakingQueue(try GameCenterMatchmakingQueue(from: decoder))
+                    return .gameCenterMatchmakingTeam(try GameCenterMatchmakingTeam(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -60,13 +60,13 @@ public struct GameCenterMatchmakingRuleSetsResponse: Hashable, Codable, Sendable
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .gameCenterMatchmakingTeam(let value):
+            case .gameCenterMatchmakingQueue(let value):
                 try value.encode(to: encoder)
 
             case .gameCenterMatchmakingRule(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterMatchmakingQueue(let value):
+            case .gameCenterMatchmakingTeam(let value):
                 try value.encode(to: encoder)
             }
         }

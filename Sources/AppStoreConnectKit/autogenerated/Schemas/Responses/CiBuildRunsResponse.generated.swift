@@ -33,8 +33,8 @@ public struct CiBuildRunsResponse: Hashable, Codable, Sendable {
 
     public enum Included: Hashable, Codable, Sendable {
         case build(Build)
-        case ciWorkflow(CiWorkflow)
         case ciProduct(CiProduct)
+        case ciWorkflow(CiWorkflow)
         case scmGitReference(ScmGitReference)
         case scmPullRequest(ScmPullRequest)
 
@@ -47,12 +47,12 @@ public struct CiBuildRunsResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .ciWorkflow(try CiWorkflow(from: decoder))
+                    return .ciProduct(try CiProduct(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .ciProduct(try CiProduct(from: decoder))
+                    return .ciWorkflow(try CiWorkflow(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -75,10 +75,10 @@ public struct CiBuildRunsResponse: Hashable, Codable, Sendable {
             case .build(let value):
                 try value.encode(to: encoder)
 
-            case .ciWorkflow(let value):
+            case .ciProduct(let value):
                 try value.encode(to: encoder)
 
-            case .ciProduct(let value):
+            case .ciWorkflow(let value):
                 try value.encode(to: encoder)
 
             case .scmGitReference(let value):

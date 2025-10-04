@@ -32,16 +32,16 @@ public struct GameCenterChallengeVersionsResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case gameCenterChallenge(GameCenterChallenge)
+        case gameCenterChallengeImage(GameCenterChallengeImage)
         case gameCenterChallengeLocalization(GameCenterChallengeLocalization)
         case gameCenterChallengeVersionRelease(GameCenterChallengeVersionRelease)
-        case gameCenterChallengeImage(GameCenterChallengeImage)
+        case gameCenterChallenge(GameCenterChallenge)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .gameCenterChallenge(try GameCenterChallenge(from: decoder))
+                    return .gameCenterChallengeImage(try GameCenterChallengeImage(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -56,7 +56,7 @@ public struct GameCenterChallengeVersionsResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .gameCenterChallengeImage(try GameCenterChallengeImage(from: decoder))
+                    return .gameCenterChallenge(try GameCenterChallenge(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -66,7 +66,7 @@ public struct GameCenterChallengeVersionsResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .gameCenterChallenge(let value):
+            case .gameCenterChallengeImage(let value):
                 try value.encode(to: encoder)
 
             case .gameCenterChallengeLocalization(let value):
@@ -75,7 +75,7 @@ public struct GameCenterChallengeVersionsResponse: Hashable, Codable, Sendable {
             case .gameCenterChallengeVersionRelease(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterChallengeImage(let value):
+            case .gameCenterChallenge(let value):
                 try value.encode(to: encoder)
             }
         }

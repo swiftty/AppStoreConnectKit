@@ -27,58 +27,24 @@ public struct BuildResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case prereleaseVersion(PrereleaseVersion)
-        case betaTester(BetaTester)
-        case betaGroup(BetaGroup)
-        case betaBuildLocalization(BetaBuildLocalization)
         case appEncryptionDeclaration(AppEncryptionDeclaration)
-        case betaAppReviewSubmission(BetaAppReviewSubmission)
-        case app(App)
-        case buildBetaDetail(BuildBetaDetail)
         case appStoreVersion(AppStoreVersion)
-        case buildIcon(BuildIcon)
+        case app(App)
+        case betaAppReviewSubmission(BetaAppReviewSubmission)
+        case betaBuildLocalization(BetaBuildLocalization)
+        case betaGroup(BetaGroup)
+        case betaTester(BetaTester)
+        case buildBetaDetail(BuildBetaDetail)
         case buildBundle(BuildBundle)
+        case buildIcon(BuildIcon)
+        case buildUpload(BuildUpload)
+        case prereleaseVersion(PrereleaseVersion)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .prereleaseVersion(try PrereleaseVersion(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .betaTester(try BetaTester(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .betaGroup(try BetaGroup(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .betaBuildLocalization(try BetaBuildLocalization(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
                     return .appEncryptionDeclaration(try AppEncryptionDeclaration(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .betaAppReviewSubmission(try BetaAppReviewSubmission(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .app(try App(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .buildBetaDetail(try BuildBetaDetail(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -88,12 +54,52 @@ public struct BuildResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
-                    return .buildIcon(try BuildIcon(from: decoder))
+                    return .app(try App(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .betaAppReviewSubmission(try BetaAppReviewSubmission(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .betaBuildLocalization(try BetaBuildLocalization(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .betaGroup(try BetaGroup(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .betaTester(try BetaTester(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .buildBetaDetail(try BuildBetaDetail(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
                     return .buildBundle(try BuildBundle(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .buildIcon(try BuildIcon(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .buildUpload(try BuildUpload(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .prereleaseVersion(try PrereleaseVersion(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -103,37 +109,40 @@ public struct BuildResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .prereleaseVersion(let value):
-                try value.encode(to: encoder)
-
-            case .betaTester(let value):
-                try value.encode(to: encoder)
-
-            case .betaGroup(let value):
-                try value.encode(to: encoder)
-
-            case .betaBuildLocalization(let value):
-                try value.encode(to: encoder)
-
             case .appEncryptionDeclaration(let value):
-                try value.encode(to: encoder)
-
-            case .betaAppReviewSubmission(let value):
-                try value.encode(to: encoder)
-
-            case .app(let value):
-                try value.encode(to: encoder)
-
-            case .buildBetaDetail(let value):
                 try value.encode(to: encoder)
 
             case .appStoreVersion(let value):
                 try value.encode(to: encoder)
 
-            case .buildIcon(let value):
+            case .app(let value):
+                try value.encode(to: encoder)
+
+            case .betaAppReviewSubmission(let value):
+                try value.encode(to: encoder)
+
+            case .betaBuildLocalization(let value):
+                try value.encode(to: encoder)
+
+            case .betaGroup(let value):
+                try value.encode(to: encoder)
+
+            case .betaTester(let value):
+                try value.encode(to: encoder)
+
+            case .buildBetaDetail(let value):
                 try value.encode(to: encoder)
 
             case .buildBundle(let value):
+                try value.encode(to: encoder)
+
+            case .buildIcon(let value):
+                try value.encode(to: encoder)
+
+            case .buildUpload(let value):
+                try value.encode(to: encoder)
+
+            case .prereleaseVersion(let value):
                 try value.encode(to: encoder)
             }
         }

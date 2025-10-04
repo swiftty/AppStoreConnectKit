@@ -96,12 +96,24 @@ extension V1.BackgroundAssets.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct BackgroundAssets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
                 public static var assetPackIdentifier: Self {
                     .init(rawValue: "assetPackIdentifier")
                 }
 
                 public static var createdDate: Self {
                     .init(rawValue: "createdDate")
+                }
+
+                public static var externalBetaVersion: Self {
+                    .init(rawValue: "externalBetaVersion")
                 }
 
                 public static var internalBetaVersion: Self {
@@ -138,6 +150,18 @@ extension V1.BackgroundAssets.ById.GET {
         }
 
         public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var app: Self {
+                .init(rawValue: "app")
+            }
+
+            public static var appStoreVersion: Self {
+                .init(rawValue: "appStoreVersion")
+            }
+
+            public static var externalBetaVersion: Self {
+                .init(rawValue: "externalBetaVersion")
+            }
+
             public static var internalBetaVersion: Self {
                 .init(rawValue: "internalBetaVersion")
             }

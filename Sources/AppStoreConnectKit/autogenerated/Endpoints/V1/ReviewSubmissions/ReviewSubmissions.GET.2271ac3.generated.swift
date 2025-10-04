@@ -126,6 +126,10 @@ extension V1.ReviewSubmissions.GET {
                     .init(rawValue: "appStoreVersionExperimentV2")
                 }
 
+                public static var backgroundAssetVersion: Self {
+                    .init(rawValue: "backgroundAssetVersion")
+                }
+
                 public static var state: Self {
                     .init(rawValue: "state")
                 }

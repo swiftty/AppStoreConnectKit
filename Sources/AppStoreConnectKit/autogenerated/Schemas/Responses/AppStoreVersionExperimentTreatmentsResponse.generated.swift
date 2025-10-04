@@ -32,25 +32,19 @@ public struct AppStoreVersionExperimentTreatmentsResponse: Hashable, Codable, Se
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case appStoreVersionExperiment(AppStoreVersionExperiment)
-        case appStoreVersionExperimentV2(AppStoreVersionExperimentV2)
         case appStoreVersionExperimentTreatmentLocalization(AppStoreVersionExperimentTreatmentLocalization)
+        case appStoreVersionExperiment(AppStoreVersionExperiment)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .appStoreVersionExperiment(try AppStoreVersionExperiment(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
-                    return .appStoreVersionExperimentV2(try AppStoreVersionExperimentV2(from: decoder))
-                } catch {
-                    lastError = error
-                }
-                do {
                     return .appStoreVersionExperimentTreatmentLocalization(try AppStoreVersionExperimentTreatmentLocalization(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .appStoreVersionExperiment(try AppStoreVersionExperiment(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -60,13 +54,10 @@ public struct AppStoreVersionExperimentTreatmentsResponse: Hashable, Codable, Se
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .appStoreVersionExperiment(let value):
-                try value.encode(to: encoder)
-
-            case .appStoreVersionExperimentV2(let value):
-                try value.encode(to: encoder)
-
             case .appStoreVersionExperimentTreatmentLocalization(let value):
+                try value.encode(to: encoder)
+
+            case .appStoreVersionExperiment(let value):
                 try value.encode(to: encoder)
             }
         }

@@ -32,19 +32,19 @@ public struct GameCenterAchievementLocalizationsResponse: Hashable, Codable, Sen
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case gameCenterAchievement(GameCenterAchievement)
         case gameCenterAchievementImage(GameCenterAchievementImage)
+        case gameCenterAchievement(GameCenterAchievement)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .gameCenterAchievement(try GameCenterAchievement(from: decoder))
+                    return .gameCenterAchievementImage(try GameCenterAchievementImage(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .gameCenterAchievementImage(try GameCenterAchievementImage(from: decoder))
+                    return .gameCenterAchievement(try GameCenterAchievement(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -54,10 +54,10 @@ public struct GameCenterAchievementLocalizationsResponse: Hashable, Codable, Sen
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .gameCenterAchievement(let value):
+            case .gameCenterAchievementImage(let value):
                 try value.encode(to: encoder)
 
-            case .gameCenterAchievementImage(let value):
+            case .gameCenterAchievement(let value):
                 try value.encode(to: encoder)
             }
         }

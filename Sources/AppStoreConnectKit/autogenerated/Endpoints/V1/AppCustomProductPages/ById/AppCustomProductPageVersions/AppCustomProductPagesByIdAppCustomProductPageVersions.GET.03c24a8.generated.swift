@@ -131,6 +131,10 @@ extension V1.AppCustomProductPages.ById.AppCustomProductPageVersions.GET {
                     .init(rawValue: "promotionalText")
                 }
 
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
+                }
+
                 public var description: String {
                     rawValue
                 }

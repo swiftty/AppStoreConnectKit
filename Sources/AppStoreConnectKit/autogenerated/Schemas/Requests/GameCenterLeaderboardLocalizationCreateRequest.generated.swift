@@ -42,6 +42,8 @@ public struct GameCenterLeaderboardLocalizationCreateRequest: Hashable, Codable,
         }
 
         public struct Attributes: Hashable, Codable, Sendable {
+            public var description: String?
+
             public var formatterOverride: GameCenterLeaderboardFormatter?
 
             public var formatterSuffix: String?
@@ -53,12 +55,14 @@ public struct GameCenterLeaderboardLocalizationCreateRequest: Hashable, Codable,
             public var name: String
 
             public init(
+                description: String? = nil,
                 formatterOverride: GameCenterLeaderboardFormatter? = nil,
                 formatterSuffix: String? = nil,
                 formatterSuffixSingular: String? = nil,
                 locale: String,
                 name: String
             ) {
+                self.description = description
                 self.formatterOverride = formatterOverride
                 self.formatterSuffix = formatterSuffix
                 self.formatterSuffixSingular = formatterSuffixSingular
@@ -67,6 +71,7 @@ public struct GameCenterLeaderboardLocalizationCreateRequest: Hashable, Codable,
             }
 
             private enum CodingKeys: String, CodingKey {
+                case description
                 case formatterOverride
                 case formatterSuffix
                 case formatterSuffixSingular

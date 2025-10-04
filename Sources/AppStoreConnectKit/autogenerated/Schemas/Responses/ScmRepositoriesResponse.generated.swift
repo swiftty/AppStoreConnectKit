@@ -32,19 +32,19 @@ public struct ScmRepositoriesResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case scmProvider(ScmProvider)
         case scmGitReference(ScmGitReference)
+        case scmProvider(ScmProvider)
 
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
                 do {
-                    return .scmProvider(try ScmProvider(from: decoder))
+                    return .scmGitReference(try ScmGitReference(from: decoder))
                 } catch {
                     lastError = error
                 }
                 do {
-                    return .scmGitReference(try ScmGitReference(from: decoder))
+                    return .scmProvider(try ScmProvider(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -54,10 +54,10 @@ public struct ScmRepositoriesResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .scmProvider(let value):
+            case .scmGitReference(let value):
                 try value.encode(to: encoder)
 
-            case .scmGitReference(let value):
+            case .scmProvider(let value):
                 try value.encode(to: encoder)
             }
         }
