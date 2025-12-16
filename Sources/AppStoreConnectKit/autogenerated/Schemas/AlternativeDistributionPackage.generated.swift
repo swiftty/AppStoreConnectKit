@@ -8,6 +8,8 @@ public struct AlternativeDistributionPackage: Hashable, Codable, Sendable {
 
     public var type: `Type`
 
+    public var attributes: Attributes?
+
     public var relationships: Relationships?
 
     public var links: ResourceLinks?
@@ -15,11 +17,13 @@ public struct AlternativeDistributionPackage: Hashable, Codable, Sendable {
     public init(
         id: String,
         type: `Type`,
+        attributes: Attributes? = nil,
         relationships: Relationships? = nil,
         links: ResourceLinks? = nil
     ) {
         self.id = id
         self.type = type
+        self.attributes = attributes
         self.relationships = relationships
         self.links = links
     }
@@ -27,12 +31,25 @@ public struct AlternativeDistributionPackage: Hashable, Codable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case id
         case type
+        case attributes
         case relationships
         case links
     }
 
     public enum `Type`: String, Hashable, Codable, Sendable {
         case alternativeDistributionPackages
+    }
+
+    public struct Attributes: Hashable, Codable, Sendable {
+        public var sourceFileChecksum: Checksums?
+
+        public init(sourceFileChecksum: Checksums? = nil) {
+            self.sourceFileChecksum = sourceFileChecksum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceFileChecksum
+        }
     }
 
     public struct Relationships: Hashable, Codable, Sendable {

@@ -34,6 +34,8 @@ extension V1.Apps.ById.BackgroundAssets {
                              value: parameters.fields[.backgroundAssetVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[backgroundAssets]",
                              value: parameters.fields[.backgroundAssets]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[archived]",
+                             value: parameters.filter[.archived]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[assetPackIdentifier]",
                              value: parameters.filter[.assetPackIdentifier]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -125,6 +127,10 @@ extension V1.Apps.ById.BackgroundAssets.GET {
                     .init(rawValue: "analyticsReportRequests")
                 }
 
+                public static var androidToIosAppMappingDetails: Self {
+                    .init(rawValue: "androidToIosAppMappingDetails")
+                }
+
                 public static var appAvailabilityV2: Self {
                     .init(rawValue: "appAvailabilityV2")
                 }
@@ -155,6 +161,10 @@ extension V1.Apps.ById.BackgroundAssets.GET {
 
                 public static var appPriceSchedule: Self {
                     .init(rawValue: "appPriceSchedule")
+                }
+
+                public static var appStoreIcon: Self {
+                    .init(rawValue: "appStoreIcon")
                 }
 
                 public static var appStoreVersionExperimentsV2: Self {
@@ -373,6 +383,10 @@ extension V1.Apps.ById.BackgroundAssets.GET {
                     .init(rawValue: "state")
                 }
 
+                public static var stateDetails: Self {
+                    .init(rawValue: "stateDetails")
+                }
+
                 public static var version: Self {
                     .init(rawValue: "version")
                 }
@@ -395,6 +409,10 @@ extension V1.Apps.ById.BackgroundAssets.GET {
 
                 public static var appStoreVersion: Self {
                     .init(rawValue: "appStoreVersion")
+                }
+
+                public static var archived: Self {
+                    .init(rawValue: "archived")
                 }
 
                 public static var assetPackIdentifier: Self {
@@ -461,6 +479,11 @@ extension V1.Apps.ById.BackgroundAssets.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
+                /// filter by attribute 'archived'
+                public static var archived: Relation<[String]?> {
+                    .init(key: "filter[archived]")
+                }
+
                 /// filter by attribute 'assetPackIdentifier'
                 public static var assetPackIdentifier: Relation<[String]?> {
                     .init(key: "filter[assetPackIdentifier]")

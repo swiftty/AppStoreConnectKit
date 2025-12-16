@@ -43,6 +43,8 @@ public struct SubscriptionOfferCode: Hashable, Codable, Sendable {
     public struct Attributes: Hashable, Codable, Sendable {
         public var active: Bool?
 
+        public var autoRenewEnabled: Bool?
+
         public var customerEligibilities: [SubscriptionCustomerEligibility]?
 
         public var duration: SubscriptionOfferDuration?
@@ -55,36 +57,49 @@ public struct SubscriptionOfferCode: Hashable, Codable, Sendable {
 
         public var offerMode: SubscriptionOfferMode?
 
+        public var productionCodeCount: Int?
+
+        public var sandboxCodeCount: Int?
+
         public var totalNumberOfCodes: Int?
 
         public init(
             active: Bool? = nil,
+            autoRenewEnabled: Bool? = nil,
             customerEligibilities: [SubscriptionCustomerEligibility]? = nil,
             duration: SubscriptionOfferDuration? = nil,
             name: String? = nil,
             numberOfPeriods: Int? = nil,
             offerEligibility: SubscriptionOfferEligibility? = nil,
             offerMode: SubscriptionOfferMode? = nil,
+            productionCodeCount: Int? = nil,
+            sandboxCodeCount: Int? = nil,
             totalNumberOfCodes: Int? = nil
         ) {
             self.active = active
+            self.autoRenewEnabled = autoRenewEnabled
             self.customerEligibilities = customerEligibilities
             self.duration = duration
             self.name = name
             self.numberOfPeriods = numberOfPeriods
             self.offerEligibility = offerEligibility
             self.offerMode = offerMode
+            self.productionCodeCount = productionCodeCount
+            self.sandboxCodeCount = sandboxCodeCount
             self.totalNumberOfCodes = totalNumberOfCodes
         }
 
         private enum CodingKeys: String, CodingKey {
             case active
+            case autoRenewEnabled
             case customerEligibilities
             case duration
             case name
             case numberOfPeriods
             case offerEligibility
             case offerMode
+            case productionCodeCount
+            case sandboxCodeCount
             case totalNumberOfCodes
         }
     }

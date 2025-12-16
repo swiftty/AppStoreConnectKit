@@ -480,6 +480,10 @@ public struct AppClipAdvancedExperience: Hashable, Codable, Sendable {
                     .init(rawValue: "PARKING_RESERVE_PARKING")
                 }
 
+                public static var payToPark: Self {
+                    .init(rawValue: "PAY_TO_PARK")
+                }
+
                 public static var restaurantJoinWaitlist: Self {
                     .init(rawValue: "RESTAURANT_JOIN_WAITLIST")
                 }

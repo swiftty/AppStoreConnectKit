@@ -111,6 +111,10 @@ extension V1.SubscriptionOfferCodes.ById.OneTimeUseCodes.GET {
                     .init(rawValue: "createdDate")
                 }
 
+                public static var environment: Self {
+                    .init(rawValue: "environment")
+                }
+
                 public static var expirationDate: Self {
                     .init(rawValue: "expirationDate")
                 }
@@ -141,6 +145,10 @@ extension V1.SubscriptionOfferCodes.ById.OneTimeUseCodes.GET {
             public struct SubscriptionOfferCodes: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var active: Self {
                     .init(rawValue: "active")
+                }
+
+                public static var autoRenewEnabled: Self {
+                    .init(rawValue: "autoRenewEnabled")
                 }
 
                 public static var customCodes: Self {
@@ -177,6 +185,14 @@ extension V1.SubscriptionOfferCodes.ById.OneTimeUseCodes.GET {
 
                 public static var prices: Self {
                     .init(rawValue: "prices")
+                }
+
+                public static var productionCodeCount: Self {
+                    .init(rawValue: "productionCodeCount")
+                }
+
+                public static var sandboxCodeCount: Self {
+                    .init(rawValue: "sandboxCodeCount")
                 }
 
                 public static var subscription: Self {

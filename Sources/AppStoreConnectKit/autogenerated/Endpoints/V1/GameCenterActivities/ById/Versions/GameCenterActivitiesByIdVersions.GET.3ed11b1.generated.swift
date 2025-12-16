@@ -117,6 +117,10 @@ extension V1.GameCenterActivities.ById.Versions.GET {
                     .init(rawValue: "achievements")
                 }
 
+                public static var achievementsV2: Self {
+                    .init(rawValue: "achievementsV2")
+                }
+
                 public static var archived: Self {
                     .init(rawValue: "archived")
                 }
@@ -131,6 +135,10 @@ extension V1.GameCenterActivities.ById.Versions.GET {
 
                 public static var leaderboards: Self {
                     .init(rawValue: "leaderboards")
+                }
+
+                public static var leaderboardsV2: Self {
+                    .init(rawValue: "leaderboardsV2")
                 }
 
                 public static var maximumPlayersCount: Self {

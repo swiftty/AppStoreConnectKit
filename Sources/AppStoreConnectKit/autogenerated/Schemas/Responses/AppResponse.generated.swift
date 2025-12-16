@@ -27,6 +27,7 @@ public struct AppResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
+        case androidToIosAppMappingDetail(AndroidToIosAppMappingDetail)
         case appClip(AppClip)
         case appCustomProductPage(AppCustomProductPage)
         case appEncryptionDeclaration(AppEncryptionDeclaration)
@@ -38,6 +39,7 @@ public struct AppResponse: Hashable, Codable, Sendable {
         case betaAppReviewDetail(BetaAppReviewDetail)
         case betaGroup(BetaGroup)
         case betaLicenseAgreement(BetaLicenseAgreement)
+        case buildIcon(BuildIcon)
         case build(Build)
         case ciProduct(CiProduct)
         case endUserLicenseAgreement(EndUserLicenseAgreement)
@@ -53,6 +55,11 @@ public struct AppResponse: Hashable, Codable, Sendable {
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
+                do {
+                    return .androidToIosAppMappingDetail(try AndroidToIosAppMappingDetail(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 do {
                     return .appClip(try AppClip(from: decoder))
                 } catch {
@@ -105,6 +112,11 @@ public struct AppResponse: Hashable, Codable, Sendable {
                 }
                 do {
                     return .betaLicenseAgreement(try BetaLicenseAgreement(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .buildIcon(try BuildIcon(from: decoder))
                 } catch {
                     lastError = error
                 }
@@ -169,6 +181,9 @@ public struct AppResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
+            case .androidToIosAppMappingDetail(let value):
+                try value.encode(to: encoder)
+
             case .appClip(let value):
                 try value.encode(to: encoder)
 
@@ -200,6 +215,9 @@ public struct AppResponse: Hashable, Codable, Sendable {
                 try value.encode(to: encoder)
 
             case .betaLicenseAgreement(let value):
+                try value.encode(to: encoder)
+
+            case .buildIcon(let value):
                 try value.encode(to: encoder)
 
             case .build(let value):

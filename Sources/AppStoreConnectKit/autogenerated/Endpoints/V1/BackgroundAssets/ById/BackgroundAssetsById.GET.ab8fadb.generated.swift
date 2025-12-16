@@ -104,6 +104,10 @@ extension V1.BackgroundAssets.ById.GET {
                     .init(rawValue: "appStoreVersion")
                 }
 
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
                 public static var assetPackIdentifier: Self {
                     .init(rawValue: "assetPackIdentifier")
                 }

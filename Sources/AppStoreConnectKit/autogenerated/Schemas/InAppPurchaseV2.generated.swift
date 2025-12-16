@@ -97,6 +97,8 @@ public struct InAppPurchaseV2: Hashable, Codable, Sendable {
 
         public var inAppPurchaseLocalizations: InAppPurchaseLocalizations?
 
+        public var offerCodes: OfferCodes?
+
         public var pricePoints: PricePoints?
 
         public var promotedPurchase: PromotedPurchase?
@@ -108,6 +110,7 @@ public struct InAppPurchaseV2: Hashable, Codable, Sendable {
             images: Images? = nil,
             inAppPurchaseAvailability: InAppPurchaseAvailability? = nil,
             inAppPurchaseLocalizations: InAppPurchaseLocalizations? = nil,
+            offerCodes: OfferCodes? = nil,
             pricePoints: PricePoints? = nil,
             promotedPurchase: PromotedPurchase? = nil
         ) {
@@ -117,6 +120,7 @@ public struct InAppPurchaseV2: Hashable, Codable, Sendable {
             self.images = images
             self.inAppPurchaseAvailability = inAppPurchaseAvailability
             self.inAppPurchaseLocalizations = inAppPurchaseLocalizations
+            self.offerCodes = offerCodes
             self.pricePoints = pricePoints
             self.promotedPurchase = promotedPurchase
         }
@@ -128,6 +132,7 @@ public struct InAppPurchaseV2: Hashable, Codable, Sendable {
             case images
             case inAppPurchaseAvailability
             case inAppPurchaseLocalizations
+            case offerCodes
             case pricePoints
             case promotedPurchase
         }
@@ -390,6 +395,53 @@ public struct InAppPurchaseV2: Hashable, Codable, Sendable {
 
                 public enum `Type`: String, Hashable, Codable, Sendable {
                     case inAppPurchaseLocalizations
+                }
+            }
+        }
+
+        public struct OfferCodes: Hashable, Codable, Sendable {
+            public var data: [Data]?
+
+            public var links: RelationshipLinks?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: RelationshipLinks? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case inAppPurchaseOfferCodes
                 }
             }
         }

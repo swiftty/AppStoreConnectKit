@@ -97,17 +97,21 @@ public struct GameCenterChallenge: Hashable, Codable, Sendable {
 
         public var leaderboard: Leaderboard?
 
+        public var leaderboardV2: LeaderboardV2?
+
         public var versions: Versions?
 
         public init(
             gameCenterDetail: GameCenterDetail? = nil,
             gameCenterGroup: GameCenterGroup? = nil,
             leaderboard: Leaderboard? = nil,
+            leaderboardV2: LeaderboardV2? = nil,
             versions: Versions? = nil
         ) {
             self.gameCenterDetail = gameCenterDetail
             self.gameCenterGroup = gameCenterGroup
             self.leaderboard = leaderboard
+            self.leaderboardV2 = leaderboardV2
             self.versions = versions
         }
 
@@ -115,6 +119,7 @@ public struct GameCenterChallenge: Hashable, Codable, Sendable {
             case gameCenterDetail
             case gameCenterGroup
             case leaderboard
+            case leaderboardV2
             case versions
         }
 
@@ -189,6 +194,48 @@ public struct GameCenterChallenge: Hashable, Codable, Sendable {
         }
 
         public struct Leaderboard: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public var links: RelationshipLinks?
+
+            public init(
+                data: Data? = nil,
+                links: RelationshipLinks? = nil
+            ) {
+                self.data = data
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterLeaderboards
+                }
+            }
+        }
+
+        public struct LeaderboardV2: Hashable, Codable, Sendable {
             public var data: Data?
 
             public var links: RelationshipLinks?

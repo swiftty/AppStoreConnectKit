@@ -249,6 +249,10 @@ extension V1.GameCenterChallenges.ById.Versions.GET {
                     .init(rawValue: "leaderboard")
                 }
 
+                public static var leaderboardV2: Self {
+                    .init(rawValue: "leaderboardV2")
+                }
+
                 public static var referenceName: Self {
                     .init(rawValue: "referenceName")
                 }

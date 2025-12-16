@@ -41,6 +41,8 @@ public struct BetaTester: Hashable, Codable, Sendable {
     }
 
     public struct Attributes: Hashable, Codable, Sendable {
+        public var appDevices: [AppDevices]?
+
         public var email: String?
 
         public var firstName: String?
@@ -52,12 +54,14 @@ public struct BetaTester: Hashable, Codable, Sendable {
         public var state: BetaTesterState?
 
         public init(
+            appDevices: [AppDevices]? = nil,
             email: String? = nil,
             firstName: String? = nil,
             inviteType: BetaInviteType? = nil,
             lastName: String? = nil,
             state: BetaTesterState? = nil
         ) {
+            self.appDevices = appDevices
             self.email = email
             self.firstName = firstName
             self.inviteType = inviteType
@@ -66,11 +70,73 @@ public struct BetaTester: Hashable, Codable, Sendable {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appDevices
             case email
             case firstName
             case inviteType
             case lastName
             case state
+        }
+
+        public struct AppDevices: Hashable, Codable, Sendable {
+            public var appBuildVersion: String?
+
+            public var model: String?
+
+            public var osVersion: String?
+
+            public var platform: Platform?
+
+            public init(
+                appBuildVersion: String? = nil,
+                model: String? = nil,
+                osVersion: String? = nil,
+                platform: Platform? = nil
+            ) {
+                self.appBuildVersion = appBuildVersion
+                self.model = model
+                self.osVersion = osVersion
+                self.platform = platform
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case appBuildVersion
+                case model
+                case osVersion
+                case platform
+            }
+
+            public struct Platform: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var iOS: Self {
+                    .init(rawValue: "IOS")
+                }
+
+                public static var macOS: Self {
+                    .init(rawValue: "MAC_OS")
+                }
+
+                public static var tvOS: Self {
+                    .init(rawValue: "TV_OS")
+                }
+
+                public static var visionOS: Self {
+                    .init(rawValue: "VISION_OS")
+                }
+
+                public static var watchOS: Self {
+                    .init(rawValue: "WATCH_OS")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
         }
     }
 

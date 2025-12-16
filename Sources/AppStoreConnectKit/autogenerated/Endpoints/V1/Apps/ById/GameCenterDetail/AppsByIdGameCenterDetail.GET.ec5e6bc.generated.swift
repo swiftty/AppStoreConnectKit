@@ -68,6 +68,8 @@ extension V1.Apps.ById.GameCenterDetail {
                              value: parameters.limit[.challengeReleases].map { "\($0)" }),
                 URLQueryItem(name: "limit[challengesMinimumPlatformVersions]",
                              value: parameters.limit[.challengesMinimumPlatformVersions].map { "\($0)" }),
+                URLQueryItem(name: "limit[gameCenterAchievementsV2]",
+                             value: parameters.limit[.gameCenterAchievementsV2].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterAchievements]",
                              value: parameters.limit[.gameCenterAchievements].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterActivities]",
@@ -76,8 +78,12 @@ extension V1.Apps.ById.GameCenterDetail {
                              value: parameters.limit[.gameCenterAppVersions].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterChallenges]",
                              value: parameters.limit[.gameCenterChallenges].map { "\($0)" }),
+                URLQueryItem(name: "limit[gameCenterLeaderboardSetsV2]",
+                             value: parameters.limit[.gameCenterLeaderboardSetsV2].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterLeaderboardSets]",
                              value: parameters.limit[.gameCenterLeaderboardSets].map { "\($0)" }),
+                URLQueryItem(name: "limit[gameCenterLeaderboardsV2]",
+                             value: parameters.limit[.gameCenterLeaderboardsV2].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterLeaderboards]",
                              value: parameters.limit[.gameCenterLeaderboards].map { "\($0)" }),
                 URLQueryItem(name: "limit[leaderboardReleases]",
@@ -278,6 +284,10 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(rawValue: "analyticsReportRequests")
                 }
 
+                public static var androidToIosAppMappingDetails: Self {
+                    .init(rawValue: "androidToIosAppMappingDetails")
+                }
+
                 public static var appAvailabilityV2: Self {
                     .init(rawValue: "appAvailabilityV2")
                 }
@@ -308,6 +318,10 @@ extension V1.Apps.ById.GameCenterDetail.GET {
 
                 public static var appPriceSchedule: Self {
                     .init(rawValue: "appPriceSchedule")
+                }
+
+                public static var appStoreIcon: Self {
+                    .init(rawValue: "appStoreIcon")
                 }
 
                 public static var appStoreVersionExperimentsV2: Self {
@@ -562,6 +576,10 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(rawValue: "vendorIdentifier")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public var description: String {
                     rawValue
                 }
@@ -578,6 +596,10 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(rawValue: "achievements")
                 }
 
+                public static var achievementsV2: Self {
+                    .init(rawValue: "achievementsV2")
+                }
+
                 public static var archived: Self {
                     .init(rawValue: "archived")
                 }
@@ -592,6 +614,10 @@ extension V1.Apps.ById.GameCenterDetail.GET {
 
                 public static var leaderboards: Self {
                     .init(rawValue: "leaderboards")
+                }
+
+                public static var leaderboardsV2: Self {
+                    .init(rawValue: "leaderboardsV2")
                 }
 
                 public static var maximumPlayersCount: Self {
@@ -714,6 +740,10 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(rawValue: "leaderboard")
                 }
 
+                public static var leaderboardV2: Self {
+                    .init(rawValue: "leaderboardV2")
+                }
+
                 public static var referenceName: Self {
                     .init(rawValue: "referenceName")
                 }
@@ -774,12 +804,24 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(rawValue: "defaultGroupLeaderboard")
                 }
 
+                public static var defaultGroupLeaderboardV2: Self {
+                    .init(rawValue: "defaultGroupLeaderboardV2")
+                }
+
                 public static var defaultLeaderboard: Self {
                     .init(rawValue: "defaultLeaderboard")
                 }
 
+                public static var defaultLeaderboardV2: Self {
+                    .init(rawValue: "defaultLeaderboardV2")
+                }
+
                 public static var gameCenterAchievements: Self {
                     .init(rawValue: "gameCenterAchievements")
+                }
+
+                public static var gameCenterAchievementsV2: Self {
+                    .init(rawValue: "gameCenterAchievementsV2")
                 }
 
                 public static var gameCenterActivities: Self {
@@ -802,8 +844,16 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(rawValue: "gameCenterLeaderboardSets")
                 }
 
+                public static var gameCenterLeaderboardSetsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetsV2")
+                }
+
                 public static var gameCenterLeaderboards: Self {
                     .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var gameCenterLeaderboardsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardsV2")
                 }
 
                 public static var leaderboardReleases: Self {
@@ -830,6 +880,10 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(rawValue: "gameCenterAchievements")
                 }
 
+                public static var gameCenterAchievementsV2: Self {
+                    .init(rawValue: "gameCenterAchievementsV2")
+                }
+
                 public static var gameCenterActivities: Self {
                     .init(rawValue: "gameCenterActivities")
                 }
@@ -846,8 +900,16 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(rawValue: "gameCenterLeaderboardSets")
                 }
 
+                public static var gameCenterLeaderboardSetsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetsV2")
+                }
+
                 public static var gameCenterLeaderboards: Self {
                     .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var gameCenterLeaderboardsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardsV2")
                 }
 
                 public static var referenceName: Self {
@@ -946,6 +1008,10 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(rawValue: "vendorIdentifier")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public var description: String {
                     rawValue
                 }
@@ -1036,6 +1102,10 @@ extension V1.Apps.ById.GameCenterDetail.GET {
 
                 public static var vendorIdentifier: Self {
                     .init(rawValue: "vendorIdentifier")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
                 }
 
                 public static var visibility: Self {
@@ -1162,12 +1232,24 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                 .init(rawValue: "defaultGroupLeaderboard")
             }
 
+            public static var defaultGroupLeaderboardV2: Self {
+                .init(rawValue: "defaultGroupLeaderboardV2")
+            }
+
             public static var defaultLeaderboard: Self {
                 .init(rawValue: "defaultLeaderboard")
             }
 
+            public static var defaultLeaderboardV2: Self {
+                .init(rawValue: "defaultLeaderboardV2")
+            }
+
             public static var gameCenterAchievements: Self {
                 .init(rawValue: "gameCenterAchievements")
+            }
+
+            public static var gameCenterAchievementsV2: Self {
+                .init(rawValue: "gameCenterAchievementsV2")
             }
 
             public static var gameCenterActivities: Self {
@@ -1190,8 +1272,16 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                 .init(rawValue: "gameCenterLeaderboardSets")
             }
 
+            public static var gameCenterLeaderboardSetsV2: Self {
+                .init(rawValue: "gameCenterLeaderboardSetsV2")
+            }
+
             public static var gameCenterLeaderboards: Self {
                 .init(rawValue: "gameCenterLeaderboards")
+            }
+
+            public static var gameCenterLeaderboardsV2: Self {
+                .init(rawValue: "gameCenterLeaderboardsV2")
             }
 
             public static var leaderboardReleases: Self {
@@ -1242,6 +1332,11 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(key: "limit[challengesMinimumPlatformVersions]")
                 }
 
+                /// maximum number of related gameCenterAchievementsV2 returned (when they are included)
+                public static var gameCenterAchievementsV2: Relation<Int?> {
+                    .init(key: "limit[gameCenterAchievementsV2]")
+                }
+
                 /// maximum number of related gameCenterAchievements returned (when they are included)
                 public static var gameCenterAchievements: Relation<Int?> {
                     .init(key: "limit[gameCenterAchievements]")
@@ -1262,9 +1357,19 @@ extension V1.Apps.ById.GameCenterDetail.GET {
                     .init(key: "limit[gameCenterChallenges]")
                 }
 
+                /// maximum number of related gameCenterLeaderboardSetsV2 returned (when they are included)
+                public static var gameCenterLeaderboardSetsV2: Relation<Int?> {
+                    .init(key: "limit[gameCenterLeaderboardSetsV2]")
+                }
+
                 /// maximum number of related gameCenterLeaderboardSets returned (when they are included)
                 public static var gameCenterLeaderboardSets: Relation<Int?> {
                     .init(key: "limit[gameCenterLeaderboardSets]")
+                }
+
+                /// maximum number of related gameCenterLeaderboardsV2 returned (when they are included)
+                public static var gameCenterLeaderboardsV2: Relation<Int?> {
+                    .init(key: "limit[gameCenterLeaderboardsV2]")
                 }
 
                 /// maximum number of related gameCenterLeaderboards returned (when they are included)

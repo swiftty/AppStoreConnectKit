@@ -1147,6 +1147,10 @@ extension V1.AppStoreVersions.ById.CustomerReviews.GET {
                     .init(rawValue: "WSM")
                 }
 
+                public static var xks: Self {
+                    .init(rawValue: "XKS")
+                }
+
                 public static var yem: Self {
                     .init(rawValue: "YEM")
                 }

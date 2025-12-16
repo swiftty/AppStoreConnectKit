@@ -272,6 +272,10 @@ extension V1.BackgroundAssets.ById.Versions.GET {
                     .init(rawValue: "state")
                 }
 
+                public static var stateDetails: Self {
+                    .init(rawValue: "stateDetails")
+                }
+
                 public static var version: Self {
                     .init(rawValue: "version")
                 }
@@ -294,6 +298,10 @@ extension V1.BackgroundAssets.ById.Versions.GET {
 
                 public static var appStoreVersion: Self {
                     .init(rawValue: "appStoreVersion")
+                }
+
+                public static var archived: Self {
+                    .init(rawValue: "archived")
                 }
 
                 public static var assetPackIdentifier: Self {

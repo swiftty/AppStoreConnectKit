@@ -97,13 +97,28 @@ public struct ReviewSubmissionItem: Hashable, Codable, Sendable {
 
         public var backgroundAssetVersion: BackgroundAssetVersion?
 
+        public var gameCenterAchievementVersion: GameCenterAchievementVersion?
+
+        public var gameCenterActivityVersion: GameCenterActivityVersion?
+
+        public var gameCenterChallengeVersion: GameCenterChallengeVersion?
+
+        public var gameCenterLeaderboardSetVersion: GameCenterLeaderboardSetVersion?
+
+        public var gameCenterLeaderboardVersion: GameCenterLeaderboardVersion?
+
         public init(
             appCustomProductPageVersion: AppCustomProductPageVersion? = nil,
             appEvent: AppEvent? = nil,
             appStoreVersion: AppStoreVersion? = nil,
             appStoreVersionExperiment: AppStoreVersionExperiment? = nil,
             appStoreVersionExperimentV2: AppStoreVersionExperimentV2? = nil,
-            backgroundAssetVersion: BackgroundAssetVersion? = nil
+            backgroundAssetVersion: BackgroundAssetVersion? = nil,
+            gameCenterAchievementVersion: GameCenterAchievementVersion? = nil,
+            gameCenterActivityVersion: GameCenterActivityVersion? = nil,
+            gameCenterChallengeVersion: GameCenterChallengeVersion? = nil,
+            gameCenterLeaderboardSetVersion: GameCenterLeaderboardSetVersion? = nil,
+            gameCenterLeaderboardVersion: GameCenterLeaderboardVersion? = nil
         ) {
             self.appCustomProductPageVersion = appCustomProductPageVersion
             self.appEvent = appEvent
@@ -111,6 +126,11 @@ public struct ReviewSubmissionItem: Hashable, Codable, Sendable {
             self.appStoreVersionExperiment = appStoreVersionExperiment
             self.appStoreVersionExperimentV2 = appStoreVersionExperimentV2
             self.backgroundAssetVersion = backgroundAssetVersion
+            self.gameCenterAchievementVersion = gameCenterAchievementVersion
+            self.gameCenterActivityVersion = gameCenterActivityVersion
+            self.gameCenterChallengeVersion = gameCenterChallengeVersion
+            self.gameCenterLeaderboardSetVersion = gameCenterLeaderboardSetVersion
+            self.gameCenterLeaderboardVersion = gameCenterLeaderboardVersion
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -120,6 +140,11 @@ public struct ReviewSubmissionItem: Hashable, Codable, Sendable {
             case appStoreVersionExperiment
             case appStoreVersionExperimentV2
             case backgroundAssetVersion
+            case gameCenterAchievementVersion
+            case gameCenterActivityVersion
+            case gameCenterChallengeVersion
+            case gameCenterLeaderboardSetVersion
+            case gameCenterLeaderboardVersion
         }
 
         public struct AppCustomProductPageVersion: Hashable, Codable, Sendable {
@@ -328,6 +353,181 @@ public struct ReviewSubmissionItem: Hashable, Codable, Sendable {
 
                 public enum `Type`: String, Hashable, Codable, Sendable {
                     case backgroundAssetVersions
+                }
+            }
+        }
+
+        public struct GameCenterAchievementVersion: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterAchievementVersions
+                }
+            }
+        }
+
+        public struct GameCenterActivityVersion: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterActivityVersions
+                }
+            }
+        }
+
+        public struct GameCenterChallengeVersion: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterChallengeVersions
+                }
+            }
+        }
+
+        public struct GameCenterLeaderboardSetVersion: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterLeaderboardSetVersions
+                }
+            }
+        }
+
+        public struct GameCenterLeaderboardVersion: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterLeaderboardVersions
                 }
             }
         }

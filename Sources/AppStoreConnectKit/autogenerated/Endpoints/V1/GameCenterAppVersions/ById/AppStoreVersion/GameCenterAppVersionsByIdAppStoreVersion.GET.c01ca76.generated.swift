@@ -248,6 +248,10 @@ extension V1.GameCenterAppVersions.ById.AppStoreVersion.GET {
             }
 
             public struct AlternativeDistributionPackages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
                 public static var versions: Self {
                     .init(rawValue: "versions")
                 }
@@ -636,6 +640,10 @@ extension V1.GameCenterAppVersions.ById.AppStoreVersion.GET {
                     .init(rawValue: "analyticsReportRequests")
                 }
 
+                public static var androidToIosAppMappingDetails: Self {
+                    .init(rawValue: "androidToIosAppMappingDetails")
+                }
+
                 public static var appAvailabilityV2: Self {
                     .init(rawValue: "appAvailabilityV2")
                 }
@@ -666,6 +674,10 @@ extension V1.GameCenterAppVersions.ById.AppStoreVersion.GET {
 
                 public static var appPriceSchedule: Self {
                     .init(rawValue: "appPriceSchedule")
+                }
+
+                public static var appStoreIcon: Self {
+                    .init(rawValue: "appStoreIcon")
                 }
 
                 public static var appStoreVersionExperimentsV2: Self {

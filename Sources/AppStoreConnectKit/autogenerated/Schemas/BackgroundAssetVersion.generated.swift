@@ -47,17 +47,21 @@ public struct BackgroundAssetVersion: Hashable, Codable, Sendable {
 
         public var state: BackgroundAssetVersionState?
 
+        public var stateDetails: StateDetails?
+
         public var version: String?
 
         public init(
             createdDate: String? = nil,
             platforms: [Platform]? = nil,
             state: BackgroundAssetVersionState? = nil,
+            stateDetails: StateDetails? = nil,
             version: String? = nil
         ) {
             self.createdDate = createdDate
             self.platforms = platforms
             self.state = state
+            self.stateDetails = stateDetails
             self.version = version
         }
 
@@ -65,7 +69,32 @@ public struct BackgroundAssetVersion: Hashable, Codable, Sendable {
             case createdDate
             case platforms
             case state
+            case stateDetails
             case version
+        }
+
+        public struct StateDetails: Hashable, Codable, Sendable {
+            public var errors: [StateDetail]?
+
+            public var infos: [StateDetail]?
+
+            public var warnings: [StateDetail]?
+
+            public init(
+                errors: [StateDetail]? = nil,
+                infos: [StateDetail]? = nil,
+                warnings: [StateDetail]? = nil
+            ) {
+                self.errors = errors
+                self.infos = infos
+                self.warnings = warnings
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case errors
+                case infos
+                case warnings
+            }
         }
     }
 

@@ -32,6 +32,11 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable, Sendable {
         case appStoreVersionExperiment(AppStoreVersionExperiment)
         case appStoreVersion(AppStoreVersion)
         case backgroundAssetVersion(BackgroundAssetVersion)
+        case gameCenterAchievementVersionV2(GameCenterAchievementVersionV2)
+        case gameCenterActivityVersion(GameCenterActivityVersion)
+        case gameCenterChallengeVersion(GameCenterChallengeVersion)
+        case gameCenterLeaderboardSetVersionV2(GameCenterLeaderboardSetVersionV2)
+        case gameCenterLeaderboardVersionV2(GameCenterLeaderboardVersionV2)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -61,6 +66,31 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable, Sendable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .gameCenterAchievementVersionV2(try GameCenterAchievementVersionV2(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterActivityVersion(try GameCenterActivityVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterChallengeVersion(try GameCenterChallengeVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterLeaderboardSetVersionV2(try GameCenterLeaderboardSetVersionV2(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .gameCenterLeaderboardVersionV2(try GameCenterLeaderboardVersionV2(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -80,6 +110,21 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable, Sendable {
                 try value.encode(to: encoder)
 
             case .backgroundAssetVersion(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterAchievementVersionV2(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterActivityVersion(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterChallengeVersion(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterLeaderboardSetVersionV2(let value):
+                try value.encode(to: encoder)
+
+            case .gameCenterLeaderboardVersionV2(let value):
                 try value.encode(to: encoder)
             }
         }

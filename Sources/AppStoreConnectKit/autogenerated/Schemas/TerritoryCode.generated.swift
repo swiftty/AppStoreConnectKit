@@ -916,6 +916,10 @@ public struct TerritoryCode: Hashable, Codable, RawRepresentable, CustomStringCo
         .init(rawValue: "WSM")
     }
 
+    public static var xks: Self {
+        .init(rawValue: "XKS")
+    }
+
     public static var yem: Self {
         .init(rawValue: "YEM")
     }

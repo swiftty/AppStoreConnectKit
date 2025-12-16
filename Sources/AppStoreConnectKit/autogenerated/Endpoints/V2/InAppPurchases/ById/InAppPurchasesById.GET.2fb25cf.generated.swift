@@ -38,6 +38,8 @@ extension V2.InAppPurchases.ById {
                              value: parameters.fields[.inAppPurchaseImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchaseLocalizations]",
                              value: parameters.fields[.inAppPurchaseLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[inAppPurchaseOfferCodes]",
+                             value: parameters.fields[.inAppPurchaseOfferCodes]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchasePricePoints]",
                              value: parameters.fields[.inAppPurchasePricePoints]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchasePriceSchedules]",
@@ -52,6 +54,8 @@ extension V2.InAppPurchases.ById {
                              value: parameters.limit[.images].map { "\($0)" }),
                 URLQueryItem(name: "limit[inAppPurchaseLocalizations]",
                              value: parameters.limit[.inAppPurchaseLocalizations].map { "\($0)" }),
+                URLQueryItem(name: "limit[offerCodes]",
+                             value: parameters.limit[.offerCodes].map { "\($0)" }),
                 URLQueryItem(name: "limit[pricePoints]",
                              value: parameters.limit[.pricePoints].map { "\($0)" })
             ].filter { $0.value != nil }
@@ -295,6 +299,50 @@ extension V2.InAppPurchases.ById.GET {
                 }
             }
 
+            public struct InAppPurchaseOfferCodes: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var active: Self {
+                    .init(rawValue: "active")
+                }
+
+                public static var customCodes: Self {
+                    .init(rawValue: "customCodes")
+                }
+
+                public static var customerEligibilities: Self {
+                    .init(rawValue: "customerEligibilities")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var oneTimeUseCodes: Self {
+                    .init(rawValue: "oneTimeUseCodes")
+                }
+
+                public static var prices: Self {
+                    .init(rawValue: "prices")
+                }
+
+                public static var productionCodeCount: Self {
+                    .init(rawValue: "productionCodeCount")
+                }
+
+                public static var sandboxCodeCount: Self {
+                    .init(rawValue: "sandboxCodeCount")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct InAppPurchasePricePoints: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var customerPrice: Self {
                     .init(rawValue: "customerPrice")
@@ -388,6 +436,10 @@ extension V2.InAppPurchases.ById.GET {
                     .init(rawValue: "name")
                 }
 
+                public static var offerCodes: Self {
+                    .init(rawValue: "offerCodes")
+                }
+
                 public static var pricePoints: Self {
                     .init(rawValue: "pricePoints")
                 }
@@ -477,6 +529,11 @@ extension V2.InAppPurchases.ById.GET {
                     .init(key: "fields[inAppPurchaseLocalizations]")
                 }
 
+                /// the fields to include for returned resources of type inAppPurchaseOfferCodes
+                public static var inAppPurchaseOfferCodes: Relation<[InAppPurchaseOfferCodes]?> {
+                    .init(key: "fields[inAppPurchaseOfferCodes]")
+                }
+
                 /// the fields to include for returned resources of type inAppPurchasePricePoints
                 public static var inAppPurchasePricePoints: Relation<[InAppPurchasePricePoints]?> {
                     .init(key: "fields[inAppPurchasePricePoints]")
@@ -530,6 +587,10 @@ extension V2.InAppPurchases.ById.GET {
                 .init(rawValue: "inAppPurchaseLocalizations")
             }
 
+            public static var offerCodes: Self {
+                .init(rawValue: "offerCodes")
+            }
+
             public static var pricePoints: Self {
                 .init(rawValue: "pricePoints")
             }
@@ -566,6 +627,11 @@ extension V2.InAppPurchases.ById.GET {
                 /// maximum number of related inAppPurchaseLocalizations returned (when they are included)
                 public static var inAppPurchaseLocalizations: Relation<Int?> {
                     .init(key: "limit[inAppPurchaseLocalizations]")
+                }
+
+                /// maximum number of related offerCodes returned (when they are included)
+                public static var offerCodes: Relation<Int?> {
+                    .init(key: "limit[offerCodes]")
                 }
 
                 /// maximum number of related pricePoints returned (when they are included)

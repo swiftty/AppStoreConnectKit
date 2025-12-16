@@ -28,6 +28,8 @@ extension V1.Apps.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[androidToIosAppMappingDetails]",
+                             value: parameters.fields[.androidToIosAppMappingDetails]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClips]",
                              value: parameters.fields[.appClips]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appCustomProductPages]",
@@ -76,6 +78,8 @@ extension V1.Apps.ById {
                              value: parameters.fields[.subscriptionGroups]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit[androidToIosAppMappingDetails]",
+                             value: parameters.limit[.androidToIosAppMappingDetails].map { "\($0)" }),
                 URLQueryItem(name: "limit[appClips]",
                              value: parameters.limit[.appClips].map { "\($0)" }),
                 URLQueryItem(name: "limit[appCustomProductPages]",
@@ -174,6 +178,26 @@ extension V1.Apps.ById.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public struct AndroidToIosAppMappingDetails: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appSigningKeyPublicCertificateSha256Fingerprints: Self {
+                    .init(rawValue: "appSigningKeyPublicCertificateSha256Fingerprints")
+                }
+
+                public static var packageName: Self {
+                    .init(rawValue: "packageName")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
 
             public struct AppClips: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var app: Self {
@@ -644,6 +668,10 @@ extension V1.Apps.ById.GET {
                     .init(rawValue: "analyticsReportRequests")
                 }
 
+                public static var androidToIosAppMappingDetails: Self {
+                    .init(rawValue: "androidToIosAppMappingDetails")
+                }
+
                 public static var appAvailabilityV2: Self {
                     .init(rawValue: "appAvailabilityV2")
                 }
@@ -674,6 +702,10 @@ extension V1.Apps.ById.GET {
 
                 public static var appPriceSchedule: Self {
                     .init(rawValue: "appPriceSchedule")
+                }
+
+                public static var appStoreIcon: Self {
+                    .init(rawValue: "appStoreIcon")
                 }
 
                 public static var appStoreVersionExperimentsV2: Self {
@@ -1260,12 +1292,24 @@ extension V1.Apps.ById.GET {
                     .init(rawValue: "defaultGroupLeaderboard")
                 }
 
+                public static var defaultGroupLeaderboardV2: Self {
+                    .init(rawValue: "defaultGroupLeaderboardV2")
+                }
+
                 public static var defaultLeaderboard: Self {
                     .init(rawValue: "defaultLeaderboard")
                 }
 
+                public static var defaultLeaderboardV2: Self {
+                    .init(rawValue: "defaultLeaderboardV2")
+                }
+
                 public static var gameCenterAchievements: Self {
                     .init(rawValue: "gameCenterAchievements")
+                }
+
+                public static var gameCenterAchievementsV2: Self {
+                    .init(rawValue: "gameCenterAchievementsV2")
                 }
 
                 public static var gameCenterActivities: Self {
@@ -1288,8 +1332,16 @@ extension V1.Apps.ById.GET {
                     .init(rawValue: "gameCenterLeaderboardSets")
                 }
 
+                public static var gameCenterLeaderboardSetsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetsV2")
+                }
+
                 public static var gameCenterLeaderboards: Self {
                     .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var gameCenterLeaderboardsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardsV2")
                 }
 
                 public static var leaderboardReleases: Self {
@@ -1386,6 +1438,10 @@ extension V1.Apps.ById.GET {
 
                 public static var name: Self {
                     .init(rawValue: "name")
+                }
+
+                public static var offerCodes: Self {
+                    .init(rawValue: "offerCodes")
                 }
 
                 public static var pricePoints: Self {
@@ -1580,6 +1636,11 @@ extension V1.Apps.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type androidToIosAppMappingDetails
+                public static var androidToIosAppMappingDetails: Relation<[AndroidToIosAppMappingDetails]?> {
+                    .init(key: "fields[androidToIosAppMappingDetails]")
+                }
+
                 /// the fields to include for returned resources of type appClips
                 public static var appClips: Relation<[AppClips]?> {
                     .init(key: "fields[appClips]")
@@ -1704,6 +1765,10 @@ extension V1.Apps.ById.GET {
         }
 
         public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var androidToIosAppMappingDetails: Self {
+                .init(rawValue: "androidToIosAppMappingDetails")
+            }
+
             public static var appClips: Self {
                 .init(rawValue: "appClips")
             }
@@ -1722,6 +1787,10 @@ extension V1.Apps.ById.GET {
 
             public static var appInfos: Self {
                 .init(rawValue: "appInfos")
+            }
+
+            public static var appStoreIcon: Self {
+                .init(rawValue: "appStoreIcon")
             }
 
             public static var appStoreVersionExperimentsV2: Self {
@@ -1816,6 +1885,11 @@ extension V1.Apps.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
+                /// maximum number of related androidToIosAppMappingDetails returned (when they are included)
+                public static var androidToIosAppMappingDetails: Relation<Int?> {
+                    .init(key: "limit[androidToIosAppMappingDetails]")
+                }
+
                 /// maximum number of related appClips returned (when they are included)
                 public static var appClips: Relation<Int?> {
                     .init(key: "limit[appClips]")

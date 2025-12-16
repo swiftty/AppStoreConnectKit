@@ -41,19 +41,24 @@ public struct BackgroundAsset: Hashable, Codable, Sendable {
     }
 
     public struct Attributes: Hashable, Codable, Sendable {
+        public var archived: Bool?
+
         public var assetPackIdentifier: String?
 
         public var createdDate: String?
 
         public init(
+            archived: Bool? = nil,
             assetPackIdentifier: String? = nil,
             createdDate: String? = nil
         ) {
+            self.archived = archived
             self.assetPackIdentifier = assetPackIdentifier
             self.createdDate = createdDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case archived
             case assetPackIdentifier
             case createdDate
         }
