@@ -215,6 +215,10 @@ extension V1.AlternativeDistributionPackages.ById.Versions.GET {
             }
 
             public struct AlternativeDistributionPackages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
                 public static var versions: Self {
                     .init(rawValue: "versions")
                 }

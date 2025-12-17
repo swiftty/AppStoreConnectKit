@@ -38,6 +38,16 @@ extension V1.ReviewSubmissions.ById.Items {
                              value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[backgroundAssetVersions]",
                              value: parameters.fields[.backgroundAssetVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterAchievementVersions]",
+                             value: parameters.fields[.gameCenterAchievementVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterActivityVersions]",
+                             value: parameters.fields[.gameCenterActivityVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterChallengeVersions]",
+                             value: parameters.fields[.gameCenterChallengeVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterLeaderboardSetVersions]",
+                             value: parameters.fields[.gameCenterLeaderboardSetVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterLeaderboardVersions]",
+                             value: parameters.fields[.gameCenterLeaderboardVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[reviewSubmissionItems]",
                              value: parameters.fields[.reviewSubmissionItems]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -411,6 +421,170 @@ extension V1.ReviewSubmissions.ById.Items.GET {
                     .init(rawValue: "state")
                 }
 
+                public static var stateDetails: Self {
+                    .init(rawValue: "stateDetails")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterAchievementVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var achievement: Self {
+                    .init(rawValue: "achievement")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterActivityVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activity: Self {
+                    .init(rawValue: "activity")
+                }
+
+                public static var defaultImage: Self {
+                    .init(rawValue: "defaultImage")
+                }
+
+                public static var fallbackUrl: Self {
+                    .init(rawValue: "fallbackUrl")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterChallengeVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var challenge: Self {
+                    .init(rawValue: "challenge")
+                }
+
+                public static var defaultImage: Self {
+                    .init(rawValue: "defaultImage")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterLeaderboardSetVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var leaderboardSet: Self {
+                    .init(rawValue: "leaderboardSet")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterLeaderboardVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var leaderboard: Self {
+                    .init(rawValue: "leaderboard")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
                 public static var version: Self {
                     .init(rawValue: "version")
                 }
@@ -449,6 +623,26 @@ extension V1.ReviewSubmissions.ById.Items.GET {
 
                 public static var backgroundAssetVersion: Self {
                     .init(rawValue: "backgroundAssetVersion")
+                }
+
+                public static var gameCenterAchievementVersion: Self {
+                    .init(rawValue: "gameCenterAchievementVersion")
+                }
+
+                public static var gameCenterActivityVersion: Self {
+                    .init(rawValue: "gameCenterActivityVersion")
+                }
+
+                public static var gameCenterChallengeVersion: Self {
+                    .init(rawValue: "gameCenterChallengeVersion")
+                }
+
+                public static var gameCenterLeaderboardSetVersion: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetVersion")
+                }
+
+                public static var gameCenterLeaderboardVersion: Self {
+                    .init(rawValue: "gameCenterLeaderboardVersion")
                 }
 
                 public static var state: Self {
@@ -492,6 +686,31 @@ extension V1.ReviewSubmissions.ById.Items.GET {
                     .init(key: "fields[backgroundAssetVersions]")
                 }
 
+                /// the fields to include for returned resources of type gameCenterAchievementVersions
+                public static var gameCenterAchievementVersions: Relation<[GameCenterAchievementVersions]?> {
+                    .init(key: "fields[gameCenterAchievementVersions]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterActivityVersions
+                public static var gameCenterActivityVersions: Relation<[GameCenterActivityVersions]?> {
+                    .init(key: "fields[gameCenterActivityVersions]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterChallengeVersions
+                public static var gameCenterChallengeVersions: Relation<[GameCenterChallengeVersions]?> {
+                    .init(key: "fields[gameCenterChallengeVersions]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterLeaderboardSetVersions
+                public static var gameCenterLeaderboardSetVersions: Relation<[GameCenterLeaderboardSetVersions]?> {
+                    .init(key: "fields[gameCenterLeaderboardSetVersions]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterLeaderboardVersions
+                public static var gameCenterLeaderboardVersions: Relation<[GameCenterLeaderboardVersions]?> {
+                    .init(key: "fields[gameCenterLeaderboardVersions]")
+                }
+
                 /// the fields to include for returned resources of type reviewSubmissionItems
                 public static var reviewSubmissionItems: Relation<[ReviewSubmissionItems]?> {
                     .init(key: "fields[reviewSubmissionItems]")
@@ -528,6 +747,26 @@ extension V1.ReviewSubmissions.ById.Items.GET {
 
             public static var backgroundAssetVersion: Self {
                 .init(rawValue: "backgroundAssetVersion")
+            }
+
+            public static var gameCenterAchievementVersion: Self {
+                .init(rawValue: "gameCenterAchievementVersion")
+            }
+
+            public static var gameCenterActivityVersion: Self {
+                .init(rawValue: "gameCenterActivityVersion")
+            }
+
+            public static var gameCenterChallengeVersion: Self {
+                .init(rawValue: "gameCenterChallengeVersion")
+            }
+
+            public static var gameCenterLeaderboardSetVersion: Self {
+                .init(rawValue: "gameCenterLeaderboardSetVersion")
+            }
+
+            public static var gameCenterLeaderboardVersion: Self {
+                .init(rawValue: "gameCenterLeaderboardVersion")
             }
 
             public var description: String {

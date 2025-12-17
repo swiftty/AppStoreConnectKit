@@ -73,15 +73,57 @@ public struct GameCenterChallengeUpdateRequest: Hashable, Codable, Sendable {
         public struct Relationships: Hashable, Codable, Sendable {
             public var leaderboard: Leaderboard?
 
-            public init(leaderboard: Leaderboard? = nil) {
+            public var leaderboardV2: LeaderboardV2?
+
+            public init(
+                leaderboard: Leaderboard? = nil,
+                leaderboardV2: LeaderboardV2? = nil
+            ) {
                 self.leaderboard = leaderboard
+                self.leaderboardV2 = leaderboardV2
             }
 
             private enum CodingKeys: String, CodingKey {
                 case leaderboard
+                case leaderboardV2
             }
 
             public struct Leaderboard: Hashable, Codable, Sendable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case gameCenterLeaderboards
+                    }
+                }
+            }
+
+            public struct LeaderboardV2: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {

@@ -3,21 +3,26 @@
 // swiftlint:disable all
 import Foundation
 
-public struct RoutingAppCoverageWithoutIncludesResponse: Hashable, Codable, Sendable {
-    public var data: RoutingAppCoverage
+public struct InAppPurchaseOfferCodeCustomCodeResponse: Hashable, Codable, Sendable {
+    public var data: InAppPurchaseOfferCodeCustomCode
+
+    public var included: [Actor]?
 
     public var links: DocumentLinks
 
     public init(
-        data: RoutingAppCoverage,
+        data: InAppPurchaseOfferCodeCustomCode,
+        included: [Actor]? = nil,
         links: DocumentLinks
     ) {
         self.data = data
+        self.included = included
         self.links = links
     }
 
     private enum CodingKeys: String, CodingKey {
         case data
+        case included
         case links
     }
 }

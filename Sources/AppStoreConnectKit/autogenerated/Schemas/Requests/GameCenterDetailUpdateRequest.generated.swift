@@ -62,23 +62,33 @@ public struct GameCenterDetailUpdateRequest: Hashable, Codable, Sendable {
         public struct Relationships: Hashable, Codable, Sendable {
             public var defaultGroupLeaderboard: DefaultGroupLeaderboard?
 
+            public var defaultGroupLeaderboardV2: DefaultGroupLeaderboardV2?
+
             public var defaultLeaderboard: DefaultLeaderboard?
+
+            public var defaultLeaderboardV2: DefaultLeaderboardV2?
 
             public var gameCenterGroup: GameCenterGroup?
 
             public init(
                 defaultGroupLeaderboard: DefaultGroupLeaderboard? = nil,
+                defaultGroupLeaderboardV2: DefaultGroupLeaderboardV2? = nil,
                 defaultLeaderboard: DefaultLeaderboard? = nil,
+                defaultLeaderboardV2: DefaultLeaderboardV2? = nil,
                 gameCenterGroup: GameCenterGroup? = nil
             ) {
                 self.defaultGroupLeaderboard = defaultGroupLeaderboard
+                self.defaultGroupLeaderboardV2 = defaultGroupLeaderboardV2
                 self.defaultLeaderboard = defaultLeaderboard
+                self.defaultLeaderboardV2 = defaultLeaderboardV2
                 self.gameCenterGroup = gameCenterGroup
             }
 
             private enum CodingKeys: String, CodingKey {
                 case defaultGroupLeaderboard
+                case defaultGroupLeaderboardV2
                 case defaultLeaderboard
+                case defaultLeaderboardV2
                 case gameCenterGroup
             }
 
@@ -117,7 +127,77 @@ public struct GameCenterDetailUpdateRequest: Hashable, Codable, Sendable {
                 }
             }
 
+            public struct DefaultGroupLeaderboardV2: Hashable, Codable, Sendable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case gameCenterLeaderboards
+                    }
+                }
+            }
+
             public struct DefaultLeaderboard: Hashable, Codable, Sendable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case gameCenterLeaderboards
+                    }
+                }
+            }
+
+            public struct DefaultLeaderboardV2: Hashable, Codable, Sendable {
                 public var data: Data?
 
                 public init(data: Data? = nil) {

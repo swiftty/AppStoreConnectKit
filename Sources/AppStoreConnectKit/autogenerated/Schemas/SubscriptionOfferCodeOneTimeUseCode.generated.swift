@@ -45,6 +45,8 @@ public struct SubscriptionOfferCodeOneTimeUseCode: Hashable, Codable, Sendable {
 
         public var createdDate: String?
 
+        public var environment: OfferCodeEnvironment?
+
         public var expirationDate: String?
 
         public var numberOfCodes: Int?
@@ -52,11 +54,13 @@ public struct SubscriptionOfferCodeOneTimeUseCode: Hashable, Codable, Sendable {
         public init(
             active: Bool? = nil,
             createdDate: String? = nil,
+            environment: OfferCodeEnvironment? = nil,
             expirationDate: String? = nil,
             numberOfCodes: Int? = nil
         ) {
             self.active = active
             self.createdDate = createdDate
+            self.environment = environment
             self.expirationDate = expirationDate
             self.numberOfCodes = numberOfCodes
         }
@@ -64,6 +68,7 @@ public struct SubscriptionOfferCodeOneTimeUseCode: Hashable, Codable, Sendable {
         private enum CodingKeys: String, CodingKey {
             case active
             case createdDate
+            case environment
             case expirationDate
             case numberOfCodes
         }

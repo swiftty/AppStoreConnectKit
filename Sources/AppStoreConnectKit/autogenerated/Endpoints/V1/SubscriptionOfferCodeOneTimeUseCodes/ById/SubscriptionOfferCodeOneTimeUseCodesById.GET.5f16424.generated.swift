@@ -104,6 +104,10 @@ extension V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET {
                     .init(rawValue: "createdDate")
                 }
 
+                public static var environment: Self {
+                    .init(rawValue: "environment")
+                }
+
                 public static var expirationDate: Self {
                     .init(rawValue: "expirationDate")
                 }

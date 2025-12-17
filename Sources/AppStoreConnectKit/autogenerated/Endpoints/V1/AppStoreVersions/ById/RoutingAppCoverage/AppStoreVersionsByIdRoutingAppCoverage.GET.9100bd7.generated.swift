@@ -8,7 +8,7 @@ import FoundationNetworking
 
 extension V1.AppStoreVersions.ById.RoutingAppCoverage {
     public struct GET: Endpoint {
-        public typealias Response = RoutingAppCoverageWithoutIncludesResponse
+        public typealias Response = RoutingAppCoverageResponse
 
         public var path: String {
             "/v1/appStoreVersions/\(id)/routingAppCoverage"
@@ -28,8 +28,12 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appStoreVersions]",
+                             value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[routingAppCoverages]",
-                             value: parameters.fields[.routingAppCoverages]?.map { "\($0)" }.joined(separator: ","))
+                             value: parameters.fields[.routingAppCoverages]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "include",
+                             value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -40,7 +44,7 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage {
             return urlRequest
         }
 
-        /// - Returns: **200**, Single RoutingAppCoverage with get as `RoutingAppCoverageWithoutIncludesResponse`
+        /// - Returns: **200**, Single RoutingAppCoverage as `RoutingAppCoverageResponse`
         /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
@@ -54,7 +58,7 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage {
 
             switch urlResponse.statusCode {
             case 200:
-                return try jsonDecoder.decode(RoutingAppCoverageWithoutIncludesResponse.self, from: data)
+                return try jsonDecoder.decode(RoutingAppCoverageResponse.self, from: data)
 
             case 400:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
@@ -82,6 +86,9 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage.GET {
     public struct Parameters: Hashable {
         public var fields: Fields = Fields()
 
+        /// comma-separated list of relationships to include
+        public var include: [Include]?
+
         public struct Fields: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
                 get { values[relation]?.base as! T }
@@ -89,6 +96,118 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public struct AppStoreVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var ageRatingDeclaration: Self {
+                    .init(rawValue: "ageRatingDeclaration")
+                }
+
+                public static var alternativeDistributionPackage: Self {
+                    .init(rawValue: "alternativeDistributionPackage")
+                }
+
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appClipDefaultExperience: Self {
+                    .init(rawValue: "appClipDefaultExperience")
+                }
+
+                public static var appStoreReviewDetail: Self {
+                    .init(rawValue: "appStoreReviewDetail")
+                }
+
+                public static var appStoreState: Self {
+                    .init(rawValue: "appStoreState")
+                }
+
+                public static var appStoreVersionExperiments: Self {
+                    .init(rawValue: "appStoreVersionExperiments")
+                }
+
+                public static var appStoreVersionExperimentsV2: Self {
+                    .init(rawValue: "appStoreVersionExperimentsV2")
+                }
+
+                public static var appStoreVersionLocalizations: Self {
+                    .init(rawValue: "appStoreVersionLocalizations")
+                }
+
+                public static var appStoreVersionPhasedRelease: Self {
+                    .init(rawValue: "appStoreVersionPhasedRelease")
+                }
+
+                public static var appStoreVersionSubmission: Self {
+                    .init(rawValue: "appStoreVersionSubmission")
+                }
+
+                public static var appVersionState: Self {
+                    .init(rawValue: "appVersionState")
+                }
+
+                public static var build: Self {
+                    .init(rawValue: "build")
+                }
+
+                public static var copyright: Self {
+                    .init(rawValue: "copyright")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var customerReviews: Self {
+                    .init(rawValue: "customerReviews")
+                }
+
+                public static var downloadable: Self {
+                    .init(rawValue: "downloadable")
+                }
+
+                public static var earliestReleaseDate: Self {
+                    .init(rawValue: "earliestReleaseDate")
+                }
+
+                public static var gameCenterAppVersion: Self {
+                    .init(rawValue: "gameCenterAppVersion")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var releaseType: Self {
+                    .init(rawValue: "releaseType")
+                }
+
+                public static var reviewType: Self {
+                    .init(rawValue: "reviewType")
+                }
+
+                public static var routingAppCoverage: Self {
+                    .init(rawValue: "routingAppCoverage")
+                }
+
+                public static var usesIdfa: Self {
+                    .init(rawValue: "usesIdfa")
+                }
+
+                public static var versionString: Self {
+                    .init(rawValue: "versionString")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
 
             public struct RoutingAppCoverages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appStoreVersion: Self {
@@ -127,6 +246,11 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appStoreVersions
+                public static var appStoreVersions: Relation<[AppStoreVersions]?> {
+                    .init(key: "fields[appStoreVersions]")
+                }
+
                 /// the fields to include for returned resources of type routingAppCoverages
                 public static var routingAppCoverages: Relation<[RoutingAppCoverages]?> {
                     .init(key: "fields[routingAppCoverages]")
@@ -137,6 +261,22 @@ extension V1.AppStoreVersions.ById.RoutingAppCoverage.GET {
                 public func hash(into hasher: inout Hasher) {
                     hasher.combine(key)
                 }
+            }
+        }
+
+        public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appStoreVersion: Self {
+                .init(rawValue: "appStoreVersion")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
+            public init(rawValue: String) {
+                self.rawValue = rawValue
             }
         }
     }

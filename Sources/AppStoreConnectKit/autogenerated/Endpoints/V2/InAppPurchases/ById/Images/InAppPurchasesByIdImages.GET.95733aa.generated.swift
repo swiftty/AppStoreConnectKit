@@ -187,6 +187,10 @@ extension V2.InAppPurchases.ById.Images.GET {
                     .init(rawValue: "name")
                 }
 
+                public static var offerCodes: Self {
+                    .init(rawValue: "offerCodes")
+                }
+
                 public static var pricePoints: Self {
                     .init(rawValue: "pricePoints")
                 }

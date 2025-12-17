@@ -42,19 +42,24 @@ public struct SubscriptionOfferCodeOneTimeUseCodeCreateRequest: Hashable, Codabl
         }
 
         public struct Attributes: Hashable, Codable, Sendable {
+            public var environment: OfferCodeEnvironment?
+
             public var expirationDate: String
 
             public var numberOfCodes: Int
 
             public init(
+                environment: OfferCodeEnvironment? = nil,
                 expirationDate: String,
                 numberOfCodes: Int
             ) {
+                self.environment = environment
                 self.expirationDate = expirationDate
                 self.numberOfCodes = numberOfCodes
             }
 
             private enum CodingKeys: String, CodingKey {
+                case environment
                 case expirationDate
                 case numberOfCodes
             }

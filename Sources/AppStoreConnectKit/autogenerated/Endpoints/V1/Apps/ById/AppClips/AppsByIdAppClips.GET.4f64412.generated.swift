@@ -187,6 +187,10 @@ extension V1.Apps.ById.AppClips.GET {
                     .init(rawValue: "analyticsReportRequests")
                 }
 
+                public static var androidToIosAppMappingDetails: Self {
+                    .init(rawValue: "androidToIosAppMappingDetails")
+                }
+
                 public static var appAvailabilityV2: Self {
                     .init(rawValue: "appAvailabilityV2")
                 }
@@ -217,6 +221,10 @@ extension V1.Apps.ById.AppClips.GET {
 
                 public static var appPriceSchedule: Self {
                     .init(rawValue: "appPriceSchedule")
+                }
+
+                public static var appStoreIcon: Self {
+                    .init(rawValue: "appStoreIcon")
                 }
 
                 public static var appStoreVersionExperimentsV2: Self {

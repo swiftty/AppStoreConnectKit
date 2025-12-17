@@ -43,6 +43,8 @@ extension V1.GameCenterGroups {
                              value: parameters.filter[.gameCenterDetails]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit[gameCenterAchievementsV2]",
+                             value: parameters.limit[.gameCenterAchievementsV2].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterAchievements]",
                              value: parameters.limit[.gameCenterAchievements].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterActivities]",
@@ -51,8 +53,12 @@ extension V1.GameCenterGroups {
                              value: parameters.limit[.gameCenterChallenges].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterDetails]",
                              value: parameters.limit[.gameCenterDetails].map { "\($0)" }),
+                URLQueryItem(name: "limit[gameCenterLeaderboardSetsV2]",
+                             value: parameters.limit[.gameCenterLeaderboardSetsV2].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterLeaderboardSets]",
                              value: parameters.limit[.gameCenterLeaderboardSets].map { "\($0)" }),
+                URLQueryItem(name: "limit[gameCenterLeaderboardsV2]",
+                             value: parameters.limit[.gameCenterLeaderboardsV2].map { "\($0)" }),
                 URLQueryItem(name: "limit[gameCenterLeaderboards]",
                              value: parameters.limit[.gameCenterLeaderboards].map { "\($0)" }),
                 URLQueryItem(name: "limit",
@@ -174,6 +180,10 @@ extension V1.GameCenterGroups.GET {
                     .init(rawValue: "vendorIdentifier")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public var description: String {
                     rawValue
                 }
@@ -190,6 +200,10 @@ extension V1.GameCenterGroups.GET {
                     .init(rawValue: "achievements")
                 }
 
+                public static var achievementsV2: Self {
+                    .init(rawValue: "achievementsV2")
+                }
+
                 public static var archived: Self {
                     .init(rawValue: "archived")
                 }
@@ -204,6 +218,10 @@ extension V1.GameCenterGroups.GET {
 
                 public static var leaderboards: Self {
                     .init(rawValue: "leaderboards")
+                }
+
+                public static var leaderboardsV2: Self {
+                    .init(rawValue: "leaderboardsV2")
                 }
 
                 public static var maximumPlayersCount: Self {
@@ -270,6 +288,10 @@ extension V1.GameCenterGroups.GET {
                     .init(rawValue: "leaderboard")
                 }
 
+                public static var leaderboardV2: Self {
+                    .init(rawValue: "leaderboardV2")
+                }
+
                 public static var referenceName: Self {
                     .init(rawValue: "referenceName")
                 }
@@ -330,12 +352,24 @@ extension V1.GameCenterGroups.GET {
                     .init(rawValue: "defaultGroupLeaderboard")
                 }
 
+                public static var defaultGroupLeaderboardV2: Self {
+                    .init(rawValue: "defaultGroupLeaderboardV2")
+                }
+
                 public static var defaultLeaderboard: Self {
                     .init(rawValue: "defaultLeaderboard")
                 }
 
+                public static var defaultLeaderboardV2: Self {
+                    .init(rawValue: "defaultLeaderboardV2")
+                }
+
                 public static var gameCenterAchievements: Self {
                     .init(rawValue: "gameCenterAchievements")
+                }
+
+                public static var gameCenterAchievementsV2: Self {
+                    .init(rawValue: "gameCenterAchievementsV2")
                 }
 
                 public static var gameCenterActivities: Self {
@@ -358,8 +392,16 @@ extension V1.GameCenterGroups.GET {
                     .init(rawValue: "gameCenterLeaderboardSets")
                 }
 
+                public static var gameCenterLeaderboardSetsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetsV2")
+                }
+
                 public static var gameCenterLeaderboards: Self {
                     .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var gameCenterLeaderboardsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardsV2")
                 }
 
                 public static var leaderboardReleases: Self {
@@ -386,6 +428,10 @@ extension V1.GameCenterGroups.GET {
                     .init(rawValue: "gameCenterAchievements")
                 }
 
+                public static var gameCenterAchievementsV2: Self {
+                    .init(rawValue: "gameCenterAchievementsV2")
+                }
+
                 public static var gameCenterActivities: Self {
                     .init(rawValue: "gameCenterActivities")
                 }
@@ -402,8 +448,16 @@ extension V1.GameCenterGroups.GET {
                     .init(rawValue: "gameCenterLeaderboardSets")
                 }
 
+                public static var gameCenterLeaderboardSetsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetsV2")
+                }
+
                 public static var gameCenterLeaderboards: Self {
                     .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var gameCenterLeaderboardsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardsV2")
                 }
 
                 public static var referenceName: Self {
@@ -452,6 +506,10 @@ extension V1.GameCenterGroups.GET {
 
                 public static var vendorIdentifier: Self {
                     .init(rawValue: "vendorIdentifier")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
                 }
 
                 public var description: String {
@@ -546,6 +604,10 @@ extension V1.GameCenterGroups.GET {
                     .init(rawValue: "vendorIdentifier")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public static var visibility: Self {
                     .init(rawValue: "visibility")
                 }
@@ -632,6 +694,10 @@ extension V1.GameCenterGroups.GET {
                 .init(rawValue: "gameCenterAchievements")
             }
 
+            public static var gameCenterAchievementsV2: Self {
+                .init(rawValue: "gameCenterAchievementsV2")
+            }
+
             public static var gameCenterActivities: Self {
                 .init(rawValue: "gameCenterActivities")
             }
@@ -648,8 +714,16 @@ extension V1.GameCenterGroups.GET {
                 .init(rawValue: "gameCenterLeaderboardSets")
             }
 
+            public static var gameCenterLeaderboardSetsV2: Self {
+                .init(rawValue: "gameCenterLeaderboardSetsV2")
+            }
+
             public static var gameCenterLeaderboards: Self {
                 .init(rawValue: "gameCenterLeaderboards")
+            }
+
+            public static var gameCenterLeaderboardsV2: Self {
+                .init(rawValue: "gameCenterLeaderboardsV2")
             }
 
             public var description: String {
@@ -677,6 +751,11 @@ extension V1.GameCenterGroups.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
+                /// maximum number of related gameCenterAchievementsV2 returned (when they are included)
+                public static var gameCenterAchievementsV2: Relation<Int?> {
+                    .init(key: "limit[gameCenterAchievementsV2]")
+                }
+
                 /// maximum number of related gameCenterAchievements returned (when they are included)
                 public static var gameCenterAchievements: Relation<Int?> {
                     .init(key: "limit[gameCenterAchievements]")
@@ -697,9 +776,19 @@ extension V1.GameCenterGroups.GET {
                     .init(key: "limit[gameCenterDetails]")
                 }
 
+                /// maximum number of related gameCenterLeaderboardSetsV2 returned (when they are included)
+                public static var gameCenterLeaderboardSetsV2: Relation<Int?> {
+                    .init(key: "limit[gameCenterLeaderboardSetsV2]")
+                }
+
                 /// maximum number of related gameCenterLeaderboardSets returned (when they are included)
                 public static var gameCenterLeaderboardSets: Relation<Int?> {
                     .init(key: "limit[gameCenterLeaderboardSets]")
+                }
+
+                /// maximum number of related gameCenterLeaderboardsV2 returned (when they are included)
+                public static var gameCenterLeaderboardsV2: Relation<Int?> {
+                    .init(key: "limit[gameCenterLeaderboardsV2]")
                 }
 
                 /// maximum number of related gameCenterLeaderboards returned (when they are included)

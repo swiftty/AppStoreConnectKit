@@ -4,6 +4,18 @@
 import Foundation
 
 public struct WebhookEventType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+    public static var alternativeDistributionPackageAvailableUpdated: Self {
+        .init(rawValue: "ALTERNATIVE_DISTRIBUTION_PACKAGE_AVAILABLE_UPDATED")
+    }
+
+    public static var alternativeDistributionPackageVersionCreated: Self {
+        .init(rawValue: "ALTERNATIVE_DISTRIBUTION_PACKAGE_VERSION_CREATED")
+    }
+
+    public static var alternativeDistributionTerritoryAvailabilityUpdated: Self {
+        .init(rawValue: "ALTERNATIVE_DISTRIBUTION_TERRITORY_AVAILABILITY_UPDATED")
+    }
+
     public static var appStoreVersionAppVersionStateUpdated: Self {
         .init(rawValue: "APP_STORE_VERSION_APP_VERSION_STATE_UPDATED")
     }

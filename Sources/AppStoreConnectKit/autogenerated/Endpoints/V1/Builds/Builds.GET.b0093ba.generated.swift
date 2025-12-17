@@ -389,6 +389,10 @@ extension V1.Builds.GET {
                     .init(rawValue: "analyticsReportRequests")
                 }
 
+                public static var androidToIosAppMappingDetails: Self {
+                    .init(rawValue: "androidToIosAppMappingDetails")
+                }
+
                 public static var appAvailabilityV2: Self {
                     .init(rawValue: "appAvailabilityV2")
                 }
@@ -419,6 +423,10 @@ extension V1.Builds.GET {
 
                 public static var appPriceSchedule: Self {
                     .init(rawValue: "appPriceSchedule")
+                }
+
+                public static var appStoreIcon: Self {
+                    .init(rawValue: "appStoreIcon")
                 }
 
                 public static var appStoreVersionExperimentsV2: Self {
@@ -645,6 +653,10 @@ extension V1.Builds.GET {
             }
 
             public struct BetaTesters: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appDevices: Self {
+                    .init(rawValue: "appDevices")
+                }
+
                 public static var apps: Self {
                     .init(rawValue: "apps")
                 }

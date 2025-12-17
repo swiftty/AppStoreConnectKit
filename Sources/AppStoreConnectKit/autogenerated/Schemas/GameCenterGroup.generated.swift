@@ -55,6 +55,8 @@ public struct GameCenterGroup: Hashable, Codable, Sendable {
     public struct Relationships: Hashable, Codable, Sendable {
         public var gameCenterAchievements: GameCenterAchievements?
 
+        public var gameCenterAchievementsV2: GameCenterAchievementsV2?
+
         public var gameCenterActivities: GameCenterActivities?
 
         public var gameCenterChallenges: GameCenterChallenges?
@@ -63,34 +65,94 @@ public struct GameCenterGroup: Hashable, Codable, Sendable {
 
         public var gameCenterLeaderboardSets: GameCenterLeaderboardSets?
 
+        public var gameCenterLeaderboardSetsV2: GameCenterLeaderboardSetsV2?
+
         public var gameCenterLeaderboards: GameCenterLeaderboards?
+
+        public var gameCenterLeaderboardsV2: GameCenterLeaderboardsV2?
 
         public init(
             gameCenterAchievements: GameCenterAchievements? = nil,
+            gameCenterAchievementsV2: GameCenterAchievementsV2? = nil,
             gameCenterActivities: GameCenterActivities? = nil,
             gameCenterChallenges: GameCenterChallenges? = nil,
             gameCenterDetails: GameCenterDetails? = nil,
             gameCenterLeaderboardSets: GameCenterLeaderboardSets? = nil,
-            gameCenterLeaderboards: GameCenterLeaderboards? = nil
+            gameCenterLeaderboardSetsV2: GameCenterLeaderboardSetsV2? = nil,
+            gameCenterLeaderboards: GameCenterLeaderboards? = nil,
+            gameCenterLeaderboardsV2: GameCenterLeaderboardsV2? = nil
         ) {
             self.gameCenterAchievements = gameCenterAchievements
+            self.gameCenterAchievementsV2 = gameCenterAchievementsV2
             self.gameCenterActivities = gameCenterActivities
             self.gameCenterChallenges = gameCenterChallenges
             self.gameCenterDetails = gameCenterDetails
             self.gameCenterLeaderboardSets = gameCenterLeaderboardSets
+            self.gameCenterLeaderboardSetsV2 = gameCenterLeaderboardSetsV2
             self.gameCenterLeaderboards = gameCenterLeaderboards
+            self.gameCenterLeaderboardsV2 = gameCenterLeaderboardsV2
         }
 
         private enum CodingKeys: String, CodingKey {
             case gameCenterAchievements
+            case gameCenterAchievementsV2
             case gameCenterActivities
             case gameCenterChallenges
             case gameCenterDetails
             case gameCenterLeaderboardSets
+            case gameCenterLeaderboardSetsV2
             case gameCenterLeaderboards
+            case gameCenterLeaderboardsV2
         }
 
         public struct GameCenterAchievements: Hashable, Codable, Sendable {
+            public var data: [Data]?
+
+            public var links: RelationshipLinks?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: RelationshipLinks? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterAchievements
+                }
+            }
+        }
+
+        public struct GameCenterAchievementsV2: Hashable, Codable, Sendable {
             public var data: [Data]?
 
             public var links: RelationshipLinks?
@@ -325,7 +387,101 @@ public struct GameCenterGroup: Hashable, Codable, Sendable {
             }
         }
 
+        public struct GameCenterLeaderboardSetsV2: Hashable, Codable, Sendable {
+            public var data: [Data]?
+
+            public var links: RelationshipLinks?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: RelationshipLinks? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterLeaderboardSets
+                }
+            }
+        }
+
         public struct GameCenterLeaderboards: Hashable, Codable, Sendable {
+            public var data: [Data]?
+
+            public var links: RelationshipLinks?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: RelationshipLinks? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case gameCenterLeaderboards
+                }
+            }
+        }
+
+        public struct GameCenterLeaderboardsV2: Hashable, Codable, Sendable {
             public var data: [Data]?
 
             public var links: RelationshipLinks?

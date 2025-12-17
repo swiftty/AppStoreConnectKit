@@ -34,8 +34,12 @@ extension V1.GameCenterActivities.ById {
                              value: parameters.fields[.gameCenterActivityVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "limit[achievementsV2]",
+                             value: parameters.limit[.achievementsV2].map { "\($0)" }),
                 URLQueryItem(name: "limit[achievements]",
                              value: parameters.limit[.achievements].map { "\($0)" }),
+                URLQueryItem(name: "limit[leaderboardsV2]",
+                             value: parameters.limit[.leaderboardsV2].map { "\($0)" }),
                 URLQueryItem(name: "limit[leaderboards]",
                              value: parameters.limit[.leaderboards].map { "\($0)" }),
                 URLQueryItem(name: "limit[versions]",
@@ -110,6 +114,10 @@ extension V1.GameCenterActivities.ById.GET {
                     .init(rawValue: "achievements")
                 }
 
+                public static var achievementsV2: Self {
+                    .init(rawValue: "achievementsV2")
+                }
+
                 public static var archived: Self {
                     .init(rawValue: "archived")
                 }
@@ -124,6 +132,10 @@ extension V1.GameCenterActivities.ById.GET {
 
                 public static var leaderboards: Self {
                     .init(rawValue: "leaderboards")
+                }
+
+                public static var leaderboardsV2: Self {
+                    .init(rawValue: "leaderboardsV2")
                 }
 
                 public static var maximumPlayersCount: Self {
@@ -233,6 +245,10 @@ extension V1.GameCenterActivities.ById.GET {
                 .init(rawValue: "achievements")
             }
 
+            public static var achievementsV2: Self {
+                .init(rawValue: "achievementsV2")
+            }
+
             public static var gameCenterDetail: Self {
                 .init(rawValue: "gameCenterDetail")
             }
@@ -243,6 +259,10 @@ extension V1.GameCenterActivities.ById.GET {
 
             public static var leaderboards: Self {
                 .init(rawValue: "leaderboards")
+            }
+
+            public static var leaderboardsV2: Self {
+                .init(rawValue: "leaderboardsV2")
             }
 
             public static var versions: Self {
@@ -269,9 +289,19 @@ extension V1.GameCenterActivities.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
+                /// maximum number of related achievementsV2 returned (when they are included)
+                public static var achievementsV2: Relation<Int?> {
+                    .init(key: "limit[achievementsV2]")
+                }
+
                 /// maximum number of related achievements returned (when they are included)
                 public static var achievements: Relation<Int?> {
                     .init(key: "limit[achievements]")
+                }
+
+                /// maximum number of related leaderboardsV2 returned (when they are included)
+                public static var leaderboardsV2: Relation<Int?> {
+                    .init(key: "limit[leaderboardsV2]")
                 }
 
                 /// maximum number of related leaderboards returned (when they are included)

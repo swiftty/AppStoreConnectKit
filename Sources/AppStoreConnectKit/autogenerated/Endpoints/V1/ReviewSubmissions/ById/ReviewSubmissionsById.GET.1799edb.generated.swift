@@ -126,6 +126,26 @@ extension V1.ReviewSubmissions.ById.GET {
                     .init(rawValue: "backgroundAssetVersion")
                 }
 
+                public static var gameCenterAchievementVersion: Self {
+                    .init(rawValue: "gameCenterAchievementVersion")
+                }
+
+                public static var gameCenterActivityVersion: Self {
+                    .init(rawValue: "gameCenterActivityVersion")
+                }
+
+                public static var gameCenterChallengeVersion: Self {
+                    .init(rawValue: "gameCenterChallengeVersion")
+                }
+
+                public static var gameCenterLeaderboardSetVersion: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetVersion")
+                }
+
+                public static var gameCenterLeaderboardVersion: Self {
+                    .init(rawValue: "gameCenterLeaderboardVersion")
+                }
+
                 public static var state: Self {
                     .init(rawValue: "state")
                 }

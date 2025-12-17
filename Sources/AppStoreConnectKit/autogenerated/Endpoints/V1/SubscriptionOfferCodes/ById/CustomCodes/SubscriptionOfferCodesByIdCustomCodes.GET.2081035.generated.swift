@@ -143,6 +143,10 @@ extension V1.SubscriptionOfferCodes.ById.CustomCodes.GET {
                     .init(rawValue: "active")
                 }
 
+                public static var autoRenewEnabled: Self {
+                    .init(rawValue: "autoRenewEnabled")
+                }
+
                 public static var customCodes: Self {
                     .init(rawValue: "customCodes")
                 }
@@ -177,6 +181,14 @@ extension V1.SubscriptionOfferCodes.ById.CustomCodes.GET {
 
                 public static var prices: Self {
                     .init(rawValue: "prices")
+                }
+
+                public static var productionCodeCount: Self {
+                    .init(rawValue: "productionCodeCount")
+                }
+
+                public static var sandboxCodeCount: Self {
+                    .init(rawValue: "sandboxCodeCount")
                 }
 
                 public static var subscription: Self {

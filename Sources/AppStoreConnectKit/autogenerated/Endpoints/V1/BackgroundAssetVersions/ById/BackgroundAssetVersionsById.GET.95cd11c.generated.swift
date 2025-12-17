@@ -136,6 +136,10 @@ extension V1.BackgroundAssetVersions.ById.GET {
                     .init(rawValue: "state")
                 }
 
+                public static var stateDetails: Self {
+                    .init(rawValue: "stateDetails")
+                }
+
                 public static var version: Self {
                     .init(rawValue: "version")
                 }

@@ -136,6 +136,8 @@ public struct App: Hashable, Codable, Sendable {
 
         public var analyticsReportRequests: AnalyticsReportRequests?
 
+        public var androidToIosAppMappingDetails: AndroidToIosAppMappingDetails?
+
         public var appAvailabilityV2: AppAvailabilityV2?
 
         public var appClips: AppClips?
@@ -151,6 +153,8 @@ public struct App: Hashable, Codable, Sendable {
         public var appPricePoints: AppPricePoints?
 
         public var appPriceSchedule: AppPriceSchedule?
+
+        public var appStoreIcon: AppStoreIcon?
 
         public var appStoreVersionExperimentsV2: AppStoreVersionExperimentsV2?
 
@@ -217,6 +221,7 @@ public struct App: Hashable, Codable, Sendable {
             accessibilityDeclarations: AccessibilityDeclarations? = nil,
             alternativeDistributionKey: AlternativeDistributionKey? = nil,
             analyticsReportRequests: AnalyticsReportRequests? = nil,
+            androidToIosAppMappingDetails: AndroidToIosAppMappingDetails? = nil,
             appAvailabilityV2: AppAvailabilityV2? = nil,
             appClips: AppClips? = nil,
             appCustomProductPages: AppCustomProductPages? = nil,
@@ -225,6 +230,7 @@ public struct App: Hashable, Codable, Sendable {
             appInfos: AppInfos? = nil,
             appPricePoints: AppPricePoints? = nil,
             appPriceSchedule: AppPriceSchedule? = nil,
+            appStoreIcon: AppStoreIcon? = nil,
             appStoreVersionExperimentsV2: AppStoreVersionExperimentsV2? = nil,
             appStoreVersions: AppStoreVersions? = nil,
             appTags: AppTags? = nil,
@@ -259,6 +265,7 @@ public struct App: Hashable, Codable, Sendable {
             self.accessibilityDeclarations = accessibilityDeclarations
             self.alternativeDistributionKey = alternativeDistributionKey
             self.analyticsReportRequests = analyticsReportRequests
+            self.androidToIosAppMappingDetails = androidToIosAppMappingDetails
             self.appAvailabilityV2 = appAvailabilityV2
             self.appClips = appClips
             self.appCustomProductPages = appCustomProductPages
@@ -267,6 +274,7 @@ public struct App: Hashable, Codable, Sendable {
             self.appInfos = appInfos
             self.appPricePoints = appPricePoints
             self.appPriceSchedule = appPriceSchedule
+            self.appStoreIcon = appStoreIcon
             self.appStoreVersionExperimentsV2 = appStoreVersionExperimentsV2
             self.appStoreVersions = appStoreVersions
             self.appTags = appTags
@@ -303,6 +311,7 @@ public struct App: Hashable, Codable, Sendable {
             case accessibilityDeclarations
             case alternativeDistributionKey
             case analyticsReportRequests
+            case androidToIosAppMappingDetails
             case appAvailabilityV2
             case appClips
             case appCustomProductPages
@@ -311,6 +320,7 @@ public struct App: Hashable, Codable, Sendable {
             case appInfos
             case appPricePoints
             case appPriceSchedule
+            case appStoreIcon
             case appStoreVersionExperimentsV2
             case appStoreVersions
             case appTags
@@ -376,6 +386,53 @@ public struct App: Hashable, Codable, Sendable {
 
             private enum CodingKeys: String, CodingKey {
                 case links
+            }
+        }
+
+        public struct AndroidToIosAppMappingDetails: Hashable, Codable, Sendable {
+            public var data: [Data]?
+
+            public var links: RelationshipLinks?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: RelationshipLinks? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case androidToIosAppMappingDetails
+                }
             }
         }
 
@@ -647,6 +704,41 @@ public struct App: Hashable, Codable, Sendable {
 
             private enum CodingKeys: String, CodingKey {
                 case links
+            }
+        }
+
+        public struct AppStoreIcon: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case buildIcons
+                }
             }
         }
 

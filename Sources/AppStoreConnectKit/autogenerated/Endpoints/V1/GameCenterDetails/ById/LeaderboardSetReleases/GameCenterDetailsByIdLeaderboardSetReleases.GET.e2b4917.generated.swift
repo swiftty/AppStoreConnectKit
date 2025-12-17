@@ -143,12 +143,24 @@ extension V1.GameCenterDetails.ById.LeaderboardSetReleases.GET {
                     .init(rawValue: "defaultGroupLeaderboard")
                 }
 
+                public static var defaultGroupLeaderboardV2: Self {
+                    .init(rawValue: "defaultGroupLeaderboardV2")
+                }
+
                 public static var defaultLeaderboard: Self {
                     .init(rawValue: "defaultLeaderboard")
                 }
 
+                public static var defaultLeaderboardV2: Self {
+                    .init(rawValue: "defaultLeaderboardV2")
+                }
+
                 public static var gameCenterAchievements: Self {
                     .init(rawValue: "gameCenterAchievements")
+                }
+
+                public static var gameCenterAchievementsV2: Self {
+                    .init(rawValue: "gameCenterAchievementsV2")
                 }
 
                 public static var gameCenterActivities: Self {
@@ -171,8 +183,16 @@ extension V1.GameCenterDetails.ById.LeaderboardSetReleases.GET {
                     .init(rawValue: "gameCenterLeaderboardSets")
                 }
 
+                public static var gameCenterLeaderboardSetsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetsV2")
+                }
+
                 public static var gameCenterLeaderboards: Self {
                     .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var gameCenterLeaderboardsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardsV2")
                 }
 
                 public static var leaderboardReleases: Self {

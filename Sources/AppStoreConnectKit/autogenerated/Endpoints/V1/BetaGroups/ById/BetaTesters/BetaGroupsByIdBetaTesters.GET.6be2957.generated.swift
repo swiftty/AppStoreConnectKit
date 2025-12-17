@@ -96,6 +96,10 @@ extension V1.BetaGroups.ById.BetaTesters.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct BetaTesters: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appDevices: Self {
+                    .init(rawValue: "appDevices")
+                }
+
                 public static var apps: Self {
                     .init(rawValue: "apps")
                 }

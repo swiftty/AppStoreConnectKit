@@ -277,6 +277,10 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
                     .init(rawValue: "analyticsReportRequests")
                 }
 
+                public static var androidToIosAppMappingDetails: Self {
+                    .init(rawValue: "androidToIosAppMappingDetails")
+                }
+
                 public static var appAvailabilityV2: Self {
                     .init(rawValue: "appAvailabilityV2")
                 }
@@ -307,6 +311,10 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
 
                 public static var appPriceSchedule: Self {
                     .init(rawValue: "appPriceSchedule")
+                }
+
+                public static var appStoreIcon: Self {
+                    .init(rawValue: "appStoreIcon")
                 }
 
                 public static var appStoreVersionExperimentsV2: Self {
@@ -507,6 +515,26 @@ extension V1.Apps.ById.ReviewSubmissions.GET {
 
                 public static var backgroundAssetVersion: Self {
                     .init(rawValue: "backgroundAssetVersion")
+                }
+
+                public static var gameCenterAchievementVersion: Self {
+                    .init(rawValue: "gameCenterAchievementVersion")
+                }
+
+                public static var gameCenterActivityVersion: Self {
+                    .init(rawValue: "gameCenterActivityVersion")
+                }
+
+                public static var gameCenterChallengeVersion: Self {
+                    .init(rawValue: "gameCenterChallengeVersion")
+                }
+
+                public static var gameCenterLeaderboardSetVersion: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetVersion")
+                }
+
+                public static var gameCenterLeaderboardVersion: Self {
+                    .init(rawValue: "gameCenterLeaderboardVersion")
                 }
 
                 public static var state: Self {

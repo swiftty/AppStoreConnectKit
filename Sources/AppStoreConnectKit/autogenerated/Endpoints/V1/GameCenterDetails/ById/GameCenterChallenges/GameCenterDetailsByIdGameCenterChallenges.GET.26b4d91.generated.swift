@@ -175,6 +175,10 @@ extension V1.GameCenterDetails.ById.GameCenterChallenges.GET {
                     .init(rawValue: "leaderboard")
                 }
 
+                public static var leaderboardV2: Self {
+                    .init(rawValue: "leaderboardV2")
+                }
+
                 public static var referenceName: Self {
                     .init(rawValue: "referenceName")
                 }
@@ -235,12 +239,24 @@ extension V1.GameCenterDetails.ById.GameCenterChallenges.GET {
                     .init(rawValue: "defaultGroupLeaderboard")
                 }
 
+                public static var defaultGroupLeaderboardV2: Self {
+                    .init(rawValue: "defaultGroupLeaderboardV2")
+                }
+
                 public static var defaultLeaderboard: Self {
                     .init(rawValue: "defaultLeaderboard")
                 }
 
+                public static var defaultLeaderboardV2: Self {
+                    .init(rawValue: "defaultLeaderboardV2")
+                }
+
                 public static var gameCenterAchievements: Self {
                     .init(rawValue: "gameCenterAchievements")
+                }
+
+                public static var gameCenterAchievementsV2: Self {
+                    .init(rawValue: "gameCenterAchievementsV2")
                 }
 
                 public static var gameCenterActivities: Self {
@@ -263,8 +279,16 @@ extension V1.GameCenterDetails.ById.GameCenterChallenges.GET {
                     .init(rawValue: "gameCenterLeaderboardSets")
                 }
 
+                public static var gameCenterLeaderboardSetsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetsV2")
+                }
+
                 public static var gameCenterLeaderboards: Self {
                     .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var gameCenterLeaderboardsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardsV2")
                 }
 
                 public static var leaderboardReleases: Self {
@@ -291,6 +315,10 @@ extension V1.GameCenterDetails.ById.GameCenterChallenges.GET {
                     .init(rawValue: "gameCenterAchievements")
                 }
 
+                public static var gameCenterAchievementsV2: Self {
+                    .init(rawValue: "gameCenterAchievementsV2")
+                }
+
                 public static var gameCenterActivities: Self {
                     .init(rawValue: "gameCenterActivities")
                 }
@@ -307,8 +335,16 @@ extension V1.GameCenterDetails.ById.GameCenterChallenges.GET {
                     .init(rawValue: "gameCenterLeaderboardSets")
                 }
 
+                public static var gameCenterLeaderboardSetsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetsV2")
+                }
+
                 public static var gameCenterLeaderboards: Self {
                     .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var gameCenterLeaderboardsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardsV2")
                 }
 
                 public static var referenceName: Self {
@@ -407,6 +443,10 @@ extension V1.GameCenterDetails.ById.GameCenterChallenges.GET {
                     .init(rawValue: "vendorIdentifier")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public static var visibility: Self {
                     .init(rawValue: "visibility")
                 }
@@ -499,6 +539,10 @@ extension V1.GameCenterDetails.ById.GameCenterChallenges.GET {
 
             public static var leaderboard: Self {
                 .init(rawValue: "leaderboard")
+            }
+
+            public static var leaderboardV2: Self {
+                .init(rawValue: "leaderboardV2")
             }
 
             public static var versions: Self {
