@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterAchievements.ById.Relationships.Localizations {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = GameCenterAchievementLocalizationsLinkagesResponse
 

@@ -428,8 +428,6 @@ public enum V1 {
 
     public enum AppStoreVersions {
         public enum ById {
-            public enum AgeRatingDeclaration {}
-
             public enum AlternativeDistributionPackage {}
 
             public enum AppClipDefaultExperience {}
@@ -453,8 +451,6 @@ public enum V1 {
             public enum GameCenterAppVersion {}
 
             public enum Relationships {
-                public enum AgeRatingDeclaration {}
-
                 public enum AlternativeDistributionPackage {}
 
                 public enum AppClipDefaultExperience {}

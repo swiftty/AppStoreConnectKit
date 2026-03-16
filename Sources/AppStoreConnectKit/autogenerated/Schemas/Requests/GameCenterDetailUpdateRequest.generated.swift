@@ -60,10 +60,12 @@ public struct GameCenterDetailUpdateRequest: Hashable, Codable, Sendable {
         }
 
         public struct Relationships: Hashable, Codable, Sendable {
+            @available(*, deprecated)
             public var defaultGroupLeaderboard: DefaultGroupLeaderboard?
 
             public var defaultGroupLeaderboardV2: DefaultGroupLeaderboardV2?
 
+            @available(*, deprecated)
             public var defaultLeaderboard: DefaultLeaderboard?
 
             public var defaultLeaderboardV2: DefaultLeaderboardV2?

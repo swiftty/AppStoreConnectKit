@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterActivities.ById.Relationships.Achievements {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = GameCenterActivityAchievementsLinkagesRequest
         public typealias Response = Void

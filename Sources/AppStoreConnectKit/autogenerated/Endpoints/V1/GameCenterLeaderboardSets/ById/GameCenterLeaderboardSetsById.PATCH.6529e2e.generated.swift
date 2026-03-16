@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterLeaderboardSets.ById {
+    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = GameCenterLeaderboardSetUpdateRequest
         public typealias Response = GameCenterLeaderboardSetResponse

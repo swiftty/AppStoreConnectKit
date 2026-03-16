@@ -38,10 +38,14 @@ extension V1.Apps.ById.BackgroundAssets {
                              value: parameters.filter[.archived]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[assetPackIdentifier]",
                              value: parameters.filter[.assetPackIdentifier]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[versions.platforms]",
+                             value: parameters.filter[.versionsPlatforms]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
-                             value: parameters.limit.map { "\($0)" })
+                             value: parameters.limit.map { "\($0)" }),
+                URLQueryItem(name: "sort",
+                             value: parameters.sort?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -101,6 +105,9 @@ extension V1.Apps.ById.BackgroundAssets.GET {
 
         /// maximum resources per page
         public var limit: Int?
+
+        /// comma-separated list of sort expressions; resources will be sorted as specified
+        public var sort: [Sort]?
 
         public struct Fields: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
@@ -431,6 +438,10 @@ extension V1.Apps.ById.BackgroundAssets.GET {
                     .init(rawValue: "internalBetaVersion")
                 }
 
+                public static var usedBytes: Self {
+                    .init(rawValue: "usedBytes")
+                }
+
                 public static var versions: Self {
                     .init(rawValue: "versions")
                 }
@@ -478,6 +489,34 @@ extension V1.Apps.ById.BackgroundAssets.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct VersionsPlatforms: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var iOS: Self {
+                    .init(rawValue: "IOS")
+                }
+
+                public static var macOS: Self {
+                    .init(rawValue: "MAC_OS")
+                }
+
+                public static var tvOS: Self {
+                    .init(rawValue: "TV_OS")
+                }
+
+                public static var visionOS: Self {
+                    .init(rawValue: "VISION_OS")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// filter by attribute 'archived'
                 public static var archived: Relation<[String]?> {
@@ -487,6 +526,11 @@ extension V1.Apps.ById.BackgroundAssets.GET {
                 /// filter by attribute 'assetPackIdentifier'
                 public static var assetPackIdentifier: Relation<[String]?> {
                     .init(key: "filter[assetPackIdentifier]")
+                }
+
+                /// filter by attribute 'versions.platforms'
+                public static var versionsPlatforms: Relation<[VersionsPlatforms]?> {
+                    .init(key: "filter[versions.platforms]")
                 }
 
                 internal let key: String
@@ -512,6 +556,34 @@ extension V1.Apps.ById.BackgroundAssets.GET {
 
             public static var internalBetaVersion: Self {
                 .init(rawValue: "internalBetaVersion")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
+            public init(rawValue: String) {
+                self.rawValue = rawValue
+            }
+        }
+
+        public struct Sort: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var assetPackIdentifier: Self {
+                .init(rawValue: "assetPackIdentifier")
+            }
+
+            public static var assetPackIdentifierDesc: Self {
+                .init(rawValue: "-assetPackIdentifier")
+            }
+
+            public static var createdDate: Self {
+                .init(rawValue: "createdDate")
+            }
+
+            public static var createdDateDesc: Self {
+                .init(rawValue: "-createdDate")
             }
 
             public var description: String {

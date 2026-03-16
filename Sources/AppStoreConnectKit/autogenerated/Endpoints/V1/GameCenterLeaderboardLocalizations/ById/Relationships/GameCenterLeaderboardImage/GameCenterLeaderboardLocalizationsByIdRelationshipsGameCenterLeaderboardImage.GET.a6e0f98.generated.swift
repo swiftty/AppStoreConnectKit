@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterLeaderboardLocalizations.ById.Relationships.GameCenterLeaderboardImage {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = GameCenterLeaderboardLocalizationGameCenterLeaderboardImageLinkageResponse
 

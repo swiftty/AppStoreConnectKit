@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterLeaderboardSetReleases.ById {
+    @available(*, deprecated)
     public struct DELETE: Endpoint {
         public typealias Parameters = Never
         public typealias Response = Void
@@ -35,7 +36,6 @@ extension V1.GameCenterLeaderboardSetReleases.ById {
         /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
-        /// - Throws: **409**, Request entity error(s) as `ErrorResponse`
         /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
@@ -54,9 +54,6 @@ extension V1.GameCenterLeaderboardSetReleases.ById {
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
-                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
-
-            case 409:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 429:

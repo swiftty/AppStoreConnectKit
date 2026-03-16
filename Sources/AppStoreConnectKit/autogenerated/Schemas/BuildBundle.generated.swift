@@ -69,6 +69,8 @@ public struct BuildBundle: Hashable, Codable, Sendable {
 
         public var locales: [String]?
 
+        public var minimumOsVersion: String?
+
         public var platformBuild: String?
 
         public var requiredCapabilities: [String]?
@@ -94,6 +96,7 @@ public struct BuildBundle: Hashable, Codable, Sendable {
             includesSymbols: Bool? = nil,
             isIosBuildMacAppStoreCompatible: Bool? = nil,
             locales: [String]? = nil,
+            minimumOsVersion: String? = nil,
             platformBuild: String? = nil,
             requiredCapabilities: [String]? = nil,
             sdkBuild: String? = nil,
@@ -114,6 +117,7 @@ public struct BuildBundle: Hashable, Codable, Sendable {
             self.includesSymbols = includesSymbols
             self.isIosBuildMacAppStoreCompatible = isIosBuildMacAppStoreCompatible
             self.locales = locales
+            self.minimumOsVersion = minimumOsVersion
             self.platformBuild = platformBuild
             self.requiredCapabilities = requiredCapabilities
             self.sdkBuild = sdkBuild
@@ -136,6 +140,7 @@ public struct BuildBundle: Hashable, Codable, Sendable {
             case includesSymbols
             case isIosBuildMacAppStoreCompatible
             case locales
+            case minimumOsVersion
             case platformBuild
             case requiredCapabilities
             case sdkBuild

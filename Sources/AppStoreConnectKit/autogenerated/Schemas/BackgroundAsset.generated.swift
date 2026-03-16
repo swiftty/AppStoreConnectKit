@@ -47,20 +47,25 @@ public struct BackgroundAsset: Hashable, Codable, Sendable {
 
         public var createdDate: String?
 
+        public var usedBytes: Int?
+
         public init(
             archived: Bool? = nil,
             assetPackIdentifier: String? = nil,
-            createdDate: String? = nil
+            createdDate: String? = nil,
+            usedBytes: Int? = nil
         ) {
             self.archived = archived
             self.assetPackIdentifier = assetPackIdentifier
             self.createdDate = createdDate
+            self.usedBytes = usedBytes
         }
 
         private enum CodingKeys: String, CodingKey {
             case archived
             case assetPackIdentifier
             case createdDate
+            case usedBytes
         }
     }
 

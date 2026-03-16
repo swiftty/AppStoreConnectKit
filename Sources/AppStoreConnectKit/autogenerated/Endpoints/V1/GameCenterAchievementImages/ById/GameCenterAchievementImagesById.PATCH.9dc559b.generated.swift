@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterAchievementImages.ById {
+    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = GameCenterAchievementImageUpdateRequest
         public typealias Response = GameCenterAchievementImageResponse

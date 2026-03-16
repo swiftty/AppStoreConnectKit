@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterGroups.ById.Relationships.GameCenterLeaderboards {
+    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = GameCenterGroupGameCenterLeaderboardsLinkagesRequest
         public typealias Response = Void

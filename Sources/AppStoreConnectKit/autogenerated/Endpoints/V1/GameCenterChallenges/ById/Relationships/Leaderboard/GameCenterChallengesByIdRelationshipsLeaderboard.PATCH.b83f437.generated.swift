@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterChallenges.ById.Relationships.Leaderboard {
+    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = GameCenterChallengeLeaderboardLinkageRequest
         public typealias Response = Void

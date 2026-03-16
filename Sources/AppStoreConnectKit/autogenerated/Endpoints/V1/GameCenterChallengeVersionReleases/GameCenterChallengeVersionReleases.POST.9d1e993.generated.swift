@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterChallengeVersionReleases {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = GameCenterChallengeVersionReleaseCreateRequest
         public typealias Response = GameCenterChallengeVersionReleaseResponse

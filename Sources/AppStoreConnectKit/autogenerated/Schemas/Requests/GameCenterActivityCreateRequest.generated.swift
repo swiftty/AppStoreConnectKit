@@ -6,12 +6,19 @@ import Foundation
 public struct GameCenterActivityCreateRequest: Hashable, Codable, Sendable {
     public var data: Data
 
-    public init(data: Data) {
+    public var included: [GameCenterActivityVersionInlineCreate]?
+
+    public init(
+        data: Data,
+        included: [GameCenterActivityVersionInlineCreate]? = nil
+    ) {
         self.data = data
+        self.included = included
     }
 
     private enum CodingKeys: String, CodingKey {
         case data
+        case included
     }
 
     public struct Data: Hashable, Codable, Sendable {
@@ -110,17 +117,22 @@ public struct GameCenterActivityCreateRequest: Hashable, Codable, Sendable {
 
             public var gameCenterGroup: GameCenterGroup?
 
+            public var versions: Versions?
+
             public init(
                 gameCenterDetail: GameCenterDetail? = nil,
-                gameCenterGroup: GameCenterGroup? = nil
+                gameCenterGroup: GameCenterGroup? = nil,
+                versions: Versions? = nil
             ) {
                 self.gameCenterDetail = gameCenterDetail
                 self.gameCenterGroup = gameCenterGroup
+                self.versions = versions
             }
 
             private enum CodingKeys: String, CodingKey {
                 case gameCenterDetail
                 case gameCenterGroup
+                case versions
             }
 
             public struct GameCenterDetail: Hashable, Codable, Sendable {
@@ -189,6 +201,41 @@ public struct GameCenterActivityCreateRequest: Hashable, Codable, Sendable {
 
                     public enum `Type`: String, Hashable, Codable, Sendable {
                         case gameCenterGroups
+                    }
+                }
+            }
+
+            public struct Versions: Hashable, Codable, Sendable {
+                public var data: [Data]?
+
+                public init(data: [Data]? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case gameCenterActivityVersions
                     }
                 }
             }

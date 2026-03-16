@@ -71,6 +71,7 @@ public struct GameCenterChallengeUpdateRequest: Hashable, Codable, Sendable {
         }
 
         public struct Relationships: Hashable, Codable, Sendable {
+            @available(*, deprecated)
             public var leaderboard: Leaderboard?
 
             public var leaderboardV2: LeaderboardV2?

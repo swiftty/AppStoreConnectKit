@@ -269,10 +269,6 @@ extension V1.ReviewSubmissions.ById.Items.GET {
             }
 
             public struct AppStoreVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-                public static var ageRatingDeclaration: Self {
-                    .init(rawValue: "ageRatingDeclaration")
-                }
-
                 public static var alternativeDistributionPackage: Self {
                     .init(rawValue: "alternativeDistributionPackage")
                 }

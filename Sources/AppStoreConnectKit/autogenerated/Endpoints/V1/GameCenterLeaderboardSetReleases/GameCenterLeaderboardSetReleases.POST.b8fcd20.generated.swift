@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterLeaderboardSetReleases {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = GameCenterLeaderboardSetReleaseCreateRequest
         public typealias Response = GameCenterLeaderboardSetReleaseResponse

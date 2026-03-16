@@ -95,6 +95,7 @@ public struct GameCenterChallenge: Hashable, Codable, Sendable {
 
         public var gameCenterGroup: GameCenterGroup?
 
+        @available(*, deprecated)
         public var leaderboard: Leaderboard?
 
         public var leaderboardV2: LeaderboardV2?

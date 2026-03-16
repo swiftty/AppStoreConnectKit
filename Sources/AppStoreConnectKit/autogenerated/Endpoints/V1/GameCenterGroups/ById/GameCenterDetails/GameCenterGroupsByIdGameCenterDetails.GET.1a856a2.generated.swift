@@ -163,10 +163,6 @@ extension V1.GameCenterGroups.ById.GameCenterDetails.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct AppStoreVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-                public static var ageRatingDeclaration: Self {
-                    .init(rawValue: "ageRatingDeclaration")
-                }
-
                 public static var alternativeDistributionPackage: Self {
                     .init(rawValue: "alternativeDistributionPackage")
                 }

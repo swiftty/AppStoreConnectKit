@@ -43,6 +43,8 @@ public struct GameCenterPlayerAchievementSubmissionCreateRequest: Hashable, Coda
 
             public var percentageAchieved: Int
 
+            public var preReleased: Bool?
+
             public var scopedPlayerId: String
 
             public var submittedDate: String?
@@ -53,6 +55,7 @@ public struct GameCenterPlayerAchievementSubmissionCreateRequest: Hashable, Coda
                 bundleId: String,
                 challengeIds: [String]? = nil,
                 percentageAchieved: Int,
+                preReleased: Bool? = nil,
                 scopedPlayerId: String,
                 submittedDate: String? = nil,
                 vendorIdentifier: String
@@ -60,6 +63,7 @@ public struct GameCenterPlayerAchievementSubmissionCreateRequest: Hashable, Coda
                 self.bundleId = bundleId
                 self.challengeIds = challengeIds
                 self.percentageAchieved = percentageAchieved
+                self.preReleased = preReleased
                 self.scopedPlayerId = scopedPlayerId
                 self.submittedDate = submittedDate
                 self.vendorIdentifier = vendorIdentifier
@@ -69,6 +73,7 @@ public struct GameCenterPlayerAchievementSubmissionCreateRequest: Hashable, Coda
                 case bundleId
                 case challengeIds
                 case percentageAchieved
+                case preReleased
                 case scopedPlayerId
                 case submittedDate
                 case vendorIdentifier
