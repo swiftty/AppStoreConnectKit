@@ -28,8 +28,6 @@ extension V1.Apps.ById.AppStoreVersions {
             components?.path = path
 
             components?.queryItems = [
-                URLQueryItem(name: "fields[ageRatingDeclarations]",
-                             value: parameters.fields[.ageRatingDeclarations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[alternativeDistributionPackages]",
                              value: parameters.fields[.alternativeDistributionPackages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClipDefaultExperiences]",
@@ -141,126 +139,6 @@ extension V1.Apps.ById.AppStoreVersions.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
-
-            public struct AgeRatingDeclarations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-                public static var advertising: Self {
-                    .init(rawValue: "advertising")
-                }
-
-                public static var ageAssurance: Self {
-                    .init(rawValue: "ageAssurance")
-                }
-
-                public static var ageRatingOverride: Self {
-                    .init(rawValue: "ageRatingOverride")
-                }
-
-                public static var ageRatingOverrideV2: Self {
-                    .init(rawValue: "ageRatingOverrideV2")
-                }
-
-                public static var alcoholTobaccoOrDrugUseOrReferences: Self {
-                    .init(rawValue: "alcoholTobaccoOrDrugUseOrReferences")
-                }
-
-                public static var contests: Self {
-                    .init(rawValue: "contests")
-                }
-
-                public static var developerAgeRatingInfoUrl: Self {
-                    .init(rawValue: "developerAgeRatingInfoUrl")
-                }
-
-                public static var gambling: Self {
-                    .init(rawValue: "gambling")
-                }
-
-                public static var gamblingSimulated: Self {
-                    .init(rawValue: "gamblingSimulated")
-                }
-
-                public static var gunsOrOtherWeapons: Self {
-                    .init(rawValue: "gunsOrOtherWeapons")
-                }
-
-                public static var healthOrWellnessTopics: Self {
-                    .init(rawValue: "healthOrWellnessTopics")
-                }
-
-                public static var horrorOrFearThemes: Self {
-                    .init(rawValue: "horrorOrFearThemes")
-                }
-
-                public static var kidsAgeBand: Self {
-                    .init(rawValue: "kidsAgeBand")
-                }
-
-                public static var koreaAgeRatingOverride: Self {
-                    .init(rawValue: "koreaAgeRatingOverride")
-                }
-
-                public static var lootBox: Self {
-                    .init(rawValue: "lootBox")
-                }
-
-                public static var matureOrSuggestiveThemes: Self {
-                    .init(rawValue: "matureOrSuggestiveThemes")
-                }
-
-                public static var medicalOrTreatmentInformation: Self {
-                    .init(rawValue: "medicalOrTreatmentInformation")
-                }
-
-                public static var messagingAndChat: Self {
-                    .init(rawValue: "messagingAndChat")
-                }
-
-                public static var parentalControls: Self {
-                    .init(rawValue: "parentalControls")
-                }
-
-                public static var profanityOrCrudeHumor: Self {
-                    .init(rawValue: "profanityOrCrudeHumor")
-                }
-
-                public static var sexualContentGraphicAndNudity: Self {
-                    .init(rawValue: "sexualContentGraphicAndNudity")
-                }
-
-                public static var sexualContentOrNudity: Self {
-                    .init(rawValue: "sexualContentOrNudity")
-                }
-
-                public static var unrestrictedWebAccess: Self {
-                    .init(rawValue: "unrestrictedWebAccess")
-                }
-
-                public static var userGeneratedContent: Self {
-                    .init(rawValue: "userGeneratedContent")
-                }
-
-                public static var violenceCartoonOrFantasy: Self {
-                    .init(rawValue: "violenceCartoonOrFantasy")
-                }
-
-                public static var violenceRealistic: Self {
-                    .init(rawValue: "violenceRealistic")
-                }
-
-                public static var violenceRealisticProlongedGraphicOrSadistic: Self {
-                    .init(rawValue: "violenceRealisticProlongedGraphicOrSadistic")
-                }
-
-                public var description: String {
-                    rawValue
-                }
-
-                public var rawValue: String
-
-                public init(rawValue: String) {
-                    self.rawValue = rawValue
-                }
-            }
 
             public struct AlternativeDistributionPackages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var sourceFileChecksum: Self {
@@ -527,10 +405,6 @@ extension V1.Apps.ById.AppStoreVersions.GET {
             }
 
             public struct AppStoreVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-                public static var ageRatingDeclaration: Self {
-                    .init(rawValue: "ageRatingDeclaration")
-                }
-
                 public static var alternativeDistributionPackage: Self {
                     .init(rawValue: "alternativeDistributionPackage")
                 }
@@ -1047,11 +921,6 @@ extension V1.Apps.ById.AppStoreVersions.GET {
             }
 
             public struct Relation<T>: Hashable {
-                /// the fields to include for returned resources of type ageRatingDeclarations
-                public static var ageRatingDeclarations: Relation<[AgeRatingDeclarations]?> {
-                    .init(key: "fields[ageRatingDeclarations]")
-                }
-
                 /// the fields to include for returned resources of type alternativeDistributionPackages
                 public static var alternativeDistributionPackages: Relation<[AlternativeDistributionPackages]?> {
                     .init(key: "fields[alternativeDistributionPackages]")
@@ -1355,10 +1224,6 @@ extension V1.Apps.ById.AppStoreVersions.GET {
         }
 
         public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-            public static var ageRatingDeclaration: Self {
-                .init(rawValue: "ageRatingDeclaration")
-            }
-
             public static var alternativeDistributionPackage: Self {
                 .init(rawValue: "alternativeDistributionPackage")
             }

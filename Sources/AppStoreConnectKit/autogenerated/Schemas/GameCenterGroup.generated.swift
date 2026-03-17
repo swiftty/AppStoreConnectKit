@@ -53,6 +53,7 @@ public struct GameCenterGroup: Hashable, Codable, Sendable {
     }
 
     public struct Relationships: Hashable, Codable, Sendable {
+        @available(*, deprecated)
         public var gameCenterAchievements: GameCenterAchievements?
 
         public var gameCenterAchievementsV2: GameCenterAchievementsV2?
@@ -63,10 +64,12 @@ public struct GameCenterGroup: Hashable, Codable, Sendable {
 
         public var gameCenterDetails: GameCenterDetails?
 
+        @available(*, deprecated)
         public var gameCenterLeaderboardSets: GameCenterLeaderboardSets?
 
         public var gameCenterLeaderboardSetsV2: GameCenterLeaderboardSetsV2?
 
+        @available(*, deprecated)
         public var gameCenterLeaderboards: GameCenterLeaderboards?
 
         public var gameCenterLeaderboardsV2: GameCenterLeaderboardsV2?

@@ -27,9 +27,9 @@ public struct BetaPublicLinkUsagesV1MetricResponse: Hashable, Codable, Sendable 
     }
 
     public struct Data: Hashable, Codable, Sendable {
-        public var dataPoints: DataPoints?
+        public var dataPoints: [DataPoints]?
 
-        public init(dataPoints: DataPoints? = nil) {
+        public init(dataPoints: [DataPoints]? = nil) {
             self.dataPoints = dataPoints
         }
 

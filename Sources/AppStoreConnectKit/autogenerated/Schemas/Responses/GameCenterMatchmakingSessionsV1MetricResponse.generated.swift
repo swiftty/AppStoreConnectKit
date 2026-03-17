@@ -27,12 +27,12 @@ public struct GameCenterMatchmakingSessionsV1MetricResponse: Hashable, Codable, 
     }
 
     public struct Data: Hashable, Codable, Sendable {
-        public var dataPoints: DataPoints?
+        public var dataPoints: [DataPoints]?
 
         public var granularity: Granularity?
 
         public init(
-            dataPoints: DataPoints? = nil,
+            dataPoints: [DataPoints]? = nil,
             granularity: Granularity? = nil
         ) {
             self.dataPoints = dataPoints

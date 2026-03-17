@@ -61,24 +61,30 @@ public struct GameCenterDetail: Hashable, Codable, Sendable {
     }
 
     public struct Relationships: Hashable, Codable, Sendable {
+        @available(*, deprecated)
         public var achievementReleases: AchievementReleases?
 
+        @available(*, deprecated)
         public var activityReleases: ActivityReleases?
 
         public var app: App?
 
+        @available(*, deprecated)
         public var challengeReleases: ChallengeReleases?
 
         public var challengesMinimumPlatformVersions: ChallengesMinimumPlatformVersions?
 
+        @available(*, deprecated)
         public var defaultGroupLeaderboard: DefaultGroupLeaderboard?
 
         public var defaultGroupLeaderboardV2: DefaultGroupLeaderboardV2?
 
+        @available(*, deprecated)
         public var defaultLeaderboard: DefaultLeaderboard?
 
         public var defaultLeaderboardV2: DefaultLeaderboardV2?
 
+        @available(*, deprecated)
         public var gameCenterAchievements: GameCenterAchievements?
 
         public var gameCenterAchievementsV2: GameCenterAchievementsV2?
@@ -91,16 +97,20 @@ public struct GameCenterDetail: Hashable, Codable, Sendable {
 
         public var gameCenterGroup: GameCenterGroup?
 
+        @available(*, deprecated)
         public var gameCenterLeaderboardSets: GameCenterLeaderboardSets?
 
         public var gameCenterLeaderboardSetsV2: GameCenterLeaderboardSetsV2?
 
+        @available(*, deprecated)
         public var gameCenterLeaderboards: GameCenterLeaderboards?
 
         public var gameCenterLeaderboardsV2: GameCenterLeaderboardsV2?
 
+        @available(*, deprecated)
         public var leaderboardReleases: LeaderboardReleases?
 
+        @available(*, deprecated)
         public var leaderboardSetReleases: LeaderboardSetReleases?
 
         public init(

@@ -124,6 +124,10 @@ extension V1.BackgroundAssets.ById.GET {
                     .init(rawValue: "internalBetaVersion")
                 }
 
+                public static var usedBytes: Self {
+                    .init(rawValue: "usedBytes")
+                }
+
                 public static var versions: Self {
                     .init(rawValue: "versions")
                 }

@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterLeaderboardSetImages {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = GameCenterLeaderboardSetImageCreateRequest
         public typealias Response = GameCenterLeaderboardSetImageResponse

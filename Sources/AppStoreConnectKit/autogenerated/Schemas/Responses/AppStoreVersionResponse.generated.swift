@@ -27,7 +27,6 @@ public struct AppStoreVersionResponse: Hashable, Codable, Sendable {
     }
 
     public enum Included: Hashable, Codable, Sendable {
-        case ageRatingDeclaration(AgeRatingDeclaration)
         case alternativeDistributionPackage(AlternativeDistributionPackage)
         case appClipDefaultExperience(AppClipDefaultExperience)
         case appStoreReviewDetail(AppStoreReviewDetail)
@@ -43,11 +42,6 @@ public struct AppStoreVersionResponse: Hashable, Codable, Sendable {
         public init(from decoder: Decoder) throws {
             self = try {
                 var lastError: Error!
-                do {
-                    return .ageRatingDeclaration(try AgeRatingDeclaration(from: decoder))
-                } catch {
-                    lastError = error
-                }
                 do {
                     return .alternativeDistributionPackage(try AlternativeDistributionPackage(from: decoder))
                 } catch {
@@ -109,9 +103,6 @@ public struct AppStoreVersionResponse: Hashable, Codable, Sendable {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-            case .ageRatingDeclaration(let value):
-                try value.encode(to: encoder)
-
             case .alternativeDistributionPackage(let value):
                 try value.encode(to: encoder)
 

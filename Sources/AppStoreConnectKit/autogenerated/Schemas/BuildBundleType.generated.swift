@@ -12,6 +12,10 @@ public struct BuildBundleType: Hashable, Codable, RawRepresentable, CustomString
         .init(rawValue: "APP_CLIP")
     }
 
+    public static var watchApp: Self {
+        .init(rawValue: "WATCH_APP")
+    }
+
     public var description: String {
         rawValue
     }

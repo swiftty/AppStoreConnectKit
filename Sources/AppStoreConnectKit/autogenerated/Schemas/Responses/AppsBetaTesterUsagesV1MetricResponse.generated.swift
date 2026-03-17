@@ -32,12 +32,12 @@ public struct AppsBetaTesterUsagesV1MetricResponse: Hashable, Codable, Sendable 
     }
 
     public struct Data: Hashable, Codable, Sendable {
-        public var dataPoints: DataPoints?
+        public var dataPoints: [DataPoints]?
 
         public var dimensions: Dimensions?
 
         public init(
-            dataPoints: DataPoints? = nil,
+            dataPoints: [DataPoints]? = nil,
             dimensions: Dimensions? = nil
         ) {
             self.dataPoints = dataPoints

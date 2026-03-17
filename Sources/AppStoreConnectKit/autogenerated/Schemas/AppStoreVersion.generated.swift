@@ -150,9 +150,6 @@ public struct AppStoreVersion: Hashable, Codable, Sendable {
     }
 
     public struct Relationships: Hashable, Codable, Sendable {
-        @available(*, deprecated)
-        public var ageRatingDeclaration: AgeRatingDeclaration?
-
         public var alternativeDistributionPackage: AlternativeDistributionPackage?
 
         public var app: App?
@@ -180,7 +177,6 @@ public struct AppStoreVersion: Hashable, Codable, Sendable {
         public var routingAppCoverage: RoutingAppCoverage?
 
         public init(
-            ageRatingDeclaration: AgeRatingDeclaration? = nil,
             alternativeDistributionPackage: AlternativeDistributionPackage? = nil,
             app: App? = nil,
             appClipDefaultExperience: AppClipDefaultExperience? = nil,
@@ -195,7 +191,6 @@ public struct AppStoreVersion: Hashable, Codable, Sendable {
             gameCenterAppVersion: GameCenterAppVersion? = nil,
             routingAppCoverage: RoutingAppCoverage? = nil
         ) {
-            self.ageRatingDeclaration = ageRatingDeclaration
             self.alternativeDistributionPackage = alternativeDistributionPackage
             self.app = app
             self.appClipDefaultExperience = appClipDefaultExperience
@@ -212,7 +207,6 @@ public struct AppStoreVersion: Hashable, Codable, Sendable {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ageRatingDeclaration
             case alternativeDistributionPackage
             case app
             case appClipDefaultExperience
@@ -226,48 +220,6 @@ public struct AppStoreVersion: Hashable, Codable, Sendable {
             case customerReviews
             case gameCenterAppVersion
             case routingAppCoverage
-        }
-
-        public struct AgeRatingDeclaration: Hashable, Codable, Sendable {
-            public var data: Data?
-
-            public var links: RelationshipLinks?
-
-            public init(
-                data: Data? = nil,
-                links: RelationshipLinks? = nil
-            ) {
-                self.data = data
-                self.links = links
-            }
-
-            private enum CodingKeys: String, CodingKey {
-                case data
-                case links
-            }
-
-            public struct Data: Hashable, Codable, Sendable {
-                public var id: String
-
-                public var type: `Type`
-
-                public init(
-                    id: String,
-                    type: `Type`
-                ) {
-                    self.id = id
-                    self.type = type
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case id
-                    case type
-                }
-
-                public enum `Type`: String, Hashable, Codable, Sendable {
-                    case ageRatingDeclarations
-                }
-            }
         }
 
         public struct AlternativeDistributionPackage: Hashable, Codable, Sendable {

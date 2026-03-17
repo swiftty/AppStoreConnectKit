@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterLeaderboardSetMemberLocalizations.ById.GameCenterLeaderboardSet {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = GameCenterLeaderboardSetResponse
 

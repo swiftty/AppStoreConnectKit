@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterLeaderboardSetLocalizations {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = GameCenterLeaderboardSetLocalizationCreateRequest
         public typealias Response = GameCenterLeaderboardSetLocalizationResponse

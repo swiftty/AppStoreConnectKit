@@ -274,10 +274,6 @@ extension V1.CiBuildRuns.ById.Builds.GET {
             }
 
             public struct AppStoreVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
-                public static var ageRatingDeclaration: Self {
-                    .init(rawValue: "ageRatingDeclaration")
-                }
-
                 public static var alternativeDistributionPackage: Self {
                     .init(rawValue: "alternativeDistributionPackage")
                 }
@@ -892,6 +888,10 @@ extension V1.CiBuildRuns.ById.Builds.GET {
 
                 public static var locales: Self {
                     .init(rawValue: "locales")
+                }
+
+                public static var minimumOsVersion: Self {
+                    .init(rawValue: "minimumOsVersion")
                 }
 
                 public static var platformBuild: Self {

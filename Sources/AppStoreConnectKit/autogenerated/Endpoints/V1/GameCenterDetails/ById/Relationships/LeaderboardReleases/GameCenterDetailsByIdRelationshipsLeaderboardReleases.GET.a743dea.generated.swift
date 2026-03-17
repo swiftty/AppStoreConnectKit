@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterDetails.ById.Relationships.LeaderboardReleases {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = GameCenterDetailLeaderboardReleasesLinkagesResponse
 

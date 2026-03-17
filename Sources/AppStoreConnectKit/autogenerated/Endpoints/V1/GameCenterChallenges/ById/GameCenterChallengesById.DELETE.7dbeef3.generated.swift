@@ -35,7 +35,6 @@ extension V1.GameCenterChallenges.ById {
         /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
-        /// - Throws: **409**, Request entity error(s) as `ErrorResponse`
         /// - Throws: **429**, Rate limit exceeded error as `ErrorResponse`
         public static func response(from data: Data, urlResponse: HTTPURLResponse) throws -> Response {
             var jsonDecoder: JSONDecoder {
@@ -54,9 +53,6 @@ extension V1.GameCenterChallenges.ById {
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 404:
-                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
-
-            case 409:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 
             case 429:

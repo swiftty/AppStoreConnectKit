@@ -42,6 +42,8 @@ public struct GameCenterLeaderboardEntrySubmission: Hashable, Codable, Sendable 
 
         public var context: String?
 
+        public var preReleased: Bool?
+
         public var scopedPlayerId: String?
 
         public var score: String?
@@ -54,6 +56,7 @@ public struct GameCenterLeaderboardEntrySubmission: Hashable, Codable, Sendable 
             bundleId: String? = nil,
             challengeIds: [String]? = nil,
             context: String? = nil,
+            preReleased: Bool? = nil,
             scopedPlayerId: String? = nil,
             score: String? = nil,
             submittedDate: String? = nil,
@@ -62,6 +65,7 @@ public struct GameCenterLeaderboardEntrySubmission: Hashable, Codable, Sendable 
             self.bundleId = bundleId
             self.challengeIds = challengeIds
             self.context = context
+            self.preReleased = preReleased
             self.scopedPlayerId = scopedPlayerId
             self.score = score
             self.submittedDate = submittedDate
@@ -72,6 +76,7 @@ public struct GameCenterLeaderboardEntrySubmission: Hashable, Codable, Sendable 
             case bundleId
             case challengeIds
             case context
+            case preReleased
             case scopedPlayerId
             case score
             case submittedDate

@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterLeaderboardLocalizations.ById {
+    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = GameCenterLeaderboardLocalizationUpdateRequest
         public typealias Response = GameCenterLeaderboardLocalizationResponse

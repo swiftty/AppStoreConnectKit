@@ -110,6 +110,7 @@ public struct GameCenterActivity: Hashable, Codable, Sendable {
     }
 
     public struct Relationships: Hashable, Codable, Sendable {
+        @available(*, deprecated)
         public var achievements: Achievements?
 
         public var achievementsV2: AchievementsV2?
@@ -118,6 +119,7 @@ public struct GameCenterActivity: Hashable, Codable, Sendable {
 
         public var gameCenterGroup: GameCenterGroup?
 
+        @available(*, deprecated)
         public var leaderboards: Leaderboards?
 
         public var leaderboardsV2: LeaderboardsV2?

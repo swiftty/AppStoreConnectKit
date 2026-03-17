@@ -46,6 +46,8 @@ extension V1.BackgroundAssets.ById.Versions {
                              value: parameters.filter[.externalBetaReleaseState]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[internalBetaRelease.state]",
                              value: parameters.filter[.internalBetaReleaseState]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[platforms]",
+                             value: parameters.filter[.platforms]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[state]",
                              value: parameters.filter[.state]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[version]",
@@ -320,6 +322,10 @@ extension V1.BackgroundAssets.ById.Versions.GET {
                     .init(rawValue: "internalBetaVersion")
                 }
 
+                public static var usedBytes: Self {
+                    .init(rawValue: "usedBytes")
+                }
+
                 public static var versions: Self {
                     .init(rawValue: "versions")
                 }
@@ -490,6 +496,34 @@ extension V1.BackgroundAssets.ById.Versions.GET {
                 }
             }
 
+            public struct Platforms: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var iOS: Self {
+                    .init(rawValue: "IOS")
+                }
+
+                public static var macOS: Self {
+                    .init(rawValue: "MAC_OS")
+                }
+
+                public static var tvOS: Self {
+                    .init(rawValue: "TV_OS")
+                }
+
+                public static var visionOS: Self {
+                    .init(rawValue: "VISION_OS")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var awaitingUpload: Self {
                     .init(rawValue: "AWAITING_UPLOAD")
@@ -532,6 +566,11 @@ extension V1.BackgroundAssets.ById.Versions.GET {
                 /// filter by attribute 'internalBetaRelease.state'
                 public static var internalBetaReleaseState: Relation<[InternalBetaReleaseState]?> {
                     .init(key: "filter[internalBetaRelease.state]")
+                }
+
+                /// filter by attribute 'platforms'
+                public static var platforms: Relation<[Platforms]?> {
+                    .init(key: "filter[platforms]")
                 }
 
                 /// filter by attribute 'state'

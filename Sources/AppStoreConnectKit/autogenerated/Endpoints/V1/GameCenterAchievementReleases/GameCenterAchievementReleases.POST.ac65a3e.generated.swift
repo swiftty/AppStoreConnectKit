@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterAchievementReleases {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = GameCenterAchievementReleaseCreateRequest
         public typealias Response = GameCenterAchievementReleaseResponse

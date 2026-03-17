@@ -25,8 +25,12 @@ extension V1.Nominations {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "exists[inAppEvents]",
+                             value: parameters.exists[.inAppEvents].map { "\($0)" }),
                 URLQueryItem(name: "fields[nominations]",
                              value: parameters.fields[.nominations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[hasInAppEvents]",
+                             value: parameters.filter[.hasInAppEvents]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[relatedApps]",
                              value: parameters.filter[.relatedApps]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[state]",
@@ -91,6 +95,8 @@ extension V1.Nominations {
 
 extension V1.Nominations.GET {
     public struct Parameters: Hashable {
+        public var exists: Exists = Exists()
+
         public var fields: Fields = Fields()
 
         public var filter: Filter = Filter()
@@ -103,6 +109,28 @@ extension V1.Nominations.GET {
 
         /// comma-separated list of sort expressions; resources will be sorted as specified
         public var sort: [Sort]?
+
+        public struct Exists: Hashable {
+            public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
+                get { values[relation]?.base as! T }
+                set { values[relation] = AnyHashable(newValue) }
+            }
+
+            private var values: [AnyHashable: AnyHashable] = [:]
+
+            public struct Relation<T>: Hashable {
+                /// filter by existence or non-existence of related 'inAppEvents'
+                public static var inAppEvents: Relation<Bool?> {
+                    .init(key: "exists[inAppEvents]")
+                }
+
+                internal let key: String
+
+                public func hash(into hasher: inout Hasher) {
+                    hasher.combine(key)
+                }
+            }
+        }
 
         public struct Fields: Hashable {
             public subscript <T: Hashable>(_ relation: Relation<T>) -> T {
@@ -283,6 +311,11 @@ extension V1.Nominations.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// filter by attribute 'hasInAppEvents'
+                public static var hasInAppEvents: Relation<[String]?> {
+                    .init(key: "filter[hasInAppEvents]")
+                }
+
                 /// filter by id(s) of related 'relatedApps'
                 public static var relatedApps: Relation<[String]?> {
                     .init(key: "filter[relatedApps]")

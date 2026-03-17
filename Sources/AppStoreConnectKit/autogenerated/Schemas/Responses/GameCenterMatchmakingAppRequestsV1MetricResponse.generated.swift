@@ -27,14 +27,14 @@ public struct GameCenterMatchmakingAppRequestsV1MetricResponse: Hashable, Codabl
     }
 
     public struct Data: Hashable, Codable, Sendable {
-        public var dataPoints: DataPoints?
+        public var dataPoints: [DataPoints]?
 
         public var dimensions: Dimensions?
 
         public var granularity: Granularity?
 
         public init(
-            dataPoints: DataPoints? = nil,
+            dataPoints: [DataPoints]? = nil,
             dimensions: Dimensions? = nil,
             granularity: Granularity? = nil
         ) {

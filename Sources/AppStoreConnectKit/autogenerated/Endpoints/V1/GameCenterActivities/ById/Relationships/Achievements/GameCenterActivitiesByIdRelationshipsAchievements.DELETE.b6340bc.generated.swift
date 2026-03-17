@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterActivities.ById.Relationships.Achievements {
+    @available(*, deprecated)
     public struct DELETE: Endpoint {
         public typealias Parameters = Never
         public typealias Response = Void

@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.GameCenterLeaderboardSetImages.ById {
+    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = GameCenterLeaderboardSetImageUpdateRequest
         public typealias Response = GameCenterLeaderboardSetImageResponse
