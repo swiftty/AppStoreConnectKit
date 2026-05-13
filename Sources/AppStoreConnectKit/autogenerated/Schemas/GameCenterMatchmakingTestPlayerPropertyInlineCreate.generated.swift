@@ -8,12 +8,12 @@ public struct GameCenterMatchmakingTestPlayerPropertyInlineCreate: Hashable, Cod
 
     public var type: `Type`
 
-    public var attributes: Attributes
+    public var attributes: Attributes?
 
     public init(
         id: String? = nil,
         type: `Type`,
-        attributes: Attributes
+        attributes: Attributes? = nil
     ) {
         self.id = id
         self.type = type
@@ -31,12 +31,12 @@ public struct GameCenterMatchmakingTestPlayerPropertyInlineCreate: Hashable, Cod
     }
 
     public struct Attributes: Hashable, Codable, Sendable {
-        public var playerId: String
+        public var playerId: String?
 
         public var properties: [Property]?
 
         public init(
-            playerId: String,
+            playerId: String? = nil,
             properties: [Property]? = nil
         ) {
             self.playerId = playerId

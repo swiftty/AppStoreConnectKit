@@ -30,6 +30,8 @@ extension V1.SubscriptionPricePoints.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[subscriptionPricePoints]",
                              value: parameters.fields[.subscriptionPricePoints]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[territories]",
+                             value: parameters.fields[.territories]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -127,10 +129,31 @@ extension V1.SubscriptionPricePoints.ById.GET {
                 }
             }
 
+            public struct Territories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var currency: Self {
+                    .init(rawValue: "currency")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type subscriptionPricePoints
                 public static var subscriptionPricePoints: Relation<[SubscriptionPricePoints]?> {
                     .init(key: "fields[subscriptionPricePoints]")
+                }
+
+                /// the fields to include for returned resources of type territories
+                public static var territories: Relation<[Territories]?> {
+                    .init(key: "fields[territories]")
                 }
 
                 internal let key: String

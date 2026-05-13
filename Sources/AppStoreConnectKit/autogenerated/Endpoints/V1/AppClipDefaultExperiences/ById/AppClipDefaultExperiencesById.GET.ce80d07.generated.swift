@@ -34,6 +34,8 @@ extension V1.AppClipDefaultExperiences.ById {
                              value: parameters.fields[.appClipDefaultExperienceLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClipDefaultExperiences]",
                              value: parameters.fields[.appClipDefaultExperiences]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appClips]",
+                             value: parameters.fields[.appClips]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersions]",
                              value: parameters.fields[.appStoreVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -185,6 +187,34 @@ extension V1.AppClipDefaultExperiences.ById.GET {
                 }
             }
 
+            public struct AppClips: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appClipAdvancedExperiences: Self {
+                    .init(rawValue: "appClipAdvancedExperiences")
+                }
+
+                public static var appClipDefaultExperiences: Self {
+                    .init(rawValue: "appClipDefaultExperiences")
+                }
+
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct AppStoreVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var alternativeDistributionPackage: Self {
                     .init(rawValue: "alternativeDistributionPackage")
@@ -307,6 +337,11 @@ extension V1.AppClipDefaultExperiences.ById.GET {
                 /// the fields to include for returned resources of type appClipDefaultExperiences
                 public static var appClipDefaultExperiences: Relation<[AppClipDefaultExperiences]?> {
                     .init(key: "fields[appClipDefaultExperiences]")
+                }
+
+                /// the fields to include for returned resources of type appClips
+                public static var appClips: Relation<[AppClips]?> {
+                    .init(key: "fields[appClips]")
                 }
 
                 /// the fields to include for returned resources of type appStoreVersions

@@ -31,6 +31,8 @@ extension V1.GameCenterChallengeVersionReleases.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[gameCenterChallengeVersionReleases]",
                              value: parameters.fields[.gameCenterChallengeVersionReleases]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterChallengeVersions]",
+                             value: parameters.fields[.gameCenterChallengeVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -112,10 +114,51 @@ extension V1.GameCenterChallengeVersionReleases.ById.GET {
                 }
             }
 
+            public struct GameCenterChallengeVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var challenge: Self {
+                    .init(rawValue: "challenge")
+                }
+
+                public static var defaultImage: Self {
+                    .init(rawValue: "defaultImage")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterChallengeVersionReleases
                 public static var gameCenterChallengeVersionReleases: Relation<[GameCenterChallengeVersionReleases]?> {
                     .init(key: "fields[gameCenterChallengeVersionReleases]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterChallengeVersions
+                public static var gameCenterChallengeVersions: Relation<[GameCenterChallengeVersions]?> {
+                    .init(key: "fields[gameCenterChallengeVersions]")
                 }
 
                 internal let key: String

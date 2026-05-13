@@ -32,6 +32,8 @@ extension V1.CustomerReviews.ById {
                              value: parameters.fields[.customerReviewResponses]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[customerReviews]",
                              value: parameters.fields[.customerReviews]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[territories]",
+                             value: parameters.fields[.territories]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -142,6 +144,10 @@ extension V1.CustomerReviews.ById.GET {
                     .init(rawValue: "response")
                 }
 
+                public static var reviewTerritory: Self {
+                    .init(rawValue: "reviewTerritory")
+                }
+
                 public static var reviewerNickname: Self {
                     .init(rawValue: "reviewerNickname")
                 }
@@ -152,6 +158,22 @@ extension V1.CustomerReviews.ById.GET {
 
                 public static var title: Self {
                     .init(rawValue: "title")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct Territories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var currency: Self {
+                    .init(rawValue: "currency")
                 }
 
                 public var description: String {
@@ -176,6 +198,11 @@ extension V1.CustomerReviews.ById.GET {
                     .init(key: "fields[customerReviews]")
                 }
 
+                /// the fields to include for returned resources of type territories
+                public static var territories: Relation<[Territories]?> {
+                    .init(key: "fields[territories]")
+                }
+
                 internal let key: String
 
                 public func hash(into hasher: inout Hasher) {
@@ -187,6 +214,10 @@ extension V1.CustomerReviews.ById.GET {
         public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
             public static var response: Self {
                 .init(rawValue: "response")
+            }
+
+            public static var reviewTerritory: Self {
+                .init(rawValue: "reviewTerritory")
             }
 
             public var description: String {

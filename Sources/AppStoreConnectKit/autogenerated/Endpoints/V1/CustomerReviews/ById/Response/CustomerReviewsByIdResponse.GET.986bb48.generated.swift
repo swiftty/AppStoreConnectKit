@@ -142,6 +142,10 @@ extension V1.CustomerReviews.ById.Response.GET {
                     .init(rawValue: "response")
                 }
 
+                public static var reviewTerritory: Self {
+                    .init(rawValue: "reviewTerritory")
+                }
+
                 public static var reviewerNickname: Self {
                     .init(rawValue: "reviewerNickname")
                 }

@@ -28,6 +28,8 @@ extension V1.AppEventVideoClips.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appEventLocalizations]",
+                             value: parameters.fields[.appEventLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appEventVideoClips]",
                              value: parameters.fields[.appEventVideoClips]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -95,6 +97,46 @@ extension V1.AppEventVideoClips.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct AppEventLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appEvent: Self {
+                    .init(rawValue: "appEvent")
+                }
+
+                public static var appEventScreenshots: Self {
+                    .init(rawValue: "appEventScreenshots")
+                }
+
+                public static var appEventVideoClips: Self {
+                    .init(rawValue: "appEventVideoClips")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var longDescription: Self {
+                    .init(rawValue: "longDescription")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var shortDescription: Self {
+                    .init(rawValue: "shortDescription")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct AppEventVideoClips: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appEventAssetType: Self {
                     .init(rawValue: "appEventAssetType")
@@ -152,6 +194,11 @@ extension V1.AppEventVideoClips.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appEventLocalizations
+                public static var appEventLocalizations: Relation<[AppEventLocalizations]?> {
+                    .init(key: "fields[appEventLocalizations]")
+                }
+
                 /// the fields to include for returned resources of type appEventVideoClips
                 public static var appEventVideoClips: Relation<[AppEventVideoClips]?> {
                     .init(key: "fields[appEventVideoClips]")

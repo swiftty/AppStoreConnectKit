@@ -28,8 +28,18 @@ extension V1.BackgroundAssetVersions.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[backgroundAssetUploadFiles]",
+                             value: parameters.fields[.backgroundAssetUploadFiles]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[backgroundAssetVersionAppStoreReleases]",
+                             value: parameters.fields[.backgroundAssetVersionAppStoreReleases]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[backgroundAssetVersionExternalBetaReleases]",
+                             value: parameters.fields[.backgroundAssetVersionExternalBetaReleases]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[backgroundAssetVersionInternalBetaReleases]",
+                             value: parameters.fields[.backgroundAssetVersionInternalBetaReleases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[backgroundAssetVersions]",
                              value: parameters.fields[.backgroundAssetVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[backgroundAssets]",
+                             value: parameters.fields[.backgroundAssets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -95,6 +105,110 @@ extension V1.BackgroundAssetVersions.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct BackgroundAssetUploadFiles: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
+                }
+
+                public static var assetToken: Self {
+                    .init(rawValue: "assetToken")
+                }
+
+                public static var assetType: Self {
+                    .init(rawValue: "assetType")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var sourceFileChecksums: Self {
+                    .init(rawValue: "sourceFileChecksums")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct BackgroundAssetVersionAppStoreReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var backgroundAssetVersion: Self {
+                    .init(rawValue: "backgroundAssetVersion")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct BackgroundAssetVersionExternalBetaReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var backgroundAssetVersion: Self {
+                    .init(rawValue: "backgroundAssetVersion")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct BackgroundAssetVersionInternalBetaReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var backgroundAssetVersion: Self {
+                    .init(rawValue: "backgroundAssetVersion")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct BackgroundAssetVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appStoreRelease: Self {
                     .init(rawValue: "appStoreRelease")
@@ -155,10 +269,83 @@ extension V1.BackgroundAssetVersions.ById.GET {
                 }
             }
 
+            public struct BackgroundAssets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
+                public static var assetPackIdentifier: Self {
+                    .init(rawValue: "assetPackIdentifier")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var externalBetaVersion: Self {
+                    .init(rawValue: "externalBetaVersion")
+                }
+
+                public static var internalBetaVersion: Self {
+                    .init(rawValue: "internalBetaVersion")
+                }
+
+                public static var usedBytes: Self {
+                    .init(rawValue: "usedBytes")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type backgroundAssetUploadFiles
+                public static var backgroundAssetUploadFiles: Relation<[BackgroundAssetUploadFiles]?> {
+                    .init(key: "fields[backgroundAssetUploadFiles]")
+                }
+
+                /// the fields to include for returned resources of type backgroundAssetVersionAppStoreReleases
+                public static var backgroundAssetVersionAppStoreReleases: Relation<[BackgroundAssetVersionAppStoreReleases]?> {
+                    .init(key: "fields[backgroundAssetVersionAppStoreReleases]")
+                }
+
+                /// the fields to include for returned resources of type backgroundAssetVersionExternalBetaReleases
+                public static var backgroundAssetVersionExternalBetaReleases: Relation<[BackgroundAssetVersionExternalBetaReleases]?> {
+                    .init(key: "fields[backgroundAssetVersionExternalBetaReleases]")
+                }
+
+                /// the fields to include for returned resources of type backgroundAssetVersionInternalBetaReleases
+                public static var backgroundAssetVersionInternalBetaReleases: Relation<[BackgroundAssetVersionInternalBetaReleases]?> {
+                    .init(key: "fields[backgroundAssetVersionInternalBetaReleases]")
+                }
+
                 /// the fields to include for returned resources of type backgroundAssetVersions
                 public static var backgroundAssetVersions: Relation<[BackgroundAssetVersions]?> {
                     .init(key: "fields[backgroundAssetVersions]")
+                }
+
+                /// the fields to include for returned resources of type backgroundAssets
+                public static var backgroundAssets: Relation<[BackgroundAssets]?> {
+                    .init(key: "fields[backgroundAssets]")
                 }
 
                 internal let key: String

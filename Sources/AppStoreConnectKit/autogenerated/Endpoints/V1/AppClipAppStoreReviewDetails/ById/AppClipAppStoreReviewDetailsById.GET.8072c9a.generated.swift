@@ -30,6 +30,8 @@ extension V1.AppClipAppStoreReviewDetails.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[appClipAppStoreReviewDetails]",
                              value: parameters.fields[.appClipAppStoreReviewDetails]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appClipDefaultExperiences]",
+                             value: parameters.fields[.appClipDefaultExperiences]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -115,10 +117,47 @@ extension V1.AppClipAppStoreReviewDetails.ById.GET {
                 }
             }
 
+            public struct AppClipDefaultExperiences: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var action: Self {
+                    .init(rawValue: "action")
+                }
+
+                public static var appClip: Self {
+                    .init(rawValue: "appClip")
+                }
+
+                public static var appClipAppStoreReviewDetail: Self {
+                    .init(rawValue: "appClipAppStoreReviewDetail")
+                }
+
+                public static var appClipDefaultExperienceLocalizations: Self {
+                    .init(rawValue: "appClipDefaultExperienceLocalizations")
+                }
+
+                public static var releaseWithAppStoreVersion: Self {
+                    .init(rawValue: "releaseWithAppStoreVersion")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appClipAppStoreReviewDetails
                 public static var appClipAppStoreReviewDetails: Relation<[AppClipAppStoreReviewDetails]?> {
                     .init(key: "fields[appClipAppStoreReviewDetails]")
+                }
+
+                /// the fields to include for returned resources of type appClipDefaultExperiences
+                public static var appClipDefaultExperiences: Relation<[AppClipDefaultExperiences]?> {
+                    .init(key: "fields[appClipDefaultExperiences]")
                 }
 
                 internal let key: String

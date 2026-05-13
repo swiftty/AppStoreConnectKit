@@ -32,6 +32,8 @@ extension V2.GameCenterLeaderboardLocalizations.ById {
                              value: parameters.fields[.gameCenterLeaderboardImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterLeaderboardLocalizations]",
                              value: parameters.fields[.gameCenterLeaderboardLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterLeaderboardVersions]",
+                             value: parameters.fields[.gameCenterLeaderboardVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -177,6 +179,34 @@ extension V2.GameCenterLeaderboardLocalizations.ById.GET {
                 }
             }
 
+            public struct GameCenterLeaderboardVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var leaderboard: Self {
+                    .init(rawValue: "leaderboard")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterLeaderboardImages
                 public static var gameCenterLeaderboardImages: Relation<[GameCenterLeaderboardImages]?> {
@@ -186,6 +216,11 @@ extension V2.GameCenterLeaderboardLocalizations.ById.GET {
                 /// the fields to include for returned resources of type gameCenterLeaderboardLocalizations
                 public static var gameCenterLeaderboardLocalizations: Relation<[GameCenterLeaderboardLocalizations]?> {
                     .init(key: "fields[gameCenterLeaderboardLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterLeaderboardVersions
+                public static var gameCenterLeaderboardVersions: Relation<[GameCenterLeaderboardVersions]?> {
+                    .init(key: "fields[gameCenterLeaderboardVersions]")
                 }
 
                 internal let key: String

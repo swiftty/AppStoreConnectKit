@@ -30,6 +30,8 @@ extension V1.CustomerReviewResponses.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[customerReviewResponses]",
                              value: parameters.fields[.customerReviewResponses]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[customerReviews]",
+                             value: parameters.fields[.customerReviews]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -123,10 +125,59 @@ extension V1.CustomerReviewResponses.ById.GET {
                 }
             }
 
+            public struct CustomerReviews: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var body: Self {
+                    .init(rawValue: "body")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var rating: Self {
+                    .init(rawValue: "rating")
+                }
+
+                public static var response: Self {
+                    .init(rawValue: "response")
+                }
+
+                public static var reviewTerritory: Self {
+                    .init(rawValue: "reviewTerritory")
+                }
+
+                public static var reviewerNickname: Self {
+                    .init(rawValue: "reviewerNickname")
+                }
+
+                public static var territory: Self {
+                    .init(rawValue: "territory")
+                }
+
+                public static var title: Self {
+                    .init(rawValue: "title")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type customerReviewResponses
                 public static var customerReviewResponses: Relation<[CustomerReviewResponses]?> {
                     .init(key: "fields[customerReviewResponses]")
+                }
+
+                /// the fields to include for returned resources of type customerReviews
+                public static var customerReviews: Relation<[CustomerReviews]?> {
+                    .init(key: "fields[customerReviews]")
                 }
 
                 internal let key: String

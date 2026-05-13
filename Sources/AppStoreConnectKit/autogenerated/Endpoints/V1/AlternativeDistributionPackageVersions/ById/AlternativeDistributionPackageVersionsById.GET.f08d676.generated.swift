@@ -34,6 +34,8 @@ extension V1.AlternativeDistributionPackageVersions.ById {
                              value: parameters.fields[.alternativeDistributionPackageVariants]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[alternativeDistributionPackageVersions]",
                              value: parameters.fields[.alternativeDistributionPackageVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[alternativeDistributionPackages]",
+                             value: parameters.fields[.alternativeDistributionPackages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[deltas]",
@@ -205,6 +207,26 @@ extension V1.AlternativeDistributionPackageVersions.ById.GET {
                 }
             }
 
+            public struct AlternativeDistributionPackages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type alternativeDistributionPackageDeltas
                 public static var alternativeDistributionPackageDeltas: Relation<[AlternativeDistributionPackageDeltas]?> {
@@ -219,6 +241,11 @@ extension V1.AlternativeDistributionPackageVersions.ById.GET {
                 /// the fields to include for returned resources of type alternativeDistributionPackageVersions
                 public static var alternativeDistributionPackageVersions: Relation<[AlternativeDistributionPackageVersions]?> {
                     .init(key: "fields[alternativeDistributionPackageVersions]")
+                }
+
+                /// the fields to include for returned resources of type alternativeDistributionPackages
+                public static var alternativeDistributionPackages: Relation<[AlternativeDistributionPackages]?> {
+                    .init(key: "fields[alternativeDistributionPackages]")
                 }
 
                 internal let key: String

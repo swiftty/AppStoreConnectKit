@@ -32,6 +32,14 @@ extension V1.CiBuildRuns.ById {
                              value: parameters.fields[.builds]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[ciBuildRuns]",
                              value: parameters.fields[.ciBuildRuns]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[ciProducts]",
+                             value: parameters.fields[.ciProducts]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[ciWorkflows]",
+                             value: parameters.fields[.ciWorkflows]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[scmGitReferences]",
+                             value: parameters.fields[.scmGitReferences]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[scmPullRequests]",
+                             value: parameters.fields[.scmPullRequests]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[builds]",
@@ -305,6 +313,238 @@ extension V1.CiBuildRuns.ById.GET {
                 }
             }
 
+            public struct CiProducts: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var additionalRepositories: Self {
+                    .init(rawValue: "additionalRepositories")
+                }
+
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var buildRuns: Self {
+                    .init(rawValue: "buildRuns")
+                }
+
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var primaryRepositories: Self {
+                    .init(rawValue: "primaryRepositories")
+                }
+
+                public static var productType: Self {
+                    .init(rawValue: "productType")
+                }
+
+                public static var workflows: Self {
+                    .init(rawValue: "workflows")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct CiWorkflows: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var actions: Self {
+                    .init(rawValue: "actions")
+                }
+
+                public static var branchStartCondition: Self {
+                    .init(rawValue: "branchStartCondition")
+                }
+
+                public static var buildRuns: Self {
+                    .init(rawValue: "buildRuns")
+                }
+
+                public static var clean: Self {
+                    .init(rawValue: "clean")
+                }
+
+                public static var containerFilePath: Self {
+                    .init(rawValue: "containerFilePath")
+                }
+
+                public static var description: Self {
+                    .init(rawValue: "description")
+                }
+
+                public static var isEnabled: Self {
+                    .init(rawValue: "isEnabled")
+                }
+
+                public static var isLockedForEditing: Self {
+                    .init(rawValue: "isLockedForEditing")
+                }
+
+                public static var lastModifiedDate: Self {
+                    .init(rawValue: "lastModifiedDate")
+                }
+
+                public static var macOsVersion: Self {
+                    .init(rawValue: "macOsVersion")
+                }
+
+                public static var manualBranchStartCondition: Self {
+                    .init(rawValue: "manualBranchStartCondition")
+                }
+
+                public static var manualPullRequestStartCondition: Self {
+                    .init(rawValue: "manualPullRequestStartCondition")
+                }
+
+                public static var manualTagStartCondition: Self {
+                    .init(rawValue: "manualTagStartCondition")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var product: Self {
+                    .init(rawValue: "product")
+                }
+
+                public static var pullRequestStartCondition: Self {
+                    .init(rawValue: "pullRequestStartCondition")
+                }
+
+                public static var repository: Self {
+                    .init(rawValue: "repository")
+                }
+
+                public static var scheduledStartCondition: Self {
+                    .init(rawValue: "scheduledStartCondition")
+                }
+
+                public static var tagStartCondition: Self {
+                    .init(rawValue: "tagStartCondition")
+                }
+
+                public static var xcodeVersion: Self {
+                    .init(rawValue: "xcodeVersion")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct ScmGitReferences: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var canonicalName: Self {
+                    .init(rawValue: "canonicalName")
+                }
+
+                public static var isDeleted: Self {
+                    .init(rawValue: "isDeleted")
+                }
+
+                public static var kind: Self {
+                    .init(rawValue: "kind")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var repository: Self {
+                    .init(rawValue: "repository")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct ScmPullRequests: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var destinationBranchName: Self {
+                    .init(rawValue: "destinationBranchName")
+                }
+
+                public static var destinationRepositoryName: Self {
+                    .init(rawValue: "destinationRepositoryName")
+                }
+
+                public static var destinationRepositoryOwner: Self {
+                    .init(rawValue: "destinationRepositoryOwner")
+                }
+
+                public static var isClosed: Self {
+                    .init(rawValue: "isClosed")
+                }
+
+                public static var isCrossRepository: Self {
+                    .init(rawValue: "isCrossRepository")
+                }
+
+                public static var number: Self {
+                    .init(rawValue: "number")
+                }
+
+                public static var repository: Self {
+                    .init(rawValue: "repository")
+                }
+
+                public static var sourceBranchName: Self {
+                    .init(rawValue: "sourceBranchName")
+                }
+
+                public static var sourceRepositoryName: Self {
+                    .init(rawValue: "sourceRepositoryName")
+                }
+
+                public static var sourceRepositoryOwner: Self {
+                    .init(rawValue: "sourceRepositoryOwner")
+                }
+
+                public static var title: Self {
+                    .init(rawValue: "title")
+                }
+
+                public static var webUrl: Self {
+                    .init(rawValue: "webUrl")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type builds
                 public static var builds: Relation<[Builds]?> {
@@ -314,6 +554,26 @@ extension V1.CiBuildRuns.ById.GET {
                 /// the fields to include for returned resources of type ciBuildRuns
                 public static var ciBuildRuns: Relation<[CiBuildRuns]?> {
                     .init(key: "fields[ciBuildRuns]")
+                }
+
+                /// the fields to include for returned resources of type ciProducts
+                public static var ciProducts: Relation<[CiProducts]?> {
+                    .init(key: "fields[ciProducts]")
+                }
+
+                /// the fields to include for returned resources of type ciWorkflows
+                public static var ciWorkflows: Relation<[CiWorkflows]?> {
+                    .init(key: "fields[ciWorkflows]")
+                }
+
+                /// the fields to include for returned resources of type scmGitReferences
+                public static var scmGitReferences: Relation<[ScmGitReferences]?> {
+                    .init(key: "fields[scmGitReferences]")
+                }
+
+                /// the fields to include for returned resources of type scmPullRequests
+                public static var scmPullRequests: Relation<[ScmPullRequests]?> {
+                    .init(key: "fields[scmPullRequests]")
                 }
 
                 internal let key: String

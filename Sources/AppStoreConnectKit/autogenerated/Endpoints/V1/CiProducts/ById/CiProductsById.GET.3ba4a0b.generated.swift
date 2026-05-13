@@ -30,6 +30,8 @@ extension V1.CiProducts.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[apps]",
                              value: parameters.fields[.apps]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[bundleIds]",
+                             value: parameters.fields[.bundleIds]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[ciProducts]",
                              value: parameters.fields[.ciProducts]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[scmRepositories]",
@@ -335,6 +337,46 @@ extension V1.CiProducts.ById.GET {
                 }
             }
 
+            public struct BundleIds: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var bundleIdCapabilities: Self {
+                    .init(rawValue: "bundleIdCapabilities")
+                }
+
+                public static var identifier: Self {
+                    .init(rawValue: "identifier")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var profiles: Self {
+                    .init(rawValue: "profiles")
+                }
+
+                public static var seedId: Self {
+                    .init(rawValue: "seedId")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct CiProducts: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var additionalRepositories: Self {
                     .init(rawValue: "additionalRepositories")
@@ -435,6 +477,11 @@ extension V1.CiProducts.ById.GET {
                 /// the fields to include for returned resources of type apps
                 public static var apps: Relation<[Apps]?> {
                     .init(key: "fields[apps]")
+                }
+
+                /// the fields to include for returned resources of type bundleIds
+                public static var bundleIds: Relation<[BundleIds]?> {
+                    .init(key: "fields[bundleIds]")
                 }
 
                 /// the fields to include for returned resources of type ciProducts

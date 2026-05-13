@@ -28,6 +28,8 @@ extension V1.AppClipHeaderImages.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appClipDefaultExperienceLocalizations]",
+                             value: parameters.fields[.appClipDefaultExperienceLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClipHeaderImages]",
                              value: parameters.fields[.appClipHeaderImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -95,6 +97,34 @@ extension V1.AppClipHeaderImages.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct AppClipDefaultExperienceLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appClipDefaultExperience: Self {
+                    .init(rawValue: "appClipDefaultExperience")
+                }
+
+                public static var appClipHeaderImage: Self {
+                    .init(rawValue: "appClipHeaderImage")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var subtitle: Self {
+                    .init(rawValue: "subtitle")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct AppClipHeaderImages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appClipDefaultExperienceLocalization: Self {
                     .init(rawValue: "appClipDefaultExperienceLocalization")
@@ -136,6 +166,11 @@ extension V1.AppClipHeaderImages.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appClipDefaultExperienceLocalizations
+                public static var appClipDefaultExperienceLocalizations: Relation<[AppClipDefaultExperienceLocalizations]?> {
+                    .init(key: "fields[appClipDefaultExperienceLocalizations]")
+                }
+
                 /// the fields to include for returned resources of type appClipHeaderImages
                 public static var appClipHeaderImages: Relation<[AppClipHeaderImages]?> {
                     .init(key: "fields[appClipHeaderImages]")

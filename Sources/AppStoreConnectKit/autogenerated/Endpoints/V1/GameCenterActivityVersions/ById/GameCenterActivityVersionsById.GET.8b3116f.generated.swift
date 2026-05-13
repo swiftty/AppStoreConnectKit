@@ -28,10 +28,14 @@ extension V1.GameCenterActivityVersions.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[gameCenterActivities]",
+                             value: parameters.fields[.gameCenterActivities]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterActivityImages]",
                              value: parameters.fields[.gameCenterActivityImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterActivityLocalizations]",
                              value: parameters.fields[.gameCenterActivityLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterActivityVersionReleases]",
+                             value: parameters.fields[.gameCenterActivityVersionReleases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterActivityVersions]",
                              value: parameters.fields[.gameCenterActivityVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -105,6 +109,78 @@ extension V1.GameCenterActivityVersions.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct GameCenterActivities: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var achievements: Self {
+                    .init(rawValue: "achievements")
+                }
+
+                public static var achievementsV2: Self {
+                    .init(rawValue: "achievementsV2")
+                }
+
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var leaderboards: Self {
+                    .init(rawValue: "leaderboards")
+                }
+
+                public static var leaderboardsV2: Self {
+                    .init(rawValue: "leaderboardsV2")
+                }
+
+                public static var maximumPlayersCount: Self {
+                    .init(rawValue: "maximumPlayersCount")
+                }
+
+                public static var minimumPlayersCount: Self {
+                    .init(rawValue: "minimumPlayersCount")
+                }
+
+                public static var playStyle: Self {
+                    .init(rawValue: "playStyle")
+                }
+
+                public static var properties: Self {
+                    .init(rawValue: "properties")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var supportsPartyCode: Self {
+                    .init(rawValue: "supportsPartyCode")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct GameCenterActivityImages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var assetDeliveryState: Self {
                     .init(rawValue: "assetDeliveryState")
@@ -169,6 +245,22 @@ extension V1.GameCenterActivityVersions.ById.GET {
                 }
             }
 
+            public struct GameCenterActivityVersionReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct GameCenterActivityVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var activity: Self {
                     .init(rawValue: "activity")
@@ -210,6 +302,11 @@ extension V1.GameCenterActivityVersions.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type gameCenterActivities
+                public static var gameCenterActivities: Relation<[GameCenterActivities]?> {
+                    .init(key: "fields[gameCenterActivities]")
+                }
+
                 /// the fields to include for returned resources of type gameCenterActivityImages
                 public static var gameCenterActivityImages: Relation<[GameCenterActivityImages]?> {
                     .init(key: "fields[gameCenterActivityImages]")
@@ -218,6 +315,11 @@ extension V1.GameCenterActivityVersions.ById.GET {
                 /// the fields to include for returned resources of type gameCenterActivityLocalizations
                 public static var gameCenterActivityLocalizations: Relation<[GameCenterActivityLocalizations]?> {
                     .init(key: "fields[gameCenterActivityLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterActivityVersionReleases
+                public static var gameCenterActivityVersionReleases: Relation<[GameCenterActivityVersionReleases]?> {
+                    .init(key: "fields[gameCenterActivityVersionReleases]")
                 }
 
                 /// the fields to include for returned resources of type gameCenterActivityVersions

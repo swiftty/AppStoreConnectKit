@@ -31,6 +31,7 @@ extension V2.GameCenterLeaderboardSets.ById.Relationships.GameCenterLeaderboards
             return urlRequest
         }
 
+        /// - Throws: **400**, Parameter error(s) as `ErrorResponse`
         /// - Throws: **401**, Unauthorized error(s) as `ErrorResponse`
         /// - Throws: **403**, Forbidden error as `ErrorResponse`
         /// - Throws: **404**, Not found error as `ErrorResponse`
@@ -44,6 +45,9 @@ extension V2.GameCenterLeaderboardSets.ById.Relationships.GameCenterLeaderboards
             }
 
             switch urlResponse.statusCode {
+            case 400:
+                throw try jsonDecoder.decode(ErrorResponse.self, from: data)
+
             case 401:
                 throw try jsonDecoder.decode(ErrorResponse.self, from: data)
 

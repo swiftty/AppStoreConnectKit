@@ -28,10 +28,16 @@ extension V1.AppScreenshotSets.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appCustomProductPageLocalizations]",
+                             value: parameters.fields[.appCustomProductPageLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appScreenshotSets]",
                              value: parameters.fields[.appScreenshotSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appScreenshots]",
                              value: parameters.fields[.appScreenshots]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersionExperimentTreatmentLocalizations]",
+                             value: parameters.fields[.appStoreVersionExperimentTreatmentLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersionLocalizations]",
+                             value: parameters.fields[.appStoreVersionLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[appScreenshots]",
@@ -100,6 +106,42 @@ extension V1.AppScreenshotSets.ById.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public struct AppCustomProductPageLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPageVersion: Self {
+                    .init(rawValue: "appCustomProductPageVersion")
+                }
+
+                public static var appPreviewSets: Self {
+                    .init(rawValue: "appPreviewSets")
+                }
+
+                public static var appScreenshotSets: Self {
+                    .init(rawValue: "appScreenshotSets")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var promotionalText: Self {
+                    .init(rawValue: "promotionalText")
+                }
+
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
 
             public struct AppScreenshotSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appCustomProductPageLocalization: Self {
@@ -181,7 +223,96 @@ extension V1.AppScreenshotSets.ById.GET {
                 }
             }
 
+            public struct AppStoreVersionExperimentTreatmentLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appPreviewSets: Self {
+                    .init(rawValue: "appPreviewSets")
+                }
+
+                public static var appScreenshotSets: Self {
+                    .init(rawValue: "appScreenshotSets")
+                }
+
+                public static var appStoreVersionExperimentTreatment: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatment")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct AppStoreVersionLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appPreviewSets: Self {
+                    .init(rawValue: "appPreviewSets")
+                }
+
+                public static var appScreenshotSets: Self {
+                    .init(rawValue: "appScreenshotSets")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var description: Self {
+                    .init(rawValue: "description")
+                }
+
+                public static var keywords: Self {
+                    .init(rawValue: "keywords")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var marketingUrl: Self {
+                    .init(rawValue: "marketingUrl")
+                }
+
+                public static var promotionalText: Self {
+                    .init(rawValue: "promotionalText")
+                }
+
+                public static var searchKeywords: Self {
+                    .init(rawValue: "searchKeywords")
+                }
+
+                public static var supportUrl: Self {
+                    .init(rawValue: "supportUrl")
+                }
+
+                public static var whatsNew: Self {
+                    .init(rawValue: "whatsNew")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appCustomProductPageLocalizations
+                public static var appCustomProductPageLocalizations: Relation<[AppCustomProductPageLocalizations]?> {
+                    .init(key: "fields[appCustomProductPageLocalizations]")
+                }
+
                 /// the fields to include for returned resources of type appScreenshotSets
                 public static var appScreenshotSets: Relation<[AppScreenshotSets]?> {
                     .init(key: "fields[appScreenshotSets]")
@@ -190,6 +321,16 @@ extension V1.AppScreenshotSets.ById.GET {
                 /// the fields to include for returned resources of type appScreenshots
                 public static var appScreenshots: Relation<[AppScreenshots]?> {
                     .init(key: "fields[appScreenshots]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
+                public static var appStoreVersionExperimentTreatmentLocalizations: Relation<[AppStoreVersionExperimentTreatmentLocalizations]?> {
+                    .init(key: "fields[appStoreVersionExperimentTreatmentLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersionLocalizations
+                public static var appStoreVersionLocalizations: Relation<[AppStoreVersionLocalizations]?> {
+                    .init(key: "fields[appStoreVersionLocalizations]")
                 }
 
                 internal let key: String

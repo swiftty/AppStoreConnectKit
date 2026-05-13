@@ -30,6 +30,8 @@ extension V1.GameCenterMatchmakingQueues.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[gameCenterMatchmakingQueues]",
                              value: parameters.fields[.gameCenterMatchmakingQueues]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterMatchmakingRuleSets]",
+                             value: parameters.fields[.gameCenterMatchmakingRuleSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -123,10 +125,55 @@ extension V1.GameCenterMatchmakingQueues.ById.GET {
                 }
             }
 
+            public struct GameCenterMatchmakingRuleSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var matchmakingQueues: Self {
+                    .init(rawValue: "matchmakingQueues")
+                }
+
+                public static var maxPlayers: Self {
+                    .init(rawValue: "maxPlayers")
+                }
+
+                public static var minPlayers: Self {
+                    .init(rawValue: "minPlayers")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var ruleLanguageVersion: Self {
+                    .init(rawValue: "ruleLanguageVersion")
+                }
+
+                public static var rules: Self {
+                    .init(rawValue: "rules")
+                }
+
+                public static var teams: Self {
+                    .init(rawValue: "teams")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterMatchmakingQueues
                 public static var gameCenterMatchmakingQueues: Relation<[GameCenterMatchmakingQueues]?> {
                     .init(key: "fields[gameCenterMatchmakingQueues]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterMatchmakingRuleSets
+                public static var gameCenterMatchmakingRuleSets: Relation<[GameCenterMatchmakingRuleSets]?> {
+                    .init(key: "fields[gameCenterMatchmakingRuleSets]")
                 }
 
                 internal let key: String

@@ -28,6 +28,8 @@ extension V1.InAppPurchaseOfferCodeOneTimeUseCodes.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[actors]",
+                             value: parameters.fields[.actors]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchaseOfferCodeOneTimeUseCodes]",
                              value: parameters.fields[.inAppPurchaseOfferCodeOneTimeUseCodes]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -95,6 +97,38 @@ extension V1.InAppPurchaseOfferCodeOneTimeUseCodes.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct Actors: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var actorType: Self {
+                    .init(rawValue: "actorType")
+                }
+
+                public static var apiKeyId: Self {
+                    .init(rawValue: "apiKeyId")
+                }
+
+                public static var userEmail: Self {
+                    .init(rawValue: "userEmail")
+                }
+
+                public static var userFirstName: Self {
+                    .init(rawValue: "userFirstName")
+                }
+
+                public static var userLastName: Self {
+                    .init(rawValue: "userLastName")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct InAppPurchaseOfferCodeOneTimeUseCodes: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var active: Self {
                     .init(rawValue: "active")
@@ -140,6 +174,11 @@ extension V1.InAppPurchaseOfferCodeOneTimeUseCodes.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type actors
+                public static var actors: Relation<[Actors]?> {
+                    .init(key: "fields[actors]")
+                }
+
                 /// the fields to include for returned resources of type inAppPurchaseOfferCodeOneTimeUseCodes
                 public static var inAppPurchaseOfferCodeOneTimeUseCodes: Relation<[InAppPurchaseOfferCodeOneTimeUseCodes]?> {
                     .init(key: "fields[inAppPurchaseOfferCodeOneTimeUseCodes]")

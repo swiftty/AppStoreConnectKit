@@ -31,6 +31,8 @@ extension V1.GameCenterLeaderboardImages.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[gameCenterLeaderboardImages]",
                              value: parameters.fields[.gameCenterLeaderboardImages]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterLeaderboardLocalizations]",
+                             value: parameters.fields[.gameCenterLeaderboardLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -132,10 +134,59 @@ extension V1.GameCenterLeaderboardImages.ById.GET {
                 }
             }
 
+            public struct GameCenterLeaderboardLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var description: Self {
+                    .init(rawValue: "description")
+                }
+
+                public static var formatterOverride: Self {
+                    .init(rawValue: "formatterOverride")
+                }
+
+                public static var formatterSuffix: Self {
+                    .init(rawValue: "formatterSuffix")
+                }
+
+                public static var formatterSuffixSingular: Self {
+                    .init(rawValue: "formatterSuffixSingular")
+                }
+
+                public static var gameCenterLeaderboard: Self {
+                    .init(rawValue: "gameCenterLeaderboard")
+                }
+
+                public static var gameCenterLeaderboardImage: Self {
+                    .init(rawValue: "gameCenterLeaderboardImage")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterLeaderboardImages
                 public static var gameCenterLeaderboardImages: Relation<[GameCenterLeaderboardImages]?> {
                     .init(key: "fields[gameCenterLeaderboardImages]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterLeaderboardLocalizations
+                public static var gameCenterLeaderboardLocalizations: Relation<[GameCenterLeaderboardLocalizations]?> {
+                    .init(key: "fields[gameCenterLeaderboardLocalizations]")
                 }
 
                 internal let key: String

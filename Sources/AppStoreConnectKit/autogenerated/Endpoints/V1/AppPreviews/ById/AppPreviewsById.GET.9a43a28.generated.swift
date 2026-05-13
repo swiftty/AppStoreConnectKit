@@ -28,6 +28,8 @@ extension V1.AppPreviews.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appPreviewSets]",
+                             value: parameters.fields[.appPreviewSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPreviews]",
                              value: parameters.fields[.appPreviews]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -95,6 +97,38 @@ extension V1.AppPreviews.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct AppPreviewSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPageLocalization: Self {
+                    .init(rawValue: "appCustomProductPageLocalization")
+                }
+
+                public static var appPreviews: Self {
+                    .init(rawValue: "appPreviews")
+                }
+
+                public static var appStoreVersionExperimentTreatmentLocalization: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatmentLocalization")
+                }
+
+                public static var appStoreVersionLocalization: Self {
+                    .init(rawValue: "appStoreVersionLocalization")
+                }
+
+                public static var previewType: Self {
+                    .init(rawValue: "previewType")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct AppPreviews: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appPreviewSet: Self {
                     .init(rawValue: "appPreviewSet")
@@ -156,6 +190,11 @@ extension V1.AppPreviews.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appPreviewSets
+                public static var appPreviewSets: Relation<[AppPreviewSets]?> {
+                    .init(key: "fields[appPreviewSets]")
+                }
+
                 /// the fields to include for returned resources of type appPreviews
                 public static var appPreviews: Relation<[AppPreviews]?> {
                     .init(key: "fields[appPreviews]")

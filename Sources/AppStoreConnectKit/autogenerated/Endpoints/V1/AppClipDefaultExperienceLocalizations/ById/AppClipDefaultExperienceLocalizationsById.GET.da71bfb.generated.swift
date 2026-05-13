@@ -30,6 +30,8 @@ extension V1.AppClipDefaultExperienceLocalizations.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[appClipDefaultExperienceLocalizations]",
                              value: parameters.fields[.appClipDefaultExperienceLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appClipDefaultExperiences]",
+                             value: parameters.fields[.appClipDefaultExperiences]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClipHeaderImages]",
                              value: parameters.fields[.appClipHeaderImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -125,6 +127,38 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.GET {
                 }
             }
 
+            public struct AppClipDefaultExperiences: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var action: Self {
+                    .init(rawValue: "action")
+                }
+
+                public static var appClip: Self {
+                    .init(rawValue: "appClip")
+                }
+
+                public static var appClipAppStoreReviewDetail: Self {
+                    .init(rawValue: "appClipAppStoreReviewDetail")
+                }
+
+                public static var appClipDefaultExperienceLocalizations: Self {
+                    .init(rawValue: "appClipDefaultExperienceLocalizations")
+                }
+
+                public static var releaseWithAppStoreVersion: Self {
+                    .init(rawValue: "releaseWithAppStoreVersion")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct AppClipHeaderImages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appClipDefaultExperienceLocalization: Self {
                     .init(rawValue: "appClipDefaultExperienceLocalization")
@@ -169,6 +203,11 @@ extension V1.AppClipDefaultExperienceLocalizations.ById.GET {
                 /// the fields to include for returned resources of type appClipDefaultExperienceLocalizations
                 public static var appClipDefaultExperienceLocalizations: Relation<[AppClipDefaultExperienceLocalizations]?> {
                     .init(key: "fields[appClipDefaultExperienceLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type appClipDefaultExperiences
+                public static var appClipDefaultExperiences: Relation<[AppClipDefaultExperiences]?> {
+                    .init(key: "fields[appClipDefaultExperiences]")
                 }
 
                 /// the fields to include for returned resources of type appClipHeaderImages

@@ -30,6 +30,8 @@ extension V1.BackgroundAssetVersionExternalBetaReleases.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[backgroundAssetVersionExternalBetaReleases]",
                              value: parameters.fields[.backgroundAssetVersionExternalBetaReleases]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[backgroundAssetVersions]",
+                             value: parameters.fields[.backgroundAssetVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -115,10 +117,75 @@ extension V1.BackgroundAssetVersionExternalBetaReleases.ById.GET {
                 }
             }
 
+            public struct BackgroundAssetVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStoreRelease: Self {
+                    .init(rawValue: "appStoreRelease")
+                }
+
+                public static var assetFile: Self {
+                    .init(rawValue: "assetFile")
+                }
+
+                public static var backgroundAsset: Self {
+                    .init(rawValue: "backgroundAsset")
+                }
+
+                public static var backgroundAssetUploadFiles: Self {
+                    .init(rawValue: "backgroundAssetUploadFiles")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var externalBetaRelease: Self {
+                    .init(rawValue: "externalBetaRelease")
+                }
+
+                public static var internalBetaRelease: Self {
+                    .init(rawValue: "internalBetaRelease")
+                }
+
+                public static var manifestFile: Self {
+                    .init(rawValue: "manifestFile")
+                }
+
+                public static var platforms: Self {
+                    .init(rawValue: "platforms")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var stateDetails: Self {
+                    .init(rawValue: "stateDetails")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type backgroundAssetVersionExternalBetaReleases
                 public static var backgroundAssetVersionExternalBetaReleases: Relation<[BackgroundAssetVersionExternalBetaReleases]?> {
                     .init(key: "fields[backgroundAssetVersionExternalBetaReleases]")
+                }
+
+                /// the fields to include for returned resources of type backgroundAssetVersions
+                public static var backgroundAssetVersions: Relation<[BackgroundAssetVersions]?> {
+                    .init(key: "fields[backgroundAssetVersions]")
                 }
 
                 internal let key: String

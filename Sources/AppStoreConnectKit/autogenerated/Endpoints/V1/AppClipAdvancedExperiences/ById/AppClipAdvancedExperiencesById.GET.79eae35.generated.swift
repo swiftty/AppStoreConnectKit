@@ -28,8 +28,14 @@ extension V1.AppClipAdvancedExperiences.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appClipAdvancedExperienceImages]",
+                             value: parameters.fields[.appClipAdvancedExperienceImages]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appClipAdvancedExperienceLocalizations]",
+                             value: parameters.fields[.appClipAdvancedExperienceLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appClipAdvancedExperiences]",
                              value: parameters.fields[.appClipAdvancedExperiences]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appClips]",
+                             value: parameters.fields[.appClips]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[localizations]",
@@ -99,6 +105,66 @@ extension V1.AppClipAdvancedExperiences.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct AppClipAdvancedExperienceImages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetDeliveryState: Self {
+                    .init(rawValue: "assetDeliveryState")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var fileSize: Self {
+                    .init(rawValue: "fileSize")
+                }
+
+                public static var imageAsset: Self {
+                    .init(rawValue: "imageAsset")
+                }
+
+                public static var sourceFileChecksum: Self {
+                    .init(rawValue: "sourceFileChecksum")
+                }
+
+                public static var uploadOperations: Self {
+                    .init(rawValue: "uploadOperations")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct AppClipAdvancedExperienceLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var language: Self {
+                    .init(rawValue: "language")
+                }
+
+                public static var subtitle: Self {
+                    .init(rawValue: "subtitle")
+                }
+
+                public static var title: Self {
+                    .init(rawValue: "title")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct AppClipAdvancedExperiences: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var action: Self {
                     .init(rawValue: "action")
@@ -159,10 +225,53 @@ extension V1.AppClipAdvancedExperiences.ById.GET {
                 }
             }
 
+            public struct AppClips: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appClipAdvancedExperiences: Self {
+                    .init(rawValue: "appClipAdvancedExperiences")
+                }
+
+                public static var appClipDefaultExperiences: Self {
+                    .init(rawValue: "appClipDefaultExperiences")
+                }
+
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appClipAdvancedExperienceImages
+                public static var appClipAdvancedExperienceImages: Relation<[AppClipAdvancedExperienceImages]?> {
+                    .init(key: "fields[appClipAdvancedExperienceImages]")
+                }
+
+                /// the fields to include for returned resources of type appClipAdvancedExperienceLocalizations
+                public static var appClipAdvancedExperienceLocalizations: Relation<[AppClipAdvancedExperienceLocalizations]?> {
+                    .init(key: "fields[appClipAdvancedExperienceLocalizations]")
+                }
+
                 /// the fields to include for returned resources of type appClipAdvancedExperiences
                 public static var appClipAdvancedExperiences: Relation<[AppClipAdvancedExperiences]?> {
                     .init(key: "fields[appClipAdvancedExperiences]")
+                }
+
+                /// the fields to include for returned resources of type appClips
+                public static var appClips: Relation<[AppClips]?> {
+                    .init(key: "fields[appClips]")
                 }
 
                 internal let key: String

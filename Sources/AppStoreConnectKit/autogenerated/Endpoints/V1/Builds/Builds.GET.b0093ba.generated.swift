@@ -37,12 +37,18 @@ extension V1.Builds {
                              value: parameters.fields[.betaAppReviewSubmissions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[betaBuildLocalizations]",
                              value: parameters.fields[.betaBuildLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[betaGroups]",
+                             value: parameters.fields[.betaGroups]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[betaTesters]",
                              value: parameters.fields[.betaTesters]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[buildBetaDetails]",
                              value: parameters.fields[.buildBetaDetails]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[buildBundles]",
+                             value: parameters.fields[.buildBundles]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[buildIcons]",
                              value: parameters.fields[.buildIcons]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[buildUploads]",
+                             value: parameters.fields[.buildUploads]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[builds]",
                              value: parameters.fields[.builds]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[preReleaseVersions]",
@@ -648,6 +654,86 @@ extension V1.Builds.GET {
                 }
             }
 
+            public struct BetaGroups: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var betaRecruitmentCriteria: Self {
+                    .init(rawValue: "betaRecruitmentCriteria")
+                }
+
+                public static var betaRecruitmentCriterionCompatibleBuildCheck: Self {
+                    .init(rawValue: "betaRecruitmentCriterionCompatibleBuildCheck")
+                }
+
+                public static var betaTesters: Self {
+                    .init(rawValue: "betaTesters")
+                }
+
+                public static var builds: Self {
+                    .init(rawValue: "builds")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var feedbackEnabled: Self {
+                    .init(rawValue: "feedbackEnabled")
+                }
+
+                public static var hasAccessToAllBuilds: Self {
+                    .init(rawValue: "hasAccessToAllBuilds")
+                }
+
+                public static var iosBuildsAvailableForAppleSiliconMac: Self {
+                    .init(rawValue: "iosBuildsAvailableForAppleSiliconMac")
+                }
+
+                public static var iosBuildsAvailableForAppleVision: Self {
+                    .init(rawValue: "iosBuildsAvailableForAppleVision")
+                }
+
+                public static var isInternalGroup: Self {
+                    .init(rawValue: "isInternalGroup")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var publicLink: Self {
+                    .init(rawValue: "publicLink")
+                }
+
+                public static var publicLinkEnabled: Self {
+                    .init(rawValue: "publicLinkEnabled")
+                }
+
+                public static var publicLinkId: Self {
+                    .init(rawValue: "publicLinkId")
+                }
+
+                public static var publicLinkLimit: Self {
+                    .init(rawValue: "publicLinkLimit")
+                }
+
+                public static var publicLinkLimitEnabled: Self {
+                    .init(rawValue: "publicLinkLimitEnabled")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct BetaTesters: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appDevices: Self {
                     .init(rawValue: "appDevices")
@@ -724,6 +810,114 @@ extension V1.Builds.GET {
                 }
             }
 
+            public struct BuildBundles: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appClipDomainCacheStatus: Self {
+                    .init(rawValue: "appClipDomainCacheStatus")
+                }
+
+                public static var appClipDomainDebugStatus: Self {
+                    .init(rawValue: "appClipDomainDebugStatus")
+                }
+
+                public static var baDownloadAllowance: Self {
+                    .init(rawValue: "baDownloadAllowance")
+                }
+
+                public static var baMaxInstallSize: Self {
+                    .init(rawValue: "baMaxInstallSize")
+                }
+
+                public static var betaAppClipInvocations: Self {
+                    .init(rawValue: "betaAppClipInvocations")
+                }
+
+                public static var buildBundleFileSizes: Self {
+                    .init(rawValue: "buildBundleFileSizes")
+                }
+
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
+                }
+
+                public static var bundleType: Self {
+                    .init(rawValue: "bundleType")
+                }
+
+                public static var dSYMUrl: Self {
+                    .init(rawValue: "dSYMUrl")
+                }
+
+                public static var deviceProtocols: Self {
+                    .init(rawValue: "deviceProtocols")
+                }
+
+                public static var entitlements: Self {
+                    .init(rawValue: "entitlements")
+                }
+
+                public static var fileName: Self {
+                    .init(rawValue: "fileName")
+                }
+
+                public static var hasOnDemandResources: Self {
+                    .init(rawValue: "hasOnDemandResources")
+                }
+
+                public static var hasPrerenderedIcon: Self {
+                    .init(rawValue: "hasPrerenderedIcon")
+                }
+
+                public static var hasSirikit: Self {
+                    .init(rawValue: "hasSirikit")
+                }
+
+                public static var includesSymbols: Self {
+                    .init(rawValue: "includesSymbols")
+                }
+
+                public static var isIosBuildMacAppStoreCompatible: Self {
+                    .init(rawValue: "isIosBuildMacAppStoreCompatible")
+                }
+
+                public static var locales: Self {
+                    .init(rawValue: "locales")
+                }
+
+                public static var minimumOsVersion: Self {
+                    .init(rawValue: "minimumOsVersion")
+                }
+
+                public static var platformBuild: Self {
+                    .init(rawValue: "platformBuild")
+                }
+
+                public static var requiredCapabilities: Self {
+                    .init(rawValue: "requiredCapabilities")
+                }
+
+                public static var sdkBuild: Self {
+                    .init(rawValue: "sdkBuild")
+                }
+
+                public static var supportedArchitectures: Self {
+                    .init(rawValue: "supportedArchitectures")
+                }
+
+                public static var usesLocationServices: Self {
+                    .init(rawValue: "usesLocationServices")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct BuildIcons: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var iconAsset: Self {
                     .init(rawValue: "iconAsset")
@@ -739,6 +933,62 @@ extension V1.Builds.GET {
 
                 public static var name: Self {
                     .init(rawValue: "name")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct BuildUploads: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var assetDescriptionFile: Self {
+                    .init(rawValue: "assetDescriptionFile")
+                }
+
+                public static var assetFile: Self {
+                    .init(rawValue: "assetFile")
+                }
+
+                public static var assetSpiFile: Self {
+                    .init(rawValue: "assetSpiFile")
+                }
+
+                public static var build: Self {
+                    .init(rawValue: "build")
+                }
+
+                public static var buildUploadFiles: Self {
+                    .init(rawValue: "buildUploadFiles")
+                }
+
+                public static var cfBundleShortVersionString: Self {
+                    .init(rawValue: "cfBundleShortVersionString")
+                }
+
+                public static var cfBundleVersion: Self {
+                    .init(rawValue: "cfBundleVersion")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var uploadedDate: Self {
+                    .init(rawValue: "uploadedDate")
                 }
 
                 public var description: String {
@@ -922,6 +1172,11 @@ extension V1.Builds.GET {
                     .init(key: "fields[betaBuildLocalizations]")
                 }
 
+                /// the fields to include for returned resources of type betaGroups
+                public static var betaGroups: Relation<[BetaGroups]?> {
+                    .init(key: "fields[betaGroups]")
+                }
+
                 /// the fields to include for returned resources of type betaTesters
                 public static var betaTesters: Relation<[BetaTesters]?> {
                     .init(key: "fields[betaTesters]")
@@ -932,9 +1187,19 @@ extension V1.Builds.GET {
                     .init(key: "fields[buildBetaDetails]")
                 }
 
+                /// the fields to include for returned resources of type buildBundles
+                public static var buildBundles: Relation<[BuildBundles]?> {
+                    .init(key: "fields[buildBundles]")
+                }
+
                 /// the fields to include for returned resources of type buildIcons
                 public static var buildIcons: Relation<[BuildIcons]?> {
                     .init(key: "fields[buildIcons]")
+                }
+
+                /// the fields to include for returned resources of type buildUploads
+                public static var buildUploads: Relation<[BuildUploads]?> {
+                    .init(key: "fields[buildUploads]")
                 }
 
                 /// the fields to include for returned resources of type builds

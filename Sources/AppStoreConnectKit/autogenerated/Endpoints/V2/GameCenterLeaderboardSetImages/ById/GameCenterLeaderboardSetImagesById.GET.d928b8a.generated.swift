@@ -30,6 +30,8 @@ extension V2.GameCenterLeaderboardSetImages.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[gameCenterLeaderboardSetImages]",
                              value: parameters.fields[.gameCenterLeaderboardSetImages]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterLeaderboardSetLocalizations]",
+                             value: parameters.fields[.gameCenterLeaderboardSetLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -131,10 +133,43 @@ extension V2.GameCenterLeaderboardSetImages.ById.GET {
                 }
             }
 
+            public struct GameCenterLeaderboardSetLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var image: Self {
+                    .init(rawValue: "image")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterLeaderboardSetImages
                 public static var gameCenterLeaderboardSetImages: Relation<[GameCenterLeaderboardSetImages]?> {
                     .init(key: "fields[gameCenterLeaderboardSetImages]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterLeaderboardSetLocalizations
+                public static var gameCenterLeaderboardSetLocalizations: Relation<[GameCenterLeaderboardSetLocalizations]?> {
+                    .init(key: "fields[gameCenterLeaderboardSetLocalizations]")
                 }
 
                 internal let key: String
