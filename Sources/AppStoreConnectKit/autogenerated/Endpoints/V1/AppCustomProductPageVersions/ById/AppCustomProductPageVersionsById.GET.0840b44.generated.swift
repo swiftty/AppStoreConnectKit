@@ -32,6 +32,8 @@ extension V1.AppCustomProductPageVersions.ById {
                              value: parameters.fields[.appCustomProductPageLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appCustomProductPageVersions]",
                              value: parameters.fields[.appCustomProductPageVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appCustomProductPages]",
+                             value: parameters.fields[.appCustomProductPages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[appCustomProductPageLocalizations]",
@@ -169,6 +171,38 @@ extension V1.AppCustomProductPageVersions.ById.GET {
                 }
             }
 
+            public struct AppCustomProductPages: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appCustomProductPageVersions: Self {
+                    .init(rawValue: "appCustomProductPageVersions")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var url: Self {
+                    .init(rawValue: "url")
+                }
+
+                public static var visible: Self {
+                    .init(rawValue: "visible")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appCustomProductPageLocalizations
                 public static var appCustomProductPageLocalizations: Relation<[AppCustomProductPageLocalizations]?> {
@@ -178,6 +212,11 @@ extension V1.AppCustomProductPageVersions.ById.GET {
                 /// the fields to include for returned resources of type appCustomProductPageVersions
                 public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
                     .init(key: "fields[appCustomProductPageVersions]")
+                }
+
+                /// the fields to include for returned resources of type appCustomProductPages
+                public static var appCustomProductPages: Relation<[AppCustomProductPages]?> {
+                    .init(key: "fields[appCustomProductPages]")
                 }
 
                 internal let key: String

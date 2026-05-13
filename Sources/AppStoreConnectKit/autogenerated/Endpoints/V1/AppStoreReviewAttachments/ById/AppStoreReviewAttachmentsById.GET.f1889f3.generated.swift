@@ -30,6 +30,8 @@ extension V1.AppStoreReviewAttachments.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[appStoreReviewAttachments]",
                              value: parameters.fields[.appStoreReviewAttachments]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreReviewDetails]",
+                             value: parameters.fields[.appStoreReviewDetails]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -131,10 +133,67 @@ extension V1.AppStoreReviewAttachments.ById.GET {
                 }
             }
 
+            public struct AppStoreReviewDetails: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStoreReviewAttachments: Self {
+                    .init(rawValue: "appStoreReviewAttachments")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var contactEmail: Self {
+                    .init(rawValue: "contactEmail")
+                }
+
+                public static var contactFirstName: Self {
+                    .init(rawValue: "contactFirstName")
+                }
+
+                public static var contactLastName: Self {
+                    .init(rawValue: "contactLastName")
+                }
+
+                public static var contactPhone: Self {
+                    .init(rawValue: "contactPhone")
+                }
+
+                public static var demoAccountName: Self {
+                    .init(rawValue: "demoAccountName")
+                }
+
+                public static var demoAccountPassword: Self {
+                    .init(rawValue: "demoAccountPassword")
+                }
+
+                public static var demoAccountRequired: Self {
+                    .init(rawValue: "demoAccountRequired")
+                }
+
+                public static var notes: Self {
+                    .init(rawValue: "notes")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appStoreReviewAttachments
                 public static var appStoreReviewAttachments: Relation<[AppStoreReviewAttachments]?> {
                     .init(key: "fields[appStoreReviewAttachments]")
+                }
+
+                /// the fields to include for returned resources of type appStoreReviewDetails
+                public static var appStoreReviewDetails: Relation<[AppStoreReviewDetails]?> {
+                    .init(key: "fields[appStoreReviewDetails]")
                 }
 
                 internal let key: String

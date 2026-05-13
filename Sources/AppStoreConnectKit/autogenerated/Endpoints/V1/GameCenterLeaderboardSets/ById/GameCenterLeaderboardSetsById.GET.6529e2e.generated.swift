@@ -29,6 +29,10 @@ extension V1.GameCenterLeaderboardSets.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[gameCenterDetails]",
+                             value: parameters.fields[.gameCenterDetails]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterGroups]",
+                             value: parameters.fields[.gameCenterGroups]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterLeaderboardSetLocalizations]",
                              value: parameters.fields[.gameCenterLeaderboardSetLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterLeaderboardSetReleases]",
@@ -109,6 +113,162 @@ extension V1.GameCenterLeaderboardSets.ById.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public struct GameCenterDetails: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var achievementReleases: Self {
+                    .init(rawValue: "achievementReleases")
+                }
+
+                public static var activityReleases: Self {
+                    .init(rawValue: "activityReleases")
+                }
+
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var arcadeEnabled: Self {
+                    .init(rawValue: "arcadeEnabled")
+                }
+
+                public static var challengeEnabled: Self {
+                    .init(rawValue: "challengeEnabled")
+                }
+
+                public static var challengeReleases: Self {
+                    .init(rawValue: "challengeReleases")
+                }
+
+                public static var challengesMinimumPlatformVersions: Self {
+                    .init(rawValue: "challengesMinimumPlatformVersions")
+                }
+
+                public static var defaultGroupLeaderboard: Self {
+                    .init(rawValue: "defaultGroupLeaderboard")
+                }
+
+                public static var defaultGroupLeaderboardV2: Self {
+                    .init(rawValue: "defaultGroupLeaderboardV2")
+                }
+
+                public static var defaultLeaderboard: Self {
+                    .init(rawValue: "defaultLeaderboard")
+                }
+
+                public static var defaultLeaderboardV2: Self {
+                    .init(rawValue: "defaultLeaderboardV2")
+                }
+
+                public static var gameCenterAchievements: Self {
+                    .init(rawValue: "gameCenterAchievements")
+                }
+
+                public static var gameCenterAchievementsV2: Self {
+                    .init(rawValue: "gameCenterAchievementsV2")
+                }
+
+                public static var gameCenterActivities: Self {
+                    .init(rawValue: "gameCenterActivities")
+                }
+
+                public static var gameCenterAppVersions: Self {
+                    .init(rawValue: "gameCenterAppVersions")
+                }
+
+                public static var gameCenterChallenges: Self {
+                    .init(rawValue: "gameCenterChallenges")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var gameCenterLeaderboardSets: Self {
+                    .init(rawValue: "gameCenterLeaderboardSets")
+                }
+
+                public static var gameCenterLeaderboardSetsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetsV2")
+                }
+
+                public static var gameCenterLeaderboards: Self {
+                    .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var gameCenterLeaderboardsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardsV2")
+                }
+
+                public static var leaderboardReleases: Self {
+                    .init(rawValue: "leaderboardReleases")
+                }
+
+                public static var leaderboardSetReleases: Self {
+                    .init(rawValue: "leaderboardSetReleases")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct GameCenterGroups: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterAchievements: Self {
+                    .init(rawValue: "gameCenterAchievements")
+                }
+
+                public static var gameCenterAchievementsV2: Self {
+                    .init(rawValue: "gameCenterAchievementsV2")
+                }
+
+                public static var gameCenterActivities: Self {
+                    .init(rawValue: "gameCenterActivities")
+                }
+
+                public static var gameCenterChallenges: Self {
+                    .init(rawValue: "gameCenterChallenges")
+                }
+
+                public static var gameCenterDetails: Self {
+                    .init(rawValue: "gameCenterDetails")
+                }
+
+                public static var gameCenterLeaderboardSets: Self {
+                    .init(rawValue: "gameCenterLeaderboardSets")
+                }
+
+                public static var gameCenterLeaderboardSetsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardSetsV2")
+                }
+
+                public static var gameCenterLeaderboards: Self {
+                    .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var gameCenterLeaderboardsV2: Self {
+                    .init(rawValue: "gameCenterLeaderboardsV2")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
 
             public struct GameCenterLeaderboardSetLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var gameCenterLeaderboardSet: Self {
@@ -303,6 +463,16 @@ extension V1.GameCenterLeaderboardSets.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type gameCenterDetails
+                public static var gameCenterDetails: Relation<[GameCenterDetails]?> {
+                    .init(key: "fields[gameCenterDetails]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterGroups
+                public static var gameCenterGroups: Relation<[GameCenterGroups]?> {
+                    .init(key: "fields[gameCenterGroups]")
+                }
+
                 /// the fields to include for returned resources of type gameCenterLeaderboardSetLocalizations
                 public static var gameCenterLeaderboardSetLocalizations: Relation<[GameCenterLeaderboardSetLocalizations]?> {
                     .init(key: "fields[gameCenterLeaderboardSetLocalizations]")

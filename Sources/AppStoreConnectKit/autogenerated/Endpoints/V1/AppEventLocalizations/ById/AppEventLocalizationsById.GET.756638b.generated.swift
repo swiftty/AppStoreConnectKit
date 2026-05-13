@@ -34,6 +34,8 @@ extension V1.AppEventLocalizations.ById {
                              value: parameters.fields[.appEventScreenshots]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appEventVideoClips]",
                              value: parameters.fields[.appEventVideoClips]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appEvents]",
+                             value: parameters.fields[.appEvents]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[appEventScreenshots]",
@@ -245,6 +247,62 @@ extension V1.AppEventLocalizations.ById.GET {
                 }
             }
 
+            public struct AppEvents: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var archivedTerritorySchedules: Self {
+                    .init(rawValue: "archivedTerritorySchedules")
+                }
+
+                public static var badge: Self {
+                    .init(rawValue: "badge")
+                }
+
+                public static var deepLink: Self {
+                    .init(rawValue: "deepLink")
+                }
+
+                public static var eventState: Self {
+                    .init(rawValue: "eventState")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var primaryLocale: Self {
+                    .init(rawValue: "primaryLocale")
+                }
+
+                public static var priority: Self {
+                    .init(rawValue: "priority")
+                }
+
+                public static var purchaseRequirement: Self {
+                    .init(rawValue: "purchaseRequirement")
+                }
+
+                public static var purpose: Self {
+                    .init(rawValue: "purpose")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var territorySchedules: Self {
+                    .init(rawValue: "territorySchedules")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appEventLocalizations
                 public static var appEventLocalizations: Relation<[AppEventLocalizations]?> {
@@ -259,6 +317,11 @@ extension V1.AppEventLocalizations.ById.GET {
                 /// the fields to include for returned resources of type appEventVideoClips
                 public static var appEventVideoClips: Relation<[AppEventVideoClips]?> {
                     .init(key: "fields[appEventVideoClips]")
+                }
+
+                /// the fields to include for returned resources of type appEvents
+                public static var appEvents: Relation<[AppEvents]?> {
+                    .init(key: "fields[appEvents]")
                 }
 
                 internal let key: String

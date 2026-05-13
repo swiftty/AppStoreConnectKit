@@ -34,6 +34,8 @@ extension V1.AppStoreVersionExperimentTreatmentLocalizations.ById {
                              value: parameters.fields[.appScreenshotSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersionExperimentTreatmentLocalizations]",
                              value: parameters.fields[.appStoreVersionExperimentTreatmentLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersionExperimentTreatments]",
+                             value: parameters.fields[.appStoreVersionExperimentTreatments]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[appPreviewSets]",
@@ -197,6 +199,46 @@ extension V1.AppStoreVersionExperimentTreatmentLocalizations.ById.GET {
                 }
             }
 
+            public struct AppStoreVersionExperimentTreatments: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appIcon: Self {
+                    .init(rawValue: "appIcon")
+                }
+
+                public static var appIconName: Self {
+                    .init(rawValue: "appIconName")
+                }
+
+                public static var appStoreVersionExperiment: Self {
+                    .init(rawValue: "appStoreVersionExperiment")
+                }
+
+                public static var appStoreVersionExperimentTreatmentLocalizations: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatmentLocalizations")
+                }
+
+                public static var appStoreVersionExperimentV2: Self {
+                    .init(rawValue: "appStoreVersionExperimentV2")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var promotedDate: Self {
+                    .init(rawValue: "promotedDate")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appPreviewSets
                 public static var appPreviewSets: Relation<[AppPreviewSets]?> {
@@ -211,6 +253,11 @@ extension V1.AppStoreVersionExperimentTreatmentLocalizations.ById.GET {
                 /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
                 public static var appStoreVersionExperimentTreatmentLocalizations: Relation<[AppStoreVersionExperimentTreatmentLocalizations]?> {
                     .init(key: "fields[appStoreVersionExperimentTreatmentLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersionExperimentTreatments
+                public static var appStoreVersionExperimentTreatments: Relation<[AppStoreVersionExperimentTreatments]?> {
+                    .init(key: "fields[appStoreVersionExperimentTreatments]")
                 }
 
                 internal let key: String

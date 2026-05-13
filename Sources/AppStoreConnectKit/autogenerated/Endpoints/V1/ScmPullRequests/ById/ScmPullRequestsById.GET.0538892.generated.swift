@@ -30,6 +30,8 @@ extension V1.ScmPullRequests.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[scmPullRequests]",
                              value: parameters.fields[.scmPullRequests]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[scmRepositories]",
+                             value: parameters.fields[.scmRepositories]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -155,10 +157,63 @@ extension V1.ScmPullRequests.ById.GET {
                 }
             }
 
+            public struct ScmRepositories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var defaultBranch: Self {
+                    .init(rawValue: "defaultBranch")
+                }
+
+                public static var gitReferences: Self {
+                    .init(rawValue: "gitReferences")
+                }
+
+                public static var httpCloneUrl: Self {
+                    .init(rawValue: "httpCloneUrl")
+                }
+
+                public static var lastAccessedDate: Self {
+                    .init(rawValue: "lastAccessedDate")
+                }
+
+                public static var ownerName: Self {
+                    .init(rawValue: "ownerName")
+                }
+
+                public static var pullRequests: Self {
+                    .init(rawValue: "pullRequests")
+                }
+
+                public static var repositoryName: Self {
+                    .init(rawValue: "repositoryName")
+                }
+
+                public static var scmProvider: Self {
+                    .init(rawValue: "scmProvider")
+                }
+
+                public static var sshCloneUrl: Self {
+                    .init(rawValue: "sshCloneUrl")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type scmPullRequests
                 public static var scmPullRequests: Relation<[ScmPullRequests]?> {
                     .init(key: "fields[scmPullRequests]")
+                }
+
+                /// the fields to include for returned resources of type scmRepositories
+                public static var scmRepositories: Relation<[ScmRepositories]?> {
+                    .init(key: "fields[scmRepositories]")
                 }
 
                 internal let key: String

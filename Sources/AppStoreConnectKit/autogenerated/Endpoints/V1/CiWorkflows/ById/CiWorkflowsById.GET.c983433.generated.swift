@@ -28,8 +28,14 @@ extension V1.CiWorkflows.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[ciMacOsVersions]",
+                             value: parameters.fields[.ciMacOsVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[ciProducts]",
+                             value: parameters.fields[.ciProducts]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[ciWorkflows]",
                              value: parameters.fields[.ciWorkflows]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[ciXcodeVersions]",
+                             value: parameters.fields[.ciXcodeVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[scmRepositories]",
                              value: parameters.fields[.scmRepositories]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -96,6 +102,78 @@ extension V1.CiWorkflows.ById.GET {
             }
 
             private var values: [AnyHashable: AnyHashable] = [:]
+
+            public struct CiMacOsVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public static var xcodeVersions: Self {
+                    .init(rawValue: "xcodeVersions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct CiProducts: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var additionalRepositories: Self {
+                    .init(rawValue: "additionalRepositories")
+                }
+
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var buildRuns: Self {
+                    .init(rawValue: "buildRuns")
+                }
+
+                public static var bundleId: Self {
+                    .init(rawValue: "bundleId")
+                }
+
+                public static var createdDate: Self {
+                    .init(rawValue: "createdDate")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var primaryRepositories: Self {
+                    .init(rawValue: "primaryRepositories")
+                }
+
+                public static var productType: Self {
+                    .init(rawValue: "productType")
+                }
+
+                public static var workflows: Self {
+                    .init(rawValue: "workflows")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
 
             public struct CiWorkflows: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var actions: Self {
@@ -189,6 +267,34 @@ extension V1.CiWorkflows.ById.GET {
                 }
             }
 
+            public struct CiXcodeVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var macOsVersions: Self {
+                    .init(rawValue: "macOsVersions")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var testDestinations: Self {
+                    .init(rawValue: "testDestinations")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct ScmRepositories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var defaultBranch: Self {
                     .init(rawValue: "defaultBranch")
@@ -238,9 +344,24 @@ extension V1.CiWorkflows.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type ciMacOsVersions
+                public static var ciMacOsVersions: Relation<[CiMacOsVersions]?> {
+                    .init(key: "fields[ciMacOsVersions]")
+                }
+
+                /// the fields to include for returned resources of type ciProducts
+                public static var ciProducts: Relation<[CiProducts]?> {
+                    .init(key: "fields[ciProducts]")
+                }
+
                 /// the fields to include for returned resources of type ciWorkflows
                 public static var ciWorkflows: Relation<[CiWorkflows]?> {
                     .init(key: "fields[ciWorkflows]")
+                }
+
+                /// the fields to include for returned resources of type ciXcodeVersions
+                public static var ciXcodeVersions: Relation<[CiXcodeVersions]?> {
+                    .init(key: "fields[ciXcodeVersions]")
                 }
 
                 /// the fields to include for returned resources of type scmRepositories

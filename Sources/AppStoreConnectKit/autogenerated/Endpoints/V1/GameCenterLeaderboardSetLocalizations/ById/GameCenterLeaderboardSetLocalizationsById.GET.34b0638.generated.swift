@@ -33,6 +33,8 @@ extension V1.GameCenterLeaderboardSetLocalizations.ById {
                              value: parameters.fields[.gameCenterLeaderboardSetImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterLeaderboardSetLocalizations]",
                              value: parameters.fields[.gameCenterLeaderboardSetLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterLeaderboardSets]",
+                             value: parameters.fields[.gameCenterLeaderboardSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -162,6 +164,50 @@ extension V1.GameCenterLeaderboardSetLocalizations.ById.GET {
                 }
             }
 
+            public struct GameCenterLeaderboardSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var gameCenterLeaderboards: Self {
+                    .init(rawValue: "gameCenterLeaderboards")
+                }
+
+                public static var groupLeaderboardSet: Self {
+                    .init(rawValue: "groupLeaderboardSet")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterLeaderboardSetImages
                 public static var gameCenterLeaderboardSetImages: Relation<[GameCenterLeaderboardSetImages]?> {
@@ -171,6 +217,11 @@ extension V1.GameCenterLeaderboardSetLocalizations.ById.GET {
                 /// the fields to include for returned resources of type gameCenterLeaderboardSetLocalizations
                 public static var gameCenterLeaderboardSetLocalizations: Relation<[GameCenterLeaderboardSetLocalizations]?> {
                     .init(key: "fields[gameCenterLeaderboardSetLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterLeaderboardSets
+                public static var gameCenterLeaderboardSets: Relation<[GameCenterLeaderboardSets]?> {
+                    .init(key: "fields[gameCenterLeaderboardSets]")
                 }
 
                 internal let key: String

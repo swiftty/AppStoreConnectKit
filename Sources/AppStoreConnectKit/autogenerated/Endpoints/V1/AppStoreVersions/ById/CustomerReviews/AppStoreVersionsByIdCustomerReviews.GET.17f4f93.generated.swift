@@ -34,8 +34,12 @@ extension V1.AppStoreVersions.ById.CustomerReviews {
                              value: parameters.fields[.customerReviewResponses]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[customerReviews]",
                              value: parameters.fields[.customerReviews]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[territories]",
+                             value: parameters.fields[.territories]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[rating]",
                              value: parameters.filter[.rating]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[reviewTerritory]",
+                             value: parameters.filter[.reviewTerritory]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[territory]",
                              value: parameters.filter[.territory]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -184,6 +188,10 @@ extension V1.AppStoreVersions.ById.CustomerReviews.GET {
                     .init(rawValue: "response")
                 }
 
+                public static var reviewTerritory: Self {
+                    .init(rawValue: "reviewTerritory")
+                }
+
                 public static var reviewerNickname: Self {
                     .init(rawValue: "reviewerNickname")
                 }
@@ -207,6 +215,22 @@ extension V1.AppStoreVersions.ById.CustomerReviews.GET {
                 }
             }
 
+            public struct Territories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var currency: Self {
+                    .init(rawValue: "currency")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type customerReviewResponses
                 public static var customerReviewResponses: Relation<[CustomerReviewResponses]?> {
@@ -216,6 +240,11 @@ extension V1.AppStoreVersions.ById.CustomerReviews.GET {
                 /// the fields to include for returned resources of type customerReviews
                 public static var customerReviews: Relation<[CustomerReviews]?> {
                     .init(key: "fields[customerReviews]")
+                }
+
+                /// the fields to include for returned resources of type territories
+                public static var territories: Relation<[Territories]?> {
+                    .init(key: "fields[territories]")
                 }
 
                 internal let key: String
@@ -1184,6 +1213,11 @@ extension V1.AppStoreVersions.ById.CustomerReviews.GET {
                     .init(key: "filter[rating]")
                 }
 
+                /// filter by id(s) of related 'reviewTerritory'
+                public static var reviewTerritory: Relation<[String]?> {
+                    .init(key: "filter[reviewTerritory]")
+                }
+
                 /// filter by attribute 'territory'
                 public static var territory: Relation<[Territory]?> {
                     .init(key: "filter[territory]")
@@ -1200,6 +1234,10 @@ extension V1.AppStoreVersions.ById.CustomerReviews.GET {
         public struct Include: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
             public static var response: Self {
                 .init(rawValue: "response")
+            }
+
+            public static var reviewTerritory: Self {
+                .init(rawValue: "reviewTerritory")
             }
 
             public var description: String {

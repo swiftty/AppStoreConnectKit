@@ -30,6 +30,8 @@ extension V1.SubscriptionLocalizations.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[subscriptionLocalizations]",
                              value: parameters.fields[.subscriptionLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptions]",
+                             value: parameters.fields[.subscriptions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -127,10 +129,103 @@ extension V1.SubscriptionLocalizations.ById.GET {
                 }
             }
 
+            public struct Subscriptions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appStoreReviewScreenshot: Self {
+                    .init(rawValue: "appStoreReviewScreenshot")
+                }
+
+                public static var familySharable: Self {
+                    .init(rawValue: "familySharable")
+                }
+
+                public static var group: Self {
+                    .init(rawValue: "group")
+                }
+
+                public static var groupLevel: Self {
+                    .init(rawValue: "groupLevel")
+                }
+
+                public static var images: Self {
+                    .init(rawValue: "images")
+                }
+
+                public static var introductoryOffers: Self {
+                    .init(rawValue: "introductoryOffers")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var offerCodes: Self {
+                    .init(rawValue: "offerCodes")
+                }
+
+                public static var pricePoints: Self {
+                    .init(rawValue: "pricePoints")
+                }
+
+                public static var prices: Self {
+                    .init(rawValue: "prices")
+                }
+
+                public static var productId: Self {
+                    .init(rawValue: "productId")
+                }
+
+                public static var promotedPurchase: Self {
+                    .init(rawValue: "promotedPurchase")
+                }
+
+                public static var promotionalOffers: Self {
+                    .init(rawValue: "promotionalOffers")
+                }
+
+                public static var reviewNote: Self {
+                    .init(rawValue: "reviewNote")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscriptionAvailability: Self {
+                    .init(rawValue: "subscriptionAvailability")
+                }
+
+                public static var subscriptionLocalizations: Self {
+                    .init(rawValue: "subscriptionLocalizations")
+                }
+
+                public static var subscriptionPeriod: Self {
+                    .init(rawValue: "subscriptionPeriod")
+                }
+
+                public static var winBackOffers: Self {
+                    .init(rawValue: "winBackOffers")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type subscriptionLocalizations
                 public static var subscriptionLocalizations: Relation<[SubscriptionLocalizations]?> {
                     .init(key: "fields[subscriptionLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type subscriptions
+                public static var subscriptions: Relation<[Subscriptions]?> {
+                    .init(key: "fields[subscriptions]")
                 }
 
                 internal let key: String

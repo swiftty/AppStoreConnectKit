@@ -30,6 +30,8 @@ extension V1.SubscriptionGroupLocalizations.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[subscriptionGroupLocalizations]",
                              value: parameters.fields[.subscriptionGroupLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptionGroups]",
+                             value: parameters.fields[.subscriptionGroups]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -127,10 +129,39 @@ extension V1.SubscriptionGroupLocalizations.ById.GET {
                 }
             }
 
+            public struct SubscriptionGroups: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var subscriptionGroupLocalizations: Self {
+                    .init(rawValue: "subscriptionGroupLocalizations")
+                }
+
+                public static var subscriptions: Self {
+                    .init(rawValue: "subscriptions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type subscriptionGroupLocalizations
                 public static var subscriptionGroupLocalizations: Relation<[SubscriptionGroupLocalizations]?> {
                     .init(key: "fields[subscriptionGroupLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type subscriptionGroups
+                public static var subscriptionGroups: Relation<[SubscriptionGroups]?> {
+                    .init(key: "fields[subscriptionGroups]")
                 }
 
                 internal let key: String

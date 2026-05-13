@@ -8,14 +8,14 @@ public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable, S
 
     public var type: `Type`
 
-    public var attributes: Attributes
+    public var attributes: Attributes?
 
     public var relationships: Relationships?
 
     public init(
         id: String? = nil,
         type: `Type`,
-        attributes: Attributes,
+        attributes: Attributes? = nil,
         relationships: Relationships? = nil
     ) {
         self.id = id
@@ -36,9 +36,9 @@ public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable, S
     }
 
     public struct Attributes: Hashable, Codable, Sendable {
-        public var appVersion: String
+        public var appVersion: String?
 
-        public var bundleId: String
+        public var bundleId: String?
 
         public var locale: Locale?
 
@@ -48,25 +48,25 @@ public struct GameCenterMatchmakingTestRequestInlineCreate: Hashable, Codable, S
 
         public var minPlayers: Int?
 
-        public var platform: Platform
+        public var platform: Platform?
 
         public var playerCount: Int?
 
-        public var requestName: String
+        public var requestName: String?
 
-        public var secondsInQueue: Int
+        public var secondsInQueue: Int?
 
         public init(
-            appVersion: String,
-            bundleId: String,
+            appVersion: String? = nil,
+            bundleId: String? = nil,
             locale: Locale? = nil,
             location: Location? = nil,
             maxPlayers: Int? = nil,
             minPlayers: Int? = nil,
-            platform: Platform,
+            platform: Platform? = nil,
             playerCount: Int? = nil,
-            requestName: String,
-            secondsInQueue: Int
+            requestName: String? = nil,
+            secondsInQueue: Int? = nil
         ) {
             self.appVersion = appVersion
             self.bundleId = bundleId

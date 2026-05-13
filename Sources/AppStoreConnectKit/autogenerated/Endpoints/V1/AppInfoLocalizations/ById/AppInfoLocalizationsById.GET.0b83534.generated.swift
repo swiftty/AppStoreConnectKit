@@ -30,6 +30,8 @@ extension V1.AppInfoLocalizations.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[appInfoLocalizations]",
                              value: parameters.fields[.appInfoLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appInfos]",
+                             value: parameters.fields[.appInfos]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -135,10 +137,103 @@ extension V1.AppInfoLocalizations.ById.GET {
                 }
             }
 
+            public struct AppInfos: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var ageRatingDeclaration: Self {
+                    .init(rawValue: "ageRatingDeclaration")
+                }
+
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appInfoLocalizations: Self {
+                    .init(rawValue: "appInfoLocalizations")
+                }
+
+                public static var appStoreAgeRating: Self {
+                    .init(rawValue: "appStoreAgeRating")
+                }
+
+                public static var appStoreState: Self {
+                    .init(rawValue: "appStoreState")
+                }
+
+                public static var australiaAgeRating: Self {
+                    .init(rawValue: "australiaAgeRating")
+                }
+
+                public static var brazilAgeRating: Self {
+                    .init(rawValue: "brazilAgeRating")
+                }
+
+                public static var brazilAgeRatingV2: Self {
+                    .init(rawValue: "brazilAgeRatingV2")
+                }
+
+                public static var franceAgeRating: Self {
+                    .init(rawValue: "franceAgeRating")
+                }
+
+                public static var kidsAgeBand: Self {
+                    .init(rawValue: "kidsAgeBand")
+                }
+
+                public static var koreaAgeRating: Self {
+                    .init(rawValue: "koreaAgeRating")
+                }
+
+                public static var primaryCategory: Self {
+                    .init(rawValue: "primaryCategory")
+                }
+
+                public static var primarySubcategoryOne: Self {
+                    .init(rawValue: "primarySubcategoryOne")
+                }
+
+                public static var primarySubcategoryTwo: Self {
+                    .init(rawValue: "primarySubcategoryTwo")
+                }
+
+                public static var secondaryCategory: Self {
+                    .init(rawValue: "secondaryCategory")
+                }
+
+                public static var secondarySubcategoryOne: Self {
+                    .init(rawValue: "secondarySubcategoryOne")
+                }
+
+                public static var secondarySubcategoryTwo: Self {
+                    .init(rawValue: "secondarySubcategoryTwo")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var territoryAgeRatings: Self {
+                    .init(rawValue: "territoryAgeRatings")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appInfoLocalizations
                 public static var appInfoLocalizations: Relation<[AppInfoLocalizations]?> {
                     .init(key: "fields[appInfoLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type appInfos
+                public static var appInfos: Relation<[AppInfos]?> {
+                    .init(key: "fields[appInfos]")
                 }
 
                 internal let key: String

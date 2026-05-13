@@ -30,6 +30,8 @@ extension V1.SubscriptionOfferCodeOneTimeUseCodes.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[subscriptionOfferCodeOneTimeUseCodes]",
                              value: parameters.fields[.subscriptionOfferCodeOneTimeUseCodes]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptionOfferCodes]",
+                             value: parameters.fields[.subscriptionOfferCodes]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -135,10 +137,87 @@ extension V1.SubscriptionOfferCodeOneTimeUseCodes.ById.GET {
                 }
             }
 
+            public struct SubscriptionOfferCodes: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var active: Self {
+                    .init(rawValue: "active")
+                }
+
+                public static var autoRenewEnabled: Self {
+                    .init(rawValue: "autoRenewEnabled")
+                }
+
+                public static var customCodes: Self {
+                    .init(rawValue: "customCodes")
+                }
+
+                public static var customerEligibilities: Self {
+                    .init(rawValue: "customerEligibilities")
+                }
+
+                public static var duration: Self {
+                    .init(rawValue: "duration")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var numberOfPeriods: Self {
+                    .init(rawValue: "numberOfPeriods")
+                }
+
+                public static var offerEligibility: Self {
+                    .init(rawValue: "offerEligibility")
+                }
+
+                public static var offerMode: Self {
+                    .init(rawValue: "offerMode")
+                }
+
+                public static var oneTimeUseCodes: Self {
+                    .init(rawValue: "oneTimeUseCodes")
+                }
+
+                public static var prices: Self {
+                    .init(rawValue: "prices")
+                }
+
+                public static var productionCodeCount: Self {
+                    .init(rawValue: "productionCodeCount")
+                }
+
+                public static var sandboxCodeCount: Self {
+                    .init(rawValue: "sandboxCodeCount")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public static var totalNumberOfCodes: Self {
+                    .init(rawValue: "totalNumberOfCodes")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type subscriptionOfferCodeOneTimeUseCodes
                 public static var subscriptionOfferCodeOneTimeUseCodes: Relation<[SubscriptionOfferCodeOneTimeUseCodes]?> {
                     .init(key: "fields[subscriptionOfferCodeOneTimeUseCodes]")
+                }
+
+                /// the fields to include for returned resources of type subscriptionOfferCodes
+                public static var subscriptionOfferCodes: Relation<[SubscriptionOfferCodes]?> {
+                    .init(key: "fields[subscriptionOfferCodes]")
                 }
 
                 internal let key: String

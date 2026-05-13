@@ -53,6 +53,8 @@ extension V1.Apps {
                              value: parameters.fields[.betaGroups]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[betaLicenseAgreements]",
                              value: parameters.fields[.betaLicenseAgreements]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[buildIcons]",
+                             value: parameters.fields[.buildIcons]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[builds]",
                              value: parameters.fields[.builds]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[ciProducts]",
@@ -1116,6 +1118,34 @@ extension V1.Apps.GET {
                 }
             }
 
+            public struct BuildIcons: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var iconAsset: Self {
+                    .init(rawValue: "iconAsset")
+                }
+
+                public static var iconType: Self {
+                    .init(rawValue: "iconType")
+                }
+
+                public static var masked: Self {
+                    .init(rawValue: "masked")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Builds: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var app: Self {
                     .init(rawValue: "app")
@@ -1744,6 +1774,11 @@ extension V1.Apps.GET {
                 /// the fields to include for returned resources of type betaLicenseAgreements
                 public static var betaLicenseAgreements: Relation<[BetaLicenseAgreements]?> {
                     .init(key: "fields[betaLicenseAgreements]")
+                }
+
+                /// the fields to include for returned resources of type buildIcons
+                public static var buildIcons: Relation<[BuildIcons]?> {
+                    .init(key: "fields[buildIcons]")
                 }
 
                 /// the fields to include for returned resources of type builds

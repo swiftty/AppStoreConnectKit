@@ -90,6 +90,10 @@ public struct TerritoryAvailability: Hashable, Codable, Sendable {
                 .init(rawValue: "AVAILABLE_FOR_SALE_UNRELEASED_APP")
             }
 
+            public static var brazilGamblingNotVerified: Self {
+                .init(rawValue: "BRAZIL_GAMBLING_NOT_VERIFIED")
+            }
+
             public static var brazilRequiredTaxId: Self {
                 .init(rawValue: "BRAZIL_REQUIRED_TAX_ID")
             }

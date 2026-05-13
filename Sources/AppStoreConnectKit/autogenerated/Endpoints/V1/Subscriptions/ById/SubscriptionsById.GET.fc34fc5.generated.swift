@@ -34,6 +34,8 @@ extension V1.Subscriptions.ById {
                              value: parameters.fields[.subscriptionAppStoreReviewScreenshots]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionAvailabilities]",
                              value: parameters.fields[.subscriptionAvailabilities]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptionGroups]",
+                             value: parameters.fields[.subscriptionGroups]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionImages]",
                              value: parameters.fields[.subscriptionImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionIntroductoryOffers]",
@@ -218,6 +220,30 @@ extension V1.Subscriptions.ById.GET {
 
                 public static var availableTerritories: Self {
                     .init(rawValue: "availableTerritories")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct SubscriptionGroups: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var subscriptionGroupLocalizations: Self {
+                    .init(rawValue: "subscriptionGroupLocalizations")
+                }
+
+                public static var subscriptions: Self {
+                    .init(rawValue: "subscriptions")
                 }
 
                 public var description: String {
@@ -657,6 +683,11 @@ extension V1.Subscriptions.ById.GET {
                 /// the fields to include for returned resources of type subscriptionAvailabilities
                 public static var subscriptionAvailabilities: Relation<[SubscriptionAvailabilities]?> {
                     .init(key: "fields[subscriptionAvailabilities]")
+                }
+
+                /// the fields to include for returned resources of type subscriptionGroups
+                public static var subscriptionGroups: Relation<[SubscriptionGroups]?> {
+                    .init(key: "fields[subscriptionGroups]")
                 }
 
                 /// the fields to include for returned resources of type subscriptionImages

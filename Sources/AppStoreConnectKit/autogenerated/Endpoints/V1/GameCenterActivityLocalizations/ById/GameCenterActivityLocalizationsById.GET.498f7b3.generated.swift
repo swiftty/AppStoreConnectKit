@@ -32,6 +32,8 @@ extension V1.GameCenterActivityLocalizations.ById {
                              value: parameters.fields[.gameCenterActivityImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterActivityLocalizations]",
                              value: parameters.fields[.gameCenterActivityLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterActivityVersions]",
+                             value: parameters.fields[.gameCenterActivityVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -161,6 +163,46 @@ extension V1.GameCenterActivityLocalizations.ById.GET {
                 }
             }
 
+            public struct GameCenterActivityVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activity: Self {
+                    .init(rawValue: "activity")
+                }
+
+                public static var defaultImage: Self {
+                    .init(rawValue: "defaultImage")
+                }
+
+                public static var fallbackUrl: Self {
+                    .init(rawValue: "fallbackUrl")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var releases: Self {
+                    .init(rawValue: "releases")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterActivityImages
                 public static var gameCenterActivityImages: Relation<[GameCenterActivityImages]?> {
@@ -170,6 +212,11 @@ extension V1.GameCenterActivityLocalizations.ById.GET {
                 /// the fields to include for returned resources of type gameCenterActivityLocalizations
                 public static var gameCenterActivityLocalizations: Relation<[GameCenterActivityLocalizations]?> {
                     .init(key: "fields[gameCenterActivityLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterActivityVersions
+                public static var gameCenterActivityVersions: Relation<[GameCenterActivityVersions]?> {
+                    .init(key: "fields[gameCenterActivityVersions]")
                 }
 
                 internal let key: String

@@ -32,6 +32,8 @@ extension V2.GameCenterAchievementLocalizations.ById {
                              value: parameters.fields[.gameCenterAchievementImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterAchievementLocalizations]",
                              value: parameters.fields[.gameCenterAchievementLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterAchievementVersions]",
+                             value: parameters.fields[.gameCenterAchievementVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -169,6 +171,34 @@ extension V2.GameCenterAchievementLocalizations.ById.GET {
                 }
             }
 
+            public struct GameCenterAchievementVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var achievement: Self {
+                    .init(rawValue: "achievement")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterAchievementImages
                 public static var gameCenterAchievementImages: Relation<[GameCenterAchievementImages]?> {
@@ -178,6 +208,11 @@ extension V2.GameCenterAchievementLocalizations.ById.GET {
                 /// the fields to include for returned resources of type gameCenterAchievementLocalizations
                 public static var gameCenterAchievementLocalizations: Relation<[GameCenterAchievementLocalizations]?> {
                     .init(key: "fields[gameCenterAchievementLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterAchievementVersions
+                public static var gameCenterAchievementVersions: Relation<[GameCenterAchievementVersions]?> {
+                    .init(key: "fields[gameCenterAchievementVersions]")
                 }
 
                 internal let key: String

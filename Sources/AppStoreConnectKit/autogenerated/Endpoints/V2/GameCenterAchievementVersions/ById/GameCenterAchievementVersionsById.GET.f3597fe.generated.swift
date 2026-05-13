@@ -32,6 +32,8 @@ extension V2.GameCenterAchievementVersions.ById {
                              value: parameters.fields[.gameCenterAchievementLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterAchievementVersions]",
                              value: parameters.fields[.gameCenterAchievementVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterAchievements]",
+                             value: parameters.fields[.gameCenterAchievements]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[localizations]",
@@ -165,6 +167,62 @@ extension V2.GameCenterAchievementVersions.ById.GET {
                 }
             }
 
+            public struct GameCenterAchievements: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var activity: Self {
+                    .init(rawValue: "activity")
+                }
+
+                public static var activityProperties: Self {
+                    .init(rawValue: "activityProperties")
+                }
+
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var points: Self {
+                    .init(rawValue: "points")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var repeatable: Self {
+                    .init(rawValue: "repeatable")
+                }
+
+                public static var showBeforeEarned: Self {
+                    .init(rawValue: "showBeforeEarned")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterAchievementLocalizations
                 public static var gameCenterAchievementLocalizations: Relation<[GameCenterAchievementLocalizations]?> {
@@ -174,6 +232,11 @@ extension V2.GameCenterAchievementVersions.ById.GET {
                 /// the fields to include for returned resources of type gameCenterAchievementVersions
                 public static var gameCenterAchievementVersions: Relation<[GameCenterAchievementVersions]?> {
                     .init(key: "fields[gameCenterAchievementVersions]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterAchievements
+                public static var gameCenterAchievements: Relation<[GameCenterAchievements]?> {
+                    .init(key: "fields[gameCenterAchievements]")
                 }
 
                 internal let key: String

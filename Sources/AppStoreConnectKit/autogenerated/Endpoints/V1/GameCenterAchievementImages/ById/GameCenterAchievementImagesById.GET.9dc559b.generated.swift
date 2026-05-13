@@ -31,6 +31,8 @@ extension V1.GameCenterAchievementImages.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[gameCenterAchievementImages]",
                              value: parameters.fields[.gameCenterAchievementImages]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterAchievementLocalizations]",
+                             value: parameters.fields[.gameCenterAchievementLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ","))
             ].filter { $0.value != nil }
@@ -132,10 +134,51 @@ extension V1.GameCenterAchievementImages.ById.GET {
                 }
             }
 
+            public struct GameCenterAchievementLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var afterEarnedDescription: Self {
+                    .init(rawValue: "afterEarnedDescription")
+                }
+
+                public static var beforeEarnedDescription: Self {
+                    .init(rawValue: "beforeEarnedDescription")
+                }
+
+                public static var gameCenterAchievement: Self {
+                    .init(rawValue: "gameCenterAchievement")
+                }
+
+                public static var gameCenterAchievementImage: Self {
+                    .init(rawValue: "gameCenterAchievementImage")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterAchievementImages
                 public static var gameCenterAchievementImages: Relation<[GameCenterAchievementImages]?> {
                     .init(key: "fields[gameCenterAchievementImages]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterAchievementLocalizations
+                public static var gameCenterAchievementLocalizations: Relation<[GameCenterAchievementLocalizations]?> {
+                    .init(key: "fields[gameCenterAchievementLocalizations]")
                 }
 
                 internal let key: String

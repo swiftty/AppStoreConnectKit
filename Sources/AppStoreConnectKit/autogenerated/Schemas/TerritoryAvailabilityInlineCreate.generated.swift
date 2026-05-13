@@ -8,21 +8,102 @@ public struct TerritoryAvailabilityInlineCreate: Hashable, Codable, Sendable {
 
     public var type: `Type`
 
+    public var attributes: Attributes?
+
+    public var relationships: Relationships?
+
     public init(
         id: String? = nil,
-        type: `Type`
+        type: `Type`,
+        attributes: Attributes? = nil,
+        relationships: Relationships? = nil
     ) {
         self.id = id
         self.type = type
+        self.attributes = attributes
+        self.relationships = relationships
     }
 
     private enum CodingKeys: String, CodingKey {
         case id
         case type
+        case attributes
+        case relationships
     }
 
     public enum `Type`: String, Hashable, Codable, Sendable {
         case territoryAvailabilities
+    }
+
+    public struct Attributes: Hashable, Codable, Sendable {
+        public var available: Bool?
+
+        public var preOrderEnabled: Bool?
+
+        public var releaseDate: String?
+
+        public init(
+            available: Bool? = nil,
+            preOrderEnabled: Bool? = nil,
+            releaseDate: String? = nil
+        ) {
+            self.available = available
+            self.preOrderEnabled = preOrderEnabled
+            self.releaseDate = releaseDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case available
+            case preOrderEnabled
+            case releaseDate
+        }
+    }
+
+    public struct Relationships: Hashable, Codable, Sendable {
+        public var territory: Territory?
+
+        public init(territory: Territory? = nil) {
+            self.territory = territory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case territory
+        }
+
+        public struct Territory: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case territories
+                }
+            }
+        }
     }
 }
 

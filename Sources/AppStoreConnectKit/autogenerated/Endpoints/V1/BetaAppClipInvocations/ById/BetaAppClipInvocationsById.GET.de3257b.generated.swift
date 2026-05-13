@@ -28,6 +28,8 @@ extension V1.BetaAppClipInvocations.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[betaAppClipInvocationLocalizations]",
+                             value: parameters.fields[.betaAppClipInvocationLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[betaAppClipInvocations]",
                              value: parameters.fields[.betaAppClipInvocations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -99,6 +101,26 @@ extension V1.BetaAppClipInvocations.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct BetaAppClipInvocationLocalizations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
+                public static var title: Self {
+                    .init(rawValue: "title")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct BetaAppClipInvocations: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var betaAppClipInvocationLocalizations: Self {
                     .init(rawValue: "betaAppClipInvocationLocalizations")
@@ -120,6 +142,11 @@ extension V1.BetaAppClipInvocations.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type betaAppClipInvocationLocalizations
+                public static var betaAppClipInvocationLocalizations: Relation<[BetaAppClipInvocationLocalizations]?> {
+                    .init(key: "fields[betaAppClipInvocationLocalizations]")
+                }
+
                 /// the fields to include for returned resources of type betaAppClipInvocations
                 public static var betaAppClipInvocations: Relation<[BetaAppClipInvocations]?> {
                     .init(key: "fields[betaAppClipInvocations]")

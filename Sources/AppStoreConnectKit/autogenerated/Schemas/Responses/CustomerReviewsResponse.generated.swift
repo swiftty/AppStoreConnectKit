@@ -6,7 +6,7 @@ import Foundation
 public struct CustomerReviewsResponse: Hashable, Codable, Sendable {
     public var data: [CustomerReview]
 
-    public var included: [CustomerReviewResponseV1]?
+    public var included: [Included]?
 
     public var links: PagedDocumentLinks
 
@@ -14,7 +14,7 @@ public struct CustomerReviewsResponse: Hashable, Codable, Sendable {
 
     public init(
         data: [CustomerReview],
-        included: [CustomerReviewResponseV1]? = nil,
+        included: [Included]? = nil,
         links: PagedDocumentLinks,
         meta: PagingInformation? = nil
     ) {
@@ -29,6 +29,38 @@ public struct CustomerReviewsResponse: Hashable, Codable, Sendable {
         case included
         case links
         case meta
+    }
+
+    public enum Included: Hashable, Codable, Sendable {
+        case customerReviewResponseV1(CustomerReviewResponseV1)
+        case territory(Territory)
+
+        public init(from decoder: Decoder) throws {
+            self = try {
+                var lastError: Error!
+                do {
+                    return .customerReviewResponseV1(try CustomerReviewResponseV1(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .territory(try Territory(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                throw lastError
+            }()
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            switch self {
+            case .customerReviewResponseV1(let value):
+                try value.encode(to: encoder)
+
+            case .territory(let value):
+                try value.encode(to: encoder)
+            }
+        }
     }
 }
 

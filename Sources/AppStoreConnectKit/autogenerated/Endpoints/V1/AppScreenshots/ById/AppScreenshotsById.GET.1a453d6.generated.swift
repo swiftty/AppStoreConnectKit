@@ -28,6 +28,8 @@ extension V1.AppScreenshots.ById {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[appScreenshotSets]",
+                             value: parameters.fields[.appScreenshotSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appScreenshots]",
                              value: parameters.fields[.appScreenshots]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -95,6 +97,38 @@ extension V1.AppScreenshots.ById.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct AppScreenshotSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPageLocalization: Self {
+                    .init(rawValue: "appCustomProductPageLocalization")
+                }
+
+                public static var appScreenshots: Self {
+                    .init(rawValue: "appScreenshots")
+                }
+
+                public static var appStoreVersionExperimentTreatmentLocalization: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatmentLocalization")
+                }
+
+                public static var appStoreVersionLocalization: Self {
+                    .init(rawValue: "appStoreVersionLocalization")
+                }
+
+                public static var screenshotDisplayType: Self {
+                    .init(rawValue: "screenshotDisplayType")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct AppScreenshots: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appScreenshotSet: Self {
                     .init(rawValue: "appScreenshotSet")
@@ -144,6 +178,11 @@ extension V1.AppScreenshots.ById.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type appScreenshotSets
+                public static var appScreenshotSets: Relation<[AppScreenshotSets]?> {
+                    .init(key: "fields[appScreenshotSets]")
+                }
+
                 /// the fields to include for returned resources of type appScreenshots
                 public static var appScreenshots: Relation<[AppScreenshots]?> {
                     .init(key: "fields[appScreenshots]")

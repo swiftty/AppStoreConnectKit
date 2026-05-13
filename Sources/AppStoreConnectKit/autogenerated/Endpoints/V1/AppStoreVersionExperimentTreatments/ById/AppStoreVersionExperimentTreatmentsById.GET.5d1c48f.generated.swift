@@ -32,6 +32,8 @@ extension V1.AppStoreVersionExperimentTreatments.ById {
                              value: parameters.fields[.appStoreVersionExperimentTreatmentLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appStoreVersionExperimentTreatments]",
                              value: parameters.fields[.appStoreVersionExperimentTreatments]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appStoreVersionExperiments]",
+                             value: parameters.fields[.appStoreVersionExperiments]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[appStoreVersionExperimentTreatmentLocalizations]",
@@ -169,6 +171,66 @@ extension V1.AppStoreVersionExperimentTreatments.ById.GET {
                 }
             }
 
+            public struct AppStoreVersionExperiments: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var app: Self {
+                    .init(rawValue: "app")
+                }
+
+                public static var appStoreVersion: Self {
+                    .init(rawValue: "appStoreVersion")
+                }
+
+                public static var appStoreVersionExperimentTreatments: Self {
+                    .init(rawValue: "appStoreVersionExperimentTreatments")
+                }
+
+                public static var controlVersions: Self {
+                    .init(rawValue: "controlVersions")
+                }
+
+                public static var endDate: Self {
+                    .init(rawValue: "endDate")
+                }
+
+                public static var latestControlVersion: Self {
+                    .init(rawValue: "latestControlVersion")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var platform: Self {
+                    .init(rawValue: "platform")
+                }
+
+                public static var reviewRequired: Self {
+                    .init(rawValue: "reviewRequired")
+                }
+
+                public static var startDate: Self {
+                    .init(rawValue: "startDate")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var trafficProportion: Self {
+                    .init(rawValue: "trafficProportion")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type appStoreVersionExperimentTreatmentLocalizations
                 public static var appStoreVersionExperimentTreatmentLocalizations: Relation<[AppStoreVersionExperimentTreatmentLocalizations]?> {
@@ -178,6 +240,11 @@ extension V1.AppStoreVersionExperimentTreatments.ById.GET {
                 /// the fields to include for returned resources of type appStoreVersionExperimentTreatments
                 public static var appStoreVersionExperimentTreatments: Relation<[AppStoreVersionExperimentTreatments]?> {
                     .init(key: "fields[appStoreVersionExperimentTreatments]")
+                }
+
+                /// the fields to include for returned resources of type appStoreVersionExperiments
+                public static var appStoreVersionExperiments: Relation<[AppStoreVersionExperiments]?> {
+                    .init(key: "fields[appStoreVersionExperiments]")
                 }
 
                 internal let key: String

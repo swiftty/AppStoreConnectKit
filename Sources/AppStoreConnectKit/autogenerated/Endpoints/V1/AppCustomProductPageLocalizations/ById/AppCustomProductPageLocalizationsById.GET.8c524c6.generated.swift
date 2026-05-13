@@ -30,6 +30,8 @@ extension V1.AppCustomProductPageLocalizations.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[appCustomProductPageLocalizations]",
                              value: parameters.fields[.appCustomProductPageLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[appCustomProductPageVersions]",
+                             value: parameters.fields[.appCustomProductPageVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appPreviewSets]",
                              value: parameters.fields[.appPreviewSets]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[appScreenshotSets]",
@@ -143,6 +145,38 @@ extension V1.AppCustomProductPageLocalizations.ById.GET {
                 }
             }
 
+            public struct AppCustomProductPageVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var appCustomProductPage: Self {
+                    .init(rawValue: "appCustomProductPage")
+                }
+
+                public static var appCustomProductPageLocalizations: Self {
+                    .init(rawValue: "appCustomProductPageLocalizations")
+                }
+
+                public static var deepLink: Self {
+                    .init(rawValue: "deepLink")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct AppPreviewSets: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appCustomProductPageLocalization: Self {
                     .init(rawValue: "appCustomProductPageLocalization")
@@ -211,6 +245,11 @@ extension V1.AppCustomProductPageLocalizations.ById.GET {
                 /// the fields to include for returned resources of type appCustomProductPageLocalizations
                 public static var appCustomProductPageLocalizations: Relation<[AppCustomProductPageLocalizations]?> {
                     .init(key: "fields[appCustomProductPageLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type appCustomProductPageVersions
+                public static var appCustomProductPageVersions: Relation<[AppCustomProductPageVersions]?> {
+                    .init(key: "fields[appCustomProductPageVersions]")
                 }
 
                 /// the fields to include for returned resources of type appPreviewSets

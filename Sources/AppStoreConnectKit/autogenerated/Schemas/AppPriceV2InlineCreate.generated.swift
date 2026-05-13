@@ -8,21 +8,97 @@ public struct AppPriceV2InlineCreate: Hashable, Codable, Sendable {
 
     public var type: `Type`
 
+    public var attributes: Attributes?
+
+    public var relationships: Relationships?
+
     public init(
         id: String? = nil,
-        type: `Type`
+        type: `Type`,
+        attributes: Attributes? = nil,
+        relationships: Relationships? = nil
     ) {
         self.id = id
         self.type = type
+        self.attributes = attributes
+        self.relationships = relationships
     }
 
     private enum CodingKeys: String, CodingKey {
         case id
         case type
+        case attributes
+        case relationships
     }
 
     public enum `Type`: String, Hashable, Codable, Sendable {
         case appPrices
+    }
+
+    public struct Attributes: Hashable, Codable, Sendable {
+        public var endDate: String?
+
+        public var startDate: String?
+
+        public init(
+            endDate: String? = nil,
+            startDate: String? = nil
+        ) {
+            self.endDate = endDate
+            self.startDate = startDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate
+            case startDate
+        }
+    }
+
+    public struct Relationships: Hashable, Codable, Sendable {
+        public var appPricePoint: AppPricePoint?
+
+        public init(appPricePoint: AppPricePoint? = nil) {
+            self.appPricePoint = appPricePoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appPricePoint
+        }
+
+        public struct AppPricePoint: Hashable, Codable, Sendable {
+            public var data: Data?
+
+            public init(data: Data? = nil) {
+                self.data = data
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case appPricePoints
+                }
+            }
+        }
     }
 }
 

@@ -25,6 +25,10 @@ extension V1.ScmRepositories {
             components?.path = path
 
             components?.queryItems = [
+                URLQueryItem(name: "fields[scmGitReferences]",
+                             value: parameters.fields[.scmGitReferences]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[scmProviders]",
+                             value: parameters.fields[.scmProviders]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[scmRepositories]",
                              value: parameters.fields[.scmRepositories]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[id]",
@@ -97,6 +101,62 @@ extension V1.ScmRepositories.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct ScmGitReferences: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var canonicalName: Self {
+                    .init(rawValue: "canonicalName")
+                }
+
+                public static var isDeleted: Self {
+                    .init(rawValue: "isDeleted")
+                }
+
+                public static var kind: Self {
+                    .init(rawValue: "kind")
+                }
+
+                public static var name: Self {
+                    .init(rawValue: "name")
+                }
+
+                public static var repository: Self {
+                    .init(rawValue: "repository")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct ScmProviders: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var repositories: Self {
+                    .init(rawValue: "repositories")
+                }
+
+                public static var scmProviderType: Self {
+                    .init(rawValue: "scmProviderType")
+                }
+
+                public static var url: Self {
+                    .init(rawValue: "url")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct ScmRepositories: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var defaultBranch: Self {
                     .init(rawValue: "defaultBranch")
@@ -146,6 +206,16 @@ extension V1.ScmRepositories.GET {
             }
 
             public struct Relation<T>: Hashable {
+                /// the fields to include for returned resources of type scmGitReferences
+                public static var scmGitReferences: Relation<[ScmGitReferences]?> {
+                    .init(key: "fields[scmGitReferences]")
+                }
+
+                /// the fields to include for returned resources of type scmProviders
+                public static var scmProviders: Relation<[ScmProviders]?> {
+                    .init(key: "fields[scmProviders]")
+                }
+
                 /// the fields to include for returned resources of type scmRepositories
                 public static var scmRepositories: Relation<[ScmRepositories]?> {
                     .init(key: "fields[scmRepositories]")

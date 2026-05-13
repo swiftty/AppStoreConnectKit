@@ -32,8 +32,12 @@ extension V1.GameCenterChallengeVersions.ById {
                              value: parameters.fields[.gameCenterChallengeImages]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterChallengeLocalizations]",
                              value: parameters.fields[.gameCenterChallengeLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterChallengeVersionReleases]",
+                             value: parameters.fields[.gameCenterChallengeVersionReleases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterChallengeVersions]",
                              value: parameters.fields[.gameCenterChallengeVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[gameCenterChallenges]",
+                             value: parameters.fields[.gameCenterChallenges]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit[localizations]",
@@ -169,6 +173,22 @@ extension V1.GameCenterChallengeVersions.ById.GET {
                 }
             }
 
+            public struct GameCenterChallengeVersionReleases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct GameCenterChallengeVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var challenge: Self {
                     .init(rawValue: "challenge")
@@ -205,6 +225,58 @@ extension V1.GameCenterChallengeVersions.ById.GET {
                 }
             }
 
+            public struct GameCenterChallenges: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var archived: Self {
+                    .init(rawValue: "archived")
+                }
+
+                public static var challengeType: Self {
+                    .init(rawValue: "challengeType")
+                }
+
+                public static var gameCenterDetail: Self {
+                    .init(rawValue: "gameCenterDetail")
+                }
+
+                public static var gameCenterGroup: Self {
+                    .init(rawValue: "gameCenterGroup")
+                }
+
+                public static var leaderboard: Self {
+                    .init(rawValue: "leaderboard")
+                }
+
+                public static var leaderboardV2: Self {
+                    .init(rawValue: "leaderboardV2")
+                }
+
+                public static var referenceName: Self {
+                    .init(rawValue: "referenceName")
+                }
+
+                public static var repeatable: Self {
+                    .init(rawValue: "repeatable")
+                }
+
+                public static var vendorIdentifier: Self {
+                    .init(rawValue: "vendorIdentifier")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
                 /// the fields to include for returned resources of type gameCenterChallengeImages
                 public static var gameCenterChallengeImages: Relation<[GameCenterChallengeImages]?> {
@@ -216,9 +288,19 @@ extension V1.GameCenterChallengeVersions.ById.GET {
                     .init(key: "fields[gameCenterChallengeLocalizations]")
                 }
 
+                /// the fields to include for returned resources of type gameCenterChallengeVersionReleases
+                public static var gameCenterChallengeVersionReleases: Relation<[GameCenterChallengeVersionReleases]?> {
+                    .init(key: "fields[gameCenterChallengeVersionReleases]")
+                }
+
                 /// the fields to include for returned resources of type gameCenterChallengeVersions
                 public static var gameCenterChallengeVersions: Relation<[GameCenterChallengeVersions]?> {
                     .init(key: "fields[gameCenterChallengeVersions]")
+                }
+
+                /// the fields to include for returned resources of type gameCenterChallenges
+                public static var gameCenterChallenges: Relation<[GameCenterChallenges]?> {
+                    .init(key: "fields[gameCenterChallenges]")
                 }
 
                 internal let key: String
