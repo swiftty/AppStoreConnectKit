@@ -1830,6 +1830,16 @@ public enum V1 {
         }
     }
 
+    public enum SubscriptionPlanAvailabilities {
+        public enum ById {
+            public enum AvailableTerritories {}
+
+            public enum Relationships {
+                public enum AvailableTerritories {}
+            }
+        }
+    }
+
     public enum SubscriptionPricePoints {
         public enum ById {
             public enum Equalizations {}
@@ -1866,6 +1876,8 @@ public enum V1 {
 
             public enum OfferCodes {}
 
+            public enum PlanAvailabilities {}
+
             public enum PricePoints {}
 
             public enum Prices {}
@@ -1882,6 +1894,8 @@ public enum V1 {
                 public enum IntroductoryOffers {}
 
                 public enum OfferCodes {}
+
+                public enum PlanAvailabilities {}
 
                 public enum PricePoints {}
 

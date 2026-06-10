@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppCustomProductPageLocalizations.ById.Relationships.AppScreenshotSets {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = AppCustomProductPageLocalizationAppScreenshotSetsLinkagesResponse
 

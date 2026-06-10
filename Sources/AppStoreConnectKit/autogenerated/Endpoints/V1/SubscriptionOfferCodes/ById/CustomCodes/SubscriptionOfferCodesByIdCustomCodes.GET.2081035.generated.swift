@@ -195,6 +195,10 @@ extension V1.SubscriptionOfferCodes.ById.CustomCodes.GET {
                     .init(rawValue: "subscription")
                 }
 
+                public static var targetSubscriptionPlanType: Self {
+                    .init(rawValue: "targetSubscriptionPlanType")
+                }
+
                 public static var totalNumberOfCodes: Self {
                     .init(rawValue: "totalNumberOfCodes")
                 }

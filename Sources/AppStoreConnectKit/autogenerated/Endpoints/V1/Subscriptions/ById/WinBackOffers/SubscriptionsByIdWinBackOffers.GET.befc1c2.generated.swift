@@ -177,6 +177,10 @@ extension V1.Subscriptions.ById.WinBackOffers.GET {
                     .init(rawValue: "startDate")
                 }
 
+                public static var targetSubscriptionPlanType: Self {
+                    .init(rawValue: "targetSubscriptionPlanType")
+                }
+
                 public var description: String {
                     rawValue
                 }

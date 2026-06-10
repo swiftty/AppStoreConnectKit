@@ -331,10 +331,6 @@ extension V1.Apps.ById.AppInfos.GET {
                     .init(rawValue: "franceAgeRating")
                 }
 
-                public static var kidsAgeBand: Self {
-                    .init(rawValue: "kidsAgeBand")
-                }
-
                 public static var koreaAgeRating: Self {
                     .init(rawValue: "koreaAgeRating")
                 }

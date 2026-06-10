@@ -72,8 +72,10 @@ public struct AppEventLocalization: Hashable, Codable, Sendable {
     public struct Relationships: Hashable, Codable, Sendable {
         public var appEvent: AppEvent?
 
+        @available(*, deprecated)
         public var appEventScreenshots: AppEventScreenshots?
 
+        @available(*, deprecated)
         public var appEventVideoClips: AppEventVideoClips?
 
         public init(

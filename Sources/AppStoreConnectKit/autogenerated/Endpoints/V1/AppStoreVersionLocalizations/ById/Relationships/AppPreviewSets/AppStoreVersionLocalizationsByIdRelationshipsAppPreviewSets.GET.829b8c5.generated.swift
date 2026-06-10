@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppStoreVersionLocalizations.ById.Relationships.AppPreviewSets {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = AppStoreVersionLocalizationAppPreviewSetsLinkagesResponse
 

@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.SubscriptionAvailabilities {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = SubscriptionAvailabilityCreateRequest
         public typealias Response = SubscriptionAvailabilityResponse

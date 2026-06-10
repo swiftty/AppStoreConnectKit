@@ -44,6 +44,8 @@ extension V1.Subscriptions.ById {
                              value: parameters.fields[.subscriptionLocalizations]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionOfferCodes]",
                              value: parameters.fields[.subscriptionOfferCodes]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptionPlanAvailabilities]",
+                             value: parameters.fields[.subscriptionPlanAvailabilities]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionPrices]",
                              value: parameters.fields[.subscriptionPrices]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionPromotionalOffers]",
@@ -60,6 +62,8 @@ extension V1.Subscriptions.ById {
                              value: parameters.limit[.introductoryOffers].map { "\($0)" }),
                 URLQueryItem(name: "limit[offerCodes]",
                              value: parameters.limit[.offerCodes].map { "\($0)" }),
+                URLQueryItem(name: "limit[planAvailabilities]",
+                             value: parameters.limit[.planAvailabilities].map { "\($0)" }),
                 URLQueryItem(name: "limit[prices]",
                              value: parameters.limit[.prices].map { "\($0)" }),
                 URLQueryItem(name: "limit[promotionalOffers]",
@@ -330,6 +334,10 @@ extension V1.Subscriptions.ById.GET {
                     .init(rawValue: "subscriptionPricePoint")
                 }
 
+                public static var targetSubscriptionPlanType: Self {
+                    .init(rawValue: "targetSubscriptionPlanType")
+                }
+
                 public static var territory: Self {
                     .init(rawValue: "territory")
                 }
@@ -434,6 +442,10 @@ extension V1.Subscriptions.ById.GET {
                     .init(rawValue: "subscription")
                 }
 
+                public static var targetSubscriptionPlanType: Self {
+                    .init(rawValue: "targetSubscriptionPlanType")
+                }
+
                 public static var totalNumberOfCodes: Self {
                     .init(rawValue: "totalNumberOfCodes")
                 }
@@ -449,7 +461,35 @@ extension V1.Subscriptions.ById.GET {
                 }
             }
 
+            public struct SubscriptionPlanAvailabilities: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var availableInNewTerritories: Self {
+                    .init(rawValue: "availableInNewTerritories")
+                }
+
+                public static var availableTerritories: Self {
+                    .init(rawValue: "availableTerritories")
+                }
+
+                public static var planType: Self {
+                    .init(rawValue: "planType")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct SubscriptionPrices: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var planType: Self {
+                    .init(rawValue: "planType")
+                }
+
                 public static var preserved: Self {
                     .init(rawValue: "preserved")
                 }
@@ -506,6 +546,10 @@ extension V1.Subscriptions.ById.GET {
                     .init(rawValue: "subscription")
                 }
 
+                public static var targetSubscriptionPlanType: Self {
+                    .init(rawValue: "targetSubscriptionPlanType")
+                }
+
                 public var description: String {
                     rawValue
                 }
@@ -548,6 +592,10 @@ extension V1.Subscriptions.ById.GET {
 
                 public static var offerCodes: Self {
                     .init(rawValue: "offerCodes")
+                }
+
+                public static var planAvailabilities: Self {
+                    .init(rawValue: "planAvailabilities")
                 }
 
                 public static var pricePoints: Self {
@@ -658,6 +706,10 @@ extension V1.Subscriptions.ById.GET {
                     .init(rawValue: "startDate")
                 }
 
+                public static var targetSubscriptionPlanType: Self {
+                    .init(rawValue: "targetSubscriptionPlanType")
+                }
+
                 public var description: String {
                     rawValue
                 }
@@ -710,6 +762,11 @@ extension V1.Subscriptions.ById.GET {
                     .init(key: "fields[subscriptionOfferCodes]")
                 }
 
+                /// the fields to include for returned resources of type subscriptionPlanAvailabilities
+                public static var subscriptionPlanAvailabilities: Relation<[SubscriptionPlanAvailabilities]?> {
+                    .init(key: "fields[subscriptionPlanAvailabilities]")
+                }
+
                 /// the fields to include for returned resources of type subscriptionPrices
                 public static var subscriptionPrices: Relation<[SubscriptionPrices]?> {
                     .init(key: "fields[subscriptionPrices]")
@@ -757,6 +814,10 @@ extension V1.Subscriptions.ById.GET {
 
             public static var offerCodes: Self {
                 .init(rawValue: "offerCodes")
+            }
+
+            public static var planAvailabilities: Self {
+                .init(rawValue: "planAvailabilities")
             }
 
             public static var prices: Self {
@@ -816,6 +877,11 @@ extension V1.Subscriptions.ById.GET {
                 /// maximum number of related offerCodes returned (when they are included)
                 public static var offerCodes: Relation<Int?> {
                     .init(key: "limit[offerCodes]")
+                }
+
+                /// maximum number of related planAvailabilities returned (when they are included)
+                public static var planAvailabilities: Relation<Int?> {
+                    .init(key: "limit[planAvailabilities]")
                 }
 
                 /// maximum number of related prices returned (when they are included)

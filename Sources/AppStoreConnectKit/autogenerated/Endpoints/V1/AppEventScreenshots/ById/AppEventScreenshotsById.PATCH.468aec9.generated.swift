@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppEventScreenshots.ById {
+    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = AppEventScreenshotUpdateRequest
         public typealias Response = AppEventScreenshotResponse

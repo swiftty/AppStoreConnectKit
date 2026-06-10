@@ -100,6 +100,10 @@ public struct AppStoreAgeRating: Hashable, Codable, RawRepresentable, CustomStri
         .init(rawValue: "UNRATED")
     }
 
+    public static var zeroZero: Self {
+        .init(rawValue: "ZERO_ZERO")
+    }
+
     public var description: String {
         rawValue
     }

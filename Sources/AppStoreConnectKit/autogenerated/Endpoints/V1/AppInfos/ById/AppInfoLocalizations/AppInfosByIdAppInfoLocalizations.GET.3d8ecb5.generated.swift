@@ -183,10 +183,6 @@ extension V1.AppInfos.ById.AppInfoLocalizations.GET {
                     .init(rawValue: "franceAgeRating")
                 }
 
-                public static var kidsAgeBand: Self {
-                    .init(rawValue: "kidsAgeBand")
-                }
-
                 public static var koreaAgeRating: Self {
                     .init(rawValue: "koreaAgeRating")
                 }

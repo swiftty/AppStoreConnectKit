@@ -83,6 +83,10 @@ public struct PerfPowerMetric: Hashable, Codable, Sendable {
                 .init(rawValue: "MEMORY")
             }
 
+            public static var storage: Self {
+                .init(rawValue: "STORAGE")
+            }
+
             public static var termination: Self {
                 .init(rawValue: "TERMINATION")
             }

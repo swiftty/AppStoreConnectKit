@@ -183,6 +183,8 @@ public struct Subscription: Hashable, Codable, Sendable {
 
         public var offerCodes: OfferCodes?
 
+        public var planAvailabilities: PlanAvailabilities?
+
         public var pricePoints: PricePoints?
 
         public var prices: Prices?
@@ -191,6 +193,7 @@ public struct Subscription: Hashable, Codable, Sendable {
 
         public var promotionalOffers: PromotionalOffers?
 
+        @available(*, deprecated)
         public var subscriptionAvailability: SubscriptionAvailability?
 
         public var subscriptionLocalizations: SubscriptionLocalizations?
@@ -203,6 +206,7 @@ public struct Subscription: Hashable, Codable, Sendable {
             images: Images? = nil,
             introductoryOffers: IntroductoryOffers? = nil,
             offerCodes: OfferCodes? = nil,
+            planAvailabilities: PlanAvailabilities? = nil,
             pricePoints: PricePoints? = nil,
             prices: Prices? = nil,
             promotedPurchase: PromotedPurchase? = nil,
@@ -216,6 +220,7 @@ public struct Subscription: Hashable, Codable, Sendable {
             self.images = images
             self.introductoryOffers = introductoryOffers
             self.offerCodes = offerCodes
+            self.planAvailabilities = planAvailabilities
             self.pricePoints = pricePoints
             self.prices = prices
             self.promotedPurchase = promotedPurchase
@@ -231,6 +236,7 @@ public struct Subscription: Hashable, Codable, Sendable {
             case images
             case introductoryOffers
             case offerCodes
+            case planAvailabilities
             case pricePoints
             case prices
             case promotedPurchase
@@ -454,6 +460,53 @@ public struct Subscription: Hashable, Codable, Sendable {
 
                 public enum `Type`: String, Hashable, Codable, Sendable {
                     case subscriptionOfferCodes
+                }
+            }
+        }
+
+        public struct PlanAvailabilities: Hashable, Codable, Sendable {
+            public var data: [Data]?
+
+            public var links: RelationshipLinks?
+
+            public var meta: PagingInformation?
+
+            public init(
+                data: [Data]? = nil,
+                links: RelationshipLinks? = nil,
+                meta: PagingInformation? = nil
+            ) {
+                self.data = data
+                self.links = links
+                self.meta = meta
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case data
+                case links
+                case meta
+            }
+
+            public struct Data: Hashable, Codable, Sendable {
+                public var id: String
+
+                public var type: `Type`
+
+                public init(
+                    id: String,
+                    type: `Type`
+                ) {
+                    self.id = id
+                    self.type = type
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case type
+                }
+
+                public enum `Type`: String, Hashable, Codable, Sendable {
+                    case subscriptionPlanAvailabilities
                 }
             }
         }

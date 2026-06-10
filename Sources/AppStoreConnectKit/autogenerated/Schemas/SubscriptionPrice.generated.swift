@@ -41,19 +41,24 @@ public struct SubscriptionPrice: Hashable, Codable, Sendable {
     }
 
     public struct Attributes: Hashable, Codable, Sendable {
+        public var planType: SubscriptionPlanType?
+
         public var preserved: Bool?
 
         public var startDate: String?
 
         public init(
+            planType: SubscriptionPlanType? = nil,
             preserved: Bool? = nil,
             startDate: String? = nil
         ) {
+            self.planType = planType
             self.preserved = preserved
             self.startDate = startDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case planType
             case preserved
             case startDate
         }

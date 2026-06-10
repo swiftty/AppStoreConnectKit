@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.Subscriptions.ById.SubscriptionAvailability {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = SubscriptionAvailabilityResponse
 

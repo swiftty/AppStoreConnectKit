@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppEventVideoClips {
+    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = AppEventVideoClipCreateRequest
         public typealias Response = AppEventVideoClipResponse

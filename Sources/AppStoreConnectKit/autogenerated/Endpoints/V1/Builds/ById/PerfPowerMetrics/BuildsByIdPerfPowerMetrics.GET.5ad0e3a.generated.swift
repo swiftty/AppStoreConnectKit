@@ -119,6 +119,10 @@ extension V1.Builds.ById.PerfPowerMetrics.GET {
                     .init(rawValue: "MEMORY")
                 }
 
+                public static var storage: Self {
+                    .init(rawValue: "STORAGE")
+                }
+
                 public static var termination: Self {
                     .init(rawValue: "TERMINATION")
                 }

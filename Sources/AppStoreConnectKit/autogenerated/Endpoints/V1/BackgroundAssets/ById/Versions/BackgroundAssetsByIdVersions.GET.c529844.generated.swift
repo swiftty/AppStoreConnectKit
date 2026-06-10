@@ -46,6 +46,8 @@ extension V1.BackgroundAssets.ById.Versions {
                              value: parameters.filter[.externalBetaReleaseState]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[internalBetaRelease.state]",
                              value: parameters.filter[.internalBetaReleaseState]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[locale]",
+                             value: parameters.filter[.locale]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[platforms]",
                              value: parameters.filter[.platforms]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[state]",
@@ -260,6 +262,10 @@ extension V1.BackgroundAssets.ById.Versions.GET {
 
                 public static var internalBetaRelease: Self {
                     .init(rawValue: "internalBetaRelease")
+                }
+
+                public static var locale: Self {
+                    .init(rawValue: "locale")
                 }
 
                 public static var manifestFile: Self {
@@ -566,6 +572,11 @@ extension V1.BackgroundAssets.ById.Versions.GET {
                 /// filter by attribute 'internalBetaRelease.state'
                 public static var internalBetaReleaseState: Relation<[InternalBetaReleaseState]?> {
                     .init(key: "filter[internalBetaRelease.state]")
+                }
+
+                /// filter by attribute 'locale'
+                public static var locale: Relation<[String]?> {
+                    .init(key: "filter[locale]")
                 }
 
                 /// filter by attribute 'platforms'

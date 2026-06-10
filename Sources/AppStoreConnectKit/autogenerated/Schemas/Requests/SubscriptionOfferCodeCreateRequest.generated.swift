@@ -63,6 +63,8 @@ public struct SubscriptionOfferCodeCreateRequest: Hashable, Codable, Sendable {
 
             public var offerMode: SubscriptionOfferMode
 
+            public var targetSubscriptionPlanType: SubscriptionPlanType?
+
             public init(
                 autoRenewEnabled: Bool? = nil,
                 customerEligibilities: [SubscriptionCustomerEligibility],
@@ -70,7 +72,8 @@ public struct SubscriptionOfferCodeCreateRequest: Hashable, Codable, Sendable {
                 name: String,
                 numberOfPeriods: Int,
                 offerEligibility: SubscriptionOfferEligibility,
-                offerMode: SubscriptionOfferMode
+                offerMode: SubscriptionOfferMode,
+                targetSubscriptionPlanType: SubscriptionPlanType? = nil
             ) {
                 self.autoRenewEnabled = autoRenewEnabled
                 self.customerEligibilities = customerEligibilities
@@ -79,6 +82,7 @@ public struct SubscriptionOfferCodeCreateRequest: Hashable, Codable, Sendable {
                 self.numberOfPeriods = numberOfPeriods
                 self.offerEligibility = offerEligibility
                 self.offerMode = offerMode
+                self.targetSubscriptionPlanType = targetSubscriptionPlanType
             }
 
             private enum CodingKeys: String, CodingKey {
@@ -89,6 +93,7 @@ public struct SubscriptionOfferCodeCreateRequest: Hashable, Codable, Sendable {
                 case numberOfPeriods
                 case offerEligibility
                 case offerMode
+                case targetSubscriptionPlanType
             }
         }
 
