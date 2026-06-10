@@ -139,6 +139,10 @@ extension V1.Subscriptions.ById.IntroductoryOffers.GET {
                     .init(rawValue: "subscriptionPricePoint")
                 }
 
+                public static var targetSubscriptionPlanType: Self {
+                    .init(rawValue: "targetSubscriptionPlanType")
+                }
+
                 public static var territory: Self {
                     .init(rawValue: "territory")
                 }
@@ -217,6 +221,10 @@ extension V1.Subscriptions.ById.IntroductoryOffers.GET {
 
                 public static var offerCodes: Self {
                     .init(rawValue: "offerCodes")
+                }
+
+                public static var planAvailabilities: Self {
+                    .init(rawValue: "planAvailabilities")
                 }
 
                 public static var pricePoints: Self {

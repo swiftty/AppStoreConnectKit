@@ -35,6 +35,7 @@ public struct SubscriptionResponse: Hashable, Codable, Sendable {
         case subscriptionIntroductoryOffer(SubscriptionIntroductoryOffer)
         case subscriptionLocalization(SubscriptionLocalization)
         case subscriptionOfferCode(SubscriptionOfferCode)
+        case subscriptionPlanAvailability(SubscriptionPlanAvailability)
         case subscriptionPrice(SubscriptionPrice)
         case subscriptionPromotionalOffer(SubscriptionPromotionalOffer)
         case winBackOffer(WinBackOffer)
@@ -83,6 +84,11 @@ public struct SubscriptionResponse: Hashable, Codable, Sendable {
                     lastError = error
                 }
                 do {
+                    return .subscriptionPlanAvailability(try SubscriptionPlanAvailability(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
                     return .subscriptionPrice(try SubscriptionPrice(from: decoder))
                 } catch {
                     lastError = error
@@ -125,6 +131,9 @@ public struct SubscriptionResponse: Hashable, Codable, Sendable {
                 try value.encode(to: encoder)
 
             case .subscriptionOfferCode(let value):
+                try value.encode(to: encoder)
+
+            case .subscriptionPlanAvailability(let value):
                 try value.encode(to: encoder)
 
             case .subscriptionPrice(let value):

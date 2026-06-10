@@ -38,6 +38,8 @@ extension V1.Apps.ById.BackgroundAssets {
                              value: parameters.filter[.archived]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[assetPackIdentifier]",
                              value: parameters.filter[.assetPackIdentifier]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[versions.locale]",
+                             value: parameters.filter[.versionsLocale]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[versions.platforms]",
                              value: parameters.filter[.versionsPlatforms]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
@@ -378,6 +380,10 @@ extension V1.Apps.ById.BackgroundAssets.GET {
                     .init(rawValue: "internalBetaRelease")
                 }
 
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
                 public static var manifestFile: Self {
                     .init(rawValue: "manifestFile")
                 }
@@ -526,6 +532,11 @@ extension V1.Apps.ById.BackgroundAssets.GET {
                 /// filter by attribute 'assetPackIdentifier'
                 public static var assetPackIdentifier: Relation<[String]?> {
                     .init(key: "filter[assetPackIdentifier]")
+                }
+
+                /// filter by attribute 'versions.locale'
+                public static var versionsLocale: Relation<[String]?> {
+                    .init(key: "filter[versions.locale]")
                 }
 
                 /// filter by attribute 'versions.platforms'

@@ -61,6 +61,8 @@ public struct SubscriptionOfferCode: Hashable, Codable, Sendable {
 
         public var sandboxCodeCount: Int?
 
+        public var targetSubscriptionPlanType: SubscriptionPlanType?
+
         public var totalNumberOfCodes: Int?
 
         public init(
@@ -74,6 +76,7 @@ public struct SubscriptionOfferCode: Hashable, Codable, Sendable {
             offerMode: SubscriptionOfferMode? = nil,
             productionCodeCount: Int? = nil,
             sandboxCodeCount: Int? = nil,
+            targetSubscriptionPlanType: SubscriptionPlanType? = nil,
             totalNumberOfCodes: Int? = nil
         ) {
             self.active = active
@@ -86,6 +89,7 @@ public struct SubscriptionOfferCode: Hashable, Codable, Sendable {
             self.offerMode = offerMode
             self.productionCodeCount = productionCodeCount
             self.sandboxCodeCount = sandboxCodeCount
+            self.targetSubscriptionPlanType = targetSubscriptionPlanType
             self.totalNumberOfCodes = totalNumberOfCodes
         }
 
@@ -100,6 +104,7 @@ public struct SubscriptionOfferCode: Hashable, Codable, Sendable {
             case offerMode
             case productionCodeCount
             case sandboxCodeCount
+            case targetSubscriptionPlanType
             case totalNumberOfCodes
         }
     }

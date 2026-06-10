@@ -7,6 +7,7 @@ import FoundationNetworking
 #endif
 
 extension V1.AppPreviewSets.ById.Relationships.AppPreviews {
+    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = AppPreviewSetAppPreviewsLinkagesResponse
 

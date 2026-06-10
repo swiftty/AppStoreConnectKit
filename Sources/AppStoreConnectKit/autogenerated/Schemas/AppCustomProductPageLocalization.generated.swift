@@ -62,8 +62,10 @@ public struct AppCustomProductPageLocalization: Hashable, Codable, Sendable {
     public struct Relationships: Hashable, Codable, Sendable {
         public var appCustomProductPageVersion: AppCustomProductPageVersion?
 
+        @available(*, deprecated)
         public var appPreviewSets: AppPreviewSets?
 
+        @available(*, deprecated)
         public var appScreenshotSets: AppScreenshotSets?
 
         public var searchKeywords: SearchKeywords?

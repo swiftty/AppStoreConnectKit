@@ -179,6 +179,10 @@ extension V1.Subscriptions.ById.Images.GET {
                     .init(rawValue: "offerCodes")
                 }
 
+                public static var planAvailabilities: Self {
+                    .init(rawValue: "planAvailabilities")
+                }
+
                 public static var pricePoints: Self {
                     .init(rawValue: "pricePoints")
                 }

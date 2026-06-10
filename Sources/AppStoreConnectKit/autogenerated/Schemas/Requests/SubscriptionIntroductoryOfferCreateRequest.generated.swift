@@ -59,18 +59,22 @@ public struct SubscriptionIntroductoryOfferCreateRequest: Hashable, Codable, Sen
 
             public var startDate: String?
 
+            public var targetSubscriptionPlanType: SubscriptionPlanType?
+
             public init(
                 duration: SubscriptionOfferDuration,
                 endDate: String? = nil,
                 numberOfPeriods: Int,
                 offerMode: SubscriptionOfferMode,
-                startDate: String? = nil
+                startDate: String? = nil,
+                targetSubscriptionPlanType: SubscriptionPlanType? = nil
             ) {
                 self.duration = duration
                 self.endDate = endDate
                 self.numberOfPeriods = numberOfPeriods
                 self.offerMode = offerMode
                 self.startDate = startDate
+                self.targetSubscriptionPlanType = targetSubscriptionPlanType
             }
 
             private enum CodingKeys: String, CodingKey {
@@ -79,6 +83,7 @@ public struct SubscriptionIntroductoryOfferCreateRequest: Hashable, Codable, Sen
                 case numberOfPeriods
                 case offerMode
                 case startDate
+                case targetSubscriptionPlanType
             }
         }
 

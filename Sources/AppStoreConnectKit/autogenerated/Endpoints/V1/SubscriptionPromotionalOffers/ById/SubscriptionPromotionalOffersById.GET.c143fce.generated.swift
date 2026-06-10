@@ -152,6 +152,10 @@ extension V1.SubscriptionPromotionalOffers.ById.GET {
                     .init(rawValue: "subscription")
                 }
 
+                public static var targetSubscriptionPlanType: Self {
+                    .init(rawValue: "targetSubscriptionPlanType")
+                }
+
                 public var description: String {
                     rawValue
                 }
@@ -194,6 +198,10 @@ extension V1.SubscriptionPromotionalOffers.ById.GET {
 
                 public static var offerCodes: Self {
                     .init(rawValue: "offerCodes")
+                }
+
+                public static var planAvailabilities: Self {
+                    .init(rawValue: "planAvailabilities")
                 }
 
                 public static var pricePoints: Self {

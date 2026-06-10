@@ -360,6 +360,10 @@ extension V1.BackgroundAssets.ById.GET {
                     .init(rawValue: "internalBetaRelease")
                 }
 
+                public static var locale: Self {
+                    .init(rawValue: "locale")
+                }
+
                 public static var manifestFile: Self {
                     .init(rawValue: "manifestFile")
                 }

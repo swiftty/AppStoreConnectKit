@@ -434,10 +434,6 @@ extension V1.CiProducts.ById.App.GET {
                     .init(rawValue: "franceAgeRating")
                 }
 
-                public static var kidsAgeBand: Self {
-                    .init(rawValue: "kidsAgeBand")
-                }
-
                 public static var koreaAgeRating: Self {
                     .init(rawValue: "koreaAgeRating")
                 }

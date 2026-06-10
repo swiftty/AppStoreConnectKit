@@ -65,6 +65,8 @@ public struct WinBackOffer: Hashable, Codable, Sendable {
 
         public var startDate: String?
 
+        public var targetSubscriptionPlanType: SubscriptionPlanType?
+
         public init(
             customerEligibilityPaidSubscriptionDurationInMonths: Int? = nil,
             customerEligibilityTimeSinceLastSubscribedInMonths: IntegerRange? = nil,
@@ -77,7 +79,8 @@ public struct WinBackOffer: Hashable, Codable, Sendable {
             priority: Priority? = nil,
             promotionIntent: PromotionIntent? = nil,
             referenceName: String? = nil,
-            startDate: String? = nil
+            startDate: String? = nil,
+            targetSubscriptionPlanType: SubscriptionPlanType? = nil
         ) {
             self.customerEligibilityPaidSubscriptionDurationInMonths = customerEligibilityPaidSubscriptionDurationInMonths
             self.customerEligibilityTimeSinceLastSubscribedInMonths = customerEligibilityTimeSinceLastSubscribedInMonths
@@ -91,6 +94,7 @@ public struct WinBackOffer: Hashable, Codable, Sendable {
             self.promotionIntent = promotionIntent
             self.referenceName = referenceName
             self.startDate = startDate
+            self.targetSubscriptionPlanType = targetSubscriptionPlanType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -106,6 +110,7 @@ public struct WinBackOffer: Hashable, Codable, Sendable {
             case promotionIntent
             case referenceName
             case startDate
+            case targetSubscriptionPlanType
         }
 
         public struct Priority: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {

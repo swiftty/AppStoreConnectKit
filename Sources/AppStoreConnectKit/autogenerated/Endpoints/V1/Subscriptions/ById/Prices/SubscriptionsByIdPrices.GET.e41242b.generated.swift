@@ -34,6 +34,8 @@ extension V1.Subscriptions.ById.Prices {
                              value: parameters.fields[.subscriptionPrices]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[territories]",
                              value: parameters.fields[.territories]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[planType]",
+                             value: parameters.filter[.planType]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[subscriptionPricePoint]",
                              value: parameters.filter[.subscriptionPricePoint]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[territory]",
@@ -143,6 +145,10 @@ extension V1.Subscriptions.ById.Prices.GET {
             }
 
             public struct SubscriptionPrices: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var planType: Self {
+                    .init(rawValue: "planType")
+                }
+
                 public static var preserved: Self {
                     .init(rawValue: "preserved")
                 }
@@ -218,7 +224,32 @@ extension V1.Subscriptions.ById.Prices.GET {
 
             private var values: [AnyHashable: AnyHashable] = [:]
 
+            public struct PlanType: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var monthly: Self {
+                    .init(rawValue: "MONTHLY")
+                }
+
+                public static var upfront: Self {
+                    .init(rawValue: "UPFRONT")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Relation<T>: Hashable {
+                /// filter by attribute 'planType'
+                public static var planType: Relation<[PlanType]?> {
+                    .init(key: "filter[planType]")
+                }
+
                 /// filter by id(s) of related 'subscriptionPricePoint'
                 public static var subscriptionPricePoint: Relation<[String]?> {
                     .init(key: "filter[subscriptionPricePoint]")
