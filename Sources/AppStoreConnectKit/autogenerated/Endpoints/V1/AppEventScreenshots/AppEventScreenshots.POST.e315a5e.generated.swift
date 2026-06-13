@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppEventScreenshots {
-    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = AppEventScreenshotCreateRequest
         public typealias Response = AppEventScreenshotResponse

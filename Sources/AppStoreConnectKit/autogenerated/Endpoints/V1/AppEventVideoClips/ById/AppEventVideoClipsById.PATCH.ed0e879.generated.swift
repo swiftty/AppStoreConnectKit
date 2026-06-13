@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppEventVideoClips.ById {
-    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = AppEventVideoClipUpdateRequest
         public typealias Response = AppEventVideoClipResponse

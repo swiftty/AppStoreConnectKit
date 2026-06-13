@@ -53,10 +53,8 @@ public struct AppStoreVersionExperimentTreatmentLocalization: Hashable, Codable,
     }
 
     public struct Relationships: Hashable, Codable, Sendable {
-        @available(*, deprecated)
         public var appPreviewSets: AppPreviewSets?
 
-        @available(*, deprecated)
         public var appScreenshotSets: AppScreenshotSets?
 
         public var appStoreVersionExperimentTreatment: AppStoreVersionExperimentTreatment?

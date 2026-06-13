@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppEventLocalizations.ById.Relationships.AppEventScreenshots {
-    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = AppEventLocalizationAppEventScreenshotsLinkagesResponse
 

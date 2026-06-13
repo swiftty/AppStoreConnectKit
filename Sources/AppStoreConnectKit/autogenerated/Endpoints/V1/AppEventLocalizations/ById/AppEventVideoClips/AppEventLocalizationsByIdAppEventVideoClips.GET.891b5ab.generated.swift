@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppEventLocalizations.ById.AppEventVideoClips {
-    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = AppEventVideoClipsResponse
 

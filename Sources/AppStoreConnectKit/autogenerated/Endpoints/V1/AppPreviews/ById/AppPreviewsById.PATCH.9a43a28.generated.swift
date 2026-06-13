@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppPreviews.ById {
-    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = AppPreviewUpdateRequest
         public typealias Response = AppPreviewResponse

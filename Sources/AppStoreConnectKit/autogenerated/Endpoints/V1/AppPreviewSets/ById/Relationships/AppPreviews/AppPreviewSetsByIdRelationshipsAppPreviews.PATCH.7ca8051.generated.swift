@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppPreviewSets.ById.Relationships.AppPreviews {
-    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = AppPreviewSetAppPreviewsLinkagesRequest
         public typealias Response = Void

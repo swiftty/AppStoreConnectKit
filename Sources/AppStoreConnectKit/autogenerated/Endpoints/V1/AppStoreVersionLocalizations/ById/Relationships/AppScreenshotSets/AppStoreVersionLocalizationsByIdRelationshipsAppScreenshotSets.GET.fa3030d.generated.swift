@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppStoreVersionLocalizations.ById.Relationships.AppScreenshotSets {
-    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = AppStoreVersionLocalizationAppScreenshotSetsLinkagesResponse
 
