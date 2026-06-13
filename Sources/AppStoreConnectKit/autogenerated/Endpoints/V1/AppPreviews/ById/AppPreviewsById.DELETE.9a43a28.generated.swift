@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppPreviews.ById {
-    @available(*, deprecated)
     public struct DELETE: Endpoint {
         public typealias Parameters = Never
         public typealias Response = Void

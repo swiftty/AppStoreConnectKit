@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppScreenshotSets.ById {
-    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = AppScreenshotSetResponse
 

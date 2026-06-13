@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppScreenshotSets.ById.Relationships.AppScreenshots {
-    @available(*, deprecated)
     public struct PATCH: Endpoint {
         public typealias Parameters = AppScreenshotSetAppScreenshotsLinkagesRequest
         public typealias Response = Void

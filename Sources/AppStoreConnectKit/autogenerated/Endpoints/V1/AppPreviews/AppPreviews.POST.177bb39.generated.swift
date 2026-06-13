@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppPreviews {
-    @available(*, deprecated)
     public struct POST: Endpoint {
         public typealias Parameters = AppPreviewCreateRequest
         public typealias Response = AppPreviewResponse

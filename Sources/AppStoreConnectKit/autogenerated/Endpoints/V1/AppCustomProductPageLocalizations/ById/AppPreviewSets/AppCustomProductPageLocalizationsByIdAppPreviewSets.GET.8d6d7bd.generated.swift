@@ -7,7 +7,6 @@ import FoundationNetworking
 #endif
 
 extension V1.AppCustomProductPageLocalizations.ById.AppPreviewSets {
-    @available(*, deprecated)
     public struct GET: Endpoint {
         public typealias Response = AppPreviewSetsResponse
 
