@@ -30,6 +30,8 @@ extension V1.SubscriptionGroups.ById {
             components?.queryItems = [
                 URLQueryItem(name: "fields[subscriptionGroupLocalizations]",
                              value: parameters.fields[.subscriptionGroupLocalizations]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptionGroupVersions]",
+                             value: parameters.fields[.subscriptionGroupVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionGroups]",
                              value: parameters.fields[.subscriptionGroups]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptions]",
@@ -39,7 +41,9 @@ extension V1.SubscriptionGroups.ById {
                 URLQueryItem(name: "limit[subscriptionGroupLocalizations]",
                              value: parameters.limit[.subscriptionGroupLocalizations].map { "\($0)" }),
                 URLQueryItem(name: "limit[subscriptions]",
-                             value: parameters.limit[.subscriptions].map { "\($0)" })
+                             value: parameters.limit[.subscriptions].map { "\($0)" }),
+                URLQueryItem(name: "limit[versions]",
+                             value: parameters.limit[.versions].map { "\($0)" })
             ].filter { $0.value != nil }
             if components?.queryItems?.isEmpty ?? false {
                 components?.queryItems = nil
@@ -137,6 +141,34 @@ extension V1.SubscriptionGroups.ById.GET {
                 }
             }
 
+            public struct SubscriptionGroupVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscriptionGroup: Self {
+                    .init(rawValue: "subscriptionGroup")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct SubscriptionGroups: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var referenceName: Self {
                     .init(rawValue: "referenceName")
@@ -148,6 +180,10 @@ extension V1.SubscriptionGroups.ById.GET {
 
                 public static var subscriptions: Self {
                     .init(rawValue: "subscriptions")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
                 }
 
                 public var description: String {
@@ -238,6 +274,10 @@ extension V1.SubscriptionGroups.ById.GET {
                     .init(rawValue: "subscriptionPeriod")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public static var winBackOffers: Self {
                     .init(rawValue: "winBackOffers")
                 }
@@ -257,6 +297,11 @@ extension V1.SubscriptionGroups.ById.GET {
                 /// the fields to include for returned resources of type subscriptionGroupLocalizations
                 public static var subscriptionGroupLocalizations: Relation<[SubscriptionGroupLocalizations]?> {
                     .init(key: "fields[subscriptionGroupLocalizations]")
+                }
+
+                /// the fields to include for returned resources of type subscriptionGroupVersions
+                public static var subscriptionGroupVersions: Relation<[SubscriptionGroupVersions]?> {
+                    .init(key: "fields[subscriptionGroupVersions]")
                 }
 
                 /// the fields to include for returned resources of type subscriptionGroups
@@ -284,6 +329,10 @@ extension V1.SubscriptionGroups.ById.GET {
 
             public static var subscriptions: Self {
                 .init(rawValue: "subscriptions")
+            }
+
+            public static var versions: Self {
+                .init(rawValue: "versions")
             }
 
             public var description: String {
@@ -314,6 +363,11 @@ extension V1.SubscriptionGroups.ById.GET {
                 /// maximum number of related subscriptions returned (when they are included)
                 public static var subscriptions: Relation<Int?> {
                     .init(key: "limit[subscriptions]")
+                }
+
+                /// maximum number of related versions returned (when they are included)
+                public static var versions: Relation<Int?> {
+                    .init(key: "limit[versions]")
                 }
 
                 internal let key: String

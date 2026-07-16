@@ -56,6 +56,8 @@ public struct AppInfo: Hashable, Codable, Sendable {
         @available(*, deprecated)
         public var franceAgeRating: FranceAgeRating?
 
+        public var kidsAgeBand: KidsAgeBand?
+
         @available(*, deprecated)
         public var koreaAgeRating: KoreaAgeRating?
 
@@ -68,6 +70,7 @@ public struct AppInfo: Hashable, Codable, Sendable {
             brazilAgeRating: BrazilAgeRating? = nil,
             brazilAgeRatingV2: BrazilAgeRatingV2? = nil,
             franceAgeRating: FranceAgeRating? = nil,
+            kidsAgeBand: KidsAgeBand? = nil,
             koreaAgeRating: KoreaAgeRating? = nil,
             state: State? = nil
         ) {
@@ -77,6 +80,7 @@ public struct AppInfo: Hashable, Codable, Sendable {
             self.brazilAgeRating = brazilAgeRating
             self.brazilAgeRatingV2 = brazilAgeRatingV2
             self.franceAgeRating = franceAgeRating
+            self.kidsAgeBand = kidsAgeBand
             self.koreaAgeRating = koreaAgeRating
             self.state = state
         }
@@ -88,6 +92,7 @@ public struct AppInfo: Hashable, Codable, Sendable {
             case brazilAgeRating
             case brazilAgeRatingV2
             case franceAgeRating
+            case kidsAgeBand
             case koreaAgeRating
             case state
         }

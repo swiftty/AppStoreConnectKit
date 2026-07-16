@@ -48,8 +48,14 @@ extension V1.ReviewSubmissions.ById.Items {
                              value: parameters.fields[.gameCenterLeaderboardSetVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[gameCenterLeaderboardVersions]",
                              value: parameters.fields[.gameCenterLeaderboardVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[inAppPurchaseVersions]",
+                             value: parameters.fields[.inAppPurchaseVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[reviewSubmissionItems]",
                              value: parameters.fields[.reviewSubmissionItems]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptionGroupVersions]",
+                             value: parameters.fields[.subscriptionGroupVersions]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptionVersions]",
+                             value: parameters.fields[.subscriptionVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
@@ -600,6 +606,42 @@ extension V1.ReviewSubmissions.ById.Items.GET {
                 }
             }
 
+            public struct InAppPurchaseVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var image: Self {
+                    .init(rawValue: "image")
+                }
+
+                public static var images: Self {
+                    .init(rawValue: "images")
+                }
+
+                public static var inAppPurchase: Self {
+                    .init(rawValue: "inAppPurchase")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct ReviewSubmissionItems: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appCustomProductPageVersion: Self {
                     .init(rawValue: "appCustomProductPageVersion")
@@ -645,8 +687,84 @@ extension V1.ReviewSubmissions.ById.Items.GET {
                     .init(rawValue: "gameCenterLeaderboardVersion")
                 }
 
+                public static var inAppPurchaseVersion: Self {
+                    .init(rawValue: "inAppPurchaseVersion")
+                }
+
                 public static var state: Self {
                     .init(rawValue: "state")
+                }
+
+                public static var subscriptionGroupVersion: Self {
+                    .init(rawValue: "subscriptionGroupVersion")
+                }
+
+                public static var subscriptionVersion: Self {
+                    .init(rawValue: "subscriptionVersion")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct SubscriptionGroupVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscriptionGroup: Self {
+                    .init(rawValue: "subscriptionGroup")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
+            public struct SubscriptionVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var image: Self {
+                    .init(rawValue: "image")
+                }
+
+                public static var images: Self {
+                    .init(rawValue: "images")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
                 }
 
                 public var description: String {
@@ -711,9 +829,24 @@ extension V1.ReviewSubmissions.ById.Items.GET {
                     .init(key: "fields[gameCenterLeaderboardVersions]")
                 }
 
+                /// the fields to include for returned resources of type inAppPurchaseVersions
+                public static var inAppPurchaseVersions: Relation<[InAppPurchaseVersions]?> {
+                    .init(key: "fields[inAppPurchaseVersions]")
+                }
+
                 /// the fields to include for returned resources of type reviewSubmissionItems
                 public static var reviewSubmissionItems: Relation<[ReviewSubmissionItems]?> {
                     .init(key: "fields[reviewSubmissionItems]")
+                }
+
+                /// the fields to include for returned resources of type subscriptionGroupVersions
+                public static var subscriptionGroupVersions: Relation<[SubscriptionGroupVersions]?> {
+                    .init(key: "fields[subscriptionGroupVersions]")
+                }
+
+                /// the fields to include for returned resources of type subscriptionVersions
+                public static var subscriptionVersions: Relation<[SubscriptionVersions]?> {
+                    .init(key: "fields[subscriptionVersions]")
                 }
 
                 internal let key: String
@@ -767,6 +900,18 @@ extension V1.ReviewSubmissions.ById.Items.GET {
 
             public static var gameCenterLeaderboardVersion: Self {
                 .init(rawValue: "gameCenterLeaderboardVersion")
+            }
+
+            public static var inAppPurchaseVersion: Self {
+                .init(rawValue: "inAppPurchaseVersion")
+            }
+
+            public static var subscriptionGroupVersion: Self {
+                .init(rawValue: "subscriptionGroupVersion")
+            }
+
+            public static var subscriptionVersion: Self {
+                .init(rawValue: "subscriptionVersion")
             }
 
             public var description: String {

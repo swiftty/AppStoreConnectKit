@@ -32,8 +32,12 @@ extension V1.Subscriptions.ById.PricePoints {
                              value: parameters.fields[.subscriptionPricePoints]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[territories]",
                              value: parameters.fields[.territories]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[planType]",
+                             value: parameters.filter[.planType]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "filter[territory]",
                              value: parameters.filter[.territory]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "filter[upfrontPricePointId]",
+                             value: parameters.filter[.upfrontPricePointId]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "include",
                              value: parameters.include?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "limit",
@@ -107,6 +111,10 @@ extension V1.Subscriptions.ById.PricePoints.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct SubscriptionPricePoints: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var adjustedEqualizations: Self {
+                    .init(rawValue: "adjustedEqualizations")
+                }
+
                 public static var customerPrice: Self {
                     .init(rawValue: "customerPrice")
                 }
@@ -182,9 +190,19 @@ extension V1.Subscriptions.ById.PricePoints.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
+                /// filter by planType
+                public static var planType: Relation<[String]?> {
+                    .init(key: "filter[planType]")
+                }
+
                 /// filter by id(s) of related 'territory'
                 public static var territory: Relation<[String]?> {
                     .init(key: "filter[territory]")
+                }
+
+                /// filter by upfrontPricePointId
+                public static var upfrontPricePointId: Relation<[String]?> {
+                    .init(key: "filter[upfrontPricePointId]")
                 }
 
                 internal let key: String

@@ -194,6 +194,10 @@ extension V1.InAppPurchaseContents.ById.GET {
                     .init(rawValue: "state")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public var description: String {
                     rawValue
                 }

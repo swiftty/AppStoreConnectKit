@@ -59,7 +59,13 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
 
             public var gameCenterLeaderboardVersion: GameCenterLeaderboardVersion?
 
+            public var inAppPurchaseVersion: InAppPurchaseVersion?
+
             public var reviewSubmission: ReviewSubmission
+
+            public var subscriptionGroupVersion: SubscriptionGroupVersion?
+
+            public var subscriptionVersion: SubscriptionVersion?
 
             public init(
                 appCustomProductPageVersion: AppCustomProductPageVersion? = nil,
@@ -73,7 +79,10 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
                 gameCenterChallengeVersion: GameCenterChallengeVersion? = nil,
                 gameCenterLeaderboardSetVersion: GameCenterLeaderboardSetVersion? = nil,
                 gameCenterLeaderboardVersion: GameCenterLeaderboardVersion? = nil,
-                reviewSubmission: ReviewSubmission
+                inAppPurchaseVersion: InAppPurchaseVersion? = nil,
+                reviewSubmission: ReviewSubmission,
+                subscriptionGroupVersion: SubscriptionGroupVersion? = nil,
+                subscriptionVersion: SubscriptionVersion? = nil
             ) {
                 self.appCustomProductPageVersion = appCustomProductPageVersion
                 self.appEvent = appEvent
@@ -86,7 +95,10 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
                 self.gameCenterChallengeVersion = gameCenterChallengeVersion
                 self.gameCenterLeaderboardSetVersion = gameCenterLeaderboardSetVersion
                 self.gameCenterLeaderboardVersion = gameCenterLeaderboardVersion
+                self.inAppPurchaseVersion = inAppPurchaseVersion
                 self.reviewSubmission = reviewSubmission
+                self.subscriptionGroupVersion = subscriptionGroupVersion
+                self.subscriptionVersion = subscriptionVersion
             }
 
             private enum CodingKeys: String, CodingKey {
@@ -101,7 +113,10 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
                 case gameCenterChallengeVersion
                 case gameCenterLeaderboardSetVersion
                 case gameCenterLeaderboardVersion
+                case inAppPurchaseVersion
                 case reviewSubmission
+                case subscriptionGroupVersion
+                case subscriptionVersion
             }
 
             public struct AppCustomProductPageVersion: Hashable, Codable, Sendable {
@@ -489,6 +504,41 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
                 }
             }
 
+            public struct InAppPurchaseVersion: Hashable, Codable, Sendable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case inAppPurchaseVersions
+                    }
+                }
+            }
+
             public struct ReviewSubmission: Hashable, Codable, Sendable {
                 public var data: Data
 
@@ -520,6 +570,76 @@ public struct ReviewSubmissionItemCreateRequest: Hashable, Codable, Sendable {
 
                     public enum `Type`: String, Hashable, Codable, Sendable {
                         case reviewSubmissions
+                    }
+                }
+            }
+
+            public struct SubscriptionGroupVersion: Hashable, Codable, Sendable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case subscriptionGroupVersions
+                    }
+                }
+            }
+
+            public struct SubscriptionVersion: Hashable, Codable, Sendable {
+                public var data: Data?
+
+                public init(data: Data? = nil) {
+                    self.data = data
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case data
+                }
+
+                public struct Data: Hashable, Codable, Sendable {
+                    public var id: String
+
+                    public var type: `Type`
+
+                    public init(
+                        id: String,
+                        type: `Type`
+                    ) {
+                        self.id = id
+                        self.type = type
+                    }
+
+                    private enum CodingKeys: String, CodingKey {
+                        case id
+                        case type
+                    }
+
+                    public enum `Type`: String, Hashable, Codable, Sendable {
+                        case subscriptionVersions
                     }
                 }
             }

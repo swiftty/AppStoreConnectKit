@@ -483,6 +483,10 @@ extension V1.Apps.GET {
                     .init(rawValue: "franceAgeRating")
                 }
 
+                public static var kidsAgeBand: Self {
+                    .init(rawValue: "kidsAgeBand")
+                }
+
                 public static var koreaAgeRating: Self {
                     .init(rawValue: "koreaAgeRating")
                 }
@@ -1539,6 +1543,10 @@ extension V1.Apps.GET {
                     .init(rawValue: "state")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public var description: String {
                     rawValue
                 }
@@ -1693,6 +1701,10 @@ extension V1.Apps.GET {
 
                 public static var subscriptions: Self {
                     .init(rawValue: "subscriptions")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
                 }
 
                 public var description: String {

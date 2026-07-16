@@ -65,21 +65,38 @@ public struct SubscriptionPricePoint: Hashable, Codable, Sendable {
     }
 
     public struct Relationships: Hashable, Codable, Sendable {
+        public var adjustedEqualizations: AdjustedEqualizations?
+
         public var equalizations: Equalizations?
 
         public var territory: Territory?
 
         public init(
+            adjustedEqualizations: AdjustedEqualizations? = nil,
             equalizations: Equalizations? = nil,
             territory: Territory? = nil
         ) {
+            self.adjustedEqualizations = adjustedEqualizations
             self.equalizations = equalizations
             self.territory = territory
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adjustedEqualizations
             case equalizations
             case territory
+        }
+
+        public struct AdjustedEqualizations: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
+            }
         }
 
         public struct Equalizations: Hashable, Codable, Sendable {

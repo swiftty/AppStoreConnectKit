@@ -37,6 +37,9 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable, Sendable {
         case gameCenterChallengeVersion(GameCenterChallengeVersion)
         case gameCenterLeaderboardSetVersionV2(GameCenterLeaderboardSetVersionV2)
         case gameCenterLeaderboardVersionV2(GameCenterLeaderboardVersionV2)
+        case inAppPurchaseVersion(InAppPurchaseVersion)
+        case subscriptionGroupVersion(SubscriptionGroupVersion)
+        case subscriptionVersion(SubscriptionVersion)
 
         public init(from decoder: Decoder) throws {
             self = try {
@@ -91,6 +94,21 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable, Sendable {
                 } catch {
                     lastError = error
                 }
+                do {
+                    return .inAppPurchaseVersion(try InAppPurchaseVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .subscriptionGroupVersion(try SubscriptionGroupVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
+                do {
+                    return .subscriptionVersion(try SubscriptionVersion(from: decoder))
+                } catch {
+                    lastError = error
+                }
                 throw lastError
             }()
         }
@@ -125,6 +143,15 @@ public struct ReviewSubmissionItemResponse: Hashable, Codable, Sendable {
                 try value.encode(to: encoder)
 
             case .gameCenterLeaderboardVersionV2(let value):
+                try value.encode(to: encoder)
+
+            case .inAppPurchaseVersion(let value):
+                try value.encode(to: encoder)
+
+            case .subscriptionGroupVersion(let value):
+                try value.encode(to: encoder)
+
+            case .subscriptionVersion(let value):
                 try value.encode(to: encoder)
             }
         }

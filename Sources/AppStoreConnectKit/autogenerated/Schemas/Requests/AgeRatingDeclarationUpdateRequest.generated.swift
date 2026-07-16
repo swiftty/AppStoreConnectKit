@@ -87,6 +87,10 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
 
             public var sexualContentOrNudity: SexualContentOrNudity?
 
+            public var socialMedia: Bool?
+
+            public var socialMediaAgeRestricted: Bool?
+
             public var unrestrictedWebAccess: Bool?
 
             public var userGeneratedContent: Bool?
@@ -120,6 +124,8 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
                 profanityOrCrudeHumor: ProfanityOrCrudeHumor? = nil,
                 sexualContentGraphicAndNudity: SexualContentGraphicAndNudity? = nil,
                 sexualContentOrNudity: SexualContentOrNudity? = nil,
+                socialMedia: Bool? = nil,
+                socialMediaAgeRestricted: Bool? = nil,
                 unrestrictedWebAccess: Bool? = nil,
                 userGeneratedContent: Bool? = nil,
                 violenceCartoonOrFantasy: ViolenceCartoonOrFantasy? = nil,
@@ -148,6 +154,8 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
                 self.profanityOrCrudeHumor = profanityOrCrudeHumor
                 self.sexualContentGraphicAndNudity = sexualContentGraphicAndNudity
                 self.sexualContentOrNudity = sexualContentOrNudity
+                self.socialMedia = socialMedia
+                self.socialMediaAgeRestricted = socialMediaAgeRestricted
                 self.unrestrictedWebAccess = unrestrictedWebAccess
                 self.userGeneratedContent = userGeneratedContent
                 self.violenceCartoonOrFantasy = violenceCartoonOrFantasy
@@ -178,6 +186,8 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
                 case profanityOrCrudeHumor
                 case sexualContentGraphicAndNudity
                 case sexualContentOrNudity
+                case socialMedia
+                case socialMediaAgeRestricted
                 case unrestrictedWebAccess
                 case userGeneratedContent
                 case violenceCartoonOrFantasy

@@ -211,6 +211,10 @@ extension V2.InAppPurchases.ById.Images.GET {
                     .init(rawValue: "state")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public var description: String {
                     rawValue
                 }

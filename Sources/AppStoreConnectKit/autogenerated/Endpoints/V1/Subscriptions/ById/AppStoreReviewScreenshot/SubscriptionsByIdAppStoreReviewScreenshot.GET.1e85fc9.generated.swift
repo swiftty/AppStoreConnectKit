@@ -222,6 +222,10 @@ extension V1.Subscriptions.ById.AppStoreReviewScreenshot.GET {
                     .init(rawValue: "subscriptionPeriod")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public static var winBackOffers: Self {
                     .init(rawValue: "winBackOffers")
                 }

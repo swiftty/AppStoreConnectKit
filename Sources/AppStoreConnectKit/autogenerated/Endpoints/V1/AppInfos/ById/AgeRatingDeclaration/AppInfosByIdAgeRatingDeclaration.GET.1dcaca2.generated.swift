@@ -179,6 +179,14 @@ extension V1.AppInfos.ById.AgeRatingDeclaration.GET {
                     .init(rawValue: "sexualContentOrNudity")
                 }
 
+                public static var socialMedia: Self {
+                    .init(rawValue: "socialMedia")
+                }
+
+                public static var socialMediaAgeRestricted: Self {
+                    .init(rawValue: "socialMediaAgeRestricted")
+                }
+
                 public static var unrestrictedWebAccess: Self {
                     .init(rawValue: "unrestrictedWebAccess")
                 }
