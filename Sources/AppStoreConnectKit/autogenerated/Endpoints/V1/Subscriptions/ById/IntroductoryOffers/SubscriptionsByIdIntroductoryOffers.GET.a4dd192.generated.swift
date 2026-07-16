@@ -159,6 +159,10 @@ extension V1.Subscriptions.ById.IntroductoryOffers.GET {
             }
 
             public struct SubscriptionPricePoints: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var adjustedEqualizations: Self {
+                    .init(rawValue: "adjustedEqualizations")
+                }
+
                 public static var customerPrice: Self {
                     .init(rawValue: "customerPrice")
                 }
@@ -265,6 +269,10 @@ extension V1.Subscriptions.ById.IntroductoryOffers.GET {
 
                 public static var subscriptionPeriod: Self {
                     .init(rawValue: "subscriptionPeriod")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
                 }
 
                 public static var winBackOffers: Self {

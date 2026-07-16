@@ -164,6 +164,10 @@ extension V1.Subscriptions.ById.PromotedPurchase.GET {
                     .init(rawValue: "state")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public var description: String {
                     rawValue
                 }
@@ -282,6 +286,10 @@ extension V1.Subscriptions.ById.PromotedPurchase.GET {
 
                 public static var subscriptionPeriod: Self {
                     .init(rawValue: "subscriptionPeriod")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
                 }
 
                 public static var winBackOffers: Self {

@@ -524,8 +524,20 @@ extension V1.ReviewSubmissions.ById.GET {
                     .init(rawValue: "gameCenterLeaderboardVersion")
                 }
 
+                public static var inAppPurchaseVersion: Self {
+                    .init(rawValue: "inAppPurchaseVersion")
+                }
+
                 public static var state: Self {
                     .init(rawValue: "state")
+                }
+
+                public static var subscriptionGroupVersion: Self {
+                    .init(rawValue: "subscriptionGroupVersion")
+                }
+
+                public static var subscriptionVersion: Self {
+                    .init(rawValue: "subscriptionVersion")
                 }
 
                 public var description: String {

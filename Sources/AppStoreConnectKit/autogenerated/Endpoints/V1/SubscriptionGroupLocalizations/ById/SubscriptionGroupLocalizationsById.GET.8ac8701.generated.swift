@@ -142,6 +142,10 @@ extension V1.SubscriptionGroupLocalizations.ById.GET {
                     .init(rawValue: "subscriptions")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public var description: String {
                     rawValue
                 }

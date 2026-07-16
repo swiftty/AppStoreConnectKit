@@ -42,6 +42,8 @@ extension V1.Apps.ById.InAppPurchasesV2 {
                              value: parameters.fields[.inAppPurchaseOfferCodes]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchasePriceSchedules]",
                              value: parameters.fields[.inAppPurchasePriceSchedules]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[inAppPurchaseVersions]",
+                             value: parameters.fields[.inAppPurchaseVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[inAppPurchases]",
                              value: parameters.fields[.inAppPurchases]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[promotedPurchases]",
@@ -62,6 +64,8 @@ extension V1.Apps.ById.InAppPurchasesV2 {
                              value: parameters.limit[.inAppPurchaseLocalizations].map { "\($0)" }),
                 URLQueryItem(name: "limit[offerCodes]",
                              value: parameters.limit[.offerCodes].map { "\($0)" }),
+                URLQueryItem(name: "limit[versions]",
+                             value: parameters.limit[.versions].map { "\($0)" }),
                 URLQueryItem(name: "limit",
                              value: parameters.limit[].map { "\($0)" }),
                 URLQueryItem(name: "sort",
@@ -381,6 +385,42 @@ extension V1.Apps.ById.InAppPurchasesV2.GET {
                 }
             }
 
+            public struct InAppPurchaseVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var image: Self {
+                    .init(rawValue: "image")
+                }
+
+                public static var images: Self {
+                    .init(rawValue: "images")
+                }
+
+                public static var inAppPurchase: Self {
+                    .init(rawValue: "inAppPurchase")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct InAppPurchases: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appStoreReviewScreenshot: Self {
                     .init(rawValue: "appStoreReviewScreenshot")
@@ -444,6 +484,10 @@ extension V1.Apps.ById.InAppPurchasesV2.GET {
 
                 public static var state: Self {
                     .init(rawValue: "state")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
                 }
 
                 public var description: String {
@@ -523,6 +567,11 @@ extension V1.Apps.ById.InAppPurchasesV2.GET {
                 /// the fields to include for returned resources of type inAppPurchasePriceSchedules
                 public static var inAppPurchasePriceSchedules: Relation<[InAppPurchasePriceSchedules]?> {
                     .init(key: "fields[inAppPurchasePriceSchedules]")
+                }
+
+                /// the fields to include for returned resources of type inAppPurchaseVersions
+                public static var inAppPurchaseVersions: Relation<[InAppPurchaseVersions]?> {
+                    .init(key: "fields[inAppPurchaseVersions]")
                 }
 
                 /// the fields to include for returned resources of type inAppPurchases
@@ -697,6 +746,10 @@ extension V1.Apps.ById.InAppPurchasesV2.GET {
                 .init(rawValue: "promotedPurchase")
             }
 
+            public static var versions: Self {
+                .init(rawValue: "versions")
+            }
+
             public var description: String {
                 rawValue
             }
@@ -735,6 +788,11 @@ extension V1.Apps.ById.InAppPurchasesV2.GET {
                 /// maximum number of related offerCodes returned (when they are included)
                 public static var offerCodes: Relation<Int?> {
                     .init(key: "limit[offerCodes]")
+                }
+
+                /// maximum number of related versions returned (when they are included)
+                public static var versions: Relation<Int?> {
+                    .init(key: "limit[versions]")
                 }
 
                 internal let key: String

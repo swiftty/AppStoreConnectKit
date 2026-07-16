@@ -50,6 +50,8 @@ extension V1.Subscriptions.ById {
                              value: parameters.fields[.subscriptionPrices]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptionPromotionalOffers]",
                              value: parameters.fields[.subscriptionPromotionalOffers]?.map { "\($0)" }.joined(separator: ",")),
+                URLQueryItem(name: "fields[subscriptionVersions]",
+                             value: parameters.fields[.subscriptionVersions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[subscriptions]",
                              value: parameters.fields[.subscriptions]?.map { "\($0)" }.joined(separator: ",")),
                 URLQueryItem(name: "fields[winBackOffers]",
@@ -70,6 +72,8 @@ extension V1.Subscriptions.ById {
                              value: parameters.limit[.promotionalOffers].map { "\($0)" }),
                 URLQueryItem(name: "limit[subscriptionLocalizations]",
                              value: parameters.limit[.subscriptionLocalizations].map { "\($0)" }),
+                URLQueryItem(name: "limit[versions]",
+                             value: parameters.limit[.versions].map { "\($0)" }),
                 URLQueryItem(name: "limit[winBackOffers]",
                              value: parameters.limit[.winBackOffers].map { "\($0)" })
             ].filter { $0.value != nil }
@@ -248,6 +252,10 @@ extension V1.Subscriptions.ById.GET {
 
                 public static var subscriptions: Self {
                     .init(rawValue: "subscriptions")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
                 }
 
                 public var description: String {
@@ -561,6 +569,42 @@ extension V1.Subscriptions.ById.GET {
                 }
             }
 
+            public struct SubscriptionVersions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var image: Self {
+                    .init(rawValue: "image")
+                }
+
+                public static var images: Self {
+                    .init(rawValue: "images")
+                }
+
+                public static var localizations: Self {
+                    .init(rawValue: "localizations")
+                }
+
+                public static var state: Self {
+                    .init(rawValue: "state")
+                }
+
+                public static var subscription: Self {
+                    .init(rawValue: "subscription")
+                }
+
+                public static var version: Self {
+                    .init(rawValue: "version")
+                }
+
+                public var description: String {
+                    rawValue
+                }
+
+                public var rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
+
             public struct Subscriptions: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
                 public static var appStoreReviewScreenshot: Self {
                     .init(rawValue: "appStoreReviewScreenshot")
@@ -636,6 +680,10 @@ extension V1.Subscriptions.ById.GET {
 
                 public static var subscriptionPeriod: Self {
                     .init(rawValue: "subscriptionPeriod")
+                }
+
+                public static var versions: Self {
+                    .init(rawValue: "versions")
                 }
 
                 public static var winBackOffers: Self {
@@ -777,6 +825,11 @@ extension V1.Subscriptions.ById.GET {
                     .init(key: "fields[subscriptionPromotionalOffers]")
                 }
 
+                /// the fields to include for returned resources of type subscriptionVersions
+                public static var subscriptionVersions: Relation<[SubscriptionVersions]?> {
+                    .init(key: "fields[subscriptionVersions]")
+                }
+
                 /// the fields to include for returned resources of type subscriptions
                 public static var subscriptions: Relation<[Subscriptions]?> {
                     .init(key: "fields[subscriptions]")
@@ -840,6 +893,10 @@ extension V1.Subscriptions.ById.GET {
                 .init(rawValue: "subscriptionLocalizations")
             }
 
+            public static var versions: Self {
+                .init(rawValue: "versions")
+            }
+
             public static var winBackOffers: Self {
                 .init(rawValue: "winBackOffers")
             }
@@ -897,6 +954,11 @@ extension V1.Subscriptions.ById.GET {
                 /// maximum number of related subscriptionLocalizations returned (when they are included)
                 public static var subscriptionLocalizations: Relation<Int?> {
                     .init(key: "limit[subscriptionLocalizations]")
+                }
+
+                /// maximum number of related versions returned (when they are included)
+                public static var versions: Relation<Int?> {
+                    .init(key: "limit[versions]")
                 }
 
                 /// maximum number of related winBackOffers returned (when they are included)

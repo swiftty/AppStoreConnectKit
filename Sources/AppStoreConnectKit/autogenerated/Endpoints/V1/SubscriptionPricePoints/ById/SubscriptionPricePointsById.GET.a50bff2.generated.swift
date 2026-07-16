@@ -98,6 +98,10 @@ extension V1.SubscriptionPricePoints.ById.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct SubscriptionPricePoints: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var adjustedEqualizations: Self {
+                    .init(rawValue: "adjustedEqualizations")
+                }
+
                 public static var customerPrice: Self {
                     .init(rawValue: "customerPrice")
                 }

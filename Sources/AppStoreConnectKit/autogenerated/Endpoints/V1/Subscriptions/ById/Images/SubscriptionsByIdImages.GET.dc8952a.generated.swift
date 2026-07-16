@@ -223,6 +223,10 @@ extension V1.Subscriptions.ById.Images.GET {
                     .init(rawValue: "subscriptionPeriod")
                 }
 
+                public static var versions: Self {
+                    .init(rawValue: "versions")
+                }
+
                 public static var winBackOffers: Self {
                     .init(rawValue: "winBackOffers")
                 }

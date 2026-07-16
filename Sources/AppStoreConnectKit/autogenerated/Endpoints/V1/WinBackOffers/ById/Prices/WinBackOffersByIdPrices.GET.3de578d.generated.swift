@@ -109,6 +109,10 @@ extension V1.WinBackOffers.ById.Prices.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct SubscriptionPricePoints: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var adjustedEqualizations: Self {
+                    .init(rawValue: "adjustedEqualizations")
+                }
+
                 public static var customerPrice: Self {
                     .init(rawValue: "customerPrice")
                 }

@@ -196,6 +196,14 @@ extension V1.AppInfos.ById.GET {
                     .init(rawValue: "sexualContentOrNudity")
                 }
 
+                public static var socialMedia: Self {
+                    .init(rawValue: "socialMedia")
+                }
+
+                public static var socialMediaAgeRestricted: Self {
+                    .init(rawValue: "socialMediaAgeRestricted")
+                }
+
                 public static var unrestrictedWebAccess: Self {
                     .init(rawValue: "unrestrictedWebAccess")
                 }
@@ -326,6 +334,10 @@ extension V1.AppInfos.ById.GET {
 
                 public static var franceAgeRating: Self {
                     .init(rawValue: "franceAgeRating")
+                }
+
+                public static var kidsAgeBand: Self {
+                    .init(rawValue: "kidsAgeBand")
                 }
 
                 public static var koreaAgeRating: Self {

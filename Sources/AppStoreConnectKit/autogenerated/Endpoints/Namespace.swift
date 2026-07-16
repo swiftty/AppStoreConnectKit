@@ -1628,6 +1628,24 @@ public enum V1 {
 
     public enum InAppPurchaseSubmissions {}
 
+    public enum InAppPurchaseVersions {
+        public enum ById {
+            public enum Image {}
+
+            public enum Images {}
+
+            public enum Localizations {}
+
+            public enum Relationships {
+                public enum Image {}
+
+                public enum Images {}
+
+                public enum Localizations {}
+            }
+        }
+    }
+
     public enum InAppPurchases {
         public enum ById {}
     }
@@ -1776,17 +1794,31 @@ public enum V1 {
 
     public enum SubscriptionGroupSubmissions {}
 
+    public enum SubscriptionGroupVersions {
+        public enum ById {
+            public enum Localizations {}
+
+            public enum Relationships {
+                public enum Localizations {}
+            }
+        }
+    }
+
     public enum SubscriptionGroups {
         public enum ById {
             public enum Relationships {
                 public enum SubscriptionGroupLocalizations {}
 
                 public enum Subscriptions {}
+
+                public enum Versions {}
             }
 
             public enum SubscriptionGroupLocalizations {}
 
             public enum Subscriptions {}
+
+            public enum Versions {}
         }
     }
 
@@ -1842,6 +1874,8 @@ public enum V1 {
 
     public enum SubscriptionPricePoints {
         public enum ById {
+            public enum AdjustedEqualizations {}
+
             public enum Equalizations {}
 
             public enum Relationships {
@@ -1865,6 +1899,24 @@ public enum V1 {
     }
 
     public enum SubscriptionSubmissions {}
+
+    public enum SubscriptionVersions {
+        public enum ById {
+            public enum Image {}
+
+            public enum Images {}
+
+            public enum Localizations {}
+
+            public enum Relationships {
+                public enum Image {}
+
+                public enum Images {}
+
+                public enum Localizations {}
+            }
+        }
+    }
 
     public enum Subscriptions {
         public enum ById {
@@ -1909,12 +1961,16 @@ public enum V1 {
 
                 public enum SubscriptionLocalizations {}
 
+                public enum Versions {}
+
                 public enum WinBackOffers {}
             }
 
             public enum SubscriptionAvailability {}
 
             public enum SubscriptionLocalizations {}
+
+            public enum Versions {}
 
             public enum WinBackOffers {}
         }
@@ -2103,6 +2159,14 @@ public enum V2 {
         }
     }
 
+    public enum InAppPurchaseImages {
+        public enum ById {}
+    }
+
+    public enum InAppPurchaseLocalizations {
+        public enum ById {}
+    }
+
     public enum InAppPurchases {
         public enum ById {
             public enum AppStoreReviewScreenshot {}
@@ -2141,7 +2205,11 @@ public enum V2 {
                 public enum PricePoints {}
 
                 public enum PromotedPurchase {}
+
+                public enum Versions {}
             }
+
+            public enum Versions {}
         }
     }
 
@@ -2150,6 +2218,18 @@ public enum V2 {
     }
 
     public enum SandboxTestersClearPurchaseHistoryRequest {}
+
+    public enum SubscriptionGroupLocalizations {
+        public enum ById {}
+    }
+
+    public enum SubscriptionImages {
+        public enum ById {}
+    }
+
+    public enum SubscriptionLocalizations {
+        public enum ById {}
+    }
 }
 public enum V3 {
     public enum AppPricePoints {
