@@ -61,6 +61,8 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
 
             public var gamblingSimulated: GamblingSimulated?
 
+            public var gracRatingClassificationNumber: String?
+
             public var gunsOrOtherWeapons: GunsOrOtherWeapons?
 
             public var healthOrWellnessTopics: Bool?
@@ -111,6 +113,7 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
                 developerAgeRatingInfoUrl: URL? = nil,
                 gambling: Bool? = nil,
                 gamblingSimulated: GamblingSimulated? = nil,
+                gracRatingClassificationNumber: String? = nil,
                 gunsOrOtherWeapons: GunsOrOtherWeapons? = nil,
                 healthOrWellnessTopics: Bool? = nil,
                 horrorOrFearThemes: HorrorOrFearThemes? = nil,
@@ -141,6 +144,7 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
                 self.developerAgeRatingInfoUrl = developerAgeRatingInfoUrl
                 self.gambling = gambling
                 self.gamblingSimulated = gamblingSimulated
+                self.gracRatingClassificationNumber = gracRatingClassificationNumber
                 self.gunsOrOtherWeapons = gunsOrOtherWeapons
                 self.healthOrWellnessTopics = healthOrWellnessTopics
                 self.horrorOrFearThemes = horrorOrFearThemes
@@ -173,6 +177,7 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
                 case developerAgeRatingInfoUrl
                 case gambling
                 case gamblingSimulated
+                case gracRatingClassificationNumber
                 case gunsOrOtherWeapons
                 case healthOrWellnessTopics
                 case horrorOrFearThemes
@@ -428,6 +433,10 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
             }
 
             public struct KoreaAgeRatingOverride: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+                public static var all: Self {
+                    .init(rawValue: "ALL")
+                }
+
                 public static var fifteenPlus: Self {
                     .init(rawValue: "FIFTEEN_PLUS")
                 }
@@ -438,6 +447,10 @@ public struct AgeRatingDeclarationUpdateRequest: Hashable, Codable, Sendable {
 
                 public static var none: Self {
                     .init(rawValue: "NONE")
+                }
+
+                public static var twelvePlus: Self {
+                    .init(rawValue: "TWELVE_PLUS")
                 }
 
                 public var description: String {

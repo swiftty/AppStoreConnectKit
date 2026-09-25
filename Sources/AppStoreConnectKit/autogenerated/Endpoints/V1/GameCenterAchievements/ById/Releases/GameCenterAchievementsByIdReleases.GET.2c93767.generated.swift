@@ -216,6 +216,10 @@ extension V1.GameCenterAchievements.ById.Releases.GET {
                     .init(rawValue: "arcadeEnabled")
                 }
 
+                public static var blockedPlayers: Self {
+                    .init(rawValue: "blockedPlayers")
+                }
+
                 public static var challengeEnabled: Self {
                     .init(rawValue: "challengeEnabled")
                 }

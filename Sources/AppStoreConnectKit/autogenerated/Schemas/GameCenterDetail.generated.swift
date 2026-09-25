@@ -69,6 +69,8 @@ public struct GameCenterDetail: Hashable, Codable, Sendable {
 
         public var app: App?
 
+        public var blockedPlayers: BlockedPlayers?
+
         @available(*, deprecated)
         public var challengeReleases: ChallengeReleases?
 
@@ -117,6 +119,7 @@ public struct GameCenterDetail: Hashable, Codable, Sendable {
             achievementReleases: AchievementReleases? = nil,
             activityReleases: ActivityReleases? = nil,
             app: App? = nil,
+            blockedPlayers: BlockedPlayers? = nil,
             challengeReleases: ChallengeReleases? = nil,
             challengesMinimumPlatformVersions: ChallengesMinimumPlatformVersions? = nil,
             defaultGroupLeaderboard: DefaultGroupLeaderboard? = nil,
@@ -139,6 +142,7 @@ public struct GameCenterDetail: Hashable, Codable, Sendable {
             self.achievementReleases = achievementReleases
             self.activityReleases = activityReleases
             self.app = app
+            self.blockedPlayers = blockedPlayers
             self.challengeReleases = challengeReleases
             self.challengesMinimumPlatformVersions = challengesMinimumPlatformVersions
             self.defaultGroupLeaderboard = defaultGroupLeaderboard
@@ -163,6 +167,7 @@ public struct GameCenterDetail: Hashable, Codable, Sendable {
             case achievementReleases
             case activityReleases
             case app
+            case blockedPlayers
             case challengeReleases
             case challengesMinimumPlatformVersions
             case defaultGroupLeaderboard
@@ -309,6 +314,18 @@ public struct GameCenterDetail: Hashable, Codable, Sendable {
                 public enum `Type`: String, Hashable, Codable, Sendable {
                     case apps
                 }
+            }
+        }
+
+        public struct BlockedPlayers: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
             }
         }
 

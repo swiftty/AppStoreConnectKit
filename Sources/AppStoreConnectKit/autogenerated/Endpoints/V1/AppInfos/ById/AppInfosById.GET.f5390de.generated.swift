@@ -144,6 +144,10 @@ extension V1.AppInfos.ById.GET {
                     .init(rawValue: "gamblingSimulated")
                 }
 
+                public static var gracRatingClassificationNumber: Self {
+                    .init(rawValue: "gracRatingClassificationNumber")
+                }
+
                 public static var gunsOrOtherWeapons: Self {
                     .init(rawValue: "gunsOrOtherWeapons")
                 }
@@ -334,10 +338,6 @@ extension V1.AppInfos.ById.GET {
 
                 public static var franceAgeRating: Self {
                     .init(rawValue: "franceAgeRating")
-                }
-
-                public static var kidsAgeBand: Self {
-                    .init(rawValue: "kidsAgeBand")
                 }
 
                 public static var koreaAgeRating: Self {
@@ -550,6 +550,10 @@ extension V1.AppInfos.ById.GET {
 
                 public static var perfPowerMetrics: Self {
                     .init(rawValue: "perfPowerMetrics")
+                }
+
+                public static var performanceOverviews: Self {
+                    .init(rawValue: "performanceOverviews")
                 }
 
                 public static var preReleaseVersions: Self {

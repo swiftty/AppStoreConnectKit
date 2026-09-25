@@ -275,6 +275,10 @@ extension V1.UserInvitations.GET {
                     .init(rawValue: "perfPowerMetrics")
                 }
 
+                public static var performanceOverviews: Self {
+                    .init(rawValue: "performanceOverviews")
+                }
+
                 public static var preReleaseVersions: Self {
                     .init(rawValue: "preReleaseVersions")
                 }

@@ -546,6 +546,10 @@ extension V1.CiBuildRuns.ById.Builds.GET {
                     .init(rawValue: "perfPowerMetrics")
                 }
 
+                public static var performanceOverviews: Self {
+                    .init(rawValue: "performanceOverviews")
+                }
+
                 public static var preReleaseVersions: Self {
                     .init(rawValue: "preReleaseVersions")
                 }
