@@ -8,7 +8,7 @@ App Store Connect API for Swift.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swiftty/AppStoreConnectKit", from: "1.2.2")
+    .package(url: "https://github.com/swiftty/AppStoreConnectKit", from: "1.3.0")
 ]
 ```
 
