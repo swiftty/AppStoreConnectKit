@@ -435,6 +435,10 @@ extension V1.GameCenterGroups.ById.GameCenterDetails.GET {
                     .init(rawValue: "perfPowerMetrics")
                 }
 
+                public static var performanceOverviews: Self {
+                    .init(rawValue: "performanceOverviews")
+                }
+
                 public static var preReleaseVersions: Self {
                     .init(rawValue: "preReleaseVersions")
                 }
@@ -791,6 +795,10 @@ extension V1.GameCenterGroups.ById.GameCenterDetails.GET {
                     .init(rawValue: "arcadeEnabled")
                 }
 
+                public static var blockedPlayers: Self {
+                    .init(rawValue: "blockedPlayers")
+                }
+
                 public static var challengeEnabled: Self {
                     .init(rawValue: "challengeEnabled")
                 }
@@ -1057,6 +1065,10 @@ extension V1.GameCenterGroups.ById.GameCenterDetails.GET {
 
                 public static var gameCenterLeaderboardSets: Self {
                     .init(rawValue: "gameCenterLeaderboardSets")
+                }
+
+                public static var gameCenterScoreModerations: Self {
+                    .init(rawValue: "gameCenterScoreModerations")
                 }
 
                 public static var groupLeaderboard: Self {

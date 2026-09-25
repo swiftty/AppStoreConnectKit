@@ -185,6 +185,8 @@ public struct GameCenterLeaderboardV2: Hashable, Codable, Sendable {
 
         public var gameCenterLeaderboardSets: GameCenterLeaderboardSets?
 
+        public var gameCenterScoreModerations: GameCenterScoreModerations?
+
         public var versions: Versions?
 
         public init(
@@ -193,6 +195,7 @@ public struct GameCenterLeaderboardV2: Hashable, Codable, Sendable {
             gameCenterDetail: GameCenterDetail? = nil,
             gameCenterGroup: GameCenterGroup? = nil,
             gameCenterLeaderboardSets: GameCenterLeaderboardSets? = nil,
+            gameCenterScoreModerations: GameCenterScoreModerations? = nil,
             versions: Versions? = nil
         ) {
             self.activity = activity
@@ -200,6 +203,7 @@ public struct GameCenterLeaderboardV2: Hashable, Codable, Sendable {
             self.gameCenterDetail = gameCenterDetail
             self.gameCenterGroup = gameCenterGroup
             self.gameCenterLeaderboardSets = gameCenterLeaderboardSets
+            self.gameCenterScoreModerations = gameCenterScoreModerations
             self.versions = versions
         }
 
@@ -209,6 +213,7 @@ public struct GameCenterLeaderboardV2: Hashable, Codable, Sendable {
             case gameCenterDetail
             case gameCenterGroup
             case gameCenterLeaderboardSets
+            case gameCenterScoreModerations
             case versions
         }
 
@@ -405,6 +410,18 @@ public struct GameCenterLeaderboardV2: Hashable, Codable, Sendable {
                 public enum `Type`: String, Hashable, Codable, Sendable {
                     case gameCenterLeaderboardSets
                 }
+            }
+        }
+
+        public struct GameCenterScoreModerations: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
             }
         }
 

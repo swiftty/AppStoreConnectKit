@@ -434,10 +434,6 @@ extension V1.Apps.ById.GET {
                     .init(rawValue: "franceAgeRating")
                 }
 
-                public static var kidsAgeBand: Self {
-                    .init(rawValue: "kidsAgeBand")
-                }
-
                 public static var koreaAgeRating: Self {
                     .init(rawValue: "koreaAgeRating")
                 }
@@ -812,6 +808,10 @@ extension V1.Apps.ById.GET {
 
                 public static var perfPowerMetrics: Self {
                     .init(rawValue: "perfPowerMetrics")
+                }
+
+                public static var performanceOverviews: Self {
+                    .init(rawValue: "performanceOverviews")
                 }
 
                 public static var preReleaseVersions: Self {
@@ -1300,6 +1300,10 @@ extension V1.Apps.ById.GET {
 
                 public static var arcadeEnabled: Self {
                     .init(rawValue: "arcadeEnabled")
+                }
+
+                public static var blockedPlayers: Self {
+                    .init(rawValue: "blockedPlayers")
                 }
 
                 public static var challengeEnabled: Self {

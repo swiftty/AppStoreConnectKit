@@ -126,6 +126,10 @@ extension V2.GameCenterLeaderboardSets.ById.GET {
                     .init(rawValue: "arcadeEnabled")
                 }
 
+                public static var blockedPlayers: Self {
+                    .init(rawValue: "blockedPlayers")
+                }
+
                 public static var challengeEnabled: Self {
                     .init(rawValue: "challengeEnabled")
                 }
@@ -360,6 +364,10 @@ extension V2.GameCenterLeaderboardSets.ById.GET {
 
                 public static var gameCenterLeaderboardSets: Self {
                     .init(rawValue: "gameCenterLeaderboardSets")
+                }
+
+                public static var gameCenterScoreModerations: Self {
+                    .init(rawValue: "gameCenterScoreModerations")
                 }
 
                 public static var recurrenceDuration: Self {

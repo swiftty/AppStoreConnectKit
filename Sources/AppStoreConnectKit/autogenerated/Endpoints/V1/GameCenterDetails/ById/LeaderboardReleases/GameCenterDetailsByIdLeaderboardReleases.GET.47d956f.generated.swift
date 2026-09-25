@@ -128,6 +128,10 @@ extension V1.GameCenterDetails.ById.LeaderboardReleases.GET {
                     .init(rawValue: "arcadeEnabled")
                 }
 
+                public static var blockedPlayers: Self {
+                    .init(rawValue: "blockedPlayers")
+                }
+
                 public static var challengeEnabled: Self {
                     .init(rawValue: "challengeEnabled")
                 }

@@ -192,7 +192,7 @@ extension V1.SubscriptionPricePoints.ById.AdjustedEqualizations.GET {
             private var values: [AnyHashable: AnyHashable] = [:]
 
             public struct Relation<T>: Hashable {
-                /// filter by planType
+                /// filter by planType **(required)**
                 public static var planType: Relation<[String]?> {
                     .init(key: "filter[planType]")
                 }

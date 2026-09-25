@@ -564,6 +564,8 @@ public enum V1 {
 
             public enum PerfPowerMetrics {}
 
+            public enum PerformanceOverviews {}
+
             public enum PreReleaseVersions {}
 
             public enum PromotedPurchases {}
@@ -1268,11 +1270,17 @@ public enum V1 {
         }
     }
 
+    public enum GameCenterDetailPlayers {
+        public enum ById {}
+    }
+
     public enum GameCenterDetails {
         public enum ById {
             public enum AchievementReleases {}
 
             public enum ActivityReleases {}
+
+            public enum BlockedPlayers {}
 
             public enum ChallengeReleases {}
 
@@ -1310,6 +1318,8 @@ public enum V1 {
                 public enum AchievementReleases {}
 
                 public enum ActivityReleases {}
+
+                public enum BlockedPlayers {}
 
                 public enum ChallengeReleases {}
 
@@ -1543,6 +1553,10 @@ public enum V1 {
     }
 
     public enum GameCenterPlayerAchievementSubmissions {}
+
+    public enum GameCenterScoreModerations {
+        public enum ById {}
+    }
 
     public enum InAppPurchaseAppStoreReviewScreenshots {
         public enum ById {}
@@ -2147,10 +2161,14 @@ public enum V2 {
 
     public enum GameCenterLeaderboards {
         public enum ById {
+            public enum GameCenterScoreModerations {}
+
             public enum Relationships {
                 public enum Activity {}
 
                 public enum Challenge {}
+
+                public enum GameCenterScoreModerations {}
 
                 public enum Versions {}
             }

@@ -45,6 +45,10 @@ public struct Subscription: Hashable, Codable, Sendable {
 
         public var groupLevel: Int?
 
+        public var marketSettings: [MarketSettings]?
+
+        public var multiSeatStatus: MultiSeatStatus?
+
         public var name: String?
 
         public var productId: String?
@@ -58,6 +62,8 @@ public struct Subscription: Hashable, Codable, Sendable {
         public init(
             familySharable: Bool? = nil,
             groupLevel: Int? = nil,
+            marketSettings: [MarketSettings]? = nil,
+            multiSeatStatus: MultiSeatStatus? = nil,
             name: String? = nil,
             productId: String? = nil,
             reviewNote: String? = nil,
@@ -66,6 +72,8 @@ public struct Subscription: Hashable, Codable, Sendable {
         ) {
             self.familySharable = familySharable
             self.groupLevel = groupLevel
+            self.marketSettings = marketSettings
+            self.multiSeatStatus = multiSeatStatus
             self.name = name
             self.productId = productId
             self.reviewNote = reviewNote
@@ -76,11 +84,57 @@ public struct Subscription: Hashable, Codable, Sendable {
         private enum CodingKeys: String, CodingKey {
             case familySharable
             case groupLevel
+            case marketSettings
+            case multiSeatStatus
             case name
             case productId
             case reviewNote
             case state
             case subscriptionPeriod
+        }
+
+        public struct MarketSettings: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var appStore: Self {
+                .init(rawValue: "APP_STORE")
+            }
+
+            public static var appleBusiness: Self {
+                .init(rawValue: "APPLE_BUSINESS")
+            }
+
+            public static var appleSchool: Self {
+                .init(rawValue: "APPLE_SCHOOL")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
+            public init(rawValue: String) {
+                self.rawValue = rawValue
+            }
+        }
+
+        public struct MultiSeatStatus: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {
+            public static var disabled: Self {
+                .init(rawValue: "DISABLED")
+            }
+
+            public static var enabled: Self {
+                .init(rawValue: "ENABLED")
+            }
+
+            public var description: String {
+                rawValue
+            }
+
+            public var rawValue: String
+
+            public init(rawValue: String) {
+                self.rawValue = rawValue
+            }
         }
 
         public struct State: Hashable, Codable, RawRepresentable, CustomStringConvertible, Sendable {

@@ -154,6 +154,14 @@ extension V1.SubscriptionLocalizations.ById.GET {
                     .init(rawValue: "introductoryOffers")
                 }
 
+                public static var marketSettings: Self {
+                    .init(rawValue: "marketSettings")
+                }
+
+                public static var multiSeatStatus: Self {
+                    .init(rawValue: "multiSeatStatus")
+                }
+
                 public static var name: Self {
                     .init(rawValue: "name")
                 }

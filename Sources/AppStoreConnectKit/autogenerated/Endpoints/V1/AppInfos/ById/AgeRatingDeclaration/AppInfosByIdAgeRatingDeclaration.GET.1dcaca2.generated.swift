@@ -127,6 +127,10 @@ extension V1.AppInfos.ById.AgeRatingDeclaration.GET {
                     .init(rawValue: "gamblingSimulated")
                 }
 
+                public static var gracRatingClassificationNumber: Self {
+                    .init(rawValue: "gracRatingClassificationNumber")
+                }
+
                 public static var gunsOrOtherWeapons: Self {
                     .init(rawValue: "gunsOrOtherWeapons")
                 }

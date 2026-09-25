@@ -203,6 +203,8 @@ public struct App: Hashable, Codable, Sendable {
 
         public var perfPowerMetrics: PerfPowerMetrics?
 
+        public var performanceOverviews: PerformanceOverviews?
+
         public var preReleaseVersions: PreReleaseVersions?
 
         public var promotedPurchases: PromotedPurchases?
@@ -254,6 +256,7 @@ public struct App: Hashable, Codable, Sendable {
             inAppPurchasesV2: InAppPurchasesV2? = nil,
             marketplaceSearchDetail: MarketplaceSearchDetail? = nil,
             perfPowerMetrics: PerfPowerMetrics? = nil,
+            performanceOverviews: PerformanceOverviews? = nil,
             preReleaseVersions: PreReleaseVersions? = nil,
             promotedPurchases: PromotedPurchases? = nil,
             reviewSubmissions: ReviewSubmissions? = nil,
@@ -298,6 +301,7 @@ public struct App: Hashable, Codable, Sendable {
             self.inAppPurchasesV2 = inAppPurchasesV2
             self.marketplaceSearchDetail = marketplaceSearchDetail
             self.perfPowerMetrics = perfPowerMetrics
+            self.performanceOverviews = performanceOverviews
             self.preReleaseVersions = preReleaseVersions
             self.promotedPurchases = promotedPurchases
             self.reviewSubmissions = reviewSubmissions
@@ -344,6 +348,7 @@ public struct App: Hashable, Codable, Sendable {
             case inAppPurchasesV2
             case marketplaceSearchDetail
             case perfPowerMetrics
+            case performanceOverviews
             case preReleaseVersions
             case promotedPurchases
             case reviewSubmissions
@@ -1437,6 +1442,18 @@ public struct App: Hashable, Codable, Sendable {
         }
 
         public struct PerfPowerMetrics: Hashable, Codable, Sendable {
+            public var links: RelationshipLinks?
+
+            public init(links: RelationshipLinks? = nil) {
+                self.links = links
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case links
+            }
+        }
+
+        public struct PerformanceOverviews: Hashable, Codable, Sendable {
             public var links: RelationshipLinks?
 
             public init(links: RelationshipLinks? = nil) {

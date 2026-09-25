@@ -208,6 +208,10 @@ extension V2.GameCenterLeaderboardVersions.ById.GET {
                     .init(rawValue: "gameCenterLeaderboardSets")
                 }
 
+                public static var gameCenterScoreModerations: Self {
+                    .init(rawValue: "gameCenterScoreModerations")
+                }
+
                 public static var recurrenceDuration: Self {
                     .init(rawValue: "recurrenceDuration")
                 }
